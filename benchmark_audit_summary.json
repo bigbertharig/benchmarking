@@ -1,0 +1,299 @@
+{
+  "generated_at": "2026-03-05T20:47:27.667029",
+  "catalog_path": "/media/bryan/shared/plans/shoulders/benchmarking/benchmark_catalog.json",
+  "status_path": "/media/bryan/shared/plans/shoulders/benchmarking/benchmark_status.json",
+  "counts": {
+    "blocked": 8,
+    "implemented": 3,
+    "missing_runner": 13,
+    "missing_task": 1,
+    "not_audited": 1,
+    "supported": 5
+  },
+  "counts_by_harness": {
+    "lm_eval": {
+      "supported": 5,
+      "blocked": 8,
+      "not_audited": 1,
+      "missing_task": 1
+    },
+    "lighteval": {
+      "missing_runner": 2
+    },
+    "evalplus": {
+      "missing_runner": 2
+    },
+    "livecodebench": {
+      "missing_runner": 1
+    },
+    "swebench": {
+      "missing_runner": 1
+    },
+    "longbench": {
+      "missing_runner": 1
+    },
+    "ruler": {
+      "missing_runner": 1
+    },
+    "local_custom": {
+      "implemented": 3,
+      "missing_runner": 3
+    },
+    "bfcl": {
+      "missing_runner": 1
+    },
+    "harbor": {
+      "missing_runner": 1
+    }
+  },
+  "tests": [
+    {
+      "test_id": "gsm8k",
+      "harness": "lm_eval",
+      "category": "math",
+      "audit_state": "supported",
+      "execution_lane": "ollama_chat_completions_templated",
+      "notes": "Probe run completed successfully."
+    },
+    {
+      "test_id": "mmlu",
+      "harness": "lm_eval",
+      "category": "language_knowledge",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_completions",
+      "notes": "2026-03-05:20:34:41 WARNING  [models.api_models:479] API request failed with error message: {\"error\":{\"message\":\"json: cannot unmarshal array into Go struct field CompletionRequest.prompt of type string\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":null}}. Retrying..."
+    },
+    {
+      "test_id": "arc_challenge",
+      "harness": "lm_eval",
+      "category": "reasoning",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_completions",
+      "notes": "2026-03-05:20:11:19 WARNING  [models.api_models:479] API request failed with error message: {\"error\":{\"message\":\"json: cannot unmarshal array into Go struct field CompletionRequest.prompt of type string\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":null}}. Retrying..."
+    },
+    {
+      "test_id": "hellaswag",
+      "harness": "lm_eval",
+      "category": "language_reasoning",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_completions",
+      "notes": "2026-03-05:20:34:14 WARNING  [models.api_models:479] API request failed with error message: {\"error\":{\"message\":\"json: cannot unmarshal array into Go struct field CompletionRequest.prompt of type string\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":null}}. Retrying..."
+    },
+    {
+      "test_id": "piqa",
+      "harness": "lm_eval",
+      "category": "reasoning",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_completions",
+      "notes": "2026-03-05:20:27:48 WARNING  [models.api_models:479] API request failed with error message: {\"error\":{\"message\":\"json: cannot unmarshal array into Go struct field CompletionRequest.prompt of type string\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":null}}. Retrying..."
+    },
+    {
+      "test_id": "winogrande",
+      "harness": "lm_eval",
+      "category": "language_reasoning",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_completions",
+      "notes": "2026-03-05:20:34:04 WARNING  [models.api_models:479] API request failed with error message: {\"error\":{\"message\":\"json: cannot unmarshal array into Go struct field CompletionRequest.prompt of type string\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":null}}. Retrying..."
+    },
+    {
+      "test_id": "bbh",
+      "harness": "lm_eval",
+      "category": "reasoning",
+      "audit_state": "supported",
+      "execution_lane": "ollama_chat_completions_templated",
+      "notes": "Probe run completed successfully."
+    },
+    {
+      "test_id": "truthfulqa_mc2",
+      "harness": "lm_eval",
+      "category": "truthfulness",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_completions",
+      "notes": "2026-03-05:20:35:16 WARNING  [models.api_models:479] API request failed with error message: {\"error\":{\"message\":\"json: cannot unmarshal array into Go struct field CompletionRequest.prompt of type string\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":null}}. Retrying..."
+    },
+    {
+      "test_id": "boolq",
+      "harness": "lm_eval",
+      "category": "question_answering",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_completions",
+      "notes": "Current Ollama completions compatibility rejects the lm_eval prompt array shape for loglikelihood tasks."
+    },
+    {
+      "test_id": "drop",
+      "harness": "lm_eval",
+      "category": "question_answering",
+      "audit_state": "supported",
+      "execution_lane": "ollama_chat_completions_templated",
+      "notes": "Probe run completed successfully."
+    },
+    {
+      "test_id": "ifeval",
+      "harness": "lighteval",
+      "category": "instruction_following",
+      "audit_state": "missing_runner",
+      "execution_lane": "lighteval",
+      "notes": "Harness 'lighteval' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "mmlu_pro",
+      "harness": "lighteval",
+      "category": "language_knowledge",
+      "audit_state": "missing_runner",
+      "execution_lane": "lighteval",
+      "notes": "Harness 'lighteval' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "humaneval_plus",
+      "harness": "evalplus",
+      "category": "programming",
+      "audit_state": "missing_runner",
+      "execution_lane": "evalplus",
+      "notes": "Harness 'evalplus' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "mbpp_plus",
+      "harness": "evalplus",
+      "category": "programming",
+      "audit_state": "missing_runner",
+      "execution_lane": "evalplus",
+      "notes": "Harness 'evalplus' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "livecodebench",
+      "harness": "livecodebench",
+      "category": "programming",
+      "audit_state": "missing_runner",
+      "execution_lane": "livecodebench",
+      "notes": "Harness 'livecodebench' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "swe_bench_verified",
+      "harness": "swebench",
+      "category": "agentic_programming",
+      "audit_state": "missing_runner",
+      "execution_lane": "swebench",
+      "notes": "Harness 'swebench' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "longbench",
+      "harness": "longbench",
+      "category": "long_context",
+      "audit_state": "missing_runner",
+      "execution_lane": "longbench",
+      "notes": "Harness 'longbench' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "ruler",
+      "harness": "ruler",
+      "category": "long_context",
+      "audit_state": "missing_runner",
+      "execution_lane": "ruler",
+      "notes": "Harness 'ruler' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "custom_json_schema_strict",
+      "harness": "local_custom",
+      "category": "pipeline_reliability",
+      "audit_state": "implemented",
+      "execution_lane": "local_custom",
+      "notes": "Runnable via run_local_custom_task.py"
+    },
+    {
+      "test_id": "custom_tool_plan_sequence",
+      "harness": "local_custom",
+      "category": "agentic_reasoning",
+      "audit_state": "missing_runner",
+      "execution_lane": "local_custom",
+      "notes": "Catalog entry exists, but no local_custom implementation is present yet."
+    },
+    {
+      "test_id": "custom_ambiguity_handling",
+      "harness": "local_custom",
+      "category": "agent_behavior",
+      "audit_state": "implemented",
+      "execution_lane": "local_custom",
+      "notes": "Runnable via run_local_custom_task.py"
+    },
+    {
+      "test_id": "custom_command_safety",
+      "harness": "local_custom",
+      "category": "safety",
+      "audit_state": "implemented",
+      "execution_lane": "local_custom",
+      "notes": "Runnable via run_local_custom_task.py"
+    },
+    {
+      "test_id": "custom_orchestration_tradeoff",
+      "harness": "local_custom",
+      "category": "decision_making",
+      "audit_state": "missing_runner",
+      "execution_lane": "local_custom",
+      "notes": "Catalog entry exists, but no local_custom implementation is present yet."
+    },
+    {
+      "test_id": "custom_long_context_extract",
+      "harness": "local_custom",
+      "category": "pipeline_reliability",
+      "audit_state": "missing_runner",
+      "execution_lane": "local_custom",
+      "notes": "Catalog entry exists, but no local_custom implementation is present yet."
+    },
+    {
+      "test_id": "gpqa_diamond",
+      "harness": "lm_eval",
+      "category": "reasoning",
+      "audit_state": "blocked",
+      "execution_lane": "ollama_chat_completions_templated",
+      "notes": "2026-03-05:20:42:36 WARNING  [config.evaluate_config:281] --limit SHOULD ONLY BE USED FOR TESTING. REAL METRICS SHOULD NOT BE COMPUTED USING LIMIT."
+    },
+    {
+      "test_id": "bfcl_v4",
+      "harness": "bfcl",
+      "category": "tool_use",
+      "audit_state": "missing_runner",
+      "execution_lane": "bfcl",
+      "notes": "Harness 'bfcl' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "mmmlu",
+      "harness": "lm_eval",
+      "category": "language_knowledge",
+      "audit_state": "not_audited",
+      "execution_lane": "ollama_completions",
+      "notes": "Mapped lane exists, but no certification result has been recorded yet."
+    },
+    {
+      "test_id": "terminal_bench_2",
+      "harness": "harbor",
+      "category": "agentic_programming",
+      "audit_state": "missing_runner",
+      "execution_lane": "harbor",
+      "notes": "Harness 'harbor' is defined in the catalog, but no audited runner path is wired yet."
+    },
+    {
+      "test_id": "math_500",
+      "harness": "lm_eval",
+      "category": "math",
+      "audit_state": "supported",
+      "execution_lane": "ollama_chat_completions_templated",
+      "notes": "Probe run completed successfully."
+    },
+    {
+      "test_id": "aime_2024",
+      "harness": "lm_eval",
+      "category": "math",
+      "audit_state": "supported",
+      "execution_lane": "ollama_chat_completions_templated",
+      "notes": "Probe run completed successfully."
+    },
+    {
+      "test_id": "musr",
+      "harness": "lm_eval",
+      "category": "reasoning",
+      "audit_state": "missing_task",
+      "execution_lane": "ollama_chat_completions_templated",
+      "notes": "lm-eval task 'musr' is not available in this environment. Run `python3 -m lm_eval --tasks list` to inspect installed task names."
+    }
+  ]
+}
