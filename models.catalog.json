@@ -1,0 +1,112 @@
+{
+  "_comment": "Model capability catalog for tier-based scheduling.",
+  "schema_version": 1,
+  "default_llm_min_tier": 1,
+  "models": [
+    {
+      "id": "qwen2.5-coder:7b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+      "tags": [
+        "general",
+        "fast"
+      ]
+    },
+    {
+      "id": "deepseek-r1:7b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/deepseek-r1-7b/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+      "tags": [
+        "reasoning",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "mistral:7b-instruct",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/mistral-7b-instruct/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+      "tags": [
+        "instruction_following",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "qwen3.5:4b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "qwen3.5:9b-q3km",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3.5-9b/Qwen3.5-9B-Q3_K_M.gguf",
+      "tags": [
+        "worker_candidate",
+        "larger_single_gpu"
+      ]
+    },
+    {
+      "id": "qwen2.5:14b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": [
+            "gpu-1",
+            "gpu-3"
+          ],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": [
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "higher_reasoning"
+      ]
+    },
+    {
+      "id": "qwen2.5-coder:14b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": [
+            "gpu-1",
+            "gpu-3"
+          ],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": [
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "code_review",
+        "higher_reasoning"
+      ]
+    }
+  ]
+}

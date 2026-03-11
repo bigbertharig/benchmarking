@@ -1,0 +1,16 @@
+{
+  "name": "reasoning_lite_v1",
+  "version": "2026-03-10",
+  "goal": "Fast, fixed-size reasoning comparison with ~50 total questions.",
+  "runner": "bench-reasoning",
+  "tasks": [
+    "gsm8k",
+    "bbh",
+    "drop",
+    "math_500",
+    "aime_2024"
+  ],
+  "limit_per_task": 10,
+  "expected_total_questions": 50,
+  "notes": "Keep this suite frozen for apples-to-apples worker comparisons."
+}

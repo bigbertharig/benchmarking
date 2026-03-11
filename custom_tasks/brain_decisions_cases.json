@@ -1,0 +1,123 @@
+{
+  "description": "Brain/orchestrator decision-oriented custom cases kept separate from worker-facing benchmark suite.",
+  "tests": [
+    {
+      "id": "brain_decisions_tradeoff",
+      "metric": "decision_quality",
+      "cases": [
+        {
+          "from_test_id": "custom_orchestration_tradeoff",
+          "name": "hot_worker_budget",
+          "prompt": "Config allows max_hot_workers=2 but 5 models are loaded. What should orchestrator do to stay policy-compliant? One sentence.",
+          "required_any_keywords": [
+            [
+              "unload",
+              "reduce",
+              "hot workers",
+              "policy"
+            ]
+          ]
+        },
+        {
+          "from_test_id": "custom_orchestration_tradeoff",
+          "name": "brain_vs_worker_gpu",
+          "prompt": "A plan suggests using GPU 0 for worker load tests while brain is active there. Should that be accepted? One sentence.",
+          "required_any_keywords": [
+            [
+              "no",
+              "avoid",
+              "gpu 0",
+              "brain",
+              "control plane"
+            ]
+          ]
+        },
+        {
+          "from_test_id": "custom_orchestration_tradeoff",
+          "name": "strict_json_vs_best_effort",
+          "prompt": "Task requires machine-parseable JSON and the model repeatedly emits prose. Should orchestrator keep best-effort parsing or fail fast and reroute? One sentence.",
+          "required_any_keywords": [
+            [
+              "fail fast",
+              "reroute",
+              "strict",
+              "validator"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brain_decisions_log_extract",
+      "metric": "extraction_accuracy",
+      "cases": [
+        {
+          "from_test_id": "custom_long_context_extract",
+          "name": "extract_model_from_noise",
+          "prompt": "Here is an orchestrator decision log:\n\n[brain] Evaluating task queue: 3 pending tasks\n[brain] Task t_101: type=code_review, priority=medium, estimated_tokens=2000\n[brain] Task t_102: type=summarize, priority=low, estimated_tokens=500\n[brain] Task t_103: type=debug_analysis, priority=high, estimated_tokens=8000\n[brain] Available workers: gpu_1 (idle, model=qwen2.5-coder:7b), gpu_2 (busy, model=mistral:7b), gpu_3 (idle, no model)\n[brain] Decision: assign t_103 to gpu_1 (already loaded with code-capable model, high priority)\n[brain] Decision: assign t_101 to gpu_3 (needs model load, medium priority, can wait)\n[brain] Decision: defer t_102 (low priority, no idle worker after assignments)\n\nWhich model was already loaded on the GPU that got assigned the highest-priority task? Answer with just the model name.",
+          "required_any_keywords": [
+            [
+              "qwen2.5-coder:7b",
+              "qwen2.5-coder"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brain_decisions_failure_patterns",
+      "metric": "failure_pattern_detection",
+      "cases": [
+        {
+          "name": "detect_non_json_brain_response",
+          "prompt": "Failure reason: brain model returned non-JSON response for final report. What should controller do next? One sentence.",
+          "required_any_keywords": [
+            [
+              "retry",
+              "json schema",
+              "validator",
+              "fallback"
+            ],
+            [
+              "brain",
+              "final report"
+            ]
+          ]
+        },
+        {
+          "name": "detect_brain_404_endpoint",
+          "prompt": "Failure reason: brain model call failed after retries: HTTP Error 404: Not Found. What is the immediate remediation path? One sentence.",
+          "required_any_keywords": [
+            [
+              "endpoint",
+              "base url",
+              "model id",
+              "config"
+            ],
+            [
+              "verify",
+              "fix",
+              "retry"
+            ]
+          ]
+        },
+        {
+          "name": "detect_split_escalation",
+          "prompt": "Failure reason: load_split_llm escalated to cloud review after repeated split preflight timeout. What should planner do before next run? One sentence.",
+          "required_any_keywords": [
+            [
+              "fallback",
+              "single-worker",
+              "preflight checks",
+              "cooldown"
+            ],
+            [
+              "split",
+              "pair"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

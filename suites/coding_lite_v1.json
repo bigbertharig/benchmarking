@@ -1,0 +1,14 @@
+{
+  "name": "coding_lite_v1",
+  "version": "2026-03-10",
+  "status": "blocked",
+  "goal": "Target fast, fixed-size code-generation comparison with 50 total problems.",
+  "runner": "bench-code",
+  "tasks": [
+    "humaneval",
+    "mbpp"
+  ],
+  "max_per_task_target": 25,
+  "expected_total_questions": 50,
+  "notes": "EvalPlus evaluate currently requires full problem coverage; partial subset scoring is not supported yet in active bench-code flow."
+}

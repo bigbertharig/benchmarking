@@ -1,0 +1,16 @@
+{
+  "name": "knowledge_lite_v1",
+  "version": "2026-03-10",
+  "goal": "Fast, fixed-size knowledge/loglikelihood comparison with ~50 total questions.",
+  "runner": "bench-knowledge",
+  "tasks": [
+    "mmlu",
+    "arc_challenge",
+    "hellaswag",
+    "truthfulqa_mc2",
+    "boolq"
+  ],
+  "limit_per_task": 10,
+  "expected_total_questions": 50,
+  "notes": "Keep this suite frozen for apples-to-apples worker comparisons."
+}
