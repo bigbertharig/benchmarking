@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python3 -m venv /opt/bench
 ENV PATH="/opt/bench/bin:$PATH"
 
-# evalplus for HumanEval+ and MBPP+, openai for Ollama API calls
+# evalplus for HumanEval+ and MBPP+, openai client for llama-compatible API calls
 RUN pip install --no-cache-dir evalplus openai
 
 COPY run.sh /opt/bench/run.sh

@@ -5,10 +5,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+ACTIVE_DIR = Path(__file__).resolve().parents[2] / "scripts" / "active"
+if str(ACTIVE_DIR) not in sys.path:
+    sys.path.insert(0, str(ACTIVE_DIR))
 
 from compatibility import load_status
 
@@ -123,17 +128,18 @@ def audit_test(status: dict[str, Any], test: dict[str, Any]) -> dict[str, Any]:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Audit benchmark catalog coverage and runner status.")
     ap.add_argument("--catalog", default="benchmark_catalog.json")
-    ap.add_argument("--status-path", default=str(Path(__file__).resolve().parent / "benchmark_status.json"))
+    ap.add_argument("--status-path", default=str(Path(__file__).resolve().parents[2] / "benchmark_status.json"))
     ap.add_argument("--output", default="")
     args = ap.parse_args()
 
+    benchmark_root = Path(__file__).resolve().parents[2]
     this_dir = Path(__file__).resolve().parent
-    catalog_path = (this_dir / args.catalog).resolve() if not Path(args.catalog).is_absolute() else Path(args.catalog)
+    catalog_path = (benchmark_root / args.catalog).resolve() if not Path(args.catalog).is_absolute() else Path(args.catalog)
     status_path = Path(args.status_path).expanduser().resolve()
     output_path = (
         Path(args.output).expanduser().resolve()
         if args.output
-        else this_dir / "benchmark_audit_summary.json"
+        else benchmark_root / "archive" / "snapshots" / "benchmark_audit_summary.json"
     )
 
     status = load_status(status_path)

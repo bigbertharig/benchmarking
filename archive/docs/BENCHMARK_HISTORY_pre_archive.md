@@ -245,8 +245,8 @@ The key insight: run each test in the environment it was designed for. The model
 
 ## Historical Notes Worth Keeping
 
-- 7B vs paired 14B tradeoffs were captured in `/media/bryan/shared/plans/shoulders/benchmarking/llm_benchmark_plan.md`
-- the 2026-03-05 execution details were captured in `/media/bryan/shared/plans/shoulders/benchmarking/benchmark_run_report_20260305.md`
+- 7B vs paired 14B tradeoffs were captured in `/media/bryan/shared/plans/shoulders/benchmarking/archive/docs/llm_benchmark_plan.md`
+- the 2026-03-05 execution details were captured in `/media/bryan/shared/plans/shoulders/benchmarking/archive/reports/benchmark_run_report_20260305.md`
 
 Keep those as run-specific records.
 Do not use them as the current procedure doc.
@@ -260,3 +260,40 @@ The benchmark system is cleaner when it is boring:
 - one generated living reference
 
 Whenever a new workaround starts to feel like a second benchmark system, it is probably drift and should be folded back into the main path.
+
+## 2026-03-10 Worker Suite History Snapshot
+
+Run sources:
+- baseline parallel pass: `/mnt/shared/logs/benchmarks/parallel_worker_suite_20260309_233513/results`
+- repeat consistency pass: `/mnt/shared/logs/benchmarks/parallel_worker_suite_20260310_002158/results`
+- prompt-tuned pass: `/mnt/shared/logs/benchmarks/parallel_worker_suite_20260310_094238/results`
+
+Repeat consistency pass totals:
+
+| Model | Score | Percent | Total suite time (s) | Last tested (UTC) |
+| --- | --- | --- | --- | --- |
+| `Mistral-7B-Instruct-v0.3-Q4_K_M.gguf` | 54/79 | 68.4% | 239 | 2026-03-10T07:25:57+00:00 |
+| `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf` | 50/79 | 63.3% | 182 | 2026-03-10T07:25:00+00:00 |
+| `DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf` | 29/79 | 36.7% | 1576 | 2026-03-10T07:48:14+00:00 |
+| `Qwen3.5-9B-Q3_K_M.gguf` | 16/79 | 20.3% | 2429 | 2026-03-10T08:02:27+00:00 |
+| `Qwen3.5-4B-Q4_K_M.gguf` | 13/79 | 16.5% | 1525 | 2026-03-10T07:47:23+00:00 |
+
+Prompt-tuned pass totals:
+
+| Model | Score | Percent | Total suite time (s) | Last tested (UTC) |
+| --- | --- | --- | --- | --- |
+| `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf` | 59/79 | 74.7% | 91 | 2026-03-10T16:44:10+00:00 |
+| `Mistral-7B-Instruct-v0.3-Q4_K_M.gguf` | 53/79 | 67.1% | 180 | 2026-03-10T16:45:39+00:00 |
+| `DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf` | 40/79 | 50.6% | 1293 | 2026-03-10T17:04:12+00:00 |
+| `Qwen3.5-4B-Q4_K_M.gguf` | 18/79 | 22.8% | 1513 | 2026-03-10T17:07:52+00:00 |
+| `Qwen3.5-9B-Q3_K_M.gguf` | 15/79 | 19.0% | 2447 | 2026-03-10T17:23:26+00:00 |
+
+Prompt impact versus repeat baseline:
+
+| Model | Baseline score | Prompt-tuned score | Delta | Baseline time (s) | Prompt-tuned time (s) | Delta time (s) |
+| --- | --- | --- | --- | --- | --- | --- |
+| `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf` | 50/79 | 59/79 | +9 | 182 | 91 | -91 |
+| `Mistral-7B-Instruct-v0.3-Q4_K_M.gguf` | 54/79 | 53/79 | -1 | 239 | 180 | -59 |
+| `DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf` | 29/79 | 40/79 | +11 | 1576 | 1293 | -283 |
+| `Qwen3.5-4B-Q4_K_M.gguf` | 13/79 | 18/79 | +5 | 1525 | 1513 | -12 |
+| `Qwen3.5-9B-Q3_K_M.gguf` | 16/79 | 15/79 | -1 | 2429 | 2447 | +18 |

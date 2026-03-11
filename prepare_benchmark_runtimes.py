@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
-"""Benchmark wrapper for canonical runtime prep script.
-
-Canonical implementation lives at:
-  /mnt/shared/scripts/prepare_llm_runtimes.py
-"""
+"""Compatibility wrapper. Canonical implementation lives in scripts/active/."""
 
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
+from pathlib import Path
 
 
 def main() -> int:
-    target = "/mnt/shared/scripts/prepare_llm_runtimes.py"
-    cmd = ["python3", target] + sys.argv[1:]
-    proc = subprocess.run(cmd, check=False, env=os.environ.copy())
+    target = Path(__file__).resolve().parent / "scripts" / "active" / "prepare_benchmark_runtimes.py"
+    cmd = [sys.executable, str(target)] + sys.argv[1:]
+    proc = subprocess.run(cmd, check=False)
     return int(proc.returncode)
 
 

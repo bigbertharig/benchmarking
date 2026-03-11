@@ -1,4 +1,4 @@
-# bench-reasoning: Generation benchmarks via Ollama on host
+# bench-reasoning: Generation benchmarks via host llama runtime
 # Targets: gsm8k, bbh, drop, mmlu_pro, ifeval
 #
 # Build:

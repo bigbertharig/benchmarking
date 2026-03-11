@@ -9,7 +9,7 @@ from typing import Any
 
 
 def default_status_path() -> Path:
-    return Path(__file__).resolve().parent / "benchmark_status.json"
+    return Path(__file__).resolve().parents[2] / "benchmark_status.json"
 
 
 def load_status(path: Path | None = None) -> dict[str, Any]:
@@ -37,12 +37,11 @@ def derive_backend_id(model_backend: str, model_args: str, apply_chat_template: 
     backend = str(model_backend or "").strip()
     args = str(model_args or "")
     if backend == "local-chat-completions" and "/v1/chat/completions" in args:
-        return "ollama_chat_completions_templated" if apply_chat_template else "ollama_chat_completions_raw"
+        return "llama_chat_completions_templated" if apply_chat_template else "llama_chat_completions_raw"
     if backend == "local-completions" and "/v1/completions" in args:
-        # Port 11435 = proxy that flattens array prompts for MC/loglikelihood tasks
-        if ":11435/" in args:
-            return "ollama_completions_proxied"
-        return "ollama_completions"
+        return "llama_completions"
+    if backend == "gguf" and "base_url=" in args:
+        return "llama_cpp_gguf"
     return ""
 
 

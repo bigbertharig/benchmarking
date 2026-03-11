@@ -1,4 +1,4 @@
-# bench-pipeline: Custom pipeline reliability tests via Ollama on host
+# bench-pipeline: Custom pipeline reliability tests via host llama runtime
 # Targets: 6 custom tests (json_schema, tool_plan, command_safety, ambiguity, orchestration, long_context)
 #
 # Build:
@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python3 -m venv /opt/bench
 ENV PATH="/opt/bench/bin:$PATH"
 
-# requests for Ollama API calls
+# requests for llama-compatible API calls
 RUN pip install --no-cache-dir requests
 
 COPY run.sh /opt/bench/run.sh

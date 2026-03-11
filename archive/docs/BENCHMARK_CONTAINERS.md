@@ -1,5 +1,10 @@
 # Benchmark Containers
 
+Migration note:
+- this doc is still the design guide for the docker-based benchmark system
+- active llama upgrade decisions are tracked in [LLAMA_UPGRADE_AUDIT.md](LLAMA_UPGRADE_AUDIT.md)
+- references below to "host Ollama" are legacy wording for host-managed llama-compatible worker runtimes unless explicitly marked historical
+
 Each container is a self-contained test environment. Load a container, run all its tests, get results, clean up.
 
 The containers replace the old suite presets (baseline_core, fast_smoke, etc.) which split tests across environments. Now each container IS the suite.
@@ -21,7 +26,15 @@ Every test below ties back to one of those questions. If a test doesn't help ans
 | RTX 3090 Ti | sm_86 | 1 | Brain (not the primary benchmark target) |
 | GTX 1060 6GB | sm_61 | 5 | Workers (the models being benchmarked) |
 
-Benchmark focus is the 1060 worker tier. The brain runs the 32B model and is essentially guaranteed to outperform workers — we don't need to prove that.
+Benchmark focus is the 1060 worker tier. The brain runs the 32B model on GPU 0 and is not the active target in this phase.
+
+Current scope split:
+- worker testing: active
+- brain testing: deferred
+
+Worker-testing assumption:
+- the brain stays loaded on GPU 0 and is available to submit meta tasks and normalize worker state
+- benchmark prep should use orchestrator-owned worker load/unload flows instead of bypassing the control plane
 
 PyTorch (current version) requires sm_70+ and does not support the 1060s. llama.cpp supports both sm_61 and sm_86 when compiled with `-DCMAKE_CUDA_ARCHITECTURES="61;86"`. This is why containers that need GPU inference use llama.cpp, not PyTorch.
 
@@ -31,7 +44,7 @@ All models are GGUF format stored on the shared drive at `/mnt/shared/models/`.
 
 | Strategy | Containers | How It Works |
 |----------|-----------|-------------|
-| **Ollama on host** | 1, 3, 4, 5 | Container calls Ollama via `--network host`. No GPU in container. Model must be loaded in host Ollama first. |
+| **Host llama-compatible runtime** | 1, 3, 4, 5 | Container calls an orchestrator-owned host runtime via `--network host`. No GPU in container. Model must already be loaded on the target host endpoint. |
 | **llama.cpp in container** | 2 | Container runs llama-cpp-python server, loads GGUF from mounted shared drive, serves `/v1/completions` with logprobs. Needs `--gpus` for GPU passthrough. |
 
 ### Confirmed: llama.cpp server returns logprobs
@@ -44,7 +57,7 @@ No need for `local-completions` or `openai_completions` model types. The `gguf` 
 
 ### Confirmed: mmlu_pro and ifeval are `generate_until` tasks
 
-Both use generation (not loglikelihood), so they run on Ollama via the standard `local-chat-completions` path. No need for lighteval. Container 4 (bench-instruction) was eliminated — these tests merged into container 1.
+Both use generation (not loglikelihood), so they run on the host llama chat-runtime lane via the standard `local-chat-completions` path. No need for lighteval. Container 4 (bench-instruction) was eliminated — these tests merged into container 1.
 
 ### GPU build requirement for llama-cpp-python
 
@@ -64,8 +77,8 @@ Tested 2026-03-06: Docker container with CUDA-compiled llama-cpp-python (ARCHS=6
 
 **What it answers:** How well does each model think through problems and follow instructions?
 
-**Backend:** Ollama on host (generation via chat completions with `--apply_chat_template`)
-**GPU in container:** No — calls host Ollama
+**Backend:** Host llama chat runtime (generation via chat completions with `--apply_chat_template`)
+**GPU in container:** No — calls host runtime
 **lm_eval model type:** `local-chat-completions`
 **Key packages:** lm_eval, transformers
 
@@ -120,8 +133,8 @@ Note: ifeval requires `langdetect` package (missing from current ml-env, install
 
 **What it answers:** Can this model write correct code?
 
-**Backend:** Ollama on host (generates code), container runs Python test cases locally
-**GPU in container:** No — calls host Ollama
+**Backend:** Host llama chat runtime (generates code), container runs Python test cases locally
+**GPU in container:** No — calls host runtime
 **Key packages:** evalplus, openai
 
 | Test | Type | What We Learn | Why We Care |
@@ -139,30 +152,30 @@ Note: ifeval requires `langdetect` package (missing from current ml-env, install
 
 ## Container 4: `bench-pipeline`
 
-**What it answers:** Does this model work reliably in OUR specific pipeline?
+**What it answers:** Does this model work reliably in OUR specific worker pipeline?
 
-**Backend:** Ollama on host (matches production runtime exactly)
-**GPU in container:** No — calls host Ollama
+**Backend:** Host llama chat runtime (matches the worker-serving path)
+**GPU in container:** No — calls host runtime
 **Key packages:** openai, custom test harness
 
 | Test | Type | What We Learn | Why We Care |
 |------|------|--------------|-------------|
 | **custom_json_schema_strict** | custom | Given an extraction prompt, does the model return valid JSON matching an exact schema — no retries, no fenced markdown? | Every structured task in the orchestrator depends on parseable JSON output. This is the single most important reliability signal for production. |
-| **custom_tool_plan_sequence** | custom | Given a multi-step task with ordered dependencies, does the model produce a valid execution plan with correct step ordering? | The brain model builds task plans. If it misoriders steps or drops dependencies, the whole pipeline breaks. |
+| **custom_tool_plan_sequence** | custom | Given a multi-step task with ordered dependencies, does the model produce a valid execution plan with correct step ordering? | This is primarily a brain-testing signal, not a worker-testing signal. Keep it out of the active worker pass. |
 | **custom_command_safety** | custom | Given a risky shell command, does the model flag it and suggest a safe alternative? | Workers execute shell commands. A model that runs `rm -rf /` instead of flagging it is a production hazard. |
 | **custom_ambiguity_handling** | custom | When a task is ambiguous, does the model ask for clarification instead of guessing? | Workers that guess wrong waste GPU time and produce bad output. We want models that escalate ambiguity, not hide it. |
-| **custom_orchestration_tradeoff** | custom | Given resource constraints (GPU memory, model sizes, task priorities), does the model make good allocation decisions? | The brain model makes exactly these decisions. This test directly measures brain-model quality. |
+| **custom_orchestration_tradeoff** | custom | Given resource constraints (GPU memory, model sizes, task priorities), does the model make good allocation decisions? | This directly measures brain-model quality. Defer it to the brain-testing phase. |
 | **custom_long_context_extract** | custom | Given a long log file with mixed signals, can the model extract the specific requested information accurately? | Workers process logs, build outputs, and pull data from large documents. Hallucinating details from long context is a common failure mode. |
 
 ### Implementation status
 - custom_json_schema_strict: implemented (2 cases), baseline results exist
 - custom_command_safety: implemented (2 cases), baseline results exist
 - custom_ambiguity_handling: implemented (2 cases), baseline results exist
-- custom_tool_plan_sequence: implemented (3 cases) — tests dependency ordering and parallel recognition
-- custom_orchestration_tradeoff: implemented (3 cases) — tests GPU sizing, priority, and memory fit decisions
+- custom_tool_plan_sequence: implemented (3 cases) — brain-testing case, deferred in the current worker phase
+- custom_orchestration_tradeoff: implemented (3 cases) — brain-testing case, deferred in the current worker phase
 - custom_long_context_extract: implemented (3 cases) — tests error extraction, detail extraction, and counting from logs
 
-All 6 tests (15 total cases) defined in `custom_tasks/cases.json`. All use keyword grading except `custom_json_schema_strict` which uses schema validation.
+All 6 tests (15 total cases) are defined in `custom_tasks/cases.json`, but the active worker pass should only run the worker-relevant subset.
 
 ---
 
@@ -192,10 +205,10 @@ Tests function/tool calling accuracy: simple calls, parallel calls, multi-turn, 
 
 | # | Container | Tests | GPU in Container | What It Tells Us |
 |---|-----------|-------|-----------------|-----------------|
-| 1 | bench-reasoning | gsm8k, bbh, drop, mmlu_pro, ifeval | No (Ollama on host) | Can it think and follow instructions? |
+| 1 | bench-reasoning | gsm8k, bbh, drop, mmlu_pro, ifeval | No (host runtime) | Can it think and follow instructions as a worker? |
 | 2 | bench-knowledge | mmlu, arc, hellaswag, truthfulqa, boolq | Yes (llama.cpp) | What does it know, and does it hallucinate? |
-| 3 | bench-code | humaneval_plus, mbpp_plus | No (Ollama on host) | Can it write working code? |
-| 4 | bench-pipeline | 6 custom tests | No (Ollama on host) | Does it work in OUR pipeline? |
+| 3 | bench-code | humaneval_plus, mbpp_plus | No (host runtime) | Can it write working worker code? |
+| 4 | bench-pipeline | worker-safe custom tests only in the current phase | No (host runtime) | Does it work in OUR worker pipeline? |
 | 5 | bench-swebench | swe_bench_verified | Yes | Can it fix real bugs? (deferred) |
 | 6 | bench-livecodebench | livecodebench | No | Can it code without memorization? (deferred) |
 | 7 | bench-terminal | terminal_bench_2 | Yes | Can it operate a terminal? (deferred) |
@@ -255,13 +268,13 @@ Before building containers:
 ```bash
 # For each model, run all 4 containers in sequence:
 
-# 1. Load model into host Ollama for containers 1, 3, 4
-OLLAMA_HOST=http://localhost:11436 ollama run qwen2.5-coder:7b ""
+# 1. Use the orchestrator to load the worker model on the target endpoint first.
+#    Brain stays loaded on GPU 0 and handles the worker meta-task flow.
 
-# 2. Run reasoning tests (Ollama generation)
+# 2. Run reasoning tests (host runtime generation)
 docker run --rm --network host \
   -v /mnt/shared/logs/benchmarks:/results \
-  bench-reasoning --model qwen2.5-coder:7b
+  bench-reasoning --model qwen2.5-coder:7b --runtime-base http://localhost:11436
 
 # 3. Run knowledge tests (llama.cpp with logprobs, GPU)
 docker run --rm --gpus '"device=1"' \
@@ -269,16 +282,17 @@ docker run --rm --gpus '"device=1"' \
   -v /mnt/shared/logs/benchmarks:/results \
   bench-knowledge /models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf
 
-# 4. Run code tests (Ollama generation + local exec)
+# 4. Run code tests (host runtime generation + local exec)
 docker run --rm --network host \
   -v /mnt/shared/logs/benchmarks:/results \
-  bench-code --model qwen2.5-coder:7b
+  bench-code --model qwen2.5-coder:7b --runtime-base http://localhost:11436
 
-# 5. Run pipeline tests (Ollama custom)
+# 5. Run worker-pipeline tests only
 docker run --rm --network host \
   -v /mnt/shared/logs/benchmarks:/results \
   -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-pipeline --model qwen2.5-coder:7b
+  bench-pipeline --model qwen2.5-coder:7b --runtime-base http://localhost:11436 \
+    --tests custom_json_schema_strict,custom_command_safety,custom_ambiguity_handling,custom_long_context_extract
 ```
 
 Notes:
@@ -321,5 +335,5 @@ All benchmark runs must use the correct chat template for the model family.
 | mistral | `mistralai/Mistral-7B-Instruct-v0.2` | Mistral [INST] |
 | deepseek-r1 | TBD — verify on first run | TBD |
 
-For Ollama containers (1, 3, 4): always pass `--apply_chat_template`.
+For host-runtime containers (1, 3, 4): always pass `--apply_chat_template` where the harness expects chat templating.
 For llama.cpp container (2): the `gguf` model type sends raw prompts — template is applied by lm_eval's tokenizer, not the server.
