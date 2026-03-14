@@ -1,0 +1,33 @@
+{
+  "name": "gpu0_brain_qwen35_35b_a3b_full",
+  "target_worker": "gpu-0",
+  "worker_port": 11434,
+  "model": "qwen3.5:35b-a3b",
+  "stop_on_failure": true,
+  "_warning": "Qwen3.5 has known <think> tag issues with lm-eval reasoning parsers and llama.cpp SWA/KV cache issues with knowledge. Pipeline and code suites should work.",
+  "suites": [
+    {
+      "id": "pipeline",
+      "suite": "bench-pipeline",
+      "args": ["--tests", "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract"]
+    },
+    {
+      "id": "code",
+      "suite": "bench-code",
+      "args": ["--tasks", "humaneval,mbpp"]
+    },
+    {
+      "id": "reasoning",
+      "suite": "bench-reasoning",
+      "args": ["--tasks", "gsm8k,bbh,drop", "--limit", "100"]
+    },
+    {
+      "id": "knowledge",
+      "suite": "bench-knowledge",
+      "gguf_path": "/models/qwen3.5-35b-a3b/Qwen3.5-35B-A3B-Q4_K_M.gguf",
+      "gpu_device": "0",
+      "model_name": "qwen3.5-35b-a3b",
+      "args": ["--tasks", "mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq", "--limit", "100"]
+    }
+  ]
+}

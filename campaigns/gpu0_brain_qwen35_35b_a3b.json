@@ -1,0 +1,25 @@
+{
+  "name": "gpu0_brain_qwen35_35b_a3b",
+  "target_worker": "gpu-0",
+  "worker_port": 11434,
+  "model": "qwen3.5:35b-a3b",
+  "stop_on_failure": true,
+  "_warning": "Qwen3.5 has known <think> tag issues with lm-eval reasoning parsers. Pipeline and code suites should work. Reasoning may score 0.0 due to output format.",
+  "suites": [
+    {
+      "id": "pipeline",
+      "suite": "bench-pipeline",
+      "args": ["--tests", "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract"]
+    },
+    {
+      "id": "code",
+      "suite": "bench-code",
+      "args": ["--tasks", "humaneval,mbpp"]
+    },
+    {
+      "id": "reasoning",
+      "suite": "bench-reasoning",
+      "args": ["--tasks", "gsm8k,bbh,drop", "--limit", "100"]
+    }
+  ]
+}

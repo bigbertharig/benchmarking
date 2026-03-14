@@ -1,0 +1,24 @@
+{
+  "name": "gpu0_brain_deepseekr1_32b",
+  "target_worker": "gpu-0",
+  "worker_port": 11434,
+  "model": "deepseek-r1:32b",
+  "stop_on_failure": true,
+  "suites": [
+    {
+      "id": "pipeline",
+      "suite": "bench-pipeline",
+      "args": ["--tests", "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract"]
+    },
+    {
+      "id": "code",
+      "suite": "bench-code",
+      "args": ["--tasks", "humaneval,mbpp"]
+    },
+    {
+      "id": "reasoning",
+      "suite": "bench-reasoning",
+      "args": ["--tasks", "gsm8k,bbh,drop", "--limit", "100"]
+    }
+  ]
+}
