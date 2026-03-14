@@ -3,6 +3,10 @@
 This is the operator guide for running the benchmark Docker suites against the
 live worker runtimes.
 
+For building new suites that integrate cleanly with dashboard/orchestration:
+- [SUITE_CREATION.md](SUITE_CREATION.md)
+- [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md)
+
 ## Architecture
 
 Each docker suite is self-contained:
@@ -100,6 +104,7 @@ Reasoning:
 
 ```bash
 docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
   -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
   bench-reasoning --model qwen2.5-coder:7b --runtime-base http://localhost:11437 --run-name reasoning_full_v1
@@ -109,6 +114,7 @@ Code:
 
 ```bash
 docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
   bench-code --model qwen2.5-coder:7b --runtime-base http://localhost:11437
 ```
@@ -117,6 +123,7 @@ Code preflight-only (timeout + reachability sanity):
 
 ```bash
 docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
   bench-code --model qwen2.5-coder:7b --runtime-base http://localhost:11437 --preflight-only --request-timeout 30
 ```
 
@@ -124,6 +131,7 @@ Code resumable run:
 
 ```bash
 docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
   bench-code --model qwen2.5-coder:7b --runtime-base http://localhost:11437 --run-name coding_full_v1
 ```
@@ -132,6 +140,7 @@ Pipeline (custom worker-facing tests):
 
 ```bash
 docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-pipeline/history:/results \
   -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
   bench-pipeline --model qwen2.5-coder:7b --runtime-base http://localhost:11437 --run-name pipeline_worker_v1
@@ -150,10 +159,11 @@ Knowledge (GGUF + llama.cpp server inside container):
 
 ```bash
 docker run --rm --gpus '"device=1"' \
+  -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/models:/models:ro \
   -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
   -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-knowledge /models/<model-folder>/<model-file>.gguf --run-name knowledge_full_v1
+  bench-knowledge /models/<model-folder>/<model-file>.gguf --reserve-gpu gpu-2 --run-name knowledge_full_v1
 ```
 
 ## Checkpoint/Resume Support
@@ -182,6 +192,7 @@ Reasoning lite (`5 tasks x limit 10 = 50`):
 
 ```bash
 docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
   bench-reasoning \
   --model Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf \
@@ -194,10 +205,11 @@ Knowledge lite (`5 tasks x limit 10 = 50`):
 
 ```bash
 docker run --rm --gpus '"device=1"' \
+  -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/models:/models:ro \
   -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
   bench-knowledge \
-  /models/<model-folder>/<model-file>.gguf \
+  /models/<model-folder>/<model-file>.gguf --reserve-gpu gpu-2 \
   --tasks mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq \
   --limit 10
 ```
@@ -206,6 +218,104 @@ Coding lite status:
 - currently blocked in active `bench-code` flow because EvalPlus evaluate requires
   full problem coverage for each dataset.
 - see `suites/coding_lite_v1.json` for target shape and blocker note.
+
+## Mixing Suites Across Workers
+
+The CPU-based suites (`bench-pipeline`, `bench-reasoning`, `bench-code`) are independent
+network clients — each container connects to one worker port and nothing else. You can
+split workers across different suites in the same session.
+
+Example: reasoning on workers 1 & 3, code on workers 2, 4, 5:
+
+```bash
+# reasoning on ports 11435 and 11437
+docker run --rm --network host \
+  -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-reasoning --model qwen2.5-coder:7b --runtime-base http://localhost:11435 --run-name reasoning_split_v1 &
+
+docker run --rm --network host \
+  -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-reasoning --model qwen2.5-coder:7b --runtime-base http://localhost:11437 --run-name reasoning_split_v1b &
+
+# code on ports 11436, 11438, 11439
+docker run --rm --network host \
+  -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
+  bench-code --model qwen2.5-coder:7b --runtime-base http://localhost:11436 --run-name coding_split_v1 &
+
+docker run --rm --network host \
+  -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
+  bench-code --model qwen2.5-coder:7b --runtime-base http://localhost:11438 --run-name coding_split_v1b &
+
+docker run --rm --network host \
+  -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
+  bench-code --model qwen2.5-coder:7b --runtime-base http://localhost:11439 --run-name coding_split_v1c &
+```
+
+Rules:
+- **One container per port** — never double-book the same worker port.
+- **Each container gets its own `--run-name`** — results and checkpoints stay isolated.
+- `bench-knowledge` runs on a dedicated GPU (`--gpus "device=X"`) and doesn't touch worker
+  ports, so it can run in parallel with any CPU-based suite split with zero contention.
+- The parallel runner (`start_parallel_worker_suite.sh`) runs one suite on all ports. For
+  mixed splits, launch containers individually as shown above.
+
+## Running Benchmarks Alongside Plans
+
+Benchmarks can now coexist with plans, but only when the target worker GPUs are
+explicitly reserved first.
+
+What exists now:
+- worker GPUs publish a benchmark reservation in heartbeat
+- reserved workers refuse all queued orchestrator tasks
+- the brain excludes reserved GPUs from normal load/unload balancing
+- `scripts/active/start_parallel_worker_suite.sh` now reserves each worker port before
+  launch and releases it on exit
+
+What is still unsafe:
+- raw ad hoc `docker run ... --runtime-base http://localhost:1143X` commands are still
+  **not** safe by themselves
+- if you bypass the reservation helper, the orchestrator will still treat that GPU as
+  available
+
+Worker-backed suites (`bench-reasoning`, `bench-code`, `bench-pipeline`) now reserve
+their target runtime automatically when `/mnt/shared` is mounted into the container.
+`bench-knowledge` can also auto-reserve, but it needs an explicit `--reserve-gpu gpu-X`
+because it does not target a worker port.
+
+Manual reservation path for custom direct launches:
+
+```bash
+python3 /mnt/shared/scripts/benchmark_gpu_reservation.py \
+  --shared-path /mnt/shared \
+  --port 11437 \
+  --owner bench-reasoning \
+  --run-id reasoning_manual_01 \
+  reserve
+```
+
+Then run the benchmark container, and release afterward:
+
+```bash
+python3 /mnt/shared/scripts/benchmark_gpu_reservation.py \
+  --shared-path /mnt/shared \
+  --port 11437 \
+  --owner bench-reasoning \
+  release
+```
+
+What would be needed:
+
+1. A `reserved` flag in the GPU heartbeat (`/mnt/shared/gpus/gpu_*/heartbeat.json`).
+2. A guard in `gpu_tasks.py:claim_tasks()` that skips non-meta tasks when reserved.
+3. A meta-task pair (`reserve_gpu` / `release_gpu`) so benchmark scripts can set/clear
+   the flag through the normal task queue.
+4. `start_custom_mode.py` sets reservation after benchmark mode starts, before model loads.
+5. `start_parallel_worker_suite.sh` clears reservation after all containers finish.
+
+Until this exists: **do not submit plans while benchmarks are running.** The workers
+will interleave benchmark and plan work on the same GPU, corrupting both.
 
 ## Common Failure Modes
 

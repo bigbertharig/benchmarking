@@ -15,6 +15,17 @@ USE_MODEL_PROMPTS=1
 PROMPT_PROFILES=""
 TUNING_PROFILES=""
 REQUIRE_MODEL_PROMPT=1
+PATCH_REASONING_CONTENT_FALLBACK=0
+PATCH_BOOLEAN_ANSWER_CANON=0
+GEN_KWARGS=""
+SYSTEM_PROMPT_OVERRIDE=""
+DISABLE_THINKING=0
+RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
+RESERVATION_OWNER="${BENCHMARK_RESERVATION_OWNER:-bench-reasoning}"
+RESERVATION_RUN_ID=""
+RESERVATION_HELPER=""
+RESERVATION_PORT=""
+AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -33,6 +44,11 @@ while [[ $# -gt 0 ]]; do
         --tuning-profiles) TUNING_PROFILES="$2"; shift 2 ;;
         --require-model-prompt) REQUIRE_MODEL_PROMPT=1; shift 1 ;;
         --allow-generic-prompt-fallback) REQUIRE_MODEL_PROMPT=0; shift 1 ;;
+        --patch-reasoning-content-fallback) PATCH_REASONING_CONTENT_FALLBACK=1; shift 1 ;;
+        --patch-boolean-answer-canonicalization) PATCH_BOOLEAN_ANSWER_CANON=1; shift 1 ;;
+        --gen-kwargs) GEN_KWARGS="$2"; shift 2 ;;
+        --system-prompt-override) SYSTEM_PROMPT_OVERRIDE="$2"; shift 2 ;;
+        --disable-thinking) DISABLE_THINKING=1; shift 1 ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
     esac
 done
@@ -60,26 +76,135 @@ fi
 
 STATUS_FILE="${OUTPUT_DIR}/status.json"
 mkdir -p "$OUTPUT_DIR"
+RESERVATION_RUN_ID="${RUN_NAME:-$(basename "$OUTPUT_DIR")}"
+RESERVATION_HELPER="${RESERVATION_SHARED_PATH}/scripts/benchmark_gpu_reservation.py"
+RESERVATION_PORT="$(python3 - "$RUNTIME_BASE" <<'PY'
+import sys
+from urllib.parse import urlparse
+value = sys.argv[1].strip()
+parsed = urlparse(value if "://" in value else f"http://{value}")
+print(parsed.port or "")
+PY
+)"
+
+cleanup_reservation() {
+    if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ] && [ -f "$RESERVATION_HELPER" ]; then
+        python3 "$RESERVATION_HELPER" \
+            --shared-path "$RESERVATION_SHARED_PATH" \
+            --port "$RESERVATION_PORT" \
+            --owner "$RESERVATION_OWNER" \
+            release >/dev/null 2>&1 || true
+    fi
+}
+trap cleanup_reservation EXIT
+
+if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ]; then
+    if [ ! -f "$RESERVATION_HELPER" ]; then
+        echo "ERROR: reservation helper not found: $RESERVATION_HELPER"
+        echo "Mount the shared root, e.g. -v /mnt/shared:/mnt/shared"
+        exit 1
+    fi
+    python3 "$RESERVATION_HELPER" \
+        --shared-path "$RESERVATION_SHARED_PATH" \
+        --port "$RESERVATION_PORT" \
+        --owner "$RESERVATION_OWNER" \
+        --reserved-for benchmark \
+        --run-id "$RESERVATION_RUN_ID" \
+        reserve >/dev/null
+fi
 
 init_status() {
     python3 - "$STATUS_FILE" "$MODEL" "$RUNTIME_BASE" "$TASKS" "$LIMIT" "$NUM_FEWSHOT" <<'PY'
 import json, os, sys
 status_file, model, runtime, tasks, limit, num_fewshot = sys.argv[1:7]
+now = __import__("datetime").datetime.now().isoformat()
 if os.path.exists(status_file):
-    sys.exit(0)
-data = {
-    "run_start": __import__("datetime").datetime.now().isoformat(),
-    "model": model,
-    "runtime": runtime,
-    "tasks_requested": [t.strip() for t in tasks.split(",") if t.strip()],
-    "limit": limit,
-    "num_fewshot": num_fewshot,
-    "tasks": {},
-    "updated_at": __import__("datetime").datetime.now().isoformat(),
-}
+    with open(status_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+else:
+    data = {
+        "run_start": now,
+        "model": model,
+        "runtime": runtime,
+        "tasks": {},
+    }
+data["model"] = model
+data["runtime"] = runtime
+data["tasks_requested"] = [t.strip() for t in tasks.split(",") if t.strip()]
+data["limit"] = limit
+data["num_fewshot"] = num_fewshot
+data["updated_at"] = now
 with open(status_file, "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2)
 PY
+}
+
+filter_available_tasks() {
+    readarray -t _TASK_FILTER < <(python3 - "$TASKS" <<'PY'
+import subprocess
+import sys
+
+requested = [t.strip() for t in sys.argv[1].split(",") if t.strip()]
+if not requested:
+    print("")
+    print("")
+    raise SystemExit(0)
+
+try:
+    proc = subprocess.run(
+        [sys.executable, "-m", "lm_eval", "ls", "tasks"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    listing = proc.stdout
+except Exception:
+    print(",".join(requested))
+    print("")
+    raise SystemExit(0)
+
+available = set()
+for raw in listing.splitlines():
+    line = raw.strip()
+    if not line:
+        continue
+    if line.startswith("Available tasks") or line.startswith("Total tasks"):
+        continue
+    if line.startswith("-"):
+        line = line[1:].strip()
+    if not line:
+        continue
+    if "," in line:
+        parts = [p.strip() for p in line.split(",") if p.strip()]
+        for part in parts:
+            available.add(part)
+        continue
+    token = line.split()[0].strip()
+    if token:
+        available.add(token)
+
+kept = [t for t in requested if t in available]
+missing = [t for t in requested if t not in available]
+print(",".join(kept))
+print(",".join(missing))
+PY
+)
+
+    TASKS_FILTERED="${_TASK_FILTER[0]:-}"
+    TASKS_MISSING="${_TASK_FILTER[1]:-}"
+
+    if [ -n "$TASKS_MISSING" ]; then
+        echo "WARNING: skipping unavailable lm-eval tasks: $TASKS_MISSING"
+    fi
+
+    if [ -z "$TASKS_FILTERED" ]; then
+        echo "ERROR: none of the requested tasks are available in this lm-eval image."
+        echo "Requested: $TASKS"
+        [ -n "$TASKS_MISSING" ] && echo "Missing: $TASKS_MISSING"
+        exit 1
+    fi
+
+    TASKS="$TASKS_FILTERED"
 }
 
 update_task_status() {
@@ -158,6 +283,11 @@ echo "Use model prompts: $USE_MODEL_PROMPTS"
 echo "Prompt profiles: $PROMPT_PROFILES"
 echo "Tuning profiles: $TUNING_PROFILES"
 echo "Require model prompt: $REQUIRE_MODEL_PROMPT"
+echo "Patch reasoning_content fallback: $PATCH_REASONING_CONTENT_FALLBACK"
+echo "Patch boolean answer canonicalization: $PATCH_BOOLEAN_ANSWER_CANON"
+[ -n "$GEN_KWARGS" ] && echo "Gen kwargs override: $GEN_KWARGS"
+[ -n "$SYSTEM_PROMPT_OVERRIDE" ] && echo "System prompt override: enabled"
+echo "Disable thinking: $DISABLE_THINKING"
 echo "Checkpoint file: $STATUS_FILE"
 
 # Verify runtime is reachable
@@ -275,6 +405,58 @@ PY
 fi
 echo "Resolved prompt source: $PROMPT_SOURCE"
 
+if [ -n "$SYSTEM_PROMPT_OVERRIDE" ]; then
+    SYSTEM_PROMPT="$SYSTEM_PROMPT_OVERRIDE"
+    PROMPT_SOURCE="cli:system-prompt-override"
+    echo "Resolved prompt source: $PROMPT_SOURCE"
+fi
+
+if [ "$PATCH_REASONING_CONTENT_FALLBACK" -eq 1 ]; then
+    python3 - "$PATCH_BOOLEAN_ANSWER_CANON" <<'PY'
+from pathlib import Path
+import sys
+
+patch_boolean_canon = str(sys.argv[1]).strip() == "1"
+target = Path("/opt/bench/lib/python3.12/site-packages/lm_eval/models/openai_completions.py")
+if not target.exists():
+    print(f"ERROR: patch target missing: {target}")
+    sys.exit(1)
+
+src = target.read_text(encoding="utf-8")
+old = 'tmp[choices["index"]] = choices["message"]["content"]'
+if patch_boolean_canon:
+    new = (
+        'msg = choices.get("message", {})\n'
+        '                    content = msg.get("content")\n'
+        '                    if content in (None, ""):\n'
+        '                        content = msg.get("reasoning_content", "")\n'
+        '                    if isinstance(content, str):\n'
+        '                        _re = __import__("re")\n'
+        '                        _m = _re.search(r"the answer is\\\\s*(true|false)", content, _re.IGNORECASE)\n'
+        '                        if _m:\n'
+        '                            content = f"So the answer is {_m.group(1).capitalize()}."\n'
+        '                    tmp[choices["index"]] = content'
+    )
+else:
+    new = (
+        'msg = choices.get("message", {})\n'
+        '                    content = msg.get("content")\n'
+        '                    if content in (None, ""):\n'
+        '                        content = msg.get("reasoning_content", "")\n'
+        '                    tmp[choices["index"]] = content'
+    )
+
+if old in src:
+    target.write_text(src.replace(old, new, 1), encoding="utf-8")
+    if patch_boolean_canon:
+        print("Applied lm-eval parser patch: reasoning_content fallback + boolean canonicalization enabled")
+    else:
+        print("Applied lm-eval parser patch: reasoning_content fallback enabled")
+else:
+    print("lm-eval parser patch skipped: target pattern not found (already patched or upstream changed)")
+PY
+fi
+
 # Verify runtime has a model loaded
 if ! curl -s "${RUNTIME_BASE}/v1/models" | python3 -c "
 import sys, json
@@ -289,6 +471,7 @@ print(f'Runtime loaded model(s): {models}')
     exit 1
 fi
 
+filter_available_tasks
 init_status
 
 IFS=',' read -ra TASK_ARRAY <<< "$TASKS"
@@ -308,6 +491,21 @@ for TASK in "${TASK_ARRAY[@]}"; do
     mkdir -p "$TASK_OUTPUT_DIR"
 
     MODEL_ARGS="model=${MODEL},base_url=${RUNTIME_BASE}/v1/chat/completions,num_concurrent=1,max_retries=3,tokenized_requests=False"
+    if [ "$DISABLE_THINKING" -eq 1 ]; then
+      MODEL_ARGS="$(python3 - "$MODEL" "$RUNTIME_BASE" <<'PY'
+import json, sys
+model, runtime_base = sys.argv[1:3]
+print(json.dumps({
+    "model": model,
+    "base_url": f"{runtime_base}/v1/chat/completions",
+    "num_concurrent": 1,
+    "max_retries": 3,
+    "tokenized_requests": False,
+    "extra_body": {"chat_template_kwargs": {"enable_thinking": False}},
+}))
+PY
+)"
+    fi
 
     CMD=(
       lm_eval
@@ -329,6 +527,10 @@ for TASK in "${TASK_ARRAY[@]}"; do
 
     if [ -n "$NUM_FEWSHOT" ]; then
       CMD+=(--num_fewshot "$NUM_FEWSHOT")
+    fi
+
+    if [ -n "$GEN_KWARGS" ]; then
+      CMD+=(--gen_kwargs "$GEN_KWARGS")
     fi
 
     STAGE_START=$(date -Iseconds)

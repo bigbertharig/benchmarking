@@ -5,6 +5,8 @@ PORTS="11435 11436 11437 11438 11439"
 RUN_ROOT=""
 RESULTS_ROOT="/mnt/shared/logs/benchmarks/bench-pipeline/history"
 SCRIPTS_DIR="/mnt/shared/plans/shoulders/benchmarking"
+SHARED_PATH="/mnt/shared"
+RESERVATION_HELPER="/mnt/shared/scripts/benchmark_gpu_reservation.py"
 BACKGROUND=1
 USE_MODEL_PROMPTS=0
 PROMPT_PROFILES="/benchmark-scripts/custom_tasks/model_prompt_profiles.json"
@@ -17,6 +19,7 @@ while [[ $# -gt 0 ]]; do
     --run-root) RUN_ROOT="$2"; shift 2 ;;
     --results-root) RESULTS_ROOT="$2"; shift 2 ;;
     --scripts-dir) SCRIPTS_DIR="$2"; shift 2 ;;
+    --shared-path) SHARED_PATH="$2"; shift 2 ;;
     --use-model-prompts) USE_MODEL_PROMPTS=1; shift 1 ;;
     --prompt-profiles) PROMPT_PROFILES="$2"; shift 2 ;;
     --tuning-profiles) TUNING_PROFILES="$2"; shift 2 ;;
@@ -32,6 +35,7 @@ Options:
   --run-root /mnt/shared/logs/benchmarks/... Explicit run directory
   --results-root /mnt/shared/logs/benchmarks/bench-pipeline/history Parent folder for new run dir
   --scripts-dir /mnt/shared/plans/shoulders/benchmarking Benchmark scripts mount path
+  --shared-path /mnt/shared                     Shared root for reservation helper
   --use-model-prompts                         Enable per-model prompt profiles
   --prompt-profiles /benchmark-scripts/...    Prompt profile JSON path inside container
   --tuning-profiles /benchmark-scripts/...    Universal tuning profile JSON path inside container
@@ -48,8 +52,15 @@ EOF
   esac
 done
 
+RESERVATION_HELPER="${SHARED_PATH}/scripts/benchmark_gpu_reservation.py"
+
 if ! command -v docker >/dev/null 2>&1; then
   echo "ERROR: docker not found on rig host" >&2
+  exit 1
+fi
+
+if [[ ! -f "$RESERVATION_HELPER" ]]; then
+  echo "ERROR: reservation helper not found: $RESERVATION_HELPER" >&2
   exit 1
 fi
 
@@ -77,8 +88,34 @@ run_attached() {
 
     (
       set +e
+      RESERVATION_OWNER="bench-pipeline"
+      RESERVATION_RUN_ID="${RUN_NAME:-parallel_worker_suite}_${PORT}"
+      cleanup() {
+        python3 "$RESERVATION_HELPER" \
+          --shared-path "$SHARED_PATH" \
+          --port "$PORT" \
+          --owner "$RESERVATION_OWNER" \
+          release >/dev/null 2>&1 || true
+      }
+      trap cleanup EXIT
+
+      python3 "$RESERVATION_HELPER" \
+        --shared-path "$SHARED_PATH" \
+        --port "$PORT" \
+        --owner "$RESERVATION_OWNER" \
+        --reserved-for benchmark \
+        --run-id "$RESERVATION_RUN_ID" \
+        reserve > "${RUN_ROOT}/port_${PORT}.reservation.json" 2>&1
+      RESERVE_CODE=$?
+      if [[ "$RESERVE_CODE" -ne 0 ]]; then
+        echo "$RESERVE_CODE" > "${RUN_ROOT}/port_${PORT}.exit"
+        sed -i "s#^${PORT}\t\([^\t]*\)\t\([^\t]*\)\tlaunching#${PORT}\t\1\t\2\treserve_failed(${RESERVE_CODE})#" "$MANIFEST"
+        exit "$RESERVE_CODE"
+      fi
+
       CMD=(
         docker run --rm --network host
+        -v "${SHARED_PATH}:${SHARED_PATH}"
         -v "${RESULTS_DIR}:/results"
         -v "${SCRIPTS_DIR}:/benchmark-scripts:ro"
         bench-pipeline
@@ -114,6 +151,7 @@ if [[ "$BACKGROUND" -eq 1 ]]; then
     --run-root "$RUN_ROOT"
     --results-root "$RESULTS_ROOT"
     --scripts-dir "$SCRIPTS_DIR"
+    --shared-path "$SHARED_PATH"
     --prompt-profiles "$PROMPT_PROFILES"
     --tuning-profiles "$TUNING_PROFILES"
     --run-name "$RUN_NAME"

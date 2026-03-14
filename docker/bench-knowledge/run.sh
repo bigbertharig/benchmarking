@@ -15,6 +15,12 @@ USE_MODEL_PROMPTS=1
 PROMPT_PROFILES=""
 TUNING_PROFILES=""
 REQUIRE_MODEL_PROMPT=1
+RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
+RESERVATION_OWNER="${BENCHMARK_RESERVATION_OWNER:-bench-knowledge}"
+RESERVE_GPU=""
+RESERVATION_RUN_ID=""
+RESERVATION_HELPER=""
+AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -30,6 +36,7 @@ while [[ $# -gt 0 ]]; do
         --tuning-profiles) TUNING_PROFILES="$2"; shift 2 ;;
         --require-model-prompt) REQUIRE_MODEL_PROMPT=1; shift 1 ;;
         --allow-generic-prompt-fallback) REQUIRE_MODEL_PROMPT=0; shift 1 ;;
+        --reserve-gpu) RESERVE_GPU="$2"; shift 2 ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
     esac
 done
@@ -57,6 +64,8 @@ fi
 
 STATUS_FILE="${OUTPUT_DIR}/status.json"
 mkdir -p "$OUTPUT_DIR"
+RESERVATION_RUN_ID="${RUN_NAME:-$(basename "$OUTPUT_DIR")}"
+RESERVATION_HELPER="${RESERVATION_SHARED_PATH}/scripts/benchmark_gpu_reservation.py"
 
 SERVER_PID=""
 cleanup() {
@@ -66,8 +75,30 @@ cleanup() {
         kill "$SERVER_PID" 2>/dev/null || true
         wait "$SERVER_PID" 2>/dev/null || true
     fi
+    if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVE_GPU" ] && [ -f "$RESERVATION_HELPER" ]; then
+        python3 "$RESERVATION_HELPER" \
+            --shared-path "$RESERVATION_SHARED_PATH" \
+            --gpu "$RESERVE_GPU" \
+            --owner "$RESERVATION_OWNER" \
+            release >/dev/null 2>&1 || true
+    fi
 }
 trap cleanup EXIT
+
+if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVE_GPU" ]; then
+    if [ ! -f "$RESERVATION_HELPER" ]; then
+        echo "ERROR: reservation helper not found: $RESERVATION_HELPER"
+        echo "Mount the shared root, e.g. -v /mnt/shared:/mnt/shared"
+        exit 1
+    fi
+    python3 "$RESERVATION_HELPER" \
+        --shared-path "$RESERVATION_SHARED_PATH" \
+        --gpu "$RESERVE_GPU" \
+        --owner "$RESERVATION_OWNER" \
+        --reserved-for benchmark \
+        --run-id "$RESERVATION_RUN_ID" \
+        reserve >/dev/null
+fi
 
 init_status() {
     python3 - "$STATUS_FILE" "$MODEL_NAME" "$TASKS" "$LIMIT" "$GGUF_PATH" <<'PY'
@@ -282,19 +313,19 @@ PY
 fi
 echo "Resolved prompt source: $PROMPT_SOURCE"
 
-# Start llama.cpp server in background
+# Start llama-server in background (binary from llama-runtime image, supports qwen35)
 echo ""
-echo "Starting llama.cpp server..."
-python3 -m llama_cpp.server \
+echo "Starting llama-server..."
+llama-server \
     --model "$GGUF_PATH" \
-    --n_gpu_layers -1 \
+    --n-gpu-layers 999 \
     --host 0.0.0.0 \
     --port 8000 &
 SERVER_PID=$!
 
 # Wait for server to be ready
 echo "Waiting for server..."
-for i in $(seq 1 60); do
+for i in $(seq 1 180); do
     if curl -s http://localhost:8000/v1/models > /dev/null 2>&1; then
         echo "Server ready after ${i}s"
         break
@@ -308,7 +339,7 @@ done
 
 # Verify server is actually responding
 if ! curl -s http://localhost:8000/v1/models > /dev/null 2>&1; then
-    echo "ERROR: Server failed to start within 60s"
+    echo "ERROR: Server failed to start within 180s"
     exit 1
 fi
 

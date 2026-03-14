@@ -10,6 +10,12 @@ USE_MODEL_PROMPTS=1
 PROMPT_PROFILES="/benchmark-scripts/custom_tasks/model_prompt_profiles.json"
 TUNING_PROFILES="/benchmark-scripts/model_tuning_profiles.json"
 RUN_NAME=""
+RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
+RESERVATION_OWNER="${BENCHMARK_RESERVATION_OWNER:-bench-pipeline}"
+RESERVATION_RUN_ID=""
+RESERVATION_HELPER=""
+RESERVATION_PORT=""
+AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -44,6 +50,42 @@ FINAL_FILE="${RESULTS_DIR}/bench-pipeline_${MODEL_SAFE}_${RUN_ID}_final_summary.
 CHECKPOINT_FILE="${RESULTS_DIR}/bench-pipeline_${MODEL_SAFE}_${RUN_ID}_checkpoint.json"
 RUN_START_EPOCH=$(date +%s)
 RUN_START_ISO=$(date -Iseconds)
+RESERVATION_RUN_ID="$RUN_ID"
+RESERVATION_HELPER="${RESERVATION_SHARED_PATH}/scripts/benchmark_gpu_reservation.py"
+RESERVATION_PORT="$(python3 - "$RUNTIME_BASE" <<'PY'
+import sys
+from urllib.parse import urlparse
+value = sys.argv[1].strip()
+parsed = urlparse(value if "://" in value else f"http://{value}")
+print(parsed.port or "")
+PY
+)"
+
+cleanup_reservation() {
+    if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ] && [ -f "$RESERVATION_HELPER" ]; then
+        python3 "$RESERVATION_HELPER" \
+            --shared-path "$RESERVATION_SHARED_PATH" \
+            --port "$RESERVATION_PORT" \
+            --owner "$RESERVATION_OWNER" \
+            release >/dev/null 2>&1 || true
+    fi
+}
+trap cleanup_reservation EXIT
+
+if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ]; then
+    if [ ! -f "$RESERVATION_HELPER" ]; then
+        echo "ERROR: reservation helper not found: $RESERVATION_HELPER"
+        echo "Mount the shared root, e.g. -v /mnt/shared:/mnt/shared"
+        exit 1
+    fi
+    python3 "$RESERVATION_HELPER" \
+        --shared-path "$RESERVATION_SHARED_PATH" \
+        --port "$RESERVATION_PORT" \
+        --owner "$RESERVATION_OWNER" \
+        --reserved-for benchmark \
+        --run-id "$RESERVATION_RUN_ID" \
+        reserve >/dev/null
+fi
 
 init_checkpoint() {
     python3 - "$CHECKPOINT_FILE" "$MODEL" "$RUNTIME_BASE" "$TESTS" "$RUN_START_ISO" <<'PY'
