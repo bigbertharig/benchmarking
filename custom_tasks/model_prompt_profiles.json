@@ -19,7 +19,7 @@
     },
     {
       "id": "DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
-      "system_prompt": "You are a worker assistant. Output only what is asked for. Do not include reasoning steps, internal thoughts, or background context. When JSON is requested, return raw JSON only with no markdown or surrounding text. When a short answer is requested, give only that answer.",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else.",
       "test_overrides": {
         "custom_json_schema_strict": "Output only a strict JSON object with required keys. No markdown, no explanation, no reasoning steps."
       }

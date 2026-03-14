@@ -1,9 +1,9 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-03-09T17:28:28.941674`
-- Records file: `/media/bryan/shared/logs/benchmarks/model_benchmark_records.jsonl`
+- Generated at: `2026-03-11T15:38:01.673078`
+- Records file: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/benchmark_status.json`
-- Total recorded runs: `21`
+- Total recorded runs: `32`
 
 ## Operational Status
 
@@ -55,6 +55,14 @@ This section tracks current benchmarkability and backend certification status.
 
 | Model | Test ID | Score | Score % | Metric | Last Tested | Harness | Suite |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_base | 0.481549815498155 | 48.1549815498155 | pass_rate_542_base | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_plus | 0.4077490774907749 | 40.774907749077485 | pass_rate_542_plus | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | 2026-03-11T06:47:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | custom_worker_suite_total | 0.7341772151898734 | 73.41772151898735 | pass_rate_79 | 2026-03-11T06:44:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_base | 0.5719557195571956 | 57.19557195571956 | pass_rate_542_base | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_plus | 0.5018450184501845 | 50.184501845018445 | pass_rate_542_plus | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | 2026-03-11T07:09:52+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.08860759493670886 | 8.860759493670885 | pass_rate_79 | 2026-03-11T01:46:21+00:00 | bench-pipeline | ab_prompt_B_20260310 |
 | mistral:7b-instruct | custom_ambiguity_handling | 1.0 | 100.0 | clarification_rate | 2026-03-05T20:20:03.464691 | local_custom | local_custom_probe_v2 |
 | qwen2.5-coder:14b | drop | 0.57 | 56.99999999999999 | f1,none | 2026-03-05T15:54:28.421925 | lm_eval | quick_triplet_l1_20260305 |
 | qwen2.5-coder:14b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-05T15:50:53.042159 | lm_eval | quick_triplet_l1_20260305 |
@@ -72,6 +80,17 @@ This section tracks current benchmarkability and backend certification status.
 
 | Run At | Model | Test ID | Score | Score % | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-03-11T21:41:09+00:00 | Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_base | 0.5719557195571956 | 57.19557195571956 | pass_rate_542_base | bench-code | code_full_20260310_202111_partial2 | 4a4e4fc9-7e16-4c98-a27f-3f0bf01d9d21 |
+| 2026-03-11T21:41:09+00:00 | Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_plus | 0.5018450184501845 | 50.184501845018445 | pass_rate_542_plus | bench-code | code_full_20260310_202111_partial2 | a4bc0bec-4bd0-4c0a-9246-05e9b2a92eea |
+| 2026-03-11T19:23:09+00:00 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_base | 0.481549815498155 | 48.1549815498155 | pass_rate_542_base | bench-code | code_full_20260310_202111_partial2 | 540c9fa2-dd7d-4aec-9ec6-8012a17eb44c |
+| 2026-03-11T19:23:09+00:00 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_plus | 0.4077490774907749 | 40.774907749077485 | pass_rate_542_plus | bench-code | code_full_20260310_202111_partial2 | 2c8d79c3-538b-44c1-9e4f-062c1ec39912 |
+| 2026-03-11T07:09:52+00:00 | Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 | 880a1560-1266-465e-bee9-a2988440f09c |
+| 2026-03-11T06:47:32+00:00 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 | c8c6a35f-cfb8-4231-958c-20e1e0f659a3 |
+| 2026-03-11T06:44:32+00:00 | Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | custom_worker_suite_total | 0.7341772151898734 | 73.41772151898735 | pass_rate_79 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 | 6cda6293-6cf6-4003-a0df-1df48930b0b9 |
+| 2026-03-11T01:46:21+00:00 | Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.08860759493670886 | 8.860759493670885 | pass_rate_79 | bench-pipeline | ab_prompt_B_20260310 | 66450d27-c64e-4cac-8139-bdb3130567c0 |
+| 2026-03-11T01:43:52+00:00 | Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.13924050632911392 | 13.924050632911392 | pass_rate_79 | bench-pipeline | ab_prompt_A_20260310 | 5543a79c-ba0b-44c9-8c33-e080e43f852e |
+| 2026-03-11T01:29:11+00:00 | Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.17721518987341772 | 17.72151898734177 | pass_rate_79 | bench-pipeline | ab_prompt_B_20260310 | 920db72b-6dce-403f-ad50-c925d62516ea |
+| 2026-03-11T01:16:10+00:00 | Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6582278481012658 | 65.82278481012658 | pass_rate_79 | bench-pipeline | ab_prompt_A_20260310 | 28357907-94c3-464f-836e-895cfcd7930b |
 | 2026-03-05T20:20:27.293918 | qwen2.5:7b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | local_custom | local_custom_probe_v2 | 1cb7950f-8eb7-4def-9a65-52f845b5591f |
 | 2026-03-05T20:20:25.318139 | qwen2.5-coder:7b | custom_json_schema_strict | 0.5 | 50.0 | schema_valid_rate | local_custom | local_custom_probe_v2 | 73c96bcc-37ff-40dc-b2a5-872c71d74d1c |
 | 2026-03-05T20:20:03.464691 | mistral:7b-instruct | custom_ambiguity_handling | 1.0 | 100.0 | clarification_rate | local_custom | local_custom_probe_v2 | 516e8b96-02b0-4ea8-9762-0e421db2667f |

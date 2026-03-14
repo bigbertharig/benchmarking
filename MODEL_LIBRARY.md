@@ -16,9 +16,13 @@ Rules:
 - record stable operator guidance here: what loads, what fails, what ctx is safe, what each model is best at
 
 Current phase:
-- worker testing is active
-- brain testing is deferred
-- assume the brain stays loaded on GPU 0 and is used to coordinate worker meta tasks during benchmark prep
+- worker testing is active (GPUs 1-5, 1060 6GB cards)
+- brain testing is active (GPU 0, 3090 24GB)
+- brain benchmarks use `config.benchmark-brain.json` and separate campaign manifests
+- brain-tier models (GPU 0, single 3090): 30B+ only (qwen2.5-coder:32b, deepseek-r1:32b, qwen3.5:35b-a3b)
+- split-worker models (2x 1060): 14B class (qwen2.5-coder:14b, deepseek-r1:14b, phi-4:14b, gemma-3:12b) — tested separately
+- do not load 7B or smaller on GPU 0, and do not load 30B+ on 1060 workers
+- bench-knowledge is excluded from default campaigns (see "Suite Selection Rationale" below)
 
 ## Current Best Choices
 
@@ -84,25 +88,174 @@ Operator guidance from this pass:
   defensive parsing and tighter prompt templates
 - keep a post-response validator in benchmark harnesses for exact-output tasks
 
-### Parallel worker suite tracking (last updated: 2026-03-11T07:09:52+00:00)
+### Unified benchmark completion table (latest-only, per-test)
 
-Latest run source:
-- `/mnt/shared/logs/benchmarks/bench-pipeline/history/parallel_worker_suite_20260310_234145/results`
+Use this single table to filter either way:
+- pick a model and scan its test rows
+- pick a suite and scan all model rows
 
-| Model | Total score | Percent | Total suite time (s) | Last tested (UTC) |
+Primary sources:
+- bench-pipeline: `/mnt/shared/logs/benchmarks/bench-pipeline/history/parallel_worker_suite_20260310_234145/results`
+- bench-code: `/mnt/shared/plans/shoulders/benchmarking/docker/bench-code/history/parallel_bench_code_resume_20260311_122032`
+- bench-reasoning: `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105`
+- bench-knowledge: `/mnt/shared/logs/benchmarks/bench-knowledge/history/bench-knowledge_*_knowledge_smoke_v1`
+- brain campaign (32B): `/mnt/shared/logs/benchmarks/campaigns/history/gpu0_brain_qwen25coder32b_smoke/smoke_v1`
+
+#### bench-pipeline (worker reliability)
+
+Pipeline tests run all cases (fixed test sets), no limit parameter.
+
+| Model | Test | Pass | Total | Score | Limit | Date (UTC) |
+| --- | --- | --- | --- | --- | --- | --- |
+| `Qwen2.5-Coder-7B` | json_schema_strict | 9 | 13 | `69.2%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | ambiguity_handling | 2 | 13 | `15.4%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | command_safety | 11 | 12 | `91.7%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | orchestration_tradeoff | 9 | 12 | `75.0%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | long_context_extract | 13 | 14 | `92.9%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | json_schema_strict | 3 | 13 | `23.1%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | tool_plan_sequence | 12 | 15 | `80.0%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | ambiguity_handling | 6 | 13 | `46.2%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | command_safety | 10 | 12 | `83.3%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | orchestration_tradeoff | 10 | 12 | `83.3%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | long_context_extract | 14 | 14 | `100%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | json_schema_strict | 2 | 13 | `15.4%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | tool_plan_sequence | 11 | 15 | `73.3%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | ambiguity_handling | 0 | 13 | `0%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | command_safety | 7 | 12 | `58.3%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | orchestration_tradeoff | 4 | 12 | `33.3%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | long_context_extract | — | — | incomplete | full | 2026-03-11 |
+| `Qwen3.5-4B` | json_schema_strict | 0 | 13 | `0%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | ambiguity_handling | 8 | 13 | `61.5%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | command_safety | 11 | 12 | `91.7%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | orchestration_tradeoff | 7 | 12 | `58.3%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | long_context_extract | 14 | 14 | `100%` | full | 2026-03-11 |
+| `Qwen3.5-9B-Q3_K_M` | json_schema_strict | 0 | 13 | `0%` | full | 2026-03-11 |
+| `Qwen3.5-9B-Q3_K_M` | command_safety | 0 | 12 | `0%` | full | 2026-03-11 |
+| `Qwen3.5-9B-Q3_K_M` | (4 other tests) | — | — | incomplete | full | 2026-03-11 |
+| `Qwen2.5-Coder-32B` | json_schema_strict | 4 | 13 | `30.8%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | command_safety | 9 | 12 | `75.0%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-14 |
+
+#### bench-code (EvalPlus generation)
+
+Scores shown as base / plus (EvalPlus+ stricter evaluation). Code tests run all problems (fixed sets), no limit parameter.
+
+| Model | Test | Pass (base) | Pass (plus) | Total | Score (base / plus) | Limit | Date (UTC) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `Qwen2.5-Coder-7B` | humaneval | 145 | 139 | 164 | `88.4%` / `84.8%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | mbpp | 312 | 266 | 378 | `82.5%` / `70.4%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | humaneval | 73 | 62 | 164 | `44.5%` / `37.8%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | mbpp | 188 | 159 | 378 | `49.7%` / `42.1%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | humaneval | 8 | 8 | 164 | `4.9%` / `4.9%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | mbpp | 73 | 74 | 378 | `19.3%` / `19.6%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | humaneval | 62 | 60 | 164 | `37.8%` / `36.6%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | mbpp | 248 | 212 | 378 | `65.6%` / `56.1%` | full | 2026-03-11 |
+| `Qwen3.5-9B-Q3_K_M` | humaneval | 66 | 64 | 164 | `40.2%` / `39.0%` | full | 2026-03-12 |
+| `Qwen3.5-9B-Q3_K_M` | mbpp | 256 | 220 | 378 | `67.7%` / `58.2%` | full | 2026-03-12 |
+| `Qwen2.5-Coder-32B` | humaneval | 150 | 143 | 164 | `91.5%` / `87.2%` | full | 2026-03-14 |
+
+#### bench-reasoning (lm-eval generation)
+
+| Model | Test | Score | Metric | Limit | Date (UTC) |
+| --- | --- | --- | --- | --- | --- |
+| `Qwen2.5-Coder-7B` | gsm8k | `0.75` | exact_match | 100 | 2026-03-12 |
+| `Qwen2.5-Coder-7B` | bbh | `0.6481` | exact_match | 10 | 2026-03-12 |
+| `Qwen2.5-Coder-7B` | drop | `0.622` | f1 | 10 | 2026-03-12 |
+| `Mistral-7B-Instruct-v0.3` | gsm8k | `0.48` | exact_match | 100 | 2026-03-12 |
+| `Mistral-7B-Instruct-v0.3` | bbh | `0.5393` | exact_match | 100 | 2026-03-13 |
+| `Mistral-7B-Instruct-v0.3` | drop | `0.126` | f1 | 100 | 2026-03-13 |
+| `DeepSeek-R1-Distill-Qwen-7B` | gsm8k | `0.08` | exact_match | 100 | 2026-03-12 |
+| `DeepSeek-R1-Distill-Qwen-7B` | bbh | `0.0` | exact_match | 100 | 2026-03-12 |
+| `DeepSeek-R1-Distill-Qwen-7B` | drop | `0.0` | f1 | 100 | 2026-03-12 |
+| `Qwen2.5-Coder-32B` | gsm8k | `0.80` | exact_match | 5 | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | bbh | `0.4593` | exact_match | 5 | 2026-03-14 |
+| `Qwen3.5-4B` | (all) | N/A | — | — | 2026-03-12 |
+| `Qwen3.5-9B-Q3_K_M` | (all) | N/A | — | — | 2026-03-12 |
+
+Qwen3.5 reasoning: N/A — model outputs `<think>` tags that lm-eval's answer extractor cannot parse, producing 0.0 across all probes despite likely correct internal reasoning.
+
+Qwen2.5-Coder-32B reasoning: smoke test only (limit 5). Run via sequenced campaign on GPU 0 (3090). Needs higher-limit run for reliable comparison.
+
+#### bench-knowledge (lm-eval loglikelihood)
+
+Source: `/mnt/shared/logs/benchmarks/bench-knowledge/history/bench-knowledge_*_knowledge_smoke_v1`
+
+| Model | Test | Score | Metric | Limit | Date (UTC) |
+| --- | --- | --- | --- | --- | --- |
+| `Mistral-7B-Instruct-v0.3` | mmlu | `0.593` | accuracy | 5 | 2026-03-13 |
+| `Mistral-7B-Instruct-v0.3` | arc_challenge | `0.60` | acc_norm | 5 | 2026-03-13 |
+| `Mistral-7B-Instruct-v0.3` | hellaswag | `0.80` | acc_norm | 5 | 2026-03-13 |
+| `Mistral-7B-Instruct-v0.3` | truthfulqa_mc2 | `0.671` | accuracy | 5 | 2026-03-13 |
+| `Mistral-7B-Instruct-v0.3` | boolq | `0.80` | accuracy | 5 | 2026-03-13 |
+| `Qwen2.5-Coder-7B` | mmlu | `0.270` | accuracy | 5 | 2026-03-13 |
+| `Qwen2.5-Coder-7B` | arc_challenge | `0.20` | accuracy | 5 | 2026-03-13 |
+| `Qwen2.5-Coder-7B` | hellaswag | `0.40` | accuracy | 5 | 2026-03-13 |
+| `Qwen2.5-Coder-7B` | truthfulqa_mc2 | `0.200` | accuracy | 5 | 2026-03-13 |
+| `Qwen2.5-Coder-7B` | boolq | `0.20` | accuracy | 5 | 2026-03-13 |
+| `DeepSeek-R1-Distill-Qwen-7B` | mmlu | `0.618` | accuracy | 5 | 2026-03-13 |
+| `DeepSeek-R1-Distill-Qwen-7B` | arc_challenge | `0.20` | acc_norm | 5 | 2026-03-13 |
+| `DeepSeek-R1-Distill-Qwen-7B` | hellaswag | `0.40` | acc_norm | 5 | 2026-03-13 |
+| `DeepSeek-R1-Distill-Qwen-7B` | truthfulqa_mc2 | `0.644` | accuracy | 5 | 2026-03-13 |
+| `DeepSeek-R1-Distill-Qwen-7B` | boolq | `0.80` | accuracy | 5 | 2026-03-13 |
+| `Qwen3.5-4B` | (all) | N/A | — | — | 2026-03-13 |
+| `Qwen3.5-9B-Q3_K_M` | (all) | N/A | — | — | 2026-03-13 |
+
+Qwen3.5 knowledge: N/A — llama.cpp server returns 503 errors due to SWA/hybrid memory architecture forcing full prompt reprocessing on every request (no KV cache reuse), overwhelming the server.
+
+Note: limit 5 scores have high variance (especially on small tasks like arc_challenge and boolq where n=5). Run at higher limits for reliable comparisons. Smoke test runtimes at limit 5: Mistral ~1.5h, DeepSeek ~7h, Qwen2.5-Coder ~7.5h.
+
+#### Prompt impact on knowledge scores (A/B test, 2026-03-14)
+
+Ran all 3 compatible models with `--no-model-prompts` and compared to prompted runs.
+Result: **system prompts have no meaningful effect on loglikelihood-based knowledge scores.**
+
+| Model | Task | With Prompt | No Prompt | Delta |
 | --- | --- | --- | --- | --- |
-| `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf` | 58/79 | 73.4% | 121 | 2026-03-11T06:44:32+00:00 |
-| `Mistral-7B-Instruct-v0.3-Q4_K_M.gguf` | 54/79 | 68.4% | 301 | 2026-03-11T06:47:32+00:00 |
-| `Qwen3.5-4B-Q4_K_M.gguf` | 54/79 | 68.4% | 1641 | 2026-03-11T07:09:52+00:00 |
-| `DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf` | 35/79 | 44.3% | 1221 | 2026-03-10T22:52:40+00:00 |
-| `Qwen3.5-9B-Q3_K_M.gguf` | 11/79 | 13.9% | 2451 | 2026-03-11T01:43:52+00:00 |
+| `Mistral-7B` | mmlu | 0.593 | 0.593 | 0.000 |
+| `Mistral-7B` | arc_challenge | 0.60 | 0.40 | -0.20 |
+| `Mistral-7B` | hellaswag | 0.40 | 0.60 | +0.20 |
+| `Mistral-7B` | truthfulqa_mc2 | 0.671 | 0.607 | -0.064 |
+| `Mistral-7B` | boolq | 0.80 | 0.80 | 0.000 |
+| `Qwen2.5-Coder-7B` | (all 5 tasks) | — | — | 0.000 |
+| `DeepSeek-R1-7B` | (all 5 tasks) | — | — | 0.000 |
 
-Prompt A/B validation (run: `parallel_worker_suite_20260310_180300`):
+Qwen2.5-Coder and DeepSeek showed zero difference across all tasks. Mistral's deltas are noise at limit 5 (1 sample = 0.20 swing). Loglikelihood evaluation measures token probabilities, not generated text, so system prompts have minimal influence on the scoring mechanism. The low Qwen2.5-Coder knowledge scores (0.20-0.27) are the model's actual baseline, not prompt interference.
 
-| Model | A profile (`model_prompt_profiles.json`) | B profile (`model_prompt_profiles_B.json`) | Baseline decision |
-| --- | --- | --- | --- |
-| `Qwen3.5-4B-Q4_K_M.gguf` | 52/79, 789s | 14/79, 1570s | Keep A |
-| `Qwen3.5-9B-Q3_K_M.gguf` | 11/79, 2451s | 7/79, 2600s | Keep A |
+### Suite Selection Rationale
+
+Default campaigns run 3 suites: **pipeline, code, reasoning**. Knowledge is excluded.
+
+Why:
+- The orchestrator's job is to make models follow instructions, not recall training data.
+  Pipeline tests strict format compliance, code tests generation quality, reasoning tests
+  problem-solving ability. These directly measure worker fitness.
+- Knowledge benchmarks (MMLU, ARC, HellaSwag, TruthfulQA, BoolQ) measure how well a
+  model recalls facts from pretraining. This is nearly irrelevant to our use case — we
+  *want* models to ignore their own knowledge and use the context we provide.
+- Runtime cost is prohibitive. Loglikelihood evaluation requires multiple completions per
+  item. At limit 5, MMLU alone takes 4-8 hours per model on a 1060. A realistic limit 100
+  run would take days per model. The signal-to-cost ratio is too low.
+- A model that scores high on knowledge benchmarks may actually be worse for our pipeline
+  because it's more likely to deviate from instructions based on its own "opinions."
+
+When to run knowledge anyway:
+- Sanity-checking a brand new model family (is the quant catastrophically broken?)
+- Comparing two otherwise-identical models where knowledge is the tiebreaker
+- Ad-hoc, not as part of the default campaign
+
+The bench-knowledge infrastructure is validated and available. Run it standalone when needed:
+```bash
+docker run --rm --gpus '"device=0"' \
+  -v /mnt/shared:/mnt/shared -v /mnt/shared/models:/models:ro \
+  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-knowledge /models/<model>/<file>.gguf \
+  --limit 5 --run-name knowledge_adhoc_v1
+```
+
+Decision made: 2026-03-14.
 
 ### Reasoning full-suite runtime estimates (no partial scores recorded)
 
@@ -179,15 +332,27 @@ Best practices:
 ### qwen2.5-coder:32b
 
 Status:
-- brain-tier option, but currently underperforming in the small recorded sample
+- brain-tier model (GPU 0, 3090 24GB)
+- first sequenced campaign completed 2026-03-14 (pipeline + code + reasoning smoke test)
+- strong on code generation, underperforms 7B on pipeline reliability tests
 
-Known results:
-- `gsm8k`: 0.0 in `quick_triplet_l1_20260305`
+Known results (sequenced campaign smoke_v1, 2026-03-14):
+- `humaneval`: 91.5% base / 87.2% plus (best in fleet)
+- `gsm8k`: 0.80 (limit 5)
+- `bbh`: 0.4593 (limit 5)
+- `json_schema_strict`: 30.8% (4/13) — worse than 7B (69.2%)
+- `command_safety`: 75.0% (9/12) — worse than 7B (91.7%)
+- `tool_plan_sequence`: 93.3% (14/15) — same as 7B
+
+Earlier results:
+- `gsm8k`: 0.0 in `quick_triplet_l1_20260305` (likely prompt/config issue)
 - `drop`: 0.18 in `quick_triplet_l1_20260305`
 
 Best practices:
-- do not treat parameter count as automatic superiority
-- re-benchmark before promoting this model for quality-critical work
+- use for code generation tasks where quality matters more than throughput
+- pipeline test underperformance likely caused by system prompt mismatch — the "strict worker assistant" prompt is tuned for 7B response style
+- re-run pipeline with a tuned prompt before drawing conclusions about reliability
+- do not treat parameter count as automatic superiority on structured output tasks
 
 ### mistral:7b-instruct
 

@@ -42,7 +42,7 @@
       "status": "untuned",
       "last_tuned_at": null,
       "benchmark_suite": "agent_reliability",
-      "system_prompt": "You are a worker assistant. Output only what is asked for. Do not include reasoning steps, internal thoughts, or background context. When JSON is requested, return raw JSON only with no markdown or surrounding text. When a short answer is requested, give only that answer.",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else.",
       "inference": {
         "temperature": 0.0,
         "top_p": 1.0,
@@ -91,6 +91,96 @@
         "n_gpu_layers": 999
       },
       "notes": "A/B prompt test complete (2026-03-11): keep A profile as baseline; B profile underperformed."
+    },
+    "Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Split-load (2x 1060). Same prompt as 7B coder sibling."
+    },
+    "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Split-load (2x 1060). Same prompt as 7B deepseek sibling."
+    },
+    "Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Brain-tier (3090). Same prompt as 7B coder sibling. First benchmark pass pending."
+    },
+    "DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Brain-tier (3090). Same prompt as 7B deepseek sibling. First benchmark pass pending."
+    },
+    "Qwen3.5-35B-A3B-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Brain-tier (3090). MoE 35B total / 3B active. Same prompt family as Qwen3.5-4B. First benchmark pass pending."
     }
   }
 }

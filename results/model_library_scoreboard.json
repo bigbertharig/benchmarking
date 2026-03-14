@@ -1,8 +1,32 @@
 {
-  "generated_at": "2026-03-11T07:14:19.297168+00:00",
+  "generated_at": "2026-03-11T22:38:01.741986+00:00",
   "records_path": "/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl",
   "notes": "Latest-only scoreboard. Historical results remain in model_benchmark_records.jsonl.",
   "latest_per_model_test": [
+    {
+      "run_id": "540c9fa2-dd7d-4aec-9ec6-8012a17eb44c",
+      "run_at": "2026-03-11T19:23:09+00:00",
+      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+      "test_id": "bench_code_total_base",
+      "score": 0.481549815498155,
+      "score_pct": 48.1549815498155,
+      "metric": "pass_rate_542_base",
+      "harness": "bench-code",
+      "suite": "code_full_20260310_202111_partial2",
+      "notes": "completed model in partial run (2/4 done); humaneval+mbpp base aggregate"
+    },
+    {
+      "run_id": "2c8d79c3-538b-44c1-9e4f-062c1ec39912",
+      "run_at": "2026-03-11T19:23:09+00:00",
+      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+      "test_id": "bench_code_total_plus",
+      "score": 0.4077490774907749,
+      "score_pct": 40.774907749077485,
+      "metric": "pass_rate_542_plus",
+      "harness": "bench-code",
+      "suite": "code_full_20260310_202111_partial2",
+      "notes": "completed model in partial run (2/4 done); humaneval+mbpp plus aggregate"
+    },
     {
       "run_at": "2026-03-11T06:47:32+00:00",
       "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
@@ -50,6 +74,30 @@
       "suite": "ab_prompt_B_20260310",
       "notes": "B tuned prompt profile trial (model_prompt_profiles_B.json); duration_seconds=1570",
       "run_id": "920db72b-6dce-403f-ad50-c925d62516ea"
+    },
+    {
+      "run_id": "4a4e4fc9-7e16-4c98-a27f-3f0bf01d9d21",
+      "run_at": "2026-03-11T21:41:09+00:00",
+      "model": "Qwen3.5-4B-Q4_K_M.gguf",
+      "test_id": "bench_code_total_base",
+      "score": 0.5719557195571956,
+      "score_pct": 57.19557195571956,
+      "metric": "pass_rate_542_base",
+      "harness": "bench-code",
+      "suite": "code_full_20260310_202111_partial2",
+      "notes": "completed model in partial run (2/4 done); humaneval+mbpp base aggregate"
+    },
+    {
+      "run_id": "a4bc0bec-4bd0-4c0a-9246-05e9b2a92eea",
+      "run_at": "2026-03-11T21:41:09+00:00",
+      "model": "Qwen3.5-4B-Q4_K_M.gguf",
+      "test_id": "bench_code_total_plus",
+      "score": 0.5018450184501845,
+      "score_pct": 50.184501845018445,
+      "metric": "pass_rate_542_plus",
+      "harness": "bench-code",
+      "suite": "code_full_20260310_202111_partial2",
+      "notes": "completed model in partial run (2/4 done); humaneval+mbpp plus aggregate"
     },
     {
       "run_at": "2026-03-11T07:09:52+00:00",
@@ -337,11 +385,12 @@
   "model_rollup": [
     {
       "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
-      "tests": 1,
-      "avg_score": 0.6835443037974683,
-      "avg_score_pct": 68.35443037974683,
-      "last_tested": "2026-03-11T06:47:32+00:00",
+      "tests": 3,
+      "avg_score": 0.5242810655954661,
+      "avg_score_pct": 52.428106559546606,
+      "last_tested": "2026-03-11T19:23:09+00:00",
       "suites": [
+        "code_full_20260310_202111_partial2",
         "recovery_ckpt_hot5_20260310_partial3"
       ]
     },
@@ -357,13 +406,14 @@
     },
     {
       "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "tests": 3,
-      "avg_score": 0.5063291139240507,
-      "avg_score_pct": 50.63291139240506,
-      "last_tested": "2026-03-11T07:09:52+00:00",
+      "tests": 5,
+      "avg_score": 0.5185576159559064,
+      "avg_score_pct": 51.85576159559064,
+      "last_tested": "2026-03-11T21:41:09+00:00",
       "suites": [
         "ab_prompt_A_20260310",
         "ab_prompt_B_20260310",
+        "code_full_20260310_202111_partial2",
         "recovery_ckpt_hot5_20260310_partial3"
       ]
     },
@@ -441,6 +491,14 @@
   "suite_rollup": [
     {
       "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+      "suite": "code_full_20260310_202111_partial2",
+      "tests": 2,
+      "avg_score": 0.4446494464944649,
+      "avg_score_pct": 44.464944649446494,
+      "last_tested": "2026-03-11T19:23:09+00:00"
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
       "suite": "recovery_ckpt_hot5_20260310_partial3",
       "tests": 1,
       "avg_score": 0.6835443037974683,
@@ -470,6 +528,14 @@
       "avg_score": 0.17721518987341772,
       "avg_score_pct": 17.72151898734177,
       "last_tested": "2026-03-11T01:29:11+00:00"
+    },
+    {
+      "model": "Qwen3.5-4B-Q4_K_M.gguf",
+      "suite": "code_full_20260310_202111_partial2",
+      "tests": 2,
+      "avg_score": 0.53690036900369,
+      "avg_score_pct": 53.690036900368995,
+      "last_tested": "2026-03-11T21:41:09+00:00"
     },
     {
       "model": "Qwen3.5-4B-Q4_K_M.gguf",
