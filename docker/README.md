@@ -7,6 +7,67 @@ For building new suites that integrate cleanly with dashboard/orchestration:
 - [SUITE_CREATION.md](SUITE_CREATION.md)
 - [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md)
 
+## Current Rig Layout
+
+| GPU | Port | Type | Models | Notes |
+| --- | --- | --- | --- | --- |
+| 0 | 11434 | Brain (3090 24GB) | qwen2.5-coder:32b, deepseek-r1:32b | Single GPU, large models only |
+| 1 | 11435 | Worker (1060 6GB) | 7B models or split pair with GPU 3 | Split pair uses port 11435 |
+| 2 | 11436 | Worker (1060 6GB) | 7B models (standalone only) | |
+| 3 | — | Worker (1060 6GB) | Split partner for GPU 1 | No own port when split |
+| 4 | 11438 | Worker (1060 6GB) | 7B models or split pair with GPU 5 | Split pair uses port 11438 |
+| 5 | — | Worker (1060 6GB) | Split partner for GPU 4 | No own port when split |
+
+Split pairs: GPUs 1+3 and GPUs 4+5 can each load one 14B model (qwen2.5-coder:14b, deepseek-r1:14b, phi-4:14b).
+
+**How to run a test**: pick a suite README below, find the Quick Start for your model tier, paste the command on the rig.
+
+**Before running any test**, check the "Before Running" section below.
+
+| Suite | What | Quick start |
+| --- | --- | --- |
+| [bench-pipeline](bench-pipeline/README.md) | Worker reliability (JSON, safety, sequencing) | ~5 min |
+| [bench-code](bench-code/README.md) | Code generation (humaneval, mbpp) | ~30 min - 2h |
+| [bench-reasoning](bench-reasoning/README.md) | Reasoning (gsm8k, bbh, drop) | ~1h (limit 5) to ~9h (limit 100) |
+| [bench-knowledge](bench-knowledge/README.md) | Knowledge (mmlu, arc, hellaswag) | ~1.5h - 8h at limit 5 |
+
+## Before Running
+
+**1. Rebuild if images are stale.** The Docker images bake `run.sh` at build time.
+If you've changed any suite's `run.sh`, CLI flags, or defaults, rebuild first:
+
+```bash
+ssh 10.0.0.3 'cd /mnt/shared/plans/shoulders/benchmarking/docker && \
+  docker build -t bench-pipeline bench-pipeline && \
+  docker build -t bench-code bench-code && \
+  docker build -t bench-reasoning bench-reasoning && \
+  docker build -t bench-knowledge bench-knowledge'
+```
+
+To check if an image is stale:
+```bash
+docker run --rm --entrypoint cat bench-pipeline /opt/bench/run.sh | head -15
+```
+
+**2. Add `-e BENCHMARK_DISABLE_AUTO_RESERVE=1`** to all `docker run` commands.
+The reservation system requires `filelock` which isn't installed in the container.
+Without this env var, bench-pipeline containers will crash immediately on startup.
+
+```bash
+docker run --rm --network host \
+  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
+  ...
+```
+
+**3. Model ID matching.** The `--model` value must fuzzy-match a key in
+`model_tuning_profiles.json` for prompts to resolve. Most Ollama-style short IDs
+work (e.g. `qwen2.5-coder:14b` matches `Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf`).
+
+DeepSeek models need explicit aliases because `deepseek-r1:14b` does NOT substring-match
+`DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf` (the "Distill-Qwen" part breaks it).
+Short-form aliases (`deepseek-r1:7b`, `deepseek-r1:14b`, `deepseek-r1:32b`) are already
+added in `model_tuning_profiles.json`.
+
 ## Architecture
 
 Each docker suite is self-contained:
@@ -140,6 +201,7 @@ Pipeline (custom worker-facing tests):
 
 ```bash
 docker run --rm --network host \
+  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
   -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-pipeline/history:/results \
   -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
@@ -317,20 +379,77 @@ What would be needed:
 Until this exists: **do not submit plans while benchmarks are running.** The workers
 will interleave benchmark and plan work on the same GPU, corrupting both.
 
+## Memory Protection (OOM Prevention)
+
+Added 2026-03-14 after an OOM crash killed NFS and froze all operator SSH sessions.
+
+**Root cause:** Multiple llama-server containers with no Docker memory limits exhausted
+30 GB system RAM + 8 GB swap. Kernel OOM killer cascaded to NFS server and journald.
+
+**Four layers of protection are now in place:**
+
+| Layer | What | Config Location | How to Tune |
+| --- | --- | --- | --- |
+| Docker `--memory` | Per-container RAM cap | `config.benchmark.json` → `llama_single_defaults.memory_limit`, per-model profiles | Change `memory_limit` / `memory_swap` values |
+| earlyoom | Userspace OOM killer at 5% free | `/etc/default/earlyoom` on rig | Adjust `-m` and `-s` percentages |
+| `oom_score_adj` | NFS/SSH immune to kernel OOM | `oom-protect-critical.service` on rig | Systemd unit, runs at boot |
+| zram | 15 GB compressed swap in RAM | `/etc/default/zramswap` on rig | Adjust `PERCENT` value |
+
+**Current Docker memory limits** (in `config.benchmark.json`):
+
+| Model tier | `memory_limit` | `memory_swap` | Observed RSS |
+| --- | --- | --- | --- |
+| 7B single (default) | `4g` | `5g` | ~2.8 GB |
+| 14B split (default) | `8g` | `10g` | ~6.1 GB |
+| 32B brain (per-profile) | `11g` | `13g` | ~8.0 GB |
+
+These limits are passed via `run_runtime.sh --memory-limit` and `--memory-swap` flags.
+When a container hits its limit, Docker kills *only that container* — no system-wide cascade.
+
+**To check protections on the rig:**
+```bash
+# earlyoom status
+journalctl -u earlyoom --no-pager -n 5
+
+# OOM protection active
+cat /proc/$(pgrep -x nfsd | head -1)/oom_score_adj  # should be -1000
+
+# zram active
+swapon --show
+
+# Container memory limits
+docker stats --no-stream --format 'table {{.Name}}\t{{.MemUsage}}'
+```
+
+**If a container gets OOM-killed by Docker (exit code 137):**
+- The container dies cleanly; other services are unaffected
+- Increase `memory_limit` in the model's profile in `config.benchmark.json`
+- For benchmark docker runs (not orchestrator-managed), add `--memory` directly:
+  `docker run --memory=12g --memory-swap=14g ...`
+
 ## Common Failure Modes
 
-- `Cannot reach llama-compatible runtime`:
+- **Container exits immediately with no output**:
+  - missing `-e BENCHMARK_DISABLE_AUTO_RESERVE=1` (reservation helper needs `filelock`)
+  - check with `docker run --rm ... bench-pipeline --model X --runtime-base Y` (without `-d`) to see error
+- **`Use model prompts: 0` in logs (prompts not applied)**:
+  - stale Docker image; rebuild with `docker build -t bench-pipeline bench-pipeline`
+- **`Cannot reach llama-compatible runtime`**:
   - missing `--network host`
   - wrong `--runtime-base` port
   - worker unloaded between prep and run
-- `Unknown arg: --runtime-base`:
+- **`Unknown arg: --runtime-base`**:
   - stale image build; rebuild the image from current docker sources
-- `No model-specific system prompt found for ...`:
-  - add `system_prompt` for that model in `custom_tasks/model_prompt_profiles.json` or `model_tuning_profiles.json`
+- **`No model-specific system prompt found for ...`**:
+  - model ID doesn't match any key in `model_tuning_profiles.json`
+  - for DeepSeek models, ensure short-form aliases exist (see "Before Running" above)
   - or run with `--allow-generic-prompt-fallback`
-- `Custom test runner not found` in `bench-pipeline`:
+- **`Custom test runner not found`** in `bench-pipeline`:
   - missing scripts mount:
     `-v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro`
+- **All pipeline tests score empty/fail in 0 seconds**:
+  - `--require-model-prompt` is failing silently for each test because prompt can't resolve
+  - check model ID fuzzy matching (see "Before Running" above)
 
 ## Parallel Worker Run Pattern
 
@@ -407,6 +526,87 @@ ssh 10.0.0.3 '/mnt/shared/plans/shoulders/benchmarking/docker/snapshot_scheduler
   --specs "300:5m 900:15m 1800:30m" \
   --name progress \
   --background'
+```
+
+## Memory Protection (OOM Prevention)
+
+Last updated: 2026-03-14
+
+Four layers protect the rig from OOM cascades that kill NFS/SSH:
+
+### Layer 1: Docker memory limits (primary defense)
+
+Each llama-server container runs with `--memory` and `--memory-swap` limits.
+These are set in `config.benchmark.json` model profiles and passed through `run_runtime.sh`.
+
+Current limits:
+
+| Tier | `--memory` | `--memory-swap` | Notes |
+|---|---|---|---|
+| Single (7B, 1x 1060) | 4g | 5g | Fits comfortably |
+| Split (14B, 2x 1060) | 10g | 12g | Bumped from 8g/10g after gemma-3 OOM (2026-03-14) |
+| Brain (32B, 3090) | 11g | 13g | Model weights mostly in VRAM, CPU buffer ~400MB |
+
+Config locations:
+- `config.benchmark.json` → `llama_split_defaults.memory_limit` / `memory_swap`
+- `config.benchmark.json` → per-model overrides in `llama_single_profiles` / `llama_split_profiles`
+- `run_runtime.sh` → `--memory-limit` / `--memory-swap` flags
+
+**Tuning rule:** Set Docker memory limit ~2GB above observed RSS peak. Docker's OOM handler
+is cleaner than the kernel OOM killer — it stops the container gracefully. If the kernel
+OOM killer fires instead of Docker's, the limit is too high (Docker didn't catch it first).
+
+### Layer 2: earlyoom (userspace OOM killer)
+
+Kills memory hogs before kernel OOM cascades to critical services.
+
+Config: `/etc/default/earlyoom`
+```
+# -m 8: trigger at 8% free RAM
+# -s 8: trigger at 8% free swap
+# -r 10: report every 10s to syslog
+# --avoid: protect critical services
+# --prefer: kill llama-server/bench containers first (restartable)
+EARLYOOM_ARGS="-m 8 -s 8 -r 10 --avoid '(sshd|nfsd|systemd|brain\.py|gpu_core)' --prefer '(llama-server|bench-)' -n"
+```
+
+Tuning history:
+- 2026-03-14 initial: `-m 5 -s 5 -r 60` — kernel OOM killer beat earlyoom on gemma-3 crash
+- 2026-03-14 tuned: `-m 8 -s 8 -r 10` — higher threshold + faster polling to catch spikes
+
+Check status: `journalctl -u earlyoom -f`
+
+### Layer 3: oom_score_adj (kernel OOM immunity)
+
+Systemd service sets `oom_score_adj=-1000` on nfsd and sshd at boot.
+This makes the kernel OOM killer skip these processes entirely.
+
+Config: `/etc/systemd/system/oom-protect-critical.service`
+
+### Layer 4: zram (compressed swap)
+
+Provides 15GB compressed swap (zstd) in addition to 8GB disk swap.
+Gives containers breathing room before OOM triggers.
+
+Config: `/etc/default/zramswap` (`ALGO=zstd`, `PERCENT=50`, `PRIORITY=100`)
+
+### Diagnostic commands
+
+```bash
+# Check earlyoom status
+journalctl -u earlyoom --since "1 hour ago" --no-pager | tail -20
+
+# Check for kernel OOM kills
+sudo dmesg | grep -i "oom\|killed process"
+
+# Check Docker container memory limits
+docker inspect <container> --format "memory={{.HostConfig.Memory}} swap={{.HostConfig.MemorySwap}}"
+
+# Check current memory pressure
+free -h; swapon --show
+
+# Check zram usage
+zramctl
 ```
 
 ## Version Drift Check

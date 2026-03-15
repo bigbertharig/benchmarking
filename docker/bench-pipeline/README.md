@@ -3,6 +3,56 @@
 Runs worker-facing custom reliability tests from
 `custom_tasks/cases.json` against a live llama-compatible worker endpoint.
 
+## Quick Start
+
+All commands run on the rig (`ssh 10.0.0.3`). Model must already be loaded on the target port.
+
+**7B on single worker (e.g. GPU 2, port 11436):**
+```bash
+docker run --rm --network host \
+  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-pipeline/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-pipeline \
+  --model qwen2.5-coder:7b \
+  --runtime-base http://localhost:11436 \
+  --run-name pipeline_coder7b_v1
+```
+
+**14B on split pair (e.g. GPUs 1+3, port 11437):**
+```bash
+docker run --rm --network host \
+  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-pipeline/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-pipeline \
+  --model qwen2.5-coder:14b \
+  --runtime-base http://localhost:11437 \
+  --run-name pipeline_coder14b_v1
+```
+
+**32B on brain (GPU 0, port 11434):**
+```bash
+docker run --rm --network host \
+  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-pipeline/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-pipeline \
+  --model qwen2.5-coder:32b \
+  --runtime-base http://localhost:11434 \
+  --run-name pipeline_coder32b_v1
+```
+
+**Run only specific tests** (add `--tests`):
+```bash
+  --tests custom_json_schema_strict,custom_command_safety
+```
+
+Runtime: ~5 min for 3 tests, ~15 min for full 6-test suite.
+
 ## Entrypoint Args
 
 - `--model` required model id
@@ -87,6 +137,15 @@ The main MODEL_LIBRARY.md holds only the latest scores.
 
 ## Common Issues
 
+- **Container exits immediately (no output)**:
+  - missing `-e BENCHMARK_DISABLE_AUTO_RESERVE=1`; the reservation helper needs
+    `filelock` which isn't in the container
+- **`Use model prompts: 0` in logs**:
+  - stale Docker image; rebuild with `docker build -t bench-pipeline .`
+- **All tests fail in 0 seconds with empty scores**:
+  - `--require-model-prompt` can't resolve the model ID; check that `--model` value
+    fuzzy-matches a key in `model_tuning_profiles.json`. DeepSeek models need explicit
+    aliases (e.g. `deepseek-r1:14b`) — these are already added.
 - `Custom test runner not found`:
   - missing scripts mount
 - Runtime unreachable:
@@ -94,7 +153,6 @@ The main MODEL_LIBRARY.md holds only the latest scores.
 - Strict JSON failures:
   - use prompt profiles and post-parse validators, but keep suite prompts fixed
     for fair cross-model comparisons
-
 - `Unknown arg: ...` for a flag that exists in repo:
   - stale Docker image; rebuild `bench-pipeline` before rerunning
 

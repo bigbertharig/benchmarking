@@ -3,6 +3,57 @@
 Runs lm-eval reasoning-focused tasks against a live llama-compatible worker
 endpoint (`/v1/chat/completions`).
 
+## Quick Start
+
+All commands run on the rig (`ssh 10.0.0.3`). Model must already be loaded on the target port.
+
+**7B smoke test (limit 5, ~10 min):**
+```bash
+docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-reasoning \
+  --model qwen2.5-coder:7b \
+  --runtime-base http://localhost:11436 \
+  --tasks gsm8k,bbh,drop \
+  --limit 5 \
+  --run-name reasoning_coder7b_smoke_v1
+```
+
+**14B on split pair, limit 50 (~5-6h):**
+```bash
+docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-reasoning \
+  --model qwen2.5-coder:14b \
+  --runtime-base http://localhost:11438 \
+  --tasks gsm8k,bbh,drop \
+  --limit 50 \
+  --run-name reasoning_coder14b_l50_v1
+```
+
+**32B on brain, limit 50 (~3-4h):**
+```bash
+docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-reasoning \
+  --model qwen2.5-coder:32b \
+  --runtime-base http://localhost:11434 \
+  --tasks gsm8k,bbh,drop \
+  --limit 50 \
+  --run-name reasoning_coder32b_l50_v1
+```
+
+Runtime estimates per limit level (on 1060 6GB):
+- limit 5: ~10 min
+- limit 50: ~2-6h (model-dependent)
+- limit 100: ~5-9h (model-dependent)
+
 ## Entrypoint Args
 
 - `--model` required model id (example: `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf`)

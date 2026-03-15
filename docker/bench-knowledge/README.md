@@ -1,7 +1,48 @@
 # bench-knowledge
 
 Runs lm-eval knowledge/loglikelihood-heavy tasks using a GGUF model served by
-`llama_cpp.server` inside the container.
+`llama_cpp.server` inside the container. Unlike other suites, this one runs its
+own llama.cpp server internally — it needs a GPU device, not a worker port.
+
+## Quick Start
+
+All commands run on the rig (`ssh 10.0.0.3`). Does NOT need a pre-loaded worker — it loads the GGUF itself.
+
+**7B on a single GPU (e.g. GPU 2), limit 5 smoke test (~1.5-8h):**
+```bash
+docker run --rm --gpus '"device=2"' \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/models:/models:ro \
+  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-knowledge \
+  /models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf \
+  --reserve-gpu gpu-2 \
+  --limit 5 \
+  --run-name knowledge_coder7b_v1
+```
+
+**32B on brain GPU (GPU 0):**
+```bash
+docker run --rm --gpus '"device=0"' \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/models:/models:ro \
+  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-knowledge \
+  /models/qwen2.5-coder-32b/Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf \
+  --reserve-gpu gpu-0 \
+  --limit 5 \
+  --run-name knowledge_coder32b_v1
+```
+
+**Run specific tasks only:**
+```bash
+  --tasks mmlu,arc_challenge
+```
+
+Runtime at limit 5: Mistral ~1.5h, Qwen-Coder ~7.5h, DeepSeek-R1 ~7h.
+Qwen3.5 models are incompatible (SWA architecture causes 503 errors).
 
 ## Entrypoint
 

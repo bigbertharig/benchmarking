@@ -3,6 +3,53 @@
 Runs EvalPlus code-generation tasks (`humaneval`, `mbpp`) against a live
 llama-compatible worker endpoint.
 
+## Quick Start
+
+All commands run on the rig (`ssh 10.0.0.3`). Model must already be loaded on the target port.
+
+**7B on single worker (e.g. GPU 2, port 11436):**
+```bash
+docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
+  bench-code \
+  --model qwen2.5-coder:7b \
+  --runtime-base http://localhost:11436 \
+  --tasks humaneval,mbpp \
+  --run-name code_coder7b_v1
+```
+
+**14B on split pair (e.g. GPUs 4+5, port 11438):**
+```bash
+docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
+  bench-code \
+  --model qwen2.5-coder:14b \
+  --runtime-base http://localhost:11438 \
+  --tasks humaneval,mbpp \
+  --run-name code_coder14b_v1
+```
+
+**32B on brain (GPU 0, port 11434):**
+```bash
+docker run --rm --network host \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
+  bench-code \
+  --model qwen2.5-coder:32b \
+  --runtime-base http://localhost:11434 \
+  --tasks humaneval,mbpp \
+  --run-name code_coder32b_v1
+```
+
+**Run only one dataset** (e.g. just mbpp):
+```bash
+  --tasks mbpp
+```
+
+Runtime: humaneval ~20-40 min, mbpp ~30-90 min (varies by model speed).
+
 ## Entrypoint Args
 
 - `--model` required model id
