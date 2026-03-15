@@ -56,6 +56,9 @@
       },
       "notes": "Keep as baseline settings until next locked-suite tuning pass."
     },
+    "deepseek-r1:7b": { "_alias_of": "DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else."
+    },
     "Qwen3.5-4B-Q4_K_M.gguf": {
       "status": "baseline_locked",
       "last_tuned_at": "2026-03-11T01:46:21+00:00",
@@ -93,10 +96,10 @@
       "notes": "A/B prompt test complete (2026-03-11): keep A profile as baseline; B profile underperformed."
     },
     "Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf": {
-      "status": "untuned",
-      "last_tuned_at": null,
+      "status": "tuning",
+      "last_tuned_at": "2026-03-14T00:00:00+00:00",
       "benchmark_suite": "agent_reliability",
-      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start with { and end with }.",
       "inference": {
         "temperature": 0.0,
         "top_p": 1.0,
@@ -108,7 +111,7 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Split-load (2x 1060). Same prompt as 7B coder sibling."
+      "notes": "Split-load (2x 1060). Prompt updated 2026-03-14: added explicit markdown/code-block suppression for JSON tasks (was 0% on json_schema_strict due to ```json wrapping)."
     },
     "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf": {
       "status": "untuned",
@@ -127,6 +130,9 @@
         "n_gpu_layers": 999
       },
       "notes": "Split-load (2x 1060). Same prompt as 7B deepseek sibling."
+    },
+    "deepseek-r1:14b": { "_alias_of": "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else."
     },
     "Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf": {
       "status": "untuned",
@@ -163,6 +169,51 @@
         "n_gpu_layers": 999
       },
       "notes": "Brain-tier (3090). Same prompt as 7B deepseek sibling. First benchmark pass pending."
+    },
+    "deepseek-r1:32b": { "_alias_of": "DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else."
+    },
+    "phi-4-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Split-load (2x 1060). First benchmark pass pending."
+    },
+    "phi-4:14b": { "_alias_of": "phi-4-Q4_K_M.gguf",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal."
+    },
+    "gemma-3-12b-it-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Split-load (2x 1060). First benchmark pass pending."
+    },
+    "gemma-3:12b": { "_alias_of": "gemma-3-12b-it-Q4_K_M.gguf",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal."
     },
     "Qwen3.5-35B-A3B-Q4_K_M.gguf": {
       "status": "untuned",

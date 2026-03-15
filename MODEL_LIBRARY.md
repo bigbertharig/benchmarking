@@ -16,11 +16,13 @@ Rules:
 - record stable operator guidance here: what loads, what fails, what ctx is safe, what each model is best at
 
 Current phase:
+- smoke testing all available models through pipeline + code + reasoning (limit 5)
 - worker testing is active (GPUs 1-5, 1060 6GB cards)
 - brain testing is active (GPU 0, 3090 24GB)
 - brain benchmarks use `config.benchmark-brain.json` and separate campaign manifests
-- brain-tier models (GPU 0, single 3090): 30B+ only (qwen2.5-coder:32b, deepseek-r1:32b, qwen3.5:35b-a3b)
-- split-worker models (2x 1060): 14B class (qwen2.5-coder:14b, deepseek-r1:14b, phi-4:14b, gemma-3:12b) — tested separately
+- brain-tier models (GPU 0, single 3090): 30B+ only — qwen2.5-coder:32b (tested), deepseek-r1:32b (untested), qwen3.5:35b-a3b (untested)
+- split-worker models (2x 1060, GPU 1+3 or 4+5): 14B class — qwen2.5-coder:14b (tested), deepseek-r1:14b (tested), phi-4:14b (untested), gemma-3:12b (untested)
+- single-worker models (1x 1060, GPU 2): 7B class — all 5 models tested
 - do not load 7B or smaller on GPU 0, and do not load 30B+ on 1060 workers
 - bench-knowledge is excluded from default campaigns (see "Suite Selection Rationale" below)
 
@@ -96,10 +98,36 @@ Use this single table to filter either way:
 
 Primary sources:
 - bench-pipeline: `/mnt/shared/logs/benchmarks/bench-pipeline/history/parallel_worker_suite_20260310_234145/results`
+- bench-pipeline (14B split): `/mnt/shared/logs/benchmarks/bench-pipeline/history/bench-pipeline_*_split_smoke_v1`
+- bench-pipeline (14B/32B full): `/mnt/shared/logs/benchmarks/bench-pipeline/history/bench-pipeline_*_full_v2`
+- bench-pipeline (R1-14B full): `/mnt/shared/logs/benchmarks/bench-pipeline/history/bench-pipeline_deepseek-r1_14b_pipeline_dsr1_14b_full_v3`
 - bench-code: `/mnt/shared/plans/shoulders/benchmarking/docker/bench-code/history/parallel_bench_code_resume_20260311_122032`
+- bench-code (14B split): `/mnt/shared/logs/benchmarks/bench-code/history/bench-code_*_split_smoke_v1`
 - bench-reasoning: `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105`
+- bench-reasoning (14B split): `/mnt/shared/logs/benchmarks/bench-reasoning/history/bench-reasoning_*_split_smoke_v1`
+- bench-reasoning (7B limit 100): `/mnt/shared/logs/benchmarks/bench-reasoning/history/bench-reasoning_qwen2.5-coder_7b_reasoning_coder7b_l100_v1`
 - bench-knowledge: `/mnt/shared/logs/benchmarks/bench-knowledge/history/bench-knowledge_*_knowledge_smoke_v1`
+- bench-knowledge (32B): `/mnt/shared/logs/benchmarks/bench-knowledge/history/bench-knowledge_qwen2.5-coder-32b_knowledge_brain_smoke_v1`
 - brain campaign (32B): `/mnt/shared/logs/benchmarks/campaigns/history/gpu0_brain_qwen25coder32b_smoke/smoke_v1`
+
+### Model inventory and GGUF availability
+
+All models with GGUF files on `/mnt/shared/models/`:
+
+| Model | GGUF File | Tier | GPU Target | Status |
+| --- | --- | --- | --- | --- |
+| `Qwen2.5-Coder-7B` | `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf` | 7B single | GPU 1-5 | tested |
+| `Mistral-7B-Instruct-v0.3` | `Mistral-7B-Instruct-v0.3-Q4_K_M.gguf` | 7B single | GPU 1-5 | tested |
+| `DeepSeek-R1-Distill-Qwen-7B` | `DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf` | 7B single | GPU 1-5 | tested |
+| `Qwen3.5-4B` | `Qwen3.5-4B-Q4_K_M.gguf` | 7B single | GPU 1-5 | tested |
+| `Qwen3.5-9B-Q3_K_M` | `Qwen3.5-9B-Q3_K_M.gguf` | 7B single | GPU 1-5 | partial (pipeline 2/6) |
+| `Qwen2.5-Coder-14B` | `Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf` | 14B split | GPU 1+3 or 4+5 | tested |
+| `DeepSeek-R1-Distill-Qwen-14B` | `DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf` | 14B split | GPU 1+3 or 4+5 | tested (pipeline 5/6) |
+| `Phi-4-14B` | `phi-4-Q4_K_M.gguf` | 14B split | GPU 1+3 or 4+5 | **untested** |
+| `Gemma-3-12B` | `gemma-3-12b-it-Q4_K_M.gguf` | 14B split | GPU 1+3 or 4+5 | **untested** |
+| `Qwen2.5-Coder-32B` | `Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf` | 30B brain | GPU 0 (3090) | tested (code mbpp + reasoning drop missing) |
+| `DeepSeek-R1-Distill-Qwen-32B` | `DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf` | 30B brain | GPU 0 (3090) | **untested** |
+| `Qwen3.5-35B-A3B` | `Qwen3.5-35B-A3B-Q4_K_M.gguf` | 30B brain | GPU 0 (3090) | **untested** |
 
 #### bench-pipeline (worker reliability)
 
@@ -108,35 +136,77 @@ Pipeline tests run all cases (fixed test sets), no limit parameter.
 | Model | Test | Pass | Total | Score | Limit | Date (UTC) |
 | --- | --- | --- | --- | --- | --- | --- |
 | `Qwen2.5-Coder-7B` | json_schema_strict | 9 | 13 | `69.2%` | full | 2026-03-11 |
-| `Qwen2.5-Coder-7B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-11 |
-| `Qwen2.5-Coder-7B` | ambiguity_handling | 2 | 13 | `15.4%` | full | 2026-03-11 |
 | `Qwen2.5-Coder-7B` | command_safety | 11 | 12 | `91.7%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | ambiguity_handling | 2 | 13 | `15.4%` | full | 2026-03-11 |
+| `Qwen2.5-Coder-7B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-11 |
 | `Qwen2.5-Coder-7B` | orchestration_tradeoff | 9 | 12 | `75.0%` | full | 2026-03-11 |
 | `Qwen2.5-Coder-7B` | long_context_extract | 13 | 14 | `92.9%` | full | 2026-03-11 |
 | `Mistral-7B-Instruct-v0.3` | json_schema_strict | 3 | 13 | `23.1%` | full | 2026-03-11 |
-| `Mistral-7B-Instruct-v0.3` | tool_plan_sequence | 12 | 15 | `80.0%` | full | 2026-03-11 |
-| `Mistral-7B-Instruct-v0.3` | ambiguity_handling | 6 | 13 | `46.2%` | full | 2026-03-11 |
 | `Mistral-7B-Instruct-v0.3` | command_safety | 10 | 12 | `83.3%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | ambiguity_handling | 6 | 13 | `46.2%` | full | 2026-03-11 |
+| `Mistral-7B-Instruct-v0.3` | tool_plan_sequence | 12 | 15 | `80.0%` | full | 2026-03-11 |
 | `Mistral-7B-Instruct-v0.3` | orchestration_tradeoff | 10 | 12 | `83.3%` | full | 2026-03-11 |
 | `Mistral-7B-Instruct-v0.3` | long_context_extract | 14 | 14 | `100%` | full | 2026-03-11 |
 | `DeepSeek-R1-Distill-Qwen-7B` | json_schema_strict | 2 | 13 | `15.4%` | full | 2026-03-11 |
-| `DeepSeek-R1-Distill-Qwen-7B` | tool_plan_sequence | 11 | 15 | `73.3%` | full | 2026-03-11 |
-| `DeepSeek-R1-Distill-Qwen-7B` | ambiguity_handling | 0 | 13 | `0%` | full | 2026-03-11 |
 | `DeepSeek-R1-Distill-Qwen-7B` | command_safety | 7 | 12 | `58.3%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | ambiguity_handling | 0 | 13 | `0%` | full | 2026-03-11 |
+| `DeepSeek-R1-Distill-Qwen-7B` | tool_plan_sequence | 11 | 15 | `73.3%` | full | 2026-03-11 |
 | `DeepSeek-R1-Distill-Qwen-7B` | orchestration_tradeoff | 4 | 12 | `33.3%` | full | 2026-03-11 |
 | `DeepSeek-R1-Distill-Qwen-7B` | long_context_extract | — | — | incomplete | full | 2026-03-11 |
 | `Qwen3.5-4B` | json_schema_strict | 0 | 13 | `0%` | full | 2026-03-11 |
-| `Qwen3.5-4B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-11 |
-| `Qwen3.5-4B` | ambiguity_handling | 8 | 13 | `61.5%` | full | 2026-03-11 |
 | `Qwen3.5-4B` | command_safety | 11 | 12 | `91.7%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | ambiguity_handling | 8 | 13 | `61.5%` | full | 2026-03-11 |
+| `Qwen3.5-4B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-11 |
 | `Qwen3.5-4B` | orchestration_tradeoff | 7 | 12 | `58.3%` | full | 2026-03-11 |
 | `Qwen3.5-4B` | long_context_extract | 14 | 14 | `100%` | full | 2026-03-11 |
 | `Qwen3.5-9B-Q3_K_M` | json_schema_strict | 0 | 13 | `0%` | full | 2026-03-11 |
 | `Qwen3.5-9B-Q3_K_M` | command_safety | 0 | 12 | `0%` | full | 2026-03-11 |
-| `Qwen3.5-9B-Q3_K_M` | (4 other tests) | — | — | incomplete | full | 2026-03-11 |
+| `Qwen3.5-9B-Q3_K_M` | ambiguity_handling | — | — | untested | — | — |
+| `Qwen3.5-9B-Q3_K_M` | tool_plan_sequence | — | — | untested | — | — |
+| `Qwen3.5-9B-Q3_K_M` | orchestration_tradeoff | — | — | untested | — | — |
+| `Qwen3.5-9B-Q3_K_M` | long_context_extract | — | — | untested | — | — |
+| `Qwen2.5-Coder-14B` | json_schema_strict | 3 | 13 | `23.1%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | command_safety | 3 | 12 | `25.0%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | ambiguity_handling | 1 | 13 | `7.7%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | orchestration_tradeoff | 9 | 12 | `75.0%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | long_context_extract | 13 | 14 | `92.9%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | json_schema_strict | 1 | 13 | `7.7%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | command_safety | 1 | 12 | `8.3%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | ambiguity_handling | 0 | 13 | `0%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | tool_plan_sequence | 12 | 15 | `80.0%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | orchestration_tradeoff | — | — | failed (timeout) | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | long_context_extract | 11 | 14 | `78.6%` | full | 2026-03-14 |
+| `Phi-4-14B` | json_schema_strict | — | — | untested | — | — |
+| `Phi-4-14B` | command_safety | — | — | untested | — | — |
+| `Phi-4-14B` | ambiguity_handling | — | — | untested | — | — |
+| `Phi-4-14B` | tool_plan_sequence | — | — | untested | — | — |
+| `Phi-4-14B` | orchestration_tradeoff | — | — | untested | — | — |
+| `Phi-4-14B` | long_context_extract | — | — | untested | — | — |
+| `Gemma-3-12B` | json_schema_strict | — | — | untested | — | — |
+| `Gemma-3-12B` | command_safety | — | — | untested | — | — |
+| `Gemma-3-12B` | ambiguity_handling | — | — | untested | — | — |
+| `Gemma-3-12B` | tool_plan_sequence | — | — | untested | — | — |
+| `Gemma-3-12B` | orchestration_tradeoff | — | — | untested | — | — |
+| `Gemma-3-12B` | long_context_extract | — | — | untested | — | — |
 | `Qwen2.5-Coder-32B` | json_schema_strict | 4 | 13 | `30.8%` | full | 2026-03-14 |
-| `Qwen2.5-Coder-32B` | command_safety | 9 | 12 | `75.0%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | command_safety | 10 | 12 | `83.3%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | ambiguity_handling | 2 | 13 | `15.4%` | full | 2026-03-14 |
 | `Qwen2.5-Coder-32B` | tool_plan_sequence | 14 | 15 | `93.3%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | orchestration_tradeoff | 10 | 12 | `83.3%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | long_context_extract | 14 | 14 | `100%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-32B` | json_schema_strict | — | — | untested | — | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | command_safety | — | — | untested | — | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | ambiguity_handling | — | — | untested | — | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | tool_plan_sequence | — | — | untested | — | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | orchestration_tradeoff | — | — | untested | — | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | long_context_extract | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | json_schema_strict | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | command_safety | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | ambiguity_handling | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | tool_plan_sequence | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | orchestration_tradeoff | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | long_context_extract | — | — | untested | — | — |
 
 #### bench-code (EvalPlus generation)
 
@@ -154,29 +224,71 @@ Scores shown as base / plus (EvalPlus+ stricter evaluation). Code tests run all 
 | `Qwen3.5-4B` | mbpp | 248 | 212 | 378 | `65.6%` / `56.1%` | full | 2026-03-11 |
 | `Qwen3.5-9B-Q3_K_M` | humaneval | 66 | 64 | 164 | `40.2%` / `39.0%` | full | 2026-03-12 |
 | `Qwen3.5-9B-Q3_K_M` | mbpp | 256 | 220 | 378 | `67.7%` / `58.2%` | full | 2026-03-12 |
+| `Qwen2.5-Coder-14B` | humaneval | 148 | 142 | 164 | `90.2%` / `86.6%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | mbpp | 321 | 278 | 378 | `84.9%` / `73.5%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | humaneval | 10 | 10 | 164 | `6.1%` / `6.1%` | full | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | mbpp | 84 | 79 | 378 | `22.2%` / `20.9%` | full | 2026-03-14 |
+| `Phi-4-14B` | humaneval | — | — | — | untested | — | — |
+| `Phi-4-14B` | mbpp | — | — | — | untested | — | — |
+| `Gemma-3-12B` | humaneval | — | — | — | untested | — | — |
+| `Gemma-3-12B` | mbpp | — | — | — | untested | — | — |
 | `Qwen2.5-Coder-32B` | humaneval | 150 | 143 | 164 | `91.5%` / `87.2%` | full | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | mbpp | — | — | — | untested | — | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | humaneval | — | — | — | untested | — | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | mbpp | — | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | humaneval | — | — | — | untested | — | — |
+| `Qwen3.5-35B-A3B` | mbpp | — | — | — | untested | — | — |
 
 #### bench-reasoning (lm-eval generation)
 
 | Model | Test | Score | Metric | Limit | Date (UTC) |
 | --- | --- | --- | --- | --- | --- |
 | `Qwen2.5-Coder-7B` | gsm8k | `0.75` | exact_match | 100 | 2026-03-12 |
-| `Qwen2.5-Coder-7B` | bbh | `0.6481` | exact_match | 10 | 2026-03-12 |
-| `Qwen2.5-Coder-7B` | drop | `0.622` | f1 | 10 | 2026-03-12 |
+| `Qwen2.5-Coder-7B` | bbh | `0.6674` | exact_match | 100 | 2026-03-14 |
+| `Qwen2.5-Coder-7B` | drop | `0.576` | f1 | 100 | 2026-03-14 |
 | `Mistral-7B-Instruct-v0.3` | gsm8k | `0.48` | exact_match | 100 | 2026-03-12 |
 | `Mistral-7B-Instruct-v0.3` | bbh | `0.5393` | exact_match | 100 | 2026-03-13 |
 | `Mistral-7B-Instruct-v0.3` | drop | `0.126` | f1 | 100 | 2026-03-13 |
 | `DeepSeek-R1-Distill-Qwen-7B` | gsm8k | `0.08` | exact_match | 100 | 2026-03-12 |
 | `DeepSeek-R1-Distill-Qwen-7B` | bbh | `0.0` | exact_match | 100 | 2026-03-12 |
 | `DeepSeek-R1-Distill-Qwen-7B` | drop | `0.0` | f1 | 100 | 2026-03-12 |
+| `Qwen3.5-4B` | gsm8k | N/A | — | — | 2026-03-12 |
+| `Qwen3.5-4B` | bbh | N/A | — | — | 2026-03-12 |
+| `Qwen3.5-4B` | drop | N/A | — | — | 2026-03-12 |
+| `Qwen3.5-9B-Q3_K_M` | gsm8k | N/A | — | — | 2026-03-12 |
+| `Qwen3.5-9B-Q3_K_M` | bbh | N/A | — | — | 2026-03-12 |
+| `Qwen3.5-9B-Q3_K_M` | drop | N/A | — | — | 2026-03-12 |
+| `Qwen2.5-Coder-14B` | gsm8k | `0.80` | exact_match | 5 | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | bbh | `0.6370` | exact_match | 5 | 2026-03-14 |
+| `Qwen2.5-Coder-14B` | drop | `0.558` | f1 | 5 | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | gsm8k | `0.0` | exact_match | 5 | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | bbh | `0.0` | exact_match | 5 | 2026-03-14 |
+| `DeepSeek-R1-Distill-Qwen-14B` | drop | `0.0` | f1 | 5 | 2026-03-14 |
+| `Phi-4-14B` | gsm8k | — | — | untested | — |
+| `Phi-4-14B` | bbh | — | — | untested | — |
+| `Phi-4-14B` | drop | — | — | untested | — |
+| `Gemma-3-12B` | gsm8k | — | — | untested | — |
+| `Gemma-3-12B` | bbh | — | — | untested | — |
+| `Gemma-3-12B` | drop | — | — | untested | — |
 | `Qwen2.5-Coder-32B` | gsm8k | `0.80` | exact_match | 5 | 2026-03-14 |
 | `Qwen2.5-Coder-32B` | bbh | `0.4593` | exact_match | 5 | 2026-03-14 |
-| `Qwen3.5-4B` | (all) | N/A | — | — | 2026-03-12 |
-| `Qwen3.5-9B-Q3_K_M` | (all) | N/A | — | — | 2026-03-12 |
+| `Qwen2.5-Coder-32B` | drop | — | — | untested | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | gsm8k | — | — | untested | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | bbh | — | — | untested | — |
+| `DeepSeek-R1-Distill-Qwen-32B` | drop | — | — | untested | — |
+| `Qwen3.5-35B-A3B` | gsm8k | — | — | untested | — |
+| `Qwen3.5-35B-A3B` | bbh | — | — | untested | — |
+| `Qwen3.5-35B-A3B` | drop | — | — | untested | — |
 
 Qwen3.5 reasoning: N/A — model outputs `<think>` tags that lm-eval's answer extractor cannot parse, producing 0.0 across all probes despite likely correct internal reasoning.
 
-Qwen2.5-Coder-32B reasoning: smoke test only (limit 5). Run via sequenced campaign on GPU 0 (3090). Needs higher-limit run for reliable comparison.
+Qwen2.5-Coder-14B reasoning: smoke test only (limit 5). Run via split-worker pair. Needs higher-limit run for reliable comparison.
+
+DeepSeek-R1-Distill-Qwen-14B reasoning: all zeros — same answer extraction failure as 7B variant. The model's `<think>` output format is incompatible with lm-eval's exact_match parser.
+
+Qwen2.5-Coder-7B reasoning (limit 100): bbh improved from 0.6481 (limit 10) to 0.6674 (limit 100). Drop decreased from 0.622 to 0.576, likely more representative at higher sample count.
+
+Qwen2.5-Coder-32B reasoning: smoke test only (limit 5). Run via sequenced campaign on GPU 0 (3090). Drop not run yet. Needs higher-limit run for reliable comparison.
 
 #### bench-knowledge (lm-eval loglikelihood)
 
@@ -200,9 +312,16 @@ Source: `/mnt/shared/logs/benchmarks/bench-knowledge/history/bench-knowledge_*_k
 | `DeepSeek-R1-Distill-Qwen-7B` | truthfulqa_mc2 | `0.644` | accuracy | 5 | 2026-03-13 |
 | `DeepSeek-R1-Distill-Qwen-7B` | boolq | `0.80` | accuracy | 5 | 2026-03-13 |
 | `Qwen3.5-4B` | (all) | N/A | — | — | 2026-03-13 |
+| `Qwen2.5-Coder-32B` | mmlu | `0.270` | accuracy | 5 | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | arc_challenge | `0.20` | acc_norm | 5 | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | hellaswag | `0.40` | acc_norm | 5 | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | truthfulqa_mc2 | `0.200` | accuracy | 5 | 2026-03-14 |
+| `Qwen2.5-Coder-32B` | boolq | `0.20` | accuracy | 5 | 2026-03-14 |
 | `Qwen3.5-9B-Q3_K_M` | (all) | N/A | — | — | 2026-03-13 |
 
 Qwen3.5 knowledge: N/A — llama.cpp server returns 503 errors due to SWA/hybrid memory architecture forcing full prompt reprocessing on every request (no KV cache reuse), overwhelming the server.
+
+Qwen2.5-Coder-32B knowledge: scores are identical to 7B coder across all 5 tasks. At limit 5, this is almost certainly noise — both models are answering ~1 of 5 samples correctly. These are coder-family models; low knowledge scores are expected and not a concern (see Suite Selection Rationale).
 
 Note: limit 5 scores have high variance (especially on small tasks like arc_challenge and boolq where n=5). Run at higher limits for reliable comparisons. Smoke test runtimes at limit 5: Mistral ~1.5h, DeepSeek ~7h, Qwen2.5-Coder ~7.5h.
 
@@ -319,13 +438,27 @@ Best practices:
 
 Status:
 - current preferred split-worker reasoning/coding model
+- first full split benchmark results 2026-03-14 (pipeline, code, reasoning smoke)
+- strong code generation, close to 32B performance
 
-Known results:
+Known results (full_v2, 2026-03-14):
+- `humaneval`: 90.2% base / 86.6% plus — second best in fleet after 32B
+- `mbpp`: 84.9% / 73.5% — best mbpp score in fleet
+- `gsm8k`: 0.80 (limit 5), `bbh`: 0.6370 (limit 5), `drop`: 0.558 (limit 5)
+- `json_schema_strict`: 23.1% (3/13) — improved from earlier 0% run (split_smoke_v1 had prompt issue)
+- `command_safety`: 25.0% (3/12)
+- `ambiguity_handling`: 7.7% (1/13)
+- `tool_plan_sequence`: 93.3% (14/15)
+- `orchestration_tradeoff`: 75.0% (9/12)
+- `long_context_extract`: 92.9% (13/14)
+
+Earlier results:
 - `gsm8k`: 1.0 in `quick_triplet_l1_20260305`
 - `drop`: 0.57 in `quick_triplet_l1_20260305`
 
 Best practices:
 - use for higher-quality coding/reasoning work when split capacity is available
+- code generation quality nearly matches 32B — viable alternative when 3090 is busy
 - keep split runtime validation separate from single-worker tuning
 - do not assume every candidate pair is stable; pair stability is still an operational variable
 
@@ -336,13 +469,19 @@ Status:
 - first sequenced campaign completed 2026-03-14 (pipeline + code + reasoning smoke test)
 - strong on code generation, underperforms 7B on pipeline reliability tests
 
-Known results (sequenced campaign smoke_v1, 2026-03-14):
+Known results (full_v2 + campaign, 2026-03-14):
 - `humaneval`: 91.5% base / 87.2% plus (best in fleet)
+- `mbpp`: untested
 - `gsm8k`: 0.80 (limit 5)
 - `bbh`: 0.4593 (limit 5)
+- `drop`: untested
 - `json_schema_strict`: 30.8% (4/13) — worse than 7B (69.2%)
-- `command_safety`: 75.0% (9/12) — worse than 7B (91.7%)
-- `tool_plan_sequence`: 93.3% (14/15) — same as 7B
+- `command_safety`: 83.3% (10/12)
+- `ambiguity_handling`: 15.4% (2/13)
+- `tool_plan_sequence`: 93.3% (14/15)
+- `orchestration_tradeoff`: 83.3% (10/12)
+- `long_context_extract`: 100% (14/14)
+- `mmlu`: 0.270, `arc_challenge`: 0.20, `hellaswag`: 0.40, `truthfulqa_mc2`: 0.200, `boolq`: 0.20 (all limit 5) — knowledge scores identical to 7B coder, likely noise at limit 5
 
 Earlier results:
 - `gsm8k`: 0.0 in `quick_triplet_l1_20260305` (likely prompt/config issue)
@@ -353,6 +492,30 @@ Best practices:
 - pipeline test underperformance likely caused by system prompt mismatch — the "strict worker assistant" prompt is tuned for 7B response style
 - re-run pipeline with a tuned prompt before drawing conclusions about reliability
 - do not treat parameter count as automatic superiority on structured output tasks
+
+### deepseek-r1:14b
+
+Status:
+- split-worker model (2x 1060 6GB)
+- first benchmark results 2026-03-14 (pipeline, code, reasoning smoke)
+- complete failure on reasoning and code generation benchmarks
+
+Known results (full_v3 + split smoke, 2026-03-14):
+- `humaneval`: 6.1% base / 6.1% plus — near-total failure
+- `mbpp`: 22.2% / 20.9% — marginal
+- `gsm8k`: 0.0, `bbh`: 0.0, `drop`: 0.0 — answer extraction incompatibility (N/A — `<think>` tag issue)
+- `json_schema_strict`: 7.7% (1/13)
+- `command_safety`: 8.3% (1/12)
+- `ambiguity_handling`: 0% (0/13)
+- `tool_plan_sequence`: 80.0% (12/15)
+- `orchestration_tradeoff`: failed (ReadTimeout — model too slow for 180s timeout)
+- `long_context_extract`: 78.6% (11/14)
+
+Best practices:
+- do not use for code generation or structured output tasks
+- the DeepSeek-R1 family's `<think>` output format is fundamentally incompatible with standard benchmark harnesses
+- tool_plan_sequence works because it doesn't require strict format compliance
+- 14B variant shows same failure modes as 7B — this is a model family issue, not a size issue
 
 ### mistral:7b-instruct
 
@@ -366,6 +529,49 @@ Known results:
 Best practices:
 - useful as a comparison model for instruction following and clarification behavior
 - still needs broader apples-to-apples scoring against the active qwen family before promotion
+
+### deepseek-r1:32b
+
+Status:
+- brain-tier model (GPU 0, 3090 24GB)
+- **untested** — no benchmark runs yet
+
+GGUF: `DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf`
+Tuning profile: exists (`deepseek-r1:32b` alias in `model_tuning_profiles.json`)
+
+Best practices:
+- expect same `<think>` tag incompatibilities as 7B and 14B variants for reasoning benchmarks
+- pipeline and code suites should work but scores will likely mirror the R1 family pattern (low structured output, marginal code gen)
+
+### phi-4:14b
+
+Status:
+- split-worker model (2x 1060 6GB)
+- **untested** — no benchmark runs yet
+- no tuning profile exists yet — needs entry in `model_tuning_profiles.json` before first run
+
+GGUF: `phi-4-Q4_K_M.gguf`
+
+### gemma-3:12b
+
+Status:
+- split-worker model (2x 1060 6GB)
+- **untested** — no benchmark runs yet
+- no tuning profile exists yet — needs entry in `model_tuning_profiles.json` before first run
+
+GGUF: `gemma-3-12b-it-Q4_K_M.gguf`
+
+### qwen3.5:35b-a3b
+
+Status:
+- brain-tier model (GPU 0, 3090 24GB)
+- MoE architecture (35B total, ~3B active)
+- **untested** — no benchmark runs yet
+- tuning profile exists (`Qwen3.5-35B-A3B-Q4_K_M.gguf` in `model_tuning_profiles.json`)
+
+Best practices:
+- expect `<think>` tag issues same as qwen3.5:4b and qwen3.5:9b — reasoning benchmarks will likely produce N/A
+- may trigger SWA/hybrid memory issues with bench-knowledge (same as other Qwen3.5 models)
 
 ### qwen3.5 family
 
