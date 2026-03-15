@@ -20,6 +20,12 @@ For building new suites that integrate cleanly with dashboard/orchestration:
 
 Split pairs: GPUs 1+3 and GPUs 4+5 can each load one 14B model (qwen2.5-coder:14b, deepseek-r1:14b, phi-4:14b).
 
+**Quick status check** (run this first in any session):
+```bash
+ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
+```
+Shows: GPU VRAM/util/temp, running containers + progress, chain logs, memory, earlyoom, recent OOM kills.
+
 **How to run a test**: pick a suite README below, find the Quick Start for your model tier, paste the command on the rig.
 
 **Before running any test**, check the "Before Running" section below.

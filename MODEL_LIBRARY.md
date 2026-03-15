@@ -10,6 +10,12 @@ Use this together with:
 - model tuning profiles: `/media/bryan/shared/plans/shoulders/benchmarking/model_tuning_profiles.json`
 - machine-readable task routing: [model_task_library.json](/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/model_task_library.json)
 
+Quick commands:
+```bash
+# Check rig status (GPUs, running tests, memory, OOM kills)
+ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
+```
+
 Rules:
 - update this doc when a model's practical operating envelope changes
 - keep exact benchmark scores in the generated reference, not copied by hand into many files
