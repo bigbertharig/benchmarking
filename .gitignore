@@ -1,7 +1,41 @@
+# Docker build artifacts and images
 docker/images/
+docker/*/history/
+
+# Cloned repos (large, external)
+repos/
+
+# Python
 __pycache__/
 *.pyc
-docker/*/history/
+*.pyo
+.venv/
+venv/
+
+# Model files (never commit)
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+# Logs and archives
 docker/logs/archive/
-repos/
-scripts/active/__pycache__/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Secrets
+.env
+*.key
+*.pem
