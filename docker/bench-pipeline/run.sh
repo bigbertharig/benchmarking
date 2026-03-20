@@ -16,6 +16,7 @@ RESERVATION_RUN_ID=""
 RESERVATION_HELPER=""
 RESERVATION_PORT=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
+RECORD_RESULT_SCRIPT=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -52,6 +53,7 @@ RUN_START_EPOCH=$(date +%s)
 RUN_START_ISO=$(date -Iseconds)
 RESERVATION_RUN_ID="$RUN_ID"
 RESERVATION_HELPER="${RESERVATION_SHARED_PATH}/scripts/benchmark_gpu_reservation.py"
+RECORD_RESULT_SCRIPT="${SCRIPTS_DIR}/scripts/active/record_benchmark_result.py"
 RESERVATION_PORT="$(python3 - "$RUNTIME_BASE" <<'PY'
 import sys
 from urllib.parse import urlparse
@@ -71,6 +73,26 @@ cleanup_reservation() {
     fi
 }
 trap cleanup_reservation EXIT
+
+record_result_row() {
+    local test_id="$1"
+    local score="$2"
+    local metric="$3"
+    local notes="${4:-}"
+    if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
+        return 0
+    fi
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL" \
+        --test-id "$test_id" \
+        --score "$score" \
+        --metric "$metric" \
+        --harness "bench-pipeline" \
+        --suite "${RUN_NAME:-bench-pipeline}" \
+        --run-at "$(date -Iseconds)" \
+        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL} ${test_id}"
+}
 
 if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ]; then
     if [ ! -f "$RESERVATION_HELPER" ]; then
@@ -318,6 +340,10 @@ for TEST_ID in "${TEST_ARRAY[@]}"; do
 
     printf '{"time":"%s","run_start":"%s","model":"%s","runtime":"%s","current_test":"%s","completed_stages":%s,"total_stages":%s,"passed_stages":%s,"failed_stages":%s,"skipped_stages":%s,"last_status":"%s","last_result_path":"%s","last_duration_seconds":%s,"elapsed_total_seconds":%s,"checkpoint_file":"%s"}\n' \
       "$STAGE_END_ISO" "$RUN_START_ISO" "$MODEL" "$RUNTIME_BASE" "$TEST_ID" "$((PASSED_TESTS + FAILED_TESTS))" "$TOTAL_TESTS" "$PASSED_TESTS" "$FAILED_TESTS" "$SKIPPED_TESTS" "$STAGE_STATUS" "${RESULT_PATH:-}" "$STAGE_DURATION" "$ELAPSED_TOTAL" "$CHECKPOINT_FILE" > "$STATUS_FILE"
+
+    if [ "$STAGE_STATUS" = "passed" ] && [ -n "${SCORE:-}" ]; then
+      record_result_row "$TEST_ID" "$SCORE" "score" "passes=${CASE_PASSES:-}; total=${CASE_TOTAL:-}; result_path=${RESULT_PATH:-}"
+    fi
 
     echo "--- ${TEST_ID} done ---"
 done

@@ -338,6 +338,7 @@ def build_suite_command(
     if suite == "bench-reasoning":
         cmd = [
             "docker", "run", "--rm", "--network", "host",
+            "-e", "BENCHMARK_DISABLE_AUTO_RESERVE=1",
             "-v", f"{shared_root}:{shared_root}",
             "-v", f"{suite_results_root(shared_root, suite)}:/results",
             "-v", f"{benchmark_root}:/benchmark-scripts:ro",
@@ -349,6 +350,7 @@ def build_suite_command(
     elif suite == "bench-code":
         cmd = [
             "docker", "run", "--rm", "--network", "host",
+            "-e", "BENCHMARK_DISABLE_AUTO_RESERVE=1",
             "-v", f"{shared_root}:{shared_root}",
             "-v", f"{suite_results_root(shared_root, suite)}:/results",
             suite,
@@ -359,6 +361,7 @@ def build_suite_command(
     elif suite == "bench-pipeline":
         cmd = [
             "docker", "run", "--rm", "--network", "host",
+            "-e", "BENCHMARK_DISABLE_AUTO_RESERVE=1",
             "-v", f"{shared_root}:{shared_root}",
             "-v", f"{suite_results_root(shared_root, suite)}:/results",
             "-v", f"{benchmark_root}:/benchmark-scripts:ro",

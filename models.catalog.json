@@ -54,6 +54,56 @@
       ]
     },
     {
+      "id": "qwen3:1.7b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3-1.7b/Qwen3-1.7B-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "smollm3:3b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "gemma-3:4b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/gemma-3-4b/gemma-3-4b-it-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "llama3.2:3b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "phi-4-mini:3.8b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/phi-4-mini/Phi-4-mini-instruct-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate"
+      ]
+    },
+    {
       "id": "qwen2.5:14b",
       "tier": 2,
       "placement": "split_gpu",

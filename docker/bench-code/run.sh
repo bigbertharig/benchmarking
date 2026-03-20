@@ -14,6 +14,10 @@ RESERVATION_RUN_ID=""
 RESERVATION_HELPER=""
 RESERVATION_PORT=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
+RUNTIME_DOWN_GRACE_SECONDS="${BENCH_CODE_RUNTIME_DOWN_GRACE_SECONDS:-90}"
+THERMAL_RUNTIME_DOWN_GRACE_SECONDS="${BENCH_CODE_THERMAL_DOWN_GRACE_SECONDS:-1200}"
+WATCHDOG_POLL_SECONDS="${BENCH_CODE_WATCHDOG_POLL_SECONDS:-5}"
+RECORD_RESULT_SCRIPT="${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/scripts/active/record_benchmark_result.py"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -45,6 +49,115 @@ print(parsed.port or "")
 PY
 )"
 
+resolve_runtime_heartbeat_file() {
+    python3 - "$RESERVATION_SHARED_PATH" "$RESERVATION_PORT" <<'PY'
+import json, sys
+from pathlib import Path
+shared, port = sys.argv[1:3]
+try:
+    port = int(port)
+except Exception:
+    print("")
+    raise SystemExit(0)
+root = Path(shared) / "gpus"
+for hb in sorted(root.glob("gpu_*/heartbeat.json")):
+    try:
+        data = json.load(open(hb, "r", encoding="utf-8"))
+    except Exception:
+        continue
+    if int(data.get("runtime_port") or 0) == port:
+        print(str(hb))
+        raise SystemExit(0)
+print("")
+PY
+}
+
+RUNTIME_HEARTBEAT_FILE="$(resolve_runtime_heartbeat_file)"
+
+runtime_reachable() {
+    curl -s "${RUNTIME_BASE}/v1/models" > /dev/null 2>&1
+}
+
+runtime_watchdog_mode() {
+    if [ -z "$RUNTIME_HEARTBEAT_FILE" ] || [ ! -f "$RUNTIME_HEARTBEAT_FILE" ]; then
+        echo "normal"
+        return
+    fi
+    python3 - "$RUNTIME_HEARTBEAT_FILE" <<'PY'
+import json, sys
+path = sys.argv[1]
+try:
+    data = json.load(open(path, "r", encoding="utf-8"))
+except Exception:
+    print("normal")
+    raise SystemExit(0)
+thermal = bool(data.get("thermal_pause_active", False))
+phase = str(data.get("runtime_transition_phase", "") or "")
+if thermal or "thermal_grace" in phase:
+    print("thermal")
+else:
+    print("normal")
+PY
+}
+
+run_codegen_with_watchdog() {
+    local cmd="$1"
+    local task="$2"
+    local child_pid=""
+    local down_since=0
+    local last_mode=""
+
+    (
+        eval "$cmd"
+    ) &
+    child_pid=$!
+
+    while kill -0 "$child_pid" 2>/dev/null; do
+        sleep "$WATCHDOG_POLL_SECONDS"
+
+        if runtime_reachable; then
+            if [ "$down_since" -gt 0 ]; then
+                echo "Runtime recovered for ${task} after transient outage."
+            fi
+            down_since=0
+            last_mode=""
+            continue
+        fi
+
+        local mode grace now elapsed
+        mode="$(runtime_watchdog_mode)"
+        grace="$RUNTIME_DOWN_GRACE_SECONDS"
+        if [ "$mode" = "thermal" ]; then
+            grace="$THERMAL_RUNTIME_DOWN_GRACE_SECONDS"
+        fi
+
+        now=$(date +%s)
+        if [ "$down_since" -eq 0 ]; then
+            down_since="$now"
+            last_mode="$mode"
+            echo "WARNING: Runtime unreachable during ${task}; mode=${mode}, grace=${grace}s"
+            continue
+        fi
+
+        elapsed=$((now - down_since))
+        if [ "$mode" != "$last_mode" ]; then
+            last_mode="$mode"
+            echo "WARNING: Runtime outage mode changed during ${task}; mode=${mode}, elapsed=${elapsed}s, grace=${grace}s"
+        fi
+
+        if [ "$elapsed" -ge "$grace" ]; then
+            echo "ERROR: Runtime unavailable for ${elapsed}s during ${task}; mode=${mode}, grace=${grace}s"
+            kill -TERM "$child_pid" 2>/dev/null || true
+            sleep 2
+            kill -KILL "$child_pid" 2>/dev/null || true
+            wait "$child_pid" 2>/dev/null || true
+            return 1
+        fi
+    done
+
+    wait "$child_pid"
+}
+
 cleanup_reservation() {
     if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ] && [ -f "$RESERVATION_HELPER" ]; then
         python3 "$RESERVATION_HELPER" \
@@ -55,6 +168,51 @@ cleanup_reservation() {
     fi
 }
 trap cleanup_reservation EXIT
+
+record_result_row() {
+    local test_id="$1"
+    local score="$2"
+    local metric="$3"
+    local notes="${4:-}"
+    if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
+        return 0
+    fi
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL" \
+        --test-id "$test_id" \
+        --score "$score" \
+        --metric "$metric" \
+        --harness "bench-code" \
+        --suite "${RUN_NAME:-bench-code}" \
+        --run-at "$(date -Iseconds)" \
+        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL} ${test_id}"
+}
+
+record_code_task_results() {
+    local task="$1"
+    local task_dir="$2"
+    python3 - "$task" "$task_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
+import json, sys
+from pathlib import Path
+
+task, task_dir = sys.argv[1:3]
+files = sorted(Path(task_dir).glob("*_eval_results.json"))
+if not files:
+    raise SystemExit(0)
+data = json.loads(files[-1].read_text(encoding="utf-8"))
+pass_at_1 = data.get("pass@1", {})
+base = pass_at_1.get("base")
+plus = pass_at_1.get("plus")
+if isinstance(base, (int, float)):
+    print(f"{task}_base\t{base}\tpass@1_base\t")
+if isinstance(plus, (int, float)):
+    print(f"{task}_plus\t{plus}\tpass@1_plus\t")
+PY
+        [ -z "$test_id" ] && continue
+        record_result_row "$test_id" "$score" "$metric" "$notes"
+    done
+}
 
 if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ]; then
     if [ ! -f "$RESERVATION_HELPER" ]; then
@@ -240,7 +398,12 @@ for TASK in "${TASK_ARRAY[@]}"; do
 
     echo "Generating: $GEN_CMD"
     update_status "$TASK" "running" "0" "0" ""
-    eval $GEN_CMD
+    if ! run_codegen_with_watchdog "$GEN_CMD" "$TASK"; then
+        echo "ERROR: ${TASK} generation aborted after runtime watchdog timeout."
+        echo "{\"task\":\"${TASK}\",\"state\":\"error_runtime_timeout\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
+        update_status "$TASK" "error_runtime_timeout" "0" "0" ""
+        exit 1
+    fi
 
     # Find the generated samples file
     SAMPLE_DIR="${OUTPUT_DIR}/${TASK}"
@@ -270,6 +433,7 @@ for TASK in "${TASK_ARRAY[@]}"; do
     python3 -m evalplus.evaluate --dataset "$TASK" --samples "$SAMPLE_FILE"
     echo "{\"task\":\"${TASK}\",\"state\":\"evaluated\",\"generated\":${GENERATED_COUNT},\"expected\":${EXPECTED_COUNT},\"samples\":\"${SAMPLE_FILE}\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
     update_status "$TASK" "evaluated" "$GENERATED_COUNT" "$EXPECTED_COUNT" "$SAMPLE_FILE"
+    record_code_task_results "$TASK" "$TASK_DIR"
 
     echo "--- ${TASK} done ---"
 done

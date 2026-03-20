@@ -17,6 +17,7 @@ TUNING_PROFILES=""
 REQUIRE_MODEL_PROMPT=1
 PATCH_REASONING_CONTENT_FALLBACK=0
 PATCH_BOOLEAN_ANSWER_CANON=0
+PATCH_THINK_TAG_STRIP=0
 GEN_KWARGS=""
 SYSTEM_PROMPT_OVERRIDE=""
 DISABLE_THINKING=0
@@ -26,6 +27,7 @@ RESERVATION_RUN_ID=""
 RESERVATION_HELPER=""
 RESERVATION_PORT=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
+RECORD_RESULT_SCRIPT=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -46,6 +48,7 @@ while [[ $# -gt 0 ]]; do
         --allow-generic-prompt-fallback) REQUIRE_MODEL_PROMPT=0; shift 1 ;;
         --patch-reasoning-content-fallback) PATCH_REASONING_CONTENT_FALLBACK=1; shift 1 ;;
         --patch-boolean-answer-canonicalization) PATCH_BOOLEAN_ANSWER_CANON=1; shift 1 ;;
+        --patch-think-tag-strip) PATCH_THINK_TAG_STRIP=1; shift 1 ;;
         --gen-kwargs) GEN_KWARGS="$2"; shift 2 ;;
         --system-prompt-override) SYSTEM_PROMPT_OVERRIDE="$2"; shift 2 ;;
         --disable-thinking) DISABLE_THINKING=1; shift 1 ;;
@@ -78,6 +81,7 @@ STATUS_FILE="${OUTPUT_DIR}/status.json"
 mkdir -p "$OUTPUT_DIR"
 RESERVATION_RUN_ID="${RUN_NAME:-$(basename "$OUTPUT_DIR")}"
 RESERVATION_HELPER="${RESERVATION_SHARED_PATH}/scripts/benchmark_gpu_reservation.py"
+RECORD_RESULT_SCRIPT="${SCRIPTS_DIR}/scripts/active/record_benchmark_result.py"
 RESERVATION_PORT="$(python3 - "$RUNTIME_BASE" <<'PY'
 import sys
 from urllib.parse import urlparse
@@ -97,6 +101,74 @@ cleanup_reservation() {
     fi
 }
 trap cleanup_reservation EXIT
+
+record_result_row() {
+    local test_id="$1"
+    local score="$2"
+    local metric="$3"
+    local notes="${4:-}"
+    if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
+        return 0
+    fi
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL" \
+        --test-id "$test_id" \
+        --score "$score" \
+        --metric "$metric" \
+        --harness "bench-reasoning" \
+        --suite "${RUN_NAME:-bench-reasoning}" \
+        --run-at "$(date -Iseconds)" \
+        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL} ${test_id}"
+}
+
+record_reasoning_task_results() {
+    local task="$1"
+    local task_output_dir="$2"
+    if [ ! -d "$task_output_dir" ]; then
+        return 0
+    fi
+    python3 - "$task" "$task_output_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
+import json, sys
+from pathlib import Path
+
+task, task_output_dir = sys.argv[1:3]
+root = Path(task_output_dir)
+files = sorted(root.glob("**/results_*.json"))
+if not files:
+    raise SystemExit(0)
+data = json.loads(files[-1].read_text(encoding="utf-8"))
+results = data.get("results", {})
+groups = data.get("groups", {})
+
+def emit(test_id, score, metric, notes=""):
+    if score is None:
+        return
+    print(f"{test_id}\t{score}\t{metric}\t{notes}")
+
+if task == "gsm8k":
+    block = results.get("gsm8k", {})
+    emit("gsm8k_strict", block.get("exact_match,strict-match"), "exact_match,strict-match")
+    emit("gsm8k_flexible", block.get("exact_match,flexible-extract"), "exact_match,flexible-extract")
+elif task == "bbh":
+    block = groups.get("bbh") or results.get("bbh", {})
+    emit("bbh", block.get("exact_match,get-answer"), "exact_match,get-answer")
+elif task == "drop":
+    block = results.get("drop", {})
+    emit("drop_em", block.get("em,none"), "em,none")
+    emit("drop_f1", block.get("f1,none"), "f1,none")
+else:
+    block = results.get(task, {})
+    for key, value in block.items():
+        if key == "alias" or key.endswith("_stderr"):
+            continue
+        if isinstance(value, (int, float)):
+            emit(f"{task}_{key.replace(',', '_')}", value, key)
+PY
+        [ -z "$test_id" ] && continue
+        record_result_row "$test_id" "$score" "$metric" "$notes"
+    done
+}
 
 if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ]; then
     if [ ! -f "$RESERVATION_HELPER" ]; then
@@ -170,8 +242,20 @@ for raw in listing.splitlines():
         continue
     if line.startswith("Available tasks") or line.startswith("Total tasks"):
         continue
+    # Skip table separator lines (e.g. |---|---|)
+    if line.replace("|", "").replace("-", "").strip() == "":
+        continue
+    # Skip header lines
+    if "Group" in line and "Config Location" in line:
+        continue
     if line.startswith("-"):
         line = line[1:].strip()
+    # Handle pipe-delimited table format (lm-eval >= 0.4.8)
+    if line.startswith("|"):
+        cells = [c.strip() for c in line.split("|") if c.strip()]
+        if cells:
+            available.add(cells[0])
+        continue
     if not line:
         continue
     if "," in line:
@@ -285,6 +369,7 @@ echo "Tuning profiles: $TUNING_PROFILES"
 echo "Require model prompt: $REQUIRE_MODEL_PROMPT"
 echo "Patch reasoning_content fallback: $PATCH_REASONING_CONTENT_FALLBACK"
 echo "Patch boolean answer canonicalization: $PATCH_BOOLEAN_ANSWER_CANON"
+echo "Patch think-tag strip: $PATCH_THINK_TAG_STRIP"
 [ -n "$GEN_KWARGS" ] && echo "Gen kwargs override: $GEN_KWARGS"
 [ -n "$SYSTEM_PROMPT_OVERRIDE" ] && echo "System prompt override: enabled"
 echo "Disable thinking: $DISABLE_THINKING"
@@ -457,6 +542,132 @@ else:
 PY
 fi
 
+if [ "$PATCH_THINK_TAG_STRIP" -eq 1 ]; then
+    python3 - <<'PY'
+from pathlib import Path
+
+target = Path("/opt/bench/lib/python3.12/site-packages/lm_eval/models/openai_completions.py")
+if not target.exists():
+    print(f"ERROR: patch target missing: {target}")
+    raise SystemExit(1)
+
+src = target.read_text(encoding="utf-8")
+patched = False
+
+# Patch 1: Remove all stop sequences from API calls, stash on instance.
+# Many models (DeepSeek-R1 think chains, Phi-4 CoT with markdown) produce
+# intermediate text that matches stop sequences (\n\n, ., Q:) before the
+# actual answer. We remove stops from the API call so the model generates
+# a full response, then re-apply stops client-side after cleaning.
+old_stop = '"stop": stop[:4],'
+new_stop = '"stop": [],  # patch: stops applied client-side'
+if old_stop in src:
+    src = src.replace(old_stop, new_stop, 1)
+    patched = True
+    print("  - Removed all stop sequences from API calls")
+
+# Patch 2: In _create_payload, stash stops on self for later use.
+# Insert a line before the return dict to save stops on the instance.
+old_return = '        return {\n            "messages": messages,'
+new_return = '        self._stashed_stops = list(stop[:4])\n        return {\n            "messages": messages,'
+if old_return in src:
+    src = src.replace(old_return, new_return, 1)
+    patched = True
+    print("  - Stashing stop sequences on instance for client-side re-apply")
+
+# Patch 3: Strip <think>...</think> from response content and re-apply
+# all original stop sequences client-side on the cleaned content.
+old_content = 'tmp[choices["index"]] = choices["message"]["content"]'
+new_content = (
+    'import re as _re\n'
+    '                    _raw = choices.get("message", {}).get("content", "") or ""\n'
+    '                    # Strip <think>...</think> blocks (Type B: DeepSeek-R1)\n'
+    '                    _clean = _re.sub(r"<think>[\\s\\S]*?</think>\\s*", "", _raw).strip()\n'
+    '                    tmp[choices["index"]] = _clean'
+)
+if old_content in src:
+    src = src.replace(old_content, new_content, 1)
+    patched = True
+    print("  - Added think-tag strip to response parser")
+
+if patched:
+    target.write_text(src, encoding="utf-8")
+    print("Applied lm-eval think-tag strip patch v3 (all stops removed, client-side re-apply)")
+else:
+    print("Think-tag strip patch skipped: target patterns not found (already patched or upstream changed)")
+
+# Patch 4: In api_models.py, re-apply stops client-side after parse_generations.
+# parse_generations is static so can't access instance stops. We patch the
+# sync generate path (num_concurrent=1) to apply stops on parsed results.
+target2 = Path("/opt/bench/lib/python3.12/site-packages/lm_eval/models/api_models.py")
+if target2.exists():
+    src2 = target2.read_text(encoding="utf-8")
+    patched2 = False
+
+    # Patch the sync path: wrap parse_generations result with stop re-apply
+    old_sync = '''                for generated_text, context in zip(
+                    self.parse_generations(
+                        outputs=outputs,
+                        contexts=contexts,
+                    ),'''
+    new_sync = '''                _parsed = self.parse_generations(outputs=outputs, contexts=contexts)
+                _stops = getattr(self, "_stashed_stops", [])
+                if _stops:
+                    _cleaned = []
+                    for _t in _parsed:
+                        if _t:
+                            for _s in _stops:
+                                if _s and _s in _t:
+                                    _t = _t[:_t.index(_s)]
+                        _cleaned.append(_t)
+                    _parsed = _cleaned
+                for generated_text, context in zip(
+                    _parsed,'''
+    if old_sync in src2:
+        src2 = src2.replace(old_sync, new_sync, 1)
+        patched2 = True
+        print("  - Patched sync generate path to re-apply stops client-side")
+
+    # Also patch the async path (in case num_concurrent > 1 is ever used)
+    old_async = '''            answers = (
+                self.parse_generations(
+                    outputs=outputs,
+                )
+                if generate'''
+    new_async = '''            _raw_answers = (
+                self.parse_generations(
+                    outputs=outputs,
+                )
+                if generate'''
+    if old_async in src2:
+        src2 = src2.replace(old_async, new_async, 1)
+        # Find where answers is used after the ternary and add stop re-apply
+        old_async_use = '''            if cache_keys:
+                for res, cache in zip(answers, cache_keys):'''
+        new_async_use = '''            _stops = getattr(self, "_stashed_stops", [])
+            if _stops and generate:
+                answers = []
+                for _t in _raw_answers:
+                    if _t:
+                        for _s in _stops:
+                            if _s and _s in _t:
+                                _t = _t[:_t.index(_s)]
+                    answers.append(_t)
+            else:
+                answers = _raw_answers
+            if cache_keys:
+                for res, cache in zip(answers, cache_keys):'''
+        if old_async_use in src2:
+            src2 = src2.replace(old_async_use, new_async_use, 1)
+            patched2 = True
+            print("  - Patched async generate path to re-apply stops client-side")
+
+    if patched2:
+        target2.write_text(src2, encoding="utf-8")
+        print("Applied api_models.py client-side stop re-apply patch")
+PY
+fi
+
 # Verify runtime has a model loaded
 if ! curl -s "${RUNTIME_BASE}/v1/models" | python3 -c "
 import sys, json
@@ -548,6 +759,7 @@ PY
 
     if [ "$EXIT_CODE" -eq 0 ]; then
       update_task_status "$TASK" "completed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
+      record_reasoning_task_results "$TASK" "$TASK_OUTPUT_DIR"
       echo "--- ${TASK} complete ---"
     else
       update_task_status "$TASK" "failed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"

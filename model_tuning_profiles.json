@@ -114,10 +114,10 @@
       "notes": "Split-load (2x 1060). Prompt updated 2026-03-14: added explicit markdown/code-block suppression for JSON tasks (was 0% on json_schema_strict due to ```json wrapping)."
     },
     "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf": {
-      "status": "untuned",
-      "last_tuned_at": null,
+      "status": "tuning",
+      "last_tuned_at": "2026-03-16T00:00:00+00:00",
       "benchmark_suite": "agent_reliability",
-      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else.",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and give only the final answer. Do not output reasoning or internal thoughts in your response.",
       "inference": {
         "temperature": 0.0,
         "top_p": 1.0,
@@ -129,10 +129,10 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Split-load (2x 1060). Same prompt as 7B deepseek sibling."
+      "notes": "Split-load (2x 1060). Prompt v2 2026-03-16: replaced boolean-only evaluator prompt with general worker prompt. Old prompt forced True/False answers on all tasks including math, causing all-zero GSM8K/DROP."
     },
     "deepseek-r1:14b": { "_alias_of": "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
-      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else."
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and give only the final answer. Do not output reasoning or internal thoughts in your response."
     },
     "Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf": {
       "status": "untuned",
@@ -174,10 +174,10 @@
       "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else."
     },
     "phi-4-Q4_K_M.gguf": {
-      "status": "untuned",
-      "last_tuned_at": null,
+      "status": "tuning",
+      "last_tuned_at": "2026-03-16T00:00:00+00:00",
       "benchmark_suite": "agent_reliability",
-      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only — never wrap in ```json code blocks or markdown. Start JSON with { and end with }.",
       "inference": {
         "temperature": 0.0,
         "top_p": 1.0,
@@ -189,10 +189,10 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Split-load (2x 1060). First benchmark pass pending."
+      "notes": "Split-load (2x 1060). Prompt reverted to baseline+JSON (2026-03-16): 5 tuning iterations showed diminishing returns on reasoning. Baseline l50 scores (GSM8K 0.70, BBH 0.283, DROP 0.070) remain best overall. Model excels on pipeline (100% safety/sequence/extract) and code (78.7% humaneval)."
     },
     "phi-4:14b": { "_alias_of": "phi-4-Q4_K_M.gguf",
-      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal."
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only — never wrap in ```json code blocks or markdown. Start JSON with { and end with }."
     },
     "gemma-3-12b-it-Q4_K_M.gguf": {
       "status": "untuned",
@@ -232,6 +232,132 @@
         "n_gpu_layers": 999
       },
       "notes": "Brain-tier (3090). MoE 35B total / 3B active. Same prompt family as Qwen3.5-4B. First benchmark pass pending."
+    },
+    "qwen3.5:35b-a3b": { "_alias_of": "Qwen3.5-35B-A3B-Q4_K_M.gguf",
+      "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer."
+    },
+    "Qwen3-8B-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Single-worker (1060 6GB). Qwen3 family (non-3.5), may not have SWA issue."
+    },
+    "qwen3:8b": { "_alias_of": "Qwen3-8B-Q4_K_M.gguf",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal."
+    },
+    "Qwen3-1.7B-Q4_K_M.gguf": {
+      "status": "tuning",
+      "last_tuned_at": "2026-03-16T00:00:00+00:00",
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "RPi5-tier (1.7B). Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
+    },
+    "qwen3:1.7b": { "_alias_of": "Qwen3-1.7B-Q4_K_M.gguf",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."
+    },
+    "SmolLM3-3B-Q4_K_M.gguf": {
+      "status": "tuning",
+      "last_tuned_at": "2026-03-16T00:00:00+00:00",
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "RPi5-tier (3B). HuggingFace SmolLM3. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
+    },
+    "gemma-3-4b-it-Q4_K_M.gguf": {
+      "status": "tuning",
+      "last_tuned_at": "2026-03-16T00:00:00+00:00",
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "RPi5-tier (4B). Google Gemma 3. 262K vocab — watch for VRAM on small GPUs. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
+    },
+    "gemma-3:4b": { "_alias_of": "gemma-3-4b-it-Q4_K_M.gguf",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."
+    },
+    "Llama-3.2-3B-Instruct-Q4_K_M.gguf": {
+      "status": "tuning",
+      "last_tuned_at": "2026-03-16T00:00:00+00:00",
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "RPi5-tier (3B). Meta Llama 3.2. Disaster Clippy currently uses this family. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
+    },
+    "llama3.2:3b": { "_alias_of": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."
+    },
+    "Phi-4-mini-instruct-Q4_K_M.gguf": {
+      "status": "tuning",
+      "last_tuned_at": "2026-03-16T00:00:00+00:00",
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "RPi5-tier (3.8B). Microsoft Phi-4-mini. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
+    },
+    "phi-4-mini:3.8b": { "_alias_of": "Phi-4-mini-instruct-Q4_K_M.gguf",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."
     }
   }
 }

@@ -21,6 +21,7 @@ RESERVE_GPU=""
 RESERVATION_RUN_ID=""
 RESERVATION_HELPER=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
+RECORD_RESULT_SCRIPT=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -66,6 +67,7 @@ STATUS_FILE="${OUTPUT_DIR}/status.json"
 mkdir -p "$OUTPUT_DIR"
 RESERVATION_RUN_ID="${RUN_NAME:-$(basename "$OUTPUT_DIR")}"
 RESERVATION_HELPER="${RESERVATION_SHARED_PATH}/scripts/benchmark_gpu_reservation.py"
+RECORD_RESULT_SCRIPT="${SCRIPTS_DIR}/scripts/active/record_benchmark_result.py"
 
 SERVER_PID=""
 cleanup() {
@@ -84,6 +86,51 @@ cleanup() {
     fi
 }
 trap cleanup EXIT
+
+record_result_row() {
+    local test_id="$1"
+    local score="$2"
+    local metric="$3"
+    local notes="${4:-}"
+    if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
+        return 0
+    fi
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL_NAME" \
+        --test-id "$test_id" \
+        --score "$score" \
+        --metric "$metric" \
+        --harness "bench-knowledge" \
+        --suite "${RUN_NAME:-bench-knowledge}" \
+        --run-at "$(date -Iseconds)" \
+        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL_NAME} ${test_id}"
+}
+
+record_knowledge_task_results() {
+    local task="$1"
+    local task_output_dir="$2"
+    python3 - "$task" "$task_output_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
+import json, sys
+from pathlib import Path
+
+task, task_output_dir = sys.argv[1:3]
+files = sorted(Path(task_output_dir).glob("**/results_*.json"))
+if not files:
+    raise SystemExit(0)
+data = json.loads(files[-1].read_text(encoding="utf-8"))
+block = (data.get("results") or {}).get(task, {})
+for key, value in block.items():
+    if key == "alias" or key.endswith("_stderr"):
+        continue
+    if isinstance(value, (int, float)):
+        safe = key.replace(",", "_")
+        print(f"{task}_{safe}\t{value}\t{key}\t")
+PY
+        [ -z "$test_id" ] && continue
+        record_result_row "$test_id" "$score" "$metric" "$notes"
+    done
+}
 
 if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVE_GPU" ]; then
     if [ ! -f "$RESERVATION_HELPER" ]; then
@@ -393,6 +440,7 @@ for TASK in "${TASK_ARRAY[@]}"; do
 
     if [ "$EXIT_CODE" -eq 0 ]; then
       update_task_status "$TASK" "completed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
+      record_knowledge_task_results "$TASK" "$TASK_OUTPUT_DIR"
       echo "--- ${TASK} complete ---"
     else
       update_task_status "$TASK" "failed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"

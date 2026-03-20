@@ -70,6 +70,10 @@ Runtime estimates per limit level (on 1060 6GB):
 - `--tuning-profiles` model tuning profile path
 - `--require-model-prompt` fail if model-specific prompt is missing
 - `--allow-generic-prompt-fallback` allow fallback to profile default prompt
+- `--patch-think-tag-strip` strip `<think>...</think>` blocks from model output before scoring (for Type B models like DeepSeek-R1)
+- `--patch-reasoning-content-fallback` fall back to `reasoning_content` field when `content` is empty (for Type A models)
+- `--patch-boolean-answer-canonicalization` extract "the answer is true/false" from reasoning output
+- `--disable-thinking` send `enable_thinking: false` in API calls (for Type A chat template thinking)
 
 ## Example
 
