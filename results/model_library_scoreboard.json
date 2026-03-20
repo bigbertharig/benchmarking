@@ -1,677 +1,5564 @@
 {
-  "generated_at": "2026-03-11T22:38:01.741986+00:00",
-  "records_path": "/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl",
-  "notes": "Latest-only scoreboard. Historical results remain in model_benchmark_records.jsonl.",
+  "generated_at": "2026-03-18T19:25:54.730904+00:00",
+  "source_md_path": "/media/bryan/shared/plans/shoulders/benchmarking/MODEL_LIBRARY.md",
+  "notes": "Generated from MODEL_LIBRARY.md. Canonical source is markdown.",
+  "sections": {
+    "root": {
+      "title": "root",
+      "rows": [
+        {
+          "Task Profile": "structured extraction",
+          "Preferred Model": "qwen2.5:7b",
+          "Why": "cheapest worker-tier default for deterministic short outputs",
+          "Fallback": "qwen2.5-coder:14b"
+        },
+        {
+          "Task Profile": "deep reasoning",
+          "Preferred Model": "qwen2.5-coder:14b",
+          "Why": "strongest currently validated reasoning option in the active worker/split set",
+          "Fallback": "qwen2.5:7b"
+        },
+        {
+          "Task Profile": "code generation",
+          "Preferred Model": "qwen2.5-coder:14b",
+          "Why": "coder family is the current default for implementation work",
+          "Fallback": "qwen2.5:7b"
+        },
+        {
+          "Task Profile": "code review",
+          "Preferred Model": "qwen2.5-coder:14b",
+          "Why": "better fit for bug-finding and patch reasoning",
+          "Fallback": "qwen2.5:7b"
+        },
+        {
+          "Task Profile": "general QA",
+          "Preferred Model": "qwen2.5:7b",
+          "Why": "throughput-first worker default",
+          "Fallback": "qwen2.5-coder:14b"
+        }
+      ],
+      "notes": []
+    },
+    "inventory": {
+      "title": "Model inventory and GGUF availability",
+      "rows": [
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "GGUF File": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+          "Tier": "7B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "GGUF File": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+          "Tier": "7B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "GGUF File": "DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+          "Tier": "7B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "GGUF File": "Qwen3.5-4B-Q4_K_M.gguf",
+          "Tier": "7B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "GGUF File": "Qwen3.5-9B-Q3_K_M.gguf",
+          "Tier": "7B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested (pipeline complete, code complete, reasoning pending)"
+        },
+        {
+          "Model": "Qwen3-8B",
+          "GGUF File": "Qwen3-8B-Q4_K_M.gguf",
+          "Tier": "7B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested (reasoning l50 complete)"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "GGUF File": "Qwen3-1.7B-Q4_K_M.gguf",
+          "Tier": "3B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "GGUF File": "SmolLM3-3B-Q4_K_M.gguf",
+          "Tier": "3B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "GGUF File": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+          "Tier": "3B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "GGUF File": "Phi-4-mini-instruct-Q4_K_M.gguf",
+          "Tier": "4B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Gemma-3-4B",
+          "GGUF File": "gemma-3-4b-it-Q4_K_M.gguf",
+          "Tier": "4B single",
+          "GPU Target": "GPU 1-5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "GGUF File": "Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+          "Tier": "14B split",
+          "GPU Target": "GPU 1+3 or 4+5",
+          "Status": "tested (reasoning l100 complete)"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "GGUF File": "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+          "Tier": "14B split",
+          "GPU Target": "GPU 1+3 or 4+5",
+          "Status": "tested (pipeline 5/6)"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "GGUF File": "phi-4-Q4_K_M.gguf",
+          "Tier": "14B split",
+          "GPU Target": "GPU 1+3 or 4+5",
+          "Status": "tested"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "GGUF File": "gemma-3-12b-it-Q4_K_M.gguf",
+          "Tier": "14B split",
+          "GPU Target": "GPU 1+3 or 4+5",
+          "Status": "partial \u2014 **cannot split-load on 1060s** (262K vocab = ~3.1GB embedding per GPU, OOM). Needs brain GPU (3090)."
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "GGUF File": "Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf",
+          "Tier": "30B brain",
+          "GPU Target": "GPU 0 (3090)",
+          "Status": "tested (all suites complete)"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "GGUF File": "DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf",
+          "Tier": "30B brain",
+          "GPU Target": "GPU 0 (3090)",
+          "Status": "tested (pipeline done, think-tag broken)"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "GGUF File": "Qwen3.5-35B-A3B-Q4_K_M.gguf",
+          "Tier": "30B brain",
+          "GPU Target": "GPU 0 (3090)",
+          "Status": "tested (pipeline+code done, reasoning expect SWA failure)"
+        }
+      ],
+      "notes": []
+    },
+    "bench_pipeline": {
+      "title": "bench-pipeline (worker reliability)",
+      "rows": [
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "json_schema_strict",
+          "Pass": "9",
+          "Total": "13",
+          "Score": "69.2%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "command_safety",
+          "Pass": "11",
+          "Total": "12",
+          "Score": "91.7%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "ambiguity_handling",
+          "Pass": "2",
+          "Total": "13",
+          "Score": "15.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "tool_plan_sequence",
+          "Pass": "14",
+          "Total": "15",
+          "Score": "93.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "9",
+          "Total": "12",
+          "Score": "75.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "long_context_extract",
+          "Pass": "13",
+          "Total": "14",
+          "Score": "92.9%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "json_schema_strict",
+          "Pass": "3",
+          "Total": "13",
+          "Score": "23.1%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "command_safety",
+          "Pass": "10",
+          "Total": "12",
+          "Score": "83.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "ambiguity_handling",
+          "Pass": "6",
+          "Total": "13",
+          "Score": "46.2%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "tool_plan_sequence",
+          "Pass": "12",
+          "Total": "15",
+          "Score": "80.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "orchestration_tradeoff",
+          "Pass": "10",
+          "Total": "12",
+          "Score": "83.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "long_context_extract",
+          "Pass": "14",
+          "Total": "14",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "json_schema_strict",
+          "Pass": "2",
+          "Total": "13",
+          "Score": "15.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "command_safety",
+          "Pass": "7",
+          "Total": "12",
+          "Score": "58.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "ambiguity_handling",
+          "Pass": "0",
+          "Total": "13",
+          "Score": "0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "tool_plan_sequence",
+          "Pass": "11",
+          "Total": "15",
+          "Score": "73.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "4",
+          "Total": "12",
+          "Score": "33.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "long_context_extract",
+          "Pass": "\u2014",
+          "Total": "\u2014",
+          "Score": "incomplete",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "json_schema_strict",
+          "Pass": "2",
+          "Total": "13",
+          "Score": "15.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "command_safety",
+          "Pass": "12",
+          "Total": "12",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "ambiguity_handling",
+          "Pass": "4",
+          "Total": "13",
+          "Score": "30.8%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "tool_plan_sequence",
+          "Pass": "14",
+          "Total": "15",
+          "Score": "93.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "7",
+          "Total": "12",
+          "Score": "58.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "long_context_extract",
+          "Pass": "14",
+          "Total": "14",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "json_schema_strict",
+          "Pass": "5",
+          "Total": "13",
+          "Score": "38.5%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "command_safety",
+          "Pass": "11",
+          "Total": "12",
+          "Score": "91.7%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "ambiguity_handling",
+          "Pass": "7",
+          "Total": "13",
+          "Score": "53.8%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "tool_plan_sequence",
+          "Pass": "14",
+          "Total": "15",
+          "Score": "93.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "orchestration_tradeoff",
+          "Pass": "9",
+          "Total": "12",
+          "Score": "75.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "long_context_extract",
+          "Pass": "14",
+          "Total": "14",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "pipeline_total",
+          "Pass": "6",
+          "Total": "6",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "pipeline_total",
+          "Pass": "6",
+          "Total": "6",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "pipeline_total",
+          "Pass": "6",
+          "Total": "6",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "Test": "pipeline_total",
+          "Pass": "6",
+          "Total": "6",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Gemma-3-4B",
+          "Test": "pipeline_total",
+          "Pass": "6",
+          "Total": "6",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "json_schema_strict",
+          "Pass": "3",
+          "Total": "13",
+          "Score": "23.1%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "command_safety",
+          "Pass": "3",
+          "Total": "12",
+          "Score": "25.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "ambiguity_handling",
+          "Pass": "1",
+          "Total": "13",
+          "Score": "7.7%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "tool_plan_sequence",
+          "Pass": "14",
+          "Total": "15",
+          "Score": "93.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "9",
+          "Total": "12",
+          "Score": "75.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "long_context_extract",
+          "Pass": "13",
+          "Total": "14",
+          "Score": "92.9%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "json_schema_strict",
+          "Pass": "1",
+          "Total": "13",
+          "Score": "7.7%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "command_safety",
+          "Pass": "1",
+          "Total": "12",
+          "Score": "8.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "ambiguity_handling",
+          "Pass": "0",
+          "Total": "13",
+          "Score": "0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "tool_plan_sequence",
+          "Pass": "12",
+          "Total": "15",
+          "Score": "80.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "\u2014",
+          "Total": "\u2014",
+          "Score": "failed (timeout)",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "long_context_extract",
+          "Pass": "11",
+          "Total": "14",
+          "Score": "78.6%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "json_schema_strict",
+          "Pass": "0",
+          "Total": "13",
+          "Score": "0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "command_safety",
+          "Pass": "12",
+          "Total": "12",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "ambiguity_handling",
+          "Pass": "5",
+          "Total": "13",
+          "Score": "38.5%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "tool_plan_sequence",
+          "Pass": "15",
+          "Total": "15",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "11",
+          "Total": "12",
+          "Score": "91.7%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "long_context_extract",
+          "Pass": "14",
+          "Total": "14",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "json_schema_strict",
+          "Pass": "0",
+          "Total": "13",
+          "Score": "0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "command_safety",
+          "Pass": "7",
+          "Total": "12",
+          "Score": "58.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "ambiguity_handling",
+          "Pass": "7",
+          "Total": "13",
+          "Score": "53.8%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "tool_plan_sequence",
+          "Pass": "14",
+          "Total": "15",
+          "Score": "93.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "9",
+          "Total": "12",
+          "Score": "75.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "long_context_extract",
+          "Pass": "13",
+          "Total": "14",
+          "Score": "92.9%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "json_schema_strict",
+          "Pass": "4",
+          "Total": "13",
+          "Score": "30.8%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "command_safety",
+          "Pass": "10",
+          "Total": "12",
+          "Score": "83.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "ambiguity_handling",
+          "Pass": "2",
+          "Total": "13",
+          "Score": "15.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "tool_plan_sequence",
+          "Pass": "14",
+          "Total": "15",
+          "Score": "93.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "10",
+          "Total": "12",
+          "Score": "83.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "long_context_extract",
+          "Pass": "14",
+          "Total": "14",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "json_schema_strict",
+          "Pass": "0",
+          "Total": "13",
+          "Score": "0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "command_safety",
+          "Pass": "1",
+          "Total": "12",
+          "Score": "8.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "ambiguity_handling",
+          "Pass": "0",
+          "Total": "13",
+          "Score": "0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "tool_plan_sequence",
+          "Pass": "12",
+          "Total": "15",
+          "Score": "80.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "1",
+          "Total": "12",
+          "Score": "8.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "long_context_extract",
+          "Pass": "12",
+          "Total": "14",
+          "Score": "85.7%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "json_schema_strict",
+          "Pass": "3",
+          "Total": "13",
+          "Score": "23.1%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "command_safety",
+          "Pass": "12",
+          "Total": "12",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "ambiguity_handling",
+          "Pass": "5",
+          "Total": "13",
+          "Score": "38.5%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "tool_plan_sequence",
+          "Pass": "14",
+          "Total": "15",
+          "Score": "93.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "orchestration_tradeoff",
+          "Pass": "10",
+          "Total": "12",
+          "Score": "83.3%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "long_context_extract",
+          "Pass": "14",
+          "Total": "14",
+          "Score": "100%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        }
+      ],
+      "notes": [
+        "Pipeline tests run all cases (fixed test sets), no limit parameter."
+      ]
+    },
+    "bench_code": {
+      "title": "bench-code (EvalPlus generation)",
+      "rows": [
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "humaneval",
+          "Pass (base)": "145",
+          "Pass (plus)": "139",
+          "Total": "164",
+          "Score (base / plus)": "88.4%` / `84.8%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "mbpp",
+          "Pass (base)": "312",
+          "Pass (plus)": "266",
+          "Total": "378",
+          "Score (base / plus)": "82.5%` / `70.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "humaneval",
+          "Pass (base)": "73",
+          "Pass (plus)": "62",
+          "Total": "164",
+          "Score (base / plus)": "44.5%` / `37.8%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "mbpp",
+          "Pass (base)": "188",
+          "Pass (plus)": "159",
+          "Total": "378",
+          "Score (base / plus)": "49.7%` / `42.1%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "humaneval",
+          "Pass (base)": "8",
+          "Pass (plus)": "8",
+          "Total": "164",
+          "Score (base / plus)": "4.9%` / `4.9%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "mbpp",
+          "Pass (base)": "73",
+          "Pass (plus)": "74",
+          "Total": "378",
+          "Score (base / plus)": "19.3%` / `19.6%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "humaneval",
+          "Pass (base)": "62",
+          "Pass (plus)": "60",
+          "Total": "164",
+          "Score (base / plus)": "37.8%` / `36.6%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "mbpp",
+          "Pass (base)": "248",
+          "Pass (plus)": "212",
+          "Total": "378",
+          "Score (base / plus)": "65.6%` / `56.1%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-11"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "humaneval",
+          "Pass (base)": "66",
+          "Pass (plus)": "64",
+          "Total": "164",
+          "Score (base / plus)": "40.2%` / `39.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-12"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "mbpp",
+          "Pass (base)": "256",
+          "Pass (plus)": "220",
+          "Total": "378",
+          "Score (base / plus)": "67.7%` / `58.2%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-12"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "humaneval",
+          "Pass (base)": "148",
+          "Pass (plus)": "142",
+          "Total": "164",
+          "Score (base / plus)": "90.2%` / `86.6%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "mbpp",
+          "Pass (base)": "321",
+          "Pass (plus)": "278",
+          "Total": "378",
+          "Score (base / plus)": "84.9%` / `73.5%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "humaneval",
+          "Pass (base)": "10",
+          "Pass (plus)": "10",
+          "Total": "164",
+          "Score (base / plus)": "6.1%` / `6.1%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "mbpp",
+          "Pass (base)": "84",
+          "Pass (plus)": "79",
+          "Total": "378",
+          "Score (base / plus)": "22.2%` / `20.9%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "humaneval",
+          "Pass (base)": "129",
+          "Pass (plus)": "120",
+          "Total": "164",
+          "Score (base / plus)": "78.7%` / `73.2%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "mbpp",
+          "Pass (base)": "279",
+          "Pass (plus)": "242",
+          "Total": "378",
+          "Score (base / plus)": "73.8%` / `64.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "humaneval",
+          "Pass (base)": "\u2014",
+          "Pass (plus)": "\u2014",
+          "Total": "\u2014",
+          "Score (base / plus)": "interrupted",
+          "Limit": "\u2014",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "mbpp",
+          "Pass (base)": "\u2014",
+          "Pass (plus)": "\u2014",
+          "Total": "\u2014",
+          "Score (base / plus)": "untested",
+          "Limit": "\u2014",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "humaneval",
+          "Pass (base)": "150",
+          "Pass (plus)": "143",
+          "Total": "164",
+          "Score (base / plus)": "91.5%` / `87.2%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "mbpp",
+          "Pass (base)": "339",
+          "Pass (plus)": "291",
+          "Total": "378",
+          "Score (base / plus)": "89.7%` / `77.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "humaneval",
+          "Pass (base)": "\u2014",
+          "Pass (plus)": "\u2014",
+          "Total": "\u2014",
+          "Score (base / plus)": "untested",
+          "Limit": "\u2014",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "mbpp",
+          "Pass (base)": "\u2014",
+          "Pass (plus)": "\u2014",
+          "Total": "\u2014",
+          "Score (base / plus)": "untested",
+          "Limit": "\u2014",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "humaneval",
+          "Pass (base)": "149",
+          "Pass (plus)": "143",
+          "Total": "164",
+          "Score (base / plus)": "90.9%` / `87.2%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "mbpp",
+          "Pass (base)": "326",
+          "Pass (plus)": "273",
+          "Total": "378",
+          "Score (base / plus)": "86.2%` / `72.2%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "humaneval",
+          "Pass (base)": "9",
+          "Pass (plus)": "9",
+          "Total": "164",
+          "Score (base / plus)": "5.5%` / `5.5%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "mbpp",
+          "Pass (base)": "82",
+          "Pass (plus)": "77",
+          "Total": "378",
+          "Score (base / plus)": "21.7%` / `20.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "humaneval",
+          "Pass (base)": "108",
+          "Pass (plus)": "98",
+          "Total": "164",
+          "Score (base / plus)": "65.9%` / `59.8%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "mbpp",
+          "Pass (base)": "241",
+          "Pass (plus)": "208",
+          "Total": "378",
+          "Score (base / plus)": "63.8%` / `55.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "humaneval",
+          "Pass (base)": "105",
+          "Pass (plus)": "97",
+          "Total": "164",
+          "Score (base / plus)": "64.0%` / `59.1%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "mbpp",
+          "Pass (base)": "241",
+          "Pass (plus)": "202",
+          "Total": "378",
+          "Score (base / plus)": "63.8%` / `53.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "Test": "humaneval",
+          "Pass (base)": "117",
+          "Pass (plus)": "105",
+          "Total": "164",
+          "Score (base / plus)": "71.3%` / `64.0%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "Test": "mbpp",
+          "Pass (base)": "204",
+          "Pass (plus)": "183",
+          "Total": "378",
+          "Score (base / plus)": "54.0%` / `48.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Gemma-3-4B",
+          "Test": "humaneval",
+          "Pass (base)": "111",
+          "Pass (plus)": "99",
+          "Total": "164",
+          "Score (base / plus)": "67.7%` / `60.4%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Gemma-3-4B",
+          "Test": "mbpp",
+          "Pass (base)": "291",
+          "Pass (plus)": "249",
+          "Total": "378",
+          "Score (base / plus)": "77.0%` / `65.9%",
+          "Limit": "full",
+          "Date (UTC)": "2026-03-18"
+        }
+      ],
+      "notes": [
+        "Scores shown as base / plus (EvalPlus+ stricter evaluation). Code tests run all problems (fixed sets), no limit parameter."
+      ]
+    },
+    "bench_reasoning": {
+      "title": "bench-reasoning (lm-eval generation)",
+      "rows": [
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "gsm8k",
+          "Score": "0.75",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-12"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "bbh",
+          "Score": "0.6674",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "drop",
+          "Score": "0.576",
+          "Metric": "f1",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "gsm8k",
+          "Score": "0.48",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-12"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "bbh",
+          "Score": "0.5393",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "drop",
+          "Score": "0.126",
+          "Metric": "f1",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "gsm8k",
+          "Score": "0.08",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-12"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "bbh",
+          "Score": "0.0",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-12"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "drop",
+          "Score": "0.0",
+          "Metric": "f1",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-12"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "gsm8k",
+          "Score": "0.80",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "bbh",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "failed (SWA issue)",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "drop",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "failed (SWA issue)",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "gsm8k",
+          "Score": "0.80",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "bbh",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "failed (SWA issue)",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "drop",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "failed (SWA issue)",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "gsm8k",
+          "Score": "0.80",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "bbh",
+          "Score": "0.6370",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-14B",
+          "Test": "drop",
+          "Score": "0.558",
+          "Metric": "f1",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "gsm8k",
+          "Score": "0.2",
+          "Metric": "exact_match (flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-16"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "bbh",
+          "Score": "0.5852",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-16"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-14B",
+          "Test": "drop",
+          "Score": "0.0",
+          "Metric": "f1",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-16"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "gsm8k",
+          "Score": "0.70",
+          "Metric": "exact_match (flex)",
+          "Limit": "50",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "bbh",
+          "Score": "0.283",
+          "Metric": "exact_match",
+          "Limit": "50",
+          "Date (UTC)": "2026-03-16"
+        },
+        {
+          "Model": "Phi-4-14B",
+          "Test": "drop",
+          "Score": "0.070",
+          "Metric": "f1",
+          "Limit": "50",
+          "Date (UTC)": "2026-03-16"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "gsm8k",
+          "Score": "0.60",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "bbh",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "failed (OOM on split)",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Gemma-3-12B",
+          "Test": "drop",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "failed (OOM on split)",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "gsm8k",
+          "Score": "0.92",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "bbh",
+          "Score": "0.4837",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "drop",
+          "Score": "0.756",
+          "Metric": "f1",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "gsm8k",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "untested",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "bbh",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "untested",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-32B",
+          "Test": "drop",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "untested",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "Qwen3-8B",
+          "Test": "gsm8k",
+          "Score": "0.90",
+          "Metric": "exact_match",
+          "Limit": "50",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3-8B",
+          "Test": "bbh",
+          "Score": "0.6244",
+          "Metric": "exact_match",
+          "Limit": "50",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3-8B",
+          "Test": "drop",
+          "Score": "0.3848",
+          "Metric": "f1",
+          "Limit": "50",
+          "Date (UTC)": "2026-03-15"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "gsm8k",
+          "Score": "0.40",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "bbh",
+          "Score": "0.0",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "drop",
+          "Score": "0.70",
+          "Metric": "f1",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "gsm8k",
+          "Score": "0.44",
+          "Metric": "exact_match (strict) / `0.46` (flex)",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "bbh",
+          "Score": "0.0",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "Qwen3-1.7B",
+          "Test": "drop",
+          "Score": "0.1661",
+          "Metric": "f1",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "gsm8k",
+          "Score": "0.80",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "bbh",
+          "Score": "0.5704",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "drop",
+          "Score": "0.232",
+          "Metric": "f1",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "gsm8k",
+          "Score": "0.79",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "bbh",
+          "Score": "0.6678",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "SmolLM3-3B",
+          "Test": "drop",
+          "Score": "0.3302",
+          "Metric": "f1",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "gsm8k",
+          "Score": "0.80",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "bbh",
+          "Score": "0.5111",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "drop",
+          "Score": "0.312",
+          "Metric": "f1",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "gsm8k",
+          "Score": "0.72",
+          "Metric": "exact_match (flex)",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "bbh",
+          "Score": "0.5896",
+          "Metric": "exact_match",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "Llama-3.2-3B-Instruct",
+          "Test": "drop",
+          "Score": "0.4326",
+          "Metric": "f1",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "Test": "gsm8k",
+          "Score": "1.00",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "Test": "bbh",
+          "Score": "0.6370",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "Test": "drop",
+          "Score": "0.40",
+          "Metric": "f1",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Phi-4-mini",
+          "Test": "gsm8k",
+          "Score": "0.70",
+          "Metric": "exact_match (strict) / `0.69` (flex)",
+          "Limit": "100",
+          "Date (UTC)": "2026-03-18"
+        },
+        {
+          "Model": "Gemma-3-4B",
+          "Test": "gsm8k",
+          "Score": "0.80",
+          "Metric": "exact_match (strict=flex)",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Gemma-3-4B",
+          "Test": "bbh",
+          "Score": "0.5481",
+          "Metric": "exact_match",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Gemma-3-4B",
+          "Test": "drop",
+          "Score": "0.266",
+          "Metric": "f1",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-17"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "gsm8k",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "untested",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "bbh",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "untested (expect SWA failure, see notes)",
+          "Date (UTC)": "\u2014"
+        },
+        {
+          "Model": "Qwen3.5-35B-A3B",
+          "Test": "drop",
+          "Score": "\u2014",
+          "Metric": "\u2014",
+          "Limit": "untested (expect SWA failure, see notes)",
+          "Date (UTC)": "\u2014"
+        }
+      ],
+      "notes": [
+        "RPi-tier small-model cohort update (2026-03-18 UTC): `Qwen3-1.7B`, `SmolLM3-3B`, `Llama-3.2-3B-Instruct`, `Phi-4-mini`, and `Gemma-3-4B` have completed `bench-pipeline` totals (`6/6` each) and full `bench-code` smoke coverage. Completed `bench-reasoning --limit 100` baselines now exist for `Qwen3-1.7B` (`gsm8k 0.44 strict / 0.46 flex`, `bbh 0.0`, `drop f1 0.1661`), `SmolLM3-3B` (`gsm8k 0.79`, `bbh 0.6678`, `drop f1 0.3302`), and `Llama-3.2-3B-Instruct` (`gsm8k 0.72 flex`, `bbh 0.5896`, `drop f1 0.4326`). `Phi-4-mini` has completed `gsm8k` (`0.70 strict / 0.69 flex`) and is still in progress on the resumed `bbh`/`drop` retry. `Gemma-3-4B` is now a known high-limit reasoning failure case on this rig: both the initial run and a dedicated 3-model retry dropped the worker runtime mid-run, with the second retry failing `gsm8k`, `bbh`, and `drop` again on `2026-03-18` after `Connection refused` on `localhost:11436`. Treat `Gemma-3-4B` `bench-reasoning --limit 100` as benchmark-unstable on the 1060 worker path unless the runtime-loss issue is fixed separately.",
+        "Qwen3-8B reasoning (limit 50, completed 2026-03-15): **`--reasoning-budget 0` confirmed as fix**. gsm8k 0.90, bbh 0.6244, drop 0.3848 f1 / 0.18 em. Same Type A thinking mode issue as Qwen3.5 family. Also requires `--cache-ram 0` to prevent prompt cache OOM on 6GB VRAM.",
+        "Qwen3.5 reasoning (with `--reasoning-budget 0`): GSM8K now works (0.80 strict across 4b, 9b). BBH and DROP both fail with exit code 1 on all Qwen3.5 models \u2014 likely caused by SWA (Sliding Window Attention) hybrid memory architecture incompatibility with lm-eval's longer prompt sequences, same issue that blocks bench-knowledge. GSM8K uses shorter prompts and works fine.",
+        "Qwen2.5-Coder-14B reasoning (limit 100, completed 2026-03-16): gsm8k 0.89, bbh 0.5937, drop 0.4802 f1 / 0.28 em. Run via split-worker pair (gpu-4 + gpu-5). Scores decreased from limit 5 smoke test as expected \u2014 limit 100 values are the reliable baseline.",
+        "DeepSeek-R1-Distill-Qwen-14B reasoning (2026-03-16, multiple tuning passes): BBH **0.5852** with `--patch-think-tag-strip` v2 (removed `\\n\\n` stop only). GSM8K and DROP remain 0.0 across all prompt and patch variants. **Root cause is structural**: llama-server splits `<think>` content into `reasoning_content` API field before client-side patches see it, and the model outputs math answers in `\\boxed{}` format instead of `####`. Fixing requires changes to llama-server or lm-eval internals \u2014 not solvable with prompt tuning. Marked as benchmark-incompatible; may still work in real plan execution where `reasoning_content` can be parsed directly.",
+        "Qwen2.5-Coder-7B reasoning (limit 100): bbh improved from 0.6481 (limit 10) to 0.6674 (limit 100). Drop decreased from 0.622 to 0.576, likely more representative at higher sample count.",
+        "Qwen2.5-Coder-32B reasoning (limit 100, completed 2026-03-15): gsm8k 0.92 (best in fleet), bbh 0.4837 (improved from 0.4593 at limit 5), drop 0.756 f1 / 0.62 em (best drop in fleet). Full limit 100 run across all 3 tasks now complete."
+      ]
+    },
+    "bench_knowledge": {
+      "title": "bench-knowledge (lm-eval loglikelihood)",
+      "rows": [
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "mmlu",
+          "Score": "0.593",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "arc_challenge",
+          "Score": "0.60",
+          "Metric": "acc_norm",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "hellaswag",
+          "Score": "0.80",
+          "Metric": "acc_norm",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "truthfulqa_mc2",
+          "Score": "0.671",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3",
+          "Test": "boolq",
+          "Score": "0.80",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "mmlu",
+          "Score": "0.270",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "arc_challenge",
+          "Score": "0.20",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "hellaswag",
+          "Score": "0.40",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "truthfulqa_mc2",
+          "Score": "0.200",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Test": "boolq",
+          "Score": "0.20",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "mmlu",
+          "Score": "0.618",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "arc_challenge",
+          "Score": "0.20",
+          "Metric": "acc_norm",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "hellaswag",
+          "Score": "0.40",
+          "Metric": "acc_norm",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "truthfulqa_mc2",
+          "Score": "0.644",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B",
+          "Test": "boolq",
+          "Score": "0.80",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Qwen3.5-4B",
+          "Test": "(all)",
+          "Score": "N/A",
+          "Metric": "\u2014",
+          "Limit": "\u2014",
+          "Date (UTC)": "2026-03-13"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "mmlu",
+          "Score": "0.270",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "arc_challenge",
+          "Score": "0.20",
+          "Metric": "acc_norm",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "hellaswag",
+          "Score": "0.40",
+          "Metric": "acc_norm",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "truthfulqa_mc2",
+          "Score": "0.200",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen2.5-Coder-32B",
+          "Test": "boolq",
+          "Score": "0.20",
+          "Metric": "accuracy",
+          "Limit": "5",
+          "Date (UTC)": "2026-03-14"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M",
+          "Test": "(all)",
+          "Score": "N/A",
+          "Metric": "\u2014",
+          "Limit": "\u2014",
+          "Date (UTC)": "2026-03-13"
+        }
+      ],
+      "notes": [
+        "Source: `/mnt/shared/logs/benchmarks/bench-knowledge/history/bench-knowledge_*_knowledge_smoke_v1`",
+        "Qwen3.5 knowledge: N/A \u2014 llama.cpp server returns 503 errors due to SWA/hybrid memory architecture forcing full prompt reprocessing on every request (no KV cache reuse), overwhelming the server.",
+        "Qwen2.5-Coder-32B knowledge: scores are identical to 7B coder across all 5 tasks. At limit 5, this is almost certainly noise \u2014 both models are answering ~1 of 5 samples correctly. These are coder-family models; low knowledge scores are expected and not a concern (see Suite Selection Rationale).",
+        "Note: limit 5 scores have high variance (especially on small tasks like arc_challenge and boolq where n=5). Run at higher limits for reliable comparisons. Smoke test runtimes at limit 5: Mistral ~1.5h, DeepSeek ~7h, Qwen2.5-Coder ~7.5h."
+      ]
+    },
+    "prompt_impact_on_knowledge_scores_a_b_test_2026_03_14": {
+      "title": "Prompt impact on knowledge scores (A/B test, 2026-03-14)",
+      "rows": [
+        {
+          "Model": "Mistral-7B",
+          "Task": "mmlu",
+          "With Prompt": "0.593",
+          "No Prompt": "0.593",
+          "Delta": "0.000"
+        },
+        {
+          "Model": "Mistral-7B",
+          "Task": "arc_challenge",
+          "With Prompt": "0.60",
+          "No Prompt": "0.40",
+          "Delta": "-0.20"
+        },
+        {
+          "Model": "Mistral-7B",
+          "Task": "hellaswag",
+          "With Prompt": "0.40",
+          "No Prompt": "0.60",
+          "Delta": "+0.20"
+        },
+        {
+          "Model": "Mistral-7B",
+          "Task": "truthfulqa_mc2",
+          "With Prompt": "0.671",
+          "No Prompt": "0.607",
+          "Delta": "-0.064"
+        },
+        {
+          "Model": "Mistral-7B",
+          "Task": "boolq",
+          "With Prompt": "0.80",
+          "No Prompt": "0.80",
+          "Delta": "0.000"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B",
+          "Task": "(all 5 tasks)",
+          "With Prompt": "\u2014",
+          "No Prompt": "\u2014",
+          "Delta": "0.000"
+        },
+        {
+          "Model": "DeepSeek-R1-7B",
+          "Task": "(all 5 tasks)",
+          "With Prompt": "\u2014",
+          "No Prompt": "\u2014",
+          "Delta": "0.000"
+        }
+      ],
+      "notes": [
+        "Ran all 3 compatible models with `--no-model-prompts` and compared to prompted runs.",
+        "Result: **system prompts have no meaningful effect on loglikelihood-based knowledge scores.**",
+        "Qwen2.5-Coder and DeepSeek showed zero difference across all tasks. Mistral's deltas are noise at limit 5 (1 sample = 0.20 swing). Loglikelihood evaluation measures token probabilities, not generated text, so system prompts have minimal influence on the scoring mechanism. The low Qwen2.5-Coder knowledge scores (0.20-0.27) are the model's actual baseline, not prompt interference."
+      ]
+    },
+    "reasoning_full_suite_runtime_estimates_no_partial_scores_recorded": {
+      "title": "Reasoning full-suite runtime estimates (no partial scores recorded)",
+      "rows": [
+        {
+          "Model": "Qwen3.5-4B-Q4_K_M.gguf",
+          "Estimated full run time": "est ~2h"
+        },
+        {
+          "Model": "Qwen3.5-9B-Q3_K_M.gguf",
+          "Estimated full run time": "est ~3h"
+        },
+        {
+          "Model": "DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+          "Estimated full run time": "est ~3 to 4h"
+        },
+        {
+          "Model": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+          "Estimated full run time": "est ~5 to 7h"
+        },
+        {
+          "Model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+          "Estimated full run time": "est ~5 to 7h"
+        }
+      ],
+      "notes": []
+    }
+  },
+  "benchmark_notes": [
+    {
+      "section": "bench_pipeline",
+      "text": "Pipeline tests run all cases (fixed test sets), no limit parameter."
+    },
+    {
+      "section": "bench_code",
+      "text": "Scores shown as base / plus (EvalPlus+ stricter evaluation). Code tests run all problems (fixed sets), no limit parameter."
+    },
+    {
+      "section": "bench_reasoning",
+      "text": "RPi-tier small-model cohort update (2026-03-18 UTC): `Qwen3-1.7B`, `SmolLM3-3B`, `Llama-3.2-3B-Instruct`, `Phi-4-mini`, and `Gemma-3-4B` have completed `bench-pipeline` totals (`6/6` each) and full `bench-code` smoke coverage. Completed `bench-reasoning --limit 100` baselines now exist for `Qwen3-1.7B` (`gsm8k 0.44 strict / 0.46 flex`, `bbh 0.0`, `drop f1 0.1661`), `SmolLM3-3B` (`gsm8k 0.79`, `bbh 0.6678`, `drop f1 0.3302`), and `Llama-3.2-3B-Instruct` (`gsm8k 0.72 flex`, `bbh 0.5896`, `drop f1 0.4326`). `Phi-4-mini` has completed `gsm8k` (`0.70 strict / 0.69 flex`) and is still in progress on the resumed `bbh`/`drop` retry. `Gemma-3-4B` is now a known high-limit reasoning failure case on this rig: both the initial run and a dedicated 3-model retry dropped the worker runtime mid-run, with the second retry failing `gsm8k`, `bbh`, and `drop` again on `2026-03-18` after `Connection refused` on `localhost:11436`. Treat `Gemma-3-4B` `bench-reasoning --limit 100` as benchmark-unstable on the 1060 worker path unless the runtime-loss issue is fixed separately."
+    },
+    {
+      "section": "bench_reasoning",
+      "text": "Qwen3-8B reasoning (limit 50, completed 2026-03-15): **`--reasoning-budget 0` confirmed as fix**. gsm8k 0.90, bbh 0.6244, drop 0.3848 f1 / 0.18 em. Same Type A thinking mode issue as Qwen3.5 family. Also requires `--cache-ram 0` to prevent prompt cache OOM on 6GB VRAM."
+    },
+    {
+      "section": "bench_reasoning",
+      "text": "Qwen3.5 reasoning (with `--reasoning-budget 0`): GSM8K now works (0.80 strict across 4b, 9b). BBH and DROP both fail with exit code 1 on all Qwen3.5 models \u2014 likely caused by SWA (Sliding Window Attention) hybrid memory architecture incompatibility with lm-eval's longer prompt sequences, same issue that blocks bench-knowledge. GSM8K uses shorter prompts and works fine."
+    },
+    {
+      "section": "bench_reasoning",
+      "text": "Qwen2.5-Coder-14B reasoning (limit 100, completed 2026-03-16): gsm8k 0.89, bbh 0.5937, drop 0.4802 f1 / 0.28 em. Run via split-worker pair (gpu-4 + gpu-5). Scores decreased from limit 5 smoke test as expected \u2014 limit 100 values are the reliable baseline."
+    },
+    {
+      "section": "bench_reasoning",
+      "text": "DeepSeek-R1-Distill-Qwen-14B reasoning (2026-03-16, multiple tuning passes): BBH **0.5852** with `--patch-think-tag-strip` v2 (removed `\\n\\n` stop only). GSM8K and DROP remain 0.0 across all prompt and patch variants. **Root cause is structural**: llama-server splits `<think>` content into `reasoning_content` API field before client-side patches see it, and the model outputs math answers in `\\boxed{}` format instead of `####`. Fixing requires changes to llama-server or lm-eval internals \u2014 not solvable with prompt tuning. Marked as benchmark-incompatible; may still work in real plan execution where `reasoning_content` can be parsed directly."
+    },
+    {
+      "section": "bench_reasoning",
+      "text": "Qwen2.5-Coder-7B reasoning (limit 100): bbh improved from 0.6481 (limit 10) to 0.6674 (limit 100). Drop decreased from 0.622 to 0.576, likely more representative at higher sample count."
+    },
+    {
+      "section": "bench_reasoning",
+      "text": "Qwen2.5-Coder-32B reasoning (limit 100, completed 2026-03-15): gsm8k 0.92 (best in fleet), bbh 0.4837 (improved from 0.4593 at limit 5), drop 0.756 f1 / 0.62 em (best drop in fleet). Full limit 100 run across all 3 tasks now complete."
+    },
+    {
+      "section": "bench_knowledge",
+      "text": "Source: `/mnt/shared/logs/benchmarks/bench-knowledge/history/bench-knowledge_*_knowledge_smoke_v1`"
+    },
+    {
+      "section": "bench_knowledge",
+      "text": "Qwen3.5 knowledge: N/A \u2014 llama.cpp server returns 503 errors due to SWA/hybrid memory architecture forcing full prompt reprocessing on every request (no KV cache reuse), overwhelming the server."
+    },
+    {
+      "section": "bench_knowledge",
+      "text": "Qwen2.5-Coder-32B knowledge: scores are identical to 7B coder across all 5 tasks. At limit 5, this is almost certainly noise \u2014 both models are answering ~1 of 5 samples correctly. These are coder-family models; low knowledge scores are expected and not a concern (see Suite Selection Rationale)."
+    },
+    {
+      "section": "bench_knowledge",
+      "text": "Note: limit 5 scores have high variance (especially on small tasks like arc_challenge and boolq where n=5). Run at higher limits for reliable comparisons. Smoke test runtimes at limit 5: Mistral ~1.5h, DeepSeek ~7h, Qwen2.5-Coder ~7.5h."
+    }
+  ],
   "latest_per_model_test": [
     {
-      "run_id": "540c9fa2-dd7d-4aec-9ec6-8012a17eb44c",
-      "run_at": "2026-03-11T19:23:09+00:00",
-      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
-      "test_id": "bench_code_total_base",
-      "score": 0.481549815498155,
-      "score_pct": 48.1549815498155,
-      "metric": "pass_rate_542_base",
-      "harness": "bench-code",
-      "suite": "code_full_20260310_202111_partial2",
-      "notes": "completed model in partial run (2/4 done); humaneval+mbpp base aggregate"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "humaneval",
+        "Pass (base)": "10",
+        "Pass (plus)": "10",
+        "Total": "164",
+        "Score (base / plus)": "6.1%` / `6.1%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_id": "2c8d79c3-538b-44c1-9e4f-062c1ec39912",
-      "run_at": "2026-03-11T19:23:09+00:00",
-      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
-      "test_id": "bench_code_total_plus",
-      "score": 0.4077490774907749,
-      "score_pct": 40.774907749077485,
-      "metric": "pass_rate_542_plus",
-      "harness": "bench-code",
-      "suite": "code_full_20260310_202111_partial2",
-      "notes": "completed model in partial run (2/4 done); humaneval+mbpp plus aggregate"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "mbpp",
+        "Pass (base)": "84",
+        "Pass (plus)": "79",
+        "Total": "378",
+        "Score (base / plus)": "22.2%` / `20.9%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_at": "2026-03-11T06:47:32+00:00",
-      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
-      "score": 0.6835443037974683,
-      "score_pct": 68.35443037974683,
-      "notes": "parallel_worker_suite_20260310_234145 partial-complete update (3 finished of 5); duration_seconds=301",
-      "run_id": "c8c6a35f-cfb8-4231-958c-20e1e0f659a3",
-      "test_id": "custom_worker_suite_total",
-      "metric": "pass_rate_79",
-      "harness": "bench-pipeline",
-      "suite": "recovery_ckpt_hot5_20260310_partial3"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "ambiguity_handling",
+        "Pass": "0",
+        "Total": "13",
+        "Score": "0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_at": "2026-03-11T06:44:32+00:00",
-      "model": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
-      "score": 0.7341772151898734,
-      "score_pct": 73.41772151898735,
-      "notes": "parallel_worker_suite_20260310_234145 partial-complete update (3 finished of 5); duration_seconds=121",
-      "run_id": "6cda6293-6cf6-4003-a0df-1df48930b0b9",
-      "test_id": "custom_worker_suite_total",
-      "metric": "pass_rate_79",
-      "harness": "bench-pipeline",
-      "suite": "recovery_ckpt_hot5_20260310_partial3"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "command_safety",
+        "Pass": "1",
+        "Total": "12",
+        "Score": "8.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_at": "2026-03-11T01:16:10+00:00",
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "test_id": "custom_worker_suite_total",
-      "score": 0.6582278481012658,
-      "score_pct": 65.82278481012658,
-      "metric": "pass_rate_79",
-      "harness": "bench-pipeline",
-      "suite": "ab_prompt_A_20260310",
-      "notes": "A baseline prompt profile retained (model_prompt_profiles.json); duration_seconds=789",
-      "run_id": "28357907-94c3-464f-836e-895cfcd7930b"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "json_schema_strict",
+        "Pass": "1",
+        "Total": "13",
+        "Score": "7.7%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_at": "2026-03-11T01:29:11+00:00",
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "test_id": "custom_worker_suite_total",
-      "score": 0.17721518987341772,
-      "score_pct": 17.72151898734177,
-      "metric": "pass_rate_79",
-      "harness": "bench-pipeline",
-      "suite": "ab_prompt_B_20260310",
-      "notes": "B tuned prompt profile trial (model_prompt_profiles_B.json); duration_seconds=1570",
-      "run_id": "920db72b-6dce-403f-ad50-c925d62516ea"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "long_context_extract",
+        "Pass": "11",
+        "Total": "14",
+        "Score": "78.6%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_id": "4a4e4fc9-7e16-4c98-a27f-3f0bf01d9d21",
-      "run_at": "2026-03-11T21:41:09+00:00",
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "test_id": "bench_code_total_base",
-      "score": 0.5719557195571956,
-      "score_pct": 57.19557195571956,
-      "metric": "pass_rate_542_base",
-      "harness": "bench-code",
-      "suite": "code_full_20260310_202111_partial2",
-      "notes": "completed model in partial run (2/4 done); humaneval+mbpp base aggregate"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "\u2014",
+        "Total": "\u2014",
+        "Score": "failed (timeout)",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_id": "a4bc0bec-4bd0-4c0a-9246-05e9b2a92eea",
-      "run_at": "2026-03-11T21:41:09+00:00",
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "test_id": "bench_code_total_plus",
-      "score": 0.5018450184501845,
-      "score_pct": 50.184501845018445,
-      "metric": "pass_rate_542_plus",
-      "harness": "bench-code",
-      "suite": "code_full_20260310_202111_partial2",
-      "notes": "completed model in partial run (2/4 done); humaneval+mbpp plus aggregate"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "tool_plan_sequence",
+        "Pass": "12",
+        "Total": "15",
+        "Score": "80.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
     },
     {
-      "run_at": "2026-03-11T07:09:52+00:00",
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "score": 0.6835443037974683,
-      "score_pct": 68.35443037974683,
-      "notes": "parallel_worker_suite_20260310_234145 partial-complete update (3 finished of 5); duration_seconds=1641",
-      "run_id": "880a1560-1266-465e-bee9-a2988440f09c",
-      "test_id": "custom_worker_suite_total",
-      "metric": "pass_rate_79",
-      "harness": "bench-pipeline",
-      "suite": "recovery_ckpt_hot5_20260310_partial3"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-16",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "bbh",
+        "Score": "0.5852",
+        "Metric": "exact_match",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-16"
+      }
     },
     {
-      "run_at": "2026-03-11T01:43:52+00:00",
-      "model": "Qwen3.5-9B-Q3_K_M.gguf",
-      "test_id": "custom_worker_suite_total",
-      "score": 0.13924050632911392,
-      "score_pct": 13.924050632911392,
-      "metric": "pass_rate_79",
-      "harness": "bench-pipeline",
-      "suite": "ab_prompt_A_20260310",
-      "notes": "A baseline prompt profile retained (model_prompt_profiles.json); duration_seconds=2451",
-      "run_id": "5543a79c-ba0b-44c9-8c33-e080e43f852e"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-16",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "drop",
+        "Score": "0.0",
+        "Metric": "f1",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-16"
+      }
     },
     {
-      "run_at": "2026-03-11T01:46:21+00:00",
-      "model": "Qwen3.5-9B-Q3_K_M.gguf",
-      "test_id": "custom_worker_suite_total",
-      "score": 0.08860759493670886,
-      "score_pct": 8.860759493670885,
-      "metric": "pass_rate_79",
-      "harness": "bench-pipeline",
-      "suite": "ab_prompt_B_20260310",
-      "notes": "B tuned prompt profile trial (model_prompt_profiles_B.json); duration_seconds=2600",
-      "run_id": "66450d27-c64e-4cac-8139-bdb3130567c0"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-16",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-14B",
+        "Test": "gsm8k",
+        "Score": "0.2",
+        "Metric": "exact_match (flex)",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-16"
+      }
     },
     {
-      "run_id": "b10efe59-e03c-49f4-973c-b1a99c53d214",
-      "run_at": "2026-03-05T20:19:06.821533",
-      "model": "mistral:7b-instruct",
-      "test_id": "custom_ambiguity_handling",
-      "score": 0.0,
-      "score_pct": 0.0,
-      "metric": "clarification_rate",
-      "harness": "local_custom",
-      "suite": "local_custom_probe",
-      "notes": "0/2 cases passed"
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "\u2014",
+      "limit": "\u2014",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "humaneval",
+        "Pass (base)": "\u2014",
+        "Pass (plus)": "\u2014",
+        "Total": "\u2014",
+        "Score (base / plus)": "untested",
+        "Limit": "\u2014",
+        "Date (UTC)": "\u2014"
+      }
     },
     {
-      "run_id": "516e8b96-02b0-4ea8-9762-0e421db2667f",
-      "run_at": "2026-03-05T20:20:03.464691",
-      "model": "mistral:7b-instruct",
-      "test_id": "custom_ambiguity_handling",
-      "score": 1.0,
-      "score_pct": 100.0,
-      "metric": "clarification_rate",
-      "harness": "local_custom",
-      "suite": "local_custom_probe_v2",
-      "notes": "2/2 cases passed"
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "\u2014",
+      "limit": "\u2014",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "mbpp",
+        "Pass (base)": "\u2014",
+        "Pass (plus)": "\u2014",
+        "Total": "\u2014",
+        "Score (base / plus)": "untested",
+        "Limit": "\u2014",
+        "Date (UTC)": "\u2014"
+      }
     },
     {
-      "run_id": "61258339-5f12-432f-ad47-25dc6f6409fd",
-      "run_at": "2026-03-05T14:06:44.980759",
-      "model": "qwen2.5-coder:14b",
-      "test_id": "drop",
-      "score": 0.09874999999999999,
-      "metric": "f1,none",
-      "harness": "lm_eval",
-      "suite": "initial_matrix_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "ambiguity_handling",
+        "Pass": "0",
+        "Total": "13",
+        "Score": "0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
     },
     {
-      "run_id": "2e70a728-21a2-4d8f-b403-3abe33a205b8",
-      "run_at": "2026-03-05T14:05:59.822246",
-      "model": "qwen2.5-coder:14b",
-      "test_id": "gsm8k",
-      "score": 0.875,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "initial_matrix_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "command_safety",
+        "Pass": "1",
+        "Total": "12",
+        "Score": "8.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
     },
     {
-      "run_id": "03c2eeb4-9400-4266-a2b8-845254259673",
-      "run_at": "2026-03-05T15:54:28.421925",
-      "model": "qwen2.5-coder:14b",
-      "test_id": "drop",
-      "score": 0.57,
-      "score_pct": 56.99999999999999,
-      "metric": "f1,none",
-      "harness": "lm_eval",
-      "suite": "quick_triplet_l1_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "json_schema_strict",
+        "Pass": "0",
+        "Total": "13",
+        "Score": "0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
     },
     {
-      "run_id": "87ed19f6-8afd-4eb3-9b7b-0c7a9c991fb6",
-      "run_at": "2026-03-05T15:50:53.042159",
-      "model": "qwen2.5-coder:14b",
-      "test_id": "gsm8k",
-      "score": 1.0,
-      "score_pct": 100.0,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "quick_triplet_l1_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "long_context_extract",
+        "Pass": "12",
+        "Total": "14",
+        "Score": "85.7%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
     },
     {
-      "run_id": "145d6b3e-afc6-4f6e-94b7-f9b18b3b0674",
-      "run_at": "2026-03-05T15:55:15.554964",
-      "model": "qwen2.5-coder:32b",
-      "test_id": "drop",
-      "score": 0.18,
-      "score_pct": 18.0,
-      "metric": "f1,none",
-      "harness": "lm_eval",
-      "suite": "quick_triplet_l1_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "1",
+        "Total": "12",
+        "Score": "8.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
     },
     {
-      "run_id": "af2d18c9-0263-4357-ac5d-444aaf302ed5",
-      "run_at": "2026-03-05T15:52:07.684619",
-      "model": "qwen2.5-coder:32b",
-      "test_id": "gsm8k",
-      "score": 0.0,
-      "score_pct": 0.0,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "quick_triplet_l1_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "tool_plan_sequence",
+        "Pass": "12",
+        "Total": "15",
+        "Score": "80.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
     },
     {
-      "run_id": "8920d5fd-db62-4db6-9644-a2d60df69830",
-      "run_at": "2026-03-05T15:37:21.397028",
-      "model": "qwen2.5-coder:7b",
-      "test_id": "drop",
-      "score": 0.084,
-      "score_pct": 8.4,
-      "metric": "f1,none",
-      "harness": "lm_eval",
-      "suite": "baseline_triplet_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "\u2014",
+      "limit": "untested",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "bbh",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "untested",
+        "Date (UTC)": "\u2014"
+      }
     },
     {
-      "run_id": "b5b68292-84c2-4bdc-8d4e-cdf4b86073a8",
-      "run_at": "2026-03-05T15:36:15.439452",
-      "model": "qwen2.5-coder:7b",
-      "test_id": "gsm8k",
-      "score": 0.8,
-      "score_pct": 80.0,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "baseline_triplet_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "\u2014",
+      "limit": "untested",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "drop",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "untested",
+        "Date (UTC)": "\u2014"
+      }
     },
     {
-      "run_id": "9629b2e8-9ae8-4ef1-b9a7-81baef132300",
-      "run_at": "2026-03-05T20:19:22.710360",
-      "model": "qwen2.5-coder:7b",
-      "test_id": "custom_json_schema_strict",
-      "score": 1.0,
-      "score_pct": 100.0,
-      "metric": "schema_valid_rate",
-      "harness": "local_custom",
-      "suite": "local_custom_probe",
-      "notes": "2/2 cases passed"
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "\u2014",
+      "limit": "untested",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-32B",
+        "Test": "gsm8k",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "untested",
+        "Date (UTC)": "\u2014"
+      }
     },
     {
-      "run_id": "73c96bcc-37ff-40dc-b2a5-872c71d74d1c",
-      "run_at": "2026-03-05T20:20:25.318139",
-      "model": "qwen2.5-coder:7b",
-      "test_id": "custom_json_schema_strict",
-      "score": 0.5,
-      "score_pct": 50.0,
-      "metric": "schema_valid_rate",
-      "harness": "local_custom",
-      "suite": "local_custom_probe_v2",
-      "notes": "1/2 cases passed"
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "humaneval",
+        "Pass (base)": "8",
+        "Pass (plus)": "8",
+        "Total": "164",
+        "Score (base / plus)": "4.9%` / `4.9%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
     },
     {
-      "run_id": "68e3dba4-921c-4aa3-ba6e-7ad5a1b469ef",
-      "run_at": "2026-03-05T15:53:05.860807",
-      "model": "qwen2.5-coder:7b",
-      "test_id": "drop",
-      "score": 0.27,
-      "score_pct": 27.0,
-      "metric": "f1,none",
-      "harness": "lm_eval",
-      "suite": "quick_triplet_l1_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "mbpp",
+        "Pass (base)": "73",
+        "Pass (plus)": "74",
+        "Total": "378",
+        "Score (base / plus)": "19.3%` / `19.6%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
     },
     {
-      "run_id": "d6103acb-4cf7-4f52-b1e2-c1b65fcf8129",
-      "run_at": "2026-03-05T15:48:24.680621",
-      "model": "qwen2.5-coder:7b",
-      "test_id": "gsm8k",
-      "score": 1.0,
-      "score_pct": 100.0,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "quick_triplet_l1_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "arc_challenge",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "arc_challenge",
+        "Score": "0.20",
+        "Metric": "acc_norm",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
     },
     {
-      "run_id": "31eca519-2087-4bb5-b59f-f7e24fad6a7c",
-      "run_at": "2026-03-05T15:20:51.509548",
-      "model": "qwen2.5-coder:7b",
-      "test_id": "gsm8k",
-      "score": 0.8,
-      "score_pct": 80.0,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "smoke_triplet_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "boolq",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "boolq",
+        "Score": "0.80",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
     },
     {
-      "run_id": "09af4827-1430-4d8a-b700-20e8d607c72b",
-      "run_at": "2026-03-05T14:03:11.985279",
-      "model": "qwen2.5:7b",
-      "test_id": "bbh",
-      "score": 0.5555555555555556,
-      "metric": "exact_match,get-answer",
-      "harness": "lm_eval",
-      "suite": "initial_matrix_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "hellaswag",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "hellaswag",
+        "Score": "0.40",
+        "Metric": "acc_norm",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
     },
     {
-      "run_id": "33259072-ceca-4488-a903-9cefbded7ca0",
-      "run_at": "2026-03-05T13:57:56.869958",
-      "model": "qwen2.5:7b",
-      "test_id": "drop",
-      "score": 0.14875,
-      "metric": "f1,none",
-      "harness": "lm_eval",
-      "suite": "initial_matrix_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "mmlu",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "mmlu",
+        "Score": "0.618",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
     },
     {
-      "run_id": "a26281b8-7cb9-44d3-8f70-d405cdda0e4e",
-      "run_at": "2026-03-05T13:57:07.002198",
-      "model": "qwen2.5:7b",
-      "test_id": "gsm8k",
-      "score": 0.75,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "initial_matrix_20260305",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "truthfulqa_mc2",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "truthfulqa_mc2",
+        "Score": "0.644",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
     },
     {
-      "run_id": "f523ca88-e821-4a3b-a878-be8147725afb",
-      "run_at": "2026-03-05T20:19:17.570056",
-      "model": "qwen2.5:7b",
-      "test_id": "custom_command_safety",
-      "score": 0.5,
-      "score_pct": 50.0,
-      "metric": "risk_detection_rate",
-      "harness": "local_custom",
-      "suite": "local_custom_probe",
-      "notes": "1/2 cases passed"
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "ambiguity_handling",
+        "Pass": "0",
+        "Total": "13",
+        "Score": "0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
     },
     {
-      "run_id": "1cb7950f-8eb7-4def-9a65-52f845b5591f",
-      "run_at": "2026-03-05T20:20:27.293918",
-      "model": "qwen2.5:7b",
-      "test_id": "custom_command_safety",
-      "score": 1.0,
-      "score_pct": 100.0,
-      "metric": "risk_detection_rate",
-      "harness": "local_custom",
-      "suite": "local_custom_probe_v2",
-      "notes": "2/2 cases passed"
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "command_safety",
+        "Pass": "7",
+        "Total": "12",
+        "Score": "58.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
     },
     {
-      "run_id": "c647139c-9beb-49dc-8392-dcc7bc888b61",
-      "run_at": "2026-03-05T13:51:40.845290",
-      "model": "qwen2.5:7b",
-      "test_id": "gsm8k",
-      "score": 0.6666666666666666,
-      "metric": "exact_match,flexible-extract",
-      "harness": "lm_eval",
-      "suite": "sanity_runner_patch",
-      "notes": ""
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "json_schema_strict",
+        "Pass": "2",
+        "Total": "13",
+        "Score": "15.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "long_context_extract",
+        "Pass": "\u2014",
+        "Total": "\u2014",
+        "Score": "incomplete",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "4",
+        "Total": "12",
+        "Score": "33.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "tool_plan_sequence",
+        "Pass": "11",
+        "Total": "15",
+        "Score": "73.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-12",
+      "limit": "100",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "bbh",
+        "Score": "0.0",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-12"
+      }
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-12",
+      "limit": "100",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "drop",
+        "Score": "0.0",
+        "Metric": "f1",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-12"
+      }
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-12",
+      "limit": "100",
+      "row": {
+        "Model": "DeepSeek-R1-Distill-Qwen-7B",
+        "Test": "gsm8k",
+        "Score": "0.08",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-12"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "\u2014",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "humaneval",
+        "Pass (base)": "\u2014",
+        "Pass (plus)": "\u2014",
+        "Total": "\u2014",
+        "Score (base / plus)": "interrupted",
+        "Limit": "\u2014",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "\u2014",
+      "limit": "\u2014",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "mbpp",
+        "Pass (base)": "\u2014",
+        "Pass (plus)": "\u2014",
+        "Total": "\u2014",
+        "Score (base / plus)": "untested",
+        "Limit": "\u2014",
+        "Date (UTC)": "\u2014"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "ambiguity_handling",
+        "Pass": "7",
+        "Total": "13",
+        "Score": "53.8%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "command_safety",
+        "Pass": "7",
+        "Total": "12",
+        "Score": "58.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "json_schema_strict",
+        "Pass": "0",
+        "Total": "13",
+        "Score": "0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "long_context_extract",
+        "Pass": "13",
+        "Total": "14",
+        "Score": "92.9%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "9",
+        "Total": "12",
+        "Score": "75.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "tool_plan_sequence",
+        "Pass": "14",
+        "Total": "15",
+        "Score": "93.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "failed (OOM on split)",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "bbh",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "failed (OOM on split)",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "failed (OOM on split)",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "drop",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "failed (OOM on split)",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-12B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Gemma-3-12B",
+        "Test": "gsm8k",
+        "Score": "0.60",
+        "Metric": "exact_match",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Gemma-3-4B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-4B",
+        "Test": "humaneval",
+        "Pass (base)": "111",
+        "Pass (plus)": "99",
+        "Total": "164",
+        "Score (base / plus)": "67.7%` / `60.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Gemma-3-4B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-18",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-4B",
+        "Test": "mbpp",
+        "Pass (base)": "291",
+        "Pass (plus)": "249",
+        "Total": "378",
+        "Score (base / plus)": "77.0%` / `65.9%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Gemma-3-4B",
+      "test": "pipeline_total",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Gemma-3-4B",
+        "Test": "pipeline_total",
+        "Pass": "6",
+        "Total": "6",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Gemma-3-4B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-17",
+      "limit": "5",
+      "row": {
+        "Model": "Gemma-3-4B",
+        "Test": "bbh",
+        "Score": "0.5481",
+        "Metric": "exact_match",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Gemma-3-4B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-17",
+      "limit": "5",
+      "row": {
+        "Model": "Gemma-3-4B",
+        "Test": "drop",
+        "Score": "0.266",
+        "Metric": "f1",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Gemma-3-4B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-17",
+      "limit": "5",
+      "row": {
+        "Model": "Gemma-3-4B",
+        "Test": "gsm8k",
+        "Score": "0.80",
+        "Metric": "exact_match (strict=flex)",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Llama-3.2-3B-Instruct",
+        "Test": "humaneval",
+        "Pass (base)": "105",
+        "Pass (plus)": "97",
+        "Total": "164",
+        "Score (base / plus)": "64.0%` / `59.1%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Llama-3.2-3B-Instruct",
+        "Test": "mbpp",
+        "Pass (base)": "241",
+        "Pass (plus)": "202",
+        "Total": "378",
+        "Score (base / plus)": "63.8%` / `53.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "test": "pipeline_total",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Llama-3.2-3B-Instruct",
+        "Test": "pipeline_total",
+        "Pass": "6",
+        "Total": "6",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "Llama-3.2-3B-Instruct",
+        "Test": "bbh",
+        "Score": "0.5896",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "Llama-3.2-3B-Instruct",
+        "Test": "drop",
+        "Score": "0.4326",
+        "Metric": "f1",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "Llama-3.2-3B-Instruct",
+        "Test": "gsm8k",
+        "Score": "0.72",
+        "Metric": "exact_match (flex)",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "humaneval",
+        "Pass (base)": "73",
+        "Pass (plus)": "62",
+        "Total": "164",
+        "Score (base / plus)": "44.5%` / `37.8%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "mbpp",
+        "Pass (base)": "188",
+        "Pass (plus)": "159",
+        "Total": "378",
+        "Score (base / plus)": "49.7%` / `42.1%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "arc_challenge",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "arc_challenge",
+        "Score": "0.60",
+        "Metric": "acc_norm",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "boolq",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "boolq",
+        "Score": "0.80",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "hellaswag",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "hellaswag",
+        "Score": "0.80",
+        "Metric": "acc_norm",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "mmlu",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "mmlu",
+        "Score": "0.593",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "truthfulqa_mc2",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "truthfulqa_mc2",
+        "Score": "0.671",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "ambiguity_handling",
+        "Pass": "6",
+        "Total": "13",
+        "Score": "46.2%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "command_safety",
+        "Pass": "10",
+        "Total": "12",
+        "Score": "83.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "json_schema_strict",
+        "Pass": "3",
+        "Total": "13",
+        "Score": "23.1%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "long_context_extract",
+        "Pass": "14",
+        "Total": "14",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "orchestration_tradeoff",
+        "Pass": "10",
+        "Total": "12",
+        "Score": "83.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "tool_plan_sequence",
+        "Pass": "12",
+        "Total": "15",
+        "Score": "80.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-13",
+      "limit": "100",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "bbh",
+        "Score": "0.5393",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-13",
+      "limit": "100",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "drop",
+        "Score": "0.126",
+        "Metric": "f1",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-12",
+      "limit": "100",
+      "row": {
+        "Model": "Mistral-7B-Instruct-v0.3",
+        "Test": "gsm8k",
+        "Score": "0.48",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-12"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "humaneval",
+        "Pass (base)": "129",
+        "Pass (plus)": "120",
+        "Total": "164",
+        "Score (base / plus)": "78.7%` / `73.2%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "mbpp",
+        "Pass (base)": "279",
+        "Pass (plus)": "242",
+        "Total": "378",
+        "Score (base / plus)": "73.8%` / `64.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "ambiguity_handling",
+        "Pass": "5",
+        "Total": "13",
+        "Score": "38.5%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "command_safety",
+        "Pass": "12",
+        "Total": "12",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "json_schema_strict",
+        "Pass": "0",
+        "Total": "13",
+        "Score": "0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "long_context_extract",
+        "Pass": "14",
+        "Total": "14",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "11",
+        "Total": "12",
+        "Score": "91.7%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "tool_plan_sequence",
+        "Pass": "15",
+        "Total": "15",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-16",
+      "limit": "50",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "bbh",
+        "Score": "0.283",
+        "Metric": "exact_match",
+        "Limit": "50",
+        "Date (UTC)": "2026-03-16"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-16",
+      "limit": "50",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "drop",
+        "Score": "0.070",
+        "Metric": "f1",
+        "Limit": "50",
+        "Date (UTC)": "2026-03-16"
+      }
+    },
+    {
+      "model": "Phi-4-14B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "50",
+      "row": {
+        "Model": "Phi-4-14B",
+        "Test": "gsm8k",
+        "Score": "0.70",
+        "Metric": "exact_match (flex)",
+        "Limit": "50",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Phi-4-mini",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-mini",
+        "Test": "humaneval",
+        "Pass (base)": "117",
+        "Pass (plus)": "105",
+        "Total": "164",
+        "Score (base / plus)": "71.3%` / `64.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Phi-4-mini",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-mini",
+        "Test": "mbpp",
+        "Pass (base)": "204",
+        "Pass (plus)": "183",
+        "Total": "378",
+        "Score (base / plus)": "54.0%` / `48.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Phi-4-mini",
+      "test": "pipeline_total",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Phi-4-mini",
+        "Test": "pipeline_total",
+        "Pass": "6",
+        "Total": "6",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Phi-4-mini",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-17",
+      "limit": "5",
+      "row": {
+        "Model": "Phi-4-mini",
+        "Test": "bbh",
+        "Score": "0.6370",
+        "Metric": "exact_match",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Phi-4-mini",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-17",
+      "limit": "5",
+      "row": {
+        "Model": "Phi-4-mini",
+        "Test": "drop",
+        "Score": "0.40",
+        "Metric": "f1",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Phi-4-mini",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "Phi-4-mini",
+        "Test": "gsm8k",
+        "Score": "0.70",
+        "Metric": "exact_match (strict) / `0.69` (flex)",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "humaneval",
+        "Pass (base)": "148",
+        "Pass (plus)": "142",
+        "Total": "164",
+        "Score (base / plus)": "90.2%` / `86.6%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "mbpp",
+        "Pass (base)": "321",
+        "Pass (plus)": "278",
+        "Total": "378",
+        "Score (base / plus)": "84.9%` / `73.5%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "ambiguity_handling",
+        "Pass": "1",
+        "Total": "13",
+        "Score": "7.7%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "command_safety",
+        "Pass": "3",
+        "Total": "12",
+        "Score": "25.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "json_schema_strict",
+        "Pass": "3",
+        "Total": "13",
+        "Score": "23.1%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "long_context_extract",
+        "Pass": "13",
+        "Total": "14",
+        "Score": "92.9%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "9",
+        "Total": "12",
+        "Score": "75.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "tool_plan_sequence",
+        "Pass": "14",
+        "Total": "15",
+        "Score": "93.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "bbh",
+        "Score": "0.6370",
+        "Metric": "exact_match",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "drop",
+        "Score": "0.558",
+        "Metric": "f1",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-14B",
+        "Test": "gsm8k",
+        "Score": "0.80",
+        "Metric": "exact_match",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "humaneval",
+        "Pass (base)": "150",
+        "Pass (plus)": "143",
+        "Total": "164",
+        "Score (base / plus)": "91.5%` / `87.2%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "mbpp",
+        "Pass (base)": "339",
+        "Pass (plus)": "291",
+        "Total": "378",
+        "Score (base / plus)": "89.7%` / `77.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "arc_challenge",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "arc_challenge",
+        "Score": "0.20",
+        "Metric": "acc_norm",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "boolq",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "boolq",
+        "Score": "0.20",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "hellaswag",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "hellaswag",
+        "Score": "0.40",
+        "Metric": "acc_norm",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "mmlu",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "mmlu",
+        "Score": "0.270",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "truthfulqa_mc2",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-14",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "truthfulqa_mc2",
+        "Score": "0.200",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "ambiguity_handling",
+        "Pass": "2",
+        "Total": "13",
+        "Score": "15.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "command_safety",
+        "Pass": "10",
+        "Total": "12",
+        "Score": "83.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "json_schema_strict",
+        "Pass": "4",
+        "Total": "13",
+        "Score": "30.8%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "long_context_extract",
+        "Pass": "14",
+        "Total": "14",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "10",
+        "Total": "12",
+        "Score": "83.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-14",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "tool_plan_sequence",
+        "Pass": "14",
+        "Total": "15",
+        "Score": "93.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "bbh",
+        "Score": "0.4837",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "drop",
+        "Score": "0.756",
+        "Metric": "f1",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen2.5-Coder-32B",
+        "Test": "gsm8k",
+        "Score": "0.92",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "humaneval",
+        "Pass (base)": "145",
+        "Pass (plus)": "139",
+        "Total": "164",
+        "Score (base / plus)": "88.4%` / `84.8%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "mbpp",
+        "Pass (base)": "312",
+        "Pass (plus)": "266",
+        "Total": "378",
+        "Score (base / plus)": "82.5%` / `70.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "arc_challenge",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "arc_challenge",
+        "Score": "0.20",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "boolq",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "boolq",
+        "Score": "0.20",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "hellaswag",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "hellaswag",
+        "Score": "0.40",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "mmlu",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "mmlu",
+        "Score": "0.270",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "truthfulqa_mc2",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "truthfulqa_mc2",
+        "Score": "0.200",
+        "Metric": "accuracy",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "ambiguity_handling",
+        "Pass": "2",
+        "Total": "13",
+        "Score": "15.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "command_safety",
+        "Pass": "11",
+        "Total": "12",
+        "Score": "91.7%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "json_schema_strict",
+        "Pass": "9",
+        "Total": "13",
+        "Score": "69.2%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "long_context_extract",
+        "Pass": "13",
+        "Total": "14",
+        "Score": "92.9%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "9",
+        "Total": "12",
+        "Score": "75.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "tool_plan_sequence",
+        "Pass": "14",
+        "Total": "15",
+        "Score": "93.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "bbh",
+        "Score": "0.6674",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-14",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "drop",
+        "Score": "0.576",
+        "Metric": "f1",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-14"
+      }
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-12",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen2.5-Coder-7B",
+        "Test": "gsm8k",
+        "Score": "0.75",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-12"
+      }
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3-1.7B",
+        "Test": "humaneval",
+        "Pass (base)": "9",
+        "Pass (plus)": "9",
+        "Total": "164",
+        "Score (base / plus)": "5.5%` / `5.5%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3-1.7B",
+        "Test": "mbpp",
+        "Pass (base)": "82",
+        "Pass (plus)": "77",
+        "Total": "378",
+        "Score (base / plus)": "21.7%` / `20.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "test": "pipeline_total",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3-1.7B",
+        "Test": "pipeline_total",
+        "Pass": "6",
+        "Total": "6",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen3-1.7B",
+        "Test": "bbh",
+        "Score": "0.0",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen3-1.7B",
+        "Test": "drop",
+        "Score": "0.1661",
+        "Metric": "f1",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "Qwen3-1.7B",
+        "Test": "gsm8k",
+        "Score": "0.44",
+        "Metric": "exact_match (strict) / `0.46` (flex)",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "Qwen3-8B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "50",
+      "row": {
+        "Model": "Qwen3-8B",
+        "Test": "bbh",
+        "Score": "0.6244",
+        "Metric": "exact_match",
+        "Limit": "50",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3-8B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "50",
+      "row": {
+        "Model": "Qwen3-8B",
+        "Test": "drop",
+        "Score": "0.3848",
+        "Metric": "f1",
+        "Limit": "50",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3-8B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "50",
+      "row": {
+        "Model": "Qwen3-8B",
+        "Test": "gsm8k",
+        "Score": "0.90",
+        "Metric": "exact_match",
+        "Limit": "50",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "humaneval",
+        "Pass (base)": "149",
+        "Pass (plus)": "143",
+        "Total": "164",
+        "Score (base / plus)": "90.9%` / `87.2%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "mbpp",
+        "Pass (base)": "326",
+        "Pass (plus)": "273",
+        "Total": "378",
+        "Score (base / plus)": "86.2%` / `72.2%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "ambiguity_handling",
+        "Pass": "5",
+        "Total": "13",
+        "Score": "38.5%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "command_safety",
+        "Pass": "12",
+        "Total": "12",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "json_schema_strict",
+        "Pass": "3",
+        "Total": "13",
+        "Score": "23.1%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "long_context_extract",
+        "Pass": "14",
+        "Total": "14",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "10",
+        "Total": "12",
+        "Score": "83.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "tool_plan_sequence",
+        "Pass": "14",
+        "Total": "15",
+        "Score": "93.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "\u2014",
+      "limit": "untested (expect SWA failure, see notes)",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "bbh",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "untested (expect SWA failure, see notes)",
+        "Date (UTC)": "\u2014"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "\u2014",
+      "limit": "untested (expect SWA failure, see notes)",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "drop",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "untested (expect SWA failure, see notes)",
+        "Date (UTC)": "\u2014"
+      }
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "\u2014",
+      "limit": "untested",
+      "row": {
+        "Model": "Qwen3.5-35B-A3B",
+        "Test": "gsm8k",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "untested",
+        "Date (UTC)": "\u2014"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "humaneval",
+        "Pass (base)": "62",
+        "Pass (plus)": "60",
+        "Total": "164",
+        "Score (base / plus)": "37.8%` / `36.6%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-11",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "mbpp",
+        "Pass (base)": "248",
+        "Pass (plus)": "212",
+        "Total": "378",
+        "Score (base / plus)": "65.6%` / `56.1%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-11"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "(all)",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "\u2014",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "(all)",
+        "Score": "N/A",
+        "Metric": "\u2014",
+        "Limit": "\u2014",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "ambiguity_handling",
+        "Pass": "4",
+        "Total": "13",
+        "Score": "30.8%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "command_safety",
+        "Pass": "12",
+        "Total": "12",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "json_schema_strict",
+        "Pass": "2",
+        "Total": "13",
+        "Score": "15.4%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "long_context_extract",
+        "Pass": "14",
+        "Total": "14",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "orchestration_tradeoff",
+        "Pass": "7",
+        "Total": "12",
+        "Score": "58.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "tool_plan_sequence",
+        "Pass": "14",
+        "Total": "15",
+        "Score": "93.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "failed (SWA issue)",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "bbh",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "failed (SWA issue)",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "failed (SWA issue)",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "drop",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "failed (SWA issue)",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen3.5-4B",
+        "Test": "gsm8k",
+        "Score": "0.80",
+        "Metric": "exact_match (strict=flex)",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-12",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "humaneval",
+        "Pass (base)": "66",
+        "Pass (plus)": "64",
+        "Total": "164",
+        "Score (base / plus)": "40.2%` / `39.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-12"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-12",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "mbpp",
+        "Pass (base)": "256",
+        "Pass (plus)": "220",
+        "Total": "378",
+        "Score (base / plus)": "67.7%` / `58.2%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-12"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "(all)",
+      "suite": "bench_knowledge",
+      "date_utc": "2026-03-13",
+      "limit": "\u2014",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "(all)",
+        "Score": "N/A",
+        "Metric": "\u2014",
+        "Limit": "\u2014",
+        "Date (UTC)": "2026-03-13"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "ambiguity_handling",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "ambiguity_handling",
+        "Pass": "7",
+        "Total": "13",
+        "Score": "53.8%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "command_safety",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "command_safety",
+        "Pass": "11",
+        "Total": "12",
+        "Score": "91.7%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "json_schema_strict",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "json_schema_strict",
+        "Pass": "5",
+        "Total": "13",
+        "Score": "38.5%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "long_context_extract",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "long_context_extract",
+        "Pass": "14",
+        "Total": "14",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "orchestration_tradeoff",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "orchestration_tradeoff",
+        "Pass": "9",
+        "Total": "12",
+        "Score": "75.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "tool_plan_sequence",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-15",
+      "limit": "full",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "tool_plan_sequence",
+        "Pass": "14",
+        "Total": "15",
+        "Score": "93.3%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "failed (SWA issue)",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "bbh",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "failed (SWA issue)",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "failed (SWA issue)",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "drop",
+        "Score": "\u2014",
+        "Metric": "\u2014",
+        "Limit": "failed (SWA issue)",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-15",
+      "limit": "5",
+      "row": {
+        "Model": "Qwen3.5-9B-Q3_K_M",
+        "Test": "gsm8k",
+        "Score": "0.80",
+        "Metric": "exact_match (strict=flex)",
+        "Limit": "5",
+        "Date (UTC)": "2026-03-15"
+      }
+    },
+    {
+      "model": "SmolLM3-3B",
+      "test": "humaneval",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "SmolLM3-3B",
+        "Test": "humaneval",
+        "Pass (base)": "108",
+        "Pass (plus)": "98",
+        "Total": "164",
+        "Score (base / plus)": "65.9%` / `59.8%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "SmolLM3-3B",
+      "test": "mbpp",
+      "suite": "bench_code",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "SmolLM3-3B",
+        "Test": "mbpp",
+        "Pass (base)": "241",
+        "Pass (plus)": "208",
+        "Total": "378",
+        "Score (base / plus)": "63.8%` / `55.0%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "SmolLM3-3B",
+      "test": "pipeline_total",
+      "suite": "bench_pipeline",
+      "date_utc": "2026-03-17",
+      "limit": "full",
+      "row": {
+        "Model": "SmolLM3-3B",
+        "Test": "pipeline_total",
+        "Pass": "6",
+        "Total": "6",
+        "Score": "100%",
+        "Limit": "full",
+        "Date (UTC)": "2026-03-17"
+      }
+    },
+    {
+      "model": "SmolLM3-3B",
+      "test": "bbh",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "SmolLM3-3B",
+        "Test": "bbh",
+        "Score": "0.6678",
+        "Metric": "exact_match",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "SmolLM3-3B",
+      "test": "drop",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "SmolLM3-3B",
+        "Test": "drop",
+        "Score": "0.3302",
+        "Metric": "f1",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
+    },
+    {
+      "model": "SmolLM3-3B",
+      "test": "gsm8k",
+      "suite": "bench_reasoning",
+      "date_utc": "2026-03-18",
+      "limit": "100",
+      "row": {
+        "Model": "SmolLM3-3B",
+        "Test": "gsm8k",
+        "Score": "0.79",
+        "Metric": "exact_match (strict=flex)",
+        "Limit": "100",
+        "Date (UTC)": "2026-03-18"
+      }
     }
   ],
   "model_rollup": [
     {
-      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
-      "tests": 3,
-      "avg_score": 0.5242810655954661,
-      "avg_score_pct": 52.428106559546606,
-      "last_tested": "2026-03-11T19:23:09+00:00",
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "tests": 11,
       "suites": [
-        "code_full_20260310_202111_partial2",
-        "recovery_ckpt_hot5_20260310_partial3"
-      ]
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-16"
     },
     {
-      "model": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
-      "tests": 1,
-      "avg_score": 0.7341772151898734,
-      "avg_score_pct": 73.41772151898735,
-      "last_tested": "2026-03-11T06:44:32+00:00",
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "tests": 11,
       "suites": [
-        "recovery_ckpt_hot5_20260310_partial3"
-      ]
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "\u2014"
     },
     {
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "tests": 5,
-      "avg_score": 0.5185576159559064,
-      "avg_score_pct": 51.85576159559064,
-      "last_tested": "2026-03-11T21:41:09+00:00",
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "tests": 16,
       "suites": [
-        "ab_prompt_A_20260310",
-        "ab_prompt_B_20260310",
-        "code_full_20260310_202111_partial2",
-        "recovery_ckpt_hot5_20260310_partial3"
-      ]
+        "bench_code",
+        "bench_knowledge",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-13"
     },
     {
-      "model": "Qwen3.5-9B-Q3_K_M.gguf",
-      "tests": 2,
-      "avg_score": 0.11392405063291139,
-      "avg_score_pct": 11.39240506329114,
-      "last_tested": "2026-03-11T01:46:21+00:00",
+      "model": "Gemma-3-12B",
+      "tests": 11,
       "suites": [
-        "ab_prompt_A_20260310",
-        "ab_prompt_B_20260310"
-      ]
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "\u2014"
     },
     {
-      "model": "mistral:7b-instruct",
-      "tests": 2,
-      "avg_score": 0.5,
-      "avg_score_pct": 50.0,
-      "last_tested": "2026-03-05T20:20:03.464691",
-      "suites": [
-        "local_custom_probe",
-        "local_custom_probe_v2"
-      ]
-    },
-    {
-      "model": "qwen2.5-coder:14b",
-      "tests": 4,
-      "avg_score": 0.6359375,
-      "avg_score_pct": 63.59375000000001,
-      "last_tested": "2026-03-05T15:54:28.421925",
-      "suites": [
-        "initial_matrix_20260305",
-        "quick_triplet_l1_20260305"
-      ]
-    },
-    {
-      "model": "qwen2.5-coder:32b",
-      "tests": 2,
-      "avg_score": 0.09,
-      "avg_score_pct": 9.0,
-      "last_tested": "2026-03-05T15:55:15.554964",
-      "suites": [
-        "quick_triplet_l1_20260305"
-      ]
-    },
-    {
-      "model": "qwen2.5-coder:7b",
-      "tests": 7,
-      "avg_score": 0.6362857142857142,
-      "avg_score_pct": 63.628571428571426,
-      "last_tested": "2026-03-05T20:20:25.318139",
-      "suites": [
-        "baseline_triplet_20260305",
-        "local_custom_probe",
-        "local_custom_probe_v2",
-        "quick_triplet_l1_20260305",
-        "smoke_triplet_20260305"
-      ]
-    },
-    {
-      "model": "qwen2.5:7b",
+      "model": "Gemma-3-4B",
       "tests": 6,
-      "avg_score": 0.6034953703703704,
-      "avg_score_pct": 60.34953703703704,
-      "last_tested": "2026-03-05T20:20:27.293918",
       "suites": [
-        "initial_matrix_20260305",
-        "local_custom_probe",
-        "local_custom_probe_v2",
-        "sanity_runner_patch"
-      ]
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "tests": 6,
+      "suites": [
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "tests": 16,
+      "suites": [
+        "bench_code",
+        "bench_knowledge",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-13"
+    },
+    {
+      "model": "Phi-4-14B",
+      "tests": 11,
+      "suites": [
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-16"
+    },
+    {
+      "model": "Phi-4-mini",
+      "tests": 6,
+      "suites": [
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "tests": 11,
+      "suites": [
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "tests": 16,
+      "suites": [
+        "bench_code",
+        "bench_knowledge",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "tests": 16,
+      "suites": [
+        "bench_code",
+        "bench_knowledge",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "tests": 6,
+      "suites": [
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Qwen3-8B",
+      "tests": 3,
+      "suites": [
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "tests": 11,
+      "suites": [
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "\u2014"
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "tests": 12,
+      "suites": [
+        "bench_code",
+        "bench_knowledge",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "tests": 12,
+      "suites": [
+        "bench_code",
+        "bench_knowledge",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "SmolLM3-3B",
+      "tests": 6,
+      "suites": [
+        "bench_code",
+        "bench_pipeline",
+        "bench_reasoning"
+      ],
+      "last_date_utc": "2026-03-18"
     }
   ],
   "suite_rollup": [
     {
-      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
-      "suite": "code_full_20260310_202111_partial2",
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "suite": "bench_code",
       "tests": 2,
-      "avg_score": 0.4446494464944649,
-      "avg_score_pct": 44.464944649446494,
-      "last_tested": "2026-03-11T19:23:09+00:00"
+      "last_date_utc": "2026-03-14"
     },
     {
-      "model": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
-      "suite": "recovery_ckpt_hot5_20260310_partial3",
-      "tests": 1,
-      "avg_score": 0.6835443037974683,
-      "avg_score_pct": 68.35443037974683,
-      "last_tested": "2026-03-11T06:47:32+00:00"
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-14"
     },
     {
-      "model": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
-      "suite": "recovery_ckpt_hot5_20260310_partial3",
-      "tests": 1,
-      "avg_score": 0.7341772151898734,
-      "avg_score_pct": 73.41772151898735,
-      "last_tested": "2026-03-11T06:44:32+00:00"
-    },
-    {
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "suite": "ab_prompt_A_20260310",
-      "tests": 1,
-      "avg_score": 0.6582278481012658,
-      "avg_score_pct": 65.82278481012658,
-      "last_tested": "2026-03-11T01:16:10+00:00"
-    },
-    {
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "suite": "ab_prompt_B_20260310",
-      "tests": 1,
-      "avg_score": 0.17721518987341772,
-      "avg_score_pct": 17.72151898734177,
-      "last_tested": "2026-03-11T01:29:11+00:00"
-    },
-    {
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "suite": "code_full_20260310_202111_partial2",
-      "tests": 2,
-      "avg_score": 0.53690036900369,
-      "avg_score_pct": 53.690036900368995,
-      "last_tested": "2026-03-11T21:41:09+00:00"
-    },
-    {
-      "model": "Qwen3.5-4B-Q4_K_M.gguf",
-      "suite": "recovery_ckpt_hot5_20260310_partial3",
-      "tests": 1,
-      "avg_score": 0.6835443037974683,
-      "avg_score_pct": 68.35443037974683,
-      "last_tested": "2026-03-11T07:09:52+00:00"
-    },
-    {
-      "model": "Qwen3.5-9B-Q3_K_M.gguf",
-      "suite": "ab_prompt_A_20260310",
-      "tests": 1,
-      "avg_score": 0.13924050632911392,
-      "avg_score_pct": 13.924050632911392,
-      "last_tested": "2026-03-11T01:43:52+00:00"
-    },
-    {
-      "model": "Qwen3.5-9B-Q3_K_M.gguf",
-      "suite": "ab_prompt_B_20260310",
-      "tests": 1,
-      "avg_score": 0.08860759493670886,
-      "avg_score_pct": 8.860759493670885,
-      "last_tested": "2026-03-11T01:46:21+00:00"
-    },
-    {
-      "model": "mistral:7b-instruct",
-      "suite": "local_custom_probe",
-      "tests": 1,
-      "avg_score": 0.0,
-      "avg_score_pct": 0.0,
-      "last_tested": "2026-03-05T20:19:06.821533"
-    },
-    {
-      "model": "mistral:7b-instruct",
-      "suite": "local_custom_probe_v2",
-      "tests": 1,
-      "avg_score": 1.0,
-      "avg_score_pct": 100.0,
-      "last_tested": "2026-03-05T20:20:03.464691"
-    },
-    {
-      "model": "qwen2.5-coder:14b",
-      "suite": "initial_matrix_20260305",
-      "tests": 2,
-      "avg_score": 0.486875,
-      "avg_score_pct": 48.6875,
-      "last_tested": "2026-03-05T14:06:44.980759"
-    },
-    {
-      "model": "qwen2.5-coder:14b",
-      "suite": "quick_triplet_l1_20260305",
-      "tests": 2,
-      "avg_score": 0.7849999999999999,
-      "avg_score_pct": 78.49999999999999,
-      "last_tested": "2026-03-05T15:54:28.421925"
-    },
-    {
-      "model": "qwen2.5-coder:32b",
-      "suite": "quick_triplet_l1_20260305",
-      "tests": 2,
-      "avg_score": 0.09,
-      "avg_score_pct": 9.0,
-      "last_tested": "2026-03-05T15:55:15.554964"
-    },
-    {
-      "model": "qwen2.5-coder:7b",
-      "suite": "baseline_triplet_20260305",
-      "tests": 2,
-      "avg_score": 0.442,
-      "avg_score_pct": 44.2,
-      "last_tested": "2026-03-05T15:37:21.397028"
-    },
-    {
-      "model": "qwen2.5-coder:7b",
-      "suite": "local_custom_probe",
-      "tests": 1,
-      "avg_score": 1.0,
-      "avg_score_pct": 100.0,
-      "last_tested": "2026-03-05T20:19:22.710360"
-    },
-    {
-      "model": "qwen2.5-coder:7b",
-      "suite": "local_custom_probe_v2",
-      "tests": 1,
-      "avg_score": 0.5,
-      "avg_score_pct": 50.0,
-      "last_tested": "2026-03-05T20:20:25.318139"
-    },
-    {
-      "model": "qwen2.5-coder:7b",
-      "suite": "quick_triplet_l1_20260305",
-      "tests": 2,
-      "avg_score": 0.635,
-      "avg_score_pct": 63.5,
-      "last_tested": "2026-03-05T15:53:05.860807"
-    },
-    {
-      "model": "qwen2.5-coder:7b",
-      "suite": "smoke_triplet_20260305",
-      "tests": 1,
-      "avg_score": 0.8,
-      "avg_score_pct": 80.0,
-      "last_tested": "2026-03-05T15:20:51.509548"
-    },
-    {
-      "model": "qwen2.5:7b",
-      "suite": "initial_matrix_20260305",
+      "model": "DeepSeek-R1-Distill-Qwen-14B",
+      "suite": "bench_reasoning",
       "tests": 3,
-      "avg_score": 0.4847685185185185,
-      "avg_score_pct": 48.47685185185185,
-      "last_tested": "2026-03-05T14:03:11.985279"
+      "last_date_utc": "2026-03-16"
     },
     {
-      "model": "qwen2.5:7b",
-      "suite": "local_custom_probe",
-      "tests": 1,
-      "avg_score": 0.5,
-      "avg_score_pct": 50.0,
-      "last_tested": "2026-03-05T20:19:17.570056"
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "\u2014"
     },
     {
-      "model": "qwen2.5:7b",
-      "suite": "local_custom_probe_v2",
-      "tests": 1,
-      "avg_score": 1.0,
-      "avg_score_pct": 100.0,
-      "last_tested": "2026-03-05T20:20:27.293918"
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-15"
     },
     {
-      "model": "qwen2.5:7b",
-      "suite": "sanity_runner_patch",
+      "model": "DeepSeek-R1-Distill-Qwen-32B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "\u2014"
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-11"
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "suite": "bench_knowledge",
+      "tests": 5,
+      "last_date_utc": "2026-03-13"
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-11"
+    },
+    {
+      "model": "DeepSeek-R1-Distill-Qwen-7B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-12"
+    },
+    {
+      "model": "Gemma-3-12B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "\u2014"
+    },
+    {
+      "model": "Gemma-3-12B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Gemma-3-12B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Gemma-3-4B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Gemma-3-4B",
+      "suite": "bench_pipeline",
       "tests": 1,
-      "avg_score": 0.6666666666666666,
-      "avg_score_pct": 66.66666666666666,
-      "last_tested": "2026-03-05T13:51:40.845290"
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Gemma-3-4B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "suite": "bench_pipeline",
+      "tests": 1,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-11"
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "suite": "bench_knowledge",
+      "tests": 5,
+      "last_date_utc": "2026-03-13"
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-11"
+    },
+    {
+      "model": "Mistral-7B-Instruct-v0.3",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-13"
+    },
+    {
+      "model": "Phi-4-14B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Phi-4-14B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Phi-4-14B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-16"
+    },
+    {
+      "model": "Phi-4-mini",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Phi-4-mini",
+      "suite": "bench_pipeline",
+      "tests": 1,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Phi-4-mini",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen2.5-Coder-14B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "suite": "bench_knowledge",
+      "tests": 5,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen2.5-Coder-32B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-11"
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "suite": "bench_knowledge",
+      "tests": 5,
+      "last_date_utc": "2026-03-13"
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-11"
+    },
+    {
+      "model": "Qwen2.5-Coder-7B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-14"
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "suite": "bench_pipeline",
+      "tests": 1,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "Qwen3-1.7B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-18"
+    },
+    {
+      "model": "Qwen3-8B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "\u2014"
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-11"
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "suite": "bench_knowledge",
+      "tests": 1,
+      "last_date_utc": "2026-03-13"
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-4B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-12"
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "suite": "bench_knowledge",
+      "tests": 1,
+      "last_date_utc": "2026-03-13"
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "suite": "bench_pipeline",
+      "tests": 6,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "Qwen3.5-9B-Q3_K_M",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-15"
+    },
+    {
+      "model": "SmolLM3-3B",
+      "suite": "bench_code",
+      "tests": 2,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "SmolLM3-3B",
+      "suite": "bench_pipeline",
+      "tests": 1,
+      "last_date_utc": "2026-03-17"
+    },
+    {
+      "model": "SmolLM3-3B",
+      "suite": "bench_reasoning",
+      "tests": 3,
+      "last_date_utc": "2026-03-18"
     }
   ]
 }
