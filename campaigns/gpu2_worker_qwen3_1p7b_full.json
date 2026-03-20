@@ -1,8 +1,8 @@
 {
-  "name": "gpu3_worker_full_example",
-  "target_worker": "gpu-3",
-  "worker_port": 11437,
-  "model": "qwen2.5-coder:7b",
+  "name": "gpu2_worker_qwen3_1p7b_full",
+  "target_worker": "gpu-2",
+  "worker_port": 11436,
+  "model": "qwen3:1.7b",
   "stop_on_failure": true,
   "suites": [
     {
@@ -18,7 +18,7 @@
     {
       "id": "reasoning",
       "suite": "bench-reasoning",
-      "args": ["--tasks", "gsm8k,bbh,drop", "--limit", "100"]
+      "args": ["--tasks", "gsm8k,bbh,drop", "--limit", "10"]
     }
   ]
 }
