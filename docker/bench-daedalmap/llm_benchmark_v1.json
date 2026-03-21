@@ -1,0 +1,514 @@
+{
+  "suite_id": "llm_benchmark_v1",
+  "suite_name": "DaedalMap LLM Chat Layer Benchmark",
+  "version": "2.0.0",
+  "description": "Tests local models on JSON structure discipline, source grounding, response type routing, and catalog discipline. Run against llama.cpp OpenAI-compatible endpoint with llm_benchmark_runner.py.",
+  "notes": [
+    "expected_type: the correct response type the model should return.",
+    "expected_source_ids: at least one of these should appear in order items (if type=order).",
+    "must_not_hallucinate: source_ids that should never appear (not in catalog or wrong scope).",
+    "clarify_ok: if true, clarify is also acceptable alongside the primary expected_type."
+  ],
+  "cases": [
+
+    {"case_id": "JD-001", "category": "json_discipline", "priority": "p0",
+     "query": "Show earthquakes in Japan since 2015",
+     "expected_type": "order", "expected_source_ids": ["earthquakes"], "must_not_hallucinate": [],
+     "notes": "Simplest possible order. Baseline pass for any instruction-following model."},
+
+    {"case_id": "JD-002", "category": "json_discipline", "priority": "p0",
+     "query": "Population density in California",
+     "expected_type": "order", "expected_source_ids": ["census"], "must_not_hallucinate": [],
+     "notes": "USA-specific source. Should use census not worldpop."},
+
+    {"case_id": "JD-003", "category": "json_discipline", "priority": "p0",
+     "query": "Show CO2 emissions for Europe 2022",
+     "expected_type": "order", "expected_source_ids": ["owid_co2"], "must_not_hallucinate": [],
+     "notes": "Global source, explicit year. Clean JSON discipline test."},
+
+    {"case_id": "JD-004", "category": "json_discipline", "priority": "p0",
+     "query": "Wildfires in California last year",
+     "expected_type": "order", "expected_source_ids": ["wildfires"], "must_not_hallucinate": [],
+     "notes": "Relative time reference. Model should resolve to a reasonable year."},
+
+    {"case_id": "JD-005", "category": "json_discipline", "priority": "p0",
+     "query": "Show hurricanes in the Gulf of Mexico since 2000",
+     "expected_type": "order", "expected_source_ids": ["hurricanes"], "must_not_hallucinate": [],
+     "notes": "Regional qualifier on a global source."},
+
+    {"case_id": "JD-006", "category": "json_discipline", "priority": "p0",
+     "query": "Show volcanoes that erupted in the last decade",
+     "expected_type": "order", "expected_source_ids": ["volcanoes"], "must_not_hallucinate": [],
+     "notes": "Relative time window, global scope."},
+
+    {"case_id": "JD-007", "category": "json_discipline", "priority": "p0",
+     "query": "Tsunami events in the Pacific since 1990",
+     "expected_type": "order", "expected_source_ids": ["tsunamis"], "must_not_hallucinate": [],
+     "notes": "Simple events query. Tests clean JSON output."},
+
+    {"case_id": "JD-008", "category": "json_discipline", "priority": "p0",
+     "query": "Show tornado events in Texas",
+     "expected_type": "order", "expected_source_ids": ["tornadoes"], "must_not_hallucinate": [],
+     "notes": "State-level disaster query."},
+
+    {"case_id": "JD-009", "category": "json_discipline", "priority": "p0",
+     "query": "Show flood events globally since 2000",
+     "expected_type": "order", "expected_source_ids": ["floods"], "must_not_hallucinate": [],
+     "notes": "Global scope, explicit time window."},
+
+    {"case_id": "JD-010", "category": "json_discipline", "priority": "p0",
+     "query": "Landslides in Southeast Asia",
+     "expected_type": "order", "expected_source_ids": ["landslides"], "must_not_hallucinate": [],
+     "notes": "Less common disaster type. Tests catalog recall."},
+
+    {"case_id": "JD-011", "category": "json_discipline", "priority": "p1",
+     "query": "Show GDP data for the G20",
+     "expected_type": "order", "expected_source_ids": ["owid_co2", "imf_bop"], "must_not_hallucinate": [],
+     "notes": "Economic data, regional group. Either owid or imf is acceptable."},
+
+    {"case_id": "JD-012", "category": "json_discipline", "priority": "p1",
+     "query": "Show population data for Africa",
+     "expected_type": "order", "expected_source_ids": ["worldpop"], "must_not_hallucinate": [],
+     "notes": "Continent scope, global population source."},
+
+    {"case_id": "JD-013", "category": "json_discipline", "priority": "p1",
+     "query": "Earthquakes in Chile between 2010 and 2020",
+     "expected_type": "order", "expected_source_ids": ["earthquakes"], "must_not_hallucinate": [],
+     "notes": "Explicit year range. Model should set year_start and year_end."},
+
+    {"case_id": "JD-014", "category": "json_discipline", "priority": "p1",
+     "query": "Show me wildfire data for Australia",
+     "expected_type": "order", "expected_source_ids": ["wildfires"], "must_not_hallucinate": [],
+     "notes": "Country scope on a global source."},
+
+    {"case_id": "JD-015", "category": "json_discipline", "priority": "p1",
+     "query": "Show hurricane tracks for the Atlantic in 2005",
+     "expected_type": "order", "expected_source_ids": ["hurricanes"], "must_not_hallucinate": [],
+     "notes": "Specific basin + year. Tests region and year field assignment."},
+
+    {"case_id": "JD-016", "category": "json_discipline", "priority": "p1",
+     "query": "Show me CO2 emissions per capita for the Nordic countries",
+     "expected_type": "order", "expected_source_ids": ["owid_co2"], "must_not_hallucinate": [],
+     "notes": "Sub-region grouping. Model must know nordic is a valid region."},
+
+    {"case_id": "JD-017", "category": "json_discipline", "priority": "p1",
+     "query": "Show earthquakes above magnitude 6 globally in 2023",
+     "expected_type": "order", "expected_source_ids": ["earthquakes"], "must_not_hallucinate": [],
+     "notes": "Filter condition in natural language. Tests whether model encodes filter intent."},
+
+    {"case_id": "JD-018", "category": "json_discipline", "priority": "p1",
+     "query": "Volcano eruptions in Indonesia over the last 50 years",
+     "expected_type": "order", "expected_source_ids": ["volcanoes"], "must_not_hallucinate": [],
+     "notes": "Country + long relative time window."},
+
+    {"case_id": "JD-019", "category": "json_discipline", "priority": "p1",
+     "query": "Show BRICS countries CO2 emissions trend from 2000 to 2022",
+     "expected_type": "order", "expected_source_ids": ["owid_co2"], "must_not_hallucinate": [],
+     "notes": "Political grouping + explicit year range."},
+
+    {"case_id": "JD-020", "category": "json_discipline", "priority": "p1",
+     "query": "Show tornadoes in the US midwest in 2020",
+     "expected_type": "order", "expected_source_ids": ["tornadoes"], "must_not_hallucinate": [],
+     "notes": "Sub-national regional reference. Model may need to map midwest to a region or clarify."},
+
+    {"case_id": "SG-001", "category": "source_grounding", "priority": "p0",
+     "query": "Show flood risk scores for US counties",
+     "expected_type": "order", "expected_source_ids": ["fema_nri"], "must_not_hallucinate": ["floods"],
+     "notes": "FEMA NRI is the risk score source, not the global floods event source. Key grounding test."},
+
+    {"case_id": "SG-002", "category": "source_grounding", "priority": "p0",
+     "query": "Australian population by state",
+     "expected_type": "order", "expected_source_ids": ["abs_population"], "must_not_hallucinate": ["census", "worldpop"],
+     "notes": "AUS-specific source. Should not use US census or global worldpop."},
+
+    {"case_id": "SG-003", "category": "source_grounding", "priority": "p0",
+     "query": "Show poverty rates by country",
+     "expected_type": "order", "expected_source_ids": ["un_sdg_01"], "must_not_hallucinate": [],
+     "notes": "SDG Goal 1 is poverty. Tests goal-to-source mapping."},
+
+    {"case_id": "SG-004", "category": "source_grounding", "priority": "p0",
+     "query": "CO2 emissions per capita for BRICS countries",
+     "expected_type": "order", "expected_source_ids": ["owid_co2"], "must_not_hallucinate": [],
+     "notes": "Regional grouping + specific metric."},
+
+    {"case_id": "SG-005", "category": "source_grounding", "priority": "p0",
+     "query": "Exchange rate for Japanese yen against USD over the last decade",
+     "expected_type": "order", "expected_source_ids": ["fx_usd_historical"], "must_not_hallucinate": [],
+     "notes": "FX source. Tests whether model picks fx_usd_historical not an economic indicator."},
+
+    {"case_id": "SG-006", "category": "source_grounding", "priority": "p0",
+     "query": "Show me FEMA risk index for Florida counties",
+     "expected_type": "order", "expected_source_ids": ["fema_nri"], "must_not_hallucinate": ["floods", "hurricanes"],
+     "notes": "Named source in query. Should map to fema_nri not disaster event sources."},
+
+    {"case_id": "SG-007", "category": "source_grounding", "priority": "p0",
+     "query": "Compare earthquake frequency and population density in Japan",
+     "expected_type": "order", "expected_source_ids": ["earthquakes", "worldpop"], "must_not_hallucinate": [],
+     "notes": "Multi-source order. Both sources should appear in items."},
+
+    {"case_id": "SG-008", "category": "source_grounding", "priority": "p0",
+     "query": "Show nuclear power plant locations in Europe",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["nuclear", "nuclear_plants", "energy_infrastructure", "iaea"],
+     "notes": "Not in catalog. Should respond with chat, not hallucinate a source_id."},
+
+    {"case_id": "SG-009", "category": "source_grounding", "priority": "p0",
+     "query": "Military spending as percentage of GDP by country",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["military_spending", "sipri", "defense_budget", "world_bank"],
+     "notes": "Not in catalog. High hallucination risk - well-trained models know this data exists elsewhere."},
+
+    {"case_id": "SG-010", "category": "source_grounding", "priority": "p0",
+     "query": "Show UN SDG clean water access by country",
+     "expected_type": "order", "expected_source_ids": ["un_sdg_06"], "must_not_hallucinate": [],
+     "notes": "SDG Goal 6 is clean water. Tests goal-to-source_id mapping."},
+
+    {"case_id": "SG-011", "category": "source_grounding", "priority": "p0",
+     "query": "Show balance of payments data for G20 countries",
+     "expected_type": "order", "expected_source_ids": ["imf_bop"], "must_not_hallucinate": [],
+     "notes": "IMF BOP source. Tests economic source selection."},
+
+    {"case_id": "SG-012", "category": "source_grounding", "priority": "p1",
+     "query": "Show me hunger and food insecurity by country",
+     "expected_type": "order", "expected_source_ids": ["un_sdg_02"], "must_not_hallucinate": ["fao", "hunger_index", "food_security"],
+     "notes": "SDG Goal 2 is zero hunger. Tests SDG vocabulary mapping without hallucinating FAO."},
+
+    {"case_id": "SG-013", "category": "source_grounding", "priority": "p1",
+     "query": "Show health outcomes by country",
+     "expected_type": "order", "expected_source_ids": ["un_sdg_03"], "clarify_ok": true, "must_not_hallucinate": ["who_health", "global_burden", "ihme"],
+     "notes": "SDG Goal 3 is health. Broad query - clarify acceptable but should not hallucinate WHO source."},
+
+    {"case_id": "SG-014", "category": "source_grounding", "priority": "p1",
+     "query": "Show energy access rates globally",
+     "expected_type": "order", "expected_source_ids": ["un_sdg_07"], "must_not_hallucinate": ["eia", "irena", "energy_access"],
+     "notes": "SDG Goal 7 is energy. Tests SDG mapping vs hallucinating energy agency sources."},
+
+    {"case_id": "SG-015", "category": "source_grounding", "priority": "p1",
+     "query": "Show unemployment rates for Europe",
+     "expected_type": "order", "expected_source_ids": ["un_sdg_08"], "must_not_hallucinate": ["eurostat", "ilo", "unemployment_data"],
+     "notes": "SDG Goal 8 covers decent work and economic growth. Tests SDG mapping vs hallucinating Eurostat."},
+
+    {"case_id": "SG-016", "category": "source_grounding", "priority": "p1",
+     "query": "Turkish lira depreciation against USD over the last 5 years",
+     "expected_type": "order", "expected_source_ids": ["fx_usd_historical"], "must_not_hallucinate": [],
+     "notes": "Specific currency + time window. Tests FX source recall with non-English currency name."},
+
+    {"case_id": "SG-017", "category": "source_grounding", "priority": "p1",
+     "query": "Show Argentine peso exchange rate year by year since 2010",
+     "expected_type": "order", "expected_source_ids": ["fx_usd_historical"], "must_not_hallucinate": [],
+     "notes": "Granular FX request. Tests year_start / year_end assignment."},
+
+    {"case_id": "SG-018", "category": "source_grounding", "priority": "p1",
+     "query": "Show population data for counties in Texas",
+     "expected_type": "order", "expected_source_ids": ["census"], "must_not_hallucinate": ["worldpop"],
+     "notes": "County-level USA query. Should use census not worldpop."},
+
+    {"case_id": "SG-019", "category": "source_grounding", "priority": "p1",
+     "query": "Show wildfire risk scores for California counties",
+     "expected_type": "order", "expected_source_ids": ["fema_nri"], "must_not_hallucinate": ["wildfires"],
+     "notes": "Risk scores are fema_nri, not wildfire events. Tests risk vs events distinction for USA."},
+
+    {"case_id": "SG-020", "category": "source_grounding", "priority": "p1",
+     "query": "Show me climate action metrics by country",
+     "expected_type": "order", "expected_source_ids": ["un_sdg_13", "owid_co2"], "must_not_hallucinate": ["unfccc", "climate_tracker"],
+     "notes": "SDG Goal 13 is climate action. owid_co2 also acceptable. Tests SDG climate mapping."},
+
+    {"case_id": "SG-021", "category": "source_grounding", "priority": "p1",
+     "query": "Show me IMF data for South America",
+     "expected_type": "order", "expected_source_ids": ["imf_bop"], "must_not_hallucinate": [],
+     "notes": "Named source in query mapped to correct source_id. Tests imf -> imf_bop mapping."},
+
+    {"case_id": "SG-022", "category": "source_grounding", "priority": "p1",
+     "query": "Show earthquake exposure for population centers in Turkey",
+     "expected_type": "order", "expected_source_ids": ["earthquakes", "worldpop"], "must_not_hallucinate": [],
+     "notes": "Multi-source join. Disaster + population. Both should appear in order items."},
+
+    {"case_id": "SG-023", "category": "source_grounding", "priority": "p1",
+     "query": "Compare GDP per capita across the EU",
+     "expected_type": "order", "expected_source_ids": ["owid_co2", "imf_bop"], "must_not_hallucinate": ["world_bank", "eurostat_gdp"],
+     "notes": "Economic query on political grouping. Either owid or imf acceptable, not hallucinated sources."},
+
+    {"case_id": "SG-024", "category": "source_grounding", "priority": "p1",
+     "query": "Show me all available data for New Zealand",
+     "expected_type": "order", "clarify_ok": true, "expected_source_ids": ["worldpop", "owid_co2", "imf_bop"], "must_not_hallucinate": ["nz_census", "stats_nz"],
+     "notes": "Broad all-data request for a country with no specific source. Should use global sources, not hallucinate NZ-specific ones."},
+
+    {"case_id": "SG-025", "category": "source_grounding", "priority": "p1",
+     "query": "Show storm surge risk for Gulf Coast counties",
+     "expected_type": "order", "expected_source_ids": ["fema_nri"], "must_not_hallucinate": ["storm_surge", "noaa_surge", "coastal_risk"],
+     "notes": "Specific risk type for US counties. fema_nri is the right source, not a hallucinated NOAA coastal risk source."},
+
+    {"case_id": "SG-026", "category": "source_grounding", "priority": "p1",
+     "query": "Show me tsunami damage and casualties historically",
+     "expected_type": "order", "expected_source_ids": ["tsunamis"], "must_not_hallucinate": [],
+     "notes": "Casualty/damage framing should still map to tsunamis source."},
+
+    {"case_id": "SG-027", "category": "source_grounding", "priority": "p1",
+     "query": "Show me landslide fatalities by region",
+     "expected_type": "order", "expected_source_ids": ["landslides"], "must_not_hallucinate": ["emdat", "disaster_deaths"],
+     "notes": "Fatality framing. Should map to landslides, not hallucinate EM-DAT or global disaster death databases."},
+
+    {"case_id": "SG-028", "category": "source_grounding", "priority": "p1",
+     "query": "Show annual wildfire burned area for Canada",
+     "expected_type": "order", "expected_source_ids": ["wildfires"], "must_not_hallucinate": ["nrcan", "cwfis", "canada_wildfire"],
+     "notes": "Canada wildfire query. Should use global wildfires source, not hallucinate a Canada-specific fire agency."},
+
+    {"case_id": "SG-029", "category": "source_grounding", "priority": "p1",
+     "query": "Show me population of New South Wales",
+     "expected_type": "order", "expected_source_ids": ["abs_population"], "must_not_hallucinate": ["worldpop", "census"],
+     "notes": "Australia state query. Must use abs_population, not worldpop or USA census."},
+
+    {"case_id": "SG-030", "category": "source_grounding", "priority": "p1",
+     "query": "Show flood events in Bangladesh since 1985",
+     "expected_type": "order", "expected_source_ids": ["floods"], "must_not_hallucinate": ["fema_nri"],
+     "notes": "Non-USA flood query. Should use global floods, never fema_nri which is USA-only."},
+
+    {"case_id": "TR-001", "category": "type_routing", "priority": "p0",
+     "query": "Show me data for Georgia",
+     "expected_type": "disambiguate", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Classic ambiguity: Georgia the US state vs Georgia the country."},
+
+    {"case_id": "TR-002", "category": "type_routing", "priority": "p0",
+     "query": "Navigate to Japan",
+     "expected_type": "navigate", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Pure navigation request with no data keywords. Should not produce an order."},
+
+    {"case_id": "TR-003", "category": "type_routing", "priority": "p0",
+     "query": "Zoom to California",
+     "expected_type": "navigate", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Explicit zoom verb. Should return navigate not order."},
+
+    {"case_id": "TR-004", "category": "type_routing", "priority": "p0",
+     "query": "Show me data",
+     "expected_type": "clarify", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Maximally vague. Should always clarify, never hallucinate an order."},
+
+    {"case_id": "TR-005", "category": "type_routing", "priority": "p0",
+     "query": "Turn on the earthquake overlay",
+     "expected_type": "overlay_toggle", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Explicit overlay toggle. Should not produce a data order."},
+
+    {"case_id": "TR-006", "category": "type_routing", "priority": "p0",
+     "query": "Show me Washington earthquake risk",
+     "expected_type": "disambiguate", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Washington state vs Washington DC ambiguity."},
+
+    {"case_id": "TR-007", "category": "type_routing", "priority": "p0",
+     "query": "Disable the wildfire overlay",
+     "expected_type": "overlay_toggle", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Overlay disable (enabled=false). Distinct from overlay enable."},
+
+    {"case_id": "TR-008", "category": "type_routing", "priority": "p0",
+     "query": "What is happening right now",
+     "expected_type": "clarify", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "No location, no data type. Should clarify both, not guess."},
+
+    {"case_id": "TR-009", "category": "type_routing", "priority": "p0",
+     "query": "What earthquake data do you have?",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Informational question about coverage. Should describe the source, not execute an order."},
+
+    {"case_id": "TR-010", "category": "type_routing", "priority": "p0",
+     "query": "Compare population growth vs CO2 emissions for the top 10 economies since 2000",
+     "expected_type": "order", "expected_source_ids": ["owid_co2", "worldpop"], "must_not_hallucinate": [],
+     "notes": "Complex multi-source order. Tests whether model builds a two-item order."},
+
+    {"case_id": "TR-011", "category": "type_routing", "priority": "p0",
+     "query": "Show me Guinea",
+     "expected_type": "disambiguate", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Three Guineas exist: Guinea, Guinea-Bissau, Equatorial Guinea. Should disambiguate."},
+
+    {"case_id": "TR-012", "category": "type_routing", "priority": "p0",
+     "query": "Go to Turkey",
+     "expected_type": "navigate", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Navigate verb. Should zoom to Turkey, not load data about Turkey."},
+
+    {"case_id": "TR-013", "category": "type_routing", "priority": "p1",
+     "query": "Add Canada to the map",
+     "expected_type": "order", "clarify_ok": true, "expected_source_ids": ["worldpop", "owid_co2"], "must_not_hallucinate": [],
+     "notes": "Incremental order. Ambiguous metric - may need clarification or default to population."},
+
+    {"case_id": "TR-014", "category": "type_routing", "priority": "p1",
+     "query": "Remove the earthquake layer",
+     "expected_type": "overlay_toggle", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Overlay disable using 'remove' vocabulary. Should map to overlay_toggle enabled=false."},
+
+    {"case_id": "TR-015", "category": "type_routing", "priority": "p1",
+     "query": "Show me the Congo",
+     "expected_type": "disambiguate", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Congo Republic vs Democratic Republic of Congo. Should disambiguate."},
+
+    {"case_id": "TR-016", "category": "type_routing", "priority": "p1",
+     "query": "Filter earthquakes to magnitude 7 and above",
+     "expected_type": "order", "expected_source_ids": ["earthquakes"], "must_not_hallucinate": [],
+     "notes": "Filter update on existing overlay. Should encode magnitude filter in order."},
+
+    {"case_id": "TR-017", "category": "type_routing", "priority": "p1",
+     "query": "Show me everything about Indonesia",
+     "expected_type": "clarify", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Too broad to execute. Should ask which data type or domain."},
+
+    {"case_id": "TR-018", "category": "type_routing", "priority": "p1",
+     "query": "What do you have for climate data?",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Informational discovery question. Should describe available climate sources, not execute."},
+
+    {"case_id": "TR-019", "category": "type_routing", "priority": "p1",
+     "query": "Enable hurricanes and disable wildfires",
+     "expected_type": "overlay_toggle", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Two overlay actions in one query. Should produce overlay_toggle responses."},
+
+    {"case_id": "TR-020", "category": "type_routing", "priority": "p1",
+     "query": "Center the map on Lagos Nigeria",
+     "expected_type": "navigate", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "City-level navigation. Should navigate, not order data."},
+
+    {"case_id": "TR-021", "category": "type_routing", "priority": "p1",
+     "query": "Show me data for the Middle East",
+     "expected_type": "clarify", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Region with no metric specified. Should clarify what data type."},
+
+    {"case_id": "TR-022", "category": "type_routing", "priority": "p1",
+     "query": "Show recent seismic activity in New Zealand",
+     "expected_type": "order", "expected_source_ids": ["earthquakes"], "must_not_hallucinate": [],
+     "notes": "Seismic is earthquake vocabulary. Tests synonym mapping to correct source."},
+
+    {"case_id": "TR-023", "category": "type_routing", "priority": "p1",
+     "query": "Fly to the Sahara",
+     "expected_type": "navigate", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Fly is navigate vocabulary. Geographic feature, not a country."},
+
+    {"case_id": "TR-024", "category": "type_routing", "priority": "p1",
+     "query": "Show me tropical storm data for Southeast Asia",
+     "expected_type": "order", "expected_source_ids": ["hurricanes"], "must_not_hallucinate": [],
+     "notes": "Tropical storms are hurricanes in the catalog. Tests vocabulary synonym handling."},
+
+    {"case_id": "TR-025", "category": "type_routing", "priority": "p1",
+     "query": "I want to see the Philippines",
+     "expected_type": "navigate", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Ambiguous intent - could be navigate or data. Navigate or clarify both acceptable."},
+
+    {"case_id": "TR-026", "category": "type_routing", "priority": "p1",
+     "query": "Show typhoon tracks near the Philippines since 2010",
+     "expected_type": "order", "expected_source_ids": ["hurricanes"], "must_not_hallucinate": [],
+     "notes": "Typhoons are hurricanes in IBTrACS. Tests regional storm vocabulary mapping."},
+
+    {"case_id": "TR-027", "category": "type_routing", "priority": "p1",
+     "query": "What sources do you have?",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Top-level catalog discovery question. Should summarize available sources in chat."},
+
+    {"case_id": "TR-028", "category": "type_routing", "priority": "p1",
+     "query": "Show me the worst affected areas from the 2004 Indian Ocean tsunami",
+     "expected_type": "order", "expected_source_ids": ["tsunamis"], "must_not_hallucinate": [],
+     "notes": "Named historical event. Should map to tsunamis source with year=2004."},
+
+    {"case_id": "TR-029", "category": "type_routing", "priority": "p1",
+     "query": "Turn off all overlays",
+     "expected_type": "overlay_toggle", "expected_source_ids": [], "must_not_hallucinate": [],
+     "notes": "Bulk overlay disable. Tests overlay_toggle with broad disable intent."},
+
+    {"case_id": "TR-030", "category": "type_routing", "priority": "p1",
+     "query": "Show me drought conditions in East Africa",
+     "expected_type": "clarify", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": ["drought", "ndvi", "spei", "pdsi"],
+     "notes": "Drought data is not in this catalog. Should clarify or chat, not hallucinate a drought index source."},
+
+    {"case_id": "CD-001", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show me UK population broken down by county",
+     "expected_type": "clarify", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": ["uk_census", "ons_population", "gb_population"],
+     "notes": "UK county data not in catalog. Should clarify or offer global alternative, never hallucinate a UK source."},
+
+    {"case_id": "CD-002", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show population data for Ontario Canada",
+     "expected_type": "order", "expected_source_ids": ["worldpop"], "must_not_hallucinate": ["statcan_population", "canada_census", "nrcan"],
+     "notes": "No Canada-specific source. Should fall back to worldpop not hallucinate a Canada source."},
+
+    {"case_id": "CD-003", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show me FEMA flood zone maps for Houston",
+     "expected_type": "order", "clarify_ok": true, "expected_source_ids": ["fema_nri"], "must_not_hallucinate": ["fema_flood_zones", "nfip", "firm_maps"],
+     "notes": "FEMA flood zone maps are not fema_nri. Should use NRI or clarify, not hallucinate a flood zones source."},
+
+    {"case_id": "CD-004", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show me census data for Australia",
+     "expected_type": "order", "expected_source_ids": ["abs_population"], "must_not_hallucinate": ["census"],
+     "notes": "Australian census is abs_population, not the USA census source. Scope discipline."},
+
+    {"case_id": "CD-005", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show global internet access rates by country",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": ["itu_data", "internet_access", "broadband_stats"],
+     "notes": "Not in catalog. Should acknowledge unavailability rather than hallucinating a source."},
+
+    {"case_id": "CD-006", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show me COVID-19 case counts by country",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["covid", "covid19", "owid_covid", "who_covid", "jhu_covid"],
+     "notes": "COVID data not in catalog. High hallucination risk - models know this data exists in OWID."},
+
+    {"case_id": "CD-007", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show me deforestation rates in the Amazon",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": ["prodes", "inpe", "deforestation", "forest_loss", "hansen_gfc"],
+     "notes": "Not in catalog. Strong hallucination risk for Brazilian deforestation monitoring sources."},
+
+    {"case_id": "CD-008", "category": "catalog_discipline", "priority": "p0",
+     "query": "Show crime rates by US state",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["fbi_ucr", "crime_data", "ucr", "nibrs"],
+     "notes": "Crime data not in catalog. Should decline gracefully."},
+
+    {"case_id": "CD-009", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show election results by district in France",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["election_data", "french_elections", "interior_ministry"],
+     "notes": "Political/election data not in catalog."},
+
+    {"case_id": "CD-010", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me property prices in London",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["land_registry", "property_prices", "uk_housing"],
+     "notes": "Real estate data not in catalog. Should decline."},
+
+    {"case_id": "CD-011", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show air quality index for cities in China",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": ["aqi", "pm25", "air_quality", "cnemc"],
+     "notes": "Air quality not in catalog. Should acknowledge and not hallucinate an AQI source."},
+
+    {"case_id": "CD-012", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me sea level rise measurements by coastline",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": ["sea_level", "noaa_tide", "psmsl", "copernicus_sl"],
+     "notes": "Sea level data not in catalog. Tests whether model hallucinates NOAA or Copernicus sources."},
+
+    {"case_id": "CD-013", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show renewable energy capacity by country",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": ["un_sdg_07"], "must_not_hallucinate": ["irena", "eia_renewable", "energy_capacity"],
+     "notes": "SDG 7 touches energy access but not capacity specifically. Should use SDG 7 or clarify, not hallucinate IRENA."},
+
+    {"case_id": "CD-014", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me German population by municipality",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": ["worldpop"], "must_not_hallucinate": ["destatis", "german_census", "zensus"],
+     "notes": "Municipality level for Germany not in catalog. worldpop covers country level at best. Should clarify or use worldpop."},
+
+    {"case_id": "CD-015", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me traffic accident deaths by country",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["who_road_safety", "irtad", "traffic_deaths"],
+     "notes": "Road safety data not in catalog."},
+
+    {"case_id": "CD-016", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me hospital locations in Brazil",
+     "expected_type": "chat", "expected_source_ids": [], "must_not_hallucinate": ["osm_hospitals", "health_facilities", "brazil_health"],
+     "notes": "Health facility location data not in catalog."},
+
+    {"case_id": "CD-017", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show FEMA data for Texas",
+     "expected_type": "order", "expected_source_ids": ["fema_nri"], "must_not_hallucinate": [],
+     "notes": "Named FEMA source in query. Should resolve to fema_nri. FEMA is USA-only so Texas is in scope."},
+
+    {"case_id": "CD-018", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me FEMA data for Mexico",
+     "expected_type": "chat", "clarify_ok": true, "expected_source_ids": [], "must_not_hallucinate": ["fema_nri"],
+     "notes": "FEMA is USA-only. Mexico query for FEMA should clarify or decline, never use fema_nri for a non-USA country."},
+
+    {"case_id": "CD-019", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me census data for India",
+     "expected_type": "order", "clarify_ok": true, "expected_source_ids": ["worldpop"], "must_not_hallucinate": ["census", "india_census", "censusindia"],
+     "notes": "India census not in catalog. Should use worldpop as fallback, never the USA census source."},
+
+    {"case_id": "CD-020", "category": "catalog_discipline", "priority": "p1",
+     "query": "Show me ABS data for Queensland",
+     "expected_type": "order", "expected_source_ids": ["abs_population"], "must_not_hallucinate": [],
+     "notes": "ABS is the Australian Bureau of Statistics - maps to abs_population. Queensland is an Australian state."}
+  ]
+}

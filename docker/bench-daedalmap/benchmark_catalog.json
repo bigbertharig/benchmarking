@@ -1,0 +1,173 @@
+{
+  "description": "DaedalMap source catalog snapshot. Used as LLM context in benchmark prompts. Keep in sync with benchmark_prompt.py BENCHMARK_CATALOG.",
+  "regions": {
+    "continents": ["africa", "americas", "asia", "europe", "oceania"],
+    "political_groups": ["eu", "g7", "g20", "nato", "brics"],
+    "geographic": ["north_america", "south_america", "latin_america", "caribbean"],
+    "sub_regions": ["nordic", "baltic", "benelux", "maghreb"],
+    "us_states": "Use full state name or 2-letter abbreviation (e.g. California or CA)"
+  },
+  "sources": [
+    {
+      "source_id": "census",
+      "name": "US Census Demographics",
+      "coverage": "USA only (admin_2 county level)",
+      "years": "2010-2023",
+      "notes": "Must NOT be used for non-US queries"
+    },
+    {
+      "source_id": "fema_nri",
+      "name": "FEMA National Risk Index",
+      "coverage": "USA only (admin_2 county level)",
+      "years": "2021-2023",
+      "notes": "Risk scores per hazard type. Not event data. Must NOT be used for non-US queries."
+    },
+    {
+      "source_id": "tornadoes",
+      "name": "NOAA Storm Events Tornadoes",
+      "coverage": "USA only (admin_2)",
+      "years": "1950-2025",
+      "notes": "Event tracks. Must NOT be used for non-US queries."
+    },
+    {
+      "source_id": "abs_population",
+      "name": "ABS Population",
+      "coverage": "Australia only (admin_1 state level)",
+      "years": "2001-2023",
+      "notes": "Australian Bureau of Statistics. Must NOT be used for non-AU queries."
+    },
+    {
+      "source_id": "earthquakes",
+      "name": "USGS and NOAA Earthquakes",
+      "coverage": "Global (admin_0)",
+      "years": "2150BC-2026",
+      "notes": "Historical event data. Not real-time alerts."
+    },
+    {
+      "source_id": "hurricanes",
+      "name": "IBTrACS Hurricane Tracks",
+      "coverage": "Global (admin_0)",
+      "years": "1842-2026",
+      "notes": "Storm track lines with wind speed and category."
+    },
+    {
+      "source_id": "tsunamis",
+      "name": "NOAA Tsunami Database",
+      "coverage": "Global (admin_0)",
+      "years": "2000BC-2025",
+      "notes": "Distinct from earthquakes even when co-occurring."
+    },
+    {
+      "source_id": "volcanoes",
+      "name": "Smithsonian Volcanoes",
+      "coverage": "Global (admin_0)",
+      "years": "Holocene-2025",
+      "notes": "Eruption history. Distinct from earthquakes."
+    },
+    {
+      "source_id": "wildfires",
+      "name": "Global Wildfire Atlas",
+      "coverage": "Global (admin_0)",
+      "years": "2002-2024",
+      "notes": "Perimeter and burn area data."
+    },
+    {
+      "source_id": "floods",
+      "name": "Global Floods",
+      "coverage": "Global (admin_0)",
+      "years": "1985-2019",
+      "notes": "Flood extent polygons. Distinct from landslides."
+    },
+    {
+      "source_id": "landslides",
+      "name": "NASA Landslides",
+      "coverage": "Global (admin_0)",
+      "years": "1760-2025",
+      "notes": "Event locations. Distinct from floods even when co-occurring."
+    },
+    {
+      "source_id": "owid_co2",
+      "name": "Our World in Data CO2 and Climate",
+      "coverage": "Global (admin_0)",
+      "years": "1750-2024",
+      "notes": "Emissions data. Distinct from un_sdg_13 (climate action indicators)."
+    },
+    {
+      "source_id": "imf_bop",
+      "name": "IMF Balance of Payments",
+      "coverage": "Global (admin_0)",
+      "years": "2005-2022",
+      "notes": "Trade and current account data. Distinct from fx_usd_historical (exchange rates)."
+    },
+    {
+      "source_id": "worldpop",
+      "name": "WorldPop Global Population",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2020",
+      "notes": "Use for non-US, non-AU population queries."
+    },
+    {
+      "source_id": "fx_usd_historical",
+      "name": "FX Historical Exchange Rates",
+      "coverage": "Global (admin_0)",
+      "years": "1970-2024",
+      "notes": "USD-base exchange rates. Not equity or commodity prices."
+    },
+    {
+      "source_id": "un_sdg_01",
+      "name": "SDG 1: No Poverty",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2023",
+      "notes": "Poverty headcount. Not Gini/inequality metrics."
+    },
+    {
+      "source_id": "un_sdg_02",
+      "name": "SDG 2: Zero Hunger",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2023",
+      "notes": "Food security and hunger indicators."
+    },
+    {
+      "source_id": "un_sdg_03",
+      "name": "SDG 3: Good Health and Well-Being",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2023",
+      "notes": "Health indicators. Not COVID case counts."
+    },
+    {
+      "source_id": "un_sdg_06",
+      "name": "SDG 6: Clean Water and Sanitation",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2023",
+      "notes": "Water access and sanitation coverage. Distinct from floods dataset."
+    },
+    {
+      "source_id": "un_sdg_07",
+      "name": "SDG 7: Affordable and Clean Energy",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2023",
+      "notes": "Energy access and renewable share indicators."
+    },
+    {
+      "source_id": "un_sdg_08",
+      "name": "SDG 8: Decent Work and Economic Growth",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2023",
+      "notes": "Employment and economic growth indicators. Not poverty (SDG 1) or BOP (imf_bop)."
+    },
+    {
+      "source_id": "un_sdg_13",
+      "name": "SDG 13: Climate Action",
+      "coverage": "Global (admin_0)",
+      "years": "2000-2023",
+      "notes": "Climate action policy indicators. Distinct from owid_co2 (raw emissions)."
+    }
+  ],
+  "not_in_catalog": [
+    "weather", "air_quality", "aqi", "crime", "gdp", "world_bank",
+    "covid", "pandemic", "stocks", "equities", "oil", "commodity",
+    "drought", "ndvi", "gini", "inequality", "svi", "social_vulnerability",
+    "un_sdg_04", "un_sdg_05", "un_sdg_09", "un_sdg_10", "un_sdg_11",
+    "un_sdg_12", "un_sdg_14", "un_sdg_15", "un_sdg_16", "un_sdg_17"
+  ]
+}
