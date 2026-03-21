@@ -1,0 +1,25 @@
+{
+  "name": "daedalmap_small_models_full_example",
+  "target_worker": "gpu-5",
+  "worker_port": 11439,
+  "suite": "bench-daedalmap",
+  "stop_on_failure": true,
+  "env_file": "/mnt/shared/plans/shoulders/benchmarking/docker/bench-daedalmap/.env",
+  "suite_args": [
+    "--execute"
+  ],
+  "models": [
+    {
+      "id": "qwen25coder7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    {
+      "id": "llama32_3b",
+      "model": "llama3.2:3b"
+    },
+    {
+      "id": "phi4mini_3p8b",
+      "model": "phi-4-mini:3.8b"
+    }
+  ]
+}

@@ -6,6 +6,8 @@ live worker runtimes.
 For building new suites that integrate cleanly with dashboard/orchestration:
 - [SUITE_CREATION.md](SUITE_CREATION.md)
 - [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md)
+- [MULTI_MODEL_SINGLE_SUITE.md](MULTI_MODEL_SINGLE_SUITE.md)
+- [SINGLE_GPU_COHORT_SUITES.md](SINGLE_GPU_COHORT_SUITES.md)
 
 For operator use, the canonical sequencing path is still manual:
 - load and verify the runtime first
@@ -14,6 +16,11 @@ For operator use, the canonical sequencing path is still manual:
 
 The sequenced guide documents that manual path. It is not a separate campaign
 control layer for worker benchmarking.
+
+The multi-model single-suite guide is a separate control path for a different
+operator goal:
+- sequenced tests: one model, many suites
+- multi-model single-suite: one suite, many models
 
 This matters operationally:
 - "sequenced" means calling the same proven manual suite commands one at a time
