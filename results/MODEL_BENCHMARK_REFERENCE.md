@@ -1,9 +1,9 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-03-21T01:38:50.652989`
+- Generated at: `2026-03-21T02:48:53.583166`
 - Records file: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/benchmark-scripts/benchmark_status.json`
-- Total recorded runs: `316`
+- Total recorded runs: `383`
 
 ## Operational Status
 
@@ -120,7 +120,30 @@ This section tracks current benchmarkability and backend certification status.
 | gemma-3-4b-it-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-17T05:34:54+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3_4b_l10_promptv2 |
 | gemma-3:12b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
 | gemma-3:12b | gsm8k_strict | 0.6 | 60.0 | exact_match,strict-match | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
+| gemma-3:4b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:46:56+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:46:56+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T02:46:56+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:46:56+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:46:56+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:46:56+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:47:09+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_no_halluc_rate | 0.8 | 80.0 | no_halluc_rate | 2026-03-21T02:47:09+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T02:47:09+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_source_hit_rate | 0.8 | 80.0 | source_hit_rate | 2026-03-21T02:47:09+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:47:09+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T02:47:09+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b |
 | llama3.2:3b | bbh | 0.5896296296296296 | 58.96296296296296 | exact_match,get-answer | 2026-03-18T10:01:42+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:48:10+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:48:10+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_pass_rate | 0.4 | 40.0 | pass_rate | 2026-03-21T02:48:09+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:48:10+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | 2026-03-21T02:48:10+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:48:17+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:48:17+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_pass_rate | 1.0 | 100.0 | pass_rate | 2026-03-21T02:48:17+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:48:17+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:48:17+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T02:48:17+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b |
 | llama3.2:3b | drop_em | 0.28 | 28.000000000000004 | em,none | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
 | llama3.2:3b | drop_f1 | 0.43260000000000004 | 43.260000000000005 | f1,none | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
 | llama3.2:3b | gsm8k_flexible | 0.72 | 72.0 | exact_match,flexible-extract | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
@@ -134,6 +157,16 @@ This section tracks current benchmarkability and backend certification status.
 | phi-4-Q4_K_M.gguf | gsm8k_flexible | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
 | phi-4-Q4_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
 | phi-4-mini:3.8b | bbh | 0.5722222222222222 | 57.22222222222222 | exact_match,get-answer | 2026-03-18T22:55:05+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_json_discipline_pass_rate | 0.4 | 40.0 | pass_rate | 2026-03-21T02:48:42+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_json_valid_rate | 0.8 | 80.0 | json_valid_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_source_hit_rate | 0.75 | 75.0 | source_hit_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_source_valid_rate | 0.75 | 75.0 | source_valid_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
 | phi-4-mini:3.8b | drop_em | 0.11 | 11.0 | em,none | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
 | phi-4-mini:3.8b | drop_f1 | 0.28470000000000006 | 28.470000000000006 | f1,none | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
 | phi-4-mini:3.8b | gsm8k_flexible | 0.69 | 69.0 | exact_match,flexible-extract | 2026-03-18T06:02:21+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
@@ -204,6 +237,16 @@ This section tracks current benchmarkability and backend certification status.
 | qwen2.5:7b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | 2026-03-05T20:20:27.293918 | local_custom | local_custom_probe_v2 |
 | qwen2.5:7b | drop | 0.14875 |  | f1,none | 2026-03-05T13:57:56.869958 | lm_eval | initial_matrix_20260305 |
 | qwen2.5:7b | gsm8k | 0.75 |  | exact_match,flexible-extract | 2026-03-05T13:57:07.002198 | lm_eval | initial_matrix_20260305 |
+| qwen3.5:4b | daedalmap_json_discipline_json_valid_rate | 0.8 | 80.0 | json_valid_rate | 2026-03-21T02:46:01+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:46:01+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T02:46:01+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:46:01+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:46:01+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:46:01+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_json_valid_rate | 0.0 | 0.0 | json_valid_rate | 2026-03-21T02:47:25+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:47:25+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_pass_rate | 0.0 | 0.0 | pass_rate | 2026-03-21T02:47:25+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_type_correct_rate | 0.0 | 0.0 | type_correct_rate | 2026-03-21T02:47:25+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b |
 | qwen3.5:4b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
 | qwen3.5:4b | gsm8k_strict | 0.8 | 80.0 | exact_match,strict-match | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
 | qwen3.5:9b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T06:46:17+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b_reasoning_q35_9b_nothink_v1 |
@@ -211,6 +254,18 @@ This section tracks current benchmarkability and backend certification status.
 | qwen3.5:9b-q3km | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
 | qwen3.5:9b-q3km | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
 | qwen3:1.7b | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-18T18:30:08+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:45:48+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:45:48+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T02:45:48+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:45:48+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:45:48+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:45:48+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_json_valid_rate | 0.8 | 80.0 | json_valid_rate | 2026-03-21T02:46:19+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:46:19+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T02:46:19+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:46:19+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:46:19+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:46:19+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b |
 | qwen3:1.7b | drop_em | 0.02 | 2.0 | em,none | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
 | qwen3:1.7b | drop_f1 | 0.1661 | 16.61 | f1,none | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
 | qwen3:1.7b | gsm8k_flexible | 0.46 | 46.0 | exact_match,flexible-extract | 2026-03-18T17:55:04+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
@@ -221,6 +276,18 @@ This section tracks current benchmarkability and backend certification status.
 | qwen3:8b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
 | qwen3:8b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
 | smollm3:3b | bbh | 0.6677777777777778 | 66.77777777777779 | exact_match,get-answer | 2026-03-18T10:07:52+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:45:57+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:45:57+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T02:45:57+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:45:57+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:45:57+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_type_correct_rate | 0.6 | 60.0 | type_correct_rate | 2026-03-21T02:45:57+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:46:05+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_no_halluc_rate | 0.8 | 80.0 | no_halluc_rate | 2026-03-21T02:46:06+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T02:46:05+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_source_hit_rate | 0.6 | 60.0 | source_hit_rate | 2026-03-21T02:46:06+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_source_valid_rate | 0.8 | 80.0 | source_valid_rate | 2026-03-21T02:46:06+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T02:46:06+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_smollm3_3b |
 | smollm3:3b | drop_em | 0.19 | 19.0 | em,none | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
 | smollm3:3b | drop_f1 | 0.3302000000000001 | 33.02000000000001 | f1,none | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
 | smollm3:3b | gsm8k_flexible | 0.79 | 79.0 | exact_match,flexible-extract | 2026-03-18T05:59:56+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
@@ -230,43 +297,43 @@ This section tracks current benchmarkability and backend certification status.
 
 | Run At | Model | Test ID | Score | Score % | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_pass_rate | 0.6 | 60.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | ab216def-c118-4521-9f5a-819e46884a89 |
-| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 1dfa6bd2-e830-4fe0-b4ff-25f8e89fd2c9 |
-| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | f189ca51-4251-4940-86dc-2ec2257884b5 |
-| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 91065beb-23fa-48ec-b04e-bd9629c390fe |
-| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 8fef672e-3809-4514-929a-0361a7101a6a |
-| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 32b724b2-a61f-49de-879a-10f822f02123 |
-| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_pass_rate | 0.75 | 75.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 59bf8e17-18ad-4e80-812c-162017830e42 |
-| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 48612689-3f0c-43cf-873d-fb91a586d564 |
-| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_type_correct_rate | 0.85 | 85.0 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 060a85d3-497b-4e65-938f-4281502cb1bd |
-| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 0ffcf2c7-b77c-484b-9227-c72049f26531 |
-| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_source_hit_rate | 0.8823529411764706 | 88.23529411764706 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 5a293ab1-4dea-4259-bf0c-258a1f82c01a |
-| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_source_valid_rate | 0.9411764705882353 | 94.11764705882352 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 6ae21239-4328-46f5-a021-be76afa79f04 |
-| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | ab130e8c-cd5f-4599-b70f-54c41e22bb26 |
-| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | f6907f74-c171-4b20-b2dc-57b15836f0cb |
-| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_type_correct_rate | 1.0 | 100.0 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 8a9a7680-76fb-4356-9a21-a62870d0d691 |
-| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 7a5af959-a4a3-4670-8bd3-fdb2ab4acc12 |
-| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 4ca6db0b-fec4-48f7-bb70-107a45d7a6bc |
-| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_source_valid_rate | 0.9333333333333333 | 93.33333333333333 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 3a21aa51-b069-4ebf-ac75-6694cfe7b02c |
-| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 56577b3a-5bf3-462e-a244-67d55f6fe008 |
-| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 72b9e862-3299-43e2-b791-a9fd2e9f0ec7 |
-| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 96cd68fa-df2a-4511-919b-0eb88010a6d4 |
-| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | dcd61800-408d-451e-9d6e-a663d9c69704 |
-| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_source_hit_rate | 0.8 | 80.0 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | d9c3c604-86a8-4a67-a9c5-95de7ee9cdde |
-| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_source_valid_rate | 0.8 | 80.0 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 316f358e-a931-413a-acdf-29c39fd3e756 |
-| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_pass_rate | 0.8 | 80.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 557e3324-942a-4762-ae43-f4ec6f7f10a8 |
-| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 5bbc11f9-d0b5-403d-8eff-e522490e709e |
-| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | d3408262-d97e-44e9-9e9e-766dfda413f2 |
-| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 5f02cce1-4763-43d8-be57-08ec8ef5ef7e |
-| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 4b860f97-c060-4ebd-b35c-11ab81921e55 |
-| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_source_valid_rate | 0.9285714285714286 | 92.85714285714286 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 993df0e4-8bea-49ed-bfa7-38c2874f0252 |
-| 2026-03-21T01:34:33+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 2d8f8138-5cad-464a-b686-42499ef087d1 |
-| 2026-03-21T01:34:33+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_source_valid_rate | 0.0 | 0.0 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | df7f0b22-1d65-49d1-a235-75c560a50a98 |
-| 2026-03-21T01:34:32+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_pass_rate | 0.4 | 40.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 462fd9e4-b35f-44b3-92d4-cacfef22d558 |
-| 2026-03-21T01:34:32+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | ff31ea8d-c630-4f4e-ae0d-94042d5ce632 |
-| 2026-03-21T01:34:32+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | aedce31a-d240-45b5-a085-46e7cb32d963 |
-| 2026-03-21T01:25:59+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 6589eb60-a99a-40a0-9205-aefbec20dc96 |
-| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_pass_rate | 1.0 | 100.0 | pass_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 298c3ecd-46c3-419b-a6de-0f9919256dc7 |
-| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 0c19c4ea-abd0-41e5-a7a3-ab41d29def77 |
-| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_type_correct_rate | 1.0 | 100.0 | type_correct_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 094bf173-7178-43a4-81f4-dff6b121b56f |
-| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 9b85c36c-8bf4-4fc5-b969-974d7bfabc6c |
+| 2026-03-21T02:48:53+00:00 | phi-4-mini:3.8b | daedalmap_source_grounding_pass_rate | 0.6 | 60.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | 3b79cf1c-a87d-4e09-ac43-3c481ff7e5c7 |
+| 2026-03-21T02:48:53+00:00 | phi-4-mini:3.8b | daedalmap_source_grounding_json_valid_rate | 0.8 | 80.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | b003f7c7-1e34-4b9f-8708-b327db58f285 |
+| 2026-03-21T02:48:53+00:00 | phi-4-mini:3.8b | daedalmap_source_grounding_type_correct_rate | 0.8 | 80.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | ad99d860-56f7-4b5f-96b8-c4b00f811ae7 |
+| 2026-03-21T02:48:53+00:00 | phi-4-mini:3.8b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | 4f49aaab-2de1-4b98-a6ad-d560ec514d95 |
+| 2026-03-21T02:48:53+00:00 | phi-4-mini:3.8b | daedalmap_source_grounding_source_hit_rate | 0.75 | 75.0 | source_hit_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | 7ebacd2b-8062-4057-8222-1371d295b8eb |
+| 2026-03-21T02:48:53+00:00 | phi-4-mini:3.8b | daedalmap_source_grounding_source_valid_rate | 0.75 | 75.0 | source_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | 08236259-bdf7-47d1-9fe3-849efa9d23e4 |
+| 2026-03-21T02:48:43+00:00 | phi-4-mini:3.8b | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | c33a05f9-5ad0-4da5-9279-16485a23d186 |
+| 2026-03-21T02:48:43+00:00 | phi-4-mini:3.8b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | addb0135-5af8-4754-b2e1-a0bd48fe2623 |
+| 2026-03-21T02:48:43+00:00 | phi-4-mini:3.8b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | f4fb0028-05eb-4999-aa6d-2b9214bd50db |
+| 2026-03-21T02:48:42+00:00 | phi-4-mini:3.8b | daedalmap_json_discipline_pass_rate | 0.4 | 40.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b | 8d5ce3dd-f944-4f69-9683-abfcbfbda666 |
+| 2026-03-21T02:48:17+00:00 | llama3.2:3b | daedalmap_source_grounding_pass_rate | 1.0 | 100.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | 1d75ddff-7cf2-4b2b-b7d5-eeae10fce272 |
+| 2026-03-21T02:48:17+00:00 | llama3.2:3b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | d4a73fbe-f437-48c5-aa36-48070583cc16 |
+| 2026-03-21T02:48:17+00:00 | llama3.2:3b | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | cf6554de-6e2f-411a-8768-5048075a84c6 |
+| 2026-03-21T02:48:17+00:00 | llama3.2:3b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | 2eed8ca9-7451-4e3d-b917-de1a2bae25cd |
+| 2026-03-21T02:48:17+00:00 | llama3.2:3b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | e0762570-8d27-4225-9a63-ee8618b12a65 |
+| 2026-03-21T02:48:17+00:00 | llama3.2:3b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | a26a199b-ddbd-46c2-ab5b-03398480f6db |
+| 2026-03-21T02:48:10+00:00 | llama3.2:3b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | e33d4f45-d553-4221-b5d3-80f5d45e2649 |
+| 2026-03-21T02:48:10+00:00 | llama3.2:3b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | 38e2147e-673a-4552-b7fc-e827522f69b2 |
+| 2026-03-21T02:48:10+00:00 | llama3.2:3b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | a3b526e7-f8a1-4c89-84fa-ef48fd07f956 |
+| 2026-03-21T02:48:10+00:00 | llama3.2:3b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | d0485fad-5bdf-4cb9-81bc-dd40e6c6ae6e |
+| 2026-03-21T02:48:09+00:00 | llama3.2:3b | daedalmap_json_discipline_pass_rate | 0.4 | 40.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_llama3.2_3b | 7fd41d87-b859-4891-b9a5-010c98b37bea |
+| 2026-03-21T02:47:25+00:00 | qwen3.5:4b | daedalmap_source_grounding_pass_rate | 0.0 | 0.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b | 92355326-72f1-49fc-8a29-ea3e445cf6ce |
+| 2026-03-21T02:47:25+00:00 | qwen3.5:4b | daedalmap_source_grounding_json_valid_rate | 0.0 | 0.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b | 34ce6355-5537-4870-811b-642aa409a402 |
+| 2026-03-21T02:47:25+00:00 | qwen3.5:4b | daedalmap_source_grounding_type_correct_rate | 0.0 | 0.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b | d4053124-b8ec-4d8c-9378-c25d27928e7b |
+| 2026-03-21T02:47:25+00:00 | qwen3.5:4b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3.5_4b | 68899b68-b8ca-4808-b5d8-dc65e64057ee |
+| 2026-03-21T02:47:09+00:00 | gemma-3:4b | daedalmap_source_grounding_pass_rate | 0.8 | 80.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | cbbdb9f0-1167-47e1-8842-2c45caeaf0c5 |
+| 2026-03-21T02:47:09+00:00 | gemma-3:4b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 6219fa72-68a3-4561-ae3f-12ac93b6b0aa |
+| 2026-03-21T02:47:09+00:00 | gemma-3:4b | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | e2aad1aa-696f-4a82-a20e-2fbc3b429d3d |
+| 2026-03-21T02:47:09+00:00 | gemma-3:4b | daedalmap_source_grounding_no_halluc_rate | 0.8 | 80.0 | no_halluc_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 0d917cc6-f6f5-4d3f-a3b5-2554825427d1 |
+| 2026-03-21T02:47:09+00:00 | gemma-3:4b | daedalmap_source_grounding_source_hit_rate | 0.8 | 80.0 | source_hit_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 4a95ee4b-8424-4da6-9489-bb59c19b1905 |
+| 2026-03-21T02:47:09+00:00 | gemma-3:4b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | e035fb26-0c23-402e-8f56-d07236553b92 |
+| 2026-03-21T02:46:56+00:00 | gemma-3:4b | daedalmap_json_discipline_pass_rate | 0.8 | 80.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 450e331d-fd76-4aab-b8d5-7e2d3b116411 |
+| 2026-03-21T02:46:56+00:00 | gemma-3:4b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 82bf2048-a1a7-47d8-8734-4f4f6a980aa1 |
+| 2026-03-21T02:46:56+00:00 | gemma-3:4b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 015e9e34-9adb-4630-beac-88eca07f4eb1 |
+| 2026-03-21T02:46:56+00:00 | gemma-3:4b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 39cb7df7-1d77-464f-8cb7-be346c4f6a81 |
+| 2026-03-21T02:46:56+00:00 | gemma-3:4b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 5a0c77a6-b126-4915-915a-06db70e6f2ec |
+| 2026-03-21T02:46:56+00:00 | gemma-3:4b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_gemma-3_4b | 1c9d7960-6ff0-4623-871a-45259ea5b5ba |
+| 2026-03-21T02:46:19+00:00 | qwen3:1.7b | daedalmap_source_grounding_pass_rate | 0.8 | 80.0 | pass_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b | 8cc51988-1aff-4a5a-a2c2-7d5b68b40663 |
+| 2026-03-21T02:46:19+00:00 | qwen3:1.7b | daedalmap_source_grounding_json_valid_rate | 0.8 | 80.0 | json_valid_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b | 90c06346-f321-406a-b374-99379201589f |
+| 2026-03-21T02:46:19+00:00 | qwen3:1.7b | daedalmap_source_grounding_type_correct_rate | 0.8 | 80.0 | type_correct_rate | bench-daedalmap | daedalmap_small_models_smoke_v7_qwen3_1.7b | 55ded8a7-007b-46e8-b9de-106799eabf93 |
