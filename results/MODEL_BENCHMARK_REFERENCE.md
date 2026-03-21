@@ -1,9 +1,9 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-03-11T15:38:01.673078`
-- Records file: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
-- Status file: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/benchmark_status.json`
-- Total recorded runs: `32`
+- Generated at: `2026-03-21T01:38:50.652989`
+- Records file: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
+- Status file: `/benchmark-scripts/benchmark_status.json`
+- Total recorded runs: `316`
 
 ## Operational Status
 
@@ -55,60 +55,218 @@ This section tracks current benchmarkability and backend certification status.
 
 | Model | Test ID | Score | Score % | Metric | Last Tested | Harness | Suite |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T01:08:31+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | drop_f1 | 0.082 | 8.200000000000001 | f1,none | 2026-03-17T01:08:31+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-17T01:06:22+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-17T01:06:22+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-12T12:04:41+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-12T12:08:11+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-12T12:08:11+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | gsm8k_flexible | 0.38 | 38.0 | exact_match,flexible-extract | 2026-03-12T09:44:14+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | gsm8k_strict | 0.3 | 30.0 | exact_match,strict-match | 2026-03-12T09:44:14+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | bbh | 0.5888888888888889 | 58.88888888888889 | exact_match,get-answer | 2026-03-17T06:00:00+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | drop_em | 0.2 | 20.0 | em,none | 2026-03-17T06:00:31+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | drop_f1 | 0.5269999999999999 | 52.69999999999999 | f1,none | 2026-03-17T06:00:31+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | 2026-03-17T05:34:29+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-17T05:34:29+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_base | 0.481549815498155 | 48.1549815498155 | pass_rate_542_base | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_plus | 0.4077490774907749 | 40.774907749077485 | pass_rate_542_plus | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | 2026-03-11T06:47:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | gsm8k_flexible | 0.48 | 48.0 | exact_match,flexible-extract | 2026-03-12T09:38:26+00:00 | bench-reasoning | bench-reasoning_Mistral-7B-Instruct-v0.3-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11437 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | gsm8k_strict | 0.48 | 48.0 | exact_match,strict-match | 2026-03-12T09:38:26+00:00 | bench-reasoning | bench-reasoning_Mistral-7B-Instruct-v0.3-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11437 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | bbh | 0.5777777777777777 | 57.77777777777777 | exact_match,get-answer | 2026-03-17T06:05:07+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | drop_em | 0.1 | 10.0 | em,none | 2026-03-17T06:05:39+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | drop_f1 | 0.275 | 27.500000000000004 | f1,none | 2026-03-17T06:05:39+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | 2026-03-17T05:34:50+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-17T05:34:50+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
 | Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | custom_worker_suite_total | 0.7341772151898734 | 73.41772151898735 | pass_rate_79 | 2026-03-11T06:44:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | 2026-03-12T09:32:56+00:00 | bench-reasoning | bench-reasoning_Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11438 |
+| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | gsm8k_strict | 0.75 | 75.0 | exact_match,strict-match | 2026-03-12T09:32:56+00:00 | bench-reasoning | bench-reasoning_Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11438 |
+| Qwen3-1.7B-Q4_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-17T05:38:22+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T05:39:01+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | drop_f1 | 0.36100000000000004 | 36.1 | f1,none | 2026-03-17T05:39:01+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | gsm8k_flexible | 0.5 | 50.0 | exact_match,flexible-extract | 2026-03-17T05:26:06+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | gsm8k_strict | 0.5 | 50.0 | exact_match,strict-match | 2026-03-17T05:26:06+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
 | Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_base | 0.5719557195571956 | 57.19557195571956 | pass_rate_542_base | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
 | Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_plus | 0.5018450184501845 | 50.184501845018445 | pass_rate_542_plus | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
 | Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | 2026-03-11T07:09:52+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Qwen3.5-9B-Q3_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-12T12:10:58+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
 | Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.08860759493670886 | 8.860759493670885 | pass_rate_79 | 2026-03-11T01:46:21+00:00 | bench-pipeline | ab_prompt_B_20260310 |
+| Qwen3.5-9B-Q3_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-12T12:13:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| Qwen3.5-9B-Q3_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-12T12:13:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| Qwen3.5-9B-Q3_K_M.gguf | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-12T09:56:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| Qwen3.5-9B-Q3_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-12T09:56:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| SmolLM3-3B-Q4_K_M.gguf | bbh | 0.6222222222222222 | 62.22222222222222 | exact_match,get-answer | 2026-03-17T06:00:32+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T06:01:03+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | drop_f1 | 0.23500000000000001 | 23.5 | f1,none | 2026-03-17T06:01:03+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | 2026-03-17T05:34:31+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | gsm8k_strict | 0.6 | 60.0 | exact_match,strict-match | 2026-03-17T05:34:31+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| deepseek-r1:14b | bbh | 0.5851851851851851 | 58.51851851851851 | exact_match,get-answer | 2026-03-16T21:59:53+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | drop_em | 0.0 | 0.0 | em,none | 2026-03-16T22:00:28+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-16T22:00:28+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | gsm8k_flexible | 0.2 | 20.0 | exact_match,flexible-extract | 2026-03-16T20:14:15+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-16T20:14:15+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:32b | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-15T02:11:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | drop_em | 0.0 | 0.0 | em,none | 2026-03-15T02:12:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-15T02:12:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T02:07:01+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | gsm8k_strict | 0.2 | 20.0 | exact_match,strict-match | 2026-03-15T02:07:01+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:7b | gsm8k_flexible | 0.09 | 9.0 | exact_match,flexible-extract | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
+| deepseek-r1:7b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
+| gemma-3-4b-it-Q4_K_M.gguf | bbh | 0.5481481481481482 | 54.81481481481482 | exact_match,get-answer | 2026-03-17T02:37:46+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
+| gemma-3-4b-it-Q4_K_M.gguf | drop_em | 0.2 | 20.0 | em,none | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
+| gemma-3-4b-it-Q4_K_M.gguf | drop_f1 | 0.266 | 26.6 | f1,none | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
+| gemma-3-4b-it-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | 2026-03-17T05:34:54+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3_4b_l10_promptv2 |
+| gemma-3-4b-it-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-17T05:34:54+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3_4b_l10_promptv2 |
+| gemma-3:12b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
+| gemma-3:12b | gsm8k_strict | 0.6 | 60.0 | exact_match,strict-match | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
+| llama3.2:3b | bbh | 0.5896296296296296 | 58.96296296296296 | exact_match,get-answer | 2026-03-18T10:01:42+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | drop_em | 0.28 | 28.000000000000004 | em,none | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | drop_f1 | 0.43260000000000004 | 43.260000000000005 | f1,none | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | gsm8k_flexible | 0.72 | 72.0 | exact_match,flexible-extract | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
 | mistral:7b-instruct | custom_ambiguity_handling | 1.0 | 100.0 | clarification_rate | 2026-03-05T20:20:03.464691 | local_custom | local_custom_probe_v2 |
+| mistral:7b-instruct | gsm8k_flexible | 0.48 | 48.0 | exact_match,flexible-extract | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
+| mistral:7b-instruct | gsm8k_strict | 0.48 | 48.0 | exact_match,strict-match | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
+| phi-4-Q4_K_M.gguf | bbh | 0.1259259259259259 | 12.592592592592592 | exact_match,get-answer | 2026-03-17T01:43:41+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | gsm8k_flexible | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-mini:3.8b | bbh | 0.5722222222222222 | 57.22222222222222 | exact_match,get-answer | 2026-03-18T22:55:05+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | drop_em | 0.11 | 11.0 | em,none | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | drop_f1 | 0.28470000000000006 | 28.470000000000006 | f1,none | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | gsm8k_flexible | 0.69 | 69.0 | exact_match,flexible-extract | 2026-03-18T06:02:21+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-18T06:02:21+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4:14b | bbh | 0.044444444444444446 | 4.444444444444445 | exact_match,get-answer | 2026-03-16T20:57:52+00:00 | bench-reasoning | bench-reasoning_phi-4_14b_reasoning_phi4_jsonprompt_smoke_v1 |
+| phi-4:14b | drop_em | 0.0 | 0.0 | em,none | 2026-03-16T20:58:31+00:00 | bench-reasoning | bench-reasoning_phi-4_14b_reasoning_phi4_jsonprompt_smoke_v1 |
+| phi-4:14b | drop_f1 | 0.384 | 38.4 | f1,none | 2026-03-16T20:58:31+00:00 | bench-reasoning | bench-reasoning_phi-4_14b_reasoning_phi4_jsonprompt_smoke_v1 |
+| phi-4:14b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-16T20:45:29+00:00 | bench-reasoning | bench-reasoning_phi-4_14b_reasoning_phi4_jsonprompt_smoke_v1 |
+| phi-4:14b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-16T20:45:29+00:00 | bench-reasoning | bench-reasoning_phi-4_14b_reasoning_phi4_jsonprompt_smoke_v1 |
+| qwen2.5-coder:14b | bbh | 0.5937037037037037 | 59.370370370370374 | exact_match,get-answer | 2026-03-16T16:23:17+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
 | qwen2.5-coder:14b | drop | 0.57 | 56.99999999999999 | f1,none | 2026-03-05T15:54:28.421925 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:14b | drop_em | 0.28 | 28.000000000000004 | em,none | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | drop_f1 | 0.4802000000000002 | 48.02000000000002 | f1,none | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
 | qwen2.5-coder:14b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-05T15:50:53.042159 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:14b | gsm8k_flexible | 0.89 | 89.0 | exact_match,flexible-extract | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | gsm8k_strict | 0.88 | 88.0 | exact_match,strict-match | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:32b | bbh | 0.4837037037037037 | 48.37037037037037 | exact_match,get-answer | 2026-03-15T22:45:25+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
 | qwen2.5-coder:32b | drop | 0.18 | 18.0 | f1,none | 2026-03-05T15:55:15.554964 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:32b | drop_em | 0.62 | 62.0 | em,none | 2026-03-15T22:46:12+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:32b | drop_f1 | 0.7561000000000003 | 75.61000000000003 | f1,none | 2026-03-15T22:46:12+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
 | qwen2.5-coder:32b | gsm8k | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-05T15:52:07.684619 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:32b | gsm8k_flexible | 0.92 | 92.0 | exact_match,flexible-extract | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:32b | gsm8k_strict | 0.92 | 92.0 | exact_match,strict-match | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:7b | bbh | 0.6674074074074074 | 66.74074074074075 | exact_match,get-answer | 2026-03-14T12:27:03+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_reasoning_coder7b_l100_v1 |
 | qwen2.5-coder:7b | custom_json_schema_strict | 0.5 | 50.0 | schema_valid_rate | 2026-03-05T20:20:25.318139 | local_custom | local_custom_probe_v2 |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T01:34:32+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | 2026-03-21T01:34:33+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_pass_rate | 0.4 | 40.0 | pass_rate | 2026-03-21T01:34:32+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_source_valid_rate | 0.0 | 0.0 | source_valid_rate | 2026-03-21T01:34:33+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | 2026-03-21T01:34:32+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T01:35:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T01:35:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T01:35:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | 2026-03-21T01:35:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_source_valid_rate | 0.9285714285714286 | 92.85714285714286 | source_valid_rate | 2026-03-21T01:35:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | 2026-03-21T01:35:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T01:35:49+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T01:35:49+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | 2026-03-21T01:35:49+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_json_discipline_source_hit_rate | 0.8 | 80.0 | source_hit_rate | 2026-03-21T01:35:49+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_json_discipline_source_valid_rate | 0.8 | 80.0 | source_valid_rate | 2026-03-21T01:35:49+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_json_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | 2026-03-21T01:35:49+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T01:37:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T01:37:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_multi_source_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | 2026-03-21T01:37:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T01:37:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_multi_source_source_valid_rate | 0.9333333333333333 | 93.33333333333333 | source_valid_rate | 2026-03-21T01:37:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_multi_source_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T01:37:18+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T01:38:06+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T01:38:06+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_source_grounding_pass_rate | 0.75 | 75.0 | pass_rate | 2026-03-21T01:38:06+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_source_grounding_source_hit_rate | 0.8823529411764706 | 88.23529411764706 | source_hit_rate | 2026-03-21T01:38:06+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_source_grounding_source_valid_rate | 0.9411764705882353 | 94.11764705882352 | source_valid_rate | 2026-03-21T01:38:06+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_source_grounding_type_correct_rate | 0.85 | 85.0 | type_correct_rate | 2026-03-21T01:38:06+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_type_routing_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T01:38:50+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T01:38:50+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_type_routing_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T01:38:50+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_type_routing_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | 2026-03-21T01:38:50+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T01:38:50+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
+| qwen2.5-coder:7b | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | 2026-03-21T01:38:50+00:00 | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 |
 | qwen2.5-coder:7b | drop | 0.27 | 27.0 | f1,none | 2026-03-05T15:53:05.860807 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:7b | drop_em | 0.49 | 49.0 | em,none | 2026-03-14T12:28:27+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_reasoning_coder7b_l100_v1 |
+| qwen2.5-coder:7b | drop_f1 | 0.5760000000000001 | 57.60000000000001 | f1,none | 2026-03-14T12:28:27+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_reasoning_coder7b_l100_v1 |
 | qwen2.5-coder:7b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-05T15:48:24.680621 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:7b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
+| qwen2.5-coder:7b | gsm8k_strict | 0.75 | 75.0 | exact_match,strict-match | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
 | qwen2.5:7b | bbh | 0.5555555555555556 |  | exact_match,get-answer | 2026-03-05T14:03:11.985279 | lm_eval | initial_matrix_20260305 |
 | qwen2.5:7b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | 2026-03-05T20:20:27.293918 | local_custom | local_custom_probe_v2 |
 | qwen2.5:7b | drop | 0.14875 |  | f1,none | 2026-03-05T13:57:56.869958 | lm_eval | initial_matrix_20260305 |
 | qwen2.5:7b | gsm8k | 0.75 |  | exact_match,flexible-extract | 2026-03-05T13:57:07.002198 | lm_eval | initial_matrix_20260305 |
+| qwen3.5:4b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
+| qwen3.5:4b | gsm8k_strict | 0.8 | 80.0 | exact_match,strict-match | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
+| qwen3.5:9b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T06:46:17+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b_reasoning_q35_9b_nothink_v1 |
+| qwen3.5:9b | gsm8k_strict | 0.8 | 80.0 | exact_match,strict-match | 2026-03-15T06:46:17+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b_reasoning_q35_9b_nothink_v1 |
+| qwen3.5:9b-q3km | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
+| qwen3.5:9b-q3km | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
+| qwen3:1.7b | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-18T18:30:08+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | drop_em | 0.02 | 2.0 | em,none | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | drop_f1 | 0.1661 | 16.61 | f1,none | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | gsm8k_flexible | 0.46 | 46.0 | exact_match,flexible-extract | 2026-03-18T17:55:04+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | gsm8k_strict | 0.44 | 44.0 | exact_match,strict-match | 2026-03-18T17:55:04+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:8b | bbh | 0.6244444444444445 | 62.44444444444445 | exact_match,get-answer | 2026-03-16T08:44:34+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | drop_em | 0.18 | 18.0 | em,none | 2026-03-16T08:45:40+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | drop_f1 | 0.3848000000000001 | 38.48000000000001 | f1,none | 2026-03-16T08:45:40+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| smollm3:3b | bbh | 0.6677777777777778 | 66.77777777777779 | exact_match,get-answer | 2026-03-18T10:07:52+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | drop_em | 0.19 | 19.0 | em,none | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | drop_f1 | 0.3302000000000001 | 33.02000000000001 | f1,none | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | gsm8k_flexible | 0.79 | 79.0 | exact_match,flexible-extract | 2026-03-18T05:59:56+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | gsm8k_strict | 0.79 | 79.0 | exact_match,strict-match | 2026-03-18T05:59:56+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
 
 ## Recent Runs
 
 | Run At | Model | Test ID | Score | Score % | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-03-11T21:41:09+00:00 | Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_base | 0.5719557195571956 | 57.19557195571956 | pass_rate_542_base | bench-code | code_full_20260310_202111_partial2 | 4a4e4fc9-7e16-4c98-a27f-3f0bf01d9d21 |
-| 2026-03-11T21:41:09+00:00 | Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_plus | 0.5018450184501845 | 50.184501845018445 | pass_rate_542_plus | bench-code | code_full_20260310_202111_partial2 | a4bc0bec-4bd0-4c0a-9246-05e9b2a92eea |
-| 2026-03-11T19:23:09+00:00 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_base | 0.481549815498155 | 48.1549815498155 | pass_rate_542_base | bench-code | code_full_20260310_202111_partial2 | 540c9fa2-dd7d-4aec-9ec6-8012a17eb44c |
-| 2026-03-11T19:23:09+00:00 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_plus | 0.4077490774907749 | 40.774907749077485 | pass_rate_542_plus | bench-code | code_full_20260310_202111_partial2 | 2c8d79c3-538b-44c1-9e4f-062c1ec39912 |
-| 2026-03-11T07:09:52+00:00 | Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 | 880a1560-1266-465e-bee9-a2988440f09c |
-| 2026-03-11T06:47:32+00:00 | Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 | c8c6a35f-cfb8-4231-958c-20e1e0f659a3 |
-| 2026-03-11T06:44:32+00:00 | Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | custom_worker_suite_total | 0.7341772151898734 | 73.41772151898735 | pass_rate_79 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 | 6cda6293-6cf6-4003-a0df-1df48930b0b9 |
-| 2026-03-11T01:46:21+00:00 | Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.08860759493670886 | 8.860759493670885 | pass_rate_79 | bench-pipeline | ab_prompt_B_20260310 | 66450d27-c64e-4cac-8139-bdb3130567c0 |
-| 2026-03-11T01:43:52+00:00 | Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.13924050632911392 | 13.924050632911392 | pass_rate_79 | bench-pipeline | ab_prompt_A_20260310 | 5543a79c-ba0b-44c9-8c33-e080e43f852e |
-| 2026-03-11T01:29:11+00:00 | Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.17721518987341772 | 17.72151898734177 | pass_rate_79 | bench-pipeline | ab_prompt_B_20260310 | 920db72b-6dce-403f-ad50-c925d62516ea |
-| 2026-03-11T01:16:10+00:00 | Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6582278481012658 | 65.82278481012658 | pass_rate_79 | bench-pipeline | ab_prompt_A_20260310 | 28357907-94c3-464f-836e-895cfcd7930b |
-| 2026-03-05T20:20:27.293918 | qwen2.5:7b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | local_custom | local_custom_probe_v2 | 1cb7950f-8eb7-4def-9a65-52f845b5591f |
-| 2026-03-05T20:20:25.318139 | qwen2.5-coder:7b | custom_json_schema_strict | 0.5 | 50.0 | schema_valid_rate | local_custom | local_custom_probe_v2 | 73c96bcc-37ff-40dc-b2a5-872c71d74d1c |
-| 2026-03-05T20:20:03.464691 | mistral:7b-instruct | custom_ambiguity_handling | 1.0 | 100.0 | clarification_rate | local_custom | local_custom_probe_v2 | 516e8b96-02b0-4ea8-9762-0e421db2667f |
-| 2026-03-05T20:19:22.710360 | qwen2.5-coder:7b | custom_json_schema_strict | 1.0 | 100.0 | schema_valid_rate | local_custom | local_custom_probe | 9629b2e8-9ae8-4ef1-b9a7-81baef132300 |
-| 2026-03-05T20:19:17.570056 | qwen2.5:7b | custom_command_safety | 0.5 | 50.0 | risk_detection_rate | local_custom | local_custom_probe | f523ca88-e821-4a3b-a878-be8147725afb |
-| 2026-03-05T20:19:06.821533 | mistral:7b-instruct | custom_ambiguity_handling | 0.0 | 0.0 | clarification_rate | local_custom | local_custom_probe | b10efe59-e03c-49f4-973c-b1a99c53d214 |
-| 2026-03-05T15:55:15.554964 | qwen2.5-coder:32b | drop | 0.18 | 18.0 | f1,none | lm_eval | quick_triplet_l1_20260305 | 145d6b3e-afc6-4f6e-94b7-f9b18b3b0674 |
-| 2026-03-05T15:54:28.421925 | qwen2.5-coder:14b | drop | 0.57 | 56.99999999999999 | f1,none | lm_eval | quick_triplet_l1_20260305 | 03c2eeb4-9400-4266-a2b8-845254259673 |
-| 2026-03-05T15:53:05.860807 | qwen2.5-coder:7b | drop | 0.27 | 27.0 | f1,none | lm_eval | quick_triplet_l1_20260305 | 68e3dba4-921c-4aa3-ba6e-7ad5a1b469ef |
-| 2026-03-05T15:52:07.684619 | qwen2.5-coder:32b | gsm8k | 0.0 | 0.0 | exact_match,flexible-extract | lm_eval | quick_triplet_l1_20260305 | af2d18c9-0263-4357-ac5d-444aaf302ed5 |
-| 2026-03-05T15:50:53.042159 | qwen2.5-coder:14b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | lm_eval | quick_triplet_l1_20260305 | 87ed19f6-8afd-4eb3-9b7b-0c7a9c991fb6 |
-| 2026-03-05T15:48:24.680621 | qwen2.5-coder:7b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | lm_eval | quick_triplet_l1_20260305 | d6103acb-4cf7-4f52-b1e2-c1b65fcf8129 |
-| 2026-03-05T15:37:21.397028 | qwen2.5-coder:7b | drop | 0.084 | 8.4 | f1,none | lm_eval | baseline_triplet_20260305 | 8920d5fd-db62-4db6-9644-a2d60df69830 |
-| 2026-03-05T15:36:15.439452 | qwen2.5-coder:7b | gsm8k | 0.8 | 80.0 | exact_match,flexible-extract | lm_eval | baseline_triplet_20260305 | b5b68292-84c2-4bdc-8d4e-cdf4b86073a8 |
-| 2026-03-05T15:20:51.509548 | qwen2.5-coder:7b | gsm8k | 0.8 | 80.0 | exact_match,flexible-extract | lm_eval | smoke_triplet_20260305 | 31eca519-2087-4bb5-b59f-f7e24fad6a7c |
-| 2026-03-05T14:06:44.980759 | qwen2.5-coder:14b | drop | 0.09874999999999999 |  | f1,none | lm_eval | initial_matrix_20260305 | 61258339-5f12-432f-ad47-25dc6f6409fd |
-| 2026-03-05T14:05:59.822246 | qwen2.5-coder:14b | gsm8k | 0.875 |  | exact_match,flexible-extract | lm_eval | initial_matrix_20260305 | 2e70a728-21a2-4d8f-b403-3abe33a205b8 |
-| 2026-03-05T14:03:11.985279 | qwen2.5:7b | bbh | 0.5555555555555556 |  | exact_match,get-answer | lm_eval | initial_matrix_20260305 | 09af4827-1430-4d8a-b700-20e8d607c72b |
-| 2026-03-05T13:57:56.869958 | qwen2.5:7b | drop | 0.14875 |  | f1,none | lm_eval | initial_matrix_20260305 | 33259072-ceca-4488-a903-9cefbded7ca0 |
-| 2026-03-05T13:57:07.002198 | qwen2.5:7b | gsm8k | 0.75 |  | exact_match,flexible-extract | lm_eval | initial_matrix_20260305 | a26281b8-7cb9-44d3-8f70-d405cdda0e4e |
-| 2026-03-05T13:51:40.845290 | qwen2.5:7b | gsm8k | 0.6666666666666666 |  | exact_match,flexible-extract | lm_eval | sanity_runner_patch | c647139c-9beb-49dc-8392-dcc7bc888b61 |
+| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_pass_rate | 0.6 | 60.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | ab216def-c118-4521-9f5a-819e46884a89 |
+| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 1dfa6bd2-e830-4fe0-b4ff-25f8e89fd2c9 |
+| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | f189ca51-4251-4940-86dc-2ec2257884b5 |
+| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 91065beb-23fa-48ec-b04e-bd9629c390fe |
+| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 8fef672e-3809-4514-929a-0361a7101a6a |
+| 2026-03-21T01:38:50+00:00 | qwen2.5-coder:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 32b724b2-a61f-49de-879a-10f822f02123 |
+| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_pass_rate | 0.75 | 75.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 59bf8e17-18ad-4e80-812c-162017830e42 |
+| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 48612689-3f0c-43cf-873d-fb91a586d564 |
+| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_type_correct_rate | 0.85 | 85.0 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 060a85d3-497b-4e65-938f-4281502cb1bd |
+| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 0ffcf2c7-b77c-484b-9227-c72049f26531 |
+| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_source_hit_rate | 0.8823529411764706 | 88.23529411764706 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 5a293ab1-4dea-4259-bf0c-258a1f82c01a |
+| 2026-03-21T01:38:06+00:00 | qwen2.5-coder:7b | daedalmap_source_grounding_source_valid_rate | 0.9411764705882353 | 94.11764705882352 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 6ae21239-4328-46f5-a021-be76afa79f04 |
+| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | ab130e8c-cd5f-4599-b70f-54c41e22bb26 |
+| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | f6907f74-c171-4b20-b2dc-57b15836f0cb |
+| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_type_correct_rate | 1.0 | 100.0 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 8a9a7680-76fb-4356-9a21-a62870d0d691 |
+| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 7a5af959-a4a3-4670-8bd3-fdb2ab4acc12 |
+| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 4ca6db0b-fec4-48f7-bb70-107a45d7a6bc |
+| 2026-03-21T01:37:18+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_source_valid_rate | 0.9333333333333333 | 93.33333333333333 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 3a21aa51-b069-4ebf-ac75-6694cfe7b02c |
+| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 56577b3a-5bf3-462e-a244-67d55f6fe008 |
+| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 72b9e862-3299-43e2-b791-a9fd2e9f0ec7 |
+| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 96cd68fa-df2a-4511-919b-0eb88010a6d4 |
+| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | dcd61800-408d-451e-9d6e-a663d9c69704 |
+| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_source_hit_rate | 0.8 | 80.0 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | d9c3c604-86a8-4a67-a9c5-95de7ee9cdde |
+| 2026-03-21T01:35:49+00:00 | qwen2.5-coder:7b | daedalmap_json_discipline_source_valid_rate | 0.8 | 80.0 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 316f358e-a931-413a-acdf-29c39fd3e756 |
+| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_pass_rate | 0.8 | 80.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 557e3324-942a-4762-ae43-f4ec6f7f10a8 |
+| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 5bbc11f9-d0b5-403d-8eff-e522490e709e |
+| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | d3408262-d97e-44e9-9e9e-766dfda413f2 |
+| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 5f02cce1-4763-43d8-be57-08ec8ef5ef7e |
+| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 4b860f97-c060-4ebd-b35c-11ab81921e55 |
+| 2026-03-21T01:35:18+00:00 | qwen2.5-coder:7b | daedalmap_geographic_precision_source_valid_rate | 0.9285714285714286 | 92.85714285714286 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 993df0e4-8bea-49ed-bfa7-38c2874f0252 |
+| 2026-03-21T01:34:33+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 2d8f8138-5cad-464a-b686-42499ef087d1 |
+| 2026-03-21T01:34:33+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_source_valid_rate | 0.0 | 0.0 | source_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | df7f0b22-1d65-49d1-a235-75c560a50a98 |
+| 2026-03-21T01:34:32+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_pass_rate | 0.4 | 40.0 | pass_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | 462fd9e4-b35f-44b3-92d4-cacfef22d558 |
+| 2026-03-21T01:34:32+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | ff31ea8d-c630-4f4e-ae0d-94042d5ce632 |
+| 2026-03-21T01:34:32+00:00 | qwen2.5-coder:7b | daedalmap_catalog_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | bench-daedalmap | daedalmap_full_qwen25coder7b_v1 | aedce31a-d240-45b5-a085-46e7cb32d963 |
+| 2026-03-21T01:25:59+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 6589eb60-a99a-40a0-9205-aefbec20dc96 |
+| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_pass_rate | 1.0 | 100.0 | pass_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 298c3ecd-46c3-419b-a6de-0f9919256dc7 |
+| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 0c19c4ea-abd0-41e5-a7a3-ab41d29def77 |
+| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_type_correct_rate | 1.0 | 100.0 | type_correct_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 094bf173-7178-43a4-81f4-dff6b121b56f |
+| 2026-03-21T01:25:58+00:00 | qwen2.5-coder:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | bench-daedalmap | daedalmap_bucket_smoke_qwen25coder7b_v2 | 9b85c36c-8bf4-4fc5-b969-974d7bfabc6c |
