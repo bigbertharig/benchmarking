@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 
-WORKER_SUITES = {"bench-reasoning", "bench-code", "bench-pipeline"}
+WORKER_SUITES = {"bench-reasoning", "bench-code", "bench-pipeline", "bench-daedalmap"}
 SUPPORTED_SUITES = WORKER_SUITES | {"bench-knowledge"}
 
 
@@ -370,6 +370,27 @@ def build_suite_command(
             "--runtime-base", f"http://localhost:{worker_port}",
             "--run-name", run_name,
         ]
+    elif suite == "bench-daedalmap":
+        env_file = str(step.get("env_file", "") or "").strip()
+        if not env_file:
+            default_env = benchmark_root / "docker" / "bench-daedalmap" / ".env"
+            if default_env.exists():
+                env_file = str(default_env)
+        cmd = [
+            "docker", "run", "--rm", "--network", "host",
+            "-e", "BENCHMARK_DISABLE_AUTO_RESERVE=1",
+            "-v", f"{shared_root}:{shared_root}",
+            "-v", f"{suite_results_root(shared_root, suite)}:/results",
+            "-v", f"{benchmark_root}:/benchmark-scripts:ro",
+        ]
+        if env_file:
+            cmd.extend(["--env-file", env_file])
+        cmd.extend([
+            suite,
+            "--model", model,
+            "--runtime-base", f"http://localhost:{worker_port}",
+            "--run-name", run_name,
+        ])
     elif suite == "bench-knowledge":
         gguf_path = str(step.get("gguf_path", "") or "").strip()
         reserve_gpu = str(step.get("reserve_gpu", worker_name) or "").strip()
@@ -475,6 +496,7 @@ def main() -> int:
             "gpu_device": raw.get("gpu_device"),
             "reserve_gpu": raw.get("reserve_gpu"),
             "model_name": raw.get("model_name"),
+            "env_file": raw.get("env_file"),
         })
 
     existing_steps = {}

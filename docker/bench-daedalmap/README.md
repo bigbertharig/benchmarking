@@ -17,7 +17,9 @@ and CSV. No live DaedalMap server or parquet data is required to run any case.
 | `benchmark_prompt.py` | Builds the self-contained system prompt with embedded catalog |
 | `llm_benchmark_runner.py` | Runner, scorer, and compare tool |
 | `validate_suite.py` | Sanity-checks a suite JSON file before running |
-| `requirements.txt` | Python dependencies (requests only) |
+| `requirements.txt` | Python dependencies |
+| `.env` | Credential template with placeholders (safe to copy) |
+| `.env.local` | Machine-local credentials (never copy or commit) |
 | `results/` | Runtime output directory (JSONL and CSV, not committed) |
 
 ## Setup
@@ -56,13 +58,15 @@ python llm_benchmark_runner.py --suite llm_benchmark_v2.json --model-tag test --
 # Catalog-only cases (no data annotation, fastest clean run)
 python llm_benchmark_runner.py --suite llm_benchmark_v2.json --model-tag test --requires catalog
 
-# With execution validation against hosted API (data_s3 cases)
+# With bucket validation for data_s3 cases (set S3 env vars first)
+# Copy .env to .env.local and fill in credentials, then:
+export $(cat .env.local | grep -v ^# | xargs)
 python llm_benchmark_runner.py --suite llm_benchmark_v2.json --model-tag qwen2.5-7b-q4 \
-  --execute --daedalmap-url https://daedalmap.io
+  --execute
 
-# With auth token if needed
+# Target a specific lane (default: tries published first, then staging)
 python llm_benchmark_runner.py --suite llm_benchmark_v2.json --model-tag qwen2.5-7b-q4 \
-  --execute --daedalmap-url https://daedalmap.io --auth-token "<token>"
+  --execute --s3-prefix published
 ```
 
 llama.cpp server:
@@ -92,7 +96,7 @@ cases the same way regardless of this value.
 | Value | Meaning |
 |---|---|
 | `catalog` | LLM routing test only. No external data needed. 75 cases in v2. |
-| `data_s3` | LLM routing is scored the same way as catalog cases. When `--execute --daedalmap-url` are set, the runner also POSTs the LLM's order as a `confirmed_order` to the DaedalMap `/chat` endpoint and checks that real records come back. Results in `exec_valid`, `exec_type`, `exec_count` fields. |
+| `data_s3` | LLM routing is scored the same way as catalog cases. When `--execute` is set and S3 env vars are loaded, the runner also checks the R2 bucket directly via boto3 HeadObject for each source_id in the LLM's order. Results in `exec_valid`, `exec_type`, `exec_count`, `exec_error`, `exec_path` fields. Checks `published/` lane first, then `staging/`, unless `--s3-prefix` targets one lane. |
 
 ## must_not_hallucinate field
 

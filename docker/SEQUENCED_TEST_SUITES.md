@@ -68,6 +68,11 @@ Reason:
 
 `bench-knowledge` is separate and should not be part of the default worker sequence.
 
+`bench-daedalmap` is also separate from the default worker sequence. It is a custom
+chat-routing suite, not a replacement for `bench-pipeline` / `bench-code` / `bench-reasoning`.
+Use it when you want to evaluate DaedalMap-specific instruction following and bucket-backed
+source availability on the same loaded runtime.
+
 ## Runtime Verification
 
 Before each suite:
@@ -127,6 +132,41 @@ docker run --rm --network host \
   --tasks gsm8k,bbh,drop \
   --limit 50 \
   --run-name reasoning_coder7b_l50_v1
+```
+
+DaedalMap smoke:
+
+```bash
+docker run --rm --network host \
+  --env-file /mnt/shared/plans/shoulders/benchmarking/docker/bench-daedalmap/.env \
+  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-daedalmap/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-daedalmap \
+  --model qwen2.5-coder:7b \
+  --runtime-base http://localhost:11436 \
+  --tasks json_discipline,source_grounding \
+  --limit 5 \
+  --run-name daedalmap_smoke_coder7b_v1
+```
+
+DaedalMap bucket-backed smoke:
+
+```bash
+docker run --rm --network host \
+  --env-file /mnt/shared/plans/shoulders/benchmarking/docker/bench-daedalmap/.env \
+  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
+  -v /mnt/shared:/mnt/shared \
+  -v /mnt/shared/logs/benchmarks/bench-daedalmap/history:/results \
+  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
+  bench-daedalmap \
+  --model qwen2.5-coder:7b \
+  --runtime-base http://localhost:11436 \
+  --tasks geographic_precision,multi_source \
+  --limit 1 \
+  --execute \
+  --run-name daedalmap_bucket_smoke_coder7b_v1
 ```
 
 ## 14B Split-Worker Sequence

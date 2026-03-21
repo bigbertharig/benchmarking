@@ -76,6 +76,7 @@ Recommended operator flow:
 | [bench-pipeline](bench-pipeline/README.md) | Worker reliability (JSON, safety, sequencing) | ~5 min |
 | [bench-code](bench-code/README.md) | Code generation (humaneval, mbpp) | ~30 min - 2h |
 | [bench-reasoning](bench-reasoning/README.md) | Reasoning (gsm8k, bbh, drop) | ~1h (limit 5) to ~9h (limit 100) |
+| [bench-daedalmap](bench-daedalmap/README.md) | DaedalMap chat routing + bucket-backed data validation | ~5 min smoke, ~45 min full 100-case run |
 | [bench-knowledge](bench-knowledge/README.md) | Knowledge (mmlu, arc, hellaswag) | ~1.5h - 8h at limit 5 |
 
 ## Before Running
@@ -194,6 +195,7 @@ Storage policy (do not mix suite outputs in one folder):
 - `bench-pipeline`: `/mnt/shared/logs/benchmarks/bench-pipeline/history`
 - `bench-code`: `/mnt/shared/logs/benchmarks/bench-code/history`
 - `bench-reasoning`: `/mnt/shared/logs/benchmarks/bench-reasoning/history`
+- `bench-daedalmap`: `/mnt/shared/logs/benchmarks/bench-daedalmap/history`
 - `bench-knowledge`: `/mnt/shared/logs/benchmarks/bench-knowledge/history`
 
 ## Prompt Methodology (applies to all suites)
@@ -236,6 +238,13 @@ What gets recorded automatically:
   - `humaneval_plus`
   - `mbpp_base`
   - `mbpp_plus`
+- `bench-daedalmap`: completed category summaries as separate rows
+  - `<category>_pass_rate`
+  - `<category>_json_valid_rate`
+  - `<category>_type_correct_rate`
+  - `<category>_no_halluc_rate`
+  - `<category>_source_hit_rate` when applicable
+  - `<category>_source_valid_rate` when applicable
 - `bench-knowledge`: each numeric lm-eval metric emitted for the completed task
 
 How it works:
@@ -256,6 +265,7 @@ Operator note:
 | `bench-reasoning` | lm-eval reasoning tasks (gsm8k, bbh, drop, math_500, aime_2024) | Model-specific prompt profiles injected via `--system_instruction` | [HISTORY](bench-reasoning/BENCH_REASONING_HISTORY.md) |
 | `bench-knowledge` | lm-eval MC/loglikelihood tasks (mmlu, arc_challenge, hellaswag, etc.) | Model-specific prompt profiles injected via `--system_instruction` | [HISTORY](bench-knowledge/BENCH_KNOWLEDGE_HISTORY.md) |
 | `bench-code` | EvalPlus code generation (humaneval, mbpp) | EvalPlus built-in prompts (no profile injection yet) | [HISTORY](bench-code/BENCH_CODE_HISTORY.md) |
+| `bench-daedalmap` | DaedalMap chat-layer routing, source grounding, and direct bucket validation for `data_s3` cases | Self-contained benchmark prompt from `benchmark_prompt.py` + direct bucket validation from `staging/catalog.json` | [HISTORY](bench-daedalmap/BENCH_DAEDALMAP_HISTORY.md) |
 
 ## Test Volume Quick Reference
 

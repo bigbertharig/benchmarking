@@ -4,9 +4,26 @@ Scope: this note is only about the benchmark payload itself: test cases, scoring
 
 ## Status: All resolved - 2026-03-20
 
-All items below were addressed. See `README.md` for current state of each area.
+All payload and execution-validation issues have been addressed.
+
+## Open Items
+
+None.
 
 ## Resolved Items
+
+### 0. `data_s3` validation uses direct bucket check - DONE
+
+Replaced the `/chat` POST approach (which returned 400 Bad Request) with direct R2 bucket
+validation via boto3 HeadObject. Runner now checks `published/` then `staging/` (or a
+specific prefix via `--s3-prefix`) for each source_id in the LLM's order. Returns
+`exec_valid`, `exec_type`, `exec_count`, `exec_error`, `exec_path` fields.
+
+S3 credentials loaded from env vars: `S3_BUCKET`, `S3_ENDPOINT_URL`, `AWS_ACCESS_KEY_ID`,
+`AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`. See `.env` for template, `.env.local` for
+machine-local credentials. `--daedalmap-url` and `--auth-token` flags removed.
+
+README updated to reflect the boto3 approach and new `--execute` / `--s3-prefix` flags.
 
 ### 1. Fix README case counts - DONE
 
@@ -14,11 +31,9 @@ All items below were addressed. See `README.md` for current state of each area.
 
 ### 2. Clarify what `data_s3` actually means - DONE
 
-`data_s3` cases now have real execution validation. The runner supports
-`--execute --daedalmap-url` flags that POST the LLM's confirmed order to the
-DaedalMap `/chat` endpoint and check that real records come back.
-`exec_valid`, `exec_type`, `exec_count`, `exec_error` fields appear in all output rows.
-See the `requires field` and run examples sections of `README.md`.
+`data_s3` cases now have the correct execution-validation path. The runner checks
+the public S3/R2 bucket directly using catalog-resolved source paths rather than
+posting orders to the DaedalMap `/chat` endpoint.
 
 ### 3. Single source of truth for valid source IDs - DONE
 
@@ -59,8 +74,10 @@ for audit trail only.
 
 The original mismatch: README said v2 had 105 cases and v1 had 35. Actual: both 100.
 
-The original data_s3 complaint: runner had no execution validation path. Now it does
-via `--execute --daedalmap-url`. Bucket is public so no auth required for standard sources.
+The original data_s3 complaint: runner had no execution validation path. A first pass
+was added via `--execute --daedalmap-url`, but live testing showed that validating via
+DaedalMap `/chat` was the wrong approach. The final implementation now uses direct
+bucket validation.
 
 The original drift risk: three files (runner, prompt, catalog) all hardcoded source IDs
 independently. Now runner derives from catalog; benchmark_prompt.py still has its own

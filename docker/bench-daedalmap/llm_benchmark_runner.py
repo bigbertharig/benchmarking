@@ -35,10 +35,11 @@ from typing import Any
 import requests
 
 try:
-    import msgpack as _msgpack
-    _MSGPACK_AVAILABLE = True
+    import boto3 as _boto3
+    import botocore.exceptions as _botocore_exc
+    _BOTO3_AVAILABLE = True
 except ImportError:
-    _MSGPACK_AVAILABLE = False
+    _BOTO3_AVAILABLE = False
 
 from benchmark_prompt import build_benchmark_prompt, BENCHMARK_CATALOG
 
@@ -85,9 +86,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out-dir", default="results", help="Output directory for JSONL and CSV")
     parser.add_argument("--summary-out", default="", help="Optional path to write machine-readable summary JSON")
     parser.add_argument("--timeout", type=int, default=60, help="Per-request timeout in seconds")
-    parser.add_argument("--daedalmap-url", default="", help="DaedalMap API base URL for execution validation (e.g. https://daedalmap.io). Only used for requires=data_s3 order cases.")
-    parser.add_argument("--execute", action="store_true", help="Run execution validation against --daedalmap-url for data_s3 order cases.")
-    parser.add_argument("--auth-token", default="", help="Optional bearer token for DaedalMap API requests (needed if catalog requires entitlement).")
+    parser.add_argument("--execute", action="store_true", help="Run bucket validation for data_s3 order cases. Reads S3 config from env vars.")
+    parser.add_argument("--s3-prefix", default="", help="Target a specific lane: 'staging' or 'published'. Default: tries published first, then staging.")
     parser.add_argument("--compare", nargs="+", metavar="JSONL", help="Compare mode: pass two or more result JSONL files to print a side-by-side table")
     return parser.parse_args()
 
@@ -331,40 +331,148 @@ def build_summary(results: list[dict], model_tag: str, suite_id: str, category: 
     }
 
 
-def execute_order(daedalmap_url: str, items: list, session_id: str, auth_token: str, timeout: int) -> dict:
-    """
-    POST a confirmed_order to the DaedalMap /chat endpoint and return execution metadata.
-    Returns dict with keys: exec_valid, exec_type, exec_count, exec_error.
-    """
-    if not _MSGPACK_AVAILABLE:
-        return {"exec_valid": None, "exec_type": None, "exec_count": None, "exec_error": "msgpack not installed"}
+def _get_s3_client():
+    """Build a boto3 S3 client from environment variables."""
+    import os
+    return _boto3.client(
+        "s3",
+        endpoint_url=os.environ.get("S3_ENDPOINT_URL", ""),
+        aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID", ""),
+        aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY", ""),
+        region_name=os.environ.get("AWS_DEFAULT_REGION", "auto"),
+    )
 
-    url = daedalmap_url.rstrip("/") + "/chat"
-    payload = {"confirmed_order": {"items": items}, "sessionId": session_id}
-    body = _msgpack.packb(payload, use_bin_type=True)
-    headers = {"content-type": "application/msgpack"}
-    if auth_token:
-        headers["Authorization"] = f"Bearer {auth_token}"
+
+def _load_bucket_catalog(s3) -> dict[str, dict[str, Any]]:
+    """Load source_id -> catalog entry mapping from staging/catalog.json."""
+    import os
+
+    bucket = os.environ.get("S3_BUCKET", "")
+    obj = s3.get_object(Bucket=bucket, Key="staging/catalog.json")
+    data = json.loads(obj["Body"].read().decode("utf-8"))
+    mapping: dict[str, dict[str, Any]] = {}
+    for item in data.get("sources", []):
+        source_id = str(item.get("source_id", "")).strip()
+        if source_id:
+            mapping[source_id] = item
+    return mapping
+
+
+def validate_bucket_source(source_ids: list, s3_prefix: str, timeout: int) -> dict:
+    """
+    Check that parquet data exists in the R2 bucket for each source_id in the order.
+    Uses bucket catalog metadata plus HeadObject/ListObjectsV2.
+    Reads S3_BUCKET, S3_ENDPOINT_URL, AWS_* from env vars.
+    s3_prefix: 'staging', 'published', or '' (tries published then staging).
+    Returns dict with keys: exec_valid, exec_type, exec_count, exec_error, exec_path.
+    """
+    import os
+
+    if not _BOTO3_AVAILABLE:
+        return {"exec_valid": None, "exec_type": None, "exec_count": None,
+                "exec_error": "boto3 not installed", "exec_path": ""}
+
+    bucket = os.environ.get("S3_BUCKET", "")
+    if not bucket:
+        return {"exec_valid": None, "exec_type": None, "exec_count": None,
+                "exec_error": "S3_BUCKET not set", "exec_path": ""}
+
+    # Lane order to search
+    if s3_prefix:
+        prefixes = [s3_prefix.strip("/")]
+    else:
+        prefixes = ["published", "staging"]
 
     try:
-        resp = requests.post(url, data=body, headers=headers, timeout=timeout)
-        resp.raise_for_status()
-        data = _msgpack.unpackb(resp.content, raw=False, strict_map_key=False)
+        s3 = _get_s3_client()
+        catalog_map = _load_bucket_catalog(s3)
     except Exception as e:
-        return {"exec_valid": False, "exec_type": "error", "exec_count": None, "exec_error": str(e)}
+        return {"exec_valid": False, "exec_type": "error", "exec_count": None,
+                "exec_error": f"S3 client error: {e}", "exec_path": ""}
 
-    exec_type = data.get("type")
-    exec_count = data.get("count") if isinstance(data.get("count"), int) else None
-    exec_error = data.get("error") or ""
+    found_paths = []
+    missing = []
 
-    success_types = {"data", "events", "mixed_order", "already_loaded"}
-    exec_valid = (exec_type in success_types) and (exec_count is None or exec_count > 0)
+    for source_id in source_ids:
+        entry = catalog_map.get(source_id)
+        if not entry:
+            missing.append(source_id)
+            continue
+
+        base_path = str(entry.get("path", "")).strip().strip("/")
+        if not base_path:
+            missing.append(source_id)
+            continue
+
+        hit = None
+        for prefix in prefixes:
+            base_prefix = f"{prefix}/{base_path}/"
+            # First, try to discover an actual parquet file under the resolved catalog path.
+            try:
+                listing = s3.list_objects_v2(
+                    Bucket=bucket,
+                    Prefix=base_prefix,
+                    MaxKeys=50,
+                )
+            except _botocore_exc.ClientError as e:
+                return {"exec_valid": False, "exec_type": "error", "exec_count": None,
+                        "exec_error": str(e), "exec_path": ""}
+
+            parquet_keys = [
+                obj["Key"] for obj in listing.get("Contents", [])
+                if str(obj.get("Key", "")).endswith(".parquet")
+            ]
+            preferred_suffixes = [
+                "/events.parquet",
+                "/population.parquet",
+                "/GLOBAL.parquet",
+                "/aggregates/events.parquet",
+            ]
+            for suffix in preferred_suffixes:
+                match = next((key for key in parquet_keys if key.endswith(suffix)), None)
+                if match:
+                    hit = match
+                    break
+            if not hit and parquet_keys:
+                hit = parquet_keys[0]
+            if hit:
+                break
+
+            # Fallback for prefixes with deeper structure or truncated first-page listings.
+            for fname in ["events.parquet", "population.parquet", "GLOBAL.parquet", "data.parquet"]:
+                key = f"{base_prefix}{fname}"
+                try:
+                    s3.head_object(Bucket=bucket, Key=key)
+                    hit = key
+                    break
+                except _botocore_exc.ClientError as e:
+                    if e.response["Error"]["Code"] in ("404", "NoSuchKey"):
+                        continue
+                    return {"exec_valid": False, "exec_type": "error", "exec_count": None,
+                            "exec_error": str(e), "exec_path": ""}
+            if hit:
+                break
+
+        if hit:
+            found_paths.append(hit)
+        else:
+            missing.append(source_id)
+
+    if missing:
+        return {
+            "exec_valid": False,
+            "exec_type": "not_found",
+            "exec_count": None,
+            "exec_error": f"no parquet found for: {', '.join(missing)}",
+            "exec_path": "; ".join(found_paths),
+        }
 
     return {
-        "exec_valid": exec_valid,
-        "exec_type": exec_type,
-        "exec_count": exec_count,
-        "exec_error": exec_error,
+        "exec_valid": True,
+        "exec_type": "bucket_verified",
+        "exec_count": len(found_paths),
+        "exec_error": "",
+        "exec_path": "; ".join(found_paths),
     }
 
 
@@ -398,7 +506,7 @@ def run_benchmark(args: argparse.Namespace) -> tuple[list[dict], dict[str, Any]]
         "json_valid", "type_correct", "source_hit", "source_valid",
         "no_hallucination", "latency_ms", "prompt_tokens", "completion_tokens",
         "expected_type", "actual_type", "failure_tags",
-        "exec_valid", "exec_type", "exec_count", "exec_error",
+        "exec_valid", "exec_type", "exec_count", "exec_error", "exec_path",
         "query",
     ]
 
@@ -438,19 +546,19 @@ def run_benchmark(args: argparse.Namespace) -> tuple[list[dict], dict[str, Any]]
             status = derive_status(scores)
             actual_type = parsed.get("type", "") if parsed else ""
 
-            # Execution validation for data_s3 cases when --execute and --daedalmap-url are set
-            exec_result = {"exec_valid": None, "exec_type": None, "exec_count": None, "exec_error": ""}
-            if (args.execute and args.daedalmap_url
+            # Bucket validation for data_s3 cases when --execute is set
+            exec_result = {"exec_valid": None, "exec_type": None, "exec_count": None,
+                           "exec_error": "", "exec_path": ""}
+            if (args.execute
                     and case.get("requires") == "data_s3"
                     and actual_type == "order"
                     and parsed):
                 items = parsed.get("items", [])
-                if items:
-                    exec_result = execute_order(
-                        daedalmap_url=args.daedalmap_url,
-                        items=items,
-                        session_id=f"bench-{run_id}-{case_id}",
-                        auth_token=args.auth_token,
+                source_ids = list({item.get("source_id") for item in items if item.get("source_id")})
+                if source_ids:
+                    exec_result = validate_bucket_source(
+                        source_ids=source_ids,
+                        s3_prefix=args.s3_prefix,
                         timeout=args.timeout,
                     )
 
@@ -476,6 +584,7 @@ def run_benchmark(args: argparse.Namespace) -> tuple[list[dict], dict[str, Any]]
                 "exec_type": exec_result["exec_type"],
                 "exec_count": exec_result["exec_count"],
                 "exec_error": exec_result["exec_error"],
+                "exec_path": exec_result.get("exec_path", ""),
                 "query": query,
                 "raw_response": raw,
                 "parsed_response": parsed,
@@ -498,8 +607,8 @@ def run_benchmark(args: argparse.Namespace) -> tuple[list[dict], dict[str, Any]]
             exec_str = ""
             if exec_result["exec_valid"] is not None:
                 ev = exec_result["exec_valid"]
-                ec = exec_result["exec_count"]
-                exec_str = f"  exec={'OK' if ev else 'FAIL'}" + (f"({ec})" if ec is not None else "")
+                ep = exec_result.get("exec_path", "")
+                exec_str = f"  bucket={'OK' if ev else 'MISS'}" + (f" {ep.split(';')[0].strip()}" if ev and ep else "")
             print(f"{status_str} {latency_str}  {actual_type or '(no json)'}{exec_str}")
 
     print()

@@ -14,9 +14,8 @@ MAX_TOKENS="400"
 TIMEOUT="60"
 MODEL_NAME=""
 REQUIRES_FILTER=""
-DAEDALMAP_URL=""
 EXECUTE_VALIDATION="0"
-AUTH_TOKEN=""
+S3_PREFIX=""
 RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
 RESERVATION_OWNER="${BENCHMARK_RESERVATION_OWNER:-bench-daedalmap}"
 RESERVATION_RUN_ID=""
@@ -40,9 +39,8 @@ while [[ $# -gt 0 ]]; do
         --timeout) TIMEOUT="$2"; shift 2 ;;
         --model-name) MODEL_NAME="$2"; shift 2 ;;
         --requires) REQUIRES_FILTER="$2"; shift 2 ;;
-        --daedalmap-url) DAEDALMAP_URL="$2"; shift 2 ;;
         --execute) EXECUTE_VALIDATION="1"; shift 1 ;;
-        --auth-token) AUTH_TOKEN="$2"; shift 2 ;;
+        --s3-prefix) S3_PREFIX="$2"; shift 2 ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
     esac
 done
@@ -254,7 +252,7 @@ echo "Suite: $SUITE_PATH" | tee -a "$LOG_FILE"
 echo "Tasks: $FILTERED_TASKS" | tee -a "$LOG_FILE"
 echo "Requires filter: ${REQUIRES_FILTER:-<none>}" | tee -a "$LOG_FILE"
 echo "Execution validation: $EXECUTE_VALIDATION" | tee -a "$LOG_FILE"
-[ -n "$DAEDALMAP_URL" ] && echo "DaedalMap URL: $DAEDALMAP_URL" | tee -a "$LOG_FILE"
+[ -n "$S3_PREFIX" ] && echo "S3 prefix: $S3_PREFIX" | tee -a "$LOG_FILE"
 echo "Limit: $LIMIT" | tee -a "$LOG_FILE"
 echo "Run root: $RUN_ROOT" | tee -a "$LOG_FILE"
 
@@ -298,11 +296,8 @@ for task in "${TASK_ARRAY[@]}"; do
     if [ "$EXECUTE_VALIDATION" = "1" ]; then
         CMD+=(--execute)
     fi
-    if [ -n "$DAEDALMAP_URL" ]; then
-        CMD+=(--daedalmap-url "$DAEDALMAP_URL")
-    fi
-    if [ -n "$AUTH_TOKEN" ]; then
-        CMD+=(--auth-token "$AUTH_TOKEN")
+    if [ -n "$S3_PREFIX" ]; then
+        CMD+=(--s3-prefix "$S3_PREFIX")
     fi
 
     set +e
