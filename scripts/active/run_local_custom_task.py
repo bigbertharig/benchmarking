@@ -169,7 +169,13 @@ def has_model_prompt_source(
     return False
 
 
-def call_chat_completion(base_url: str, model: str, prompt: str, timeout: int, system_prompt: str) -> str:
+def call_chat_completion(
+    base_url: str,
+    model: str,
+    prompt: str,
+    timeout: int,
+    system_prompt: str,
+) -> tuple[str, str]:
     messages: list[dict[str, str]] = []
     if system_prompt.strip():
         messages.append({"role": "system", "content": system_prompt.strip()})
@@ -198,7 +204,13 @@ def call_chat_completion(base_url: str, model: str, prompt: str, timeout: int, s
     message = first.get("message")
     if not isinstance(message, dict):
         raise RuntimeError("chat completion choice missing message")
-    return str(message.get("content", "")).strip()
+    content = str(message.get("content", "")).strip()
+    if content:
+        return content, "content"
+    reasoning = str(message.get("reasoning_content", "")).strip()
+    if reasoning:
+        return reasoning, "reasoning_content"
+    return "", "empty"
 
 
 def normalize_text(value: str) -> str:
@@ -360,7 +372,13 @@ def main() -> int:
                 args.model,
                 args.id,
             )
-        response = call_chat_completion(args.base_url, args.model, prompt, args.timeout, system_prompt)
+        response, response_source = call_chat_completion(
+            args.base_url,
+            args.model,
+            prompt,
+            args.timeout,
+            system_prompt,
+        )
         passed, detail = grade_case(args.id, case, response)
         if passed:
             passes += 1
@@ -371,6 +389,7 @@ def main() -> int:
                 "detail": detail,
                 "prompt_source": prompt_source,
                 "system_prompt_used": system_prompt,
+                "response_source": response_source,
                 "response": response,
             }
         )

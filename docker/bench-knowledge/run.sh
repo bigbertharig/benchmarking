@@ -142,7 +142,7 @@ if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVE_GPU" ]; then
         --shared-path "$RESERVATION_SHARED_PATH" \
         --gpu "$RESERVE_GPU" \
         --owner "$RESERVATION_OWNER" \
-        --reserved-for benchmark \
+        --reserved-for BENCHING \
         --run-id "$RESERVATION_RUN_ID" \
         reserve >/dev/null
 fi

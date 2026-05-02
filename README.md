@@ -8,6 +8,7 @@ which tests and suites we run, how to run them, and where results live.
 ### Docs
 - This file: entry point, architecture, procedure, everything
 - [MODEL_LIBRARY.md](MODEL_LIBRARY.md): operator-facing model selection, latest scores, prompt methodology
+- [BENCHMARK_UPDATE.md](BENCHMARK_UPDATE.md): benchmark taxonomy update, small local vs frontier agentic vs cloud reference
 - [archive/docs/BENCHMARK_HISTORY_pre_archive.md](archive/docs/BENCHMARK_HISTORY_pre_archive.md): lessons learned and prior failures (archived 2026-03-10, run data moved to docker suite histories)
 - [custom_tasks/README.md](custom_tasks/README.md): local custom test definitions and prompt tuning
 - [docker/README.md](docker/README.md): test execution lives here — each suite has its own README, prompt config, and run history
@@ -49,11 +50,83 @@ Benchmarking is split into two scopes:
 - **worker testing**: 6 GB worker-tier models, worker-safe pipeline behavior, single-worker and split-worker runtime behavior
 - **brain testing**: GPU 0 brain model quality, planning quality, orchestration tradeoff quality
 
-Current focus: **worker testing only**.
-- the brain model stays loaded on GPU 0
-- GPU 0 is the control plane, not a benchmark target
-- worker model state changes happen through orchestrator-managed meta tasks
-- brain testing gets its own procedure and score sheet when we turn to that phase
+Current focus: **worker testing first**.
+- the brain model normally stays loaded on GPU 0
+- GPU 0 is the control plane unless a deliberate brain smoke test replaces it
+- worker model state changes should happen through orchestrator-managed meta tasks
+- brain testing should use an explicit temporary startup config or direct debug smoke run, not ad-hoc mixed ownership
+
+## Load Paths
+
+There are two valid load paths. Use the orchestrator path by default.
+
+### Normal benchmark path
+
+Use the benchmark wrappers under `~/llm_orchestration/scripts/benchmarks/`:
+
+```bash
+python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py --json
+python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py --models qwen2.5-coder:7b --json
+```
+
+These wrappers start the benchmark orchestrator config and queue `load_llm` / `load_split_llm`
+meta tasks through `/mnt/shared/scripts/prepare_llm_runtimes.py`.
+
+When you want to start an actual worker benchmark run after the runtime is up,
+use the campaign runner instead of hand-building suite commands:
+
+```bash
+python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py \
+  /mnt/shared/plans/shoulders/benchmarking/campaigns/<campaign>.json
+```
+
+Operator rule:
+- `start_benchmark_mode.py` puts the rig in benchmark isolation
+- `start_custom_mode.py` loads the exact worker model(s) you want
+- `run_benchmark_campaign.py` is the normal operator front door for a real benchmark run
+- direct suite commands are still valid, but they are now the lower-level path for one-off suite work and debugging
+
+### Debug-only direct runtime path
+
+Use this only for smoke testing a GGUF or isolating a runtime/container failure:
+
+```bash
+/mnt/shared/scripts/llama_runtime/run_runtime.sh \
+  --name smoke-model \
+  --model /mnt/shared/models/<family>/<file>.gguf \
+  --port 11450 \
+  --gpus device=1
+```
+
+This bypasses orchestrator ownership and should not be left running.
+
+### Status checks
+
+There is currently no supported `status.py` under `/mnt/shared`. Use direct probes:
+
+```bash
+curl -s http://127.0.0.1:<port>/v1/models
+curl -s http://127.0.0.1:<port>/health
+docker ps --format '{{.Names}}\t{{.Status}}\t{{.Ports}}'
+nvidia-smi
+```
+
+If docs mention `/mnt/shared/scripts/status.py` or a similar shared status helper, that path is stale.
+
+### Worker Port Access Rule
+
+Worker runtime ports such as `11435+` are rig-local operator ports.
+
+That means:
+- direct probes like `curl http://127.0.0.1:11435/...` should be run on `10.0.0.3`
+- benchmark/custom harnesses that talk directly to worker ports should run on the rig side
+- calling `http://10.0.0.3:11435/...` from the laptop is not the normal supported path unless you deliberately set up a proxy or tunnel
+
+Preflight helper:
+
+```bash
+python3 ~/llm_orchestration/scripts/runtime_preflight.py --config config.benchmark.json --json
+```
 
 ## Prompt Configuration
 
@@ -159,6 +232,8 @@ Hot-set management: `/media/bryan/shared/scripts/manage_model_hotset.py`
 | `mistral:7b-instruct` | `mistral-7b-instruct` | available |
 | `qwen3.5:4b` | `qwen3.5-4b` | downloaded |
 | `qwen3.5:9b-q3km` | `qwen3.5-9b` | downloaded |
+| `gemma-4:e2b-q8` | `gemma-4-e2b` | blocked on llama runtime update |
+| `gemma-4:e4b` | `gemma-4-e4b` | blocked on llama runtime update |
 
 ### 12GB paired-worker tier
 
@@ -177,6 +252,26 @@ Hot-set management: `/media/bryan/shared/scripts/manage_model_hotset.py`
 | `deepseek-r1:32b` | `deepseek-r1-32b` | downloaded |
 | `qwen3.5:27b` | Ollama pull | testing |
 | `qwen3.5:35b-a3b` | `qwen3.5-35b-a3b` | downloaded |
+| `gemma-4:26b-a4b` | `gemma-4-26b-a4b` | blocked on llama runtime update |
+| `gemma-4:31b` | `gemma-4-31b` | blocked on llama runtime update |
+
+### Gemma 4 Runtime Status
+
+As of April 2, 2026, the current benchmark container image `llama-runtime:sm61-sm86`
+cannot load Gemma 4 GGUF files. Direct smoke runs on:
+- `gemma-4:e2b-q8`
+- `gemma-4:e4b`
+- `gemma-4:31b`
+
+all failed immediately with:
+
+```text
+error loading model architecture: unknown model architecture: 'gemma4'
+```
+
+That means Gemma 4 is cataloged and downloaded, but not benchmark-runnable on the
+current llama runtime build yet. Do not spend time tuning ctx/batch/split settings
+for Gemma 4 until the runtime container is rebuilt with Gemma 4 support.
 
 ### Embedding
 
@@ -312,6 +407,18 @@ Current persisted context policy (6GB worker tier):
 - `mistral:7b-instruct`: `ctx_size=12288` (16384 not stable on 6GB)
 
 ### Step 4: Choose and run the tests
+
+Preferred operator path for a new benchmark run:
+
+```bash
+python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py \
+  /mnt/shared/plans/shoulders/benchmarking/campaigns/<campaign>.json
+```
+
+Use direct single-task commands below when you are:
+- certifying one harness/backend pair
+- debugging one suite in isolation
+- doing very small spot checks outside a saved campaign
 
 Run one lm-eval test:
 

@@ -104,6 +104,28 @@
       ]
     },
     {
+      "id": "gemma-4:e2b-q8",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/gemma-4-e2b/gemma-4-e2b-it-Q8_0.gguf",
+      "tags": [
+        "small",
+        "worker_candidate",
+        "gemma4"
+      ]
+    },
+    {
+      "id": "gemma-4:e4b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/gemma-4-e4b/gemma-4-e4b-it-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate",
+        "gemma4"
+      ]
+    },
+    {
       "id": "qwen2.5:14b",
       "tier": 2,
       "placement": "split_gpu",
@@ -156,6 +178,77 @@
       "tags": [
         "code_review",
         "higher_reasoning"
+      ]
+    },
+    {
+      "id": "phi-4:14b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": [
+            "gpu-1",
+            "gpu-3"
+          ],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": [
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "safe_tool_use",
+        "tool_planning",
+        "higher_reasoning"
+      ]
+    },
+    {
+      "id": "gemma-4:26b-a4b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "gemma4",
+        "moe"
+      ]
+    },
+    {
+      "id": "gemma-4:31b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "gemma4",
+        "dense"
+      ]
+    },
+    {
+      "id": "qwen3.6:27b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "dense"
+      ]
+    },
+    {
+      "id": "qwen3.6:35b-a3b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "moe"
       ]
     }
   ]

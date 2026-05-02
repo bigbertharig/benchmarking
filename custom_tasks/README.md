@@ -38,25 +38,28 @@ Do not mix brain-decision cases into worker-facing pass/fail comparisons.
 
 ## Running
 
+Operator rule:
+- load the worker runtime through `start_custom_mode.py` first
+- run the custom task on the rig side against the rig-local worker port
+- use this runner for one-off custom-task checks; use `run_benchmark_campaign.py` when the custom task is part of a larger saved benchmark run
+
 Baseline (no prompt profiles):
 
 ```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/run_local_custom_task.py \
+python3 /mnt/shared/plans/shoulders/benchmarking/run_local_custom_task.py \
   --id custom_command_safety \
   --model qwen2.5:7b \
-  --base-url http://localhost:11436
+  --base-url http://127.0.0.1:11436
 ```
 
 With prompt tuning:
 
 ```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/run_local_custom_task.py \
+python3 /mnt/shared/plans/shoulders/benchmarking/run_local_custom_task.py \
   --id custom_command_safety \
   --model Qwen3.5-9B-Q3_K_M.gguf \
-  --base-url http://localhost:11435 \
-  --use-model-prompts \
-  --prompt-profiles /media/bryan/shared/plans/shoulders/benchmarking/custom_tasks/model_prompt_profiles.json \
-  --tuning-profiles /media/bryan/shared/plans/shoulders/benchmarking/model_tuning_profiles.json
+  --base-url http://127.0.0.1:11435 \
+  --use-model-prompts
 ```
 
 A/B prompt profile switch:

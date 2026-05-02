@@ -581,8 +581,14 @@ old_content = 'tmp[choices["index"]] = choices["message"]["content"]'
 new_content = (
     'import re as _re\n'
     '                    _raw = choices.get("message", {}).get("content", "") or ""\n'
-    '                    # Strip <think>...</think> blocks (Type B: DeepSeek-R1)\n'
+    '                    # Strip <think>...</think> blocks (Type B: DeepSeek-R1, Qwen 3.6)\n'
     '                    _clean = _re.sub(r"<think>[\\s\\S]*?</think>\\s*", "", _raw).strip()\n'
+    '                    # Strip <|channel>thought prefix (Type A: Gemma 4)\n'
+    '                    _clean = _re.sub(r"^<\\|channel>[a-z]+\\s*", "", _clean).strip()\n'
+    '                    # If content empty, try reasoning_content fallback\n'
+    '                    if not _clean:\n'
+    '                        _clean = choices.get("message", {}).get("reasoning_content", "") or ""\n'
+    '                        _clean = _clean.strip()\n'
     '                    tmp[choices["index"]] = _clean'
 )
 if old_content in src:
@@ -667,6 +673,96 @@ if target2.exists():
         print("Applied api_models.py client-side stop re-apply patch")
 PY
 fi
+
+# ---- Always-on extraction patches ----
+# Patch BBH: make get-answer regex case-insensitive + strip markdown bold,
+# enable ignore_case + ignore_punctuation on exact_match metric.
+# Patch DROP: use "\n" stop instead of "." to avoid premature truncation,
+# add regex filter to extract first line (answer) from model output.
+python3 <<'PY_EXTRACT_FIX'
+from pathlib import Path
+import re
+
+# --- BBH template fix ---
+bbh_template = Path("/opt/bench/lib/python3.12/site-packages/lm_eval/tasks/bbh/cot_fewshot/_cot_fewshot_template_yaml")
+if bbh_template.exists():
+    src = bbh_template.read_text(encoding="utf-8")
+    changed = False
+
+    # 1. Make regex case-insensitive: (?i) prefix
+    # 2. Also capture "The answer is" (capital T)
+    old_regex = '        regex_pattern: "(?<=the answer is )(.*)(?=.)"'
+    new_regex = '        regex_pattern: "(?i)(?<=the answer is )(.*)(?=.)"'
+    if old_regex in src:
+        src = src.replace(old_regex, new_regex, 1)
+        changed = True
+        print("  BBH: made get-answer regex case-insensitive")
+
+    # 3. Enable ignore_case and ignore_punctuation on exact_match
+    if "# ignore_case: true" in src:
+        src = src.replace("# ignore_case: true", "ignore_case: true", 1)
+        changed = True
+        print("  BBH: enabled ignore_case on exact_match")
+    if "# ignore_punctuation: true" in src:
+        src = src.replace("# ignore_punctuation: true", "ignore_punctuation: true", 1)
+        changed = True
+        print("  BBH: enabled ignore_punctuation on exact_match")
+
+    # 4. Remove "\n\n" stop sequence — verbose/thinking models hit paragraph
+    #    breaks before stating "the answer is X", causing near-zero extraction.
+    #    "Q" stop + max_gen_toks bounds generation.
+    if '"\\n\\n"' in src:
+        src = src.replace('    - "\\n\\n"\n', '')
+        changed = True
+        print("  BBH: removed \\n\\n stop sequence")
+
+    # 5. Reduce max_gen_toks from 1024 to 512 — without \n\n stop, 1024 can
+    #    OOM large models on 3090. 512 is enough for CoT + "the answer is X".
+    if "max_gen_toks: 1024" in src:
+        src = src.replace("max_gen_toks: 1024", "max_gen_toks: 512")
+        changed = True
+        print("  BBH: reduced max_gen_toks to 512")
+
+    if changed:
+        bbh_template.write_text(src, encoding="utf-8")
+        print("Applied BBH extraction fix")
+    else:
+        print("BBH extraction fix skipped (already applied or template changed)")
+
+# --- DROP extraction fix ---
+# Problem: stop sequence "." truncates model output before the answer
+# on models that produce preamble text (e.g., "Based on the passage.").
+# Fix: change stop to newline with max_gen_toks=512.
+# Note: 512 (not 64) needed for thinking models (Gemma 4) where reasoning
+# tokens count toward max_gen_toks. Non-thinking models still stop at \n
+# quickly so the higher limit doesn't affect them.
+drop_yaml = Path("/opt/bench/lib/python3.12/site-packages/lm_eval/tasks/drop/default.yaml")
+if drop_yaml.exists():
+    lines = drop_yaml.read_text(encoding="utf-8").splitlines(keepends=True)
+    new_lines = []
+    changed = False
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        # Replace '    - "."' with '    - "\n"' and add max_gen_toks
+        if line.strip() == '- "."' and i > 0 and "until:" in lines[i-1]:
+            new_lines.append(line.replace('"."', r'"\n"'))
+            # Add max_gen_toks after the until block
+            indent = "  "
+            new_lines.append(indent + "max_gen_toks: 512\n")
+            changed = True
+            print("  DROP: changed stop from '.' to newline, added max_gen_toks=512")
+        else:
+            new_lines.append(line)
+        i += 1
+
+    if changed:
+        drop_yaml.write_text("".join(new_lines), encoding="utf-8")
+        print("Applied DROP extraction fix")
+    else:
+        print("DROP extraction fix skipped (already applied or template changed)")
+
+PY_EXTRACT_FIX
 
 # Verify runtime has a model loaded
 if ! curl -s "${RUNTIME_BASE}/v1/models" | python3 -c "

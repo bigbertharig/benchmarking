@@ -3,29 +3,33 @@
 This is the operator guide for running the benchmark Docker suites against the
 live worker runtimes.
 
+Companion docs:
+- [MODEL_LIBRARY.md](../MODEL_LIBRARY.md) — model selection hub, best choices, inventory
+- [BENCHMARK_SCORES.md](../BENCHMARK_SCORES.md) — pure score tables
+- [MODEL_RUNTIME_GUIDE.md](../MODEL_RUNTIME_GUIDE.md) — per-model runtime requirements and best practices
+- [BENCHMARK_LESSONS_LEARNED.md](../BENCHMARK_LESSONS_LEARNED.md) — debugging narratives and tuning histories
+
 For building new suites that integrate cleanly with dashboard/orchestration:
 - [SUITE_CREATION.md](SUITE_CREATION.md)
 - [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md)
 - [MULTI_MODEL_SINGLE_SUITE.md](MULTI_MODEL_SINGLE_SUITE.md)
 - [SINGLE_GPU_COHORT_SUITES.md](SINGLE_GPU_COHORT_SUITES.md)
 
-For operator use, the canonical sequencing path is still manual:
-- load and verify the runtime first
-- run each suite directly with its own `docker run`
-- verify the runtime again before starting the next suite
+For operator use, the canonical control surface is now:
+- `python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py`
+- `python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py`
+- `python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py <campaign>`
+- Batch model testing: `bash /mnt/shared/scripts/benchmarks/run_<campaign>.sh` (see [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md#automated-multi-model-campaign-script))
 
-The sequenced guide documents that manual path. It is not a separate campaign
-control layer for worker benchmarking.
+Use this Docker README for suite semantics, suite-specific flags, and direct
+suite debugging. Do not treat direct `docker run` as the default top-level
+operator front door for "start a new benchmark" anymore.
 
-The multi-model single-suite guide is a separate control path for a different
-operator goal:
-- sequenced tests: one model, many suites
-- multi-model single-suite: one suite, many models
-
-This matters operationally:
-- "sequenced" means calling the same proven manual suite commands one at a time
-- it does not mean inventing a new wrapper, campaign layer, or alternate launch path
-- if you want to run multiple suites on one loaded model, reuse the direct suite commands and insert runtime checks between them
+Operational split:
+- canonical operator path: wrappers + campaign runner
+- batch new-model testing: standalone shell scripts (no orchestrator needed)
+- lower-level suite path: direct `docker run` when you are isolating one suite,
+  reproducing a failure, or developing suite internals
 
 ## Current Rig Layout
 
@@ -74,7 +78,12 @@ Recommended operator flow:
 2. if a run is active but suspicious, run `bench_status.sh --deep`
 3. if runs may have finished or partially completed, run `bench_status.sh --results`
 
-**How to run a test**: pick a suite README below, find the Quick Start for your model tier, paste the command on the rig.
+**How to start a new benchmark run**:
+1. `python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py --json`
+2. `python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py --models <model> --force-unload-first --json`
+3. `python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<campaign>.json`
+
+**How to debug one suite directly**: pick a suite README below, find the Quick Start for your model tier, and use the direct suite command on the rig.
 
 **Before running any test**, check the "Before Running" section below.
 
@@ -99,6 +108,12 @@ Do the fast check before launches. Use `--deep` during long-running `bench-code`
 to know what actually finished and what is still incomplete.
 
 **Canonical sequence for multiple suites on one model:**
+1. start benchmark mode
+2. load the target model through `start_custom_mode.py`
+3. verify `/v1/models` on the target port
+4. run a saved campaign through `run_benchmark_campaign.py`
+
+If you are intentionally bypassing the campaign runner for suite debugging, then:
 1. load the model runtime
 2. verify `/v1/models` on the target port
 3. run `bench-pipeline`

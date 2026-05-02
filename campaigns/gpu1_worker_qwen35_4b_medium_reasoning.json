@@ -1,0 +1,14 @@
+{
+  "name": "gpu1_worker_qwen35_4b_medium_reasoning",
+  "target_worker": "gpu-1",
+  "worker_port": 11435,
+  "model": "qwen3.5:4b",
+  "stop_on_failure": true,
+  "suites": [
+    {
+      "id": "reasoning_medium",
+      "suite": "bench-reasoning",
+      "args": ["--tasks", "gsm8k,bbh,drop", "--limit", "10"]
+    }
+  ]
+}

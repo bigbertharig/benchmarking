@@ -519,6 +519,132 @@ Allowed `source_type` values:
 Allowed `run_scope` values:
 1. `local`
 2. `cloud`
+3. `mixed_reference`
+
+---
+
+## Upgrade Trigger Framework
+
+The hardware upgrade decision should not be based on subscription cost alone.
+
+For this repo, the trigger should be defined as a three-checkpoint gate:
+
+### Checkpoint A: Cloud Bridge Proximity
+
+A local model becomes a serious upgrade candidate when it is clearly closing the
+gap to the cloud checkpoint models on the bridge benchmarks we actually track.
+
+Primary cloud checkpoints:
+1. `Claude Sonnet 4.6`
+2. `Claude Opus 4.5`
+3. `GPT-5.4`
+4. `GPT-5.3-Codex`
+5. `Gemini 3.1 Pro`
+
+Primary bridge benchmarks for this purpose:
+1. `GPQA Diamond`
+2. `LiveCodeBench Pro`
+3. `SWE-bench Verified`
+4. `SWE-Bench Pro`
+5. `Terminal-Bench 2.0`
+
+Interpretation rule:
+1. do not wait for strict parity on every benchmark
+2. look for a local model that enters the same practical band on the tests that matter most for our workflow
+3. treat this as a checkpoint, not proof of full cloud replacement
+
+### Checkpoint B: Real Session Feel
+
+Benchmarks are not enough.
+
+A model that looks good on paper still may not feel good in practice because of:
+1. verbosity drift
+2. poor instruction obedience
+3. weak formatting discipline
+4. brittle edit behavior
+5. annoying refusal or think-tag behavior
+
+The upgrade trigger should therefore require a local model to pass repeated real
+coding sessions well enough that we would actually choose it for daily use.
+
+Practical test:
+1. use the candidate local model as the primary assistant for several real sessions
+2. include boring operational work, not just curated coding prompts
+3. record whether the experience is merely impressive or genuinely comfortable
+
+### Checkpoint C: Hardware Constraint
+
+Even if model quality is close enough, a hardware purchase still should not be
+triggered until the current rig is the limiting factor.
+
+The actual signal is:
+1. the candidate model is good enough to want as a primary local model
+2. the current hardware does not fit it comfortably at the context size we want
+3. the next useful step requires a larger memory pool, not just more tweaking
+
+Operational interpretation:
+1. if the current `3090 Ti` still serves the best local model comfortably enough, wait
+2. if the next serious local candidate wants more memory or more context headroom than the `3090 Ti` can provide, that is the real purchase trigger
+
+### Trigger Rule
+
+Only treat a major hardware upgrade as justified when all three are true:
+1. `Checkpoint A` is true
+2. `Checkpoint B` is true
+3. `Checkpoint C` is true
+
+This prevents buying hardware too early just because the trend line is encouraging.
+
+---
+
+## Real Session Evaluation Layer
+
+We should add a lightweight subjective evaluation layer to complement the formal
+benchmark suite.
+
+Purpose:
+1. capture what it actually feels like to work with a local model
+2. distinguish "benchmarks well" from "pleasant to use for hours"
+3. create an operator-facing signal for when local models are ready to replace more cloud time
+
+This is not a replacement for benchmark suites.
+It is a thin practical layer on top of them.
+
+### Suggested Session Tasks
+
+Use a small repeatable task set based on real repo work:
+1. repo navigation and codebase understanding
+2. bug fix or patch task
+3. code review / QA process task
+4. script-following or data import task
+5. strict output / JSON / formatting obedience task
+
+These are intentionally closer to everyday use than pure benchmark prompts.
+
+### Suggested Session Ratings
+
+For each serious candidate model, record short operator notes for:
+1. `session_feel`
+2. `verbosity_control`
+3. `instruction_obedience`
+4. `format_obedience`
+5. `code_edit_reliability`
+6. `annoyance_level`
+7. `would_use_for_2h`
+
+Rating rule:
+1. short notes are better than elaborate prose
+2. the point is to track whether a model is pleasant and stable enough for real use
+3. the most important field is whether we would willingly use the model for an extended real session
+
+### Session-Layer Outcome Rule
+
+Do not call a model "cloud-adjacent in practice" unless:
+1. it looks competitive on the bridge benchmarks
+2. it also passes the real-session layer with acceptable operator feel
+
+This keeps us from over-weighting benchmark gains that do not translate into actual workflow value.
+2. `cloud`
 3. `vendor`
 4. `third_party`
 

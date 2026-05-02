@@ -1,12 +1,12 @@
 {
-  "version": "2026-03-05",
+  "version": "2026-04-28",
   "goal": "Map task profiles to preferred models so new plans can choose llm_model/llm_min_tier/llm_placement consistently.",
   "task_profiles": [
     {
       "id": "structured_extraction",
       "description": "Strict schema extraction, deterministic JSON, short/medium prompts.",
       "recommended_model": {
-        "llm_model": "qwen2.5:7b",
+        "llm_model": "qwen2.5-coder:7b",
         "llm_min_tier": 1,
         "llm_placement": "single_gpu"
       },
@@ -19,7 +19,31 @@
       ],
       "evidence_test_ids": [
         "custom_json_schema_strict",
-        "boolq"
+        "custom_long_context_extract"
+      ]
+    },
+    {
+      "id": "text_extraction",
+      "description": "Document QA, reading comprehension, and evidence extraction where code generation is not required.",
+      "recommended_model": {
+        "llm_model": "gemma-4:e2b-q8",
+        "llm_min_tier": 1,
+        "llm_placement": "single_gpu"
+      },
+      "fallback_models": [
+        {
+          "llm_model": "gemma-4:e4b",
+          "llm_min_tier": 1,
+          "llm_placement": "single_gpu"
+        },
+        {
+          "llm_model": "qwen2.5-coder:7b",
+          "llm_min_tier": 1,
+          "llm_placement": "single_gpu"
+        }
+      ],
+      "evidence_test_ids": [
+        "drop"
       ]
     },
     {
@@ -32,7 +56,12 @@
       },
       "fallback_models": [
         {
-          "llm_model": "qwen2.5:7b",
+          "llm_model": "smollm3:3b",
+          "llm_min_tier": 1,
+          "llm_placement": "single_gpu"
+        },
+        {
+          "llm_model": "qwen2.5-coder:7b",
           "llm_min_tier": 1,
           "llm_placement": "single_gpu"
         }
@@ -53,7 +82,7 @@
       },
       "fallback_models": [
         {
-          "llm_model": "qwen2.5:7b",
+          "llm_model": "qwen2.5-coder:7b",
           "llm_min_tier": 1,
           "llm_placement": "single_gpu"
         }
@@ -73,7 +102,7 @@
       },
       "fallback_models": [
         {
-          "llm_model": "qwen2.5:7b",
+          "llm_model": "qwen2.5-coder:7b",
           "llm_min_tier": 1,
           "llm_placement": "single_gpu"
         }
@@ -87,7 +116,7 @@
       "id": "general_qa",
       "description": "General QA and summarization where throughput matters.",
       "recommended_model": {
-        "llm_model": "qwen2.5:7b",
+        "llm_model": "qwen2.5-coder:7b",
         "llm_min_tier": 1,
         "llm_placement": "single_gpu"
       },
@@ -99,9 +128,29 @@
         }
       ],
       "evidence_test_ids": [
-        "mmlu",
-        "arc_challenge",
-        "hellaswag"
+        "custom_long_context_extract",
+        "drop"
+      ]
+    },
+    {
+      "id": "safe_tool_use",
+      "description": "Command-risk checks, tool-use sequencing, and safety-sensitive agent steps.",
+      "recommended_model": {
+        "llm_model": "phi-4:14b",
+        "llm_min_tier": 2,
+        "llm_placement": "split_gpu"
+      },
+      "fallback_models": [
+        {
+          "llm_model": "qwen2.5-coder:14b",
+          "llm_min_tier": 2,
+          "llm_placement": "split_gpu"
+        }
+      ],
+      "evidence_test_ids": [
+        "custom_command_safety",
+        "custom_tool_plan_sequence",
+        "custom_orchestration_tradeoff"
       ]
     }
   ],
@@ -109,6 +158,10 @@
     {
       "profile": "structured_extraction",
       "keywords": ["extract", "json", "schema", "parse", "triage", "plan_searches"]
+    },
+    {
+      "profile": "text_extraction",
+      "keywords": ["document qa", "evidence", "quote", "passage", "reading", "extract facts"]
     },
     {
       "profile": "deep_reasoning",
@@ -125,6 +178,10 @@
     {
       "profile": "general_qa",
       "keywords": ["summarize", "answer", "qa", "question"]
+    },
+    {
+      "profile": "safe_tool_use",
+      "keywords": ["safety", "command", "shell", "tool use", "risk", "dangerous"]
     }
   ]
 }
