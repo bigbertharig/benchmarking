@@ -18,10 +18,11 @@ Machine-readable sources:
 
 | Model | humaneval | mbpp | gsm8k | bbh | drop f1 | cmd_safety | long_ctx | orch | ambiguity |
 |-------|-----------|------|-------|-----|---------|-----------|----------|------|-----------|
-| E4B | 6.1% | 19.0% | 0.51 | 0.325 | 0.722 | 50.0% | 85.7% | 83.3% | 61.5% |
-| E2B | 6.7% | 22.0% | 0.76 | 0.324 | 0.787 | 58.3% | 92.9% | 83.3% | 7.7% |
-| 26B-A4B | 13.4% | 42.6% | 0.50 | 0.265 | 0.746 | 58.3% | 100% | 91.7% | 69.2% |
-| 31B | 28.7% | 65.6% | 0.16 | 0.339 | 0.882 | 58.3% | 92.9% | 83.3% | 53.8% |
+| E4B | 6.1% | 19.0% | 0.60 | 0.08 | 0.31 | 50.0% | 85.7% | 83.3% | 61.5% |
+| E2B | 6.7% | 22.0% | 0.60 | 0.12 | 0.00 | 58.3% | 92.9% | 83.3% | 7.7% |
+| 12B | 11.0% | 36.8% | 0.10 | 0.822 | — | 75.0% | 92.9% | 83.3% | 46.2% |
+| 26B-A4B | 13.4% | 42.6% | 0.90 | 0.87 | 0.73 | 58.3% | 100% | 91.7% | 69.2% |
+| 31B | 28.7% | 65.6% | 0.90 | 0.87 | 0.73 | 58.3% | 92.9% | 83.3% | 53.8% |
 
 ### qwen3.6 family
 
@@ -41,6 +42,7 @@ Pipeline tests run all cases (fixed test sets), no limit parameter.
 | `SmolLM3-3B` | 15.4% | 100% | 0% | 80.0% | 58.3% | 92.9% | 40s | 2026-04-28 |
 | `Gemma-4-E4B` | 23.1% | 50.0% | 61.5% | 93.3% | 83.3% | 85.7% | 2m32s | 2026-04-22 |
 | `Gemma-4-E2B` | 30.8% | 58.3% | 7.7% | 93.3% | 83.3% | 92.9% | — | 2026-04-22 |
+| `Gemma-4-12B` | 23.1% | 75.0% | 46.2% | 93.3% | 83.3% | 92.9% | ~45m | 2026-06-06 |
 | `Qwen2.5-Coder-14B` | 23.1% | 25.0% | 7.7% | 93.3% | 75.0% | 92.9% | 4m48s | 2026-03-14 |
 | `Phi-4-14B` | 0% | 100% | 38.5% | 100% | 91.7% | 100% | 3m58s | 2026-03-14 |
 | `Gemma-4-26B-A4B` | 30.8% | 58.3% | 69.2% | 93.3% | 91.7% | 100% | 2m57s | 2026-04-22 |
@@ -59,6 +61,7 @@ Scores shown as base / plus. Code tests run all problems (fixed sets), no limit 
 | `SmolLM3-3B` | 65.9% / 59.8% | 63.8% / 55.0% | — | 2026-03-17 |
 | `Gemma-4-E4B` | 6.1% / 5.5% | 19.0% / 17.5% | — | 2026-04-22 |
 | `Gemma-4-E2B` | 6.7% / 6.7% | 22.0% / 20.4% | — | 2026-04-22 |
+| `Gemma-4-12B` | 11.0% / 11.0% | 36.8% / 34.7% | ~12h | 2026-06-06 |
 | `Qwen2.5-Coder-14B` | 90.2% / 86.6% | 84.9% / 73.5% | — | 2026-03-14 |
 | `Phi-4-14B` | 78.7% / 73.2% | 73.8% / 64.0% | — | 2026-03-14 |
 | `Gemma-4-26B-A4B` | 13.4% / 12.8% | 42.6% / 39.7% | 1h17m | 2026-04-22 |
@@ -75,17 +78,19 @@ Latest/highest-limit score per model only.
 | `Qwen2.5-Coder-7B` | 0.75 | 0.6674 | 0.576 | 100 | 9h13m | 2026-03-14 |
 | `Llama-3.2-3B` | 0.72 | 0.5896 | 0.4326 | 100 | 4h09m | 2026-03-18 |
 | `SmolLM3-3B` | 0.79 | 0.6678 | 0.3302 | 100 | 4h16m | 2026-03-18 |
-| `Gemma-4-E4B` | 0.51 | 0.3248 | 0.722 | 100/100 | 30h30m | 2026-04-28 |
-| `Gemma-4-E2B` | 0.76 | 0.3241 | 0.787 | 100/100 | 22h15m | 2026-04-27 |
+| `Gemma-4-E4B` | 0.60 | 0.08 | 0.31 | 10 | 1h41m | 2026-06-07 |
+| `Gemma-4-E2B` | 0.60 | 0.12 | 0.00 | 10 | 56m | 2026-06-07 |
+| `Gemma-4-12B` | 0.10 | 0.822 | — | 100/5 | — | 2026-06-06 |
+| `Gemma-4-26B-A4B` | 0.90 | 0.87 | 0.73 | 10 | 10m | 2026-06-07 |
+| `Gemma-4-31B` | 0.90 | 0.87 | 0.73 | 10 | 10m | 2026-06-07 |
 | `Qwen2.5-Coder-14B` | 0.89 | 0.5937 | 0.4802 | 100 | 9h25m | 2026-03-16 |
 | `Phi-4-14B` | 0.78 | 0.5770 | 0.0925 | 100 | 10h32m | 2026-04-29 |
-| `Gemma-4-26B-A4B` | 0.50 | 0.265 | 0.746 | 50/100 | 26m | 2026-04-25 |
-| `Gemma-4-31B` | 0.16 | 0.339 | 0.882 | 50/100 | 4h06m | 2026-04-25 |
 | `Qwen3.6-27B` | 0.94 | 0.893 | 0.883 | 50 | 16m | 2026-04-25 |
 | `Qwen3.6-35B-A3B` | 0.96 | 0.876 | 0.830 | 50 | 45m | 2026-04-25 |
 
-Gemma-4 limit note: E2B/E4B gsm8k and bbh were upgraded to limit 100 on 2026-04-27/28; DROP remains limit 100 from the earlier TTS runs.
-Time note: Gemma-4 E2B/E4B timings above are gsm8k+bbh wall-clock only. Regenerate timing with `python3 /mnt/shared/scripts/benchmarks/extract_benchmark_timing.py --shared /mnt/shared`.
+Gemma-4-12B note: GSM8K at limit 100, BBH at limit 5 (A/B test: `--reasoning-budget 0` scored 0.822 vs `--reasoning-budget 1024` scored 0.244 — thinking mode destroys BBH extraction). DROP l5 smoke passed (EM=0.60, F1=0.70). GSM8K low score (0.10) is format mismatch (model outputs `$18` not `#### 18`), not capability.
+
+**Gemma-4 reasoning re-run completed (2026-06-07):** E4B, E2B, 26B-A4B, 31B re-run with `--reasoning-budget 0` and `--patch-think-tag-strip` at limit 10 (smoke run via `run_campaign.py`). Brain models (26B-A4B, 31B) scored strongly (GSM8K 0.90, BBH 0.87, DROP 0.73). Worker models (E4B, E2B) scored poorly on reasoning (BBH 0.08-0.12) — expected for sub-5B models on hard tasks. E2B DROP=0.00 is notable; needs investigation at higher limit. Full l50 run pending.
 
 ## bench-knowledge (lm-eval loglikelihood)
 

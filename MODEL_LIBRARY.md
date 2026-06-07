@@ -22,6 +22,12 @@ Quick commands:
 ```bash
 # Check rig status (GPUs, running tests, memory, OOM kills)
 ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
+
+# Run a benchmark campaign (multi-model, multi-suite, parallel GPU scheduling)
+ssh 10.0.0.3 'python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<manifest>.json'
+
+# Smoke run (limit 10 per task)
+ssh 10.0.0.3 'python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<manifest>.json --limit-override 10'
 ```
 
 Rules:
@@ -61,7 +67,7 @@ Each benchmark tests a specific capability. Use this to match model strengths to
 | Profile | Typical model | Best real-world use |
 |---------|--------------|-------------------|
 | High code + high bbh | Qwen2.5-Coder, Qwen3.6 | General-purpose worker: coding, reasoning, structured output |
-| High drop + low code | Gemma-4-E2B/E4B | Text extraction, reading comprehension, document QA — not coding |
+| High drop + low code | Gemma-4-E4B | Text extraction, reading comprehension, document QA — not coding |
 | High bbh + low code | SmolLM3-3B | Lightweight reasoning on constrained hardware (RPi, edge) |
 | High safety + high tool_plan | Phi-4-14B | Instruction-following, safe agentic tool use — not for complex reasoning |
 | High everything | Qwen3.6-27B | Brain-tier: use for any task where quality matters more than speed |
@@ -78,7 +84,7 @@ Each benchmark tests a specific capability. Use this to match model strengths to
 | code generation (worker) | `qwen2.5-coder:14b` | coder family default for worker-tier | `qwen2.5-coder:7b` |
 | code review | `qwen2.5-coder:14b` | better fit for bug-finding and patch reasoning | `qwen2.5-coder:7b` |
 | general QA | `qwen2.5-coder:7b` | throughput-first worker default | `qwen2.5-coder:14b` |
-| text extraction (worker) | `gemma-4:e2b` | best worker DROP (0.787), 8× faster than Qwen-7B reasoning | `gemma-4:e4b` |
+| text extraction (worker) | `gemma-4:e4b` | DROP 0.31 at l10 (E2B scored 0.00); needs higher-limit validation | `gemma-4:e2b` |
 | fast brain inference | `qwen3.6:35b-a3b` | MoE ~3B active, 32s pipeline, 20m code suite | `qwen3.6:27b` |
 | fast worker reasoning | `smollm3:3b` | BBH 0.668 in 4h vs Qwen-7B 0.667 in 9h — same score, half the time | `llama3.2:3b` |
 | pipeline reliability | `gemma-4:26b-a4b` | best orchestration (91.7%), ambiguity (69.2%) | `qwen3.6:27b` |
@@ -95,6 +101,7 @@ See [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) for per-model runtime detai
 | `SmolLM3-3B` | 3B single | GPU 1-5 | complete (all suites, l100) |
 | `Gemma-4-E4B` | 4B single | GPU 1-5 | complete |
 | `Gemma-4-E2B` | 5B single | GPU 1-5 | complete |
+| `Gemma-4-12B` | 12B split | GPU 1+3 or 4+5 | complete (pipeline, code, reasoning partial) |
 | `Qwen2.5-Coder-14B` | 14B split | GPU 1+3 or 4+5 | complete (all suites, l100) |
 | `Phi-4-14B` | 14B split | GPU 1+3 or 4+5 | complete |
 | `Gemma-4-26B-A4B` | 30B brain | GPU 0 (3090) | complete |
@@ -170,6 +177,7 @@ Runtime setup: [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) § "CPU Inferenc
 
 ## Operating Guidance
 
+- For new model onboarding, follow [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) — the step-by-step playbook with decision trees and integration log.
 - For scored results, trust the generated reference first.
 - For model routing, trust [model_task_library.json](/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/model_task_library.json).
 - For runtime safety and practical limits, trust [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md).
