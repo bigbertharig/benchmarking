@@ -41,10 +41,15 @@ If any check FAILs, see [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED
 
 ## Thinking Model Quick Reference
 
-| Family | Runtime flag | Benchmark flag | Issue without fix |
-|--------|-------------|----------------|-------------------|
-| Qwen 3.6 (all sizes) | `--reasoning-budget 0` | `--patch-think-tag-strip` | BBH/DROP 0.0 |
-| Gemma 4 (all sizes) | none | `--patch-think-tag-strip` (DROP only) | DROP 0.0 |
+| Family | Runtime flag | Request/client setting | Benchmark flag | Issue without fix |
+|--------|-------------|------------------------|----------------|-------------------|
+| Qwen 3 / 3.5 / 3.6 | `--reasoning-budget 0` | `/no_think` prompt prefix for JSON/extraction calls; strip residual `<think>` wrappers | `--patch-think-tag-strip` | Empty content, visible `<think>` wrappers, BBH/DROP 0.0 |
+| DeepSeek-R1 / QwQ style | none | Strip `<think>...</think>` from content; avoid for strict JSON unless no alternative | `--patch-think-tag-strip` | Visible reasoning consumes output and breaks parsers |
+| Gemma 4 (all sizes) | `--reasoning-budget 0` (REQUIRED for all sizes) | Strip leaked thought-channel prefixes when present | `--patch-think-tag-strip` (BBH + DROP) | BBH/DROP near-zero with thinking on; 12B 0.822→0.244, 26B 0.867→0.265 |
+
+Operational note:
+- Runtime flag is the preferred fix for Qwen thinking mode. Prompt/client stripping is a defensive backstop, not a replacement for loading the runtime with the correct flags.
+- Plan/chat loaders must preserve model `extra_args`; otherwise Qwen 3.x may look healthy at `/v1/models` while still returning empty content or `<think>` wrappers.
 
 ## Active Model Runtime Notes
 
@@ -93,15 +98,17 @@ If any check FAILs, see [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED
 - Best for: code generation (91.5% HumanEval, 89.7% MBPP)
 - Pipeline underperformance is likely system prompt mismatch (tuned for 7B style)
 
-### gemma-4 family (E4B, E2B, 26B-A4B, 31B)
+### gemma-4 family (E4B, E2B, 12B, 26B-A4B, 31B)
 
-- GGUFs: `gemma-4-e4b-it-Q4_K_M.gguf`, `gemma-4-e2b-it-Q8_0.gguf`, `gemma-4-26B-A4B-it-Q4_K_M.gguf`, `gemma-4-31B-it-Q4_K_M.gguf`
-- Tiers: E4B/E2B single worker, 26B-A4B/31B brain
+- GGUFs: `gemma-4-e4b-it-Q4_K_M.gguf`, `gemma-4-e2b-it-Q8_0.gguf`, `gemma-4-12B-it-Q4_K_M.gguf`, `gemma-4-26B-A4B-it-Q4_K_M.gguf`, `gemma-4-31B-it-Q4_K_M.gguf`
+- Tiers: E4B/E2B single worker, 12B split worker (2x 1060), 26B-A4B/31B brain
 - Requires `llama-runtime:b8884-candidate` (llama.cpp >= b8884)
 - Apache 2.0 license
-- **Benchmark: `--patch-think-tag-strip` REQUIRED for DROP** (harmless for other suites)
+- **Benchmark: `--patch-think-tag-strip` REQUIRED for BBH + DROP** (harmless for other suites)
+- **ALL sizes: `--reasoning-budget 0` REQUIRED for benchmarks** — thinking mode destroys BBH extraction (12B: 0.822→0.244, 26B-A4B: 0.867→0.265)
 - `--disable-thinking` does NOT work in lm-eval 0.4.11
-- Memory: E4B ~5GB, E2B ~3-4GB (1060), 26B-A4B 16GB + 577MB CPU, 31B ~18GB (3090)
+- Memory: E4B ~5GB, E2B ~3-4GB (1060), 12B ~7.4GB split across 2x 1060 (CUDA0=3.1GB, CUDA1=3.8GB, CPU=924MB), 26B-A4B 16GB + 577MB CPU, 31B ~18GB (3090)
+- 12B split-load: use `--tensor-split 1,1 -fit off` (NOT `1,0,1,0,0,0` — use 2-value mask matching visible GPUs in container). Do not force `--n-gpu-layers 999` (auto-fitter aborts).
 - E2B model ID: use `gemma-4:e2b` (alias added to model_tuning_profiles.json)
 - Do NOT use for code generation — Qwen family is dramatically better
 
@@ -130,6 +137,7 @@ Config locations:
 Active worker context sizes:
 - `qwen2.5-coder:7b`: `ctx_size=16384`
 - Gemma-4 E4B/E2B: `ctx_size=4096` (worker tier)
+- Gemma-4 12B: `ctx_size=4096` (split worker tier)
 - Brain models (Gemma-4 26B/31B, Qwen3.6): `ctx_size=16384`
 
 Startup commands:

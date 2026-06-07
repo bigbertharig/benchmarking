@@ -386,7 +386,8 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Worker-tier (1060 6GB). Gemma 4 E4B dense ~4B. Clean JSON output observed in smoke test \u2014 explicit JSON prompt retained for consistency. First benchmark pass."
+      "extra_args": ["--reasoning-budget", "0"],
+      "notes": "Worker-tier (1060 6GB). Gemma 4 E4B dense ~4B. Clean JSON output observed in smoke test \u2014 explicit JSON prompt retained for consistency. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes)."
     },
     "gemma-4:e4b": {
       "_alias_of": "gemma-4-e4b-it-Q4_K_M.gguf",
@@ -408,7 +409,8 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Worker-tier (1060 6GB). Gemma 4 E2B dense ~5.1B Q8_0. Wraps JSON in markdown fences in smoke test. First benchmark pass."
+      "extra_args": ["--reasoning-budget", "0"],
+      "notes": "Worker-tier (1060 6GB). Gemma 4 E2B dense ~5.1B Q8_0. Wraps JSON in markdown fences in smoke test. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes)."
     },
     "gemma-4:e2b-q8": {
       "_alias_of": "gemma-4-e2b-it-Q8_0.gguf",
@@ -434,7 +436,8 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Brain-tier (3090). Gemma 4 26B MoE, 3.8B active. Loads 16GB VRAM + 577MB CPU buffer. First benchmark pass."
+      "extra_args": ["--reasoning-budget", "0"],
+      "notes": "Brain-tier (3090). Gemma 4 26B MoE, 3.8B active. Loads 16GB VRAM + 577MB CPU buffer. BENCHMARK: use --reasoning-budget 0 (A/B confirmed on 26B: budget=0 scored BBH 0.867 l5, previous thinking-on score was 0.265 l50)."
     },
     "gemma-4:26b-a4b": {
       "_alias_of": "gemma-4-26B-A4B-it-Q4_K_M.gguf",
@@ -456,10 +459,33 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Brain-tier (3090). Gemma 4 31B dense. 19.5GB VRAM, comfortable fit. Has reasoning_content field active. First benchmark pass."
+      "extra_args": ["--reasoning-budget", "0"],
+      "notes": "Brain-tier (3090). Gemma 4 31B dense. 19.5GB VRAM, comfortable fit. Has reasoning_content field active. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes)."
     },
     "gemma-4:31b": {
       "_alias_of": "gemma-4-31B-it-Q4_K_M.gguf",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }."
+    },
+    "gemma-4-12B-it-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 48
+      },
+      "notes": "Split-load (2x 1060). Gemma 4 12B dense Q4_K_M. Requires -fit off and --tensor-split 1,1 (2 visible GPUs). Do NOT use --n-gpu-layers 999 (auto-fitter aborts). CPU mapped ~924 MiB. VRAM: 3.1+3.8 GB across GPUs. Requires llama-runtime:b8884-candidate. BENCHMARK: use --reasoning-budget 0 (A/B tested: budget=0 scored BBH 0.82, budget=1024 scored 0.24 — thinking tokens consume generation budget)."
+    },
+    "gemma-4:12b": {
+      "_alias_of": "gemma-4-12B-it-Q4_K_M.gguf",
       "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }."
     },
     "Qwen3.6-27B-Q4_K_M.gguf": {

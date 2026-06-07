@@ -210,6 +210,34 @@
       ]
     },
     {
+      "id": "gemma-4:12b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": [
+            "gpu-1",
+            "gpu-3"
+          ],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": [
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "gemma4",
+        "higher_reasoning"
+      ]
+    },
+    {
       "id": "gemma-4:26b-a4b",
       "tier": 3,
       "placement": "single_gpu",

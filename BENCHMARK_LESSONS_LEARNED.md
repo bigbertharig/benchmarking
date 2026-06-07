@@ -101,6 +101,35 @@ The `smollm3:3b` pipeline rerun failed all six stages in 2 seconds with no resul
 
 Phase 3 of `l100_upgrade` did not reach benchmarks. The split runtime on GPUs 4+5 failed readiness on port 11438 after 300s. A retained debug launch showed llama.cpp's memory fitter warning that the requested full offload needed 586 MiB less GPU memory, then aborted fitting because `--n-gpu-layers 999` was explicitly set. Removing the forced layer count let llama.cpp auto-fit 41/41 layers and reach `/v1/models` after 282s. Do not force full offload for Phi-4 split reruns on 2x 1060; verify `/v1/models` before launching `bench-reasoning`.
 
+### Gemma-4-12B thinking A/B test (2026-06-06)
+
+Ran BBH l5 simultaneously on two runtimes: `--reasoning-budget 1024` (GPUs 1+3, port 11440) vs `--reasoning-budget 0` (GPUs 4+5, port 11441).
+
+| Setting | BBH l5 | Runtime | Tokens/req |
+|---------|--------|---------|------------|
+| budget=0 (think off) | **0.822** | 2h25m | ~750 |
+| budget=1024 (think on) | **0.244** | 3h57m | ~1800 |
+
+**Root cause**: With thinking enabled, the model generates up to 1024 thinking tokens before the visible answer. BBH uses CoT fewshot with "So the answer is..." extraction. The thinking tokens consume generation budget, and many responses get truncated before the answer extraction point. 13 of 27 BBH subtasks scored 0.0 with thinking on (vs only 0 subtasks scoring 0.0 with thinking off).
+
+**Implication**: For Gemma 4 12B benchmarking, always use `--reasoning-budget 0`. This differs from E4B/E2B where thinking mode is relatively benign (thinking doesn't trigger unless model emits `<|channel>thought`). The 12B model is more aggressive about using the thinking channel.
+
+**GSM8K format issue**: GSM8K scored 0.10 flexible / 0.01 strict at limit 100. The model outputs `$18` instead of `#### 18`. Flexible-extract also fails because `$` prefix confuses the number extractor. This is a format mismatch, not a capability issue — the model's actual math answers are correct.
+
+**2026-06-07 follow-up — 26B-A4B confirms family-wide issue**: Ran BBH l5 on Gemma 4 26B-A4B with `--reasoning-budget 0` + `--patch-think-tag-strip`. Scored **0.867** — vs the previous thinking-on score of **0.265** (l50, April 2026). This is a 3.3x improvement, matching the 12B pattern exactly. The April runs for all Gemma 4 models (E4B=0.316, E2B=0.131, 26B=0.265, 31B=0.339) were all run with thinking enabled and no `--reasoning-budget 0`. **All Gemma 4 BBH scores from April 2026 are invalid** — they need to be re-run with `--reasoning-budget 0`. Added `extra_args: ["--reasoning-budget", "0"]` to all Gemma 4 entries in `model_tuning_profiles.json`.
+
+Also ran DROP l5 on 12B with `--reasoning-budget 0` + `--patch-think-tag-strip`: EM=0.60, F1=0.70. Settings confirmed working for DROP.
+
+### Gemma-4-12B split-load findings (2026-06-06)
+
+Three attempts needed to get the 12B model loaded on 2x 1060 6GB:
+
+1. `--n-gpu-layers 999`: auto-fitter aborts ("n_gpu_layers already set by user to 999")
+2. `--tensor-split 1,0,1,0,0,0`: OOM on CUDA0 — **critical finding**: the 6-value tensor-split mask addresses physical GPU indices, but Docker `device=1,3` makes only 2 GPUs visible inside the container (CUDA 0 and 1). Use N values for N visible GPUs.
+3. `--tensor-split 1,1 -fit off --n-gpu-layers 48`: success. Model splits: CUDA0=3102 MiB, CUDA1=3786 MiB, CPU=924 MiB.
+
+**Rule**: For Docker GPU passthrough, `--tensor-split` values must match the number of visible GPUs inside the container, not total physical GPUs. Updated `NEW_MODEL_INTEGRATION.md` decision tree.
+
 ### 26B-A4B transient crash (2026-04-25)
 
 First l100 DROP run hit a 500 server error at request 51/100: `"Failed to parse input at pos 13: <|channel>thought\n..."`. Transient llama-server parse error on very long thinking chain. Second l100 rerun succeeded cleanly (f1=0.746).
