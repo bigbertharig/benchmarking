@@ -1,0 +1,53 @@
+{
+  "name": "gemma4_reasoning_rerun",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 300
+  },
+  "blocks": [
+    {
+      "id": "e4b_reasoning",
+      "model": "gemma-4:e4b",
+      "gguf": "/mnt/shared/models/gemma-4-e4b/gemma-4-e4b-it-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-reasoning",
+      "suite_args": ["--tasks", "gsm8k,bbh,drop", "--patch-think-tag-strip"],
+      "limit": 50,
+      "runtime_args": ["--reasoning-budget", "0"],
+      "ctx_size": 4096
+    },
+    {
+      "id": "e2b_reasoning",
+      "model": "gemma-4:e2b",
+      "gguf": "/mnt/shared/models/gemma-4-e2b/gemma-4-e2b-it-Q8_0.gguf",
+      "placement": "single",
+      "suite": "bench-reasoning",
+      "suite_args": ["--tasks", "gsm8k,bbh,drop", "--patch-think-tag-strip"],
+      "limit": 50,
+      "runtime_args": ["--reasoning-budget", "0"],
+      "ctx_size": 4096
+    },
+    {
+      "id": "26b_reasoning",
+      "model": "gemma-4:26b-a4b",
+      "gguf": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": ["--tasks", "gsm8k,bbh,drop", "--patch-think-tag-strip"],
+      "limit": 50,
+      "runtime_args": ["--reasoning-budget", "0"],
+      "ctx_size": 16384
+    },
+    {
+      "id": "31b_reasoning",
+      "model": "gemma-4:31b",
+      "gguf": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": ["--tasks", "gsm8k,bbh,drop", "--patch-think-tag-strip"],
+      "limit": 50,
+      "runtime_args": ["--reasoning-budget", "0"],
+      "ctx_size": 16384
+    }
+  ]
+}

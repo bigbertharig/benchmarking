@@ -8,6 +8,8 @@ Companion docs:
 - [BENCHMARK_SCORES.md](../BENCHMARK_SCORES.md) — pure score tables
 - [MODEL_RUNTIME_GUIDE.md](../MODEL_RUNTIME_GUIDE.md) — per-model runtime requirements and best practices
 - [BENCHMARK_LESSONS_LEARNED.md](../BENCHMARK_LESSONS_LEARNED.md) — debugging narratives and tuning histories
+- [NEW_MODEL_INTEGRATION.md](../NEW_MODEL_INTEGRATION.md) — step-by-step playbook for onboarding new models
+- [CAMPAIGN_RUNNER.md](CAMPAIGN_RUNNER.md) — unified multi-model multi-suite campaign runner
 
 For building new suites that integrate cleanly with dashboard/orchestration:
 - [SUITE_CREATION.md](SUITE_CREATION.md)
@@ -18,7 +20,8 @@ For building new suites that integrate cleanly with dashboard/orchestration:
 For operator use, the canonical control surface is now:
 - `python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py`
 - `python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py`
-- `python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py <campaign>`
+- `python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py <campaign>` (single-model, multi-suite)
+- `python3 /mnt/shared/scripts/benchmarks/run_campaign.py <manifest>` (unified: multi-model, multi-suite, parallel GPU scheduling — see [CAMPAIGN_RUNNER.md](CAMPAIGN_RUNNER.md))
 - Batch model testing: `bash /mnt/shared/scripts/benchmarks/run_<campaign>.sh` (see [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md#automated-multi-model-campaign-script))
 
 Use this Docker README for suite semantics, suite-specific flags, and direct
