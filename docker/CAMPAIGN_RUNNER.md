@@ -28,7 +28,8 @@ python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
 ## CLI
 
 ```
-python3 run_campaign.py MANIFEST [--run-id ID] [--dry-run] [--on-failure continue|stop] [--verbose]
+python3 run_campaign.py MANIFEST [--run-id ID] [--dry-run] [--on-failure continue|stop]
+    [--limit-override N] [--limit BLOCK_ID=N ...] [--verbose]
 ```
 
 | Flag | Default | Description |
@@ -37,7 +38,11 @@ python3 run_campaign.py MANIFEST [--run-id ID] [--dry-run] [--on-failure continu
 | `--run-id` | timestamp | Run identifier (reuse to resume) |
 | `--dry-run` | off | Print schedule, don't start containers |
 | `--on-failure` | `continue` | `stop` halts entire campaign on first failure |
+| `--limit-override N` | manifest | Override limit for ALL blocks (e.g. `--limit-override 10` for smoke) |
+| `--limit BLOCK=N` | manifest | Override limit for one block (repeatable; wins over `--limit-override`) |
 | `--verbose` | off | Print docker commands and debug details |
+
+**Limit priority**: `--limit BLOCK=N` > `--limit-override N` > manifest `limit` field > suite default
 
 ## Manifest Format
 
