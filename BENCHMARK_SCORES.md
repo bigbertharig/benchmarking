@@ -19,10 +19,10 @@ Machine-readable sources:
 | Model | humaneval | mbpp | gsm8k | bbh | drop f1 | cmd_safety | long_ctx | orch | ambiguity |
 |-------|-----------|------|-------|-----|---------|-----------|----------|------|-----------|
 | E4B | 6.1% | 19.0% | 0.60 | 0.08 | 0.31 | 50.0% | 85.7% | 83.3% | 61.5% |
-| E2B | 6.7% | 22.0% | 0.60 | 0.12 | 0.00 | 58.3% | 92.9% | 83.3% | 7.7% |
+| E2B | 6.7% | 22.0% | 0.74 | 0.14 | 0.05 | 58.3% | 92.9% | 83.3% | 7.7% |
 | 12B | 11.0% | 36.8% | 0.10 | 0.822 | — | 75.0% | 92.9% | 83.3% | 46.2% |
-| 26B-A4B | 13.4% | 42.6% | 0.90 | 0.87 | 0.73 | 58.3% | 100% | 91.7% | 69.2% |
-| 31B | 28.7% | 65.6% | 0.90 | 0.87 | 0.73 | 58.3% | 92.9% | 83.3% | 53.8% |
+| 26B-A4B | 13.4% | 42.6% | 0.95 | 0.84 | 0.79 | 58.3% | 100% | 91.7% | 69.2% |
+| 31B | 28.7% | 65.6% | 0.95 | 0.84 | 0.79 | 58.3% | 92.9% | 83.3% | 53.8% |
 
 ### qwen3.6 family
 
@@ -79,10 +79,10 @@ Latest/highest-limit score per model only.
 | `Llama-3.2-3B` | 0.72 | 0.5896 | 0.4326 | 100 | 4h09m | 2026-03-18 |
 | `SmolLM3-3B` | 0.79 | 0.6678 | 0.3302 | 100 | 4h16m | 2026-03-18 |
 | `Gemma-4-E4B` | 0.60 | 0.08 | 0.31 | 10 | 1h41m | 2026-06-07 |
-| `Gemma-4-E2B` | 0.60 | 0.12 | 0.00 | 10 | 56m | 2026-06-07 |
+| `Gemma-4-E2B` | 0.74 | 0.141 | 0.051 | 50 | 4h02m | 2026-06-08 |
 | `Gemma-4-12B` | 0.10 | 0.822 | — | 100/5 | — | 2026-06-06 |
-| `Gemma-4-26B-A4B` | 0.90 | 0.87 | 0.73 | 10 | 10m | 2026-06-07 |
-| `Gemma-4-31B` | 0.90 | 0.87 | 0.73 | 10 | 10m | 2026-06-07 |
+| `Gemma-4-26B-A4B` | 0.95 | 0.841 | 0.785 | 100 | 1h33m | 2026-06-08 |
+| `Gemma-4-31B` | 0.95 | 0.842 | 0.793 | 100 | 1h32m | 2026-06-08 |
 | `Qwen2.5-Coder-14B` | 0.89 | 0.5937 | 0.4802 | 100 | 9h25m | 2026-03-16 |
 | `Phi-4-14B` | 0.78 | 0.5770 | 0.0925 | 100 | 10h32m | 2026-04-29 |
 | `Qwen3.6-27B` | 0.94 | 0.893 | 0.883 | 50 | 16m | 2026-04-25 |
@@ -90,7 +90,7 @@ Latest/highest-limit score per model only.
 
 Gemma-4-12B note: GSM8K at limit 100, BBH at limit 5 (A/B test: `--reasoning-budget 0` scored 0.822 vs `--reasoning-budget 1024` scored 0.244 — thinking mode destroys BBH extraction). DROP l5 smoke passed (EM=0.60, F1=0.70). GSM8K low score (0.10) is format mismatch (model outputs `$18` not `#### 18`), not capability.
 
-**Gemma-4 reasoning re-run completed (2026-06-07):** E4B, E2B, 26B-A4B, 31B re-run with `--reasoning-budget 0` and `--patch-think-tag-strip` at limit 10 (smoke run via `run_campaign.py`). Brain models (26B-A4B, 31B) scored strongly (GSM8K 0.90, BBH 0.87, DROP 0.73). Worker models (E4B, E2B) scored poorly on reasoning (BBH 0.08-0.12) — expected for sub-5B models on hard tasks. E2B DROP=0.00 is notable; needs investigation at higher limit. Full l50 run pending.
+**Gemma-4 reasoning re-run (2026-06-07/08):** Full campaign with `--reasoning-budget 0` and `--patch-think-tag-strip` via `run_campaign.py`. Brain models (26B-A4B l100, 31B l100) scored strongly — GSM8K 0.95, BBH ~0.84, DROP ~0.79. Competitive with Qwen3.6 on reasoning. E2B (l50) weak across the board (BBH 0.14, DROP 0.05). **E4B l50 failed** — runtime crashed at 35/50 GSM8K (transient llama-server crash on 1060). E4B l10 scores (0.60/0.08/0.31) retained as best available; needs re-run.
 
 ## bench-knowledge (lm-eval loglikelihood)
 
