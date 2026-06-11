@@ -130,6 +130,27 @@ Three attempts needed to get the 12B model loaded on 2x 1060 6GB:
 
 **Rule**: For Docker GPU passthrough, `--tensor-split` values must match the number of visible GPUs inside the container, not total physical GPUs. Updated `NEW_MODEL_INTEGRATION.md` decision tree.
 
+### `--no-mmap` causes Docker OOM kills (2026-06-10)
+
+E4B reasoning benchmark kept OOM-killing during BBH (long few-shot CoT prompts). Root cause: `--no-mmap` in `run_runtime.sh` converted the GGUF file-backed pages into `malloc`'d anonymous memory, which Docker's cgroup counts as non-reclaimable.
+
+**Measured comparison** (E4B, 5.0GB GGUF, all 43/43 layers on GPU):
+
+| | `--no-mmap` | mmap (default) |
+|--|-------------|----------------|
+| CPU buffer label | `CPU model buffer` | `CPU_Mapped model buffer` |
+| Anonymous memory | 2900 MB | 278–827 MB |
+| Peak cgroup total | 6000 MB | 1580 MB |
+| Needed Docker limit | 6g/8g | 2g/3g |
+
+With `--no-mmap`, 2730 MB stays in anonymous RAM even with full GPU offload (embedding table + output head). With mmap, those tensors are file-backed and the kernel reclaims pages not actively needed. Full bench-reasoning l5 (GSM8K + BBH + DROP) completed at 2g Docker limit with mmap.
+
+**Brain tier caveat**: Anonymous memory also scales with `ctx_size` due to KV cache scratch buffers. Brain-tier models (ctx 16384) need ~8-9 GB anon regardless of mmap mode. Tested: 31B OOM'd at 4g, 6g, 8g; passed at 10g/12g. The mmap fix saves ~1g for brain (CPU buffer moves from anon to file) but the ctx-driven buffers dominate.
+
+**Fix**: Removed `--no-mmap` from `run_runtime.sh`. Updated campaign runner memory limits: single 2g/3g (was 6g/8g), brain 10g/12g (was 11g/13g), split 10g/12g (was 10g/12g).
+
+**Note**: `docker stats` will show higher memory with mmap (includes reclaimable file cache in the headline number). This is cosmetic — the kernel reclaims those pages under pressure. The original `--no-mmap` was likely added based on misleading `docker stats` output.
+
 ### 26B-A4B transient crash (2026-04-25)
 
 First l100 DROP run hit a 500 server error at request 51/100: `"Failed to parse input at pos 13: <|channel>thought\n..."`. Transient llama-server parse error on very long thinking chain. Second l100 rerun succeeded cleanly (f1=0.746).

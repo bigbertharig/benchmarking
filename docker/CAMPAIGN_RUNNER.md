@@ -158,6 +158,28 @@ On restart with the same `--run-id`:
 
 The heartbeat keeper auto-detects containers matching `llama-*` and `bench-*`.
 
+## Memory Limits
+
+The runtime uses mmap by default (no `--no-mmap`). GGUF file pages are
+file-backed and reclaimable under Docker cgroup pressure, so actual anonymous
+memory stays under ~1 GB regardless of model size. The campaign runner sets
+safety-cap memory limits per tier:
+
+| Tier | `--memory` | `--memory-swap` | Tested peak (mmap) | Old (no-mmap) |
+|------|------------|-----------------|-------------------|---------------|
+| single (1060) | 2g | 3g | 1.6 GB (E4B, ctx 4k) | 6g/8g |
+| brain (3090) | 10g | 12g | 10 GB (31B, ctx 16k) | 11g/13g |
+| split (2x 1060) | 10g | 12g | — | 10g/12g |
+
+Anonymous memory scales with `ctx_size`, not model size (KV cache scratch
+buffers). Single-tier models use ctx 4096 and need ~1 GB. Brain/split models
+use ctx 16384 and need ~8-9 GB.
+
+`docker stats` may show higher usage than expected — this includes reclaimable
+file cache from the mmap'd GGUF. The kernel reclaims these pages under pressure.
+See BENCHMARK_LESSONS_LEARNED.md "`--no-mmap` causes Docker OOM kills" for the
+full investigation.
+
 ## Error Handling
 
 - Load timeout: block marked failed, slot released, other blocks continue

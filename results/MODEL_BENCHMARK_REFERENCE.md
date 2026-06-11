@@ -1,9 +1,9 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-06-07T21:47:58.209531`
+- Generated at: `2026-06-10T06:31:12.389595`
 - Records file: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/benchmark-scripts/benchmark_status.json`
-- Total recorded runs: `835`
+- Total recorded runs: `855`
 
 ## Operational Status
 
@@ -194,26 +194,26 @@ This section tracks current benchmarkability and backend certification status.
 | gemma-4:12b | drop_f1 | 0.7 | 70.0 | f1,none | 2026-06-07T08:40:29+00:00 | bench-reasoning | gemma4_12b_drop_l5_budget0 |
 | gemma-4:12b | gsm8k_flexible | 0.2 | 20.0 | exact_match,flexible-extract | 2026-06-06T20:11:17+00:00 | bench-reasoning | gemma4_12b_smoke_l5 |
 | gemma-4:12b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-06-06T20:11:17+00:00 | bench-reasoning | gemma4_12b_smoke_l5 |
-| gemma-4:26b-a4b | bbh | 0.8703703703703703 | 87.03703703703704 | exact_match,get-answer | 2026-06-07T20:16:42+00:00 | bench-reasoning | campaign_26b_reasoning |
-| gemma-4:26b-a4b | drop_em | 0.6 | 60.0 | em,none | 2026-06-07T20:17:12+00:00 | bench-reasoning | campaign_26b_reasoning |
-| gemma-4:26b-a4b | drop_f1 | 0.727 | 72.7 | f1,none | 2026-06-07T20:17:12+00:00 | bench-reasoning | campaign_26b_reasoning |
-| gemma-4:26b-a4b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | 2026-06-07T20:07:38+00:00 | bench-reasoning | campaign_26b_reasoning |
-| gemma-4:26b-a4b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | 2026-06-07T20:07:37+00:00 | bench-reasoning | campaign_26b_reasoning |
-| gemma-4:31b | bbh | 0.8703703703703703 | 87.03703703703704 | exact_match,get-answer | 2026-06-07T20:27:04+00:00 | bench-reasoning | campaign_31b_reasoning |
-| gemma-4:31b | drop_em | 0.6 | 60.0 | em,none | 2026-06-07T20:27:34+00:00 | bench-reasoning | campaign_31b_reasoning |
-| gemma-4:31b | drop_f1 | 0.727 | 72.7 | f1,none | 2026-06-07T20:27:34+00:00 | bench-reasoning | campaign_31b_reasoning |
-| gemma-4:31b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | 2026-06-07T20:17:59+00:00 | bench-reasoning | campaign_31b_reasoning |
-| gemma-4:31b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | 2026-06-07T20:17:59+00:00 | bench-reasoning | campaign_31b_reasoning |
-| gemma-4:e2b | bbh | 0.12222222222222222 | 12.222222222222221 | exact_match,get-answer | 2026-06-07T21:00:37+00:00 | bench-reasoning | campaign_e2b_reasoning |
-| gemma-4:e2b | drop_em | 0.0 | 0.0 | em,none | 2026-06-07T21:02:58+00:00 | bench-reasoning | campaign_e2b_reasoning |
-| gemma-4:e2b | drop_f1 | 0.0 | 0.0 | f1,none | 2026-06-07T21:02:58+00:00 | bench-reasoning | campaign_e2b_reasoning |
-| gemma-4:e2b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | 2026-06-07T20:08:35+00:00 | bench-reasoning | campaign_e2b_reasoning |
-| gemma-4:e2b | gsm8k_strict | 0.5 | 50.0 | exact_match,strict-match | 2026-06-07T20:08:35+00:00 | bench-reasoning | campaign_e2b_reasoning |
-| gemma-4:e4b | bbh | 0.08148148148148149 | 8.148148148148149 | exact_match,get-answer | 2026-06-07T21:46:05+00:00 | bench-reasoning | campaign_e4b_reasoning |
-| gemma-4:e4b | drop_em | 0.3 | 30.0 | em,none | 2026-06-07T21:47:58+00:00 | bench-reasoning | campaign_e4b_reasoning |
-| gemma-4:e4b | drop_f1 | 0.307 | 30.7 | f1,none | 2026-06-07T21:47:58+00:00 | bench-reasoning | campaign_e4b_reasoning |
-| gemma-4:e4b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | 2026-06-07T20:08:59+00:00 | bench-reasoning | campaign_e4b_reasoning |
-| gemma-4:e4b | gsm8k_strict | 0.2 | 20.0 | exact_match,strict-match | 2026-06-07T20:08:59+00:00 | bench-reasoning | campaign_e4b_reasoning |
+| gemma-4:26b-a4b | bbh | 0.8407407407407408 | 84.07407407407408 | exact_match,get-answer | 2026-06-08T08:00:22+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | drop_em | 0.73 | 73.0 | em,none | 2026-06-08T08:01:04+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | drop_f1 | 0.7854000000000001 | 78.54 | f1,none | 2026-06-08T08:01:04+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | 2026-06-08T06:32:21+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | gsm8k_strict | 0.95 | 95.0 | exact_match,strict-match | 2026-06-08T06:32:21+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:31b | bbh | 0.8414814814814815 | 84.14814814814815 | exact_match,get-answer | 2026-06-08T09:32:52+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | drop_em | 0.74 | 74.0 | em,none | 2026-06-08T09:33:35+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | drop_f1 | 0.7927 | 79.27 | f1,none | 2026-06-08T09:33:35+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | 2026-06-08T08:04:45+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | gsm8k_strict | 0.94 | 94.0 | exact_match,strict-match | 2026-06-08T08:04:45+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:e2b | bbh | 0.14074074074074075 | 14.074074074074074 | exact_match,get-answer | 2026-06-08T10:25:07+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | drop_em | 0.04 | 4.0 | em,none | 2026-06-08T10:31:01+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | drop_f1 | 0.0508 | 5.08 | f1,none | 2026-06-08T10:31:01+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | gsm8k_flexible | 0.74 | 74.0 | exact_match,flexible-extract | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e4b | bbh | 0.09259259259259259 | 9.25925925925926 | exact_match,get-answer | 2026-06-10T06:27:45+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | drop_em | 0.52 | 52.0 | em,none | 2026-06-10T06:31:12+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | drop_f1 | 0.5348 | 53.480000000000004 | f1,none | 2026-06-10T06:31:12+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | gsm8k_flexible | 0.64 | 64.0 | exact_match,flexible-extract | 2026-06-08T21:31:49+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | gsm8k_strict | 0.16 | 16.0 | exact_match,strict-match | 2026-06-08T21:31:48+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
 | llama3.2:3b | bbh | 0.5896296296296296 | 58.96296296296296 | exact_match,get-answer | 2026-03-18T10:01:42+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
 | llama3.2:3b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
 | llama3.2:3b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
@@ -552,6 +552,26 @@ This section tracks current benchmarkability and backend certification status.
 
 | Run At | Model | Test ID | Score | Score % | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-10T06:31:12+00:00 | gemma-4:e4b | drop_em | 0.52 | 52.0 | em,none | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 957089d8-50dc-45f8-acd2-12240355d168 |
+| 2026-06-10T06:31:12+00:00 | gemma-4:e4b | drop_f1 | 0.5348 | 53.480000000000004 | f1,none | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 20d280bd-6610-4cfb-a3b4-897d1a84c45c |
+| 2026-06-10T06:27:45+00:00 | gemma-4:e4b | bbh | 0.09259259259259259 | 9.25925925925926 | exact_match,get-answer | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 324e6d49-05d1-467e-85cd-51aa7abddcf7 |
+| 2026-06-08T21:31:49+00:00 | gemma-4:e4b | gsm8k_flexible | 0.64 | 64.0 | exact_match,flexible-extract | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 752a72b8-7f8b-4d65-a7b6-76b3b1dae87d |
+| 2026-06-08T21:31:48+00:00 | gemma-4:e4b | gsm8k_strict | 0.16 | 16.0 | exact_match,strict-match | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | d54d6cc0-46d8-45b3-9c93-cacc53184951 |
+| 2026-06-08T10:31:01+00:00 | gemma-4:e2b | drop_em | 0.04 | 4.0 | em,none | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | d9bb951c-8fb6-4f74-b220-69eb60f5fbef |
+| 2026-06-08T10:31:01+00:00 | gemma-4:e2b | drop_f1 | 0.0508 | 5.08 | f1,none | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | c659cb81-bdaf-48f2-b3f3-a7d24ced371a |
+| 2026-06-08T10:25:07+00:00 | gemma-4:e2b | bbh | 0.14074074074074075 | 14.074074074074074 | exact_match,get-answer | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | 2f96a05d-bc92-4ac5-9f48-e852fa7dc424 |
+| 2026-06-08T09:33:35+00:00 | gemma-4:31b | drop_em | 0.74 | 74.0 | em,none | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 5184a9c0-12f2-4be9-be51-8cf4d7b11adb |
+| 2026-06-08T09:33:35+00:00 | gemma-4:31b | drop_f1 | 0.7927 | 79.27 | f1,none | bench-reasoning | campaign_31b_reasoning_20260607_232659 | e4fad928-0a20-4f6d-9c67-dffaec2ec937 |
+| 2026-06-08T09:32:52+00:00 | gemma-4:31b | bbh | 0.8414814814814815 | 84.14814814814815 | exact_match,get-answer | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 7c9b3896-3be5-4eb2-9ce4-09e92fb511f9 |
+| 2026-06-08T08:04:45+00:00 | gemma-4:31b | gsm8k_strict | 0.94 | 94.0 | exact_match,strict-match | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 9af4a42d-7f23-43a1-901c-630daa9ce559 |
+| 2026-06-08T08:04:45+00:00 | gemma-4:31b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 43d82baa-321e-464c-b54c-857c32e4dcbc |
+| 2026-06-08T08:01:04+00:00 | gemma-4:26b-a4b | drop_em | 0.73 | 73.0 | em,none | bench-reasoning | campaign_26b_reasoning_20260607_232659 | 867f5291-2393-466d-9508-aa946b1796c9 |
+| 2026-06-08T08:01:04+00:00 | gemma-4:26b-a4b | drop_f1 | 0.7854000000000001 | 78.54 | f1,none | bench-reasoning | campaign_26b_reasoning_20260607_232659 | add873c5-8478-4852-833e-92b034d43f49 |
+| 2026-06-08T08:00:22+00:00 | gemma-4:26b-a4b | bbh | 0.8407407407407408 | 84.07407407407408 | exact_match,get-answer | bench-reasoning | campaign_26b_reasoning_20260607_232659 | 23bf3f14-e2b9-4a57-9cd8-fab7ecf20982 |
+| 2026-06-08T06:35:30+00:00 | gemma-4:e2b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | 459f4e5b-04e4-40ef-a391-11854fa34d24 |
+| 2026-06-08T06:35:30+00:00 | gemma-4:e2b | gsm8k_flexible | 0.74 | 74.0 | exact_match,flexible-extract | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | e1020403-c83b-4dcc-b749-ad4cf7c37468 |
+| 2026-06-08T06:32:21+00:00 | gemma-4:26b-a4b | gsm8k_strict | 0.95 | 95.0 | exact_match,strict-match | bench-reasoning | campaign_26b_reasoning_20260607_232659 | ed4d037a-c5f1-4ebf-b565-5a10abef60da |
+| 2026-06-08T06:32:21+00:00 | gemma-4:26b-a4b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | bench-reasoning | campaign_26b_reasoning_20260607_232659 | d73d6ac7-d77d-4d13-a740-87cd16630e98 |
 | 2026-06-07T21:47:58+00:00 | gemma-4:e4b | drop_em | 0.3 | 30.0 | em,none | bench-reasoning | campaign_e4b_reasoning | 8ced1cd8-8a8a-40ce-a589-ebbb9daf9703 |
 | 2026-06-07T21:47:58+00:00 | gemma-4:e4b | drop_f1 | 0.307 | 30.7 | f1,none | bench-reasoning | campaign_e4b_reasoning | 20640bd3-6350-4ab9-aa34-2be4b8a90fed |
 | 2026-06-07T21:46:05+00:00 | gemma-4:e4b | bbh | 0.08148148148148149 | 8.148148148148149 | exact_match,get-answer | bench-reasoning | campaign_e4b_reasoning | 3b74c0d9-22d0-44af-8bb0-6eb766122dc7 |
@@ -572,23 +592,3 @@ This section tracks current benchmarkability and backend certification status.
 | 2026-06-07T20:08:35+00:00 | gemma-4:e2b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | bench-reasoning | campaign_e2b_reasoning | d29a6d8b-e33f-4265-b7da-5cba0f815d11 |
 | 2026-06-07T20:07:38+00:00 | gemma-4:26b-a4b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | bench-reasoning | campaign_26b_reasoning | 61b02d20-a04c-4b06-a465-6c2c2c640ff1 |
 | 2026-06-07T20:07:37+00:00 | gemma-4:26b-a4b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | bench-reasoning | campaign_26b_reasoning | 715c3696-bb29-4695-89de-64c18752677b |
-| 2026-06-07T08:44:45+00:00 | gemma-4:26b-a4b | bbh | 0.8666666666666667 | 86.66666666666667 | exact_match,get-answer | bench-reasoning | gemma4_26b_bbh_l5_budget0 | b4fe333e-5204-41a8-8d68-f5bfa19a6a15 |
-| 2026-06-07T08:40:29+00:00 | gemma-4:12b | drop_em | 0.6 | 60.0 | em,none | bench-reasoning | gemma4_12b_drop_l5_budget0 | 797d12e2-2a5e-484d-9978-efec3292c51e |
-| 2026-06-07T08:40:29+00:00 | gemma-4:12b | drop_f1 | 0.7 | 70.0 | f1,none | bench-reasoning | gemma4_12b_drop_l5_budget0 | 2e8bd4e2-e075-48c9-8670-2915c1d8ddbd |
-| 2026-06-06T23:52:14+00:00 | gemma-4:12b | bbh | 0.24444444444444444 | 24.444444444444443 | exact_match,get-answer | bench-reasoning | gemma4_12b_think1024_bbh_l5 | 2ce58381-0600-474a-9ae1-9ddd3539b085 |
-| 2026-06-06T22:52:06+00:00 | gemma-4:12b | bbh | 0.8222222222222222 | 82.22222222222221 | exact_match,get-answer | bench-reasoning | gemma4_12b_nobudget_bbh_l5 | a8773fc6-f3f2-49f7-89a8-f0cae360d13f |
-| 2026-06-06T20:11:17+00:00 | gemma-4:12b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | bench-reasoning | gemma4_12b_smoke_l5 | c91f1f04-f822-4478-aeb0-742f5fb67b10 |
-| 2026-06-06T20:11:17+00:00 | gemma-4:12b | gsm8k_flexible | 0.2 | 20.0 | exact_match,flexible-extract | bench-reasoning | gemma4_12b_smoke_l5 | 4c5a0750-aa8c-4eab-9e68-367c5d772d12 |
-| 2026-06-06T17:35:02+00:00 | gemma-4:12b | gsm8k_strict | 0.01 | 1.0 | exact_match,strict-match | bench-reasoning | gemma4_12b_l100_v2 | 7f25db20-4bb1-4e54-bdc6-901f79198c0c |
-| 2026-06-06T17:35:02+00:00 | gemma-4:12b | gsm8k_flexible | 0.1 | 10.0 | exact_match,flexible-extract | bench-reasoning | gemma4_12b_l100_v2 | d7d42314-e003-420e-9516-939e73bb6bb8 |
-| 2026-06-06T16:25:31+00:00 | gemma-4:12b | gsm8k_strict | 0.01 | 1.0 | exact_match,strict-match | bench-reasoning | gemma4_12b_l100_v1 | 3d2dfe13-025a-48a6-b5f4-1028ceca1e05 |
-| 2026-06-06T16:25:31+00:00 | gemma-4:12b | gsm8k_flexible | 0.07 | 7.000000000000001 | exact_match,flexible-extract | bench-reasoning | gemma4_12b_l100_v1 | e2745187-21b9-48a6-9a34-71ef13d456b1 |
-| 2026-04-29T04:48:28+00:00 | phi-4:14b | drop_em | 0.02 | 2.0 | em,none | bench-reasoning | phi4_l100_rerun_20260428 | 82007ddf-5e3b-4623-8d1d-7c766d052f4a |
-| 2026-04-29T04:48:28+00:00 | phi-4:14b | drop_f1 | 0.0925 | 9.25 | f1,none | bench-reasoning | phi4_l100_rerun_20260428 | aab9a0c1-f84f-4ae2-90be-40e00422c613 |
-| 2026-04-29T04:46:26+00:00 | phi-4:14b | bbh | 0.577037037037037 | 57.7037037037037 | exact_match,get-answer | bench-reasoning | phi4_l100_rerun_20260428 | 85c005f8-310a-487e-85b3-005fd43f44d8 |
-| 2026-04-28T18:39:09+00:00 | phi-4:14b | gsm8k_strict | 0.56 | 56.00000000000001 | exact_match,strict-match | bench-reasoning | phi4_l100_rerun_20260428 | 4d9cef92-e207-4e56-83b5-6d7118be35d3 |
-| 2026-04-28T18:39:09+00:00 | phi-4:14b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | bench-reasoning | phi4_l100_rerun_20260428 | af30fb55-8b4f-47a8-b87e-3b75e2a27f15 |
-| 2026-04-28T18:07:09+00:00 | smollm3:3b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | bench-pipeline | smollm3_3b_pipeline_v2_rerun | 131a4271-faf3-4543-8b73-537af6a886d3 |
-| 2026-04-28T18:07:02+00:00 | smollm3:3b | custom_orchestration_tradeoff | 0.5833333333333334 | 58.333333333333336 | score | bench-pipeline | smollm3_3b_pipeline_v2_rerun | 224b1ab7-2071-4dbf-9181-df2ad571f84d |
-| 2026-04-28T18:06:58+00:00 | smollm3:3b | custom_tool_plan_sequence | 0.8 | 80.0 | score | bench-pipeline | smollm3_3b_pipeline_v2_rerun | a0465c51-266e-4fd3-ba21-d42b36080b6e |
-| 2026-04-28T18:06:52+00:00 | smollm3:3b | custom_ambiguity_handling | 0.0 | 0.0 | score | bench-pipeline | smollm3_3b_pipeline_v2_rerun | b9279a50-b806-4974-8c83-c2cc3a0396a3 |
