@@ -67,6 +67,16 @@ Runtime: ~5 min for 3 tests, ~15 min for full 6-test suite.
   `/benchmark-scripts/model_tuning_profiles.json`)
 - `--require-model-prompt` fail if model-specific prompt source is missing
 - `--run-name` stable run id for checkpoint/resume
+- `--run-class` evidence label: `smoke`, `provisional`, `validated`, or `full`
+- `--config-id` stable runtime/inference profile identifier
+- `--config-json` exact combined runtime and inference configuration object
+- `--inference-config-json` request settings for temperature, `top_k`, `top_p`,
+  repeat penalty, thinking, JSON grammar, system prompt, stop sequences, and
+  maximum tokens
+
+Runtime matrix campaigns generate these JSON arguments; operators should not
+hand-edit the generated manifest. See
+[`runtime_matrices/README.md`](../../runtime_matrices/README.md).
 
 ## Example (Baseline)
 

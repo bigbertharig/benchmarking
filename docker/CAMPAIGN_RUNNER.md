@@ -6,6 +6,10 @@ across all available GPUs with parallel scheduling and checkpoint/resume.
 Script: `/mnt/shared/scripts/benchmarks/run_campaign.py`
 Manifests: `/mnt/shared/plans/shoulders/benchmarking/campaigns/*.json`
 
+Controlled runtime matrices are declared under `runtime_matrices/` and compiled
+into compatible manifests with `build_runtime_matrix_campaign.py`. Generated
+matrix blocks are dependency-chained to keep variants on one GPU slot.
+
 ## Quick Start
 
 ```bash

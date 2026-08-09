@@ -1,0 +1,115 @@
+{
+  "name": "qwen35_4b_structured_worker_matrix",
+  "description": "Controlled structured-output comparison for the Qwen3.5 4B single-worker candidate.",
+  "model": "qwen3.5:4b",
+  "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+  "placement": "single",
+  "suite": "bench-pipeline",
+  "run_class": "provisional",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 300
+  },
+  "suite_args": [
+    "--tests",
+    "custom_json_schema_strict"
+  ],
+  "baseline": {
+    "inference": {
+      "temperature": 0.0,
+      "top_k": null,
+      "top_p": 1.0,
+      "repeat_penalty": null,
+      "thinking": null,
+      "json_grammar": false,
+      "system_prompt": null,
+      "stop_sequences": [],
+      "max_tokens": 512
+    },
+    "runtime": {
+      "ctx_size": 8192,
+      "batch_size": 64,
+      "kv_cache": {},
+      "chat_template": null,
+      "extra_args": []
+    }
+  },
+  "profiles": [
+    {
+      "id": "baseline",
+      "overrides": {}
+    },
+    {
+      "id": "structured_sampling_candidate",
+      "overrides": {
+        "inference": {
+          "temperature": 0.1,
+          "top_k": 10,
+          "top_p": 0.9,
+          "repeat_penalty": 1.05
+        }
+      }
+    },
+    {
+      "id": "thinking_disabled",
+      "overrides": {
+        "inference": {
+          "thinking": false
+        }
+      }
+    },
+    {
+      "id": "json_grammar",
+      "overrides": {
+        "inference": {
+          "json_grammar": true
+        }
+      }
+    },
+    {
+      "id": "context_4096",
+      "overrides": {
+        "runtime": {
+          "ctx_size": 4096
+        }
+      }
+    },
+    {
+      "id": "kv_q8",
+      "overrides": {
+        "runtime": {
+          "kv_cache": {
+            "type_k": "q8_0",
+            "type_v": "q8_0"
+          }
+        }
+      }
+    },
+    {
+      "id": "chatml_template",
+      "overrides": {
+        "runtime": {
+          "chat_template": "chatml"
+        }
+      }
+    },
+    {
+      "id": "strict_system_prompt",
+      "overrides": {
+        "inference": {
+          "system_prompt": "Return only the requested JSON object. Do not use markdown or add commentary."
+        }
+      }
+    },
+    {
+      "id": "double_newline_stop",
+      "overrides": {
+        "inference": {
+          "stop_sequences": [
+            "\n\n"
+          ]
+        }
+      }
+    }
+  ]
+}

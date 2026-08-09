@@ -1,0 +1,260 @@
+{
+  "blocks": [
+    {
+      "batch_size": 64,
+      "config_hash": "066b4f1942007784f985ad6b6ed4d6432086a4e08df4fc4c67d6e9280ed38270",
+      "ctx_size": 8192,
+      "depends_on": [],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_baseline",
+      "matrix_profile": "baseline",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "baseline-066b4f194200",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"baseline\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "ce788e46aea7c5de4774e609cf0d312705a064e2257c7e99b1376d90649262e1",
+      "ctx_size": 8192,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_baseline"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_structured_sampling_candidate",
+      "matrix_profile": "structured_sampling_candidate",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "structured_sampling_candidate-ce788e46aea7",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":1.05,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.1,\"thinking\":null,\"top_k\":10,\"top_p\":0.9},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"structured_sampling_candidate\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":1.05,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.1,\"thinking\":null,\"top_k\":10,\"top_p\":0.9}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "efe850da0065ea1088d0140cebdd74b78b133510dad051eb99b2bdbc81dc5aa9",
+      "ctx_size": 8192,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_structured_sampling_candidate"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_thinking_disabled",
+      "matrix_profile": "thinking_disabled",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "thinking_disabled-efe850da0065",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":false,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"thinking_disabled\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":false,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "a9f22826a713407b45e6e428359f4e9898b2c76be0e0935b3eec9e7bdba80c4e",
+      "ctx_size": 8192,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_thinking_disabled"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_json_grammar",
+      "matrix_profile": "json_grammar",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "json_grammar-a9f22826a713",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":true,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"json_grammar\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":true,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "cff979e036f9008ac32955097a0e5883ddb30be672e0cd142556dc236009c836",
+      "ctx_size": 4096,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_json_grammar"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_context_4096",
+      "matrix_profile": "context_4096",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "context_4096-cff979e036f9",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"context_4096\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":4096,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "4718ac0b874952ed8a693e3023dbd0095023a5c24a27288bc133ed1018d58af8",
+      "ctx_size": 8192,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_context_4096"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_kv_q8",
+      "matrix_profile": "kv_q8",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [
+        "--cache-type-k",
+        "q8_0",
+        "--cache-type-v",
+        "q8_0"
+      ],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "kv_q8-4718ac0b8749",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"kv_q8\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{\"type_k\":\"q8_0\",\"type_v\":\"q8_0\"}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "bac25f5b5ca7bf287ab0d16e042220a886599bdfa426240d96388d1988de63a7",
+      "ctx_size": 8192,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_kv_q8"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_chatml_template",
+      "matrix_profile": "chatml_template",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [
+        "--chat-template",
+        "chatml"
+      ],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "chatml_template-bac25f5b5ca7",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"chatml_template\",\"runtime\":{\"batch_size\":64,\"chat_template\":\"chatml\",\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "caf7953d13ff6cc835bef175079e629b1a56dfcacad9a246c77c12870187fd74",
+      "ctx_size": 8192,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_chatml_template"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_strict_system_prompt",
+      "matrix_profile": "strict_system_prompt",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "strict_system_prompt-caf7953d13ff",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":\"Return only the requested JSON object. Do not use markdown or add commentary.\",\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"strict_system_prompt\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[],\"system_prompt\":\"Return only the requested JSON object. Do not use markdown or add commentary.\",\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    },
+    {
+      "batch_size": 64,
+      "config_hash": "fd5c5123c9fd9fa0e5e04536db143eb65fad893a25e6456d39ffdf68a875d20e",
+      "ctx_size": 8192,
+      "depends_on": [
+        "qwen35_4b_structured_worker_matrix_strict_system_prompt"
+      ],
+      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "id": "qwen35_4b_structured_worker_matrix_double_newline_stop",
+      "matrix_profile": "double_newline_stop",
+      "model": "qwen3.5:4b",
+      "placement": "single",
+      "runtime_args": [],
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--run-class",
+        "provisional",
+        "--config-id",
+        "double_newline_stop-fd5c5123c9fd",
+        "--config-json",
+        "{\"inference\":{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[\"\\n\\n\"],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0},\"matrix\":\"qwen35_4b_structured_worker_matrix\",\"profile\":\"double_newline_stop\",\"runtime\":{\"batch_size\":64,\"chat_template\":null,\"ctx_size\":8192,\"extra_args\":[],\"kv_cache\":{}}}",
+        "--inference-config-json",
+        "{\"json_grammar\":false,\"max_tokens\":512,\"repeat_penalty\":null,\"stop_sequences\":[\"\\n\\n\"],\"system_prompt\":null,\"temperature\":0.0,\"thinking\":null,\"top_k\":null,\"top_p\":1.0}"
+      ]
+    }
+  ],
+  "defaults": {
+    "load_timeout_s": 300,
+    "runtime_image": "llama-runtime:b8884-candidate"
+  },
+  "description": "Controlled structured-output comparison for the Qwen3.5 4B single-worker candidate.",
+  "matrix_policy": "explicit_profiles_sequential_same_slot",
+  "name": "qwen35_4b_structured_worker_matrix"
+}

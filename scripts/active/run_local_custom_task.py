@@ -171,25 +171,102 @@ def has_model_prompt_source(
     return False
 
 
-def call_chat_completion(
-    base_url: str,
+def normalize_inference_config(value: str) -> dict[str, Any]:
+    try:
+        supplied = json.loads(value)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"--inference-config-json must be valid JSON: {exc}") from exc
+    if not isinstance(supplied, dict):
+        raise SystemExit("--inference-config-json must decode to an object")
+    allowed = {
+        "temperature", "top_k", "top_p", "repeat_penalty", "thinking",
+        "json_grammar", "system_prompt", "stop_sequences", "max_tokens",
+    }
+    unknown = set(supplied) - allowed
+    if unknown:
+        raise SystemExit(f"Unknown inference settings: {', '.join(sorted(unknown))}")
+    config: dict[str, Any] = {
+        "temperature": 0,
+        "top_k": None,
+        "top_p": None,
+        "repeat_penalty": None,
+        "thinking": None,
+        "json_grammar": False,
+        "system_prompt": None,
+        "stop_sequences": [],
+        "max_tokens": 512,
+    }
+    config.update(supplied)
+    for key in ("temperature", "top_p", "repeat_penalty"):
+        item = config[key]
+        if item is not None and (isinstance(item, bool) or not isinstance(item, (int, float))):
+            raise SystemExit(f"Inference setting {key} must be numeric or null")
+    if not 0 <= config["temperature"] <= 2:
+        raise SystemExit("Inference setting temperature must be between 0 and 2")
+    if config["top_p"] is not None and not 0 < config["top_p"] <= 1:
+        raise SystemExit("Inference setting top_p must be greater than 0 and at most 1")
+    if config["repeat_penalty"] is not None and config["repeat_penalty"] <= 0:
+        raise SystemExit("Inference setting repeat_penalty must be positive")
+    for key in ("top_k", "max_tokens"):
+        item = config[key]
+        if item is not None and (isinstance(item, bool) or not isinstance(item, int) or item < 0):
+            raise SystemExit(f"Inference setting {key} must be a non-negative integer or null")
+    if config["max_tokens"] == 0:
+        raise SystemExit("Inference setting max_tokens must be positive")
+    for key in ("thinking", "json_grammar"):
+        item = config[key]
+        if item is not None and not isinstance(item, bool):
+            raise SystemExit(f"Inference setting {key} must be boolean or null")
+    if config["system_prompt"] is not None and not isinstance(config["system_prompt"], str):
+        raise SystemExit("Inference setting system_prompt must be a string or null")
+    stops = config["stop_sequences"]
+    if not isinstance(stops, list) or any(not isinstance(item, str) or not item for item in stops):
+        raise SystemExit("Inference setting stop_sequences must be an array of non-empty strings")
+    return config
+
+
+def build_chat_payload(
     model: str,
     prompt: str,
-    timeout: int,
     system_prompt: str,
-) -> tuple[str, str]:
+    inference_config: dict[str, Any],
+) -> dict[str, Any]:
+    configured_prompt = inference_config.get("system_prompt")
+    if configured_prompt is not None:
+        system_prompt = str(configured_prompt)
     messages: list[dict[str, str]] = []
     if system_prompt.strip():
         messages.append({"role": "system", "content": system_prompt.strip()})
     messages.append({"role": "user", "content": prompt})
     payload: dict[str, Any] = {
         "messages": messages,
-        "max_tokens": 512,
-        "temperature": 0,
+        "max_tokens": inference_config["max_tokens"],
+        "temperature": inference_config["temperature"],
         "stream": False,
     }
+    for key in ("top_k", "top_p", "repeat_penalty"):
+        if inference_config.get(key) is not None:
+            payload[key] = inference_config[key]
+    if inference_config.get("thinking") is not None:
+        payload["chat_template_kwargs"] = {"enable_thinking": inference_config["thinking"]}
+    if inference_config.get("json_grammar"):
+        payload["response_format"] = {"type": "json_object"}
+    if inference_config.get("stop_sequences"):
+        payload["stop"] = inference_config["stop_sequences"]
     if model:
         payload["model"] = model
+    return payload
+
+
+def call_chat_completion(
+    base_url: str,
+    model: str,
+    prompt: str,
+    timeout: int,
+    system_prompt: str,
+    inference_config: dict[str, Any],
+) -> tuple[str, str]:
+    payload = build_chat_payload(model, prompt, system_prompt, inference_config)
     response = requests.post(
         f"{base_url.rstrip('/')}/v1/chat/completions",
         json=payload,
@@ -317,7 +394,17 @@ def main() -> int:
         help="Fail if model-specific prompt source is missing (no generic default fallback).",
     )
     ap.add_argument("--no-record", action="store_true")
+    ap.add_argument("--config-id", default="")
+    ap.add_argument("--config-json", default="{}")
+    ap.add_argument("--inference-config-json", default="{}")
     args = ap.parse_args()
+    inference_config = normalize_inference_config(args.inference_config_json)
+    try:
+        benchmark_config = json.loads(args.config_json)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"--config-json must be valid JSON: {exc}") from exc
+    if not isinstance(benchmark_config, dict):
+        raise SystemExit("--config-json must decode to an object")
 
     this_dir = Path(__file__).resolve().parent
     benchmark_root = Path(__file__).resolve().parents[2]
@@ -381,6 +468,9 @@ def main() -> int:
                 args.model,
                 args.id,
             )
+        if inference_config.get("system_prompt") is not None:
+            system_prompt = str(inference_config["system_prompt"])
+            prompt_source = "inference_config"
         try:
             response, response_source = call_chat_completion(
                 args.base_url,
@@ -388,6 +478,7 @@ def main() -> int:
                 prompt,
                 args.timeout,
                 system_prompt,
+                inference_config,
             )
         except (requests.RequestException, RuntimeError, ValueError) as exc:
             if not args.no_record:
@@ -414,6 +505,10 @@ def main() -> int:
                     f"{type(exc).__name__}: {exc}",
                     "--failed-request-count",
                     "1",
+                    "--config-id",
+                    args.config_id,
+                    "--config-json",
+                    json.dumps(benchmark_config, sort_keys=True),
                 ]
                 if failure_kind == "timeout":
                     failure_cmd.extend(["--timeout-count", "1"])
@@ -455,6 +550,9 @@ def main() -> int:
             "resolved_system_prompt": resolved_prompt,
             "resolved_source": resolved_source,
         }
+    if inference_config.get("system_prompt") is not None:
+        prompts_snapshot["resolved_system_prompt"] = str(inference_config["system_prompt"])
+        prompts_snapshot["resolved_source"] = "inference_config"
 
     payload = {
         "run_at": datetime.now().isoformat(),
@@ -466,6 +564,9 @@ def main() -> int:
         "use_model_prompts": bool(args.use_model_prompts),
         "prompt_profiles": str(prompt_profiles_path) if args.use_model_prompts else "",
         "prompts_snapshot": prompts_snapshot,
+        "config_id": args.config_id,
+        "benchmark_config": benchmark_config,
+        "inference_config": inference_config,
         "cases": results,
     }
     result_path = run_dir / "result.json"
@@ -498,6 +599,10 @@ def main() -> int:
             "local_custom",
             "--suite",
             args.suite,
+            "--config-id",
+            args.config_id,
+            "--config-json",
+            json.dumps(benchmark_config, sort_keys=True),
             "--notes",
             f"{passes}/{total} cases passed",
         ]

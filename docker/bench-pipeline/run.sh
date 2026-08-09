@@ -10,6 +10,10 @@ USE_MODEL_PROMPTS=1
 PROMPT_PROFILES="/benchmark-scripts/custom_tasks/model_prompt_profiles.json"
 TUNING_PROFILES="/benchmark-scripts/model_tuning_profiles.json"
 RUN_NAME=""
+RUN_CLASS="provisional"
+CONFIG_ID=""
+CONFIG_JSON="{}"
+INFERENCE_CONFIG_JSON="{}"
 RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
 RESERVATION_OWNER="${BENCHMARK_RESERVATION_OWNER:-bench-pipeline}"
 RESERVATION_RUN_ID=""
@@ -29,6 +33,10 @@ while [[ $# -gt 0 ]]; do
         --prompt-profiles) PROMPT_PROFILES="$2"; shift 2 ;;
         --tuning-profiles) TUNING_PROFILES="$2"; shift 2 ;;
         --run-name) RUN_NAME="$2"; shift 2 ;;
+        --run-class) RUN_CLASS="$2"; shift 2 ;;
+        --config-id) CONFIG_ID="$2"; shift 2 ;;
+        --config-json) CONFIG_JSON="$2"; shift 2 ;;
+        --inference-config-json) INFERENCE_CONFIG_JSON="$2"; shift 2 ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
     esac
 done
@@ -37,6 +45,24 @@ if [ -z "$MODEL" ]; then
     echo "ERROR: --model is required (e.g. --model qwen2.5-coder:7b)"
     exit 1
 fi
+
+case "$RUN_CLASS" in
+    smoke|provisional|validated|full) ;;
+    *) echo "ERROR: --run-class must be smoke, provisional, validated, or full"; exit 1 ;;
+esac
+
+python3 - "$CONFIG_JSON" "$INFERENCE_CONFIG_JSON" <<'PY'
+import json
+import sys
+
+for name, value in zip(("--config-json", "--inference-config-json"), sys.argv[1:]):
+    try:
+        decoded = json.loads(value)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"ERROR: {name} must be valid JSON: {exc}") from exc
+    if not isinstance(decoded, dict):
+        raise SystemExit(f"ERROR: {name} must decode to an object")
+PY
 
 MODEL_SAFE=$(echo "$MODEL" | tr ':/' '_')
 if [ -n "$RUN_NAME" ]; then
@@ -79,19 +105,43 @@ record_result_row() {
     local score="$2"
     local metric="$3"
     local notes="${4:-}"
+    local sample_count="${5:-}"
     if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
-        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
-        return 0
+        echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+        return 1
     fi
     python3 "$RECORD_RESULT_SCRIPT" \
         --model "$MODEL" \
         --test-id "$test_id" \
         --score "$score" \
+        --raw-harness-score "$score" \
         --metric "$metric" \
+        --run-class "$RUN_CLASS" \
+        --sample-count "$sample_count" \
+        --format-compatibility unknown \
         --harness "bench-pipeline" \
         --suite "${RUN_NAME:-bench-pipeline}" \
+        --config-id "$CONFIG_ID" \
+        --config-json "$CONFIG_JSON" \
         --run-at "$(date -Iseconds)" \
-        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL} ${test_id}"
+        --notes "$notes" >/dev/null
+}
+
+record_failure_row() {
+    local test_id="$1"
+    local exit_code="$2"
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL" \
+        --test-id "$test_id" \
+        --status failure \
+        --run-class "$RUN_CLASS" \
+        --harness "bench-pipeline" \
+        --suite "${RUN_NAME:-bench-pipeline}" \
+        --config-id "$CONFIG_ID" \
+        --config-json "$CONFIG_JSON" \
+        --failure-kind harness_exit \
+        --failure-message "local custom runner exited with code ${exit_code}" \
+        --failed-request-count 1 >/dev/null
 }
 
 if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ]; then
@@ -236,6 +286,8 @@ echo "Scripts: $SCRIPTS_DIR"
 echo "Use model prompts: $USE_MODEL_PROMPTS"
 echo "Prompt profiles: $PROMPT_PROFILES"
 echo "Tuning profiles: $TUNING_PROFILES"
+echo "Run class: $RUN_CLASS"
+echo "Config ID: ${CONFIG_ID:-none}"
 [ -n "$RUN_NAME" ] && echo "Run name: $RUN_NAME"
 echo "Stage updates: $STAGE_FILE"
 echo "Status file: $STATUS_FILE"
@@ -256,6 +308,10 @@ CATALOG="${SCRIPTS_DIR}/benchmark_catalog.json"
 if [ ! -f "$RUNNER" ]; then
     echo "ERROR: Custom test runner not found: $RUNNER"
     echo "Mount the benchmarks scripts dir with -v /mnt/shared/scripts/benchmarks:/benchmark-scripts:ro"
+    exit 1
+fi
+if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+    echo "ERROR: Benchmark recorder not found: $RECORD_RESULT_SCRIPT"
     exit 1
 fi
 
@@ -299,6 +355,10 @@ for TEST_ID in "${TEST_ARRAY[@]}"; do
       --cases "$CASES"
       --output-dir "$RESULTS_DIR"
       --suite "bench-pipeline"
+      --run-class "$RUN_CLASS"
+      --config-id "$CONFIG_ID"
+      --config-json "$CONFIG_JSON"
+      --inference-config-json "$INFERENCE_CONFIG_JSON"
       --no-record
     )
     if [ "$USE_MODEL_PROMPTS" -eq 1 ]; then
@@ -342,7 +402,9 @@ for TEST_ID in "${TEST_ARRAY[@]}"; do
       "$STAGE_END_ISO" "$RUN_START_ISO" "$MODEL" "$RUNTIME_BASE" "$TEST_ID" "$((PASSED_TESTS + FAILED_TESTS))" "$TOTAL_TESTS" "$PASSED_TESTS" "$FAILED_TESTS" "$SKIPPED_TESTS" "$STAGE_STATUS" "${RESULT_PATH:-}" "$STAGE_DURATION" "$ELAPSED_TOTAL" "$CHECKPOINT_FILE" > "$STATUS_FILE"
 
     if [ "$STAGE_STATUS" = "passed" ] && [ -n "${SCORE:-}" ]; then
-      record_result_row "$TEST_ID" "$SCORE" "score" "passes=${CASE_PASSES:-}; total=${CASE_TOTAL:-}; result_path=${RESULT_PATH:-}"
+      record_result_row "$TEST_ID" "$SCORE" "score" "passes=${CASE_PASSES:-}; total=${CASE_TOTAL:-}; result_path=${RESULT_PATH:-}" "$CASE_TOTAL"
+    elif [ "$STAGE_STATUS" = "failed" ]; then
+      record_failure_row "$TEST_ID" "$RUN_CODE"
     fi
 
     echo "--- ${TEST_ID} done ---"
