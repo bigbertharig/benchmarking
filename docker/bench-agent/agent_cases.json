@@ -1,0 +1,366 @@
+{
+  "suite_id": "bench-agent-v1",
+  "version": "1.0",
+  "description": "Executable tool-use, recovery, observation, and MCP-style interface mutation cases.",
+  "toolsets": {
+    "lookup": [
+      {
+        "type": "function",
+        "x-executor": "lookup_metric",
+        "function": {
+          "name": "lookup_metric",
+          "description": "Look up one metric value from a named dataset.",
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dataset", "metric", "location", "year"],
+            "properties": {
+              "dataset": {"type": "string", "enum": ["climate", "demography"]},
+              "metric": {"type": "string"},
+              "location": {"type": "string"},
+              "year": {"type": "integer"}
+            }
+          }
+        }
+      },
+      {
+        "type": "function",
+        "x-executor": "list_datasets",
+        "function": {
+          "name": "list_datasets",
+          "description": "List available datasets; do not use when the dataset is already known.",
+          "parameters": {"type": "object", "additionalProperties": false, "properties": {}}
+        }
+      }
+    ],
+    "lookup_convert": [
+      {
+        "type": "function",
+        "x-executor": "lookup_metric",
+        "function": {
+          "name": "lookup_metric",
+          "description": "Look up one metric value from a named dataset.",
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dataset", "metric", "location", "year"],
+            "properties": {
+              "dataset": {"type": "string", "enum": ["climate", "demography"]},
+              "metric": {"type": "string"},
+              "location": {"type": "string"},
+              "year": {"type": "integer"}
+            }
+          }
+        }
+      },
+      {
+        "type": "function",
+        "x-executor": "convert_units",
+        "function": {
+          "name": "convert_units",
+          "description": "Convert a numeric measurement between Celsius and Fahrenheit.",
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value", "from_unit", "to_unit"],
+            "properties": {
+              "value": {"type": "number"},
+              "from_unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+              "to_unit": {"type": "string", "enum": ["celsius", "fahrenheit"]}
+            }
+          }
+        }
+      }
+    ],
+    "unstable": [
+      {
+        "type": "function",
+        "x-executor": "unstable_lookup",
+        "function": {
+          "name": "unstable_lookup",
+          "description": "Look up a metric. If an observation requests a retry token, retry with that token.",
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dataset", "metric", "location", "year"],
+            "properties": {
+              "dataset": {"type": "string"},
+              "metric": {"type": "string"},
+              "location": {"type": "string"},
+              "year": {"type": "integer"},
+              "retry_token": {"type": "string"}
+            }
+          }
+        }
+      }
+    ],
+    "artifact": [
+      {
+        "type": "function",
+        "x-executor": "write_artifact",
+        "function": {
+          "name": "write_artifact",
+          "description": "Write UTF-8 content to a named artifact in the task sandbox.",
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "content"],
+            "properties": {"name": {"type": "string"}, "content": {"type": "string"}}
+          }
+        }
+      },
+      {
+        "type": "function",
+        "x-executor": "read_artifact",
+        "function": {
+          "name": "read_artifact",
+          "description": "Read a named artifact from the task sandbox.",
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name"],
+            "properties": {"name": {"type": "string"}}
+          }
+        }
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "agent_plan_sequence",
+      "category": "planning",
+      "mode": "plan",
+      "prompt": "Describe, without executing tools, the ordered stages for answering a metric request safely.",
+      "expected": {"ordered_terms": ["inspect", "select", "execute", "validate"]}
+    },
+    {
+      "id": "agent_tool_select",
+      "category": "tool_selection",
+      "toolset": "lookup",
+      "prompt": "What was Canada's climate temperature in 2024? Use the available tools and report the observed value and unit.",
+      "expected": {
+        "required_tools": ["lookup_metric"],
+        "forbidden_tools": ["list_datasets"],
+        "final_contains": ["12.5", "celsius"]
+      }
+    },
+    {
+      "id": "agent_tool_args",
+      "category": "argument_generation",
+      "toolset": "lookup",
+      "prompt": "Look up the 2024 population of USA from the demography dataset and report it.",
+      "expected": {
+        "required_tools": ["lookup_metric"],
+        "expected_arguments": {
+          "lookup_metric": {"dataset": "demography", "metric": "population", "location": "USA", "year": 2024}
+        },
+        "final_contains": ["340000000"]
+      }
+    },
+    {
+      "id": "agent_tool_execute",
+      "category": "execution",
+      "toolset": "artifact",
+      "prompt": "Write the exact text READY to artifact status.txt, read it back, then report the observed content.",
+      "expected": {"required_tools": ["write_artifact", "read_artifact"], "final_contains": ["READY"]}
+    },
+    {
+      "id": "agent_observation_use",
+      "category": "observation",
+      "toolset": "lookup",
+      "prompt": "Use a tool to obtain Canada's 2024 climate temperature. Do not guess; answer from the tool observation.",
+      "expected": {"required_tools": ["lookup_metric"], "final_contains": ["12.5", "celsius"]}
+    },
+    {
+      "id": "agent_tool_recovery",
+      "category": "recovery",
+      "toolset": "unstable",
+      "prompt": "Get Canada's 2024 climate temperature. If the tool rejects the first call, use the observation to recover and finish.",
+      "expected": {"required_tools": ["unstable_lookup"], "recovery": true, "final_contains": ["12.5"]}
+    },
+    {
+      "id": "agent_multi_tool",
+      "category": "multi_tool",
+      "toolset": "lookup_convert",
+      "prompt": "Find Canada's 2024 climate temperature and convert the observed Celsius value to Fahrenheit.",
+      "expected": {
+        "required_tools": ["lookup_metric", "convert_units"],
+        "expected_arguments": {
+          "lookup_metric": {"dataset": "climate", "metric": "temperature", "location": "CAN", "year": 2024},
+          "convert_units": {"value": 12.5, "from_unit": "celsius", "to_unit": "fahrenheit"}
+        },
+        "final_contains": ["54.5", "fahrenheit"]
+      }
+    },
+    {
+      "id": "agent_no_tool_needed",
+      "category": "no_tool",
+      "toolset": "lookup",
+      "prompt": "Reply exactly: NO TOOL NEEDED. Do not call a tool.",
+      "expected": {"no_tool": true, "final_contains": ["NO TOOL NEEDED"]}
+    },
+    {
+      "id": "agent_malformed_tool_recovery",
+      "category": "recovery",
+      "mutation": "description_schema_mismatch",
+      "tools": [
+        {
+          "type": "function",
+          "x-executor": "lookup_metric",
+          "function": {
+            "name": "metric_lookup",
+            "description": "Look up a value. Older clients called the location argument place, but the current schema is authoritative.",
+            "parameters": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["dataset", "metric", "location", "year"],
+              "properties": {
+                "dataset": {"type": "string"}, "metric": {"type": "string"},
+                "location": {"type": "string"}, "year": {"type": "integer"}
+              }
+            }
+          }
+        }
+      ],
+      "prompt": "Use the current tool interface to get Canada's 2024 climate temperature. Correct any rejected call from the error observation.",
+      "expected": {"required_tools": ["metric_lookup"], "final_contains": ["12.5"]}
+    },
+    {
+      "id": "agent_mcp_renamed_tool",
+      "category": "mcp_mutation",
+      "mutation": "renamed_tool",
+      "tools": [
+        {
+          "type": "function",
+          "x-executor": "lookup_metric",
+          "function": {
+            "name": "fetch_indicator_v2",
+            "description": "Fetch one current indicator value.",
+            "parameters": {
+              "type": "object", "additionalProperties": false,
+              "required": ["dataset", "metric", "location", "year"],
+              "properties": {
+                "dataset": {"type": "string"}, "metric": {"type": "string"},
+                "location": {"type": "string"}, "year": {"type": "integer"}
+              }
+            }
+          }
+        }
+      ],
+      "prompt": "Fetch Canada's 2024 climate temperature using the tool interface available in this run.",
+      "expected": {"required_tools": ["fetch_indicator_v2"], "final_contains": ["12.5"]}
+    },
+    {
+      "id": "agent_mcp_renamed_argument",
+      "category": "mcp_mutation",
+      "mutation": "renamed_argument",
+      "tools": [
+        {
+          "type": "function",
+          "x-executor": "lookup_metric",
+          "x-arg-map": {"place_code": "location"},
+          "function": {
+            "name": "lookup_metric",
+            "description": "Look up one metric using the current place_code argument.",
+            "parameters": {
+              "type": "object", "additionalProperties": false,
+              "required": ["dataset", "metric", "place_code", "year"],
+              "properties": {
+                "dataset": {"type": "string"}, "metric": {"type": "string"},
+                "place_code": {"type": "string"}, "year": {"type": "integer"}
+              }
+            }
+          }
+        }
+      ],
+      "prompt": "Look up Canada's 2024 climate temperature using the current argument names.",
+      "expected": {"required_tools": ["lookup_metric"], "final_contains": ["12.5"]}
+    },
+    {
+      "id": "agent_mcp_required_field",
+      "category": "mcp_mutation",
+      "mutation": "optional_became_required",
+      "tools": [
+        {
+          "type": "function",
+          "x-executor": "lookup_metric",
+          "function": {
+            "name": "lookup_metric",
+            "description": "Look up a metric. response_unit is now required and must be celsius.",
+            "parameters": {
+              "type": "object", "additionalProperties": false,
+              "required": ["dataset", "metric", "location", "year", "response_unit"],
+              "properties": {
+                "dataset": {"type": "string"}, "metric": {"type": "string"},
+                "location": {"type": "string"}, "year": {"type": "integer"},
+                "response_unit": {"type": "string", "enum": ["celsius"]}
+              }
+            }
+          }
+        }
+      ],
+      "prompt": "Look up Canada's 2024 climate temperature using every required field in the current schema.",
+      "expected": {"required_tools": ["lookup_metric"], "final_contains": ["12.5"]}
+    },
+    {
+      "id": "agent_mcp_changed_return",
+      "category": "mcp_mutation",
+      "mutation": "changed_return_payload",
+      "tools": [
+        {
+          "type": "function",
+          "x-executor": "lookup_metric",
+          "x-return-shape": "nested_result",
+          "function": {
+            "name": "lookup_metric",
+            "description": "Look up one metric. Read the current nested return payload.",
+            "parameters": {
+              "type": "object", "additionalProperties": false,
+              "required": ["dataset", "metric", "location", "year"],
+              "properties": {
+                "dataset": {"type": "string"}, "metric": {"type": "string"},
+                "location": {"type": "string"}, "year": {"type": "integer"}
+              }
+            }
+          }
+        }
+      ],
+      "prompt": "Look up Canada's 2024 climate temperature and interpret the current return payload.",
+      "expected": {"required_tools": ["lookup_metric"], "final_contains": ["12.5", "celsius"]}
+    },
+    {
+      "id": "agent_mcp_ambiguous_names",
+      "category": "mcp_mutation",
+      "mutation": "similar_tool_names",
+      "tools": [
+        {
+          "type": "function", "x-executor": "list_datasets",
+          "function": {
+            "name": "fetch_dataset_metadata", "description": "Return dataset names and metadata, never metric values.",
+            "parameters": {"type": "object", "additionalProperties": false, "properties": {}}
+          }
+        },
+        {
+          "type": "function", "x-executor": "lookup_metric",
+          "function": {
+            "name": "fetch_dataset_metric", "description": "Return one metric value.",
+            "parameters": {
+              "type": "object", "additionalProperties": false,
+              "required": ["dataset", "metric", "location", "year"],
+              "properties": {
+                "dataset": {"type": "string"}, "metric": {"type": "string"},
+                "location": {"type": "string"}, "year": {"type": "integer"}
+              }
+            }
+          }
+        }
+      ],
+      "prompt": "Get Canada's 2024 climate temperature. Select the tool that returns a metric value.",
+      "expected": {
+        "required_tools": ["fetch_dataset_metric"],
+        "forbidden_tools": ["fetch_dataset_metadata"],
+        "final_contains": ["12.5"]
+      }
+    }
+  ]
+}

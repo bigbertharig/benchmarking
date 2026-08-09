@@ -98,6 +98,7 @@ Recommended operator flow:
 | [bench-daedalmap](bench-daedalmap/README.md) | DaedalMap chat routing + bucket-backed data validation | ~5 min smoke, ~45 min full 100-case run |
 | [bench-knowledge](bench-knowledge/README.md) | Knowledge (mmlu, arc, hellaswag) | ~1.5h - 8h at limit 5 |
 | [bench-dataimport](bench-dataimport/README.md) | Converter, reference metadata, and schema-understanding tasks | ~5 min smoke, model-dependent full run |
+| [bench-agent](bench-agent/README.md) | Executable tool use, observation handling, recovery, and MCP mutations | ~5-15 min |
 
 ## Before Running
 
@@ -293,6 +294,7 @@ Operator note:
 | `bench-code` | EvalPlus code generation (humaneval, mbpp) | EvalPlus built-in prompts (no profile injection yet) | [HISTORY](bench-code/BENCH_CODE_HISTORY.md) |
 | `bench-daedalmap` | DaedalMap chat-layer routing, source grounding, and direct bucket validation for `data_s3` cases | Self-contained benchmark prompt from `benchmark_prompt.py` + direct bucket validation from `staging/catalog.json` | [HISTORY](bench-daedalmap/BENCH_DAEDALMAP_HISTORY.md) |
 | `bench-dataimport` | Data converter generation, reference metadata, aggregation rules, and schema diagnosis | Data-import rig procedure bundled with the image | [HISTORY](bench-dataimport/BENCH_DATAIMPORT_HISTORY.md) |
+| `bench-agent` | Executable tool calls, observations, recovery, multi-tool work, and MCP-style interface mutations | Current tool schemas bundled per case | [HISTORY](bench-agent/BENCH_AGENT_HISTORY.md) |
 
 ## Test Volume Quick Reference
 
@@ -329,6 +331,7 @@ Per-image docs:
 - `bench-knowledge`: [README](bench-knowledge/README.md) / [HISTORY](bench-knowledge/BENCH_KNOWLEDGE_HISTORY.md)
 - `bench-code`: [README](bench-code/README.md) / [HISTORY](bench-code/BENCH_CODE_HISTORY.md)
 - `bench-dataimport`: [README](bench-dataimport/README.md) / [HISTORY](bench-dataimport/BENCH_DATAIMPORT_HISTORY.md)
+- `bench-agent`: [README](bench-agent/README.md) / [HISTORY](bench-agent/BENCH_AGENT_HISTORY.md)
 
 ## First-Run Checklist
 
@@ -837,4 +840,5 @@ docker build -t bench-knowledge bench-knowledge
 docker build -t bench-pipeline bench-pipeline
 docker build -t bench-reasoning bench-reasoning
 docker build -t bench-dataimport bench-dataimport
+docker build -t bench-agent bench-agent
 ```
