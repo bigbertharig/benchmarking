@@ -1,0 +1,28 @@
+{
+  "diagnostics": {
+    "eligible_points": 0,
+    "frontier_groups": 0,
+    "legacy_records": 876,
+    "missing_cost_records": 0,
+    "successful_records": 876
+  },
+  "frontiers": [],
+  "generated_at": "2026-08-09T22:19:20.999584+00:00",
+  "policy": {
+    "comparison_rule": "Points compete only when they have the same measured cost dimensions.",
+    "maximize": [
+      "quality",
+      "reliability"
+    ],
+    "minimize": [
+      "wall_time_seconds",
+      "ttft_seconds",
+      "peak_vram_mb",
+      "gpu_seconds",
+      "energy_wh"
+    ],
+    "missing_data_rule": "Missing cost dimensions are never guessed or treated as zero."
+  },
+  "schema_version": 1,
+  "source_records_path": "/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl"
+}

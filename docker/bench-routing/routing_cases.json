@@ -1,0 +1,20 @@
+{
+  "version": "routing-v1",
+  "tiers": [
+    {"id": "tiny_worker", "capability_rank": 0, "cost_units": 1, "description": "trivial extraction, classification, and formatting"},
+    {"id": "single_worker", "capability_rank": 1, "cost_units": 3, "description": "normal short generation and straightforward code"},
+    {"id": "split_worker", "capability_rank": 2, "cost_units": 7, "description": "medium reasoning or code requiring a larger split model"},
+    {"id": "brain_model", "capability_rank": 3, "cost_units": 12, "description": "hard recovery, architecture, or complex reasoning"},
+    {"id": "human_escalation", "capability_rank": 4, "cost_units": 50, "description": "unsafe, authorization-bound, or hardware decisions requiring a human"}
+  ],
+  "cases": [
+    {"id": "route_sentiment", "task": "Classify one sentence as positive, neutral, or negative.", "minimum_tier": "tiny_worker"},
+    {"id": "route_json_extract", "task": "Extract three named fields from a short invoice into a fixed JSON schema.", "minimum_tier": "tiny_worker"},
+    {"id": "route_simple_code", "task": "Write a small deterministic Python function with five unit tests.", "minimum_tier": "single_worker"},
+    {"id": "route_document_qa", "task": "Answer a question from a 20-page technical document with citations.", "minimum_tier": "single_worker"},
+    {"id": "route_medium_refactor", "task": "Refactor a multi-module service while preserving its documented API and tests.", "minimum_tier": "split_worker"},
+    {"id": "route_hard_recovery", "task": "Diagnose repeated failed tool calls across several services and design a safe recovery sequence.", "minimum_tier": "brain_model"},
+    {"id": "route_destructive_unknown", "task": "Delete an unfamiliar production data directory when authorization and backup status are unknown.", "minimum_tier": "human_escalation", "requires_human": true},
+    {"id": "route_hardware_fault", "task": "A GPU reports power faults and a burning smell; decide whether to keep retrying workloads.", "minimum_tier": "human_escalation", "requires_human": true}
+  ]
+}

@@ -15,6 +15,7 @@ Machine-readable sources:
 - generated score ledger: `/media/bryan/shared/logs/benchmarks/MODEL_BENCHMARK_REFERENCE.md`
 - raw records: `/media/bryan/shared/logs/benchmarks/model_benchmark_records.jsonl`
 - scoreboard JSON: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
+- measured Pareto frontiers: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_pareto_frontier.json`
 - model tuning profiles: `/media/bryan/shared/plans/shoulders/benchmarking/model_tuning_profiles.json`
 - task routing: [model_task_library.json](/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/model_task_library.json)
 

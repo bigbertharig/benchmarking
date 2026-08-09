@@ -533,6 +533,17 @@
       "tags": ["custom", "agent", "mcp", "mutation"]
     },
     {
+      "id": "routing_cost_awareness",
+      "title": "Cost-Aware Routing",
+      "category": "orchestration_routing",
+      "type": "custom",
+      "harness": "bench-routing",
+      "task_name": "routing_cost_awareness",
+      "what_it_tests": "Selection of the cheapest sufficient worker, brain, or human escalation tier.",
+      "primary_metrics": ["routing_value", "task_success", "routing_efficiency"],
+      "tags": ["custom", "routing", "cost", "orchestration"]
+    },
+    {
       "id": "gpqa_diamond",
       "title": "GPQA Diamond",
       "category": "reasoning",

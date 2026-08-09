@@ -33,6 +33,7 @@ which tests and suites we run, how to run them, and where results live.
 - Canonical ledger (append-only): `results/model_benchmark_records.jsonl`
 - Human-readable reference (quality-selected scores): `results/MODEL_BENCHMARK_REFERENCE.md`
 - Machine-readable scoreboard (quality-selected): `results/model_library_scoreboard.json`
+- Measured quality/reliability/cost frontiers: `results/model_pareto_frontier.json`
 - Per-run harness outputs (includes prompt snapshots): `/media/bryan/shared/logs/benchmarks/`
 - Per-suite run histories: `docker/bench-*/BENCH_*_HISTORY.md`
 
