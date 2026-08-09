@@ -157,6 +157,72 @@
       "tags": ["coding", "public"]
     },
     {
+      "id": "humaneval_base",
+      "title": "HumanEval Base Tests",
+      "category": "programming",
+      "type": "standard",
+      "harness": "bench-code",
+      "task_name": "humaneval",
+      "what_it_tests": "HumanEval pass@1 against the original test set emitted alongside HumanEval+.",
+      "primary_metrics": ["pass@1_base"],
+      "tags": ["coding", "baseline", "public"]
+    },
+    {
+      "id": "mbpp_base",
+      "title": "MBPP Base Tests",
+      "category": "programming",
+      "type": "standard",
+      "harness": "bench-code",
+      "task_name": "mbpp",
+      "what_it_tests": "MBPP pass@1 against the original test set emitted alongside MBPP+.",
+      "primary_metrics": ["pass@1_base"],
+      "tags": ["coding", "baseline", "public"]
+    },
+    {
+      "id": "gsm8k_strict",
+      "title": "GSM8K Strict Extraction",
+      "category": "math",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "gsm8k",
+      "what_it_tests": "Operational GSM8K exact match using the strict harness extractor.",
+      "primary_metrics": ["exact_match_strict"],
+      "tags": ["reasoning", "format", "public"]
+    },
+    {
+      "id": "gsm8k_flexible",
+      "title": "GSM8K Flexible Extraction",
+      "category": "math",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "gsm8k",
+      "what_it_tests": "GSM8K answer correctness after flexible final-answer extraction.",
+      "primary_metrics": ["exact_match_flexible"],
+      "tags": ["reasoning", "normalized", "public"]
+    },
+    {
+      "id": "drop_em",
+      "title": "DROP Exact Match",
+      "category": "reading_comprehension",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "drop",
+      "what_it_tests": "Discrete reading comprehension exact match.",
+      "primary_metrics": ["em"],
+      "tags": ["reasoning", "reading", "public"]
+    },
+    {
+      "id": "drop_f1",
+      "title": "DROP F1",
+      "category": "reading_comprehension",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "drop",
+      "what_it_tests": "Token-level F1 on discrete reading comprehension answers.",
+      "primary_metrics": ["f1"],
+      "tags": ["reasoning", "reading", "public"]
+    },
+    {
       "id": "livecodebench",
       "title": "LiveCodeBench",
       "category": "programming",
@@ -544,6 +610,50 @@
       "tags": ["custom", "routing", "cost", "orchestration"]
     },
     {
+      "id": "runtime_stability",
+      "title": "Runtime Request Stability",
+      "category": "runtime",
+      "type": "custom",
+      "harness": "bench-runtime",
+      "task_name": "stability",
+      "what_it_tests": "Reliability across repeated short chat-completion requests.",
+      "primary_metrics": ["request_success_rate", "failed_request_count"],
+      "tags": ["runtime", "reliability", "operations"]
+    },
+    {
+      "id": "runtime_ttft",
+      "title": "Runtime Time To First Token",
+      "category": "runtime",
+      "type": "custom",
+      "harness": "bench-runtime",
+      "task_name": "ttft",
+      "what_it_tests": "Streaming request success and time to the first generated content token.",
+      "primary_metrics": ["request_success_rate", "ttft_seconds"],
+      "tags": ["runtime", "latency", "streaming"]
+    },
+    {
+      "id": "runtime_throughput",
+      "title": "Runtime Throughput",
+      "category": "runtime",
+      "type": "custom",
+      "harness": "bench-runtime",
+      "task_name": "throughput",
+      "what_it_tests": "Prompt and generation throughput from a deterministic generation request.",
+      "primary_metrics": ["prompt_tps", "generation_tps"],
+      "tags": ["runtime", "throughput", "operations"]
+    },
+    {
+      "id": "runtime_context_reliability",
+      "title": "Runtime Context Reliability",
+      "category": "runtime",
+      "type": "custom",
+      "harness": "bench-runtime",
+      "task_name": "context",
+      "what_it_tests": "Request success across an explicit controlled context-growth profile.",
+      "primary_metrics": ["request_success_rate", "max_success_prompt_tokens"],
+      "tags": ["runtime", "context", "reliability"]
+    },
+    {
       "id": "gpqa_diamond",
       "title": "GPQA Diamond",
       "category": "reasoning",
@@ -623,6 +733,20 @@
       "what_it_tests": "Multi-step soft reasoning — complex inference chains with uncertainty.",
       "primary_metrics": ["accuracy"],
       "tags": ["reasoning", "multi_step", "public"]
+    }
+  ],
+  "result_families": [
+    {
+      "id": "daedalmap_category_metrics",
+      "harness": "bench-daedalmap",
+      "pattern": "^daedalmap_(json_discipline|type_routing|source_grounding|catalog_discipline|geographic_precision|multi_source)_(pass_rate|json_valid_rate|type_correct_rate|no_halluc_rate|source_hit_rate|source_valid_rate)$",
+      "what_it_tests": "Versioned per-category DaedalMap chat isolation metrics emitted from llm_benchmark_v2.json."
+    },
+    {
+      "id": "legacy_suite_aggregates",
+      "harness": "legacy",
+      "pattern": "^(bench_code_total_(base|plus)|custom_worker_suite_total)$",
+      "what_it_tests": "Historical aggregate rows retained for graph continuity; active suites now record per-test evidence."
     }
   ]
 }

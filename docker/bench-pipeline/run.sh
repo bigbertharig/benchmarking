@@ -14,6 +14,9 @@ RUN_CLASS="provisional"
 CONFIG_ID=""
 CONFIG_JSON="{}"
 INFERENCE_CONFIG_JSON="{}"
+METHODOLOGY_ID="bench-pipeline/local-custom"
+METHODOLOGY_VERSION="2.0.0"
+COMPARISON_GROUP="pipeline-local-custom-v1"
 RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
 RESERVATION_OWNER="${BENCHMARK_RESERVATION_OWNER:-bench-pipeline}"
 RESERVATION_RUN_ID=""
@@ -121,6 +124,9 @@ record_result_row() {
         --format-compatibility unknown \
         --harness "bench-pipeline" \
         --suite "${RUN_NAME:-bench-pipeline}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
         --config-id "$CONFIG_ID" \
         --config-json "$CONFIG_JSON" \
         --run-at "$(date -Iseconds)" \
@@ -137,6 +143,9 @@ record_failure_row() {
         --run-class "$RUN_CLASS" \
         --harness "bench-pipeline" \
         --suite "${RUN_NAME:-bench-pipeline}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
         --config-id "$CONFIG_ID" \
         --config-json "$CONFIG_JSON" \
         --failure-kind harness_exit \

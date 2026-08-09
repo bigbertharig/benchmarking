@@ -17,6 +17,9 @@ from typing import Any
 from agent_harness import run_case
 
 
+METHODOLOGY = ("bench-agent/executable-tools", "1.0.0", "agent-execution-v1")
+
+
 def safe_name(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", value.strip())
 
@@ -83,6 +86,12 @@ def record_result(args: argparse.Namespace, case: dict[str, Any], trace: dict[st
         "bench-agent",
         "--suite",
         args.run_name,
+        "--methodology-id",
+        METHODOLOGY[0],
+        "--methodology-version",
+        METHODOLOGY[1],
+        "--comparison-group",
+        METHODOLOGY[2],
         "--config-id",
         case["id"],
         "--config-json",
@@ -129,6 +138,12 @@ def record_failure(args: argparse.Namespace, case: dict[str, Any], exc: Exceptio
             f"{type(exc).__name__}: {exc}",
             "--failed-request-count",
             "1",
+            "--methodology-id",
+            METHODOLOGY[0],
+            "--methodology-version",
+            METHODOLOGY[1],
+            "--comparison-group",
+            METHODOLOGY[2],
             "--records",
             args.records,
             "--reference-output",

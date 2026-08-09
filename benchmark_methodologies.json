@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "policy": {
+    "history": "Existing records and graphs remain valid historical evidence.",
+    "comparison": "Compare scores directly only when comparison_group matches.",
+    "versioning": "Change methodology version for harness changes; change comparison_group when score meaning, dataset, prompts, or extraction rules cease to be directly comparable."
+  },
+  "methodologies": [
+    {
+      "id": "bench-agent/executable-tools",
+      "version": "1.0.0",
+      "comparison_group": "agent-execution-v1",
+      "suite": "bench-agent",
+      "status": "active"
+    },
+    {
+      "id": "bench-code/evalplus",
+      "version": "2.0.0",
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "suite": "bench-code",
+      "status": "active",
+      "dependencies": {
+        "evalplus": "0.3.1"
+      }
+    },
+    {
+      "id": "bench-daedalmap/chat-isolation",
+      "version": "2.0.0",
+      "comparison_group": "daedalmap-llm-benchmark-v2",
+      "suite": "bench-daedalmap",
+      "status": "active"
+    },
+    {
+      "id": "bench-dataimport/capability",
+      "version": "1.0.0",
+      "comparison_group": "dataimport-capability-v1",
+      "suite": "bench-dataimport",
+      "status": "active"
+    },
+    {
+      "id": "bench-knowledge/lm-eval-gguf",
+      "version": "2.0.0",
+      "comparison_group": "lm-eval-0.4.11-knowledge-v1",
+      "suite": "bench-knowledge",
+      "status": "optional",
+      "dependencies": {
+        "lm_eval": "0.4.11",
+        "llama_cpp_python": "0.3.16"
+      }
+    },
+    {
+      "id": "bench-pipeline/local-custom",
+      "version": "2.0.0",
+      "comparison_group": "pipeline-local-custom-v1",
+      "suite": "bench-pipeline",
+      "status": "active"
+    },
+    {
+      "id": "bench-reasoning/lm-eval-normalized",
+      "version": "2.0.0",
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "suite": "bench-reasoning",
+      "status": "active",
+      "dependencies": {
+        "lm_eval": "0.4.11"
+      }
+    },
+    {
+      "id": "bench-routing/cost-awareness",
+      "version": "1.0.0",
+      "comparison_group": "routing-cost-v1",
+      "suite": "bench-routing",
+      "status": "active"
+    },
+    {
+      "id": "bench-runtime/operational",
+      "version": "1.0.0",
+      "comparison_group": "runtime-operational-v1",
+      "suite": "bench-runtime",
+      "status": "active"
+    },
+    {
+      "id": "lm-eval/individual",
+      "version": "2.0.0",
+      "comparison_group": "lm-eval-individual-v2",
+      "suite": "individual",
+      "status": "active"
+    },
+    {
+      "id": "local-custom/individual",
+      "version": "2.0.0",
+      "comparison_group": "local-custom-individual-v2",
+      "suite": "individual_custom",
+      "status": "active"
+    }
+  ]
+}

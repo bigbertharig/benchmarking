@@ -14,7 +14,8 @@ from typing import Any, Iterable
 from filelock import FileLock
 
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
+SUPPORTED_SCHEMA_VERSIONS = (2, 3)
 RUN_CLASSES = ("smoke", "provisional", "validated", "full", "legacy")
 RUN_CLASS_RANK = {
     "smoke": 0,
@@ -68,13 +69,23 @@ def _optional_int(value: Any, field: str) -> int | None:
 
 
 def normalize_record(record: dict[str, Any]) -> dict[str, Any]:
-    """Return a v2 view. Legacy rows are preserved and labeled, not guessed."""
-    if int(record.get("schema_version", 1)) == SCHEMA_VERSION:
+    """Return a current view. Historical rows are labeled, never rewritten or guessed."""
+    record_version = int(record.get("schema_version", 1))
+    if record_version in SUPPORTED_SCHEMA_VERSIONS:
         normalized = dict(record)
+        if record_version == 2:
+            normalized.setdefault(
+                "methodology",
+                {
+                    "id": "legacy-unversioned",
+                    "version": "unversioned",
+                    "comparison_group": f"legacy:{record.get('test_id', '')}",
+                },
+            )
     else:
         score = _optional_float(record.get("score"), "score")
         normalized = {
-            "schema_version": SCHEMA_VERSION,
+            "schema_version": 2,
             "run_id": str(record.get("run_id", "")).strip(),
             "run_at": str(record.get("run_at", "")).strip(),
             "model": str(record.get("model", "")).strip(),
@@ -94,6 +105,11 @@ def normalize_record(record: dict[str, Any]) -> dict[str, Any]:
             "runtime": {},
             "efficiency": {},
             "failure": {},
+            "methodology": {
+                "id": "legacy-unversioned",
+                "version": "unversioned",
+                "comparison_group": f"legacy:{record.get('test_id', '')}",
+            },
             "notes": str(record.get("notes", "")).strip(),
             "legacy_record": True,
         }
@@ -106,8 +122,10 @@ def validate_record(record: dict[str, Any]) -> None:
     for field in required_text:
         if not str(record.get(field, "")).strip():
             raise RecordValidationError(f"missing required field: {field}")
-    if int(record.get("schema_version", 0)) != SCHEMA_VERSION:
-        raise RecordValidationError(f"schema_version must be {SCHEMA_VERSION}")
+    schema_version = int(record.get("schema_version", 0))
+    if schema_version not in SUPPORTED_SCHEMA_VERSIONS:
+        supported = ", ".join(str(value) for value in SUPPORTED_SCHEMA_VERSIONS)
+        raise RecordValidationError(f"schema_version must be one of: {supported}")
     if record["status"] not in STATUSES:
         raise RecordValidationError(f"status must be one of: {', '.join(STATUSES)}")
     if record["run_class"] not in RUN_CLASSES:
@@ -132,6 +150,13 @@ def validate_record(record: dict[str, Any]) -> None:
     for field in ("runtime", "efficiency", "failure"):
         if not isinstance(record.get(field, {}), dict):
             raise RecordValidationError(f"{field} must be an object")
+    methodology = record.get("methodology", {})
+    if not isinstance(methodology, dict):
+        raise RecordValidationError("methodology must be an object")
+    if schema_version >= 3:
+        for field in ("id", "version", "comparison_group"):
+            if not str(methodology.get(field, "")).strip():
+                raise RecordValidationError(f"schema-v3 records require methodology.{field}")
 
 
 def load_records(path: Path) -> list[dict[str, Any]]:

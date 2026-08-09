@@ -21,7 +21,7 @@ RUN python3 -m venv /opt/bench
 ENV PATH="/opt/bench/bin:$PATH"
 
 # lm_eval[api] for chat completions + transformers for chat templates + langdetect for ifeval
-RUN pip install --no-cache-dir "lm_eval[api]" transformers langdetect
+RUN pip install --no-cache-dir "lm_eval[api]==0.4.11" transformers==5.3.0 langdetect==1.0.9
 
 COPY run.sh /opt/bench/run.sh
 RUN chmod +x /opt/bench/run.sh

@@ -17,6 +17,9 @@ import requests
 from benchmark_records import RUN_CLASSES
 
 
+METHODOLOGY = ("local-custom/individual", "2.0.0", "local-custom-individual-v2")
+
+
 def now_stamp() -> str:
     return datetime.now().strftime("%Y%m%d_%H%M%S_%f")
 
@@ -505,6 +508,12 @@ def main() -> int:
                     f"{type(exc).__name__}: {exc}",
                     "--failed-request-count",
                     "1",
+                    "--methodology-id",
+                    METHODOLOGY[0],
+                    "--methodology-version",
+                    METHODOLOGY[1],
+                    "--comparison-group",
+                    METHODOLOGY[2],
                     "--config-id",
                     args.config_id,
                     "--config-json",
@@ -599,6 +608,12 @@ def main() -> int:
             "local_custom",
             "--suite",
             args.suite,
+            "--methodology-id",
+            METHODOLOGY[0],
+            "--methodology-version",
+            METHODOLOGY[1],
+            "--comparison-group",
+            METHODOLOGY[2],
             "--config-id",
             args.config_id,
             "--config-json",

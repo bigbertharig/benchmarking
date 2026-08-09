@@ -9,6 +9,7 @@ SUITE="llm_benchmark_v2.json"
 TASKS=""
 LIMIT="0"
 RUN_NAME=""
+RUN_CLASS="provisional"
 TEMPERATURE="0.1"
 MAX_TOKENS="400"
 TIMEOUT="60"
@@ -23,6 +24,9 @@ RESERVATION_HELPER=""
 RESERVATION_PORT=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 RECORD_RESULT_SCRIPT=""
+METHODOLOGY_ID="bench-daedalmap/chat-isolation"
+METHODOLOGY_VERSION="2.0.0"
+COMPARISON_GROUP="daedalmap-llm-benchmark-v2"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -34,6 +38,7 @@ while [[ $# -gt 0 ]]; do
         --tasks) TASKS="$2"; shift 2 ;;
         --limit) LIMIT="$2"; shift 2 ;;
         --run-name) RUN_NAME="$2"; shift 2 ;;
+        --run-class) RUN_CLASS="$2"; shift 2 ;;
         --temperature) TEMPERATURE="$2"; shift 2 ;;
         --max-tokens) MAX_TOKENS="$2"; shift 2 ;;
         --timeout) TIMEOUT="$2"; shift 2 ;;
@@ -49,6 +54,10 @@ if [ -z "$MODEL" ]; then
     echo "ERROR: --model is required"
     exit 1
 fi
+case "$RUN_CLASS" in
+    smoke|provisional|validated|full) ;;
+    *) echo "ERROR: --run-class must be smoke, provisional, validated, or full"; exit 1 ;;
+esac
 
 MODEL_SAFE=$(echo "$MODEL" | tr ':/' '_')
 if [ -n "$RUN_NAME" ]; then
@@ -106,20 +115,48 @@ record_result_row() {
     local test_id="$1"
     local score="$2"
     local metric="$3"
-    local notes="${4:-}"
+    local sample_count="$4"
+    local notes="${5:-}"
     if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
-        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT" | tee -a "$LOG_FILE"
-        return 0
+        echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT" | tee -a "$LOG_FILE"
+        return 1
     fi
     python3 "$RECORD_RESULT_SCRIPT" \
         --model "$MODEL" \
         --test-id "$test_id" \
         --score "$score" \
+        --raw-harness-score "$score" \
+        --normalized-answer-score "$score" \
         --metric "$metric" \
+        --run-class "$RUN_CLASS" \
+        --sample-count "$sample_count" \
         --harness "bench-daedalmap" \
         --suite "${RUN_NAME:-bench-daedalmap}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
+        --config-id "$(basename "$SUITE_PATH")-temp${TEMPERATURE}-max${MAX_TOKENS}" \
+        --config-json "{\"suite\":\"$(basename "$SUITE_PATH")\",\"temperature\":${TEMPERATURE},\"max_tokens\":${MAX_TOKENS},\"execute_validation\":${EXECUTE_VALIDATION}}" \
         --run-at "$(date -Iseconds)" \
-        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL} ${test_id}" | tee -a "$LOG_FILE"
+        --notes "$notes" >/dev/null
+}
+
+record_failure_row() {
+    local test_id="$1"
+    local exit_code="$2"
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL" \
+        --test-id "$test_id" \
+        --status failure \
+        --run-class "$RUN_CLASS" \
+        --harness "bench-daedalmap" \
+        --suite "${RUN_NAME:-bench-daedalmap}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
+        --failure-kind harness_exit \
+        --failure-message "DaedalMap task exited with code ${exit_code}" \
+        --failed-request-count 1 >/dev/null
 }
 
 if [ "$AUTO_RESERVE_ENABLED" != "1" ] && [ -n "$RESERVATION_PORT" ]; then
@@ -138,6 +175,10 @@ fi
 
 if ! curl -fsS "${RUNTIME_BASE}/v1/models" >/dev/null; then
     echo "ERROR: Cannot reach llama-compatible runtime at ${RUNTIME_BASE}" | tee -a "$LOG_FILE"
+    exit 1
+fi
+if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+    echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT" | tee -a "$LOG_FILE"
     exit 1
 fi
 
@@ -254,6 +295,7 @@ echo "Requires filter: ${REQUIRES_FILTER:-<none>}" | tee -a "$LOG_FILE"
 echo "Execution validation: $EXECUTE_VALIDATION" | tee -a "$LOG_FILE"
 [ -n "$S3_PREFIX" ] && echo "S3 prefix: $S3_PREFIX" | tee -a "$LOG_FILE"
 echo "Limit: $LIMIT" | tee -a "$LOG_FILE"
+echo "Run class: $RUN_CLASS" | tee -a "$LOG_FILE"
 echo "Run root: $RUN_ROOT" | tee -a "$LOG_FILE"
 
 IFS=',' read -r -a TASK_ARRAY <<< "$FILTERED_TASKS"
@@ -309,6 +351,7 @@ for task in "${TASK_ARRAY[@]}"; do
     if [ "$RC" -ne 0 ]; then
         FAILED_TASKS=$((FAILED_TASKS + 1))
         update_status "$task" "failed" "$RC" "$TASK_DIR" "$STARTED_AT" "$ENDED_AT" "$SUMMARY_PATH"
+        record_failure_row "daedalmap_${task}_pass_rate" "$RC"
         echo "Task failed: $task (exit $RC)" | tee -a "$LOG_FILE"
         continue
     fi
@@ -316,24 +359,24 @@ for task in "${TASK_ARRAY[@]}"; do
     update_status "$task" "completed" "0" "$TASK_DIR" "$STARTED_AT" "$ENDED_AT" "$SUMMARY_PATH"
 
     if [ -f "$SUMMARY_PATH" ]; then
-        while IFS=$'\t' read -r test_id score metric notes; do
+        while IFS=$'\t' read -r test_id score metric sample_count notes; do
             [ -n "$test_id" ] || continue
-            record_result_row "$test_id" "$score" "$metric" "$notes"
+            record_result_row "$test_id" "$score" "$metric" "$sample_count" "$notes"
         done < <(
             python3 - "$SUMMARY_PATH" "$task" <<'PY'
 import json, sys
 summary = json.load(open(sys.argv[1], encoding="utf-8"))
 task = sys.argv[2]
 rows = [
-    (f"daedalmap_{task}_pass_rate", summary["pass_rate"], "pass_rate", f"{summary['pass_count']}/{summary['total_cases']} PASS"),
-    (f"daedalmap_{task}_json_valid_rate", summary["json_valid_rate"], "json_valid_rate", ""),
-    (f"daedalmap_{task}_type_correct_rate", summary["type_correct_rate"], "type_correct_rate", ""),
-    (f"daedalmap_{task}_no_halluc_rate", summary["no_halluc_rate"], "no_halluc_rate", ""),
+    (f"daedalmap_{task}_pass_rate", summary["pass_rate"], "pass_rate", summary["total_cases"], f"{summary['pass_count']}/{summary['total_cases']} PASS"),
+    (f"daedalmap_{task}_json_valid_rate", summary["json_valid_rate"], "json_valid_rate", summary["total_cases"], ""),
+    (f"daedalmap_{task}_type_correct_rate", summary["type_correct_rate"], "type_correct_rate", summary["total_cases"], ""),
+    (f"daedalmap_{task}_no_halluc_rate", summary["no_halluc_rate"], "no_halluc_rate", summary["total_cases"], ""),
 ]
 if summary.get("source_hit_rate") is not None:
-    rows.append((f"daedalmap_{task}_source_hit_rate", summary["source_hit_rate"], "source_hit_rate", ""))
+    rows.append((f"daedalmap_{task}_source_hit_rate", summary["source_hit_rate"], "source_hit_rate", summary["source_hit_applicable"], ""))
 if summary.get("source_valid_rate") is not None:
-    rows.append((f"daedalmap_{task}_source_valid_rate", summary["source_valid_rate"], "source_valid_rate", ""))
+    rows.append((f"daedalmap_{task}_source_valid_rate", summary["source_valid_rate"], "source_valid_rate", summary["source_valid_applicable"], ""))
 for row in rows:
     print("\t".join(str(x) for x in row))
 PY

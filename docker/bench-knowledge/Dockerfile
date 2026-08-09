@@ -35,7 +35,7 @@ ENV CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=61;86"
 RUN pip install --no-cache-dir llama-cpp-python[server]==0.3.16
 
 # Install lm_eval and transformers (needed for tokenizer/chat templates)
-RUN pip install --no-cache-dir lm_eval transformers
+RUN pip install --no-cache-dir lm_eval==0.4.11 transformers==5.3.0
 
 # Entrypoint script
 COPY run.sh /opt/bench/run.sh

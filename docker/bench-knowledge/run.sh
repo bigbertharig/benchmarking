@@ -23,6 +23,9 @@ RESERVATION_RUN_ID=""
 RESERVATION_HELPER=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 RECORD_RESULT_SCRIPT=""
+METHODOLOGY_ID="bench-knowledge/lm-eval-gguf"
+METHODOLOGY_VERSION="2.0.0"
+COMPARISON_GROUP="lm-eval-0.4.11-knowledge-v1"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -43,6 +46,11 @@ while [[ $# -gt 0 ]]; do
         *) echo "Unknown arg: $1"; exit 1 ;;
     esac
 done
+
+case "$RUN_CLASS" in
+    smoke|provisional|validated|full) ;;
+    *) echo "ERROR: --run-class must be smoke, provisional, validated, or full"; exit 1 ;;
+esac
 
 # Derive model name from GGUF filename if not provided
 if [ "$MODEL_NAME" = "unknown" ]; then
@@ -96,29 +104,35 @@ record_result_row() {
     local sample_count="$4"
     local notes="${5:-}"
     if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
-        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
-        return 0
+        echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+        return 1
     fi
     python3 "$RECORD_RESULT_SCRIPT" \
         --model "$MODEL_NAME" \
         --test-id "$test_id" \
         --score "$score" \
         --raw-harness-score "$score" \
+        --normalized-answer-score "$score" \
         --metric "$metric" \
         --run-class "$RUN_CLASS" \
         --sample-count "$sample_count" \
         --harness "bench-knowledge" \
         --suite "${RUN_NAME:-bench-knowledge}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
+        --config-id "lm-eval-0.4.11-gguf" \
+        --config-json '{"lm_eval":"0.4.11","llama_cpp_python":"0.3.16"}' \
         --run-at "$(date -Iseconds)" \
-        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL_NAME} ${test_id}"
+        --notes "$notes" >/dev/null
 }
 
 record_failure_row() {
     local test_id="$1"
     local exit_code="$2"
     if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
-        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
-        return 0
+        echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+        return 1
     fi
     python3 "$RECORD_RESULT_SCRIPT" \
         --model "$MODEL_NAME" \
@@ -127,10 +141,13 @@ record_failure_row() {
         --run-class "$RUN_CLASS" \
         --harness "bench-knowledge" \
         --suite "${RUN_NAME:-bench-knowledge}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
         --run-at "$(date -Iseconds)" \
         --failure-kind harness_exit \
         --failure-message "lm-eval exited with code ${exit_code}" \
-        --failed-request-count 1 >/dev/null || echo "WARNING: failed to record failure for ${MODEL_NAME} ${test_id}"
+        --failed-request-count 1 >/dev/null
 }
 
 record_knowledge_task_results() {
@@ -278,7 +295,13 @@ echo "Use model prompts: $USE_MODEL_PROMPTS"
 echo "Prompt profiles: $PROMPT_PROFILES"
 echo "Tuning profiles: $TUNING_PROFILES"
 echo "Require model prompt: $REQUIRE_MODEL_PROMPT"
+echo "Run class: $RUN_CLASS"
 echo "Checkpoint file: $STATUS_FILE"
+
+if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+    echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+    exit 1
+fi
 
 # Verify GGUF exists
 if [ ! -f "$GGUF_PATH" ]; then

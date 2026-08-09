@@ -6,6 +6,7 @@ RUNTIME_BASE="http://localhost:11436"
 TASKS="humaneval,mbpp"
 RESULTS_DIR="/results"
 RUN_NAME=""
+RUN_CLASS="full"
 PREFLIGHT_ONLY=0
 REQUEST_TIMEOUT="30"
 RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
@@ -18,6 +19,9 @@ RUNTIME_DOWN_GRACE_SECONDS="${BENCH_CODE_RUNTIME_DOWN_GRACE_SECONDS:-90}"
 THERMAL_RUNTIME_DOWN_GRACE_SECONDS="${BENCH_CODE_THERMAL_DOWN_GRACE_SECONDS:-1200}"
 WATCHDOG_POLL_SECONDS="${BENCH_CODE_WATCHDOG_POLL_SECONDS:-5}"
 RECORD_RESULT_SCRIPT="${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/scripts/active/record_benchmark_result.py"
+METHODOLOGY_ID="bench-code/evalplus"
+METHODOLOGY_VERSION="2.0.0"
+COMPARISON_GROUP="evalplus-0.3-plus-v1"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -26,6 +30,7 @@ while [[ $# -gt 0 ]]; do
         --tasks) TASKS="$2"; shift 2 ;;
         --results-dir) RESULTS_DIR="$2"; shift 2 ;;
         --run-name) RUN_NAME="$2"; shift 2 ;;
+        --run-class) RUN_CLASS="$2"; shift 2 ;;
         --preflight-only) PREFLIGHT_ONLY=1; shift 1 ;;
         --request-timeout) REQUEST_TIMEOUT="$2"; shift 2 ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
@@ -36,6 +41,10 @@ if [ -z "$MODEL" ]; then
     echo "ERROR: --model is required (e.g. --model qwen2.5-coder:7b)"
     exit 1
 fi
+case "$RUN_CLASS" in
+    smoke|provisional|validated|full) ;;
+    *) echo "ERROR: --run-class must be smoke, provisional, validated, or full"; exit 1 ;;
+esac
 
 MODEL_SAFE=$(echo "$MODEL" | tr ':/' '_')
 RESERVATION_RUN_ID="${RUN_NAME:-bench-code_${MODEL_SAFE}}"
@@ -101,15 +110,13 @@ PY
 }
 
 run_codegen_with_watchdog() {
-    local cmd="$1"
-    local task="$2"
+    local task="$1"
+    shift
     local child_pid=""
     local down_since=0
     local last_mode=""
 
-    (
-        eval "$cmd"
-    ) &
+    "$@" &
     child_pid=$!
 
     while kill -0 "$child_pid" 2>/dev/null; do
@@ -173,25 +180,54 @@ record_result_row() {
     local test_id="$1"
     local score="$2"
     local metric="$3"
-    local notes="${4:-}"
+    local sample_count="$4"
+    local notes="${5:-}"
     if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
-        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
-        return 0
+        echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+        return 1
     fi
     python3 "$RECORD_RESULT_SCRIPT" \
         --model "$MODEL" \
         --test-id "$test_id" \
         --score "$score" \
+        --raw-harness-score "$score" \
         --metric "$metric" \
+        --run-class "$RUN_CLASS" \
+        --sample-count "$sample_count" \
         --harness "bench-code" \
         --suite "${RUN_NAME:-bench-code}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
+        --config-id "evalplus-0.3.1-greedy" \
+        --config-json '{"evalplus":"0.3.1","decoding":"greedy"}' \
         --run-at "$(date -Iseconds)" \
-        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL} ${test_id}"
+        --notes "$notes" >/dev/null
+}
+
+record_failure_row() {
+    local test_id="$1"
+    local kind="$2"
+    local message="$3"
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL" \
+        --test-id "$test_id" \
+        --status failure \
+        --run-class "$RUN_CLASS" \
+        --harness "bench-code" \
+        --suite "${RUN_NAME:-bench-code}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
+        --failure-kind "$kind" \
+        --failure-message "$message" \
+        --failed-request-count 1 >/dev/null
 }
 
 record_code_task_results() {
     local task="$1"
     local task_dir="$2"
+    local sample_count="$3"
     python3 - "$task" "$task_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
 import json, sys
 from pathlib import Path
@@ -210,7 +246,7 @@ if isinstance(plus, (int, float)):
     print(f"{task}_plus\t{plus}\tpass@1_plus\t")
 PY
         [ -z "$test_id" ] && continue
-        record_result_row "$test_id" "$score" "$metric" "$notes"
+        record_result_row "$test_id" "$score" "$metric" "$sample_count" "$notes"
     done
 }
 
@@ -236,6 +272,12 @@ echo "Tasks: $TASKS"
 echo "Results: $RESULTS_DIR"
 [ -n "$RUN_NAME" ] && echo "Run name: $RUN_NAME"
 echo "Request timeout: ${REQUEST_TIMEOUT}s"
+echo "Run class: ${RUN_CLASS}"
+
+if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+    echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+    exit 1
+fi
 
 # Verify runtime is reachable
 if ! curl -s "${RUNTIME_BASE}/v1/models" > /dev/null 2>&1; then
@@ -393,15 +435,18 @@ for TASK in "${TASK_ARRAY[@]}"; do
 
     # evalplus codegen: positional args are MODEL DATASET
     # Note: evalplus evaluate requires ALL problems in samples.
-    GEN_CMD="python3 -m evalplus.codegen ${MODEL} ${TASK} --backend openai --greedy --root ${OUTPUT_DIR}"
+    GEN_CMD=(python3 -m evalplus.codegen "$MODEL" "$TASK" --backend openai --greedy --root "$OUTPUT_DIR")
     echo "{\"task\":\"${TASK}\",\"state\":\"generating\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
 
-    echo "Generating: $GEN_CMD"
+    printf 'Generating:'
+    printf ' %q' "${GEN_CMD[@]}"
+    printf '\n'
     update_status "$TASK" "running" "0" "0" ""
-    if ! run_codegen_with_watchdog "$GEN_CMD" "$TASK"; then
+    if ! run_codegen_with_watchdog "$TASK" "${GEN_CMD[@]}"; then
         echo "ERROR: ${TASK} generation aborted after runtime watchdog timeout."
         echo "{\"task\":\"${TASK}\",\"state\":\"error_runtime_timeout\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
         update_status "$TASK" "error_runtime_timeout" "0" "0" ""
+        record_failure_row "${TASK}_plus" "runtime_timeout" "generation aborted after runtime watchdog timeout"
         exit 1
     fi
 
@@ -413,6 +458,8 @@ for TASK in "${TASK_ARRAY[@]}"; do
         echo "ERROR: No sample file found in $SAMPLE_DIR"
         echo "{\"task\":\"${TASK}\",\"state\":\"error_missing_samples\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
         update_status "$TASK" "error_missing_samples" "0" "0" ""
+        record_failure_row "${TASK}_plus" "missing_samples" "EvalPlus produced no sample file"
+        INCOMPLETE_TASKS=$((INCOMPLETE_TASKS + 1))
         continue
     fi
 
@@ -424,16 +471,26 @@ for TASK in "${TASK_ARRAY[@]}"; do
         echo "WARNING: ${TASK} is incomplete; skipping evaluate until full coverage is available."
         echo "{\"task\":\"${TASK}\",\"state\":\"generated_partial\",\"generated\":${GENERATED_COUNT},\"expected\":${EXPECTED_COUNT},\"samples\":\"${SAMPLE_FILE}\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
         update_status "$TASK" "generated_partial" "$GENERATED_COUNT" "$EXPECTED_COUNT" "$SAMPLE_FILE"
+        record_failure_row "${TASK}_plus" "incomplete_samples" "generated ${GENERATED_COUNT}/${EXPECTED_COUNT} required samples"
         INCOMPLETE_TASKS=$((INCOMPLETE_TASKS + 1))
         continue
     fi
 
     # Evaluate generated samples
     echo "Evaluating: python3 -m evalplus.evaluate --dataset ${TASK} --samples ${SAMPLE_FILE}"
+    set +e
     python3 -m evalplus.evaluate --dataset "$TASK" --samples "$SAMPLE_FILE"
+    EVAL_RC=$?
+    set -e
+    if [ "$EVAL_RC" -ne 0 ]; then
+        update_status "$TASK" "evaluation_failed" "$GENERATED_COUNT" "$EXPECTED_COUNT" "$SAMPLE_FILE"
+        record_failure_row "${TASK}_plus" "evaluation_exit" "EvalPlus evaluate exited with code ${EVAL_RC}"
+        INCOMPLETE_TASKS=$((INCOMPLETE_TASKS + 1))
+        continue
+    fi
     echo "{\"task\":\"${TASK}\",\"state\":\"evaluated\",\"generated\":${GENERATED_COUNT},\"expected\":${EXPECTED_COUNT},\"samples\":\"${SAMPLE_FILE}\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
     update_status "$TASK" "evaluated" "$GENERATED_COUNT" "$EXPECTED_COUNT" "$SAMPLE_FILE"
-    record_code_task_results "$TASK" "$TASK_DIR"
+    record_code_task_results "$TASK" "$TASK_DIR" "$GENERATED_COUNT"
 
     echo "--- ${TASK} done ---"
 done
@@ -447,7 +504,11 @@ try:
         data = json.load(f)
 except Exception:
     sys.exit(0)
-data["state"] = "completed"
+incomplete = any(
+    str(item.get("state", "")) not in {"evaluated", "completed"}
+    for item in (data.get("tasks") or {}).values()
+)
+data["state"] = "completed_with_failures" if incomplete else "completed"
 data["updated_at"] = datetime.now().isoformat()
 with open(status_file, "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2)
@@ -468,3 +529,7 @@ for f in sorted(glob.glob('${OUTPUT_DIR}/**/*_eval_results.json', recursive=True
     plus = data.get('pass@1', {}).get('plus', 'N/A')
     print(f'  {dataset}: pass@1 base={base}, plus={plus}')
 " 2>/dev/null || echo "(could not parse results)"
+
+if [ "$INCOMPLETE_TASKS" -gt 0 ]; then
+    exit 1
+fi

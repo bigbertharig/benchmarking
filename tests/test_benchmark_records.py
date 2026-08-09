@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -19,6 +20,7 @@ from benchmark_records import (  # noqa: E402
     selection_key,
     validate_record,
 )
+from build_methodology_history import build_history  # noqa: E402
 
 
 def record(*, run_id: str, run_class: str, sample_count: int, score: float, run_at: str) -> dict:
@@ -78,6 +80,49 @@ class BenchmarkRecordTests(unittest.TestCase):
         invalid["sample_count"] = None
         with self.assertRaises(RecordValidationError):
             validate_record(invalid)
+
+    def test_schema_v3_requires_explicit_methodology(self) -> None:
+        invalid = record(run_id="v3", run_class="validated", sample_count=10, score=0.5, run_at="2026-01-01")
+        invalid["schema_version"] = 3
+        with self.assertRaisesRegex(RecordValidationError, "methodology.id"):
+            validate_record(invalid)
+        invalid["methodology"] = {
+            "id": "suite/method",
+            "version": "1.0.0",
+            "comparison_group": "method-v1",
+        }
+        validate_record(invalid)
+
+    def test_methodology_history_keeps_old_and_new_methods_separate(self) -> None:
+        old = normalize_record(
+            record(run_id="old-method", run_class="validated", sample_count=10, score=0.8, run_at="2026-01-01")
+        )
+        new = record(run_id="new-method", run_class="validated", sample_count=10, score=0.7, run_at="2026-02-01")
+        new["schema_version"] = 3
+        new["methodology"] = {
+            "id": "suite/method",
+            "version": "2.0.0",
+            "comparison_group": "method-v2",
+        }
+        history = build_history([old, new])
+        self.assertEqual(history["group_count"], 2)
+        self.assertEqual({entry["selected_score"] for entry in history["entries"]}, {0.8, 0.7})
+
+    def test_ledger_test_ids_are_cataloged_or_in_registered_result_families(self) -> None:
+        root = ACTIVE.parents[1]
+        catalog = json.loads((root / "benchmark_catalog.json").read_text(encoding="utf-8"))
+        known = {item["id"] for item in catalog["tests"]}
+        families = [re.compile(item["pattern"]) for item in catalog.get("result_families", [])]
+        rows = load_records(root / "results" / "model_benchmark_records.jsonl")
+        unknown = sorted(
+            {
+                row["test_id"]
+                for row in rows
+                if row["test_id"] not in known
+                and not any(pattern.fullmatch(row["test_id"]) for pattern in families)
+            }
+        )
+        self.assertEqual(unknown, [])
 
     def test_loader_fails_on_invalid_json(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

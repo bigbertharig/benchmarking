@@ -106,7 +106,8 @@ class DataImportSuiteTests(unittest.TestCase):
                 self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
                 rows = [json.loads(line) for line in records.read_text(encoding="utf-8").splitlines()]
                 self.assertEqual(len(rows), 1)
-                self.assertEqual(rows[0]["schema_version"], 2)
+                self.assertEqual(rows[0]["schema_version"], 3)
+                self.assertEqual(rows[0]["methodology"]["id"], "bench-dataimport/capability")
                 self.assertEqual(rows[0]["status"], "success")
                 self.assertEqual(rows[0]["run_class"], "smoke")
                 self.assertEqual(rows[0]["test_id"], "dataimport_schema_loc_id")
@@ -120,6 +121,7 @@ class DataImportSuiteTests(unittest.TestCase):
                 self.assertEqual(summary["failed_cases"], 0)
                 self.assertTrue(reference.exists())
                 self.assertTrue(scoreboard.exists())
+                self.assertTrue((scoreboard.parent / "model_methodology_history.json").exists())
         finally:
             server.shutdown()
             server.server_close()

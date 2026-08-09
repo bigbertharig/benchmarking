@@ -43,6 +43,27 @@ def add_optional_float(ap: argparse.ArgumentParser, name: str, help_text: str) -
     ap.add_argument(name, type=float, default=None, help=help_text)
 
 
+def validate_methodology(methodology_id: str, version: str, comparison_group: str) -> None:
+    registry_path = ROOT / "benchmark_methodologies.json"
+    try:
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"cannot load methodology registry {registry_path}: {exc}") from exc
+    methods = registry.get("methodologies", []) if isinstance(registry, dict) else []
+    for method in methods:
+        if not isinstance(method, dict) or method.get("id") != methodology_id:
+            continue
+        expected = (str(method.get("version", "")), str(method.get("comparison_group", "")))
+        supplied = (version, comparison_group)
+        if supplied != expected:
+            raise SystemExit(
+                f"methodology {methodology_id} must use version={expected[0]} "
+                f"comparison_group={expected[1]}"
+            )
+        return
+    raise SystemExit(f"unregistered methodology id: {methodology_id}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Record one schema-v2 benchmark result row.")
     ap.add_argument("--model", required=True)
@@ -60,6 +81,9 @@ def main() -> int:
     ap.add_argument("--suite", default="")
     ap.add_argument("--run-at", default="")
     ap.add_argument("--notes", default="")
+    ap.add_argument("--methodology-id", required=True)
+    ap.add_argument("--methodology-version", required=True)
+    ap.add_argument("--comparison-group", required=True)
     ap.add_argument("--runtime-id", default="")
     ap.add_argument("--runtime-image", default="")
     ap.add_argument("--config-id", default="")
@@ -82,6 +106,11 @@ def main() -> int:
     ap.add_argument("--scoreboard-output", default=str(ROOT / "results/model_library_scoreboard.json"))
     ap.add_argument("--no-refresh", action="store_true")
     args = ap.parse_args()
+    validate_methodology(
+        args.methodology_id.strip(),
+        args.methodology_version.strip(),
+        args.comparison_group.strip(),
+    )
 
     if args.status == "success":
         if args.score is None or not args.metric.strip():
@@ -135,6 +164,11 @@ def main() -> int:
             "kind": args.failure_kind.strip(),
             "message": args.failure_message.strip(),
         },
+        "methodology": {
+            "id": args.methodology_id.strip(),
+            "version": args.methodology_version.strip(),
+            "comparison_group": args.comparison_group.strip(),
+        },
         "notes": args.notes.strip(),
     }
 
@@ -149,6 +183,7 @@ def main() -> int:
         commands = (
             [sys.executable, str(Path(__file__).parent / "build_benchmark_reference.py"), "--records", str(records_path), "--output", str(Path(args.reference_output).expanduser().resolve())],
             [sys.executable, str(Path(__file__).parent / "build_model_library_scoreboard.py"), "--records", str(records_path), "--output", str(Path(args.scoreboard_output).expanduser().resolve())],
+            [sys.executable, str(Path(__file__).parent / "build_methodology_history.py"), "--records", str(records_path), "--output", str(Path(args.scoreboard_output).expanduser().resolve().parent / "model_methodology_history.json")],
         )
         for command in commands:
             proc = subprocess.run(command, check=False)

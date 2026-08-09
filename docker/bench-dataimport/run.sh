@@ -24,6 +24,9 @@ RAW_DIR="/raw"
 RECORDS_PATH="/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl"
 REFERENCE_OUTPUT="/mnt/shared/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md"
 SCOREBOARD_OUTPUT="/mnt/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json"
+METHODOLOGY_ID="bench-dataimport/capability"
+METHODOLOGY_VERSION="1.0.0"
+COMPARISON_GROUP="dataimport-capability-v1"
 
 # --- Argument parsing ---
 while [[ $# -gt 0 ]]; do
@@ -301,6 +304,9 @@ record_result() {
     --sample-count 1 \
     --harness "bench-${SUITE}" \
     --suite "$RUN_ID" \
+    --methodology-id "$METHODOLOGY_ID" \
+    --methodology-version "$METHODOLOGY_VERSION" \
+    --comparison-group "$COMPARISON_GROUP" \
     --run-at "$(date -Iseconds)" \
     --notes "$notes" \
     --records "$RECORDS_PATH" \
@@ -334,6 +340,9 @@ record_failure() {
     --run-class "$RUN_CLASS" \
     --harness "bench-${SUITE}" \
     --suite "$RUN_ID" \
+    --methodology-id "$METHODOLOGY_ID" \
+    --methodology-version "$METHODOLOGY_VERSION" \
+    --comparison-group "$COMPARISON_GROUP" \
     --run-at "$(date -Iseconds)" \
     --failure-kind "$failure_kind" \
     --failure-message "$failure_message" \

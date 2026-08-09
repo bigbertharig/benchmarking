@@ -10,6 +10,7 @@ RESULTS_DIR="/results"
 NUM_FEWSHOT=""
 TOKENIZER=""
 RUN_NAME=""
+RUN_CLASS="provisional"
 SCRIPTS_DIR="/benchmark-scripts"
 USE_MODEL_PROMPTS=1
 PROMPT_PROFILES=""
@@ -28,6 +29,9 @@ RESERVATION_HELPER=""
 RESERVATION_PORT=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 RECORD_RESULT_SCRIPT=""
+METHODOLOGY_ID="bench-reasoning/lm-eval-normalized"
+METHODOLOGY_VERSION="2.0.0"
+COMPARISON_GROUP="lm-eval-0.4.11-reasoning-extract-v2"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -39,6 +43,7 @@ while [[ $# -gt 0 ]]; do
         --num-fewshot) NUM_FEWSHOT="$2"; shift 2 ;;
         --tokenizer) TOKENIZER="$2"; shift 2 ;;
         --run-name) RUN_NAME="$2"; shift 2 ;;
+        --run-class) RUN_CLASS="$2"; shift 2 ;;
         --scripts-dir) SCRIPTS_DIR="$2"; shift 2 ;;
         --use-model-prompts) USE_MODEL_PROMPTS=1; shift 1 ;;
         --no-model-prompts) USE_MODEL_PROMPTS=0; shift 1 ;;
@@ -60,6 +65,10 @@ if [ -z "$MODEL" ]; then
     echo "ERROR: --model is required (e.g. --model qwen2.5-coder:7b)"
     exit 1
 fi
+case "$RUN_CLASS" in
+    smoke|provisional|validated|full) ;;
+    *) echo "ERROR: --run-class must be smoke, provisional, validated, or full"; exit 1 ;;
+esac
 
 if [ -z "$PROMPT_PROFILES" ]; then
     PROMPT_PROFILES="${SCRIPTS_DIR}/custom_tasks/model_prompt_profiles.json"
@@ -106,20 +115,54 @@ record_result_row() {
     local test_id="$1"
     local score="$2"
     local metric="$3"
-    local notes="${4:-}"
+    local raw_score="$4"
+    local normalized_score="$5"
+    local format_compatibility="$6"
+    local extractor_failures="$7"
+    local sample_count="$8"
+    local notes="${9:-}"
     if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
-        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
-        return 0
+        echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+        return 1
     fi
     python3 "$RECORD_RESULT_SCRIPT" \
         --model "$MODEL" \
         --test-id "$test_id" \
         --score "$score" \
+        --raw-harness-score "$raw_score" \
+        --normalized-answer-score "$normalized_score" \
         --metric "$metric" \
+        --run-class "$RUN_CLASS" \
+        --sample-count "$sample_count" \
+        --format-compatibility "$format_compatibility" \
+        --extractor-failure-count "$extractor_failures" \
         --harness "bench-reasoning" \
         --suite "${RUN_NAME:-bench-reasoning}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
+        --config-id "lm-eval-0.4.11-reasoning-extract-v2" \
+        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v2"}' \
         --run-at "$(date -Iseconds)" \
-        --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL} ${test_id}"
+        --notes "$notes" >/dev/null
+}
+
+record_failure_row() {
+    local test_id="$1"
+    local exit_code="$2"
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL" \
+        --test-id "$test_id" \
+        --status failure \
+        --run-class "$RUN_CLASS" \
+        --harness "bench-reasoning" \
+        --suite "${RUN_NAME:-bench-reasoning}" \
+        --methodology-id "$METHODOLOGY_ID" \
+        --methodology-version "$METHODOLOGY_VERSION" \
+        --comparison-group "$COMPARISON_GROUP" \
+        --failure-kind harness_exit \
+        --failure-message "lm-eval exited with code ${exit_code}" \
+        --failed-request-count 1 >/dev/null
 }
 
 record_reasoning_task_results() {
@@ -128,7 +171,7 @@ record_reasoning_task_results() {
     if [ ! -d "$task_output_dir" ]; then
         return 0
     fi
-    python3 - "$task" "$task_output_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
+    python3 - "$task" "$task_output_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric raw_score normalized_score compatibility extractor_failures sample_count notes; do
 import json, sys
 from pathlib import Path
 
@@ -140,16 +183,32 @@ if not files:
 data = json.loads(files[-1].read_text(encoding="utf-8"))
 results = data.get("results", {})
 groups = data.get("groups", {})
+sample_block = (data.get("n-samples") or {}).get(task)
+if isinstance(sample_block, dict):
+    sample_count = sample_block.get("effective") or sample_block.get("original")
+elif isinstance(sample_block, (int, float)):
+    sample_count = sample_block
+else:
+    sample_count = None
+if sample_count is None or int(sample_count) <= 0:
+    raise SystemExit(f"missing sample count for {task}")
+sample_count = int(sample_count)
 
-def emit(test_id, score, metric, notes=""):
+def emit(test_id, score, metric, raw=None, normalized=None, compatibility="unknown", extractor_failures=0, notes=""):
     if score is None:
         return
-    print(f"{test_id}\t{score}\t{metric}\t{notes}")
+    raw = score if raw is None else raw
+    normalized = score if normalized is None else normalized
+    print(f"{test_id}\t{score}\t{metric}\t{raw}\t{normalized}\t{compatibility}\t{extractor_failures}\t{sample_count}\t{notes}")
 
 if task == "gsm8k":
     block = results.get("gsm8k", {})
-    emit("gsm8k_strict", block.get("exact_match,strict-match"), "exact_match,strict-match")
-    emit("gsm8k_flexible", block.get("exact_match,flexible-extract"), "exact_match,flexible-extract")
+    strict = block.get("exact_match,strict-match")
+    flexible = block.get("exact_match,flexible-extract")
+    failures = round(max(0.0, float(flexible or 0) - float(strict or 0)) * sample_count)
+    compatibility = "degraded" if failures else "compatible"
+    emit("gsm8k_strict", strict, "exact_match,strict-match", strict, flexible, compatibility, failures)
+    emit("gsm8k_flexible", flexible, "exact_match,flexible-extract", strict, flexible, compatibility, failures)
 elif task == "bbh":
     block = groups.get("bbh") or results.get("bbh", {})
     emit("bbh", block.get("exact_match,get-answer"), "exact_match,get-answer")
@@ -166,7 +225,7 @@ else:
             emit(f"{task}_{key.replace(',', '_')}", value, key)
 PY
         [ -z "$test_id" ] && continue
-        record_result_row "$test_id" "$score" "$metric" "$notes"
+        record_result_row "$test_id" "$score" "$metric" "$raw_score" "$normalized_score" "$compatibility" "$extractor_failures" "$sample_count" "$notes"
     done
 }
 
@@ -373,7 +432,13 @@ echo "Patch think-tag strip: $PATCH_THINK_TAG_STRIP"
 [ -n "$GEN_KWARGS" ] && echo "Gen kwargs override: $GEN_KWARGS"
 [ -n "$SYSTEM_PROMPT_OVERRIDE" ] && echo "System prompt override: enabled"
 echo "Disable thinking: $DISABLE_THINKING"
+echo "Run class: $RUN_CLASS"
 echo "Checkpoint file: $STATUS_FILE"
+
+if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+    echo "ERROR: record script missing: $RECORD_RESULT_SCRIPT"
+    exit 1
+fi
 
 # Verify runtime is reachable
 if ! curl -s "${RUNTIME_BASE}/v1/models" > /dev/null 2>&1; then
@@ -859,6 +924,7 @@ PY
       echo "--- ${TASK} complete ---"
     else
       update_task_status "$TASK" "failed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
+      record_failure_row "$TASK" "$EXIT_CODE"
       echo "--- ${TASK} failed (exit ${EXIT_CODE}) ---"
       FAILED_COUNT=$((FAILED_COUNT + 1))
     fi

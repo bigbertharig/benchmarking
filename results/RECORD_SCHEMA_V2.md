@@ -4,6 +4,9 @@
 Markdown reports and scoreboard JSON are derived artifacts and must never be
 edited as primary data.
 
+Schema v2 remains supported for historical records. New writes use schema v3;
+see `RECORD_SCHEMA_V3.md` for methodology versioning.
+
 Every new line is a JSON object with `schema_version: 2` and these field groups:
 
 - identity: `run_id`, `run_at`, `model`, `test_id`, `harness`, `suite`
@@ -39,6 +42,9 @@ python3 record_benchmark_result.py \
   --run-class smoke \
   --harness bench-reasoning \
   --suite qwen36_bbh_smoke \
+  --methodology-id bench-reasoning/lm-eval-normalized \
+  --methodology-version 2.0.0 \
+  --comparison-group lm-eval-0.4.11-reasoning-extract-v2 \
   --failure-kind timeout \
   --failure-message "request exceeded 600 seconds" \
   --timeout-count 1

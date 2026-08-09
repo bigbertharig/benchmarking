@@ -16,6 +16,9 @@ from typing import Any
 from routing_score import index_tiers, score_route
 
 
+METHODOLOGY = ("bench-routing/cost-awareness", "1.0.0", "routing-cost-v1")
+
+
 def chat(base_url: str, model: str, prompt: str, timeout: int) -> str:
     payload = {
         "model": model,
@@ -116,18 +119,22 @@ def main() -> int:
     except Exception as exc:
         if not args.no_record:
             recorder = Path(args.scripts_dir) / "scripts" / "active" / "record_benchmark_result.py"
-            subprocess.run(
+            failure_proc = subprocess.run(
                 [
                     sys.executable, str(recorder), "--model", args.model,
                     "--test-id", "routing_cost_awareness", "--status", "failure",
                     "--run-class", args.run_class, "--harness", "bench-routing",
                     "--suite", args.run_name, "--failure-kind", "harness_error",
                     "--failure-message", f"{type(exc).__name__}: {exc}", "--failed-request-count", "1",
+                    "--methodology-id", METHODOLOGY[0], "--methodology-version", METHODOLOGY[1],
+                    "--comparison-group", METHODOLOGY[2],
                     "--records", args.records, "--reference-output", args.reference_output,
                     "--scoreboard-output", args.scoreboard_output,
                 ],
                 check=False,
             )
+            if failure_proc.returncode != 0:
+                raise RuntimeError(f"failure recorder exited with code {failure_proc.returncode}") from exc
         raise
 
     elapsed = time.monotonic() - started
@@ -160,6 +167,8 @@ def main() -> int:
             "--sample-count", str(len(results)), "--format-compatibility",
             "degraded" if format_failures else "compatible", "--extractor-failure-count", str(format_failures),
             "--harness", "bench-routing", "--suite", args.run_name,
+            "--methodology-id", METHODOLOGY[0], "--methodology-version", METHODOLOGY[1],
+            "--comparison-group", METHODOLOGY[2],
             "--wall-time-seconds", str(elapsed), "--config-id", str(config.get("version", "")),
             "--config-json", json.dumps({"tiers": config["tiers"]}, sort_keys=True),
             "--records", args.records, "--reference-output", args.reference_output,

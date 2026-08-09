@@ -16,6 +16,9 @@ from compatibility import derive_backend_id, find_certified_test, load_status, r
 from benchmark_records import RUN_CLASSES
 
 
+METHODOLOGY = ("lm-eval/individual", "2.0.0", "lm-eval-individual-v2")
+
+
 TASK_NAME_ALIASES: dict[str, tuple[str, ...]] = {
     "gpqa_diamond": ("gpqa_diamond_zeroshot", "gpqa_diamond_n_shot"),
     # Use one representative MMMLU subject for backend certification; full benchmark runs
@@ -347,16 +350,21 @@ def main() -> int:
         if not args.no_record:
             failure_model = parse_model_id(args.model_args) or args.model
             recorder = this_dir / "record_benchmark_result.py"
-            subprocess.run(
+            failure_proc = subprocess.run(
                 [
                     args.python, str(recorder), "--model", failure_model, "--test-id", args.id,
                     "--status", "failure", "--run-class", args.run_class, "--harness", "lm_eval",
                     "--suite", args.suite, "--failure-kind", "harness_exit",
                     "--failure-message", f"lm-eval exited with code {proc.returncode}",
                     "--failed-request-count", "1",
+                    "--methodology-id", METHODOLOGY[0],
+                    "--methodology-version", METHODOLOGY[1],
+                    "--comparison-group", METHODOLOGY[2],
                 ],
                 check=False,
             )
+            if failure_proc.returncode != 0:
+                raise SystemExit(failure_proc.returncode)
         raise SystemExit(proc.returncode)
 
     if not args.no_record:
@@ -365,15 +373,20 @@ def main() -> int:
         try:
             score, metric, sample_count = extract_score_from_lm_eval_output(out_dir, task_name)
         except SystemExit as exc:
-            subprocess.run(
+            failure_proc = subprocess.run(
                 [
                     args.python, str(recorder), "--model", model_id, "--test-id", args.id,
                     "--status", "failure", "--run-class", args.run_class, "--harness", "lm_eval",
                     "--suite", args.suite, "--failure-kind", "result_extraction",
                     "--failure-message", str(exc), "--failed-request-count", "1",
+                    "--methodology-id", METHODOLOGY[0],
+                    "--methodology-version", METHODOLOGY[1],
+                    "--comparison-group", METHODOLOGY[2],
                 ],
                 check=False,
             )
+            if failure_proc.returncode != 0:
+                raise SystemExit(failure_proc.returncode)
             raise
         record_cmd = [
             args.python,
@@ -392,6 +405,12 @@ def main() -> int:
             args.run_class,
             "--sample-count",
             str(sample_count),
+            "--methodology-id",
+            METHODOLOGY[0],
+            "--methodology-version",
+            METHODOLOGY[1],
+            "--comparison-group",
+            METHODOLOGY[2],
             "--harness",
             "lm_eval",
             "--suite",

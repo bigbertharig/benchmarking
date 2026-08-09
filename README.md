@@ -34,6 +34,8 @@ which tests and suites we run, how to run them, and where results live.
 - Human-readable reference (quality-selected scores): `results/MODEL_BENCHMARK_REFERENCE.md`
 - Machine-readable scoreboard (quality-selected): `results/model_library_scoreboard.json`
 - Measured quality/reliability/cost frontiers: `results/model_pareto_frontier.json`
+- Methodology-aware history: `results/model_methodology_history.json`
+- Methodology registry: `benchmark_methodologies.json`
 - Controlled runtime/config definitions: `runtime_matrices/`
 - Generated unified-runner campaigns: `campaigns/*_matrix.json`
 - Per-run harness outputs (includes prompt snapshots): `/media/bryan/shared/logs/benchmarks/`
@@ -463,7 +465,9 @@ Manual record:
 python3 /media/bryan/shared/plans/shoulders/benchmarking/record_benchmark_result.py \
   --model qwen2.5-coder:14b --test-id gsm8k --score 0.721 \
   --metric exact_match --run-class validated --sample-count 100 \
-  --harness lm_eval --suite baseline_core
+  --harness lm_eval --suite baseline_core \
+  --methodology-id lm-eval/individual --methodology-version 2.0.0 \
+  --comparison-group lm-eval-individual-v2
 ```
 
 Rules:
@@ -472,6 +476,7 @@ Rules:
 - keep suite names stable for repeated comparisons
 - label every run `smoke`, `provisional`, `validated`, or `full`
 - record failures with `--status failure` and `--failure-kind`
+- use the registered methodology identity and comparison group
 - do not scatter scores across ad-hoc markdown notes
 
 ### Step 6: Review results

@@ -22,7 +22,7 @@ RUN python3 -m venv /opt/bench
 ENV PATH="/opt/bench/bin:$PATH"
 
 # requests for llama-compatible API calls
-RUN pip install --no-cache-dir requests
+RUN pip install --no-cache-dir requests==2.32.5
 
 COPY run.sh /opt/bench/run.sh
 RUN chmod +x /opt/bench/run.sh
