@@ -130,6 +130,44 @@ Three attempts needed to get the 12B model loaded on 2x 1060 6GB:
 
 **Rule**: For Docker GPU passthrough, `--tensor-split` values must match the number of visible GPUs inside the container, not total physical GPUs. Updated `NEW_MODEL_INTEGRATION.md` decision tree.
 
+### Qwen3.6-27B brain split-load: 3090 + 1060s for extended context (2026-08-03)
+
+Tested splitting the brain model (Qwen3.6-27B) across the 3090 and 1060s to increase context window beyond the 3090-only 8192 baseline. Despite documented tensor split bug #22058, Qwen3.6 splits correctly across mixed GPU architectures (sm86 + sm61).
+
+**GPU error workaround**: GPUs 1-3 were in "Unknown Error" state. `--gpus "device=0,4"` fails because `nvidia-container-cli` can't enumerate when some GPUs are errored. Fix: use `--runtime=nvidia` with `-e NVIDIA_VISIBLE_DEVICES=<UUID1>,<UUID2>`.
+
+```bash
+# Failed (nvidia-container-cli detection error with errored GPUs):
+docker run --gpus "device=0,4,5" ...
+
+# Working (UUID passthrough):
+docker run --runtime=nvidia \
+  -e NVIDIA_VISIBLE_DEVICES=GPU-409c0fe8-...,GPU-fd82a1a6-...,GPU-d24dca6a-... \
+  ...
+```
+
+**Context scaling results** (all with `--flash-attn on -ctk q8_0 -ctv q8_0 -fit off`):
+
+| ctx_size | GPUs | tensor-split | GPU 0 (3090) | GPU 4 (1060) | GPU 5 (1060) | Total VRAM | KV cache |
+|----------|------|-------------|-------------|-------------|-------------|------------|----------|
+| 8,192 | 1 (baseline) | — | 16,273 MiB | — | — | 16,273 MiB | ~442 MiB |
+| 32,768 | 2 | 4,1 | 12,953 MiB | 4,214 MiB | — | 17,167 MiB | 1,088 MiB |
+| 65,536 | 2 | 4,1 | 13,873 MiB | 4,434 MiB | — | 18,307 MiB | 2,176 MiB |
+| 131,072 | 3 | 4,1,1 | 13,413 MiB | 3,154 MiB | 4,196 MiB | 20,763 MiB | 4,352 MiB |
+| 262,144 | 3 | 4,1,1 | 16,549 MiB | 3,762 MiB | 5,076 MiB | 25,387 MiB | 8,704 MiB |
+
+**Key observations**:
+- Model weights are constant (~16 GB total, ~682 MiB CPU mapped). Only KV cache, recurrent state, and compute buffers scale with context.
+- Extra VRAM for 262k vs 8k baseline: ~9.1 GB (almost entirely KV cache).
+- 2-GPU (3090+1060) comfortably handles 65k context; 128k is tight on the 1060 (1.3 GB free).
+- 3-GPU (3090+2×1060) handles full 262k training context with 8 GB free on 3090, ~1 GB free on 1060s.
+- All 65/65 layers stay on GPU at every context size tested.
+- Inference verified correct at all context sizes (15×37=555).
+
+**Qwen3.6 tensor split bug #22058**: Despite documentation warning to "avoid split-GPU configs", tensor split works correctly for Qwen3.6-27B across 3090+1060 in practice. The bug may be specific to certain split configurations, older llama.cpp versions, or different Qwen3.6 variants. Tested with `llama-runtime:b8884-candidate`.
+
+**Practical recommendation**: For geometry brain work needing large context (long system prompts + config schemas), use 3090+1060 with ctx_size 65536. This is 8x the current baseline with comfortable headroom. Full 262k is available if needed but leaves the 1060s near capacity.
+
 ### `--no-mmap` causes Docker OOM kills (2026-06-10)
 
 E4B reasoning benchmark kept OOM-killing during BBH (long few-shot CoT prompts). Root cause: `--no-mmap` in `run_runtime.sh` converted the GGUF file-backed pages into `malloc`'d anonymous memory, which Docker's cgroup counts as non-reclaimable.
@@ -249,3 +287,160 @@ Per-model score paragraphs from the reasoning table:
 - brain campaign (32B): `/mnt/shared/logs/benchmarks/campaigns/history/gpu0_brain_qwen25coder32b_smoke/smoke_v1`
 - brain campaign (Gemma 4 + Qwen 3.6, 2026-04-22): code in `/mnt/shared/logs/benchmarks/bench-code/history/bench-code_*_{gemma4,qwen36}_*`, reasoning in `/mnt/shared/logs/benchmarks/bench-reasoning/history/bench-reasoning_*_{gemma4,qwen36}_*`
 - worker campaign (Gemma 4 E2B/E4B, 2026-04-22): same pattern with `gemma4_e2b` and `gemma4_e4b` run names
+- gpt-oss 20B (2026-06-12): `/mnt/shared/logs/benchmarks/bench-{pipeline,code,reasoning}/history/*gptoss*`
+- Phi-4-mini-reasoning (2026-06-12): `/mnt/shared/logs/benchmarks/bench-{pipeline,reasoning}/history/*phi4mr*`
+
+## gpt-oss 20B: Channel-Based Thinking and BBH Extraction (2026-06-12)
+
+**Problem**: gpt-oss 20B scored BBH 6.7% on first run despite being a capable model.
+
+**Root cause chain**:
+1. OpenAI-family models use channel tokens (`<|channel|>analysis`, `<|channel|>final`) to route reasoning to the `reasoning_content` API field. This is architectural — `--reasoning-budget 0` sets `thinking=0` in the runtime but the model still generates channel tokens.
+2. With reasoning in `reasoning_content`, the `content` field receives only the terse final answer (e.g., bare letter "A").
+3. The "strict worker" system prompt ("keep output minimal") reinforced bare-letter answers.
+4. When the model did output "So the answer is", it used markdown bold `**(A)**`, breaking the BBH `get-answer` regex `[Ss]o the answer is \(([A-Za-z])\)`.
+
+**Fix**: Changed system prompt to explicitly request the extraction format: "reason briefly then conclude with exactly: So the answer is (X). Use plain text only, no markdown formatting." Added `--reasoning-budget 0` to `extra_args`.
+
+**Result**: BBH improved from 6.7% → 64.1% (l10 smoke). The model is genuinely capable — the original score was entirely an extraction failure.
+
+**Lesson**: Channel-based thinking models (OpenAI family) need prompt engineering for BBH extraction because the reasoning that would naturally contain "So the answer is (X)" goes to `reasoning_content` instead of `content`. The content field must be explicitly instructed to include the extractable pattern.
+
+## Phi-4-mini-reasoning 3.8B: Structural Think Tokens (2026-06-12)
+
+**Problem**: All litmus tests FAIL due to `<think>` tags. bench-code incompatible. bench-pipeline json_schema 0%.
+
+**Root cause**: Like DeepSeek-R1, this model has think tokens baked into the vocabulary from reasoning fine-tuning. Runtime shows `thinking=0` — it doesn't recognize them as special. `--reasoning-budget 0` has no effect. The model simply generates `<think>...</think>` blocks as regular text output before every answer.
+
+**Impact by suite**:
+- bench-reasoning: Fixable with `--patch-think-tag-strip`. GSM8K strict 0% (format issue — stripped output doesn't have `#### N`), flexible 10%. BBH/DROP pending.
+- bench-code: **Incompatible**. evalplus sanitizer strips think tags + code together, resulting in empty solutions. Long think chains also cause OOM/timeout on 1060 (2g Docker limit exceeded; needs 3g/4g).
+- bench-pipeline: json_schema 0% (think tags in JSON). Other stages score well (cmd_safety 83%, tool_plan 100%).
+
+**bench-reasoning update**: BBH and DROP both failed — runtime OOM killed on 1060 after ~52 minutes of BBH generation. BBH few-shot prompts are ~1000+ tokens; combined with think chain generation, this exhausts the 3g Docker memory limit. GSM8K completed because its prompts are shorter. bench-reasoning is only partially viable for this model on 1060 hardware (GSM8K works, BBH/DROP do not).
+
+**Lesson**: Structural think-token models (DeepSeek-R1, Phi-4-mini-reasoning) have fundamental incompatibilities with multiple suites. bench-code fails (evalplus strips think+code). bench-reasoning BBH/DROP fail on 1060 (memory pressure from think chains + long prompts). These cannot be fixed via model settings — they would require suite changes or different hardware. Document the limitations and skip affected suites.
+
+## Runtime Image Mismatch: Gemma 4 Requires b8884-candidate
+
+**Date**: 2026-06-12/13
+
+**Symptom**: Overnight campaign Block 2 (Gemma-4-12B on brain) failed — runtime loaded but never responded to health checks. Wait loop timed out after 5 minutes.
+
+**Root cause**: `run_runtime.sh` defaults to `llama-runtime:sm61-sm86` (March 2026 build) which does not support the Gemma 4 `gemma4` architecture (`unknown model architecture: 'gemma4'`). All Gemma 4 models require `llama-runtime:b8884-candidate` (April 2026 build). The overnight script omitted `--image` so it used the default.
+
+**Fix**: Always specify `--image llama-runtime:b8884-candidate` when loading any Gemma 4 model with `run_runtime.sh`.
+
+**Lesson**: When scripting multi-model campaigns, explicitly specify the runtime image per block. Different model families may require different runtime builds. The default image is not guaranteed to support all architectures. This is documented in model_tuning_profiles.json notes and MODEL_RUNTIME_GUIDE.md but easy to miss in ad-hoc scripts.
+
+## Split-Load Reference
+
+Consolidated reference for running models across multiple GPUs via tensor splitting. All findings from individual experiments above are gathered here.
+
+### Hardware layout
+
+| Config | Host GPUs | Docker visible | Port | Status (2026-08-03) |
+|--------|-----------|----------------|------|---------------------|
+| brain_extended | GPU 0 + GPU 4 | CUDA0, CUDA1 | 11434 | **Working** — 3090+1060, up to 128k ctx |
+| brain_max | GPU 0 + GPU 4 + GPU 5 | CUDA0, CUDA1, CUDA2 | 11434 | **Working** — 3090+2×1060, up to 262k ctx |
+| pair_1_3 | GPU 1 + GPU 3 | CUDA0, CUDA1 | 11435 | **Down** — GPUs 1-3 in "Unknown Error" state |
+| pair_4_5 | GPU 4 + GPU 5 | CUDA0, CUDA1 | 11438 | **Working** — requires UUID passthrough |
+
+### Working docker run commands
+
+```bash
+# Brain + 1 1060 (65k ctx, comfortable headroom):
+docker run --rm --detach \
+  --name llama-brain-split \
+  --runtime=nvidia \
+  -e NVIDIA_VISIBLE_DEVICES=GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb,GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c \
+  --oom-score-adj 500 --memory 20g --memory-swap 24g \
+  --network host \
+  -v /mnt/shared/models/qwen3.6-27b:/mnt/shared/models/qwen3.6-27b:ro \
+  llama-runtime:b8884-candidate \
+  llama-server \
+  --model /mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf \
+  --host 127.0.0.1 --port 11434 \
+  --ctx-size 65536 --n-gpu-layers 999 \
+  --batch-size 64 --threads 8 --parallel 1 \
+  --flash-attn on -ctk q8_0 -ctv q8_0 \
+  --tensor-split 4,1 --reasoning-budget 0 -fit off
+
+# Brain + 2 1060s (262k max ctx):
+docker run --rm --detach \
+  --name llama-brain-split \
+  --runtime=nvidia \
+  -e NVIDIA_VISIBLE_DEVICES=GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb,GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c,GPU-d24dca6a-b19f-2018-57b7-15a79466efdf \
+  --oom-score-adj 500 --memory 20g --memory-swap 24g \
+  --network host \
+  -v /mnt/shared/models/qwen3.6-27b:/mnt/shared/models/qwen3.6-27b:ro \
+  llama-runtime:b8884-candidate \
+  llama-server \
+  --model /mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf \
+  --host 127.0.0.1 --port 11434 \
+  --ctx-size 262144 --n-gpu-layers 999 \
+  --batch-size 64 --threads 8 --parallel 1 \
+  --flash-attn on -ctk q8_0 -ctv q8_0 \
+  --tensor-split 4,1,1 --reasoning-budget 0 -fit off
+
+# Worker split (1060 pair, standard via run_runtime.sh when GPUs healthy):
+bash /mnt/shared/scripts/llama_runtime/run_runtime.sh \
+  --name llama-split-pair45 \
+  --model /mnt/shared/models/<model-dir>/<model>.gguf \
+  --port 11438 \
+  --gpus "device=4,5" \
+  --tensor-split 1,1 \
+  --ctx-size 16384 \
+  --memory-limit 10g --memory-swap 12g \
+  --extra-arg "-fit" --extra-arg "off"
+```
+
+### GPU UUIDs (for when `--gpus device=N,M` fails)
+
+```
+GPU 0: GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb  (3090 Ti)
+GPU 4: GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c  (1060 6GB)
+GPU 5: GPU-d24dca6a-b19f-2018-57b7-15a79466efdf  (1060 6GB)
+```
+
+Obtain fresh UUIDs with: `nvidia-smi -L 2>/dev/null | grep UUID`
+
+### Tested split configurations
+
+**Brain model (Qwen3.6-27B) across mixed architectures:**
+
+| ctx_size | GPUs | tensor-split | GPU 0 (3090) | GPU 4 (1060) | GPU 5 (1060) | KV cache | Status |
+|----------|------|-------------|-------------|-------------|-------------|----------|--------|
+| 8,192 | 1 (baseline) | — | 16,273 MiB | — | — | ~442 MiB | Working |
+| 32,768 | 2 | 4,1 | 12,953 MiB | 4,214 MiB | — | 1,088 MiB | Working |
+| 65,536 | 2 | 4,1 | 13,873 MiB | 4,434 MiB | — | 2,176 MiB | Working (recommended) |
+| 131,072 | 2 | 4,1 | — | — (tight) | — | 4,352 MiB | Working (1060 near limit) |
+| 131,072 | 3 | 4,1,1 | 13,413 MiB | 3,154 MiB | 4,196 MiB | 4,352 MiB | Working |
+| 262,144 | 3 | 4,1,1 | 16,549 MiB | 3,762 MiB | 5,076 MiB | 8,704 MiB | Working (max) |
+
+**Worker models across 1060 pairs:**
+
+| Model | CUDA0 MiB | CUDA1 MiB | CPU MiB | Layers | ctx_size | Status |
+|-------|-----------|-----------|---------|--------|----------|--------|
+| Gemma-4-12B Q4_K_M | 3,102 | 3,786 | 924 | 48/48 | 4,096 | Working (pair_1_3) |
+| Qwen2.5-Coder-14B Q4_K_M | 3,917 | 4,231 | 418 | 49/49 | 16,384 | Working (pair_4_5) |
+| Phi-4-14B Q4_K_M | — | — | — | 41/41 auto | 16,384 | Working (no forced layers) |
+
+### Known failures and restrictions
+
+| Model | Issue | Bug/Workaround |
+|-------|-------|----------------|
+| Qwen3.6-27B | Tensor split bug #22058 | **Actually works** on 3090+1060 with b8884-candidate. Bug may be version/config specific. |
+| Gemma-3-12B | 262K vocab embedding too large | ~3.1GB embedding per GPU exceeds 6GB VRAM |
+| Phi-4-14B | `--n-gpu-layers 999` aborts | Remove forced layer count, let auto-fitter work |
+| Any model | `--gpus device=N,M` with errored GPUs | Use UUID passthrough via `--runtime=nvidia` + `-e NVIDIA_VISIBLE_DEVICES` |
+
+### Critical rules
+
+1. **tensor-split values = visible GPU count** — `--tensor-split 4,1` for 2 GPUs, `4,1,1` for 3. NOT physical index masks.
+2. **`-fit off` required** when using `--n-gpu-layers 999` — prevents auto-fitter from aborting
+3. **Gemma 4 / Qwen 3.6 need `llama-runtime:b8884-candidate`** — default image doesn't support these architectures
+4. **Docker memory limits**: 20g/24g for brain split (KV cache at high ctx dominates); 10g/12g for worker splits
+5. **mmap ON** (default) — do NOT add `--no-mmap` (causes Docker OOM, see `--no-mmap` section above)
+6. **Port convention**: brain → 11434, pair_1_3 → 11435, pair_4_5 → 11438
+7. **Weight the tensor-split toward the 3090** — `4,1` or `4,1,1` keeps most weights on the faster GPU

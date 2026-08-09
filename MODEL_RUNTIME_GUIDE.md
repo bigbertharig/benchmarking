@@ -46,6 +46,8 @@ If any check FAILs, see [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED
 | Qwen 3 / 3.5 / 3.6 | `--reasoning-budget 0` | `/no_think` prompt prefix for JSON/extraction calls; strip residual `<think>` wrappers | `--patch-think-tag-strip` | Empty content, visible `<think>` wrappers, BBH/DROP 0.0 |
 | DeepSeek-R1 / QwQ style | none | Strip `<think>...</think>` from content; avoid for strict JSON unless no alternative | `--patch-think-tag-strip` | Visible reasoning consumes output and breaks parsers |
 | Gemma 4 (all sizes) | `--reasoning-budget 0` (REQUIRED for all sizes) | Strip leaked thought-channel prefixes when present | `--patch-think-tag-strip` (BBH + DROP) | BBH/DROP near-zero with thinking on; 12B 0.822→0.244, 26B 0.867→0.265 |
+| OpenAI gpt-oss | `--reasoning-budget 0` (recommended) + `--jinja` | Reasoning goes to `reasoning_content` field automatically | Prompt tuning (MCQ format instruction) | BBH 6.7% without prompt fix → 64.1% with explicit extraction format in prompt |
+| Phi-4-mini-reasoning | none effective | Strip `<think>...</think>` from content | `--patch-think-tag-strip` | bench-code incompatible; bench-pipeline json_schema 0% |
 
 Operational note:
 - Runtime flag is the preferred fix for Qwen thinking mode. Prompt/client stripping is a defensive backstop, not a replacement for loading the runtime with the correct flags.
@@ -79,7 +81,7 @@ Operational note:
 
 - GGUF: `Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf`
 - Tier: 14B split worker (GPU 1+3 or 4+5)
-- Split baseline on pair_4_5 is still unstable (warmup failures)
+- Split baseline on pair_4_5 tested working (2026-08-03): all 49/49 layers on GPU, ctx_size=16384
 - Best for: split-worker coding/reasoning, nearly matches 32B on code
 
 ### phi-4:14b
@@ -123,7 +125,31 @@ Operational note:
 - `--reasoning-budget 0` alone is NOT sufficient for benchmarks
 - Memory: 27B ~16GB, 35B-A3B 21.3GB (tight on 3090 — do NOT increase ctx beyond 16384)
 - 35B-A3B has recurrent state (`llama_memory_recurrent`)
-- Tensor split has known bug (#22058) — avoid split-GPU configs
+- Tensor split bug #22058 documented but **27B works in practice** on 3090+1060 with b8884-candidate. Tested up to 262k ctx (3090+2×1060, `--tensor-split 4,1,1`). See BENCHMARK_LESSONS_LEARNED.md "Split-Load Reference" for full results.
+
+### gpt-oss:20b
+
+- GGUF: `gpt-oss-20b-mxfp4.gguf` (12.1GB, MXFP4 native quant)
+- Tier: brain (GPU 0, 3090). MoE 21B total / 3.6B active. Apache 2.0.
+- Requires `--jinja` flag (OpenAI-family chat template with `<|channel|>` tokens)
+- VRAM: 11,587 MiB on 3090 (13GB headroom)
+- **Runtime: `--reasoning-budget 0` RECOMMENDED** — channel-based thinking is architectural (model still generates `reasoning_content` regardless), but budget 0 prevents token budget being consumed by reasoning channel
+- **Benchmark system prompt**: "You are a helpful assistant. When answering multiple choice questions, reason briefly then conclude with exactly: So the answer is (X). Use plain text only, no markdown formatting. When JSON is requested, return raw JSON only, no code blocks."
+- No `--patch-think-tag-strip` needed (reasoning goes to `reasoning_content` field, not inline `<think>` tags)
+- Load time: ~5s. Inference speed: fast (3.6B active params despite 20B total)
+- Memory limits: 10g/12g (brain default)
+
+### phi-4-mini-reasoning:3.8b
+
+- GGUF: `Phi-4-mini-reasoning-Q4_K_M.gguf` (2.49GB, Q4_K_M)
+- Tier: single (GPU 1-5, 1060 6GB). Dense 3.8B. MIT license.
+- VRAM: 2772 MiB on 1060
+- **Structural `<think>` tokens** — same behavior as DeepSeek-R1. `--reasoning-budget 0` has no effect (runtime shows `thinking=0` already). Think tags are baked into the model vocabulary/training.
+- **Benchmark: `--patch-think-tag-strip` REQUIRED** for bench-reasoning (BBH + DROP)
+- **bench-code: INCOMPATIBLE** — evalplus sanitizer strips think + code together. Long think chains also cause OOM/timeout on 1060.
+- **bench-pipeline json_schema: 0%** — think tags in JSON output, no model settings fix available.
+- Memory limits: **3g/4g** (2g causes OOM — higher than E4B at same ctx_size due to different KV/scratch requirements)
+- Load time: ~3s
 
 ## Startup Context Policy
 
