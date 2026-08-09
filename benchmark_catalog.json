@@ -1,5 +1,5 @@
 {
-  "version": "2026-03-05",
+  "version": "2026-08-09",
   "description": "Canonical benchmark library for baseline and scenario-specific suite composition.",
   "tests": [
     {
@@ -267,6 +267,116 @@
       "what_it_tests": "Accurate extraction from long logs and mixed-signal documents.",
       "primary_metrics": ["extract_accuracy", "hallucination_rate"],
       "tags": ["custom", "long_context", "pipeline"]
+    },
+    {
+      "id": "dataimport_converter_owid_co2",
+      "title": "Data Import Converter: OWID CO2",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "converter",
+      "what_it_tests": "Generation and optional execution of a country-level CSV-to-Parquet converter.",
+      "primary_metrics": ["converter_correct", "converter_structure"],
+      "tags": ["custom", "data_import", "code", "parquet"]
+    },
+    {
+      "id": "dataimport_converter_imf_bop",
+      "title": "Data Import Converter: IMF BOP",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "converter",
+      "what_it_tests": "Generation of a wide-to-long converter with ISO3 and numeric normalization.",
+      "primary_metrics": ["converter_structure"],
+      "tags": ["custom", "data_import", "code", "reshape"]
+    },
+    {
+      "id": "dataimport_converter_worldpop",
+      "title": "Data Import Converter: WorldPop",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "converter",
+      "what_it_tests": "Generation of a converter that derives canonical ISO3 identifiers from country names.",
+      "primary_metrics": ["converter_structure"],
+      "tags": ["custom", "data_import", "code", "geography"]
+    },
+    {
+      "id": "dataimport_reference_owid_co2",
+      "title": "Data Import Reference: OWID CO2",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "reference",
+      "what_it_tests": "Complete nested reference metadata for a large climate metric set.",
+      "primary_metrics": ["reference_quality"],
+      "tags": ["custom", "data_import", "metadata"]
+    },
+    {
+      "id": "dataimport_reference_worldbank_wdi",
+      "title": "Data Import Reference: World Bank WDI",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "reference",
+      "what_it_tests": "Reference metadata quality and keyword coverage for development indicators.",
+      "primary_metrics": ["reference_quality"],
+      "tags": ["custom", "data_import", "metadata"]
+    },
+    {
+      "id": "dataimport_reference_aggregation",
+      "title": "Data Import Reference: Aggregation Rules",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "reference",
+      "what_it_tests": "Assignment of sum, weighted-average, and skip rules by metric semantics.",
+      "primary_metrics": ["aggregation_accuracy"],
+      "tags": ["custom", "data_import", "metadata", "aggregation"]
+    },
+    {
+      "id": "dataimport_schema_loc_id",
+      "title": "Data Import Schema: Location ID",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "schema_understanding",
+      "what_it_tests": "Identification of the canonical location column, identifier format, and geographic level.",
+      "primary_metrics": ["schema_understanding"],
+      "tags": ["custom", "data_import", "schema", "geography"]
+    },
+    {
+      "id": "dataimport_schema_aggregates",
+      "title": "Data Import Schema: Aggregate Rows",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "schema_understanding",
+      "what_it_tests": "Detection and filtering of non-country aggregate rows.",
+      "primary_metrics": ["schema_understanding"],
+      "tags": ["custom", "data_import", "schema", "quality"]
+    },
+    {
+      "id": "dataimport_schema_wide_to_long",
+      "title": "Data Import Schema: Wide to Long",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "schema_understanding",
+      "what_it_tests": "Recognition of wide time-series data and the required long-form reshape.",
+      "primary_metrics": ["schema_understanding"],
+      "tags": ["custom", "data_import", "schema", "reshape"]
+    },
+    {
+      "id": "dataimport_schema_type_coercion",
+      "title": "Data Import Schema: Type Coercion",
+      "category": "data_engineering",
+      "type": "custom",
+      "harness": "bench-dataimport",
+      "task_name": "schema_understanding",
+      "what_it_tests": "Identification of dirty numeric columns and deterministic coercion steps.",
+      "primary_metrics": ["schema_understanding"],
+      "tags": ["custom", "data_import", "schema", "types"]
     },
     {
       "id": "gpqa_diamond",

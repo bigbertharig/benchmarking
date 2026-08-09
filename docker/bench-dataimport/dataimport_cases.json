@@ -1,0 +1,236 @@
+{
+  "suite_id": "bench-dataimport-v1",
+  "version": "1.0",
+  "description": "Data import capability benchmark. Tests a model's ability to write data converters, generate reference.json metadata, and handle data prep tasks from the DaedalMap pipeline.",
+  "scoring": {
+    "converter_runs": "Generated Python script executes without error (exit code 0)",
+    "converter_correct": "Output parquet has correct row count, loc_id first, all metrics float64, no dupes",
+    "reference_valid_json": "Output parses as valid JSON",
+    "reference_nested": "Has top-level 'source' and 'metrics' keys (not flat)",
+    "reference_metrics_complete": "Every parquet metric column has a metrics entry",
+    "reference_aggregation": "Every metric has an aggregation rule",
+    "keyword_coverage": "Keywords include expected synonyms (scored as 1 - gaps/total_expected)",
+    "schema_understanding": "Model correctly identifies column types, geographic level, loc_id format"
+  },
+  "thresholds": {
+    "PASS": 0.9,
+    "PARTIAL": 0.6,
+    "FAIL": 0.0
+  },
+  "tasks": {
+    "converter": {
+      "description": "Test converter script generation. Model writes a Python script that transforms raw CSV to parquet.",
+      "cases": [
+        {
+          "case_id": "CV-001",
+          "test_id": "dataimport_converter_owid_co2",
+          "name": "owid_co2_basic",
+          "difficulty": "easy",
+          "description": "OWID CO2 dataset. Well-structured CSV with iso_code column. Standard country-level annual data.",
+          "raw_data_url": "https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv",
+          "raw_filename": "owid-co2-data.csv",
+          "source_id": "owid_co2",
+          "hints": {
+            "loc_id_source": "iso_code column (ISO3 country codes)",
+            "drop_aggregates": "Rows without iso_code are aggregates (World, Asia, etc.)",
+            "time_column": "year (int64)",
+            "drop_columns": ["country", "iso_code"]
+          },
+          "expected": {
+            "min_rows": 40000,
+            "max_rows": 50000,
+            "min_loc_ids": 210,
+            "max_loc_ids": 230,
+            "loc_id_first": true,
+            "no_duplicates": true,
+            "all_metrics_float64": true,
+            "year_min": 1750,
+            "year_max_gte": 2023
+          }
+        },
+        {
+          "case_id": "CV-002",
+          "test_id": "dataimport_converter_imf_bop",
+          "name": "imf_bop_messy",
+          "difficulty": "medium",
+          "description": "IMF Balance of Payments. Wide-format CSV with year columns, needs pivot to long format. Country codes need mapping.",
+          "raw_data_snippet": "Country Name,Country Code,Indicator Name,Indicator Code,1960,1961,1962,...,2023\nAfghanistan,AFG,Current account balance (BoP; current US$),BN.CAB.XOKA.CD,,,,...,\nAlbania,ALB,Current account balance (BoP; current US$),BN.CAB.XOKA.CD,,,,...,-1234567890",
+          "source_id": "imf_bop",
+          "hints": {
+            "loc_id_source": "Country Code column (already ISO3)",
+            "format": "Wide format - year columns need unpivot/melt to long format",
+            "time_column": "year (int64, derived from column headers)",
+            "drop_columns": ["Country Name", "Indicator Name", "Indicator Code"]
+          },
+          "expected": {
+            "loc_id_first": true,
+            "no_duplicates": true,
+            "all_metrics_float64": true,
+            "format_is_long": true
+          }
+        },
+        {
+          "case_id": "CV-003",
+          "test_id": "dataimport_converter_worldpop",
+          "name": "worldpop_no_iso",
+          "difficulty": "hard",
+          "description": "WorldPop population estimates. Has country names but NO ISO codes. Model must map country names to ISO3.",
+          "raw_data_snippet": "Location,Year,PopTotal,PopMale,PopFemale,PopDensity\nAfghanistan,2000,20779953,10689269,10090684,31.9\nAlbania,2000,3089027,1571592,1517435,113.3\nUnited States of America,2000,282162411,138053563,144108848,30.7",
+          "source_id": "worldpop",
+          "hints": {
+            "loc_id_source": "Must derive ISO3 from Location (country name). Use pycountry or manual mapping.",
+            "gotcha": "Some names don't match standard (e.g., 'United States of America' vs 'United States')",
+            "time_column": "Year (int64)",
+            "drop_columns": ["Location"]
+          },
+          "expected": {
+            "loc_id_first": true,
+            "loc_id_format": "ISO3",
+            "no_duplicates": true,
+            "all_metrics_float64": true
+          }
+        }
+      ]
+    },
+    "reference": {
+      "description": "Test reference.json generation. Model produces structured metadata for a data source.",
+      "cases": [
+        {
+          "case_id": "RF-001",
+          "test_id": "dataimport_reference_owid_co2",
+          "name": "owid_co2_reference",
+          "difficulty": "easy",
+          "description": "Generate reference.json for OWID CO2 with 76 metric columns.",
+          "source_info": {
+            "source_id": "owid_co2",
+            "source_name": "OWID CO2",
+            "source_url": "https://github.com/owid/co2-data",
+            "license": "CC-BY 4.0",
+            "category": "climate",
+            "geographic_level": "admin_0",
+            "geographic_coverage": "global"
+          },
+          "metric_columns": "population, gdp, cement_co2, cement_co2_per_capita, co2, co2_growth_abs, co2_growth_prct, co2_including_luc, co2_including_luc_growth_abs, co2_including_luc_growth_prct, co2_including_luc_per_capita, co2_including_luc_per_gdp, co2_including_luc_per_unit_energy, co2_per_capita, co2_per_gdp, co2_per_unit_energy, coal_co2, coal_co2_per_capita, consumption_co2, consumption_co2_per_capita, consumption_co2_per_gdp, cumulative_cement_co2, cumulative_co2, cumulative_co2_including_luc, cumulative_coal_co2, cumulative_flaring_co2, cumulative_gas_co2, cumulative_luc_co2, cumulative_oil_co2, cumulative_other_co2, energy_per_capita, energy_per_gdp, flaring_co2, flaring_co2_per_capita, gas_co2, gas_co2_per_capita, ghg_excluding_lucf_per_capita, ghg_per_capita, land_use_change_co2, land_use_change_co2_per_capita, methane, methane_per_capita, nitrous_oxide, nitrous_oxide_per_capita, oil_co2, oil_co2_per_capita, other_co2_per_capita, other_industry_co2, primary_energy_consumption, share_global_cement_co2, share_global_co2, share_global_co2_including_luc, share_global_coal_co2, share_global_cumulative_cement_co2, share_global_cumulative_co2, share_global_cumulative_co2_including_luc, share_global_cumulative_coal_co2, share_global_cumulative_flaring_co2, share_global_cumulative_gas_co2, share_global_cumulative_luc_co2, share_global_cumulative_oil_co2, share_global_cumulative_other_co2, share_global_flaring_co2, share_global_gas_co2, share_global_luc_co2, share_global_oil_co2, share_global_other_co2, share_of_temperature_change_from_ghg, temperature_change_from_ch4, temperature_change_from_co2, temperature_change_from_ghg, temperature_change_from_n2o, total_ghg, total_ghg_excluding_lucf, trade_co2, trade_co2_share",
+          "expected_keywords": ["emissions", "carbon dioxide", "CO2", "greenhouse gas", "methane", "climate change", "global warming", "fossil fuel", "coal", "oil", "natural gas", "energy consumption", "carbon footprint", "nitrous oxide", "GHG"],
+          "expected": {
+            "valid_json": true,
+            "has_source_key": true,
+            "has_metrics_key": true,
+            "metric_count": 76,
+            "all_have_name": true,
+            "all_have_unit": true,
+            "all_have_aggregation": true,
+            "min_keywords": 15,
+            "max_keyword_gaps": 3
+          }
+        },
+        {
+          "case_id": "RF-002",
+          "test_id": "dataimport_reference_worldbank_wdi",
+          "name": "earthquake_reference",
+          "difficulty": "medium",
+          "description": "Generate reference.json for earthquake event data. Tests handling of event-based (not annual) data.",
+          "source_info": {
+            "source_id": "earthquakes",
+            "source_name": "USGS Earthquake Catalog",
+            "source_url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+            "license": "Public Domain",
+            "category": "disasters",
+            "geographic_level": "point",
+            "geographic_coverage": "global"
+          },
+          "metric_columns": "magnitude, depth, latitude, longitude, felt, cdi, mmi, tsunami, sig, nst, dmin, gap, rms",
+          "expected_keywords": ["earthquake", "seismic", "quake", "tremor", "magnitude", "Richter", "tsunami", "USGS", "tectonic", "fault"],
+          "expected": {
+            "valid_json": true,
+            "has_source_key": true,
+            "has_metrics_key": true,
+            "metric_count": 13,
+            "all_have_aggregation": true,
+            "min_keywords": 8
+          }
+        },
+        {
+          "case_id": "RF-003",
+          "test_id": "dataimport_reference_aggregation",
+          "name": "aggregation_rules",
+          "difficulty": "hard",
+          "description": "Test whether model assigns correct aggregation rules. Per-capita metrics should be weighted_avg, totals should be sum, percentages should be skip.",
+          "metric_columns": "population, co2, co2_per_capita, share_global_co2, co2_growth_prct, cumulative_co2, gdp, energy_per_capita, primary_energy_consumption, trade_co2_share",
+          "expected_aggregations": {
+            "population": "sum",
+            "co2": "sum",
+            "co2_per_capita": "weighted_avg",
+            "share_global_co2": "skip",
+            "co2_growth_prct": "skip",
+            "cumulative_co2": "sum",
+            "gdp": "sum",
+            "energy_per_capita": "weighted_avg",
+            "primary_energy_consumption": "sum",
+            "trade_co2_share": "skip"
+          }
+        }
+      ]
+    },
+    "schema_understanding": {
+      "description": "Test model's ability to understand data schemas, identify issues, and recommend fixes.",
+      "cases": [
+        {
+          "case_id": "SU-001",
+          "test_id": "dataimport_schema_loc_id",
+          "name": "identify_loc_id_format",
+          "difficulty": "easy",
+          "description": "Given sample data, identify the correct loc_id column and format.",
+          "prompt_context": "Raw data columns: country, iso_code, year, population, gdp\nSample rows:\nAfghanistan,AFG,2020,38928346,19807067072\nAlbania,ALB,2020,2877797,14932806000",
+          "expected": {
+            "loc_id_column": "iso_code",
+            "loc_id_format": "ISO3",
+            "geographic_level": "admin_0"
+          }
+        },
+        {
+          "case_id": "SU-002",
+          "test_id": "dataimport_schema_aggregates",
+          "name": "detect_aggregate_rows",
+          "difficulty": "medium",
+          "description": "Identify rows that are aggregates (not individual countries) and should be dropped.",
+          "prompt_context": "Sample rows from a CSV:\nWorld,,2020,7794798739,84705576112256\nAsia,,2020,4641054786,32486502637568\nEurope,,2020,747636026,19746427297792\nAfghanistan,AFG,2020,38928346,19807067072\nAlbania,ALB,2020,2877797,14932806000\nHigh-income countries,,2020,1242654327,54321000000000\nAfrica (GCP),,2020,1340598147,2651125729280",
+          "expected": {
+            "aggregate_indicators": ["empty iso_code", "non-country names like World/Asia/Europe", "income group names", "source-specific groupings like 'Africa (GCP)'"],
+            "filter_method": "drop rows where iso_code is empty/null"
+          }
+        },
+        {
+          "case_id": "SU-003",
+          "test_id": "dataimport_schema_wide_to_long",
+          "name": "wide_to_long_detection",
+          "difficulty": "medium",
+          "description": "Detect that data is in wide format and needs reshaping.",
+          "prompt_context": "Columns: Country Name, Country Code, Indicator Name, Indicator Code, 1960, 1961, 1962, ..., 2023\nThis has 68 year columns (1960-2023) plus 4 identifier columns.",
+          "expected": {
+            "format_detected": "wide",
+            "reshape_needed": true,
+            "id_columns": ["Country Name", "Country Code", "Indicator Name", "Indicator Code"],
+            "value_columns": "year columns (1960-2023)",
+            "target_format": "long with columns: loc_id, year, <metric_value>"
+          }
+        },
+        {
+          "case_id": "SU-004",
+          "test_id": "dataimport_schema_type_coercion",
+          "name": "type_coercion_needed",
+          "difficulty": "hard",
+          "description": "Identify columns that need type coercion and the correct approach.",
+          "prompt_context": "DataFrame dtypes after pd.read_csv():\nloc_id       object\nyear         int64\npopulation   object   # has commas: '1,234,567'\ngdp          object   # has 'N/A' strings\nco2          float64\nco2_pct      object   # has '%' suffix: '12.5%'\ntemperature  object   # has '<0.01' entries",
+          "expected": {
+            "needs_coercion": ["population", "gdp", "co2_pct", "temperature"],
+            "approach": "pd.to_numeric(errors='coerce') after stripping non-numeric characters",
+            "population_fix": "remove commas before converting",
+            "co2_pct_fix": "remove % suffix before converting",
+            "temperature_fix": "to_numeric with errors='coerce' (< prefix becomes NaN)"
+          }
+        }
+      ]
+    }
+  }
+}
