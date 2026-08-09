@@ -1,13 +1,14 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-06-13T08:01:01.194314`
-- Records file: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
-- Status file: `/benchmark-scripts/benchmark_status.json`
-- Total recorded runs: `876`
+- Generated at: `2026-08-09T21:54:03.816152+00:00`
+- Canonical records: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
+- Status file: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/benchmark_status.json`
+- Total records: `876`
+- Selected model/test results: `499`
+
+Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
 ## Operational Status
-
-This section tracks current benchmarkability and backend certification status.
 
 ### Runtime Issues
 
@@ -51,551 +52,557 @@ This section tracks current benchmarkability and backend certification status.
 | mmlu | slow_setup | 2026-03-05T20:34:42 | Group task expands across many subjects before first request. Use as a deliberate longer audit, not a quick smoke probe. |
 | mmmlu | very_slow_group | 2026-03-05T20:45:00 | Full MMMLU group expansion is too slow for quick certification runs. Expect roughly 20 to 30 minutes before the first real results or first failures. Use a representative subject for backend certification and reserve the full grouped task for dedicated benchmark runs. |
 
-## Latest Score Per Model/Test
+## Selected Score Per Model/Test
 
-| Model | Test ID | Score | Score % | Metric | Last Tested | Harness | Suite |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T01:08:31+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
-| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | drop_f1 | 0.082 | 8.200000000000001 | f1,none | 2026-03-17T01:08:31+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
-| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-17T01:06:22+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
-| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-17T01:06:22+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
-| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-12T12:04:41+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
-| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-12T12:08:11+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
-| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-12T12:08:11+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
-| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | gsm8k_flexible | 0.38 | 38.0 | exact_match,flexible-extract | 2026-03-12T09:44:14+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
-| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | gsm8k_strict | 0.3 | 30.0 | exact_match,strict-match | 2026-03-12T09:44:14+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
-| Llama-3.2-3B-Instruct-Q4_K_M.gguf | bbh | 0.5888888888888889 | 58.88888888888889 | exact_match,get-answer | 2026-03-17T06:00:00+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
-| Llama-3.2-3B-Instruct-Q4_K_M.gguf | drop_em | 0.2 | 20.0 | em,none | 2026-03-17T06:00:31+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
-| Llama-3.2-3B-Instruct-Q4_K_M.gguf | drop_f1 | 0.5269999999999999 | 52.69999999999999 | f1,none | 2026-03-17T06:00:31+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
-| Llama-3.2-3B-Instruct-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | 2026-03-17T05:34:29+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
-| Llama-3.2-3B-Instruct-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-17T05:34:29+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
-| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_base | 0.481549815498155 | 48.1549815498155 | pass_rate_542_base | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
-| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_plus | 0.4077490774907749 | 40.774907749077485 | pass_rate_542_plus | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
-| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | 2026-03-11T06:47:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
-| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | gsm8k_flexible | 0.48 | 48.0 | exact_match,flexible-extract | 2026-03-12T09:38:26+00:00 | bench-reasoning | bench-reasoning_Mistral-7B-Instruct-v0.3-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11437 |
-| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | gsm8k_strict | 0.48 | 48.0 | exact_match,strict-match | 2026-03-12T09:38:26+00:00 | bench-reasoning | bench-reasoning_Mistral-7B-Instruct-v0.3-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11437 |
-| Phi-4-mini-instruct-Q4_K_M.gguf | bbh | 0.5777777777777777 | 57.77777777777777 | exact_match,get-answer | 2026-03-17T06:05:07+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
-| Phi-4-mini-instruct-Q4_K_M.gguf | drop_em | 0.1 | 10.0 | em,none | 2026-03-17T06:05:39+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
-| Phi-4-mini-instruct-Q4_K_M.gguf | drop_f1 | 0.275 | 27.500000000000004 | f1,none | 2026-03-17T06:05:39+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
-| Phi-4-mini-instruct-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | 2026-03-17T05:34:50+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
-| Phi-4-mini-instruct-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-17T05:34:50+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
-| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | custom_worker_suite_total | 0.7341772151898734 | 73.41772151898735 | pass_rate_79 | 2026-03-11T06:44:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
-| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | 2026-03-12T09:32:56+00:00 | bench-reasoning | bench-reasoning_Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11438 |
-| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | gsm8k_strict | 0.75 | 75.0 | exact_match,strict-match | 2026-03-12T09:32:56+00:00 | bench-reasoning | bench-reasoning_Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11438 |
-| Qwen3-1.7B-Q4_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-17T05:38:22+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
-| Qwen3-1.7B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T05:39:01+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
-| Qwen3-1.7B-Q4_K_M.gguf | drop_f1 | 0.36100000000000004 | 36.1 | f1,none | 2026-03-17T05:39:01+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
-| Qwen3-1.7B-Q4_K_M.gguf | gsm8k_flexible | 0.5 | 50.0 | exact_match,flexible-extract | 2026-03-17T05:26:06+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
-| Qwen3-1.7B-Q4_K_M.gguf | gsm8k_strict | 0.5 | 50.0 | exact_match,strict-match | 2026-03-17T05:26:06+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
-| Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_base | 0.5719557195571956 | 57.19557195571956 | pass_rate_542_base | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
-| Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_plus | 0.5018450184501845 | 50.184501845018445 | pass_rate_542_plus | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
-| Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | 2026-03-11T07:09:52+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
-| Qwen3.5-9B-Q3_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-12T12:10:58+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
-| Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.08860759493670886 | 8.860759493670885 | pass_rate_79 | 2026-03-11T01:46:21+00:00 | bench-pipeline | ab_prompt_B_20260310 |
-| Qwen3.5-9B-Q3_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-12T12:13:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
-| Qwen3.5-9B-Q3_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-12T12:13:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
-| Qwen3.5-9B-Q3_K_M.gguf | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-12T09:56:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
-| Qwen3.5-9B-Q3_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-12T09:56:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
-| SmolLM3-3B-Q4_K_M.gguf | bbh | 0.6222222222222222 | 62.22222222222222 | exact_match,get-answer | 2026-03-17T06:00:32+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
-| SmolLM3-3B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T06:01:03+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
-| SmolLM3-3B-Q4_K_M.gguf | drop_f1 | 0.23500000000000001 | 23.5 | f1,none | 2026-03-17T06:01:03+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
-| SmolLM3-3B-Q4_K_M.gguf | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | 2026-03-17T05:34:31+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
-| SmolLM3-3B-Q4_K_M.gguf | gsm8k_strict | 0.6 | 60.0 | exact_match,strict-match | 2026-03-17T05:34:31+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
-| deepseek-r1:14b | bbh | 0.5851851851851851 | 58.51851851851851 | exact_match,get-answer | 2026-03-16T21:59:53+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
-| deepseek-r1:14b | drop_em | 0.0 | 0.0 | em,none | 2026-03-16T22:00:28+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
-| deepseek-r1:14b | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-16T22:00:28+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
-| deepseek-r1:14b | gsm8k_flexible | 0.2 | 20.0 | exact_match,flexible-extract | 2026-03-16T20:14:15+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
-| deepseek-r1:14b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-16T20:14:15+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
-| deepseek-r1:32b | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-15T02:11:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
-| deepseek-r1:32b | drop_em | 0.0 | 0.0 | em,none | 2026-03-15T02:12:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
-| deepseek-r1:32b | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-15T02:12:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
-| deepseek-r1:32b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T02:07:01+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
-| deepseek-r1:32b | gsm8k_strict | 0.2 | 20.0 | exact_match,strict-match | 2026-03-15T02:07:01+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
-| deepseek-r1:7b | daedalmap_catalog_discipline_json_valid_rate | 0.4666666666666667 | 46.666666666666664 | json_valid_rate | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_catalog_discipline_no_halluc_rate | 0.6666666666666666 | 66.66666666666666 | no_halluc_rate | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_catalog_discipline_pass_rate | 0.13333333333333333 | 13.333333333333334 | pass_rate | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_catalog_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_geographic_precision_json_valid_rate | 0.4 | 40.0 | json_valid_rate | 2026-03-21T03:47:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_geographic_precision_pass_rate | 0.26666666666666666 | 26.666666666666668 | pass_rate | 2026-03-21T03:47:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_geographic_precision_source_hit_rate | 0.8 | 80.0 | source_hit_rate | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_geographic_precision_source_valid_rate | 0.8 | 80.0 | source_valid_rate | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_geographic_precision_type_correct_rate | 0.3333333333333333 | 33.33333333333333 | type_correct_rate | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_json_discipline_json_valid_rate | 0.4666666666666667 | 46.666666666666664 | json_valid_rate | 2026-03-21T03:51:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_json_discipline_pass_rate | 0.3333333333333333 | 33.33333333333333 | pass_rate | 2026-03-21T03:51:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_json_discipline_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_json_discipline_source_valid_rate | 0.6666666666666666 | 66.66666666666666 | source_valid_rate | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_multi_source_json_valid_rate | 0.2 | 20.0 | json_valid_rate | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_multi_source_pass_rate | 0.13333333333333333 | 13.333333333333334 | pass_rate | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_multi_source_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | 2026-03-21T03:56:03+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_multi_source_source_valid_rate | 0.6666666666666666 | 66.66666666666666 | source_valid_rate | 2026-03-21T03:56:03+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_multi_source_type_correct_rate | 0.2 | 20.0 | type_correct_rate | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_source_grounding_json_valid_rate | 0.35 | 35.0 | json_valid_rate | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_source_grounding_pass_rate | 0.3 | 30.0 | pass_rate | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_source_grounding_type_correct_rate | 0.3 | 30.0 | type_correct_rate | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_type_routing_json_valid_rate | 0.5 | 50.0 | json_valid_rate | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_type_routing_pass_rate | 0.35 | 35.0 | pass_rate | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | daedalmap_type_routing_type_correct_rate | 0.35 | 35.0 | type_correct_rate | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
-| deepseek-r1:7b | gsm8k_flexible | 0.09 | 9.0 | exact_match,flexible-extract | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
-| deepseek-r1:7b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
-| gemma-3-4b-it-Q4_K_M.gguf | bbh | 0.5481481481481482 | 54.81481481481482 | exact_match,get-answer | 2026-03-17T02:37:46+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
-| gemma-3-4b-it-Q4_K_M.gguf | drop_em | 0.2 | 20.0 | em,none | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
-| gemma-3-4b-it-Q4_K_M.gguf | drop_f1 | 0.266 | 26.6 | f1,none | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
-| gemma-3-4b-it-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | 2026-03-17T05:34:54+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3_4b_l10_promptv2 |
-| gemma-3-4b-it-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-17T05:34:54+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3_4b_l10_promptv2 |
-| gemma-3:12b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
-| gemma-3:12b | gsm8k_strict | 0.6 | 60.0 | exact_match,strict-match | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
-| gemma-3:4b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_catalog_discipline_source_valid_rate | 0.75 | 75.0 | source_valid_rate | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_geographic_precision_json_valid_rate | 0.9333333333333333 | 93.33333333333333 | json_valid_rate | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_geographic_precision_pass_rate | 0.8666666666666667 | 86.66666666666667 | pass_rate | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_geographic_precision_source_hit_rate | 0.9285714285714286 | 92.85714285714286 | source_hit_rate | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_geographic_precision_source_valid_rate | 0.9285714285714286 | 92.85714285714286 | source_valid_rate | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_json_discipline_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_json_discipline_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_multi_source_json_valid_rate | 0.8 | 80.0 | json_valid_rate | 2026-03-21T02:59:54+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_multi_source_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | 2026-03-21T02:59:54+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_multi_source_source_valid_rate | 0.9166666666666666 | 91.66666666666666 | source_valid_rate | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_multi_source_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_source_grounding_pass_rate | 0.9 | 90.0 | pass_rate | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_source_grounding_source_hit_rate | 0.9 | 90.0 | source_hit_rate | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_source_grounding_source_valid_rate | 0.95 | 95.0 | source_valid_rate | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_type_routing_json_valid_rate | 0.9 | 90.0 | json_valid_rate | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | 2026-03-21T03:01:39+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_type_routing_source_valid_rate | 0.8571428571428571 | 85.71428571428571 | source_valid_rate | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-3:4b | daedalmap_type_routing_type_correct_rate | 0.6 | 60.0 | type_correct_rate | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
-| gemma-4:12b | bbh | 0.8066666666666666 | 80.66666666666666 | exact_match,get-answer | 2026-06-13T08:00:23+00:00 | bench-reasoning | gemma4_12b_brain_l50_v1 |
-| gemma-4:12b | drop_em | 0.74 | 74.0 | em,none | 2026-06-13T08:01:01+00:00 | bench-reasoning | gemma4_12b_brain_l50_v1 |
-| gemma-4:12b | drop_f1 | 0.7892 | 78.92 | f1,none | 2026-06-13T08:01:01+00:00 | bench-reasoning | gemma4_12b_brain_l50_v1 |
-| gemma-4:12b | gsm8k_flexible | 0.2 | 20.0 | exact_match,flexible-extract | 2026-06-06T20:11:17+00:00 | bench-reasoning | gemma4_12b_smoke_l5 |
-| gemma-4:12b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-06-06T20:11:17+00:00 | bench-reasoning | gemma4_12b_smoke_l5 |
-| gemma-4:26b-a4b | bbh | 0.8407407407407408 | 84.07407407407408 | exact_match,get-answer | 2026-06-08T08:00:22+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
-| gemma-4:26b-a4b | drop_em | 0.73 | 73.0 | em,none | 2026-06-08T08:01:04+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
-| gemma-4:26b-a4b | drop_f1 | 0.7854000000000001 | 78.54 | f1,none | 2026-06-08T08:01:04+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
-| gemma-4:26b-a4b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | 2026-06-08T06:32:21+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
-| gemma-4:26b-a4b | gsm8k_strict | 0.95 | 95.0 | exact_match,strict-match | 2026-06-08T06:32:21+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
-| gemma-4:31b | bbh | 0.8414814814814815 | 84.14814814814815 | exact_match,get-answer | 2026-06-08T09:32:52+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
-| gemma-4:31b | drop_em | 0.74 | 74.0 | em,none | 2026-06-08T09:33:35+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
-| gemma-4:31b | drop_f1 | 0.7927 | 79.27 | f1,none | 2026-06-08T09:33:35+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
-| gemma-4:31b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | 2026-06-08T08:04:45+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
-| gemma-4:31b | gsm8k_strict | 0.94 | 94.0 | exact_match,strict-match | 2026-06-08T08:04:45+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
-| gemma-4:e2b | bbh | 0.14074074074074075 | 14.074074074074074 | exact_match,get-answer | 2026-06-08T10:25:07+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
-| gemma-4:e2b | drop_em | 0.04 | 4.0 | em,none | 2026-06-08T10:31:01+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
-| gemma-4:e2b | drop_f1 | 0.0508 | 5.08 | f1,none | 2026-06-08T10:31:01+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
-| gemma-4:e2b | gsm8k_flexible | 0.74 | 74.0 | exact_match,flexible-extract | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
-| gemma-4:e2b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
-| gemma-4:e4b | bbh | 0.09259259259259259 | 9.25925925925926 | exact_match,get-answer | 2026-06-10T06:27:45+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
-| gemma-4:e4b | drop_em | 0.52 | 52.0 | em,none | 2026-06-10T06:31:12+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
-| gemma-4:e4b | drop_f1 | 0.5348 | 53.480000000000004 | f1,none | 2026-06-10T06:31:12+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
-| gemma-4:e4b | gsm8k_flexible | 0.64 | 64.0 | exact_match,flexible-extract | 2026-06-08T21:31:49+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
-| gemma-4:e4b | gsm8k_strict | 0.16 | 16.0 | exact_match,strict-match | 2026-06-08T21:31:48+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
-| gpt-oss:20b | bbh | 0.6448148148148148 | 64.48148148148148 | exact_match,get-answer | 2026-06-13T06:31:01+00:00 | bench-reasoning | gptoss_l100_v1 |
-| gpt-oss:20b | drop_em | 0.18 | 18.0 | em,none | 2026-06-13T06:33:24+00:00 | bench-reasoning | gptoss_l100_v1 |
-| gpt-oss:20b | drop_f1 | 0.3510000000000001 | 35.10000000000001 | f1,none | 2026-06-13T06:33:24+00:00 | bench-reasoning | gptoss_l100_v1 |
-| gpt-oss:20b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-06-13T05:14:25+00:00 | bench-reasoning | gptoss_l100_v1 |
-| gpt-oss:20b | gsm8k_strict | 0.15 | 15.0 | exact_match,strict-match | 2026-06-13T05:14:24+00:00 | bench-reasoning | gptoss_l100_v1 |
-| llama3.2:3b | bbh | 0.5896296296296296 | 58.96296296296296 | exact_match,get-answer | 2026-03-18T10:01:42+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
-| llama3.2:3b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_catalog_discipline_source_valid_rate | 0.6666666666666666 | 66.66666666666666 | source_valid_rate | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_geographic_precision_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_geographic_precision_source_hit_rate | 0.9333333333333333 | 93.33333333333333 | source_hit_rate | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_geographic_precision_source_valid_rate | 0.9333333333333333 | 93.33333333333333 | source_valid_rate | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_geographic_precision_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_json_discipline_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_multi_source_json_valid_rate | 0.8 | 80.0 | json_valid_rate | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_multi_source_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:59:17+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_multi_source_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_source_grounding_json_valid_rate | 0.95 | 95.0 | json_valid_rate | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_source_grounding_pass_rate | 0.85 | 85.0 | pass_rate | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_source_grounding_source_hit_rate | 0.8947368421052632 | 89.47368421052632 | source_hit_rate | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_source_grounding_source_valid_rate | 0.9473684210526315 | 94.73684210526315 | source_valid_rate | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_source_grounding_type_correct_rate | 0.95 | 95.0 | type_correct_rate | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_type_routing_json_valid_rate | 0.9 | 90.0 | json_valid_rate | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_type_routing_source_hit_rate | 0.75 | 75.0 | source_hit_rate | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_type_routing_source_valid_rate | 0.875 | 87.5 | source_valid_rate | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | daedalmap_type_routing_type_correct_rate | 0.65 | 65.0 | type_correct_rate | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
-| llama3.2:3b | drop_em | 0.28 | 28.000000000000004 | em,none | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
-| llama3.2:3b | drop_f1 | 0.43260000000000004 | 43.260000000000005 | f1,none | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
-| llama3.2:3b | gsm8k_flexible | 0.72 | 72.0 | exact_match,flexible-extract | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
-| llama3.2:3b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
-| mistral:7b-instruct | custom_ambiguity_handling | 1.0 | 100.0 | clarification_rate | 2026-03-05T20:20:03.464691 | local_custom | local_custom_probe_v2 |
-| mistral:7b-instruct | daedalmap_catalog_discipline_json_valid_rate | 0.8666666666666667 | 86.66666666666667 | json_valid_rate | 2026-03-21T03:41:34+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | 2026-03-21T03:41:35+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | 2026-03-21T03:41:34+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_catalog_discipline_source_valid_rate | 0.7142857142857143 | 71.42857142857143 | source_valid_rate | 2026-03-21T03:41:35+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | 2026-03-21T03:41:35+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_geographic_precision_pass_rate | 0.8666666666666667 | 86.66666666666667 | pass_rate | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_geographic_precision_source_hit_rate | 0.8666666666666667 | 86.66666666666667 | source_hit_rate | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_geographic_precision_source_valid_rate | 0.8666666666666667 | 86.66666666666667 | source_valid_rate | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_geographic_precision_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_json_discipline_source_valid_rate | 0.875 | 87.5 | source_valid_rate | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_json_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_multi_source_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_multi_source_source_hit_rate | 0.9285714285714286 | 92.85714285714286 | source_hit_rate | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_multi_source_source_valid_rate | 0.8571428571428571 | 85.71428571428571 | source_valid_rate | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_multi_source_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_source_grounding_pass_rate | 0.95 | 95.0 | pass_rate | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_source_grounding_source_hit_rate | 0.95 | 95.0 | source_hit_rate | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_source_grounding_source_valid_rate | 0.95 | 95.0 | source_valid_rate | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_type_routing_json_valid_rate | 0.95 | 95.0 | json_valid_rate | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_type_routing_source_hit_rate | 0.5 | 50.0 | source_hit_rate | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_type_routing_source_valid_rate | 0.8333333333333334 | 83.33333333333334 | source_valid_rate | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
-| mistral:7b-instruct | gsm8k_flexible | 0.48 | 48.0 | exact_match,flexible-extract | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
-| mistral:7b-instruct | gsm8k_strict | 0.48 | 48.0 | exact_match,strict-match | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
-| phi-4-Q4_K_M.gguf | bbh | 0.1259259259259259 | 12.592592592592592 | exact_match,get-answer | 2026-03-17T01:43:41+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
-| phi-4-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
-| phi-4-Q4_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
-| phi-4-Q4_K_M.gguf | gsm8k_flexible | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
-| phi-4-Q4_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
-| phi-4-mini-reasoning:3.8b | gsm8k_flexible | 0.1 | 10.0 | exact_match,flexible-extract | 2026-06-13T03:57:01+00:00 | bench-reasoning | phi4mr_reasoning_v1 |
-| phi-4-mini-reasoning:3.8b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-06-13T03:57:01+00:00 | bench-reasoning | phi4mr_reasoning_v1 |
-| phi-4-mini:3.8b | bbh | 0.5722222222222222 | 57.22222222222222 | exact_match,get-answer | 2026-03-18T22:55:05+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
-| phi-4-mini:3.8b | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_json_discipline_pass_rate | 0.4 | 40.0 | pass_rate | 2026-03-21T02:48:42+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_source_grounding_json_valid_rate | 0.8 | 80.0 | json_valid_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_source_grounding_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_source_grounding_source_hit_rate | 0.75 | 75.0 | source_hit_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_source_grounding_source_valid_rate | 0.75 | 75.0 | source_valid_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | daedalmap_source_grounding_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
-| phi-4-mini:3.8b | drop_em | 0.11 | 11.0 | em,none | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
-| phi-4-mini:3.8b | drop_f1 | 0.28470000000000006 | 28.470000000000006 | f1,none | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
-| phi-4-mini:3.8b | gsm8k_flexible | 0.69 | 69.0 | exact_match,flexible-extract | 2026-03-18T06:02:21+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
-| phi-4-mini:3.8b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | 2026-03-18T06:02:21+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
-| phi-4:14b | bbh | 0.577037037037037 | 57.7037037037037 | exact_match,get-answer | 2026-04-29T04:46:26+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
-| phi-4:14b | drop_em | 0.02 | 2.0 | em,none | 2026-04-29T04:48:28+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
-| phi-4:14b | drop_f1 | 0.0925 | 9.25 | f1,none | 2026-04-29T04:48:28+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
-| phi-4:14b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | 2026-04-28T18:39:09+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
-| phi-4:14b | gsm8k_strict | 0.56 | 56.00000000000001 | exact_match,strict-match | 2026-04-28T18:39:09+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
-| qwen2.5-coder:14b | bbh | 0.5937037037037037 | 59.370370370370374 | exact_match,get-answer | 2026-03-16T16:23:17+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
-| qwen2.5-coder:14b | drop | 0.57 | 56.99999999999999 | f1,none | 2026-03-05T15:54:28.421925 | lm_eval | quick_triplet_l1_20260305 |
-| qwen2.5-coder:14b | drop_em | 0.28 | 28.000000000000004 | em,none | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
-| qwen2.5-coder:14b | drop_f1 | 0.4802000000000002 | 48.02000000000002 | f1,none | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
-| qwen2.5-coder:14b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-05T15:50:53.042159 | lm_eval | quick_triplet_l1_20260305 |
-| qwen2.5-coder:14b | gsm8k_flexible | 0.89 | 89.0 | exact_match,flexible-extract | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
-| qwen2.5-coder:14b | gsm8k_strict | 0.88 | 88.0 | exact_match,strict-match | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
-| qwen2.5-coder:32b | bbh | 0.4837037037037037 | 48.37037037037037 | exact_match,get-answer | 2026-03-15T22:45:25+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
-| qwen2.5-coder:32b | drop | 0.18 | 18.0 | f1,none | 2026-03-05T15:55:15.554964 | lm_eval | quick_triplet_l1_20260305 |
-| qwen2.5-coder:32b | drop_em | 0.62 | 62.0 | em,none | 2026-03-15T22:46:12+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
-| qwen2.5-coder:32b | drop_f1 | 0.7561000000000003 | 75.61000000000003 | f1,none | 2026-03-15T22:46:12+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
-| qwen2.5-coder:32b | gsm8k | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-05T15:52:07.684619 | lm_eval | quick_triplet_l1_20260305 |
-| qwen2.5-coder:32b | gsm8k_flexible | 0.92 | 92.0 | exact_match,flexible-extract | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
-| qwen2.5-coder:32b | gsm8k_strict | 0.92 | 92.0 | exact_match,strict-match | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
-| qwen2.5-coder:7b | bbh | 0.6444444444444445 | 64.44444444444444 | exact_match,get-answer | 2026-04-24T18:41:43+00:00 | bench-reasoning | smoke_coder7b_nonn_bbh_l5 |
-| qwen2.5-coder:7b | custom_json_schema_strict | 0.5 | 50.0 | schema_valid_rate | 2026-03-05T20:20:25.318139 | local_custom | local_custom_probe_v2 |
-| qwen2.5-coder:7b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_catalog_discipline_pass_rate | 0.4 | 40.0 | pass_rate | 2026-03-21T03:39:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_catalog_discipline_source_valid_rate | 0.0 | 0.0 | source_valid_rate | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_catalog_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_geographic_precision_pass_rate | 0.8 | 80.0 | pass_rate | 2026-03-21T03:39:46+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_geographic_precision_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_geographic_precision_source_valid_rate | 0.9285714285714286 | 92.85714285714286 | source_valid_rate | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_json_discipline_source_hit_rate | 0.8 | 80.0 | source_hit_rate | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_json_discipline_source_valid_rate | 0.8 | 80.0 | source_valid_rate | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_json_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_multi_source_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | 2026-03-21T03:41:39+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_multi_source_source_valid_rate | 0.9333333333333333 | 93.33333333333333 | source_valid_rate | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_multi_source_type_correct_rate | 1.0 | 100.0 | type_correct_rate | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_source_grounding_pass_rate | 0.75 | 75.0 | pass_rate | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_source_grounding_source_hit_rate | 0.8823529411764706 | 88.23529411764706 | source_hit_rate | 2026-03-21T03:42:28+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_source_grounding_source_valid_rate | 0.9411764705882353 | 94.11764705882352 | source_valid_rate | 2026-03-21T03:42:28+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_source_grounding_type_correct_rate | 0.85 | 85.0 | type_correct_rate | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_type_routing_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_type_routing_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_type_routing_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
-| qwen2.5-coder:7b | drop | 0.27 | 27.0 | f1,none | 2026-03-05T15:53:05.860807 | lm_eval | quick_triplet_l1_20260305 |
-| qwen2.5-coder:7b | drop_em | 0.4 | 40.0 | em,none | 2026-04-24T02:54:13+00:00 | bench-reasoning | patch_validation_coder7b_l5 |
-| qwen2.5-coder:7b | drop_f1 | 0.6 | 60.0 | f1,none | 2026-04-24T02:54:13+00:00 | bench-reasoning | patch_validation_coder7b_l5 |
-| qwen2.5-coder:7b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | 2026-03-05T15:48:24.680621 | lm_eval | quick_triplet_l1_20260305 |
-| qwen2.5-coder:7b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
-| qwen2.5-coder:7b | gsm8k_strict | 0.75 | 75.0 | exact_match,strict-match | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
-| qwen2.5:7b | bbh | 0.5555555555555556 |  | exact_match,get-answer | 2026-03-05T14:03:11.985279 | lm_eval | initial_matrix_20260305 |
-| qwen2.5:7b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | 2026-03-05T20:20:27.293918 | local_custom | local_custom_probe_v2 |
-| qwen2.5:7b | drop | 0.14875 |  | f1,none | 2026-03-05T13:57:56.869958 | lm_eval | initial_matrix_20260305 |
-| qwen2.5:7b | gsm8k | 0.75 |  | exact_match,flexible-extract | 2026-03-05T13:57:07.002198 | lm_eval | initial_matrix_20260305 |
-| qwen3.5:4b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | 2026-04-03T14:30:20.198505 | local_custom | individual_custom |
-| qwen3.5:4b | daedalmap_catalog_discipline_json_valid_rate | 0.6666666666666666 | 66.66666666666666 | json_valid_rate | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_catalog_discipline_no_halluc_rate | 0.7333333333333333 | 73.33333333333333 | no_halluc_rate | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_catalog_discipline_pass_rate | 0.4666666666666667 | 46.666666666666664 | pass_rate | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_catalog_discipline_type_correct_rate | 0.6666666666666666 | 66.66666666666666 | type_correct_rate | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_geographic_precision_json_valid_rate | 0.13333333333333333 | 13.333333333333334 | json_valid_rate | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_geographic_precision_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | 2026-03-21T03:03:25+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_geographic_precision_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_geographic_precision_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_geographic_precision_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_json_discipline_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_json_discipline_type_correct_rate | 0.6 | 60.0 | type_correct_rate | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_multi_source_json_valid_rate | 0.2 | 20.0 | json_valid_rate | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_multi_source_pass_rate | 0.2 | 20.0 | pass_rate | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_multi_source_type_correct_rate | 0.2 | 20.0 | type_correct_rate | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_source_grounding_json_valid_rate | 0.25 | 25.0 | json_valid_rate | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_source_grounding_pass_rate | 0.25 | 25.0 | pass_rate | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:15:38+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_source_grounding_type_correct_rate | 0.25 | 25.0 | type_correct_rate | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_type_routing_json_valid_rate | 0.45 | 45.0 | json_valid_rate | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_type_routing_pass_rate | 0.35 | 35.0 | pass_rate | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:19:58+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | daedalmap_type_routing_type_correct_rate | 0.4 | 40.0 | type_correct_rate | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
-| qwen3.5:4b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
-| qwen3.5:4b | gsm8k_strict | 0.8 | 80.0 | exact_match,strict-match | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
-| qwen3.5:9b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | 2026-03-15T06:46:17+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b_reasoning_q35_9b_nothink_v1 |
-| qwen3.5:9b | gsm8k_strict | 0.8 | 80.0 | exact_match,strict-match | 2026-03-15T06:46:17+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b_reasoning_q35_9b_nothink_v1 |
-| qwen3.5:9b-q3km | daedalmap_catalog_discipline_json_valid_rate | 0.8 | 80.0 | json_valid_rate | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_catalog_discipline_pass_rate | 0.3333333333333333 | 33.33333333333333 | pass_rate | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_catalog_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_geographic_precision_json_valid_rate | 0.06666666666666667 | 6.666666666666667 | json_valid_rate | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_geographic_precision_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_geographic_precision_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_geographic_precision_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_geographic_precision_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_json_discipline_pass_rate | 0.6 | 60.0 | pass_rate | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_json_discipline_type_correct_rate | 0.6 | 60.0 | type_correct_rate | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_multi_source_json_valid_rate | 0.06666666666666667 | 6.666666666666667 | json_valid_rate | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_multi_source_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_multi_source_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_source_grounding_json_valid_rate | 0.3 | 30.0 | json_valid_rate | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_source_grounding_pass_rate | 0.3 | 30.0 | pass_rate | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_source_grounding_type_correct_rate | 0.3 | 30.0 | type_correct_rate | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_type_routing_json_valid_rate | 0.6 | 60.0 | json_valid_rate | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | daedalmap_type_routing_type_correct_rate | 0.6 | 60.0 | type_correct_rate | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
-| qwen3.5:9b-q3km | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
-| qwen3.5:9b-q3km | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
-| qwen3.6:27b | bbh | 0.8925925925925926 | 89.25925925925927 | exact_match,get-answer | 2026-04-25T05:54:41+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
-| qwen3.6:27b | drop_em | 0.84 | 84.0 | em,none | 2026-04-25T05:55:36+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
-| qwen3.6:27b | drop_f1 | 0.8834000000000001 | 88.34 | f1,none | 2026-04-25T05:55:36+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
-| qwen3.6:35b-a3b | bbh | 0.8762962962962964 | 87.62962962962963 | exact_match,get-answer | 2026-04-25T06:40:19+00:00 | bench-reasoning | qwen36_35b_l50_bbhdrop_v2 |
-| qwen3.6:35b-a3b | drop_em | 0.78 | 78.0 | em,none | 2026-04-25T06:40:58+00:00 | bench-reasoning | qwen36_35b_l50_bbhdrop_v2 |
-| qwen3.6:35b-a3b | drop_f1 | 0.8302 | 83.02000000000001 | f1,none | 2026-04-25T06:40:58+00:00 | bench-reasoning | qwen36_35b_l50_bbhdrop_v2 |
-| qwen3:1.7b | bbh | 0.0 | 0.0 | exact_match,get-answer | 2026-03-18T18:30:08+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
-| qwen3:1.7b | daedalmap_catalog_discipline_json_valid_rate | 0.5333333333333333 | 53.333333333333336 | json_valid_rate | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_catalog_discipline_no_halluc_rate | 0.6666666666666666 | 66.66666666666666 | no_halluc_rate | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_catalog_discipline_pass_rate | 0.26666666666666666 | 26.666666666666668 | pass_rate | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_catalog_discipline_source_valid_rate | 0.5 | 50.0 | source_valid_rate | 2026-03-21T02:57:35+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_catalog_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_geographic_precision_json_valid_rate | 0.6 | 60.0 | json_valid_rate | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_geographic_precision_pass_rate | 0.5333333333333333 | 53.333333333333336 | pass_rate | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_geographic_precision_source_hit_rate | 0.8888888888888888 | 88.88888888888889 | source_hit_rate | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_geographic_precision_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T02:59:15+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_geographic_precision_type_correct_rate | 0.6 | 60.0 | type_correct_rate | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_json_discipline_json_valid_rate | 0.7333333333333333 | 73.33333333333333 | json_valid_rate | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:00:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:00:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_json_discipline_type_correct_rate | 0.6666666666666666 | 66.66666666666666 | type_correct_rate | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_multi_source_json_valid_rate | 0.06666666666666667 | 6.666666666666667 | json_valid_rate | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_multi_source_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_multi_source_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_source_grounding_json_valid_rate | 0.65 | 65.0 | json_valid_rate | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_source_grounding_pass_rate | 0.65 | 65.0 | pass_rate | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_source_grounding_type_correct_rate | 0.65 | 65.0 | type_correct_rate | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_type_routing_json_valid_rate | 0.6 | 60.0 | json_valid_rate | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_type_routing_pass_rate | 0.45 | 45.0 | pass_rate | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | 2026-03-21T03:06:21+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | daedalmap_type_routing_type_correct_rate | 0.5 | 50.0 | type_correct_rate | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
-| qwen3:1.7b | drop_em | 0.02 | 2.0 | em,none | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
-| qwen3:1.7b | drop_f1 | 0.1661 | 16.61 | f1,none | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
-| qwen3:1.7b | gsm8k_flexible | 0.46 | 46.0 | exact_match,flexible-extract | 2026-03-18T17:55:04+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
-| qwen3:1.7b | gsm8k_strict | 0.44 | 44.0 | exact_match,strict-match | 2026-03-18T17:55:04+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
-| qwen3:8b | bbh | 0.6244444444444445 | 62.44444444444445 | exact_match,get-answer | 2026-03-16T08:44:34+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
-| qwen3:8b | drop_em | 0.18 | 18.0 | em,none | 2026-03-16T08:45:40+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
-| qwen3:8b | drop_f1 | 0.3848000000000001 | 38.48000000000001 | f1,none | 2026-03-16T08:45:40+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
-| qwen3:8b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
-| qwen3:8b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
-| smollm3:3b | bbh | 0.6677777777777778 | 66.77777777777779 | exact_match,get-answer | 2026-03-18T10:07:52+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
-| smollm3:3b | custom_ambiguity_handling | 0.0 | 0.0 | score | 2026-04-28T18:06:52+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
-| smollm3:3b | custom_command_safety | 1.0 | 100.0 | score | 2026-04-28T18:06:35+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
-| smollm3:3b | custom_json_schema_strict | 0.15384615384615385 | 15.384615384615385 | score | 2026-04-28T18:06:29+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
-| smollm3:3b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | 2026-04-28T18:07:09+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
-| smollm3:3b | custom_orchestration_tradeoff | 0.5833333333333334 | 58.333333333333336 | score | 2026-04-28T18:07:02+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
-| smollm3:3b | custom_tool_plan_sequence | 0.8 | 80.0 | score | 2026-04-28T18:06:58+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
-| smollm3:3b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_catalog_discipline_no_halluc_rate | 0.3333333333333333 | 33.33333333333333 | no_halluc_rate | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | 2026-03-21T02:56:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_catalog_discipline_source_valid_rate | 0.5454545454545454 | 54.54545454545454 | source_valid_rate | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_geographic_precision_json_valid_rate | 0.9333333333333333 | 93.33333333333333 | json_valid_rate | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_geographic_precision_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_geographic_precision_source_hit_rate | 0.7857142857142857 | 78.57142857142857 | source_hit_rate | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_geographic_precision_source_valid_rate | 0.7857142857142857 | 78.57142857142857 | source_valid_rate | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_json_discipline_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_json_discipline_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_json_discipline_source_valid_rate | 0.8888888888888888 | 88.88888888888889 | source_valid_rate | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_multi_source_json_valid_rate | 0.9333333333333333 | 93.33333333333333 | json_valid_rate | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_multi_source_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_multi_source_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_multi_source_source_valid_rate | 0.7857142857142857 | 78.57142857142857 | source_valid_rate | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_multi_source_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_source_grounding_json_valid_rate | 0.95 | 95.0 | json_valid_rate | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_source_grounding_pass_rate | 0.75 | 75.0 | pass_rate | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_source_grounding_source_hit_rate | 0.7894736842105263 | 78.94736842105263 | source_hit_rate | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_source_grounding_source_valid_rate | 0.8421052631578947 | 84.21052631578947 | source_valid_rate | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_source_grounding_type_correct_rate | 0.95 | 95.0 | type_correct_rate | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_type_routing_json_valid_rate | 1.0 | 100.0 | json_valid_rate | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_type_routing_pass_rate | 0.45 | 45.0 | pass_rate | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_type_routing_source_hit_rate | 0.5 | 50.0 | source_hit_rate | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_type_routing_source_valid_rate | 0.75 | 75.0 | source_valid_rate | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | daedalmap_type_routing_type_correct_rate | 0.55 | 55.00000000000001 | type_correct_rate | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
-| smollm3:3b | drop_em | 0.19 | 19.0 | em,none | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
-| smollm3:3b | drop_f1 | 0.3302000000000001 | 33.02000000000001 | f1,none | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
-| smollm3:3b | gsm8k_flexible | 0.79 | 79.0 | exact_match,flexible-extract | 2026-03-18T05:59:56+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
-| smollm3:3b | gsm8k_strict | 0.79 | 79.0 | exact_match,strict-match | 2026-03-18T05:59:56+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| Model | Test ID | Score | Score % | Metric | Class | N | Format | Run At | Harness | Suite |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-17T01:08:31+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | drop_f1 | 0.082 | 8.200000000000001 | f1,none | legacy |  | unknown | 2026-03-17T01:08:31+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-17T01:06:22+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-17T01:06:22+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf_reasoning_deepseek14b_v6_workerprompt |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | legacy |  | unknown | 2026-03-12T12:04:41+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-12T12:08:11+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | legacy |  | unknown | 2026-03-12T12:08:11+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | gsm8k_flexible | 0.38 | 38.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T09:44:14+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf | gsm8k_strict | 0.3 | 30.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T09:44:14+00:00 | bench-reasoning | bench-reasoning_DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11439 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | bbh | 0.5888888888888889 | 58.88888888888889 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T06:00:00+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | drop_em | 0.2 | 20.0 | em,none | legacy |  | unknown | 2026-03-17T06:00:31+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | drop_f1 | 0.5269999999999999 | 52.69999999999999 | f1,none | legacy |  | unknown | 2026-03-17T06:00:31+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-17T05:34:29+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Llama-3.2-3B-Instruct-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-17T05:34:29+00:00 | bench-reasoning | bench-reasoning_Llama-3.2-3B-Instruct-Q4_K_M.gguf_reasoning_llama32_3b_l10_promptv2 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_base | 0.481549815498155 | 48.1549815498155 | pass_rate_542_base | legacy |  | unknown | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | bench_code_total_plus | 0.4077490774907749 | 40.774907749077485 | pass_rate_542_plus | legacy |  | unknown | 2026-03-11T19:23:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | legacy |  | unknown | 2026-03-11T06:47:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | gsm8k_flexible | 0.48 | 48.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T09:38:26+00:00 | bench-reasoning | bench-reasoning_Mistral-7B-Instruct-v0.3-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11437 |
+| Mistral-7B-Instruct-v0.3-Q4_K_M.gguf | gsm8k_strict | 0.48 | 48.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T09:38:26+00:00 | bench-reasoning | bench-reasoning_Mistral-7B-Instruct-v0.3-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11437 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | bbh | 0.5777777777777777 | 57.77777777777777 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T06:05:07+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | drop_em | 0.1 | 10.0 | em,none | legacy |  | unknown | 2026-03-17T06:05:39+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | drop_f1 | 0.275 | 27.500000000000004 | f1,none | legacy |  | unknown | 2026-03-17T06:05:39+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-17T05:34:50+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Phi-4-mini-instruct-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-17T05:34:50+00:00 | bench-reasoning | bench-reasoning_Phi-4-mini-instruct-Q4_K_M.gguf_reasoning_phi4mini_3p8b_l10_promptv2 |
+| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | custom_worker_suite_total | 0.7341772151898734 | 73.41772151898735 | pass_rate_79 | legacy |  | unknown | 2026-03-11T06:44:32+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T09:32:56+00:00 | bench-reasoning | bench-reasoning_Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11438 |
+| Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf | gsm8k_strict | 0.75 | 75.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T09:32:56+00:00 | bench-reasoning | bench-reasoning_Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11438 |
+| Qwen3-1.7B-Q4_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T05:38:22+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-17T05:39:01+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | drop_f1 | 0.36100000000000004 | 36.1 | f1,none | legacy |  | unknown | 2026-03-17T05:39:01+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | gsm8k_flexible | 0.5 | 50.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-17T05:26:06+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3-1.7B-Q4_K_M.gguf | gsm8k_strict | 0.5 | 50.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-17T05:26:06+00:00 | bench-reasoning | bench-reasoning_Qwen3-1.7B-Q4_K_M.gguf_reasoning_qwen3_1p7b_l10_promptv2 |
+| Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_base | 0.5719557195571956 | 57.19557195571956 | pass_rate_542_base | legacy |  | unknown | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Qwen3.5-4B-Q4_K_M.gguf | bench_code_total_plus | 0.5018450184501845 | 50.184501845018445 | pass_rate_542_plus | legacy |  | unknown | 2026-03-11T21:41:09+00:00 | bench-code | code_full_20260310_202111_partial2 |
+| Qwen3.5-4B-Q4_K_M.gguf | custom_worker_suite_total | 0.6835443037974683 | 68.35443037974683 | pass_rate_79 | legacy |  | unknown | 2026-03-11T07:09:52+00:00 | bench-pipeline | recovery_ckpt_hot5_20260310_partial3 |
+| Qwen3.5-9B-Q3_K_M.gguf | bbh | 0.0 | 0.0 | exact_match,get-answer | legacy |  | unknown | 2026-03-12T12:10:58+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| Qwen3.5-9B-Q3_K_M.gguf | custom_worker_suite_total | 0.08860759493670886 | 8.860759493670885 | pass_rate_79 | legacy |  | unknown | 2026-03-11T01:46:21+00:00 | bench-pipeline | ab_prompt_B_20260310 |
+| Qwen3.5-9B-Q3_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-12T12:13:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| Qwen3.5-9B-Q3_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | legacy |  | unknown | 2026-03-12T12:13:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| Qwen3.5-9B-Q3_K_M.gguf | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T09:56:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| Qwen3.5-9B-Q3_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T09:56:46+00:00 | bench-reasoning | bench-reasoning_Qwen3.5-9B-Q3_K_M.gguf_rr_l100_ctx8k_parallel_reasoning_l100_ctx8k_20260312_021803_p11435 |
+| SmolLM3-3B-Q4_K_M.gguf | bbh | 0.6222222222222222 | 62.22222222222222 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T06:00:32+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-17T06:01:03+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | drop_f1 | 0.23500000000000001 | 23.5 | f1,none | legacy |  | unknown | 2026-03-17T06:01:03+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-17T05:34:31+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| SmolLM3-3B-Q4_K_M.gguf | gsm8k_strict | 0.6 | 60.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-17T05:34:31+00:00 | bench-reasoning | bench-reasoning_SmolLM3-3B-Q4_K_M.gguf_reasoning_smollm3_3b_l10_promptv2 |
+| deepseek-r1:14b | bbh | 0.5851851851851851 | 58.51851851851851 | exact_match,get-answer | legacy |  | unknown | 2026-03-16T21:59:53+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-16T22:00:28+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | drop_f1 | 0.0 | 0.0 | f1,none | legacy |  | unknown | 2026-03-16T22:00:28+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | gsm8k_flexible | 0.2 | 20.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-16T20:14:15+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:14b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-16T20:14:15+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_14b_reasoning_dsr1_14b_thinkstrip_smoke_v2 |
+| deepseek-r1:32b | bbh | 0.0 | 0.0 | exact_match,get-answer | legacy |  | unknown | 2026-03-15T02:11:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-15T02:12:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | drop_f1 | 0.0 | 0.0 | f1,none | legacy |  | unknown | 2026-03-15T02:12:49+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-15T02:07:01+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:32b | gsm8k_strict | 0.2 | 20.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-15T02:07:01+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_32b_reasoning_r1_32b_smoke_v1 |
+| deepseek-r1:7b | daedalmap_catalog_discipline_json_valid_rate | 0.4666666666666667 | 46.666666666666664 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_catalog_discipline_no_halluc_rate | 0.6666666666666666 | 66.66666666666666 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_catalog_discipline_pass_rate | 0.13333333333333333 | 13.333333333333334 | pass_rate | legacy |  | unknown | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_catalog_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:43:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_geographic_precision_json_valid_rate | 0.4 | 40.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:47:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_geographic_precision_pass_rate | 0.26666666666666666 | 26.666666666666668 | pass_rate | legacy |  | unknown | 2026-03-21T03:47:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_geographic_precision_source_hit_rate | 0.8 | 80.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_geographic_precision_source_valid_rate | 0.8 | 80.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_geographic_precision_type_correct_rate | 0.3333333333333333 | 33.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:47:49+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_json_discipline_json_valid_rate | 0.4666666666666667 | 46.666666666666664 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:51:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_json_discipline_pass_rate | 0.3333333333333333 | 33.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T03:51:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_json_discipline_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_json_discipline_source_valid_rate | 0.6666666666666666 | 66.66666666666666 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:51:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_multi_source_json_valid_rate | 0.2 | 20.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_multi_source_pass_rate | 0.13333333333333333 | 13.333333333333334 | pass_rate | legacy |  | unknown | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_multi_source_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:56:03+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_multi_source_source_valid_rate | 0.6666666666666666 | 66.66666666666666 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:56:03+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_multi_source_type_correct_rate | 0.2 | 20.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:56:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_source_grounding_json_valid_rate | 0.35 | 35.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_source_grounding_pass_rate | 0.3 | 30.0 | pass_rate | legacy |  | unknown | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_source_grounding_type_correct_rate | 0.3 | 30.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T04:01:51+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_type_routing_json_valid_rate | 0.5 | 50.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_type_routing_pass_rate | 0.35 | 35.0 | pass_rate | legacy |  | unknown | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | daedalmap_type_routing_type_correct_rate | 0.35 | 35.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
+| deepseek-r1:7b | gsm8k_flexible | 0.09 | 9.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
+| deepseek-r1:7b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
+| gemma-3-4b-it-Q4_K_M.gguf | bbh | 0.5481481481481482 | 54.81481481481482 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T02:37:46+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
+| gemma-3-4b-it-Q4_K_M.gguf | drop_em | 0.2 | 20.0 | em,none | legacy |  | unknown | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
+| gemma-3-4b-it-Q4_K_M.gguf | drop_f1 | 0.266 | 26.6 | f1,none | legacy |  | unknown | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
+| gemma-3-4b-it-Q4_K_M.gguf | gsm8k_flexible | 0.7 | 70.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-17T05:34:54+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3_4b_l10_promptv2 |
+| gemma-3-4b-it-Q4_K_M.gguf | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-17T05:34:54+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3_4b_l10_promptv2 |
+| gemma-3:12b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
+| gemma-3:12b | gsm8k_strict | 0.6 | 60.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-14T23:43:27+00:00 | bench-reasoning | bench-reasoning_gemma-3_12b_reasoning_gemma3_smoke_v1 |
+| gemma-3:4b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_catalog_discipline_source_valid_rate | 0.75 | 75.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:57:33+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_geographic_precision_json_valid_rate | 0.9333333333333333 | 93.33333333333333 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_geographic_precision_pass_rate | 0.8666666666666667 | 86.66666666666667 | pass_rate | legacy |  | unknown | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_geographic_precision_source_hit_rate | 0.9285714285714286 | 92.85714285714286 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_geographic_precision_source_valid_rate | 0.9285714285714286 | 92.85714285714286 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:58:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_json_discipline_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:58:48+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_multi_source_json_valid_rate | 0.8 | 80.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:54+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_multi_source_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T02:59:54+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_multi_source_source_valid_rate | 0.9166666666666666 | 91.66666666666666 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_multi_source_type_correct_rate | 0.8 | 80.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:59:55+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_pass_rate | 0.9 | 90.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_source_hit_rate | 0.9 | 90.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_source_valid_rate | 0.95 | 95.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:00:42+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_type_routing_json_valid_rate | 0.9 | 90.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | legacy |  | unknown | 2026-03-21T03:01:39+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_type_routing_source_valid_rate | 0.8571428571428571 | 85.71428571428571 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-3:4b | daedalmap_type_routing_type_correct_rate | 0.6 | 60.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:01:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_gemma-3_4b |
+| gemma-4:12b | bbh | 0.8066666666666666 | 80.66666666666666 | exact_match,get-answer | legacy |  | unknown | 2026-06-13T08:00:23+00:00 | bench-reasoning | gemma4_12b_brain_l50_v1 |
+| gemma-4:12b | drop_em | 0.74 | 74.0 | em,none | legacy |  | unknown | 2026-06-13T08:01:01+00:00 | bench-reasoning | gemma4_12b_brain_l50_v1 |
+| gemma-4:12b | drop_f1 | 0.7892 | 78.92 | f1,none | legacy |  | unknown | 2026-06-13T08:01:01+00:00 | bench-reasoning | gemma4_12b_brain_l50_v1 |
+| gemma-4:12b | gsm8k_flexible | 0.2 | 20.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-06T20:11:17+00:00 | bench-reasoning | gemma4_12b_smoke_l5 |
+| gemma-4:12b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-06T20:11:17+00:00 | bench-reasoning | gemma4_12b_smoke_l5 |
+| gemma-4:26b-a4b | bbh | 0.8407407407407408 | 84.07407407407408 | exact_match,get-answer | legacy |  | unknown | 2026-06-08T08:00:22+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | drop_em | 0.73 | 73.0 | em,none | legacy |  | unknown | 2026-06-08T08:01:04+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | drop_f1 | 0.7854000000000001 | 78.54 | f1,none | legacy |  | unknown | 2026-06-08T08:01:04+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-08T06:32:21+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:26b-a4b | gsm8k_strict | 0.95 | 95.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-08T06:32:21+00:00 | bench-reasoning | campaign_26b_reasoning_20260607_232659 |
+| gemma-4:31b | bbh | 0.8414814814814815 | 84.14814814814815 | exact_match,get-answer | legacy |  | unknown | 2026-06-08T09:32:52+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | drop_em | 0.74 | 74.0 | em,none | legacy |  | unknown | 2026-06-08T09:33:35+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | drop_f1 | 0.7927 | 79.27 | f1,none | legacy |  | unknown | 2026-06-08T09:33:35+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-08T08:04:45+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:31b | gsm8k_strict | 0.94 | 94.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-08T08:04:45+00:00 | bench-reasoning | campaign_31b_reasoning_20260607_232659 |
+| gemma-4:e2b | bbh | 0.14074074074074075 | 14.074074074074074 | exact_match,get-answer | legacy |  | unknown | 2026-06-08T10:25:07+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | drop_em | 0.04 | 4.0 | em,none | legacy |  | unknown | 2026-06-08T10:31:01+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | drop_f1 | 0.0508 | 5.08 | f1,none | legacy |  | unknown | 2026-06-08T10:31:01+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | gsm8k_flexible | 0.74 | 74.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e2b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
+| gemma-4:e4b | bbh | 0.09259259259259259 | 9.25925925925926 | exact_match,get-answer | legacy |  | unknown | 2026-06-10T06:27:45+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | drop_em | 0.52 | 52.0 | em,none | legacy |  | unknown | 2026-06-10T06:31:12+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | drop_f1 | 0.5348 | 53.480000000000004 | f1,none | legacy |  | unknown | 2026-06-10T06:31:12+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | gsm8k_flexible | 0.64 | 64.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-08T21:31:49+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gemma-4:e4b | gsm8k_strict | 0.16 | 16.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-08T21:31:48+00:00 | bench-reasoning | campaign_e4b_reasoning_20260608_141848 |
+| gpt-oss:20b | bbh | 0.6448148148148148 | 64.48148148148148 | exact_match,get-answer | legacy |  | unknown | 2026-06-13T06:31:01+00:00 | bench-reasoning | gptoss_l100_v1 |
+| gpt-oss:20b | drop_em | 0.18 | 18.0 | em,none | legacy |  | unknown | 2026-06-13T06:33:24+00:00 | bench-reasoning | gptoss_l100_v1 |
+| gpt-oss:20b | drop_f1 | 0.3510000000000001 | 35.10000000000001 | f1,none | legacy |  | unknown | 2026-06-13T06:33:24+00:00 | bench-reasoning | gptoss_l100_v1 |
+| gpt-oss:20b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-13T05:14:25+00:00 | bench-reasoning | gptoss_l100_v1 |
+| gpt-oss:20b | gsm8k_strict | 0.15 | 15.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-13T05:14:24+00:00 | bench-reasoning | gptoss_l100_v1 |
+| llama3.2:3b | bbh | 0.5896296296296296 | 58.96296296296296 | exact_match,get-answer | legacy |  | unknown | 2026-03-18T10:01:42+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_catalog_discipline_source_valid_rate | 0.6666666666666666 | 66.66666666666666 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:57:59+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_geographic_precision_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_geographic_precision_source_hit_rate | 0.9333333333333333 | 93.33333333333333 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_geographic_precision_source_valid_rate | 0.9333333333333333 | 93.33333333333333 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_geographic_precision_type_correct_rate | 1.0 | 100.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:58:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_pass_rate | 0.8 | 80.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:58:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_multi_source_json_valid_rate | 0.8 | 80.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_multi_source_pass_rate | 0.8 | 80.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:59:17+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_multi_source_type_correct_rate | 0.8 | 80.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:59:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_json_valid_rate | 0.95 | 95.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_pass_rate | 0.85 | 85.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_source_hit_rate | 0.8947368421052632 | 89.47368421052632 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_source_valid_rate | 0.9473684210526315 | 94.73684210526315 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_source_grounding_type_correct_rate | 0.95 | 95.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:59:44+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_type_routing_json_valid_rate | 0.9 | 90.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | legacy |  | unknown | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_type_routing_source_hit_rate | 0.75 | 75.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_type_routing_source_valid_rate | 0.875 | 87.5 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | daedalmap_type_routing_type_correct_rate | 0.65 | 65.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:00:16+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_llama3.2_3b |
+| llama3.2:3b | drop_em | 0.28 | 28.000000000000004 | em,none | legacy |  | unknown | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | drop_f1 | 0.43260000000000004 | 43.260000000000005 | f1,none | legacy |  | unknown | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | gsm8k_flexible | 0.72 | 72.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| llama3.2:3b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| mistral:7b-instruct | custom_ambiguity_handling | 1.0 | 100.0 | clarification_rate | legacy |  | unknown | 2026-03-05T20:20:03.464691 | local_custom | local_custom_probe_v2 |
+| mistral:7b-instruct | daedalmap_catalog_discipline_json_valid_rate | 0.8666666666666667 | 86.66666666666667 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:41:34+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:41:35+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:41:34+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_catalog_discipline_source_valid_rate | 0.7142857142857143 | 71.42857142857143 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:41:35+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:41:35+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_geographic_precision_pass_rate | 0.8666666666666667 | 86.66666666666667 | pass_rate | legacy |  | unknown | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_geographic_precision_source_hit_rate | 0.8666666666666667 | 86.66666666666667 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_geographic_precision_source_valid_rate | 0.8666666666666667 | 86.66666666666667 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_geographic_precision_type_correct_rate | 1.0 | 100.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:42:26+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | legacy |  | unknown | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_json_discipline_source_valid_rate | 0.875 | 87.5 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_json_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:43:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_multi_source_pass_rate | 0.8 | 80.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_multi_source_source_hit_rate | 0.9285714285714286 | 92.85714285714286 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_multi_source_source_valid_rate | 0.8571428571428571 | 85.71428571428571 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_multi_source_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:44:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_source_grounding_pass_rate | 0.95 | 95.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_source_grounding_source_hit_rate | 0.95 | 95.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_source_grounding_source_valid_rate | 0.95 | 95.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_source_grounding_type_correct_rate | 1.0 | 100.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:44:59+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_type_routing_json_valid_rate | 0.95 | 95.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | legacy |  | unknown | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_type_routing_source_hit_rate | 0.5 | 50.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_type_routing_source_valid_rate | 0.8333333333333334 | 83.33333333333334 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
+| mistral:7b-instruct | gsm8k_flexible | 0.48 | 48.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
+| mistral:7b-instruct | gsm8k_strict | 0.48 | 48.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
+| phi-4-Q4_K_M.gguf | bbh | 0.1259259259259259 | 12.592592592592592 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T01:43:41+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | legacy |  | unknown | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | gsm8k_flexible | 1.0 | 100.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-Q4_K_M.gguf | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-17T01:05:18+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
+| phi-4-mini-reasoning:3.8b | gsm8k_flexible | 0.1 | 10.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-13T03:57:01+00:00 | bench-reasoning | phi4mr_reasoning_v1 |
+| phi-4-mini-reasoning:3.8b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-13T03:57:01+00:00 | bench-reasoning | phi4mr_reasoning_v1 |
+| phi-4-mini:3.8b | bbh | 0.5722222222222222 | 57.22222222222222 | exact_match,get-answer | legacy |  | unknown | 2026-03-18T22:55:05+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_json_discipline_pass_rate | 0.4 | 40.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:48:42+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_json_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:48:43+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_json_valid_rate | 0.8 | 80.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_pass_rate | 0.6 | 60.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_source_hit_rate | 0.75 | 75.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_source_valid_rate | 0.75 | 75.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | daedalmap_source_grounding_type_correct_rate | 0.8 | 80.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:48:53+00:00 | bench-daedalmap | daedalmap_small_models_smoke_v7_phi-4-mini_3.8b |
+| phi-4-mini:3.8b | drop_em | 0.11 | 11.0 | em,none | legacy |  | unknown | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | drop_f1 | 0.28470000000000006 | 28.470000000000006 | f1,none | legacy |  | unknown | 2026-03-18T22:56:14+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | gsm8k_flexible | 0.69 | 69.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-18T06:02:21+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4-mini:3.8b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-18T06:02:21+00:00 | bench-reasoning | bench-reasoning_phi-4-mini_3.8b_small_phi4mini_reasoning_l100_v1 |
+| phi-4:14b | bbh | 0.577037037037037 | 57.7037037037037 | exact_match,get-answer | legacy |  | unknown | 2026-04-29T04:46:26+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
+| phi-4:14b | drop_em | 0.02 | 2.0 | em,none | legacy |  | unknown | 2026-04-29T04:48:28+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
+| phi-4:14b | drop_f1 | 0.0925 | 9.25 | f1,none | legacy |  | unknown | 2026-04-29T04:48:28+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
+| phi-4:14b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-04-28T18:39:09+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
+| phi-4:14b | gsm8k_strict | 0.56 | 56.00000000000001 | exact_match,strict-match | legacy |  | unknown | 2026-04-28T18:39:09+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
+| qwen2.5-coder:14b | bbh | 0.5937037037037037 | 59.370370370370374 | exact_match,get-answer | legacy |  | unknown | 2026-03-16T16:23:17+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | drop | 0.57 | 56.99999999999999 | f1,none | legacy |  | unknown | 2026-03-05T15:54:28.421925 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:14b | drop_em | 0.28 | 28.000000000000004 | em,none | legacy |  | unknown | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | drop_f1 | 0.4802000000000002 | 48.02000000000002 | f1,none | legacy |  | unknown | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T15:50:53.042159 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:14b | gsm8k_flexible | 0.89 | 89.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | gsm8k_strict | 0.88 | 88.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:32b | bbh | 0.4837037037037037 | 48.37037037037037 | exact_match,get-answer | legacy |  | unknown | 2026-03-15T22:45:25+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:32b | drop | 0.18 | 18.0 | f1,none | legacy |  | unknown | 2026-03-05T15:55:15.554964 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:32b | drop_em | 0.62 | 62.0 | em,none | legacy |  | unknown | 2026-03-15T22:46:12+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:32b | drop_f1 | 0.7561000000000003 | 75.61000000000003 | f1,none | legacy |  | unknown | 2026-03-15T22:46:12+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:32b | gsm8k | 0.0 | 0.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T15:52:07.684619 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:32b | gsm8k_flexible | 0.92 | 92.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:32b | gsm8k_strict | 0.92 | 92.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
+| qwen2.5-coder:7b | bbh | 0.6444444444444445 | 64.44444444444444 | exact_match,get-answer | legacy |  | unknown | 2026-04-24T18:41:43+00:00 | bench-reasoning | smoke_coder7b_nonn_bbh_l5 |
+| qwen2.5-coder:7b | custom_json_schema_strict | 0.5 | 50.0 | schema_valid_rate | legacy |  | unknown | 2026-03-05T20:20:25.318139 | local_custom | local_custom_probe_v2 |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_pass_rate | 0.4 | 40.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:39:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_source_valid_rate | 0.0 | 0.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_catalog_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:39:06+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_pass_rate | 0.8 | 80.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:39:46+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_source_valid_rate | 0.9285714285714286 | 92.85714285714286 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:39:47+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | legacy |  | unknown | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_json_discipline_source_hit_rate | 0.8 | 80.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_json_discipline_source_valid_rate | 0.8 | 80.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_json_discipline_type_correct_rate | 0.7333333333333333 | 73.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:40:19+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_multi_source_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_multi_source_pass_rate | 0.9333333333333333 | 93.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T03:41:39+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_multi_source_source_valid_rate | 0.9333333333333333 | 93.33333333333333 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_multi_source_type_correct_rate | 1.0 | 100.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:41:40+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_source_grounding_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_source_grounding_pass_rate | 0.75 | 75.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_source_grounding_source_hit_rate | 0.8823529411764706 | 88.23529411764706 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:42:28+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_source_grounding_source_valid_rate | 0.9411764705882353 | 94.11764705882352 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:42:28+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_source_grounding_type_correct_rate | 0.85 | 85.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:42:27+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_type_routing_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_type_routing_pass_rate | 0.6 | 60.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_type_routing_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | drop | 0.27 | 27.0 | f1,none | legacy |  | unknown | 2026-03-05T15:53:05.860807 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:7b | drop_em | 0.4 | 40.0 | em,none | legacy |  | unknown | 2026-04-24T02:54:13+00:00 | bench-reasoning | patch_validation_coder7b_l5 |
+| qwen2.5-coder:7b | drop_f1 | 0.6 | 60.0 | f1,none | legacy |  | unknown | 2026-04-24T02:54:13+00:00 | bench-reasoning | patch_validation_coder7b_l5 |
+| qwen2.5-coder:7b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T15:48:24.680621 | lm_eval | quick_triplet_l1_20260305 |
+| qwen2.5-coder:7b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
+| qwen2.5-coder:7b | gsm8k_strict | 0.75 | 75.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
+| qwen2.5:7b | bbh | 0.5555555555555556 |  | exact_match,get-answer | legacy |  | unknown | 2026-03-05T14:03:11.985279 | lm_eval | initial_matrix_20260305 |
+| qwen2.5:7b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | legacy |  | unknown | 2026-03-05T20:20:27.293918 | local_custom | local_custom_probe_v2 |
+| qwen2.5:7b | drop | 0.14875 |  | f1,none | legacy |  | unknown | 2026-03-05T13:57:56.869958 | lm_eval | initial_matrix_20260305 |
+| qwen2.5:7b | gsm8k | 0.75 |  | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T13:57:07.002198 | lm_eval | initial_matrix_20260305 |
+| qwen3.5:4b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | legacy |  | unknown | 2026-04-03T14:30:20.198505 | local_custom | individual_custom |
+| qwen3.5:4b | daedalmap_catalog_discipline_json_valid_rate | 0.6666666666666666 | 66.66666666666666 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_catalog_discipline_no_halluc_rate | 0.7333333333333333 | 73.33333333333333 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_catalog_discipline_pass_rate | 0.4666666666666667 | 46.666666666666664 | pass_rate | legacy |  | unknown | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_catalog_discipline_type_correct_rate | 0.6666666666666666 | 66.66666666666666 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_geographic_precision_json_valid_rate | 0.13333333333333333 | 13.333333333333334 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_geographic_precision_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | legacy |  | unknown | 2026-03-21T03:03:25+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_geographic_precision_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_geographic_precision_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_geographic_precision_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:03:26+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_pass_rate | 0.6 | 60.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_json_discipline_type_correct_rate | 0.6 | 60.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:06:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_multi_source_json_valid_rate | 0.2 | 20.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_multi_source_pass_rate | 0.2 | 20.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_multi_source_type_correct_rate | 0.2 | 20.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:10:30+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_json_valid_rate | 0.25 | 25.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_pass_rate | 0.25 | 25.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:15:38+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_source_grounding_type_correct_rate | 0.25 | 25.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:15:37+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_type_routing_json_valid_rate | 0.45 | 45.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_type_routing_pass_rate | 0.35 | 35.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:19:58+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | daedalmap_type_routing_type_correct_rate | 0.4 | 40.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:19:57+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
+| qwen3.5:4b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
+| qwen3.5:4b | gsm8k_strict | 0.8 | 80.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-15T06:39:01+00:00 | bench-reasoning | bench-reasoning_qwen3.5_4b_reasoning_q35_4b_nothink_v1 |
+| qwen3.5:9b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-15T06:46:17+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b_reasoning_q35_9b_nothink_v1 |
+| qwen3.5:9b | gsm8k_strict | 0.8 | 80.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-15T06:46:17+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b_reasoning_q35_9b_nothink_v1 |
+| qwen3.5:9b-q3km | daedalmap_catalog_discipline_json_valid_rate | 0.8 | 80.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_catalog_discipline_pass_rate | 0.3333333333333333 | 33.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_catalog_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:47:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_geographic_precision_json_valid_rate | 0.06666666666666667 | 6.666666666666667 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_geographic_precision_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | legacy |  | unknown | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_geographic_precision_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_geographic_precision_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_geographic_precision_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:53:55+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_json_discipline_json_valid_rate | 0.6 | 60.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_json_discipline_pass_rate | 0.6 | 60.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_json_discipline_type_correct_rate | 0.6 | 60.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:59:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_multi_source_json_valid_rate | 0.06666666666666667 | 6.666666666666667 | json_valid_rate | legacy |  | unknown | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_multi_source_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | legacy |  | unknown | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_multi_source_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | legacy |  | unknown | 2026-03-21T04:06:05+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_source_grounding_json_valid_rate | 0.3 | 30.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_source_grounding_pass_rate | 0.3 | 30.0 | pass_rate | legacy |  | unknown | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_source_grounding_type_correct_rate | 0.3 | 30.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T04:14:48+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_type_routing_json_valid_rate | 0.6 | 60.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_type_routing_pass_rate | 0.55 | 55.00000000000001 | pass_rate | legacy |  | unknown | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | daedalmap_type_routing_type_correct_rate | 0.6 | 60.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T04:22:00+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen3.5_9b-q3km |
+| qwen3.5:9b-q3km | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
+| qwen3.5:9b-q3km | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
+| qwen3.6:27b | bbh | 0.8925925925925926 | 89.25925925925927 | exact_match,get-answer | legacy |  | unknown | 2026-04-25T05:54:41+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
+| qwen3.6:27b | drop_em | 0.84 | 84.0 | em,none | legacy |  | unknown | 2026-04-25T05:55:36+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
+| qwen3.6:27b | drop_f1 | 0.8834000000000001 | 88.34 | f1,none | legacy |  | unknown | 2026-04-25T05:55:36+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
+| qwen3.6:35b-a3b | bbh | 0.8762962962962964 | 87.62962962962963 | exact_match,get-answer | legacy |  | unknown | 2026-04-25T06:40:19+00:00 | bench-reasoning | qwen36_35b_l50_bbhdrop_v2 |
+| qwen3.6:35b-a3b | drop_em | 0.78 | 78.0 | em,none | legacy |  | unknown | 2026-04-25T06:40:58+00:00 | bench-reasoning | qwen36_35b_l50_bbhdrop_v2 |
+| qwen3.6:35b-a3b | drop_f1 | 0.8302 | 83.02000000000001 | f1,none | legacy |  | unknown | 2026-04-25T06:40:58+00:00 | bench-reasoning | qwen36_35b_l50_bbhdrop_v2 |
+| qwen3:1.7b | bbh | 0.0 | 0.0 | exact_match,get-answer | legacy |  | unknown | 2026-03-18T18:30:08+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | daedalmap_catalog_discipline_json_valid_rate | 0.5333333333333333 | 53.333333333333336 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_catalog_discipline_no_halluc_rate | 0.6666666666666666 | 66.66666666666666 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_catalog_discipline_pass_rate | 0.26666666666666666 | 26.666666666666668 | pass_rate | legacy |  | unknown | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_catalog_discipline_source_valid_rate | 0.5 | 50.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:57:35+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_catalog_discipline_type_correct_rate | 0.4 | 40.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:57:34+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_geographic_precision_json_valid_rate | 0.6 | 60.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_geographic_precision_pass_rate | 0.5333333333333333 | 53.333333333333336 | pass_rate | legacy |  | unknown | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_geographic_precision_source_hit_rate | 0.8888888888888888 | 88.88888888888889 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_geographic_precision_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:59:15+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_geographic_precision_type_correct_rate | 0.6 | 60.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:59:14+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_json_valid_rate | 0.7333333333333333 | 73.33333333333333 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_pass_rate | 0.6666666666666666 | 66.66666666666666 | pass_rate | legacy |  | unknown | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:00:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:00:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_json_discipline_type_correct_rate | 0.6666666666666666 | 66.66666666666666 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:00:31+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_multi_source_json_valid_rate | 0.06666666666666667 | 6.666666666666667 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_multi_source_pass_rate | 0.06666666666666667 | 6.666666666666667 | pass_rate | legacy |  | unknown | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_multi_source_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_multi_source_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_multi_source_type_correct_rate | 0.06666666666666667 | 6.666666666666667 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:02:23+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_json_valid_rate | 0.65 | 65.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_pass_rate | 0.65 | 65.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_source_grounding_type_correct_rate | 0.65 | 65.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:04:32+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_type_routing_json_valid_rate | 0.6 | 60.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_type_routing_pass_rate | 0.45 | 45.0 | pass_rate | legacy |  | unknown | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_type_routing_source_hit_rate | 1.0 | 100.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:06:21+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | daedalmap_type_routing_type_correct_rate | 0.5 | 50.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:06:20+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3_1.7b |
+| qwen3:1.7b | drop_em | 0.02 | 2.0 | em,none | legacy |  | unknown | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | drop_f1 | 0.1661 | 16.61 | f1,none | legacy |  | unknown | 2026-03-18T18:31:24+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | gsm8k_flexible | 0.46 | 46.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-18T17:55:04+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:1.7b | gsm8k_strict | 0.44 | 44.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-18T17:55:04+00:00 | bench-reasoning | bench-reasoning_qwen3_1.7b_small_qwen3_1p7b_reasoning_l100_v1 |
+| qwen3:8b | bbh | 0.6244444444444445 | 62.44444444444445 | exact_match,get-answer | legacy |  | unknown | 2026-03-16T08:44:34+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | drop_em | 0.18 | 18.0 | em,none | legacy |  | unknown | 2026-03-16T08:45:40+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | drop_f1 | 0.3848000000000001 | 38.48000000000001 | f1,none | legacy |  | unknown | 2026-03-16T08:45:40+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| qwen3:8b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-15T22:40:05+00:00 | bench-reasoning | bench-reasoning_qwen3_8b_reasoning_qwen3_8b_nothink_l50_v1 |
+| smollm3:3b | bbh | 0.6677777777777778 | 66.77777777777779 | exact_match,get-answer | legacy |  | unknown | 2026-03-18T10:07:52+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | custom_ambiguity_handling | 0.0 | 0.0 | score | legacy |  | unknown | 2026-04-28T18:06:52+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
+| smollm3:3b | custom_command_safety | 1.0 | 100.0 | score | legacy |  | unknown | 2026-04-28T18:06:35+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
+| smollm3:3b | custom_json_schema_strict | 0.15384615384615385 | 15.384615384615385 | score | legacy |  | unknown | 2026-04-28T18:06:29+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
+| smollm3:3b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | legacy |  | unknown | 2026-04-28T18:07:09+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
+| smollm3:3b | custom_orchestration_tradeoff | 0.5833333333333334 | 58.333333333333336 | score | legacy |  | unknown | 2026-04-28T18:07:02+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
+| smollm3:3b | custom_tool_plan_sequence | 0.8 | 80.0 | score | legacy |  | unknown | 2026-04-28T18:06:58+00:00 | bench-pipeline | smollm3_3b_pipeline_v2_rerun |
+| smollm3:3b | daedalmap_catalog_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_catalog_discipline_no_halluc_rate | 0.3333333333333333 | 33.33333333333333 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_catalog_discipline_pass_rate | 0.0 | 0.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:56:40+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_catalog_discipline_source_valid_rate | 0.5454545454545454 | 54.54545454545454 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_catalog_discipline_type_correct_rate | 0.0 | 0.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:56:41+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_geographic_precision_json_valid_rate | 0.9333333333333333 | 93.33333333333333 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_geographic_precision_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_geographic_precision_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_geographic_precision_source_hit_rate | 0.7857142857142857 | 78.57142857142857 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_geographic_precision_source_valid_rate | 0.7857142857142857 | 78.57142857142857 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_geographic_precision_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:57:22+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_source_valid_rate | 0.8888888888888888 | 88.88888888888889 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_json_discipline_type_correct_rate | 0.8 | 80.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:57:43+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_multi_source_json_valid_rate | 0.9333333333333333 | 93.33333333333333 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_multi_source_no_halluc_rate | 1.0 | 100.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_multi_source_pass_rate | 0.7333333333333333 | 73.33333333333333 | pass_rate | legacy |  | unknown | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_multi_source_source_hit_rate | 0.8571428571428571 | 85.71428571428571 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_multi_source_source_valid_rate | 0.7857142857142857 | 78.57142857142857 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_multi_source_type_correct_rate | 0.9333333333333333 | 93.33333333333333 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:58:29+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_json_valid_rate | 0.95 | 95.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_pass_rate | 0.75 | 75.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_source_hit_rate | 0.7894736842105263 | 78.94736842105263 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_source_valid_rate | 0.8421052631578947 | 84.21052631578947 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_source_grounding_type_correct_rate | 0.95 | 95.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:59:03+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_type_routing_json_valid_rate | 1.0 | 100.0 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_type_routing_no_halluc_rate | 0.95 | 95.0 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_type_routing_pass_rate | 0.45 | 45.0 | pass_rate | legacy |  | unknown | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_type_routing_source_hit_rate | 0.5 | 50.0 | source_hit_rate | legacy |  | unknown | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_type_routing_source_valid_rate | 0.75 | 75.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | daedalmap_type_routing_type_correct_rate | 0.55 | 55.00000000000001 | type_correct_rate | legacy |  | unknown | 2026-03-21T02:59:45+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_smollm3_3b |
+| smollm3:3b | drop_em | 0.19 | 19.0 | em,none | legacy |  | unknown | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | drop_f1 | 0.3302000000000001 | 33.02000000000001 | f1,none | legacy |  | unknown | 2026-03-18T10:08:48+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | gsm8k_flexible | 0.79 | 79.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-18T05:59:56+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
+| smollm3:3b | gsm8k_strict | 0.79 | 79.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-18T05:59:56+00:00 | bench-reasoning | bench-reasoning_smollm3_3b_small_smollm3_reasoning_l100_v1 |
 
-## Recent Runs
+## Recorded Failures
 
-| Run At | Model | Test ID | Score | Score % | Metric | Harness | Suite | Run ID |
+| Run At | Model | Test ID | Class | Failure | Message | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-06-13T08:01:01+00:00 | gemma-4:12b | drop_em | 0.74 | 74.0 | em,none | bench-reasoning | gemma4_12b_brain_l50_v1 | 3fe6e303-71df-492e-b57b-09289525a143 |
-| 2026-06-13T08:01:01+00:00 | gemma-4:12b | drop_f1 | 0.7892 | 78.92 | f1,none | bench-reasoning | gemma4_12b_brain_l50_v1 | 53582bd4-2ad9-4d5b-96a5-2eb34324afaf |
-| 2026-06-13T08:00:23+00:00 | gemma-4:12b | bbh | 0.8066666666666666 | 80.66666666666666 | exact_match,get-answer | bench-reasoning | gemma4_12b_brain_l50_v1 | 1fd58b1d-46ab-4bf0-8744-830d2121a11e |
-| 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_em | 0.18 | 18.0 | em,none | bench-reasoning | gptoss_l100_v1 | acfad2c5-ccb5-46c8-ba74-b7cbc6e9371a |
-| 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_f1 | 0.3510000000000001 | 35.10000000000001 | f1,none | bench-reasoning | gptoss_l100_v1 | 2245731a-b76d-416b-b793-adf554b432aa |
-| 2026-06-13T06:31:01+00:00 | gpt-oss:20b | bbh | 0.6448148148148148 | 64.48148148148148 | exact_match,get-answer | bench-reasoning | gptoss_l100_v1 | d03878ef-1d0e-43f3-ba96-0404debd7c4a |
-| 2026-06-13T05:14:25+00:00 | gpt-oss:20b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | bench-reasoning | gptoss_l100_v1 | 927133a4-e3b9-4cf3-82b8-1b902bf004fe |
-| 2026-06-13T05:14:24+00:00 | gpt-oss:20b | gsm8k_strict | 0.15 | 15.0 | exact_match,strict-match | bench-reasoning | gptoss_l100_v1 | 809bc077-fda4-441c-9dd7-5d545d5ce9fc |
-| 2026-06-13T03:57:01+00:00 | phi-4-mini-reasoning:3.8b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | bench-reasoning | phi4mr_reasoning_v1 | 30ffa653-9834-4ae7-a895-d3416c979010 |
-| 2026-06-13T03:57:01+00:00 | phi-4-mini-reasoning:3.8b | gsm8k_flexible | 0.1 | 10.0 | exact_match,flexible-extract | bench-reasoning | phi4mr_reasoning_v1 | f1c10ee2-c655-421b-9cb1-adab33e87b56 |
-| 2026-06-13T03:56:48+00:00 | gpt-oss:20b | drop_em | 0.2 | 20.0 | em,none | bench-reasoning | gptoss_smoke_v2 | db980533-d32e-44fb-a72a-cd3c7f38f2d0 |
-| 2026-06-13T03:56:48+00:00 | gpt-oss:20b | drop_f1 | 0.44799999999999995 | 44.8 | f1,none | bench-reasoning | gptoss_smoke_v2 | fe7ad31d-0c90-4a06-b76d-516ec19dfd85 |
-| 2026-06-13T03:56:07+00:00 | gpt-oss:20b | bbh | 0.6407407407407407 | 64.07407407407408 | exact_match,get-answer | bench-reasoning | gptoss_smoke_v2 | 52a42ab5-1c99-4d33-9c4f-1d95bc8aceae |
-| 2026-06-13T03:47:52+00:00 | gpt-oss:20b | gsm8k_strict | 0.2 | 20.0 | exact_match,strict-match | bench-reasoning | gptoss_smoke_v2 | c161a69d-ec93-49cb-b57f-7970031830b8 |
-| 2026-06-13T03:47:52+00:00 | gpt-oss:20b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | bench-reasoning | gptoss_smoke_v2 | 4a23f84a-084e-4b94-8efd-ee6521755ac5 |
-| 2026-06-12T23:18:42+00:00 | gpt-oss:20b | bbh | 0.05925925925925926 | 5.9259259259259265 | exact_match,get-answer | bench-reasoning | gptoss_diag_v1 | 3cb71281-f84c-40c2-aab9-df739a2c35d8 |
-| 2026-06-12T23:11:24+00:00 | gpt-oss:20b | drop_em | 0.5 | 50.0 | em,none | bench-reasoning | gptoss_smoke_v1 | 7b40524e-7292-4d88-80d7-492581f9c982 |
-| 2026-06-12T23:11:24+00:00 | gpt-oss:20b | drop_f1 | 0.6 | 60.0 | f1,none | bench-reasoning | gptoss_smoke_v1 | 292dbf2a-dffe-48b6-b491-62e34e3f1070 |
-| 2026-06-12T23:10:50+00:00 | gpt-oss:20b | bbh | 0.06666666666666667 | 6.666666666666667 | exact_match,get-answer | bench-reasoning | gptoss_smoke_v1 | 476a6f00-765c-4eb9-bb61-ed8614cad675 |
-| 2026-06-12T23:02:46+00:00 | gpt-oss:20b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | bench-reasoning | gptoss_smoke_v1 | bf62b0aa-fae2-4e14-a02b-81a601061741 |
-| 2026-06-12T23:02:45+00:00 | gpt-oss:20b | gsm8k_strict | 0.2 | 20.0 | exact_match,strict-match | bench-reasoning | gptoss_smoke_v1 | 80cc2f22-2e46-492e-ac57-4cd6dcf82e2c |
-| 2026-06-10T06:31:12+00:00 | gemma-4:e4b | drop_em | 0.52 | 52.0 | em,none | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 957089d8-50dc-45f8-acd2-12240355d168 |
-| 2026-06-10T06:31:12+00:00 | gemma-4:e4b | drop_f1 | 0.5348 | 53.480000000000004 | f1,none | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 20d280bd-6610-4cfb-a3b4-897d1a84c45c |
-| 2026-06-10T06:27:45+00:00 | gemma-4:e4b | bbh | 0.09259259259259259 | 9.25925925925926 | exact_match,get-answer | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 324e6d49-05d1-467e-85cd-51aa7abddcf7 |
-| 2026-06-08T21:31:49+00:00 | gemma-4:e4b | gsm8k_flexible | 0.64 | 64.0 | exact_match,flexible-extract | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 752a72b8-7f8b-4d65-a7b6-76b3b1dae87d |
-| 2026-06-08T21:31:48+00:00 | gemma-4:e4b | gsm8k_strict | 0.16 | 16.0 | exact_match,strict-match | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | d54d6cc0-46d8-45b3-9c93-cacc53184951 |
-| 2026-06-08T10:31:01+00:00 | gemma-4:e2b | drop_em | 0.04 | 4.0 | em,none | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | d9bb951c-8fb6-4f74-b220-69eb60f5fbef |
-| 2026-06-08T10:31:01+00:00 | gemma-4:e2b | drop_f1 | 0.0508 | 5.08 | f1,none | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | c659cb81-bdaf-48f2-b3f3-a7d24ced371a |
-| 2026-06-08T10:25:07+00:00 | gemma-4:e2b | bbh | 0.14074074074074075 | 14.074074074074074 | exact_match,get-answer | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | 2f96a05d-bc92-4ac5-9f48-e852fa7dc424 |
-| 2026-06-08T09:33:35+00:00 | gemma-4:31b | drop_em | 0.74 | 74.0 | em,none | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 5184a9c0-12f2-4be9-be51-8cf4d7b11adb |
-| 2026-06-08T09:33:35+00:00 | gemma-4:31b | drop_f1 | 0.7927 | 79.27 | f1,none | bench-reasoning | campaign_31b_reasoning_20260607_232659 | e4fad928-0a20-4f6d-9c67-dffaec2ec937 |
-| 2026-06-08T09:32:52+00:00 | gemma-4:31b | bbh | 0.8414814814814815 | 84.14814814814815 | exact_match,get-answer | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 7c9b3896-3be5-4eb2-9ce4-09e92fb511f9 |
-| 2026-06-08T08:04:45+00:00 | gemma-4:31b | gsm8k_strict | 0.94 | 94.0 | exact_match,strict-match | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 9af4a42d-7f23-43a1-901c-630daa9ce559 |
-| 2026-06-08T08:04:45+00:00 | gemma-4:31b | gsm8k_flexible | 0.95 | 95.0 | exact_match,flexible-extract | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 43d82baa-321e-464c-b54c-857c32e4dcbc |
-| 2026-06-08T08:01:04+00:00 | gemma-4:26b-a4b | drop_em | 0.73 | 73.0 | em,none | bench-reasoning | campaign_26b_reasoning_20260607_232659 | 867f5291-2393-466d-9508-aa946b1796c9 |
-| 2026-06-08T08:01:04+00:00 | gemma-4:26b-a4b | drop_f1 | 0.7854000000000001 | 78.54 | f1,none | bench-reasoning | campaign_26b_reasoning_20260607_232659 | add873c5-8478-4852-833e-92b034d43f49 |
-| 2026-06-08T08:00:22+00:00 | gemma-4:26b-a4b | bbh | 0.8407407407407408 | 84.07407407407408 | exact_match,get-answer | bench-reasoning | campaign_26b_reasoning_20260607_232659 | 23bf3f14-e2b9-4a57-9cd8-fab7ecf20982 |
-| 2026-06-08T06:35:30+00:00 | gemma-4:e2b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | 459f4e5b-04e4-40ef-a391-11854fa34d24 |
-| 2026-06-08T06:35:30+00:00 | gemma-4:e2b | gsm8k_flexible | 0.74 | 74.0 | exact_match,flexible-extract | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | e1020403-c83b-4dcc-b749-ad4cf7c37468 |
-| 2026-06-08T06:32:21+00:00 | gemma-4:26b-a4b | gsm8k_strict | 0.95 | 95.0 | exact_match,strict-match | bench-reasoning | campaign_26b_reasoning_20260607_232659 | ed4d037a-c5f1-4ebf-b565-5a10abef60da |
+| - | - | - | - | - | - | - | - | - |
+
+## Recent Records
+
+| Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-13T08:01:01+00:00 | gemma-4:12b | drop_f1 | success | legacy |  | 0.7892 | f1,none | bench-reasoning | gemma4_12b_brain_l50_v1 | 53582bd4-2ad9-4d5b-96a5-2eb34324afaf |
+| 2026-06-13T08:01:01+00:00 | gemma-4:12b | drop_em | success | legacy |  | 0.74 | em,none | bench-reasoning | gemma4_12b_brain_l50_v1 | 3fe6e303-71df-492e-b57b-09289525a143 |
+| 2026-06-13T08:00:23+00:00 | gemma-4:12b | bbh | success | legacy |  | 0.8066666666666666 | exact_match,get-answer | bench-reasoning | gemma4_12b_brain_l50_v1 | 1fd58b1d-46ab-4bf0-8744-830d2121a11e |
+| 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_em | success | legacy |  | 0.18 | em,none | bench-reasoning | gptoss_l100_v1 | acfad2c5-ccb5-46c8-ba74-b7cbc6e9371a |
+| 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_f1 | success | legacy |  | 0.3510000000000001 | f1,none | bench-reasoning | gptoss_l100_v1 | 2245731a-b76d-416b-b793-adf554b432aa |
+| 2026-06-13T06:31:01+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.6448148148148148 | exact_match,get-answer | bench-reasoning | gptoss_l100_v1 | d03878ef-1d0e-43f3-ba96-0404debd7c4a |
+| 2026-06-13T05:14:25+00:00 | gpt-oss:20b | gsm8k_flexible | success | legacy |  | 0.8 | exact_match,flexible-extract | bench-reasoning | gptoss_l100_v1 | 927133a4-e3b9-4cf3-82b8-1b902bf004fe |
+| 2026-06-13T05:14:24+00:00 | gpt-oss:20b | gsm8k_strict | success | legacy |  | 0.15 | exact_match,strict-match | bench-reasoning | gptoss_l100_v1 | 809bc077-fda4-441c-9dd7-5d545d5ce9fc |
+| 2026-06-13T03:57:01+00:00 | phi-4-mini-reasoning:3.8b | gsm8k_flexible | success | legacy |  | 0.1 | exact_match,flexible-extract | bench-reasoning | phi4mr_reasoning_v1 | f1c10ee2-c655-421b-9cb1-adab33e87b56 |
+| 2026-06-13T03:57:01+00:00 | phi-4-mini-reasoning:3.8b | gsm8k_strict | success | legacy |  | 0.0 | exact_match,strict-match | bench-reasoning | phi4mr_reasoning_v1 | 30ffa653-9834-4ae7-a895-d3416c979010 |
+| 2026-06-13T03:56:48+00:00 | gpt-oss:20b | drop_f1 | success | legacy |  | 0.44799999999999995 | f1,none | bench-reasoning | gptoss_smoke_v2 | fe7ad31d-0c90-4a06-b76d-516ec19dfd85 |
+| 2026-06-13T03:56:48+00:00 | gpt-oss:20b | drop_em | success | legacy |  | 0.2 | em,none | bench-reasoning | gptoss_smoke_v2 | db980533-d32e-44fb-a72a-cd3c7f38f2d0 |
+| 2026-06-13T03:56:07+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.6407407407407407 | exact_match,get-answer | bench-reasoning | gptoss_smoke_v2 | 52a42ab5-1c99-4d33-9c4f-1d95bc8aceae |
+| 2026-06-13T03:47:52+00:00 | gpt-oss:20b | gsm8k_strict | success | legacy |  | 0.2 | exact_match,strict-match | bench-reasoning | gptoss_smoke_v2 | c161a69d-ec93-49cb-b57f-7970031830b8 |
+| 2026-06-13T03:47:52+00:00 | gpt-oss:20b | gsm8k_flexible | success | legacy |  | 0.6 | exact_match,flexible-extract | bench-reasoning | gptoss_smoke_v2 | 4a23f84a-084e-4b94-8efd-ee6521755ac5 |
+| 2026-06-12T23:18:42+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.05925925925925926 | exact_match,get-answer | bench-reasoning | gptoss_diag_v1 | 3cb71281-f84c-40c2-aab9-df739a2c35d8 |
+| 2026-06-12T23:11:24+00:00 | gpt-oss:20b | drop_em | success | legacy |  | 0.5 | em,none | bench-reasoning | gptoss_smoke_v1 | 7b40524e-7292-4d88-80d7-492581f9c982 |
+| 2026-06-12T23:11:24+00:00 | gpt-oss:20b | drop_f1 | success | legacy |  | 0.6 | f1,none | bench-reasoning | gptoss_smoke_v1 | 292dbf2a-dffe-48b6-b491-62e34e3f1070 |
+| 2026-06-12T23:10:50+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.06666666666666667 | exact_match,get-answer | bench-reasoning | gptoss_smoke_v1 | 476a6f00-765c-4eb9-bb61-ed8614cad675 |
+| 2026-06-12T23:02:46+00:00 | gpt-oss:20b | gsm8k_flexible | success | legacy |  | 0.8 | exact_match,flexible-extract | bench-reasoning | gptoss_smoke_v1 | bf62b0aa-fae2-4e14-a02b-81a601061741 |
+| 2026-06-12T23:02:45+00:00 | gpt-oss:20b | gsm8k_strict | success | legacy |  | 0.2 | exact_match,strict-match | bench-reasoning | gptoss_smoke_v1 | 80cc2f22-2e46-492e-ac57-4cd6dcf82e2c |
+| 2026-06-10T06:31:12+00:00 | gemma-4:e4b | drop_em | success | legacy |  | 0.52 | em,none | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 957089d8-50dc-45f8-acd2-12240355d168 |
+| 2026-06-10T06:31:12+00:00 | gemma-4:e4b | drop_f1 | success | legacy |  | 0.5348 | f1,none | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 20d280bd-6610-4cfb-a3b4-897d1a84c45c |
+| 2026-06-10T06:27:45+00:00 | gemma-4:e4b | bbh | success | legacy |  | 0.09259259259259259 | exact_match,get-answer | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 324e6d49-05d1-467e-85cd-51aa7abddcf7 |
+| 2026-06-08T21:31:49+00:00 | gemma-4:e4b | gsm8k_flexible | success | legacy |  | 0.64 | exact_match,flexible-extract | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | 752a72b8-7f8b-4d65-a7b6-76b3b1dae87d |
+| 2026-06-08T21:31:48+00:00 | gemma-4:e4b | gsm8k_strict | success | legacy |  | 0.16 | exact_match,strict-match | bench-reasoning | campaign_e4b_reasoning_20260608_141848 | d54d6cc0-46d8-45b3-9c93-cacc53184951 |
+| 2026-06-08T10:31:01+00:00 | gemma-4:e2b | drop_em | success | legacy |  | 0.04 | em,none | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | d9bb951c-8fb6-4f74-b220-69eb60f5fbef |
+| 2026-06-08T10:31:01+00:00 | gemma-4:e2b | drop_f1 | success | legacy |  | 0.0508 | f1,none | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | c659cb81-bdaf-48f2-b3f3-a7d24ced371a |
+| 2026-06-08T10:25:07+00:00 | gemma-4:e2b | bbh | success | legacy |  | 0.14074074074074075 | exact_match,get-answer | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | 2f96a05d-bc92-4ac5-9f48-e852fa7dc424 |
+| 2026-06-08T09:33:35+00:00 | gemma-4:31b | drop_f1 | success | legacy |  | 0.7927 | f1,none | bench-reasoning | campaign_31b_reasoning_20260607_232659 | e4fad928-0a20-4f6d-9c67-dffaec2ec937 |
+| 2026-06-08T09:33:35+00:00 | gemma-4:31b | drop_em | success | legacy |  | 0.74 | em,none | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 5184a9c0-12f2-4be9-be51-8cf4d7b11adb |
+| 2026-06-08T09:32:52+00:00 | gemma-4:31b | bbh | success | legacy |  | 0.8414814814814815 | exact_match,get-answer | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 7c9b3896-3be5-4eb2-9ce4-09e92fb511f9 |
+| 2026-06-08T08:04:45+00:00 | gemma-4:31b | gsm8k_strict | success | legacy |  | 0.94 | exact_match,strict-match | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 9af4a42d-7f23-43a1-901c-630daa9ce559 |
+| 2026-06-08T08:04:45+00:00 | gemma-4:31b | gsm8k_flexible | success | legacy |  | 0.95 | exact_match,flexible-extract | bench-reasoning | campaign_31b_reasoning_20260607_232659 | 43d82baa-321e-464c-b54c-857c32e4dcbc |
+| 2026-06-08T08:01:04+00:00 | gemma-4:26b-a4b | drop_f1 | success | legacy |  | 0.7854000000000001 | f1,none | bench-reasoning | campaign_26b_reasoning_20260607_232659 | add873c5-8478-4852-833e-92b034d43f49 |
+| 2026-06-08T08:01:04+00:00 | gemma-4:26b-a4b | drop_em | success | legacy |  | 0.73 | em,none | bench-reasoning | campaign_26b_reasoning_20260607_232659 | 867f5291-2393-466d-9508-aa946b1796c9 |
+| 2026-06-08T08:00:22+00:00 | gemma-4:26b-a4b | bbh | success | legacy |  | 0.8407407407407408 | exact_match,get-answer | bench-reasoning | campaign_26b_reasoning_20260607_232659 | 23bf3f14-e2b9-4a57-9cd8-fab7ecf20982 |
+| 2026-06-08T06:35:30+00:00 | gemma-4:e2b | gsm8k_flexible | success | legacy |  | 0.74 | exact_match,flexible-extract | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | e1020403-c83b-4dcc-b749-ad4cf7c37468 |
+| 2026-06-08T06:35:30+00:00 | gemma-4:e2b | gsm8k_strict | success | legacy |  | 0.7 | exact_match,strict-match | bench-reasoning | campaign_e2b_reasoning_20260607_232659 | 459f4e5b-04e4-40ef-a391-11854fa34d24 |
+| 2026-06-08T06:32:21+00:00 | gemma-4:26b-a4b | gsm8k_strict | success | legacy |  | 0.95 | exact_match,strict-match | bench-reasoning | campaign_26b_reasoning_20260607_232659 | ed4d037a-c5f1-4ebf-b565-5a10abef60da |

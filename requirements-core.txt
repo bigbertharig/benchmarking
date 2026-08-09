@@ -17,3 +17,4 @@ tqdm
 requests
 pandas
 numpy
+filelock>=3.12.0

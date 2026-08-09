@@ -14,6 +14,8 @@ from typing import Any
 
 import requests
 
+from benchmark_records import RUN_CLASSES
+
 
 def now_stamp() -> str:
     return datetime.now().strftime("%Y%m%d_%H%M%S_%f")
@@ -300,6 +302,12 @@ def main() -> int:
     ap.add_argument("--timeout", type=int, default=180)
     ap.add_argument("--output-dir", default=default_output_dir())
     ap.add_argument("--suite", default="individual_custom")
+    ap.add_argument(
+        "--run-class",
+        choices=RUN_CLASSES[:-1],
+        default="provisional",
+        help="Evidence quality label recorded in the canonical ledger (default: provisional).",
+    )
     ap.add_argument("--use-model-prompts", action="store_true")
     ap.add_argument("--prompt-profiles", default="custom_tasks/model_prompt_profiles.json")
     ap.add_argument("--tuning-profiles", default="model_tuning_profiles.json")
@@ -359,6 +367,7 @@ def main() -> int:
 
     results: list[dict[str, Any]] = []
     passes = 0
+    extractor_failures = 0
     for case in test_cases:
         prompt = str(case.get("prompt", "")).strip()
         if not prompt:
@@ -372,13 +381,46 @@ def main() -> int:
                 args.model,
                 args.id,
             )
-        response, response_source = call_chat_completion(
-            args.base_url,
-            args.model,
-            prompt,
-            args.timeout,
-            system_prompt,
-        )
+        try:
+            response, response_source = call_chat_completion(
+                args.base_url,
+                args.model,
+                prompt,
+                args.timeout,
+                system_prompt,
+            )
+        except (requests.RequestException, RuntimeError, ValueError) as exc:
+            if not args.no_record:
+                failure_kind = "timeout" if isinstance(exc, requests.Timeout) else "request_failure"
+                recorder = this_dir / "record_benchmark_result.py"
+                failure_cmd = [
+                    sys.executable,
+                    str(recorder),
+                    "--model",
+                    args.model,
+                    "--test-id",
+                    args.id,
+                    "--status",
+                    "failure",
+                    "--run-class",
+                    args.run_class,
+                    "--harness",
+                    "local_custom",
+                    "--suite",
+                    args.suite,
+                    "--failure-kind",
+                    failure_kind,
+                    "--failure-message",
+                    f"{type(exc).__name__}: {exc}",
+                    "--failed-request-count",
+                    "1",
+                ]
+                if failure_kind == "timeout":
+                    failure_cmd.extend(["--timeout-count", "1"])
+                subprocess.run(failure_cmd, check=False)
+            raise
+        if response_source == "empty":
+            extractor_failures += 1
         passed, detail = grade_case(args.id, case, response)
         if passed:
             passes += 1
@@ -395,6 +437,8 @@ def main() -> int:
         )
 
     total = len(results)
+    if total == 0:
+        raise SystemExit(f"No runnable cases found for '{args.id}'")
     score = passes / total if total else 0.0
 
     prompts_snapshot: dict[str, Any] = {}
@@ -438,8 +482,18 @@ def main() -> int:
             args.id,
             "--score",
             str(score),
+            "--raw-harness-score",
+            str(score),
             "--metric",
             payload["metric"],
+            "--run-class",
+            args.run_class,
+            "--sample-count",
+            str(total),
+            "--format-compatibility",
+            "degraded" if extractor_failures else "compatible",
+            "--extractor-failure-count",
+            str(extractor_failures),
             "--harness",
             "local_custom",
             "--suite",

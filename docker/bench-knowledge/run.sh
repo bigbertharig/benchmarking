@@ -10,6 +10,7 @@ LIMIT="150"
 RESULTS_DIR="/results"
 MODEL_NAME="unknown"
 RUN_NAME=""
+RUN_CLASS="validated"
 SCRIPTS_DIR="/benchmark-scripts"
 USE_MODEL_PROMPTS=1
 PROMPT_PROFILES=""
@@ -30,6 +31,7 @@ while [[ $# -gt 0 ]]; do
         --results-dir) RESULTS_DIR="$2"; shift 2 ;;
         --model-name) MODEL_NAME="$2"; shift 2 ;;
         --run-name) RUN_NAME="$2"; shift 2 ;;
+        --run-class) RUN_CLASS="$2"; shift 2 ;;
         --scripts-dir) SCRIPTS_DIR="$2"; shift 2 ;;
         --use-model-prompts) USE_MODEL_PROMPTS=1; shift 1 ;;
         --no-model-prompts) USE_MODEL_PROMPTS=0; shift 1 ;;
@@ -91,7 +93,8 @@ record_result_row() {
     local test_id="$1"
     local score="$2"
     local metric="$3"
-    local notes="${4:-}"
+    local sample_count="$4"
+    local notes="${5:-}"
     if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
         echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
         return 0
@@ -100,17 +103,40 @@ record_result_row() {
         --model "$MODEL_NAME" \
         --test-id "$test_id" \
         --score "$score" \
+        --raw-harness-score "$score" \
         --metric "$metric" \
+        --run-class "$RUN_CLASS" \
+        --sample-count "$sample_count" \
         --harness "bench-knowledge" \
         --suite "${RUN_NAME:-bench-knowledge}" \
         --run-at "$(date -Iseconds)" \
         --notes "$notes" >/dev/null || echo "WARNING: failed to record result for ${MODEL_NAME} ${test_id}"
 }
 
+record_failure_row() {
+    local test_id="$1"
+    local exit_code="$2"
+    if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then
+        echo "WARNING: record script missing: $RECORD_RESULT_SCRIPT"
+        return 0
+    fi
+    python3 "$RECORD_RESULT_SCRIPT" \
+        --model "$MODEL_NAME" \
+        --test-id "$test_id" \
+        --status failure \
+        --run-class "$RUN_CLASS" \
+        --harness "bench-knowledge" \
+        --suite "${RUN_NAME:-bench-knowledge}" \
+        --run-at "$(date -Iseconds)" \
+        --failure-kind harness_exit \
+        --failure-message "lm-eval exited with code ${exit_code}" \
+        --failed-request-count 1 >/dev/null || echo "WARNING: failed to record failure for ${MODEL_NAME} ${test_id}"
+}
+
 record_knowledge_task_results() {
     local task="$1"
     local task_output_dir="$2"
-    python3 - "$task" "$task_output_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
+    python3 - "$task" "$task_output_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric sample_count notes; do
 import json, sys
 from pathlib import Path
 
@@ -120,15 +146,24 @@ if not files:
     raise SystemExit(0)
 data = json.loads(files[-1].read_text(encoding="utf-8"))
 block = (data.get("results") or {}).get(task, {})
+sample_block = (data.get("n-samples") or {}).get(task)
+if isinstance(sample_block, dict):
+    sample_count = sample_block.get("effective") or sample_block.get("original")
+elif isinstance(sample_block, (int, float)):
+    sample_count = sample_block
+else:
+    sample_count = None
+if sample_count is None or int(sample_count) <= 0:
+    raise SystemExit(f"missing sample count for {task}")
 for key, value in block.items():
     if key == "alias" or key.endswith("_stderr"):
         continue
     if isinstance(value, (int, float)):
         safe = key.replace(",", "_")
-        print(f"{task}_{safe}\t{value}\t{key}\t")
+        print(f"{task}_{safe}\t{value}\t{key}\t{int(sample_count)}\t")
 PY
         [ -z "$test_id" ] && continue
-        record_result_row "$test_id" "$score" "$metric" "$notes"
+        record_result_row "$test_id" "$score" "$metric" "$sample_count" "$notes"
     done
 }
 
@@ -444,6 +479,7 @@ for TASK in "${TASK_ARRAY[@]}"; do
       echo "--- ${TASK} complete ---"
     else
       update_task_status "$TASK" "failed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
+      record_failure_row "$TASK" "$EXIT_CODE"
       echo "--- ${TASK} failed (exit ${EXIT_CODE}) ---"
       FAILED_COUNT=$((FAILED_COUNT + 1))
     fi

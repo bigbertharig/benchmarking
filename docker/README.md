@@ -207,14 +207,14 @@ summary table. For full history and prompt traceability, check each suite's hist
 
 Machine-readable score state:
 - canonical machine-readable ledger: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
-- latest parsed scoreboard view: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
+- quality-selected scoreboard view: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
 - markdown operator doc: `/media/bryan/shared/plans/shoulders/benchmarking/MODEL_LIBRARY.md`
 
 Current policy:
 - suites auto-append completed results into `model_benchmark_records.jsonl` as tests/tasks finish
 - `MODEL_LIBRARY.md` is still maintained separately for operator notes and curated summary rows
-- `build_model_library_scoreboard.py` currently syncs **from** `MODEL_LIBRARY.md` **to** `model_library_scoreboard.json`
-- this means the JSONL ledger and markdown doc are intentionally separate for now; the auto-recorded JSONL is the live raw machine-readable feed, while markdown remains the curated human view
+- `build_model_library_scoreboard.py` and `build_benchmark_reference.py` derive their outputs exclusively from the JSONL ledger
+- `MODEL_LIBRARY.md` remains a curated operator/model-selection document, not a score source
 
 Storage policy (do not mix suite outputs in one folder):
 - `bench-pipeline`: `/mnt/shared/logs/benchmarks/bench-pipeline/history`
@@ -244,7 +244,7 @@ Workflow:
 3. Record the run narrative in the suite's HISTORY file
 4. Compare across runs to learn what prompt changes helped
 5. Fold improvements back into the universal prompt in `model_tuning_profiles.json`
-6. Update `MODEL_LIBRARY.md` with the curated latest scores / operator notes, then refresh `model_library_scoreboard.json` from markdown if needed
+6. Refresh derived reports from JSONL, then update `MODEL_LIBRARY.md` only when curated operator guidance changes
 
 ## Result Recording
 
@@ -273,14 +273,14 @@ What gets recorded automatically:
 - `bench-knowledge`: each numeric lm-eval metric emitted for the completed task
 
 How it works:
-- suites call `scripts/active/record_benchmark_result.py` at successful task/test completion
-- each appended JSONL row includes model, test id, score, metric, harness, suite/run name, timestamp, and notes
-- failed tasks are **not** auto-recorded as numeric scores
+- suites call `scripts/active/record_benchmark_result.py` at task/test completion
+- successful rows include evidence class/sample count, raw and normalized scores, format status, runtime/config identity, efficiency data, and result metadata
+- failed rows carry machine-readable failure kind/message and timeout/request counts without inventing a numeric score
 - rerun skipping still comes from the suite checkpoint/status files, not from the JSONL ledger
 
 Operator note:
-- the JSONL ledger is the easiest source for CSV export or future dashboard model-comparison views
-- the markdown doc remains the operator-facing summary until we flip the full source-of-truth direction
+- the JSONL ledger is the single source for reports, CSV export, and dashboard/model-comparison views
+- Markdown and scoreboard JSON are derived views and must not be edited as primary score data
 
 ## Suites
 

@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from compatibility import derive_backend_id, find_certified_test, load_status, required_tokenizer
+from benchmark_records import RUN_CLASSES
 
 
 TASK_NAME_ALIASES: dict[str, tuple[str, ...]] = {
@@ -160,7 +161,7 @@ def select_numeric_metric(result_obj: dict[str, Any]) -> tuple[float, str] | Non
     return score, metric
 
 
-def extract_score_from_lm_eval_output(out_dir: Path, task_name: str) -> tuple[float, str]:
+def extract_score_from_lm_eval_output(out_dir: Path, task_name: str) -> tuple[float, str, int]:
     candidates = sorted(out_dir.rglob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
     for path in candidates:
         try:
@@ -184,7 +185,23 @@ def extract_score_from_lm_eval_output(out_dir: Path, task_name: str) -> tuple[fl
 
         picked = select_numeric_metric(task_result)
         if picked is not None:
-            return picked
+            sample_block = data.get("n-samples", {})
+            sample_count = None
+            if isinstance(sample_block, dict):
+                task_samples = sample_block.get(task_name)
+                if isinstance(task_samples, dict):
+                    sample_count = task_samples.get("effective") or task_samples.get("original")
+                elif isinstance(task_samples, (int, float)):
+                    sample_count = task_samples
+            if sample_count is None:
+                samples = data.get("samples", {})
+                if isinstance(samples, dict) and isinstance(samples.get(task_name), list):
+                    sample_count = len(samples[task_name])
+            if sample_count is None or int(sample_count) <= 0:
+                raise SystemExit(
+                    f"lm-eval result is missing sample count for task '{task_name}' under {out_dir}"
+                )
+            return picked[0], picked[1], int(sample_count)
 
     raise SystemExit(
         f"lm-eval completed but no numeric metric found for task '{task_name}' under output path: {out_dir}"
@@ -217,6 +234,12 @@ def main() -> int:
     ap.add_argument("--limit", type=float, default=None, help="Optional sample cap (debug runs)")
     ap.add_argument("--output-dir", default=default_output_dir())
     ap.add_argument("--suite", default="individual", help="Suite label for benchmark ledger")
+    ap.add_argument(
+        "--run-class",
+        choices=RUN_CLASSES[:-1],
+        default="provisional",
+        help="Evidence quality label recorded in the canonical ledger (default: provisional).",
+    )
     ap.add_argument("--apply-chat-template", action="store_true", help="Pass --apply_chat_template to lm-eval")
     ap.add_argument("--no-record", action="store_true", help="Do not append auto-record to benchmark ledger")
     ap.add_argument("--status-path", default=str(Path(__file__).resolve().parents[2] / "benchmark_status.json"))
@@ -321,12 +344,37 @@ def main() -> int:
     print("Command:", " ".join(cmd))
     proc = subprocess.run(cmd, check=False)
     if proc.returncode != 0:
+        if not args.no_record:
+            failure_model = parse_model_id(args.model_args) or args.model
+            recorder = this_dir / "record_benchmark_result.py"
+            subprocess.run(
+                [
+                    args.python, str(recorder), "--model", failure_model, "--test-id", args.id,
+                    "--status", "failure", "--run-class", args.run_class, "--harness", "lm_eval",
+                    "--suite", args.suite, "--failure-kind", "harness_exit",
+                    "--failure-message", f"lm-eval exited with code {proc.returncode}",
+                    "--failed-request-count", "1",
+                ],
+                check=False,
+            )
         raise SystemExit(proc.returncode)
 
     if not args.no_record:
-        score, metric = extract_score_from_lm_eval_output(out_dir, task_name)
         model_id = parse_model_id(args.model_args) or args.model
         recorder = this_dir / "record_benchmark_result.py"
+        try:
+            score, metric, sample_count = extract_score_from_lm_eval_output(out_dir, task_name)
+        except SystemExit as exc:
+            subprocess.run(
+                [
+                    args.python, str(recorder), "--model", model_id, "--test-id", args.id,
+                    "--status", "failure", "--run-class", args.run_class, "--harness", "lm_eval",
+                    "--suite", args.suite, "--failure-kind", "result_extraction",
+                    "--failure-message", str(exc), "--failed-request-count", "1",
+                ],
+                check=False,
+            )
+            raise
         record_cmd = [
             args.python,
             str(recorder),
@@ -338,6 +386,12 @@ def main() -> int:
             str(score),
             "--metric",
             metric,
+            "--raw-harness-score",
+            str(score),
+            "--run-class",
+            args.run_class,
+            "--sample-count",
+            str(sample_count),
             "--harness",
             "lm_eval",
             "--suite",

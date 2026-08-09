@@ -1,93 +1,159 @@
 #!/usr/bin/env python3
-"""Append benchmark run records and refresh reference report."""
+"""Append one schema-v2 benchmark result and refresh derived artifacts."""
 
 from __future__ import annotations
 
 import argparse
 import json
 import subprocess
+import sys
 import uuid
-from datetime import datetime
 from pathlib import Path
+from typing import Any
+
+from filelock import FileLock
+
+from benchmark_records import (
+    FORMAT_COMPATIBILITY,
+    RUN_CLASSES,
+    SCHEMA_VERSION,
+    append_record,
+    canonical_config_hash,
+    normalize_score_pct,
+    now_iso,
+)
 
 
-def now_iso() -> str:
-    return datetime.now().isoformat()
+ROOT = Path(__file__).resolve().parents[2]
 
 
-def normalize_score_pct(score: float) -> float:
-    """Normalize heterogeneous benchmark scores to a 0-100 percentage scale.
+def optional_json(value: str, field: str) -> dict[str, Any]:
+    if not value.strip():
+        return {}
+    try:
+        decoded = json.loads(value)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"{field} must be valid JSON: {exc}") from exc
+    if not isinstance(decoded, dict):
+        raise SystemExit(f"{field} must decode to a JSON object")
+    return decoded
 
-    Rules:
-    - 0..1 values are interpreted as ratios and scaled by 100.
-    - 1..100 values are interpreted as already-percent.
-    - values outside 0..100 are clipped to keep comparisons bounded.
-    """
-    if score <= 1.0:
-        pct = score * 100.0
-    else:
-        pct = score
-    if pct < 0.0:
-        return 0.0
-    if pct > 100.0:
-        return 100.0
-    return pct
+
+def add_optional_float(ap: argparse.ArgumentParser, name: str, help_text: str) -> None:
+    ap.add_argument(name, type=float, default=None, help=help_text)
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Record one benchmark result row to JSONL.")
-    ap.add_argument("--model", required=True, help="Model id (example: qwen2.5-coder:14b)")
-    ap.add_argument("--test-id", required=True, help="Test id from benchmark catalog")
-    ap.add_argument("--score", required=True, type=float, help="Numeric score value")
-    ap.add_argument("--metric", required=True, help="Metric name (example: accuracy, pass@1)")
-    ap.add_argument("--harness", default="", help="Harness used (lm_eval, evalplus, swebench, ...)")
-    ap.add_argument("--suite", default="", help="Suite/preset id if applicable")
-    ap.add_argument("--run-at", default="", help="Override timestamp (ISO8601). Default: now")
-    ap.add_argument("--notes", default="", help="Optional short notes")
-    ap.add_argument(
-        "--records",
-        default="/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl",
-    )
-    ap.add_argument(
-        "--reference-output",
-        default="/mnt/shared/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md",
-    )
+    ap = argparse.ArgumentParser(description="Record one schema-v2 benchmark result row.")
+    ap.add_argument("--model", required=True)
+    ap.add_argument("--test-id", required=True)
+    ap.add_argument("--status", choices=("success", "failure"), default="success")
+    ap.add_argument("--run-class", choices=RUN_CLASSES[:-1], required=True)
+    ap.add_argument("--sample-count", type=int, default=None)
+    ap.add_argument("--score", type=float, default=None)
+    ap.add_argument("--metric", default="")
+    ap.add_argument("--raw-harness-score", type=float, default=None)
+    ap.add_argument("--normalized-answer-score", type=float, default=None)
+    ap.add_argument("--format-compatibility", choices=FORMAT_COMPATIBILITY, default="unknown")
+    ap.add_argument("--extractor-failure-count", type=int, default=0)
+    ap.add_argument("--harness", default="")
+    ap.add_argument("--suite", default="")
+    ap.add_argument("--run-at", default="")
+    ap.add_argument("--notes", default="")
+    ap.add_argument("--runtime-id", default="")
+    ap.add_argument("--runtime-image", default="")
+    ap.add_argument("--config-id", default="")
+    ap.add_argument("--config-json", default="{}")
+    ap.add_argument("--hardware-id", default="")
+    add_optional_float(ap, "--prompt-tps", "Prompt processing tokens/second")
+    add_optional_float(ap, "--generation-tps", "Generation tokens/second")
+    add_optional_float(ap, "--ttft-seconds", "Time to first token")
+    add_optional_float(ap, "--wall-time-seconds", "Total wall-clock time")
+    add_optional_float(ap, "--peak-vram-mb", "Peak VRAM use")
+    add_optional_float(ap, "--kv-cache-mb", "KV-cache memory")
+    add_optional_float(ap, "--gpu-seconds", "GPU-seconds consumed")
+    add_optional_float(ap, "--energy-wh", "Energy consumed in Wh")
+    ap.add_argument("--failure-kind", default="")
+    ap.add_argument("--failure-message", default="")
+    ap.add_argument("--timeout-count", type=int, default=0)
+    ap.add_argument("--failed-request-count", type=int, default=0)
+    ap.add_argument("--records", default=str(ROOT / "results/model_benchmark_records.jsonl"))
+    ap.add_argument("--reference-output", default=str(ROOT / "results/MODEL_BENCHMARK_REFERENCE.md"))
+    ap.add_argument("--scoreboard-output", default=str(ROOT / "results/model_library_scoreboard.json"))
+    ap.add_argument("--no-refresh", action="store_true")
     args = ap.parse_args()
 
-    run_at = args.run_at.strip() or now_iso()
-    records_path = Path(args.records).expanduser().resolve()
-    records_path.parent.mkdir(parents=True, exist_ok=True)
+    if args.status == "success":
+        if args.score is None or not args.metric.strip():
+            ap.error("successful records require --score and --metric")
+        if args.sample_count is None or args.sample_count <= 0:
+            ap.error("successful records require --sample-count > 0")
+    elif not args.failure_kind.strip():
+        ap.error("failure records require --failure-kind")
 
+    config = optional_json(args.config_json, "--config-json")
+    score_pct = normalize_score_pct(args.score) if args.score is not None else None
     payload = {
+        "schema_version": SCHEMA_VERSION,
         "run_id": str(uuid.uuid4()),
-        "run_at": run_at,
+        "run_at": args.run_at.strip() or now_iso(),
         "model": args.model.strip(),
         "test_id": args.test_id.strip(),
+        "status": args.status,
+        "run_class": args.run_class,
+        "sample_count": args.sample_count,
         "score": args.score,
-        "score_pct": normalize_score_pct(float(args.score)),
+        "score_pct": score_pct,
         "metric": args.metric.strip(),
+        "raw_harness_score": args.raw_harness_score if args.raw_harness_score is not None else args.score,
+        "normalized_answer_score": args.normalized_answer_score,
+        "format_compatibility": args.format_compatibility,
+        "extractor_failure_count": args.extractor_failure_count,
         "harness": args.harness.strip(),
         "suite": args.suite.strip(),
-        "notes": args.notes.strip()
+        "runtime": {
+            "runtime_id": args.runtime_id.strip(),
+            "image": args.runtime_image.strip(),
+            "config_id": args.config_id.strip(),
+            "config_hash": canonical_config_hash(config) if config else "",
+            "config": config,
+            "hardware_id": args.hardware_id.strip(),
+        },
+        "efficiency": {
+            "prompt_tps": args.prompt_tps,
+            "generation_tps": args.generation_tps,
+            "ttft_seconds": args.ttft_seconds,
+            "wall_time_seconds": args.wall_time_seconds,
+            "peak_vram_mb": args.peak_vram_mb,
+            "kv_cache_mb": args.kv_cache_mb,
+            "gpu_seconds": args.gpu_seconds,
+            "energy_wh": args.energy_wh,
+            "timeout_count": args.timeout_count,
+            "failed_request_count": args.failed_request_count,
+        },
+        "failure": {
+            "kind": args.failure_kind.strip(),
+            "message": args.failure_message.strip(),
+        },
+        "notes": args.notes.strip(),
     }
 
-    with records_path.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(payload) + "\n")
+    records_path = Path(args.records).expanduser().resolve()
+    pipeline_lock = FileLock(str(records_path) + ".pipeline.lock", timeout=30)
+    with pipeline_lock:
+        append_record(records_path, payload)
+        print(f"Recorded result: {records_path}")
 
-    print(f"Recorded result: {records_path}")
-
-    builder = Path(__file__).resolve().parent / "build_benchmark_reference.py"
-    cmd = [
-        "python3",
-        str(builder),
-        "--records",
-        str(records_path),
-        "--output",
-        str(Path(args.reference_output).expanduser().resolve())
-    ]
-    proc = subprocess.run(cmd, check=False)
-    if proc.returncode != 0:
-        raise SystemExit(proc.returncode)
+        if args.no_refresh:
+            return 0
+        commands = (
+            [sys.executable, str(Path(__file__).parent / "build_benchmark_reference.py"), "--records", str(records_path), "--output", str(Path(args.reference_output).expanduser().resolve())],
+            [sys.executable, str(Path(__file__).parent / "build_model_library_scoreboard.py"), "--records", str(records_path), "--output", str(Path(args.scoreboard_output).expanduser().resolve())],
+        )
+        for command in commands:
+            proc = subprocess.run(command, check=False)
+            if proc.returncode != 0:
+                return int(proc.returncode)
     return 0
 
 

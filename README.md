@@ -31,8 +31,8 @@ which tests and suites we run, how to run them, and where results live.
 
 ### Results
 - Canonical ledger (append-only): `results/model_benchmark_records.jsonl`
-- Human-readable reference (latest scores): `results/MODEL_BENCHMARK_REFERENCE.md`
-- Machine-readable scoreboard (latest-only): `results/model_library_scoreboard.json`
+- Human-readable reference (quality-selected scores): `results/MODEL_BENCHMARK_REFERENCE.md`
+- Machine-readable scoreboard (quality-selected): `results/model_library_scoreboard.json`
 - Per-run harness outputs (includes prompt snapshots): `/media/bryan/shared/logs/benchmarks/`
 - Per-suite run histories: `docker/bench-*/BENCH_*_HISTORY.md`
 
@@ -459,13 +459,16 @@ Manual record:
 ```bash
 python3 /media/bryan/shared/plans/shoulders/benchmarking/record_benchmark_result.py \
   --model qwen2.5-coder:14b --test-id gsm8k --score 0.721 \
-  --metric exact_match --harness lm_eval --suite baseline_core
+  --metric exact_match --run-class validated --sample-count 100 \
+  --harness lm_eval --suite baseline_core
 ```
 
 Rules:
 - record the actual model tag used at the endpoint
 - use the benchmark catalog test-id
 - keep suite names stable for repeated comparisons
+- label every run `smoke`, `provisional`, `validated`, or `full`
+- record failures with `--status failure` and `--failure-kind`
 - do not scatter scores across ad-hoc markdown notes
 
 ### Step 6: Review results
@@ -532,6 +535,7 @@ Compatibility and runtime-limit status is maintained in the living model documen
 - load/unload workers through orchestrator meta tasks only
 - keep benchmark mode isolated from normal operations
 - record every scored run in the shared ledger
+- record benchmark/runtime failures in the shared ledger
 - certify backend/test compatibility before assuming a suite is runnable
 - always use `--apply_chat_template` for host llama chat-runtime lm_eval runs
 - do not run worker benchmarks by manually spawning unmanaged runtimes
