@@ -235,6 +235,8 @@ class AgentHarnessTests(unittest.TestCase):
                         "agent_plan_sequence,agent_tool_select,agent_tool_recovery,agent_no_tool_needed",
                         "--run-name",
                         "localhost_smoke",
+                        "--hardware-id",
+                        "localhost-mock",
                         "--run-class",
                         "smoke",
                         "--results-dir",

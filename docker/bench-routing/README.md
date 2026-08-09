@@ -41,6 +41,7 @@ docker run --rm --network host \
   --model qwen3.5:4b \
   --runtime-base http://localhost:11435 \
   --run-name qwen35_4b_routing_v1 \
+  --hardware-id rig-gpu1-gtx1060-6gb \
   --run-class validated
 ```
 

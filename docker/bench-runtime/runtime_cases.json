@@ -1,0 +1,11 @@
+{
+  "version": "runtime-operational-v1",
+  "stability_requests": 5,
+  "ttft_requests": 3,
+  "throughput_max_tokens": 128,
+  "context_word_targets": [
+    800,
+    3200
+  ],
+  "context_max_tokens": 4
+}

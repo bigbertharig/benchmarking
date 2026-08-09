@@ -33,7 +33,12 @@ def build_points(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict
         attempts[(str(row.get("model", "")), str(row.get("test_id", "")))].append(row)
 
     points: list[dict[str, Any]] = []
-    diagnostics = {"successful_records": 0, "legacy_records": 0, "missing_cost_records": 0}
+    diagnostics = {
+        "successful_records": 0,
+        "legacy_records": 0,
+        "missing_cost_records": 0,
+        "missing_hardware_records": 0,
+    }
     for row in rows:
         if row.get("status") != "success":
             continue
@@ -55,6 +60,9 @@ def build_points(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict
         cohort = attempts[(model, test_id)]
         reliability = sum(item.get("status") == "success" for item in cohort) / len(cohort)
         runtime = row.get("runtime", {})
+        if not str(runtime.get("hardware_id", "")).strip():
+            diagnostics["missing_hardware_records"] += 1
+            continue
         points.append(
             {
                 "run_id": row["run_id"],
@@ -134,6 +142,7 @@ def main() -> int:
             "minimize": list(COST_FIELDS),
             "comparison_rule": "Points compete only when they have the same measured cost dimensions.",
             "missing_data_rule": "Missing cost dimensions are never guessed or treated as zero.",
+            "hardware_rule": "Cost points require an explicit hardware_id.",
         },
         "diagnostics": {**diagnostics, "eligible_points": len(points), "frontier_groups": len(frontiers)},
         "frontiers": frontiers,

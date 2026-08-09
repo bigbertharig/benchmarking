@@ -59,6 +59,7 @@ docker run --rm --network host \
   --runtime-base http://localhost:11435 \
   --cases agent_tool_select,agent_tool_recovery,agent_no_tool_needed \
   --run-name qwen35_4b_agent_smoke_v1 \
+  --hardware-id rig-gpu1-gtx1060-6gb \
   --run-class smoke
 ```
 

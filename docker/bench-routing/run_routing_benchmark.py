@@ -63,6 +63,7 @@ def main() -> int:
     parser.add_argument("--runtime-base", required=True)
     parser.add_argument("--config", default="/opt/bench/routing_cases.json")
     parser.add_argument("--run-name", required=True)
+    parser.add_argument("--hardware-id", required=True)
     parser.add_argument("--run-class", choices=("smoke", "provisional", "validated", "full"), default="provisional")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--results-dir", default="/results")
@@ -76,6 +77,8 @@ def main() -> int:
 
     if not re.fullmatch(r"[A-Za-z0-9_.-]+", args.run_name):
         parser.error("--run-name may contain only letters, digits, dot, underscore, and hyphen")
+    if not re.fullmatch(r"[A-Za-z0-9_.:-]+", args.hardware_id):
+        parser.error("--hardware-id may contain only letters, digits, dot, underscore, colon, and hyphen")
     if args.limit is not None and args.limit <= 0:
         parser.error("--limit must be positive")
 
@@ -128,6 +131,7 @@ def main() -> int:
                     "--failure-message", f"{type(exc).__name__}: {exc}", "--failed-request-count", "1",
                     "--methodology-id", METHODOLOGY[0], "--methodology-version", METHODOLOGY[1],
                     "--comparison-group", METHODOLOGY[2],
+                    "--hardware-id", args.hardware_id,
                     "--records", args.records, "--reference-output", args.reference_output,
                     "--scoreboard-output", args.scoreboard_output,
                 ],
@@ -169,6 +173,7 @@ def main() -> int:
             "--harness", "bench-routing", "--suite", args.run_name,
             "--methodology-id", METHODOLOGY[0], "--methodology-version", METHODOLOGY[1],
             "--comparison-group", METHODOLOGY[2],
+            "--hardware-id", args.hardware_id,
             "--wall-time-seconds", str(elapsed), "--config-id", str(config.get("version", "")),
             "--config-json", json.dumps({"tiers": config["tiers"]}, sort_keys=True),
             "--records", args.records, "--reference-output", args.reference_output,

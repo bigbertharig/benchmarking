@@ -4,12 +4,14 @@
     "frontier_groups": 0,
     "legacy_records": 876,
     "missing_cost_records": 0,
+    "missing_hardware_records": 0,
     "successful_records": 876
   },
   "frontiers": [],
-  "generated_at": "2026-08-09T22:19:20.999584+00:00",
+  "generated_at": "2026-08-09T22:51:15.449543+00:00",
   "policy": {
     "comparison_rule": "Points compete only when they have the same measured cost dimensions.",
+    "hardware_rule": "Cost points require an explicit hardware_id.",
     "maximize": [
       "quality",
       "reliability"

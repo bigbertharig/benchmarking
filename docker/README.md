@@ -100,6 +100,7 @@ Recommended operator flow:
 | [bench-dataimport](bench-dataimport/README.md) | Converter, reference metadata, and schema-understanding tasks | ~5 min smoke, model-dependent full run |
 | [bench-agent](bench-agent/README.md) | Executable tool use, observation handling, recovery, and MCP mutations | ~5-15 min |
 | [bench-routing](bench-routing/README.md) | Cheapest-sufficient execution-tier selection | ~5 min |
+| [bench-runtime](bench-runtime/README.md) | Stability, TTFT, throughput, context, and optional GPU telemetry | ~5-20 min |
 
 ## Before Running
 
@@ -297,6 +298,7 @@ Operator note:
 | `bench-dataimport` | Data converter generation, reference metadata, aggregation rules, and schema diagnosis | Data-import rig procedure bundled with the image | [HISTORY](bench-dataimport/BENCH_DATAIMPORT_HISTORY.md) |
 | `bench-agent` | Executable tool calls, observations, recovery, multi-tool work, and MCP-style interface mutations | Current tool schemas bundled per case | [HISTORY](bench-agent/BENCH_AGENT_HISTORY.md) |
 | `bench-routing` | Cost-aware selection across tiny, single, split, brain, and human tiers | Explicit tier costs and capability ranks | [HISTORY](bench-routing/BENCH_ROUTING_HISTORY.md) |
+| `bench-runtime` | Operational runtime stability, TTFT, throughput, context growth, and GPU cost | Explicit runtime case profile | [HISTORY](bench-runtime/BENCH_RUNTIME_HISTORY.md) |
 
 ## Test Volume Quick Reference
 
@@ -335,6 +337,7 @@ Per-image docs:
 - `bench-dataimport`: [README](bench-dataimport/README.md) / [HISTORY](bench-dataimport/BENCH_DATAIMPORT_HISTORY.md)
 - `bench-agent`: [README](bench-agent/README.md) / [HISTORY](bench-agent/BENCH_AGENT_HISTORY.md)
 - `bench-routing`: [README](bench-routing/README.md) / [HISTORY](bench-routing/BENCH_ROUTING_HISTORY.md)
+- `bench-runtime`: [README](bench-runtime/README.md) / [HISTORY](bench-runtime/BENCH_RUNTIME_HISTORY.md)
 
 ## First-Run Checklist
 
@@ -845,4 +848,5 @@ docker build -t bench-reasoning bench-reasoning
 docker build -t bench-dataimport bench-dataimport
 docker build -t bench-agent bench-agent
 docker build -t bench-routing bench-routing
+docker build -t bench-runtime bench-runtime
 ```

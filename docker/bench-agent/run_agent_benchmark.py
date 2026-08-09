@@ -98,6 +98,8 @@ def record_result(args: argparse.Namespace, case: dict[str, Any], trace: dict[st
         json.dumps(config, sort_keys=True),
         "--wall-time-seconds",
         str(elapsed),
+        "--hardware-id",
+        args.hardware_id,
         "--records",
         args.records,
         "--reference-output",
@@ -144,6 +146,8 @@ def record_failure(args: argparse.Namespace, case: dict[str, Any], exc: Exceptio
             METHODOLOGY[1],
             "--comparison-group",
             METHODOLOGY[2],
+            "--hardware-id",
+            args.hardware_id,
             "--records",
             args.records,
             "--reference-output",
@@ -165,6 +169,7 @@ def main() -> int:
     parser.add_argument("--cases", default="", help="Comma-separated case IDs; default is all")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--run-name", required=True)
+    parser.add_argument("--hardware-id", required=True)
     parser.add_argument("--run-class", choices=("smoke", "provisional", "validated", "full"), default="provisional")
     parser.add_argument("--results-dir", default="/results")
     parser.add_argument("--scripts-dir", default="/benchmark-scripts")
@@ -178,6 +183,8 @@ def main() -> int:
 
     if not re.fullmatch(r"[A-Za-z0-9_.-]+", args.run_name):
         parser.error("--run-name may contain only letters, digits, dot, underscore, and hyphen")
+    if not re.fullmatch(r"[A-Za-z0-9_.:-]+", args.hardware_id):
+        parser.error("--hardware-id may contain only letters, digits, dot, underscore, colon, and hyphen")
     if args.limit is not None and args.limit <= 0:
         parser.error("--limit must be positive")
     if args.max_steps <= 0:
