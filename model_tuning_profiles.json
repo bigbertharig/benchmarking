@@ -535,6 +535,51 @@
         "smollm3:3b": {
             "_alias_of": "SmolLM3-3B-Q4_K_M.gguf",
             "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."
-        }
+        },
+    "gpt-oss-20b-mxfp4.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a helpful assistant. When answering multiple choice questions, reason briefly then conclude with exactly: So the answer is (X). Use plain text only, no markdown formatting. When JSON is requested, return raw JSON only, no code blocks.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "extra_args": ["--jinja", "--reasoning-budget", "0"],
+      "notes": "Brain-tier (3090). OpenAI gpt-oss 20B MoE, 3.6B active params. MXFP4 native quant (12.1GB). Apache 2.0. Requires --jinja for chat template. BENCHMARK: use --reasoning-budget 0 (channel-based thinking puts reasoning in reasoning_content, leaving only terse answer in content — BBH get-answer regex fails). Prompt tuned: 'keep output minimal' caused bare-letter answers; 'no markdown' prevents bold formatting around (X)."
+    },
+    "gpt-oss:20b": {
+      "_alias_of": "gpt-oss-20b-mxfp4.gguf",
+      "system_prompt": "You are a helpful assistant. When answering multiple choice questions, reason briefly then conclude with exactly: So the answer is (X). Use plain text only, no markdown formatting. When JSON is requested, return raw JSON only, no code blocks."
+    },
+    "Phi-4-mini-reasoning-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Worker-tier (1060 6GB). Microsoft Phi-4-mini-reasoning 3.8B dense. Q4_K_M (2.49GB). MIT license. Structural <think> tokens (same as DeepSeek-R1): --reasoning-budget 0 has no effect, runtime shows thinking=0. BENCHMARK: use --patch-think-tag-strip for bench-reasoning. bench-code INCOMPATIBLE (evalplus strips think+code together). bench-reasoning BBH/DROP FAIL on 1060 (runtime OOM from long prompts + think chains at 3g limit). bench-pipeline: json_schema 0% (think tags in JSON). Memory: needs 3g/4g Docker limits (2g causes OOM). Only GSM8K viable on 1060."
+    },
+    "phi-4-mini-reasoning:3.8b": {
+      "_alias_of": "Phi-4-mini-reasoning-Q4_K_M.gguf",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }."
+    }
     }
 }

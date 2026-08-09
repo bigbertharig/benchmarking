@@ -108,6 +108,8 @@ See [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) for per-model runtime detai
 | `Gemma-4-31B` | 30B brain | GPU 0 (3090) | complete |
 | `Qwen3.6-27B` | 30B brain | GPU 0 (3090) | complete |
 | `Qwen3.6-35B-A3B` | 30B brain | GPU 0 (3090) | complete |
+| `gpt-oss-20B` | 20B MoE brain | GPU 0 (3090) | full (pipeline, code, reasoning l100) |
+| `Phi-4-mini-reasoning` | 3.8B single | GPU 1-5 | smoke partial (pipeline, reasoning; bench-code incompatible) |
 
 ### Archived Models
 

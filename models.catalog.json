@@ -278,6 +278,27 @@
         "brain_candidate",
         "moe"
       ]
+    },
+    {
+      "id": "gpt-oss:20b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
+      "tags": [
+        "brain_candidate",
+        "moe",
+        "openai"
+      ]
+    },
+    {
+      "id": "phi-4-mini-reasoning:3.8b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
+      "tags": [
+        "reasoning",
+        "worker_candidate"
+      ]
     }
   ]
 }

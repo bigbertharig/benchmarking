@@ -20,9 +20,15 @@ Machine-readable sources:
 |-------|-----------|------|-------|-----|---------|-----------|----------|------|-----------|
 | E4B | 6.1% | 19.0% | 0.64 | 0.09 | 0.53 | 50.0% | 85.7% | 83.3% | 61.5% |
 | E2B | 6.7% | 22.0% | 0.74 | 0.14 | 0.05 | 58.3% | 92.9% | 83.3% | 7.7% |
-| 12B | 11.0% | 36.8% | 0.10 | 0.822 | — | 75.0% | 92.9% | 83.3% | 46.2% |
+| 12B | 11.0% | 36.8% | 0.10 | 0.807 | 0.79 | 75.0% | 92.9% | 83.3% | 46.2% |
 | 26B-A4B | 13.4% | 42.6% | 0.95 | 0.84 | 0.79 | 58.3% | 100% | 91.7% | 69.2% |
 | 31B | 28.7% | 65.6% | 0.95 | 0.84 | 0.79 | 58.3% | 92.9% | 83.3% | 53.8% |
+
+### gpt-oss family
+
+| Model | humaneval | mbpp | gsm8k | bbh | drop f1 | cmd_safety | long_ctx | orch | ambiguity |
+|-------|-----------|------|-------|-----|---------|-----------|----------|------|-----------|
+| 20B | 62.2% | 73.8% | 0.80 | 0.645 | 0.351 | 75.0% | 92.9% | 75.0% | 15.4% |
 
 ### qwen3.6 family
 
@@ -49,6 +55,11 @@ Pipeline tests run all cases (fixed test sets), no limit parameter.
 | `Gemma-4-31B` | 23.1% | 58.3% | 53.8% | 93.3% | 83.3% | 92.9% | 7m00s | 2026-04-22 |
 | `Qwen3.6-27B` | 23.1% | 100% | 53.8% | 93.3% | 83.3% | 100% | 1m19s | 2026-04-22 |
 | `Qwen3.6-35B-A3B` | 15.4% | 100% | 46.2% | 93.3% | 83.3% | 100% | 32s | 2026-04-22 |
+| `gpt-oss-20B` | 23.1% | 75.0% | 15.4% | 93.3% | 75.0% | 92.9% | ~65s | 2026-06-12 |
+| `Phi-4-mini-reasoning` | 0%† | 83.3% | 76.9% | 100% | 83.3% | failed‡ | — | 2026-06-12 |
+
+† Phi-4-mini-reasoning json_schema 0%: structural think tokens in JSON output, no model settings fix.
+‡ Phi-4-mini-reasoning long_ctx failed: runtime OOM killed under memory pressure from think chains.
 
 ## bench-code (EvalPlus generation)
 
@@ -68,6 +79,10 @@ Scores shown as base / plus. Code tests run all problems (fixed sets), no limit 
 | `Gemma-4-31B` | 28.7% / 28.7% | 65.6% / 58.7% | 2h56m | 2026-04-22 |
 | `Qwen3.6-27B` | 93.3% / 91.5% | 92.6% / 77.5% | 55m | 2026-04-22 |
 | `Qwen3.6-35B-A3B` | 91.5% / 89.0% | 91.0% / 76.7% | 20m | 2026-04-22 |
+| `gpt-oss-20B` | 62.2% / 58.5% | 73.8% / 63.5% | ~32m | 2026-06-12 |
+| `Phi-4-mini-reasoning` | —† | —† | — | 2026-06-12 |
+
+† Phi-4-mini-reasoning bench-code incompatible: structural think tokens break evalplus code extraction.
 
 ## bench-reasoning (lm-eval generation)
 
@@ -80,15 +95,22 @@ Latest/highest-limit score per model only.
 | `SmolLM3-3B` | 0.79 | 0.6678 | 0.3302 | 100 | 4h16m | 2026-03-18 |
 | `Gemma-4-E4B` | 0.64 | 0.093 | 0.535 | 50 | ~8h | 2026-06-09 |
 | `Gemma-4-E2B` | 0.74 | 0.141 | 0.051 | 50 | 4h02m | 2026-06-08 |
-| `Gemma-4-12B` | 0.10 | 0.822 | — | 100/5 | — | 2026-06-06 |
+| `Gemma-4-12B` | 0.10 | 0.807 | 0.789 | 100/50 | ~75m | 2026-06-13 |
 | `Gemma-4-26B-A4B` | 0.95 | 0.841 | 0.785 | 100 | 1h33m | 2026-06-08 |
 | `Gemma-4-31B` | 0.95 | 0.842 | 0.793 | 100 | 1h32m | 2026-06-08 |
 | `Qwen2.5-Coder-14B` | 0.89 | 0.5937 | 0.4802 | 100 | 9h25m | 2026-03-16 |
 | `Phi-4-14B` | 0.78 | 0.5770 | 0.0925 | 100 | 10h32m | 2026-04-29 |
 | `Qwen3.6-27B` | 0.94 | 0.893 | 0.883 | 50 | 16m | 2026-04-25 |
 | `Qwen3.6-35B-A3B` | 0.96 | 0.876 | 0.830 | 50 | 45m | 2026-04-25 |
+| `gpt-oss-20B` | 0.15/0.80† | 0.645 | 0.351 | 100 | ~82m | 2026-06-12 |
 
-Gemma-4-12B note: GSM8K at limit 100, BBH at limit 5 (A/B test: `--reasoning-budget 0` scored 0.822 vs `--reasoning-budget 1024` scored 0.244 — thinking mode destroys BBH extraction). DROP l5 smoke passed (EM=0.60, F1=0.70). GSM8K low score (0.10) is format mismatch (model outputs `$18` not `#### 18`), not capability.
+| `Phi-4-mini-reasoning` | 0.00† | —‡ | —‡ | 10 | — | 2026-06-12 |
+
+Phi-4-mini-reasoning note: † GSM8K strict 0% (format mismatch after think-tag strip — output lacks `#### N` format), flexible 10%. ‡ BBH and DROP both failed: runtime OOM killed on 1060 (3g Docker limit) under BBH long few-shot prompts + think chains. bench-reasoning partially incompatible with this model on 1060 hardware.
+
+gpt-oss-20B note: L100 scores. † GSM8K shown as strict/flexible — strict 0.15 (model outputs number without `#### N` format), flexible 0.80. BBH improved from 0.067 (v1 smoke) to 0.645 (l100) by changing system prompt to "reason briefly then conclude with exactly: So the answer is (X). Use plain text only, no markdown formatting." and adding `--reasoning-budget 0`. Original prompt caused bare-letter answers from channel-based thinking architecture.
+
+Gemma-4-12B note: GSM8K at limit 100, BBH and DROP at limit 50 (run on brain/3090). BBH 0.807 at l50 confirms l5 A/B test (0.822). DROP first full run: EM 0.74, F1 0.789 — very strong. GSM8K low score (0.10) is format mismatch (model outputs `$18` not `#### 18`), not capability. A/B test: `--reasoning-budget 0` scored BBH 0.82 vs `--reasoning-budget 1024` scored 0.24 — thinking mode destroys BBH extraction.
 
 **Gemma-4 reasoning re-run (2026-06-07/09):** Full campaign with `--reasoning-budget 0` and `--patch-think-tag-strip` via `run_campaign.py`. Brain models (26B-A4B l100, 31B l100) scored strongly — GSM8K 0.95, BBH ~0.84, DROP ~0.79. Competitive with Qwen3.6 on reasoning. E4B (l50) weak on BBH (0.09) but decent DROP (0.53). E2B (l50) weak across the board (BBH 0.14, DROP 0.05). E4B required memory limit bump to 6g/8g (OOM-killed at 4g and 5g during BBH long-prompt processing).
 
