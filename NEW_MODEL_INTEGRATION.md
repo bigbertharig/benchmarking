@@ -355,6 +355,22 @@ ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'
 
 **Gate**: All suites complete with stable scores. Record run names and exact scores.
 
+## Runtime Retention During An Active Campaign
+
+Do not unload a model merely because one benchmark stage finishes. Keep the certified runtime
+loaded at its recorded port for the entire active model campaign so follow-on litmus, smoke,
+power, throughput, reasoning, and code tests do not repay the first-load cost.
+
+Unload or replace a loaded model only when one of these is true:
+
+- The operator explicitly requests cleanup, restoration, or a different model.
+- The next approved test requires the same GPU lanes.
+- The runtime has failed and must be replaced as part of recovery.
+
+The normal brain runtime is a startup default, not an implicit end-of-benchmark cleanup action.
+Record the resident model, port, and GPU placement in the active campaign notes before ending an
+operator session.
+
 ## Phase 6: Finalize
 
 Update all companion docs with the new model's data.
