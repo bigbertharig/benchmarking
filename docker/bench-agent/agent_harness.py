@@ -254,6 +254,7 @@ def run_case(
     sandbox: Path,
     timeout: int,
     max_steps: int,
+    max_tokens: int,
 ) -> dict[str, Any]:
     sandbox.mkdir(parents=True, exist_ok=True)
     messages: list[dict[str, Any]] = [
@@ -269,7 +270,13 @@ def run_case(
     trace: dict[str, Any] = {"case_id": case["id"], "calls": [], "messages": [], "final_text": ""}
 
     for _ in range(max_steps):
-        payload: dict[str, Any] = {"model": model, "messages": messages, "temperature": 0, "stream": False}
+        payload: dict[str, Any] = {
+            "model": model,
+            "messages": messages,
+            "temperature": 0,
+            "max_tokens": max_tokens,
+            "stream": False,
+        }
         if tools:
             payload["tools"] = [public_tool(tool) for tool in tools]
             payload["tool_choice"] = "auto"

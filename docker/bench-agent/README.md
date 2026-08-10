@@ -60,11 +60,13 @@ docker run --rm --network host \
   --cases agent_tool_select,agent_tool_recovery,agent_no_tool_needed \
   --run-name qwen35_4b_agent_smoke_v1 \
   --hardware-id rig-gpu1-gtx1060-6gb \
+  --max-tokens 64 \
   --run-class smoke
 ```
 
 Run all cases by omitting `--cases`. Use `--limit N` only for harness smoke
-runs; label those runs `smoke`.
+runs; label those runs `smoke`. `--max-tokens` defaults to 256 and is recorded
+with the result; use 64 for short thermal-safe smoke checks.
 
 ## Outputs
 

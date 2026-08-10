@@ -17,7 +17,7 @@ from typing import Any
 from agent_harness import run_case
 
 
-METHODOLOGY = ("bench-agent/executable-tools", "1.0.0", "agent-execution-v1")
+METHODOLOGY = ("bench-agent/executable-tools", "1.1.0", "agent-execution-v1")
 
 
 def safe_name(value: str) -> str:
@@ -58,6 +58,7 @@ def record_result(args: argparse.Namespace, case: dict[str, Any], trace: dict[st
         "case_mode": case.get("mode", "execute"),
         "mutation": case.get("mutation", "none"),
         "max_steps": args.max_steps,
+        "max_tokens": args.max_tokens,
     }
     command = [
         sys.executable,
@@ -178,6 +179,7 @@ def main() -> int:
     parser.add_argument("--scoreboard-output", default="/mnt/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json")
     parser.add_argument("--timeout", type=int, default=180)
     parser.add_argument("--max-steps", type=int, default=8)
+    parser.add_argument("--max-tokens", type=int, default=256)
     parser.add_argument("--no-record", action="store_true")
     args = parser.parse_args()
 
@@ -189,6 +191,8 @@ def main() -> int:
         parser.error("--limit must be positive")
     if args.max_steps <= 0:
         parser.error("--max-steps must be positive")
+    if args.max_tokens <= 0:
+        parser.error("--max-tokens must be positive")
 
     requested = [value.strip() for value in args.cases.split(",") if value.strip()]
     cases = load_cases(Path(args.cases_file).resolve(), requested, args.limit)
@@ -209,6 +213,7 @@ def main() -> int:
                 sandbox=sandbox_root / safe_name(case_id),
                 timeout=args.timeout,
                 max_steps=args.max_steps,
+                max_tokens=args.max_tokens,
             )
             elapsed = time.monotonic() - started
             trace["elapsed_seconds"] = elapsed

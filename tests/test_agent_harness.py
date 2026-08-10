@@ -200,6 +200,7 @@ class AgentHarnessTests(unittest.TestCase):
                         sandbox=Path(directory) / case["id"],
                         timeout=5,
                         max_steps=5,
+                        max_tokens=256,
                     )
                     for case in cases
                 }
