@@ -361,6 +361,9 @@ Do not unload a model merely because one benchmark stage finishes. Keep the cert
 loaded at its recorded port for the entire active model campaign so follow-on litmus, smoke,
 power, throughput, reasoning, and code tests do not repay the first-load cost.
 
+At the end of an operator-directed test set, pause in the current runtime state. Treat the end
+of testing as a handoff point for the next instruction, never as an implicit reset.
+
 Unload or replace a loaded model only when one of these is true:
 
 - The operator explicitly requests cleanup, restoration, or a different model.
