@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "gtx1060_power_cap_100w_20260809",
+  "recorded_at": "2026-08-09T17:50:00-07:00",
+  "purpose": "Measure decode-throughput effect of a temporary 100 W board-power cap on GTX 1060 cards.",
+  "kind": "runtime_power_efficiency",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/decode-throughput",
+    "version": "1.0.0",
+    "comparison_group": "b10333-powercap-128gen-v1"
+  },
+  "power_limits": {
+    "temporary_cap_w": 100,
+    "restored_defaults_w": {"gpu_1": 156, "gpu_2": 120, "gpu_3": 156, "gpu_4": 120, "gpu_5": 120}
+  },
+  "results": [
+    {
+      "label": "six-way Qwen3.6-27B split",
+      "model": "Qwen3.6-27B-Q4_K_M",
+      "ctx_size": 8192,
+      "generation_tokens": 128,
+      "tensor_split": [8, 1, 1, 1, 1, 1],
+      "uncapped_generation_tokens_per_second": 11.9845,
+      "capped_generation_tokens_per_second": 11.7735,
+      "throughput_change_pct": -1.76
+    },
+    {
+      "label": "single GTX 1060 Qwen2.5-Coder-7B",
+      "gpu": 1,
+      "model": "Qwen2.5-Coder-7B-Q4_K_M",
+      "ctx_size": 2048,
+      "generation_tokens": 128,
+      "uncapped_power_limit_w": 156,
+      "uncapped_generation_tokens_per_second": 22.5884,
+      "capped_generation_tokens_per_second": 22.1271,
+      "throughput_change_pct": -2.04
+    }
+  ],
+  "interpretation": "A 100 W cap preserves approximately 98% of measured decode throughput. It is the preferred first power-saving control; no underclock is needed before longer thermal or energy measurements indicate otherwise."
+}
