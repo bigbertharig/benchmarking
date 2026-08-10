@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "gpu_decode_power_envelope_20260809",
+  "recorded_at": "2026-08-09T17:42:00-07:00",
+  "purpose": "Measure sustained autoregressive decode power per physical GPU for rig capacity and thermal planning.",
+  "kind": "runtime_power",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "nvidia-smi/sustained-decode-power",
+    "version": "1.0.0",
+    "comparison_group": "b10333-single-gpu-decode-9x1s-v1"
+  },
+  "sampling": {
+    "interval_seconds": 1,
+    "samples": 9,
+    "stop_temperature_c": 82,
+    "request": "one long-lived completion request per GPU"
+  },
+  "runtime_image": "llama-runtime:b10333",
+  "results": [
+    {"gpu": 0, "name": "RTX 3090 Ti", "power_limit_w": 450, "model": "Qwen3.6-27B-Q4_K_M", "avg_power_w": 448.5, "peak_power_w": 448.9, "avg_utilization_pct": 97.7, "peak_temperature_c": 71, "avg_sm_clock_mhz": 1952},
+    {"gpu": 1, "name": "GTX 1060 6GB", "power_limit_w": 156, "model": "Qwen2.5-Coder-7B-Q4_K_M", "avg_power_w": 42.7, "peak_power_w": 118.5, "avg_utilization_pct": 96.7, "peak_temperature_c": 47, "avg_sm_clock_mhz": 2025},
+    {"gpu": 2, "name": "GTX 1060 6GB", "power_limit_w": 120, "model": "Qwen2.5-Coder-7B-Q4_K_M", "avg_power_w": 40.3, "peak_power_w": 115.4, "avg_utilization_pct": 92.6, "peak_temperature_c": 49, "avg_sm_clock_mhz": 1923},
+    {"gpu": 3, "name": "GTX 1060 6GB", "power_limit_w": 156, "model": "Qwen2.5-Coder-7B-Q4_K_M", "avg_power_w": 49.7, "peak_power_w": 118.7, "avg_utilization_pct": 93.7, "peak_temperature_c": 45, "avg_sm_clock_mhz": 2025},
+    {"gpu": 4, "name": "GTX 1060 6GB", "power_limit_w": 120, "model": "Qwen2.5-Coder-7B-Q4_K_M", "avg_power_w": 62.4, "peak_power_w": 123.4, "avg_utilization_pct": 88.4, "peak_temperature_c": 71, "avg_sm_clock_mhz": 1973},
+    {"gpu": 5, "name": "GTX 1060 6GB", "power_limit_w": 120, "model": "Qwen2.5-Coder-7B-Q4_K_M", "avg_power_w": 51.8, "peak_power_w": 121.3, "avg_utilization_pct": 96.2, "peak_temperature_c": 60, "avg_sm_clock_mhz": 1964}
+  ],
+  "interpretation": "Decode power is model- and workload-specific. GPU 0 is near its board limit under the 27B model. The 1060 results characterize sustained 7B decode, not synthetic maximum board power."
+}
