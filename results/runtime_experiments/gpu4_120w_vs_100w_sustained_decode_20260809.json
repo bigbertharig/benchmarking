@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "experiment_id": "gpu4_120w_vs_100w_sustained_decode_20260809",
+  "recorded_at": "2026-08-09T18:10:00-07:00",
+  "purpose": "Compare sustained GTX 1060 decode power, temperature, clocks, and energy at its 120 W default and a 100 W cap.",
+  "kind": "runtime_power_efficiency",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "nvidia-smi/sustained-decode-power",
+    "version": "1.1.0",
+    "comparison_group": "gpu4-qwen25-coder7b-180s-continuous-decode-v1"
+  },
+  "hardware": {
+    "gpu": 4,
+    "name": "NVIDIA GeForce GTX 1060 6GB",
+    "default_power_limit_w": 120,
+    "restored_power_limit_w": 120
+  },
+  "runtime": {
+    "image": "llama-runtime:b10333",
+    "model": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+    "ctx_size": 2048,
+    "batch_size": 64,
+    "workload": "continuous sequential completion requests",
+    "sample_interval_seconds": 1,
+    "requested_duration_seconds": 180,
+    "active_sample_filter": "GPU utilization >= 80%"
+  },
+  "results": [
+    {
+      "power_limit_w": 120,
+      "active_samples": 179,
+      "avg_power_w": 117.0,
+      "peak_power_w": 128.87,
+      "avg_utilization_pct": 98.3,
+      "avg_temperature_c": 79.1,
+      "peak_temperature_c": 81,
+      "avg_sm_clock_mhz": 1850,
+      "energy_wh": 5.817
+    },
+    {
+      "power_limit_w": 100,
+      "active_samples": 179,
+      "avg_power_w": 96.71,
+      "peak_power_w": 105.7,
+      "avg_utilization_pct": 98.4,
+      "avg_temperature_c": 74.2,
+      "peak_temperature_c": 76,
+      "avg_sm_clock_mhz": 1731,
+      "energy_wh": 4.809
+    }
+  ],
+  "deltas_100w_vs_120w": {
+    "energy_wh_pct": -17.33,
+    "avg_power_w_pct": -17.34,
+    "avg_temperature_c": -4.9,
+    "peak_temperature_c": -5,
+    "avg_sm_clock_mhz_pct": -6.43,
+    "short_decode_throughput_reference_pct": -2.04
+  },
+  "interpretation": "The 100 W cap cuts sustained GPU 4 energy use by about 17% and peak temperature by 5 C while prior controlled 128-token decode testing showed about a 2% throughput reduction."
+}
