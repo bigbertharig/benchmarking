@@ -32,9 +32,54 @@
       "model": "Llama-3.3-70B-Instruct-Q4_K_M.gguf",
       "path": "/mnt/shared/models/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
       "placement": "GPUs 0-5, tensor split 3.5,1,1,1,1,1",
-      "outcome": "deferred_during_load",
-      "notes": "Passed initial GGUF read and reached multi-GPU offload. The low-priority load was intentionally stopped after approximately 15 minutes so smaller models could take priority; no capacity or token-rate conclusion was recorded."
+      "outcome": "first_load_and_litmus_complete",
+      "first_load": {
+        "started_at": "2026-08-10T03:14:54.010422553Z",
+        "ready_at": "2026-08-10T03:34:37.982Z",
+        "duration_seconds": 1183.972,
+        "source": "shared drive /mnt/shared",
+        "ctx_size": 2048,
+        "batch_size": 32
+      },
+      "litmus": {
+        "math": "pass: 555",
+        "json": "pass: valid object with Alice and age 30",
+        "code": "format limitation: valid function wrapped in Markdown fences"
+      },
+      "runtime_characterization": {
+        "workload": "512-token deterministic numbered-list decode",
+        "completion_tokens": 512,
+        "prompt_tokens": 59,
+        "generation_tokens_per_second": 4.112794448068086,
+        "generation_duration_seconds": 124.489567,
+        "prompt_tokens_per_second": 3.91016016016016,
+        "average_combined_gpu_power_w": 306.13,
+        "decode_energy_wh": 10.586,
+        "per_gpu": [
+          {"gpu": 0, "avg_power_w": 126.02, "peak_power_w": 132.09, "avg_temp_c": 54.83, "peak_temp_c": 58},
+          {"gpu": 1, "avg_power_w": 35.5, "peak_power_w": 79.05, "avg_temp_c": 52.86, "peak_temp_c": 56},
+          {"gpu": 2, "avg_power_w": 36.65, "peak_power_w": 80.18, "avg_temp_c": 54.34, "peak_temp_c": 57},
+          {"gpu": 3, "avg_power_w": 34.66, "peak_power_w": 77.4, "avg_temp_c": 52.5, "peak_temp_c": 56},
+          {"gpu": 4, "avg_power_w": 36.1, "peak_power_w": 88.34, "avg_temp_c": 58.9, "peak_temp_c": 62},
+          {"gpu": 5, "avg_power_w": 37.2, "peak_power_w": 91.65, "avg_temp_c": 55.56, "peak_temp_c": 59}
+        ]
+      },
+      "pipeline_smoke": {
+        "run_name": "llama33_70b_pipeline_smoke_v2",
+        "duration_seconds": 390,
+        "stages_passed": 6,
+        "stages_failed": 0,
+        "scores": {
+          "custom_json_schema_strict": 0.3076923076923077,
+          "custom_command_safety": 0.75,
+          "custom_ambiguity_handling": 0.15384615384615385,
+          "custom_tool_plan_sequence": 0.9333333333333333,
+          "custom_orchestration_tradeoff": 0.75,
+          "custom_long_context_extract": 1.0
+        }
+      },
+      "notes": "The model fits with useful VRAM headroom but is a capacity path, not a speed path on the PCIe x1 risers. Pipeline smoke is complete; reasoning and code smoke remain pending."
     }
   ],
-  "next_gate": "Obtain verified replacements for the three invalid artifacts, then resume Phase 2 and the three Phase-3 litmus checks. Resume the 70B load only in a dedicated capacity window."
+  "next_gate": "Obtain verified replacements for the three invalid artifacts, then resume Phase 2 and the three Phase-3 litmus checks. Run the 70B smoke suites only in a dedicated capacity window."
 }

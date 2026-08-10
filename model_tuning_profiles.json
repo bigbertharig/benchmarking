@@ -605,7 +605,7 @@
       "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer."
     },
     "Llama-3.3-70B-Instruct-Q4_K_M.gguf": {
-      "status": "untuned",
+      "status": "tuning",
       "last_tuned_at": null,
       "benchmark_suite": "agent_reliability",
       "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }.",
@@ -620,7 +620,7 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Capacity candidate requiring the RTX 3090 plus five GTX 1060s. Initial certification uses a 2K context; expand only after a stable load."
+      "notes": "Capacity candidate requiring the RTX 3090 plus five GTX 1060s. First load completed from shared storage in 19m43.972s at 2K context. Sustained 512-token decode measured 4.113 tok/s at 306.13 W average combined GPU draw. Litmus math and JSON pass; code output wraps the function in Markdown fences. Pipeline smoke completed: JSON 30.8%, command safety 75.0%, ambiguity 15.4%, tool sequence 93.3%, orchestration 75.0%, long context 100%. Reasoning and code smoke pending in a dedicated capacity window."
     },
     "llama3.3:70b": {
       "_alias_of": "Llama-3.3-70B-Instruct-Q4_K_M.gguf",

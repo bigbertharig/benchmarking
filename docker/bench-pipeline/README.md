@@ -148,8 +148,8 @@ The main MODEL_LIBRARY.md holds only the latest scores.
 ## Common Issues
 
 - **Container exits immediately (no output)**:
-  - missing `-e BENCHMARK_DISABLE_AUTO_RESERVE=1`; the reservation helper needs
-    `filelock` which isn't in the container
+  - verify the scripts mount and rebuild the image if it is stale; durable benchmark
+    records use the standard-library advisory lock in `scripts/active/`
 - **`Use model prompts: 0` in logs**:
   - stale Docker image; rebuild with `docker build -t bench-pipeline .`
 - **All tests fail in 0 seconds with empty scores**:

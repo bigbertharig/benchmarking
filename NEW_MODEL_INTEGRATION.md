@@ -25,6 +25,7 @@ Each new model goes through 7 phases:
 | 1 | Register | 5 min | Entries in tuning profiles + catalog |
 | 2 | First Load | 2-10 min | `/v1/models` responds, no errors |
 | 3 | Litmus Test | 1 min | 3 curl checks pass |
+| 3.5 | Runtime Characterization | 5-30 min | Load time, sustained decode rate, and power envelope recorded |
 | 4 | Smoke Runs | 30 min - 2h | All suites produce non-zero scores |
 | 5 | Full Run | 2-12h | Limit 50/100 scores recorded |
 | 6 | Finalize | 10 min | All companion docs updated |
@@ -237,6 +238,24 @@ curl -s http://localhost:$PORT/v1/chat/completions -d '{
 **If any check fails**, see the Decision Trees below before proceeding.
 
 **Gate**: All 3 checks PASS (with or without applied fixes documented in notes).
+
+## Phase 3.5: Runtime Characterization
+
+Run this mandatory measurement for every newly certified model before suite smoke runs. It
+captures the operational cost that quality scores do not represent and must use the same
+runtime image, placement, tensor split, context size, and batch size intended for testing.
+
+Record:
+
+- First-load duration: container start to the first successful `/v1/models` response, including whether the GGUF came from shared storage or a rig-local hot set.
+- Sustained decode: at least 256 generated tokens (512 preferred) from a deterministic prompt; record completion-token count, generation tok/s, prompt tok/s, and wall time from the server response timings.
+- GPU envelope: sample `nvidia-smi` once per second during that same decode; record average and peak power, temperature, and utilization for every participating GPU, plus combined average GPU power and decode energy in Wh.
+
+Store the result in `results/runtime_experiments/` with `quality_ledger: false`. Runtime
+results complement quality history; they never replace or invalidate previous model scores.
+
+**Gate**: A reproducible runtime record exists. A format limitation discovered during litmus
+must be documented in the tuning profile before the smoke campaign starts.
 
 ## Phase 4: Smoke Runs (limit 10)
 

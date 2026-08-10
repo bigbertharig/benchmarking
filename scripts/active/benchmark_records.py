@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
-from filelock import FileLock
+from benchmark_file_lock import BenchmarkFileLock
 
 
 SCHEMA_VERSION = 3
@@ -162,7 +162,7 @@ def validate_record(record: dict[str, Any]) -> None:
 def load_records(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         raise FileNotFoundError(f"benchmark records not found: {path}")
-    lock = FileLock(str(path) + ".lock", timeout=30)
+    lock = BenchmarkFileLock(str(path) + ".lock", timeout=30)
     with lock:
         raw_lines = path.read_text(encoding="utf-8").splitlines()
     rows: list[dict[str, Any]] = []
@@ -222,7 +222,7 @@ def best_by_model_test(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
 def append_record(path: Path, record: dict[str, Any]) -> None:
     validate_record(record)
     path.parent.mkdir(parents=True, exist_ok=True)
-    lock = FileLock(str(path) + ".lock", timeout=30)
+    lock = BenchmarkFileLock(str(path) + ".lock", timeout=30)
     with lock:
         with path.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(record, sort_keys=True) + "\n")
@@ -236,7 +236,7 @@ def write_json_atomic(path: Path, payload: Any) -> None:
 
 def write_text_atomic(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    lock = FileLock(str(path) + ".lock", timeout=30)
+    lock = BenchmarkFileLock(str(path) + ".lock", timeout=30)
     with lock:
         fd, temp_name = tempfile.mkstemp(prefix=path.name + ".", dir=path.parent)
         try:

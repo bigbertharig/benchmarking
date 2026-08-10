@@ -11,7 +11,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from filelock import FileLock
+from benchmark_file_lock import BenchmarkFileLock
 
 from benchmark_records import (
     FORMAT_COMPATIBILITY,
@@ -173,7 +173,7 @@ def main() -> int:
     }
 
     records_path = Path(args.records).expanduser().resolve()
-    pipeline_lock = FileLock(str(records_path) + ".pipeline.lock", timeout=30)
+    pipeline_lock = BenchmarkFileLock(str(records_path) + ".pipeline.lock", timeout=30)
     with pipeline_lock:
         append_record(records_path, payload)
         print(f"Recorded result: {records_path}")
