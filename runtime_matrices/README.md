@@ -5,6 +5,10 @@ overrides. The builder does not produce a Cartesian product. Each resolved
 profile gets a stable configuration hash and becomes one unified-campaign
 block.
 
+Measured runtime-capacity experiments live separately in
+`results/runtime_experiments/`. They are not quality-score records and do not
+replace historical model graphs or score ledger entries.
+
 Generate the Qwen3.5 4B structured-worker campaign:
 
 ```bash

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "experiment_id": "qwen36_27b_split_decode_20260809",
+  "recorded_at": "2026-08-09T17:34:00-07:00",
+  "purpose": "Measure decode throughput versus mixed-GPU tensor-split width before evaluating 70B-class capacity.",
+  "kind": "runtime_capacity",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/decode-throughput",
+    "version": "1.0.0",
+    "comparison_group": "qwen36-27b-q4-b10333-ctx8192-128gen-v1"
+  },
+  "hardware": {
+    "gpu_0": "NVIDIA GeForce RTX 3090 Ti, 24564 MiB",
+    "gpu_1_to_5": "5x NVIDIA GeForce GTX 1060 6GB, 6144 MiB each",
+    "interconnect": "PHB between the 3090 Ti and every GTX 1060; no NVLink"
+  },
+  "runtime": {
+    "image": "llama-runtime:b10333",
+    "model": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "ctx_size": 8192,
+    "batch_size": 64,
+    "parallel": 1,
+    "reasoning_budget": 0,
+    "prompt_tokens": 13,
+    "generation_tokens": 128,
+    "temperature": 0
+  },
+  "results": [
+    {
+      "label": "3090-only",
+      "host_gpus": [0],
+      "tensor_split": null,
+      "prompt_tokens_per_second": 46.8566,
+      "generation_tokens_per_second": 45.4528
+    },
+    {
+      "label": "3090-plus-1x1060",
+      "host_gpus": [0, 4],
+      "tensor_split": [4, 1],
+      "prompt_tokens_per_second": 23.7331,
+      "generation_tokens_per_second": 16.9363
+    },
+    {
+      "label": "3090-plus-2x1060",
+      "host_gpus": [0, 4, 5],
+      "tensor_split": [4, 1, 1],
+      "prompt_tokens_per_second": 18.3254,
+      "generation_tokens_per_second": 13.7063
+    },
+    {
+      "label": "3090-plus-5x1060",
+      "host_gpus": [0, 1, 2, 3, 4, 5],
+      "tensor_split": [8, 1, 1, 1, 1, 1],
+      "prompt_tokens_per_second": 14.3557,
+      "generation_tokens_per_second": 11.9845
+    }
+  ],
+  "interpretation": "This is a capacity tradeoff, not a speed scaling path. Added Pascal GPUs increase memory capacity but reduce decode throughput for this dense 27B model on PHB-only PCIe."
+}
