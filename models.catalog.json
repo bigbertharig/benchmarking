@@ -291,6 +291,68 @@
       ]
     },
     {
+      "id": "devstral-small:24b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "tags": [
+        "code",
+        "worker_candidate",
+        "moe"
+      ]
+    },
+    {
+      "id": "qwen3:14b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3-14b/Qwen3-14B-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": ["gpu-1", "gpu-3"],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": ["gpu-4", "gpu-5"],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "reasoning",
+        "worker_candidate"
+      ]
+    },
+    {
+      "id": "qwen3.5:27b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "dense",
+        "historical_comparison"
+      ]
+    },
+    {
+      "id": "llama3.3:70b",
+      "tier": 3,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "all_gpus_capacity",
+          "members": ["gpu-0", "gpu-1", "gpu-2", "gpu-3", "gpu-4", "gpu-5"],
+          "port": 11445
+        }
+      ],
+      "tags": [
+        "capacity_candidate",
+        "dense",
+        "multi_gpu"
+      ]
+    },
+    {
       "id": "phi-4-mini-reasoning:3.8b",
       "tier": 1,
       "placement": "single_gpu",

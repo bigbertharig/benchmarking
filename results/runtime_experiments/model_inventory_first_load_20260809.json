@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "model_inventory_first_load_20260809",
+  "recorded_at": "2026-08-09T19:43:00-07:00",
+  "purpose": "Phase-2 direct-load certification of four pre-existing model artifacts before benchmark smoke runs.",
+  "kind": "model_artifact_certification",
+  "quality_ledger": false,
+  "runtime_image": "llama-runtime:b10333",
+  "results": [
+    {
+      "model": "Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "GPU 1",
+      "outcome": "artifact_invalid",
+      "loader_error": "tensor blk.13.ffn_gate.weight data is not within the file bounds, model is corrupted or incomplete"
+    },
+    {
+      "model": "Qwen3-14B-Q4_K_M.gguf",
+      "path": "/mnt/shared/models/qwen3-14b/Qwen3-14B-Q4_K_M.gguf",
+      "placement": "GPUs 1 and 3, tensor split 1,1",
+      "outcome": "artifact_invalid",
+      "loader_error": "tensor blk.22.ffn_down.weight data is not within the file bounds, model is corrupted or incomplete"
+    },
+    {
+      "model": "Qwen3.5-27B-Q4_K_M.gguf",
+      "path": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "GPU 0",
+      "outcome": "artifact_invalid",
+      "loader_error": "tensor blk.35.ffn_up.weight data is not within the file bounds, model is corrupted or incomplete"
+    },
+    {
+      "model": "Llama-3.3-70B-Instruct-Q4_K_M.gguf",
+      "path": "/mnt/shared/models/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
+      "placement": "GPUs 0-5, tensor split 3.5,1,1,1,1,1",
+      "outcome": "deferred_during_load",
+      "notes": "Passed initial GGUF read and reached multi-GPU offload. The low-priority load was intentionally stopped after approximately 15 minutes so smaller models could take priority; no capacity or token-rate conclusion was recorded."
+    }
+  ],
+  "next_gate": "Obtain verified replacements for the three invalid artifacts, then resume Phase 2 and the three Phase-3 litmus checks. Resume the 70B load only in a dedicated capacity window."
+}
