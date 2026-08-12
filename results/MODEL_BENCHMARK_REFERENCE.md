@@ -1,10 +1,10 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-08-12T20:33:42.381471+00:00`
+- Generated at: `2026-08-12T22:41:21.703191+00:00`
 - Canonical records: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/benchmark-scripts/benchmark_status.json`
-- Total records: `910`
-- Selected model/test results: `519`
+- Total records: `925`
+- Selected model/test results: `534`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
@@ -148,6 +148,9 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | deepseek-r1:7b | daedalmap_type_routing_type_correct_rate | 0.35 | 35.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T04:07:02+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_deepseek-r1_7b |
 | deepseek-r1:7b | gsm8k_flexible | 0.09 | 9.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
 | deepseek-r1:7b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:42:46+00:00 | bench-reasoning | bench-reasoning_deepseek-r1_7b_rr_l100_c05_20260311_221559_p11437 |
+| devstral-small:24b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-12T22:38:59.405079 | bench-geoimport | campaign_devstral_24b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| devstral-small:24b | geoimport_prep_handoff_local_check_failure_v2 | 1.0 | 100.0 | prep_handoff | smoke | 1 | unknown | 2026-08-12T22:39:05.986745 | bench-geoimport | campaign_devstral_24b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| devstral-small:24b | geoimport_prep_plan_brazil_spine_v2 | 0.8485 | 84.85000000000001 | prep_plan | smoke | 1 | unknown | 2026-08-12T22:39:03.246133 | bench-geoimport | campaign_devstral_24b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
 | gemma-3-4b-it-Q4_K_M.gguf | bbh | 0.5481481481481482 | 54.81481481481482 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T02:37:46+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
 | gemma-3-4b-it-Q4_K_M.gguf | drop_em | 0.2 | 20.0 | em,none | legacy |  | unknown | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
 | gemma-3-4b-it-Q4_K_M.gguf | drop_f1 | 0.266 | 26.6 | f1,none | legacy |  | unknown | 2026-03-17T02:38:19+00:00 | bench-reasoning | bench-reasoning_gemma-3-4b-it-Q4_K_M.gguf_reasoning_gemma3-4b_smoke_v1 |
@@ -260,6 +263,15 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | llama3.2:3b | drop_f1 | 0.43260000000000004 | 43.260000000000005 | f1,none | legacy |  | unknown | 2026-03-18T10:02:29+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
 | llama3.2:3b | gsm8k_flexible | 0.72 | 72.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
 | llama3.2:3b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-18T05:59:05+00:00 | bench-reasoning | bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1 |
+| ministral-3:14b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-12T22:40:02.220643 | bench-geoimport | campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:14b | geoimport_prep_handoff_local_check_failure_v2 | 0.9474 | 94.74000000000001 | prep_handoff | smoke | 1 | unknown | 2026-08-12T22:40:12.972258 | bench-geoimport | campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:14b | geoimport_prep_plan_brazil_spine_v2 | 0.2727 | 27.27 | prep_plan | smoke | 1 | unknown | 2026-08-12T22:40:09.359148 | bench-geoimport | campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:3b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-12T22:41:16.570315 | bench-geoimport | campaign_ministral3_3b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:3b | geoimport_prep_handoff_local_check_failure_v2 | 1.0 | 100.0 | prep_handoff | smoke | 1 | unknown | 2026-08-12T22:41:21.348971 | bench-geoimport | campaign_ministral3_3b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:3b | geoimport_prep_plan_brazil_spine_v2 | 0.2727 | 27.27 | prep_plan | smoke | 1 | unknown | 2026-08-12T22:41:19.859031 | bench-geoimport | campaign_ministral3_3b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:8b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-12T22:40:48.050980 | bench-geoimport | campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:8b | geoimport_prep_handoff_local_check_failure_v2 | 0.9474 | 94.74000000000001 | prep_handoff | smoke | 1 | unknown | 2026-08-12T22:40:55.995032 | bench-geoimport | campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
+| ministral-3:8b | geoimport_prep_plan_brazil_spine_v2 | 0.3939 | 39.39 | prep_plan | smoke | 1 | unknown | 2026-08-12T22:40:53.214928 | bench-geoimport | campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 |
 | mistral:7b-instruct | custom_ambiguity_handling | 1.0 | 100.0 | clarification_rate | legacy |  | unknown | 2026-03-05T20:20:03.464691 | local_custom | local_custom_probe_v2 |
 | mistral:7b-instruct | daedalmap_catalog_discipline_json_valid_rate | 0.8666666666666667 | 86.66666666666667 | json_valid_rate | legacy |  | unknown | 2026-03-21T03:41:34+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
 | mistral:7b-instruct | daedalmap_catalog_discipline_no_halluc_rate | 0.5333333333333333 | 53.333333333333336 | no_halluc_rate | legacy |  | unknown | 2026-03-21T03:41:35+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
@@ -396,6 +408,9 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen2.5:7b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | legacy |  | unknown | 2026-03-05T20:20:27.293918 | local_custom | local_custom_probe_v2 |
 | qwen2.5:7b | drop | 0.14875 |  | f1,none | legacy |  | unknown | 2026-03-05T13:57:56.869958 | lm_eval | initial_matrix_20260305 |
 | qwen2.5:7b | gsm8k | 0.75 |  | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T13:57:07.002198 | lm_eval | initial_matrix_20260305 |
+| qwen3-coder:30b-a3b | geoimport_prep_classify_australia_asgs_v2 | 0.9474 | 94.74000000000001 | classification | smoke | 1 | unknown | 2026-08-12T22:35:01.663956 | bench-geoimport | campaign_qwen3coder_30b_geoimport_20260812_modern_import_models_geo_smoke_r1 |
+| qwen3-coder:30b-a3b | geoimport_prep_handoff_local_check_failure_v2 | 1.0 | 100.0 | prep_handoff | smoke | 1 | unknown | 2026-08-12T22:35:05.670712 | bench-geoimport | campaign_qwen3coder_30b_geoimport_20260812_modern_import_models_geo_smoke_r1 |
+| qwen3-coder:30b-a3b | geoimport_prep_plan_brazil_spine_v2 | 0.7273 | 72.72999999999999 | prep_plan | smoke | 1 | unknown | 2026-08-12T22:35:04.000312 | bench-geoimport | campaign_qwen3coder_30b_geoimport_20260812_modern_import_models_geo_smoke_r1 |
 | qwen3.5:4b | custom_command_safety | 1.0 | 100.0 | risk_detection_rate | legacy |  | unknown | 2026-04-03T14:30:20.198505 | local_custom | individual_custom |
 | qwen3.5:4b | daedalmap_catalog_discipline_json_valid_rate | 0.6666666666666666 | 66.66666666666666 | json_valid_rate | legacy |  | unknown | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
 | qwen3.5:4b | daedalmap_catalog_discipline_no_halluc_rate | 0.7333333333333333 | 73.33333333333333 | no_halluc_rate | legacy |  | unknown | 2026-03-21T02:59:19+00:00 | bench-daedalmap | daedalmap_small_models_full_v1_qwen3.5_4b |
@@ -586,6 +601,21 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-12T22:41:21.348971 | ministral-3:3b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_ministral3_3b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 1ca3c5c7-2954-4cd7-abda-65bb3bfc261b |
+| 2026-08-12T22:41:19.859031 | ministral-3:3b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.2727 | prep_plan | bench-geoimport | campaign_ministral3_3b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 48465f86-54e5-4eea-aedb-88535f01dd8d |
+| 2026-08-12T22:41:16.570315 | ministral-3:3b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 1.0 | classification | bench-geoimport | campaign_ministral3_3b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 389c4a7a-c2e1-44db-bfda-7685faaef634 |
+| 2026-08-12T22:40:55.995032 | ministral-3:8b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 0.9474 | prep_handoff | bench-geoimport | campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 3e5016ca-15e7-49a3-a1dd-317d7f056a04 |
+| 2026-08-12T22:40:53.214928 | ministral-3:8b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.3939 | prep_plan | bench-geoimport | campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | c051f0da-2af9-4086-8574-e5a61c705d0b |
+| 2026-08-12T22:40:48.050980 | ministral-3:8b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 1.0 | classification | bench-geoimport | campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 1d46212b-2827-4e3d-a997-6b19487adb30 |
+| 2026-08-12T22:40:12.972258 | ministral-3:14b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 0.9474 | prep_handoff | bench-geoimport | campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 306436b5-2994-4baf-bb60-c800e94f8af1 |
+| 2026-08-12T22:40:09.359148 | ministral-3:14b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.2727 | prep_plan | bench-geoimport | campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 71060ba0-b4a5-435a-a42f-cd4fcb2f1909 |
+| 2026-08-12T22:40:02.220643 | ministral-3:14b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 1.0 | classification | bench-geoimport | campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 3fa0c389-55fb-4341-abbb-08acb343f7f9 |
+| 2026-08-12T22:39:05.986745 | devstral-small:24b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_devstral_24b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | c5dc5e83-f989-42cb-b360-443b5e43b136 |
+| 2026-08-12T22:39:03.246133 | devstral-small:24b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.8485 | prep_plan | bench-geoimport | campaign_devstral_24b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 274db3b3-f004-4f92-a64b-8f3eb98a2b12 |
+| 2026-08-12T22:38:59.405079 | devstral-small:24b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 1.0 | classification | bench-geoimport | campaign_devstral_24b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1 | 2689fdda-367c-41ad-9c08-6869313a6989 |
+| 2026-08-12T22:35:05.670712 | qwen3-coder:30b-a3b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_qwen3coder_30b_geoimport_20260812_modern_import_models_geo_smoke_r1 | 5635367d-56a8-4c46-8fd3-24fe974ab973 |
+| 2026-08-12T22:35:04.000312 | qwen3-coder:30b-a3b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.7273 | prep_plan | bench-geoimport | campaign_qwen3coder_30b_geoimport_20260812_modern_import_models_geo_smoke_r1 | f8984592-425a-4786-b42e-d4d707e0a108 |
+| 2026-08-12T22:35:01.663956 | qwen3-coder:30b-a3b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 0.9474 | classification | bench-geoimport | campaign_qwen3coder_30b_geoimport_20260812_modern_import_models_geo_smoke_r1 | b5dbdc69-d6e8-43ab-b348-059e090c8ae8 |
 | 2026-08-12T20:33:42.026344 | qwen2.5-coder:7b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 0.9474 | prep_handoff | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | 86808db3-51a9-46f2-932d-fa4fb66ea49c |
 | 2026-08-12T20:33:40.824102 | qwen2.5-coder:7b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.7273 | prep_plan | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | 5de0fda7-f8da-458e-9026-4772ed4875a4 |
 | 2026-08-12T20:33:38.815349 | qwen2.5-coder:7b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 0.9474 | classification | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | fa73f099-33ee-4734-ae9d-c6274e59e27c |
@@ -611,18 +641,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-08-12T19:38:38.052567 | qwen3.6:27b | geoimport_qa_parent_failure | success | smoke | 1 | 0.6667 | qa_interpretation | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5 | 610baf3e-e8fa-4876-80ff-3ff56000009c |
 | 2026-08-12T19:38:32.854958 | qwen3.6:27b | geoimport_job_plan_brazil_spine | success | smoke | 1 | 0.7895 | job_plan | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5 | 4170976c-5ea1-47e0-ae4f-f0c4895267c9 |
 | 2026-08-12T19:38:21.271914 | qwen3.6:27b | geoimport_classify_australia_asgs | success | smoke | 1 | 0.9 | classification | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5 | 1f460b9a-98ba-4ede-b25a-9649e0ee49d7 |
-| 2026-08-12T19:38:03+00:00 | qwen3.6:27b | dataimport_reference_owid_co2 | success | smoke | 1 | 1.0 | reference_quality | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_smoke_r5 | a1ca0c0b-d660-4895-9186-7c13e907bef3 |
-| 2026-08-12T19:36:26+00:00 | qwen3.6:27b | dataimport_schema_loc_id | success | smoke | 1 | 1.0 | schema_understanding | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_smoke_r5 | aa94872f-6626-496a-af9f-b72ed6e91221 |
-| 2026-08-12T19:34:07+00:00 | qwen3.6:27b | dataimport_reference_owid_co2 | success | smoke | 1 | 1.0 | reference_quality | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_smoke_r4 | e075e752-03c7-482d-9348-6adbcfa18902 |
-| 2026-08-12T19:32:32+00:00 | qwen3.6:27b | dataimport_schema_loc_id | success | smoke | 1 | 1.0 | schema_understanding | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_smoke_r4 | 6a786469-5952-477c-b004-8982fae1b86e |
-| 2026-08-12T19:29:58.406693 | qwen3.6:27b | geoimport_qa_parent_failure | success | smoke | 1 | 0.0 | qa_interpretation | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r2 | 3216496c-5878-4e0a-8053-1c3382c3f7a5 |
-| 2026-08-12T19:29:50.056484 | qwen3.6:27b | geoimport_job_plan_brazil_spine | success | smoke | 1 | 0.7895 | job_plan | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r2 | 0b9f8459-f13e-415c-83e9-4ebab03b130c |
-| 2026-08-12T19:29:38.616747 | qwen3.6:27b | geoimport_classify_australia_asgs | success | smoke | 1 | 0.9 | classification | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r2 | 30855b99-7938-436a-b602-14f65a307701 |
-| 2026-08-12T19:28:54+00:00 | qwen3.6:27b | dataimport_reference_owid_co2 | success | smoke | 1 | 1.0 | reference_quality | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_smoke_r2 | fed56192-20e5-473d-ac5e-d90eee77a487 |
-| 2026-08-12T19:27:18+00:00 | qwen3.6:27b | dataimport_schema_loc_id | success | smoke | 1 | 1.0 | schema_understanding | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_smoke_r2 | f3a4baaa-018b-428c-8980-d1dee66c7c7e |
-| 2026-06-13T08:01:01+00:00 | gemma-4:12b | drop_f1 | success | legacy |  | 0.7892 | f1,none | bench-reasoning | gemma4_12b_brain_l50_v1 | 53582bd4-2ad9-4d5b-96a5-2eb34324afaf |
-| 2026-06-13T08:01:01+00:00 | gemma-4:12b | drop_em | success | legacy |  | 0.74 | em,none | bench-reasoning | gemma4_12b_brain_l50_v1 | 3fe6e303-71df-492e-b57b-09289525a143 |
-| 2026-06-13T08:00:23+00:00 | gemma-4:12b | bbh | success | legacy |  | 0.8066666666666666 | exact_match,get-answer | bench-reasoning | gemma4_12b_brain_l50_v1 | 1fd58b1d-46ab-4bf0-8744-830d2121a11e |
-| 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_em | success | legacy |  | 0.18 | em,none | bench-reasoning | gptoss_l100_v1 | acfad2c5-ccb5-46c8-ba74-b7cbc6e9371a |
-| 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_f1 | success | legacy |  | 0.3510000000000001 | f1,none | bench-reasoning | gptoss_l100_v1 | 2245731a-b76d-416b-b793-adf554b432aa |
-| 2026-06-13T06:31:01+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.6448148148148148 | exact_match,get-answer | bench-reasoning | gptoss_l100_v1 | d03878ef-1d0e-43f3-ba96-0404debd7c4a |
