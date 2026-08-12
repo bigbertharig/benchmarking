@@ -510,12 +510,15 @@ def main() -> int:
         "results": results,
         "completed_at": datetime.now().isoformat(),
     }
-    thresholds_passed, threshold_failures = classify_thresholds(cases_root, results)
-    summary["thresholds_passed"] = thresholds_passed
-    summary["threshold_failures"] = threshold_failures
+    reference_met, reference_observations = classify_thresholds(cases_root, results)
+    summary["reference_markers"] = {
+        "gating": False,
+        "met": reference_met,
+        "observations": reference_observations,
+    }
     final_file.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(json.dumps(summary, indent=2))
-    return 1 if failures or not thresholds_passed else 0
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

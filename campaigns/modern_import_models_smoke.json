@@ -1,0 +1,63 @@
+{
+  "name": "modern_import_models_smoke",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 600
+  },
+  "blocks": [
+    {
+      "id": "qwen3coder_30b_geoimport",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
+      "limit": 1,
+      "ctx_size": 16384
+    },
+    {
+      "id": "devstral_24b_geoimport",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
+      "limit": 1,
+      "ctx_size": 8192,
+      "depends_on": ["qwen3coder_30b_geoimport"]
+    },
+    {
+      "id": "ministral3_14b_geoimport",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
+      "limit": 1,
+      "ctx_size": 8192,
+      "depends_on": ["devstral_24b_geoimport"]
+    },
+    {
+      "id": "ministral3_8b_geoimport",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
+      "limit": 1,
+      "ctx_size": 16384,
+      "depends_on": ["ministral3_14b_geoimport"]
+    },
+    {
+      "id": "ministral3_3b_geoimport",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
+      "limit": 1,
+      "ctx_size": 16384,
+      "depends_on": ["ministral3_8b_geoimport"]
+    }
+  ]
+}

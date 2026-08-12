@@ -15,15 +15,17 @@ The suite intentionally does not validate final geometry correctness. That
 belongs to deterministic repo QA. This suite checks whether the model chooses
 the right lane and refuses unsupported claims.
 
-## Success Metrics
+## Measurements
 
 - strict JSON response;
 - required keys present;
 - required evidence concepts present, with accepted equivalent wording;
 - prohibited completion claims absent from claim fields;
-- average score >= 0.90 for a pass;
-- every scored case >= 0.60, so a model cannot hide one broken gate behind
-  stronger cases.
+- average and per-case scores;
+- non-gating historical reference markers at 0.90 average and 0.60 per case.
+
+Capability scores do not make a benchmark run pass or fail. Only incomplete
+execution, request, or parsing failures produce a nonzero suite exit.
 
 Version 2 uses the Canada completion fixture to define which provenance,
 counts, exclusions, metadata, and artifacts the prep handoff must expose. It

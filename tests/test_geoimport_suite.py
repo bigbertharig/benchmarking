@@ -77,7 +77,7 @@ class GeoImportSuiteTests(unittest.TestCase):
         self.assertTrue(valid)
         self.assertEqual(payload["claim"], "candidate_qa_failed")
 
-    def test_thresholds_fail_low_average_or_low_case(self) -> None:
+    def test_reference_markers_describe_low_average_or_low_case(self) -> None:
         import importlib.util
 
         spec = importlib.util.spec_from_file_location("run_geoimport_benchmark", RUNNER)
