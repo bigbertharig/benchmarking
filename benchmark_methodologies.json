@@ -38,6 +38,13 @@
       "status": "active"
     },
     {
+      "id": "bench-geoimport/capability",
+      "version": "2.0.0",
+      "comparison_group": "geoimport-capability-v2",
+      "suite": "bench-geoimport",
+      "status": "active"
+    },
+    {
       "id": "bench-knowledge/lm-eval-gguf",
       "version": "2.0.0",
       "comparison_group": "lm-eval-0.4.11-knowledge-v1",

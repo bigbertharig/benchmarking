@@ -98,6 +98,7 @@ Recommended operator flow:
 | [bench-daedalmap](bench-daedalmap/README.md) | DaedalMap chat routing + bucket-backed data validation | ~5 min smoke, ~45 min full 100-case run |
 | [bench-knowledge](bench-knowledge/README.md) | Knowledge (mmlu, arc, hellaswag) | ~1.5h - 8h at limit 5 |
 | [bench-dataimport](bench-dataimport/README.md) | Converter, reference metadata, and schema-understanding tasks | ~5 min smoke, model-dependent full run |
+| [bench-geoimport](bench-geoimport/README.md) | Local-brain geometry/admin-spine prep classification, planning, and handoff readiness | ~5 min smoke |
 | [bench-agent](bench-agent/README.md) | Executable tool use, observation handling, recovery, and MCP mutations | ~5-15 min |
 | [bench-routing](bench-routing/README.md) | Cheapest-sufficient execution-tier selection | ~5 min |
 | [bench-runtime](bench-runtime/README.md) | Stability, TTFT, throughput, context, and optional GPU telemetry | ~5-20 min |
@@ -226,6 +227,8 @@ Storage policy (do not mix suite outputs in one folder):
 - `bench-reasoning`: `/mnt/shared/logs/benchmarks/bench-reasoning/history`
 - `bench-daedalmap`: `/mnt/shared/logs/benchmarks/bench-daedalmap/history`
 - `bench-knowledge`: `/mnt/shared/logs/benchmarks/bench-knowledge/history`
+- `bench-dataimport`: `/mnt/shared/logs/benchmarks/bench-dataimport/history`
+- `bench-geoimport`: `/mnt/shared/logs/benchmarks/bench-geoimport/history`
 
 ## Prompt Methodology (applies to all suites)
 

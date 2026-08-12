@@ -1,0 +1,147 @@
+{
+  "suite_id": "bench-geoimport-prep-v2",
+  "version": "2.0",
+  "description": "Local-brain geometry and country admin-spine preparation benchmark for the County Map GPU-rig workflow.",
+  "scoring": {
+    "classification": "Separates strict admin-spine prep, sidechain prep, and blocked policy assignments.",
+    "prep_plan": "Produces an executable isolated preparation plan using approved sources and canonical repository scripts.",
+    "prep_handoff": "Returns a complete reviewable prep handoff or blocks honestly when local preparation checks fail."
+  },
+  "thresholds": {
+    "PASS": 0.9,
+    "PARTIAL": 0.6,
+    "FAIL": 0.0
+  },
+  "tasks": {
+    "classification": {
+      "description": "Classify a local preparation assignment without making adoption or QA claims.",
+      "cases": [
+        {
+          "case_id": "GC-001",
+          "test_id": "geoimport_prep_classify_australia_asgs_v2",
+          "name": "australia_asgs_negative_control",
+          "difficulty": "medium",
+          "prompt_context": "Australia has an existing LGA-shaped Admin2 layer. ABS ASGS Edition 3 is internally nested as State/Territory -> SA4 -> SA3 -> SA2 -> SA1 -> Mesh Block, but it does not extend beneath the LGA Admin2 layer. The local-brain assignment is to prepare reviewable artifacts while preserving the distinction between administration and statistical geography.",
+          "expected": {
+            "required_keys": ["classification", "task_type", "target_claim", "rationale", "next_actions"],
+            "classification": ["sidechain", "sidechain_preparation", "blocked_spine_policy", "spine_decision_required"],
+            "task_type_values": ["geometry_family_import", "country_admin_spine"],
+            "target_claim_values": ["blocked", "family_prepared", "candidate_built"],
+            "concept_groups": [
+              ["asgs"],
+              ["lga"],
+              ["sidechain", "statistical geography"],
+              ["do not promote", "do not adopt", "policy decision", "cloud review", "preserve", "preserving"],
+              ["prepare", "candidate", "handoff"]
+            ],
+            "must_not_claim": ["candidate_qa_passed", "runtime_qa_passed", "authority_complete", "adopted", "published"]
+          }
+        },
+        {
+          "case_id": "GC-002",
+          "test_id": "geoimport_prep_classify_brazil_ibge_v2",
+          "name": "brazil_ibge_strict_spine_prep",
+          "difficulty": "medium",
+          "prompt_context": "The cloud orchestrator assigned Brazil current admin-spine preparation using an approved official IBGE source. The requested output is an isolated candidate with compact authority components, leading zero preservation, publisher-code mappings, aliases from replaced global fallbacks, prep logs, and a handoff for cloud QA. The local brain does not perform final country acceptance or adoption.",
+          "expected": {
+            "required_keys": ["classification", "task_type", "target_claim", "rationale", "next_actions"],
+            "classification": ["strict_admin_spine", "country_admin_spine"],
+            "task_type_values": ["country_admin_spine"],
+            "target_claim_values": ["candidate_built"],
+            "concept_groups": [
+              ["ibge"],
+              ["strict", "admin spine"],
+              ["cloud qa", "handoff", "review"]
+            ],
+            "must_not_claim": ["candidate_qa_passed", "runtime_qa_passed", "authority_complete", "adopted", "published"]
+          }
+        }
+      ]
+    },
+    "prep_plan": {
+      "description": "Produce a compact JSON plan for local preparation only.",
+      "cases": [
+        {
+          "case_id": "GP-001",
+          "test_id": "geoimport_prep_plan_brazil_spine_v2",
+          "name": "brazil_spine_local_prep_plan",
+          "difficulty": "hard",
+          "prompt_context": "Create a local-brain plan for the assigned Brazil current admin-spine preparation. The cloud orchestrator has already approved the official IBGE source and license posture. Inspect and use existing repository downloaders, builders, and validators where possible. Preserve the immutable download, build only under an isolated candidate root, record source URL/retrieval/hash, generate identity/geometry artifacts and mappings, summarize source and candidate counts plus exclusions, run the assigned lightweight validators, and return prep logs, metadata, checksums, candidate fingerprint, and a handoff for cloud QA. For tabular source folders, the standard verifier is tools/gpu_rig/verify_data_prep.py and its PREP_VALIDATION.json report; geometry jobs use their declared job-specific validators until an equivalent common geometry-prep verifier exists. Historical editions, sidechains, exhaustive country QA, runtime QA, adoption, and publishing are outside this local task.",
+          "expected": {
+            "required_keys": ["task_type", "target_claim", "stages", "outputs", "local_checks", "handoff", "blocked_items"],
+            "task_type_values": ["country_admin_spine"],
+            "target_claim_values": ["candidate_built"],
+            "concept_groups": [
+              ["existing", "repository script", "canonical script"],
+              ["verify data prep", "verify_data_prep.py", "declared validator", "job-specific validator"],
+              ["download", "acquire"],
+              ["source url", "retrieval"],
+              ["sha-256", "sha256", "source hash"],
+              ["immutable", "raw source", "source archive"],
+              ["isolated", "candidate root"],
+              ["identity", "loc_id"],
+              ["geometry", "parquet"],
+              ["mapping", "alias", "crosswalk"],
+              ["source count", "row count", "candidate count"],
+              ["exclusion", "omission", "negative inventory"],
+              ["schema", "nonempty", "lightweight check"],
+              ["prep log", "run log"],
+              ["metadata", "sidecar", "manifest"],
+              ["checksum", "fingerprint"],
+              ["cloud qa", "handoff", "review"]
+            ],
+            "must_not_claim": ["candidate_qa_passed", "runtime_qa_passed", "authority_complete", "release_plan_passed", "adopted", "published"]
+          }
+        }
+      ]
+    },
+    "prep_handoff": {
+      "description": "Assess whether local preparation is complete enough for cloud-orchestrator review.",
+      "cases": [
+        {
+          "case_id": "GH-001",
+          "test_id": "geoimport_prep_handoff_local_check_failure_v2",
+          "name": "local_parent_check_failure",
+          "difficulty": "medium",
+          "prompt_context": "The downloader and builder completed, but an assigned script-based lightweight hierarchy validator reports 1.6% of children with no immediate parent and exits nonzero. The prep log records the failure. Source archive and hashes are present. Should the local brain return a candidate_built handoff as ready for cloud QA, or block, repair, and rerun the validator first?",
+          "expected": {
+            "required_keys": ["claim", "prep_state", "rationale", "missing_or_failed", "next_actions"],
+            "claim_values": ["blocked"],
+            "concept_groups": [
+              ["parent"],
+              ["1.6", "missing"],
+              ["failed", "block"],
+              ["fix", "repair", "resolve"],
+              ["rerun", "re-run"],
+              ["validator", "validation script", "nonzero", "non-zero"],
+              ["cloud qa", "handoff", "not ready"]
+            ],
+            "must_not_claim": ["candidate_built", "candidate_qa_passed", "runtime_qa_passed", "adopted", "published"]
+          }
+        },
+        {
+          "case_id": "GH-002",
+          "test_id": "geoimport_prep_handoff_ready_v2",
+          "name": "reviewable_candidate_handoff",
+          "difficulty": "hard",
+          "prompt_context": "The assigned downloader and builder completed under an isolated candidate root. The immutable official archive has URL, retrieval instant, size, SHA-256, and the pre-approved license envelope. Candidate identity, geometry, mapping, metadata, and sidecar files exist. The prep report reconciles source/candidate row counts and lists exclusions without asserting they are acceptable. Assigned lightweight schema, nonempty geometry, unique-ID, and obvious-parent checks pass. The prep log, command log, output manifest, checksums, and candidate fingerprint all refer to the same artifacts. Active roots were untouched. Full hierarchy/coverage/round-trip QA, runtime QA, and adoption have not run. What is the strongest local-brain claim and next step?",
+          "expected": {
+            "required_keys": ["claim", "prep_state", "rationale", "missing_or_failed", "next_actions"],
+            "claim_values": ["candidate_built"],
+            "concept_groups": [
+              ["reviewable", "prep complete", "prepared"],
+              ["isolated", "active roots"],
+              ["source", "archive"],
+              ["hash", "checksum", "fingerprint"],
+              ["count", "exclusion"],
+              ["local check", "lightweight", "schema"],
+              ["cloud qa", "orchestrator review", "handoff", "hand off"],
+              ["not final", "final qa", "does not prove", "not run", "not performed", "has not performed"]
+            ],
+            "must_not_claim": ["candidate_qa_passed", "runtime_qa_passed", "authority_complete", "release_plan_passed", "adopted", "published"]
+          }
+        }
+      ]
+    }
+  }
+}
