@@ -17,3 +17,15 @@
   The remaining plan deductions were substantive omissions around explicit
   existing-script selection, identity outputs, and lightweight count/schema
   language, not response-format quirks.
+- 2026-08-12: Shared-drive smoke comparison
+  `20260812_qwen25coder_small_import_comparison_r1` confirmed that the fixed
+  suite separates smaller models without format-specific scoring changes.
+  `qwen2.5-coder:14b` passed at 0.9192 (1.0000 classification, 0.7576 plan,
+  1.0000 failed-check handoff). `qwen2.5-coder:7b` scored 0.8740 (0.9474,
+  0.7273, 0.9474) and correctly failed the 0.9000 aggregate threshold. The
+  matching three-case `qwen3.6:27b` subset scored 0.9421. Deductions reflected
+  omitted provenance, existing-script, identity, count, and schema-check
+  details rather than JSON or prompt-family incompatibility.
+- 2026-08-12: First uncached shared-drive loads took 56 seconds for the 14B
+  model and 35 seconds for the 7B model. Immediate reloads took 7 and 4 seconds
+  with filesystem cache. All runtime and benchmark containers were reaped.
