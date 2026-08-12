@@ -1,10 +1,10 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-08-12T20:13:57.248517+00:00`
+- Generated at: `2026-08-12T20:33:42.381471+00:00`
 - Canonical records: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/benchmark-scripts/benchmark_status.json`
-- Total records: `900`
-- Selected model/test results: `509`
+- Total records: `910`
+- Selected model/test results: `519`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
@@ -326,9 +326,14 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | phi-4:14b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-04-28T18:39:09+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
 | phi-4:14b | gsm8k_strict | 0.56 | 56.00000000000001 | exact_match,strict-match | legacy |  | unknown | 2026-04-28T18:39:09+00:00 | bench-reasoning | phi4_l100_rerun_20260428 |
 | qwen2.5-coder:14b | bbh | 0.5937037037037037 | 59.370370370370374 | exact_match,get-answer | legacy |  | unknown | 2026-03-16T16:23:17+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | dataimport_reference_owid_co2 | 0.8571428571428571 | 85.71428571428571 | reference_quality | smoke | 1 | unknown | 2026-08-12T20:32:10+00:00 | bench-dataimport | campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
+| qwen2.5-coder:14b | dataimport_schema_loc_id | 0.6667 | 66.67 | schema_understanding | smoke | 1 | unknown | 2026-08-12T20:31:22+00:00 | bench-dataimport | campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
 | qwen2.5-coder:14b | drop | 0.57 | 56.99999999999999 | f1,none | legacy |  | unknown | 2026-03-05T15:54:28.421925 | lm_eval | quick_triplet_l1_20260305 |
 | qwen2.5-coder:14b | drop_em | 0.28 | 28.000000000000004 | em,none | legacy |  | unknown | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
 | qwen2.5-coder:14b | drop_f1 | 0.4802000000000002 | 48.02000000000002 | f1,none | legacy |  | unknown | 2026-03-16T16:25:26+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
+| qwen2.5-coder:14b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-12T20:32:24.009553 | bench-geoimport | campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
+| qwen2.5-coder:14b | geoimport_prep_handoff_local_check_failure_v2 | 1.0 | 100.0 | prep_handoff | smoke | 1 | unknown | 2026-08-12T20:32:29.554409 | bench-geoimport | campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
+| qwen2.5-coder:14b | geoimport_prep_plan_brazil_spine_v2 | 0.7576 | 75.76 | prep_plan | smoke | 1 | unknown | 2026-08-12T20:32:27.204384 | bench-geoimport | campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
 | qwen2.5-coder:14b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T15:50:53.042159 | lm_eval | quick_triplet_l1_20260305 |
 | qwen2.5-coder:14b | gsm8k_flexible | 0.89 | 89.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
 | qwen2.5-coder:14b | gsm8k_strict | 0.88 | 88.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-16T07:21:32+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1 |
@@ -376,9 +381,14 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen2.5-coder:7b | daedalmap_type_routing_source_hit_rate | 0.6666666666666666 | 66.66666666666666 | source_hit_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
 | qwen2.5-coder:7b | daedalmap_type_routing_source_valid_rate | 1.0 | 100.0 | source_valid_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
 | qwen2.5-coder:7b | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:43:14+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_qwen2.5-coder_7b |
+| qwen2.5-coder:7b | dataimport_reference_owid_co2 | 0.8571428571428571 | 85.71428571428571 | reference_quality | smoke | 1 | unknown | 2026-08-12T20:33:31+00:00 | bench-dataimport | campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
+| qwen2.5-coder:7b | dataimport_schema_loc_id | 0.6667 | 66.67 | schema_understanding | smoke | 1 | unknown | 2026-08-12T20:33:07+00:00 | bench-dataimport | campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
 | qwen2.5-coder:7b | drop | 0.27 | 27.0 | f1,none | legacy |  | unknown | 2026-03-05T15:53:05.860807 | lm_eval | quick_triplet_l1_20260305 |
 | qwen2.5-coder:7b | drop_em | 0.4 | 40.0 | em,none | legacy |  | unknown | 2026-04-24T02:54:13+00:00 | bench-reasoning | patch_validation_coder7b_l5 |
 | qwen2.5-coder:7b | drop_f1 | 0.6 | 60.0 | f1,none | legacy |  | unknown | 2026-04-24T02:54:13+00:00 | bench-reasoning | patch_validation_coder7b_l5 |
+| qwen2.5-coder:7b | geoimport_prep_classify_australia_asgs_v2 | 0.9474 | 94.74000000000001 | classification | smoke | 1 | unknown | 2026-08-12T20:33:38.815349 | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
+| qwen2.5-coder:7b | geoimport_prep_handoff_local_check_failure_v2 | 0.9474 | 94.74000000000001 | prep_handoff | smoke | 1 | unknown | 2026-08-12T20:33:42.026344 | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
+| qwen2.5-coder:7b | geoimport_prep_plan_brazil_spine_v2 | 0.7273 | 72.72999999999999 | prep_plan | smoke | 1 | unknown | 2026-08-12T20:33:40.824102 | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 |
 | qwen2.5-coder:7b | gsm8k | 1.0 | 100.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T15:48:24.680621 | lm_eval | quick_triplet_l1_20260305 |
 | qwen2.5-coder:7b | gsm8k_flexible | 0.78 | 78.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
 | qwen2.5-coder:7b | gsm8k_strict | 0.75 | 75.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:31:29+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439 |
@@ -576,6 +586,16 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-12T20:33:42.026344 | qwen2.5-coder:7b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 0.9474 | prep_handoff | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | 86808db3-51a9-46f2-932d-fa4fb66ea49c |
+| 2026-08-12T20:33:40.824102 | qwen2.5-coder:7b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.7273 | prep_plan | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | 5de0fda7-f8da-458e-9026-4772ed4875a4 |
+| 2026-08-12T20:33:38.815349 | qwen2.5-coder:7b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 0.9474 | classification | bench-geoimport | campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | fa73f099-33ee-4734-ae9d-c6274e59e27c |
+| 2026-08-12T20:33:31+00:00 | qwen2.5-coder:7b | dataimport_reference_owid_co2 | success | smoke | 1 | 0.8571428571428571 | reference_quality | bench-dataimport | campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | 3237952d-ba0a-4bef-8636-6f18cb71ec39 |
+| 2026-08-12T20:33:07+00:00 | qwen2.5-coder:7b | dataimport_schema_loc_id | success | smoke | 1 | 0.6667 | schema_understanding | bench-dataimport | campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | af487737-7a69-4d19-b7d7-606615f170b2 |
+| 2026-08-12T20:32:29.554409 | qwen2.5-coder:14b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | 4a5b486f-bca6-442b-a205-49ca9a7b9c89 |
+| 2026-08-12T20:32:27.204384 | qwen2.5-coder:14b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.7576 | prep_plan | bench-geoimport | campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | d18fe941-4f82-48ee-8fd5-5800bd3e3dac |
+| 2026-08-12T20:32:24.009553 | qwen2.5-coder:14b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 1.0 | classification | bench-geoimport | campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | b2a0e2fb-070c-4bf0-89fd-44469e39a036 |
+| 2026-08-12T20:32:10+00:00 | qwen2.5-coder:14b | dataimport_reference_owid_co2 | success | smoke | 1 | 0.8571428571428571 | reference_quality | bench-dataimport | campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | 75e1d2bc-2ddc-4a12-8a65-36bd48665e41 |
+| 2026-08-12T20:31:22+00:00 | qwen2.5-coder:14b | dataimport_schema_loc_id | success | smoke | 1 | 0.6667 | schema_understanding | bench-dataimport | campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1 | d3558703-07f2-4412-bc9c-eef1a4a2b619 |
 | 2026-08-12T20:13:56.896872 | qwen3.6:27b | geoimport_prep_handoff_ready_v2 | success | smoke | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_qwen36_27b_geoimport_prep_v2_20260812_qwen36_27b_geoimport_prep_v2_r2 | a4357025-b12a-4c25-b176-155b357d9c8b |
 | 2026-08-12T20:13:52.847574 | qwen3.6:27b | geoimport_prep_handoff_local_check_failure_v2 | success | smoke | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_qwen36_27b_geoimport_prep_v2_20260812_qwen36_27b_geoimport_prep_v2_r2 | 62dc38f9-5a6e-4b6f-bdde-21d3e660368a |
 | 2026-08-12T20:13:47.193207 | qwen3.6:27b | geoimport_prep_plan_brazil_spine_v2 | success | smoke | 1 | 0.8788 | prep_plan | bench-geoimport | campaign_qwen36_27b_geoimport_prep_v2_20260812_qwen36_27b_geoimport_prep_v2_r2 | ee208cc7-8c0f-4a37-a265-9dd3c473dde5 |
@@ -606,13 +626,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_em | success | legacy |  | 0.18 | em,none | bench-reasoning | gptoss_l100_v1 | acfad2c5-ccb5-46c8-ba74-b7cbc6e9371a |
 | 2026-06-13T06:33:24+00:00 | gpt-oss:20b | drop_f1 | success | legacy |  | 0.3510000000000001 | f1,none | bench-reasoning | gptoss_l100_v1 | 2245731a-b76d-416b-b793-adf554b432aa |
 | 2026-06-13T06:31:01+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.6448148148148148 | exact_match,get-answer | bench-reasoning | gptoss_l100_v1 | d03878ef-1d0e-43f3-ba96-0404debd7c4a |
-| 2026-06-13T05:14:25+00:00 | gpt-oss:20b | gsm8k_flexible | success | legacy |  | 0.8 | exact_match,flexible-extract | bench-reasoning | gptoss_l100_v1 | 927133a4-e3b9-4cf3-82b8-1b902bf004fe |
-| 2026-06-13T05:14:24+00:00 | gpt-oss:20b | gsm8k_strict | success | legacy |  | 0.15 | exact_match,strict-match | bench-reasoning | gptoss_l100_v1 | 809bc077-fda4-441c-9dd7-5d545d5ce9fc |
-| 2026-06-13T03:57:01+00:00 | phi-4-mini-reasoning:3.8b | gsm8k_flexible | success | legacy |  | 0.1 | exact_match,flexible-extract | bench-reasoning | phi4mr_reasoning_v1 | f1c10ee2-c655-421b-9cb1-adab33e87b56 |
-| 2026-06-13T03:57:01+00:00 | phi-4-mini-reasoning:3.8b | gsm8k_strict | success | legacy |  | 0.0 | exact_match,strict-match | bench-reasoning | phi4mr_reasoning_v1 | 30ffa653-9834-4ae7-a895-d3416c979010 |
-| 2026-06-13T03:56:48+00:00 | gpt-oss:20b | drop_f1 | success | legacy |  | 0.44799999999999995 | f1,none | bench-reasoning | gptoss_smoke_v2 | fe7ad31d-0c90-4a06-b76d-516ec19dfd85 |
-| 2026-06-13T03:56:48+00:00 | gpt-oss:20b | drop_em | success | legacy |  | 0.2 | em,none | bench-reasoning | gptoss_smoke_v2 | db980533-d32e-44fb-a72a-cd3c7f38f2d0 |
-| 2026-06-13T03:56:07+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.6407407407407407 | exact_match,get-answer | bench-reasoning | gptoss_smoke_v2 | 52a42ab5-1c99-4d33-9c4f-1d95bc8aceae |
-| 2026-06-13T03:47:52+00:00 | gpt-oss:20b | gsm8k_strict | success | legacy |  | 0.2 | exact_match,strict-match | bench-reasoning | gptoss_smoke_v2 | c161a69d-ec93-49cb-b57f-7970031830b8 |
-| 2026-06-13T03:47:52+00:00 | gpt-oss:20b | gsm8k_flexible | success | legacy |  | 0.6 | exact_match,flexible-extract | bench-reasoning | gptoss_smoke_v2 | 4a23f84a-084e-4b94-8efd-ee6521755ac5 |
-| 2026-06-12T23:18:42+00:00 | gpt-oss:20b | bbh | success | legacy |  | 0.05925925925925926 | exact_match,get-answer | bench-reasoning | gptoss_diag_v1 | 3cb71281-f84c-40c2-aab9-df739a2c35d8 |

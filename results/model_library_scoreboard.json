@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T20:13:57.422419+00:00",
+  "generated_at": "2026-08-12T20:33:42.556029+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -388,15 +388,17 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-03-16T16:25:26+00:00",
+      "last_run_at": "2026-08-12T20:32:29.554409",
       "model": "qwen2.5-coder:14b",
-      "records": 16,
-      "selected_tests": 7,
-      "successes": 16,
+      "records": 21,
+      "selected_tests": 12,
+      "successes": 21,
       "suites": [
         "bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1",
         "bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l50_v1",
         "bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_split_smoke_v1",
+        "campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+        "campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
         "initial_matrix_20260305",
         "quick_triplet_l1_20260305"
       ]
@@ -417,16 +419,18 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-04-24T18:41:43+00:00",
+      "last_run_at": "2026-08-12T20:33:42.026344",
       "model": "qwen2.5-coder:7b",
-      "records": 134,
-      "selected_tests": 43,
-      "successes": 134,
+      "records": 139,
+      "selected_tests": 48,
+      "successes": 139,
       "suites": [
         "baseline_triplet_20260305",
         "bench-reasoning_qwen2.5-coder_7b_reasoning_coder7b_l100_v1",
         "bench-reasoning_qwen2.5-coder_7b_rr_l100_20260311_204302_p11438",
         "bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439",
+        "campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+        "campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
         "daedalmap_bucket_smoke_qwen25coder7b_v1",
         "daedalmap_bucket_smoke_qwen25coder7b_v2",
         "daedalmap_exec_smoke_qwen25coder7b_v1",
@@ -948,9 +952,9 @@
   ],
   "notes": "Derived exclusively from the canonical JSONL ledger and model catalog.",
   "recent_failures": [],
-  "record_count": 900,
+  "record_count": 910,
   "schema_version": 3,
-  "selected_count": 509,
+  "selected_count": 519,
   "selected_per_model_test": [
     {
       "efficiency": {},
@@ -8783,6 +8787,104 @@
       "test_id": "bbh"
     },
     {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-dataimport",
+      "methodology": {
+        "comparison_group": "dataimport-capability-v1",
+        "id": "bench-dataimport/capability",
+        "version": "1.0.0"
+      },
+      "metric": "reference_quality",
+      "model": "qwen2.5-coder:14b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8571428571428571,
+      "run_at": "2026-08-12T20:32:10+00:00",
+      "run_class": "smoke",
+      "run_id": "75e1d2bc-2ddc-4a12-8a65-36bd48665e41",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.8571428571428571,
+      "score_pct": 85.71428571428571,
+      "status": "success",
+      "suite": "campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "dataimport_reference_owid_co2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-dataimport",
+      "methodology": {
+        "comparison_group": "dataimport-capability-v1",
+        "id": "bench-dataimport/capability",
+        "version": "1.0.0"
+      },
+      "metric": "schema_understanding",
+      "model": "qwen2.5-coder:14b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.6667,
+      "run_at": "2026-08-12T20:31:22+00:00",
+      "run_class": "smoke",
+      "run_id": "d3558703-07f2-4412-bc9c-eef1a4a2b619",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.6667,
+      "score_pct": 66.67,
+      "status": "success",
+      "suite": "campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "dataimport_schema_loc_id"
+    },
+    {
       "efficiency": {},
       "extractor_failure_count": 0,
       "failure": {},
@@ -8868,6 +8970,195 @@
       "status": "success",
       "suite": "bench-reasoning_qwen2.5-coder_14b_reasoning_coder14b_l100_v1",
       "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen2.5-coder:14b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-08-12T20:32:24.009553",
+      "run_class": "smoke",
+      "run_id": "b2a0e2fb-070c-4bf0-89fd-44469e39a036",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen2.5-coder:14b->Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "06d58d8b8b294f7e84e55b5cb1344869e7272071c96c2f12634bf49a0af79db3",
+        "config_id": "geoimport-v2:qwen2.5-coder:14b->Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen2.5-coder:14b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-08-12T20:32:29.554409",
+      "run_class": "smoke",
+      "run_id": "4a5b486f-bca6-442b-a205-49ca9a7b9c89",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen2.5-coder:14b->Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "06d58d8b8b294f7e84e55b5cb1344869e7272071c96c2f12634bf49a0af79db3",
+        "config_id": "geoimport-v2:qwen2.5-coder:14b->Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_plan",
+      "model": "qwen2.5-coder:14b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7576,
+      "run_at": "2026-08-12T20:32:27.204384",
+      "run_class": "smoke",
+      "run_id": "d18fe941-4f82-48ee-8fd5-5800bd3e3dac",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen2.5-coder:14b->Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "06d58d8b8b294f7e84e55b5cb1344869e7272071c96c2f12634bf49a0af79db3",
+        "config_id": "geoimport-v2:qwen2.5-coder:14b->Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.7576,
+      "score_pct": 75.76,
+      "status": "success",
+      "suite": "campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
       "efficiency": {},
@@ -10233,6 +10524,104 @@
       "test_id": "daedalmap_type_routing_type_correct_rate"
     },
     {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-dataimport",
+      "methodology": {
+        "comparison_group": "dataimport-capability-v1",
+        "id": "bench-dataimport/capability",
+        "version": "1.0.0"
+      },
+      "metric": "reference_quality",
+      "model": "qwen2.5-coder:7b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8571428571428571,
+      "run_at": "2026-08-12T20:33:31+00:00",
+      "run_class": "smoke",
+      "run_id": "3237952d-ba0a-4bef-8636-6f18cb71ec39",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.8571428571428571,
+      "score_pct": 85.71428571428571,
+      "status": "success",
+      "suite": "campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "dataimport_reference_owid_co2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-dataimport",
+      "methodology": {
+        "comparison_group": "dataimport-capability-v1",
+        "id": "bench-dataimport/capability",
+        "version": "1.0.0"
+      },
+      "metric": "schema_understanding",
+      "model": "qwen2.5-coder:7b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.6667,
+      "run_at": "2026-08-12T20:33:07+00:00",
+      "run_class": "smoke",
+      "run_id": "af487737-7a69-4d19-b7d7-606615f170b2",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.6667,
+      "score_pct": 66.67,
+      "status": "success",
+      "suite": "campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "dataimport_schema_loc_id"
+    },
+    {
       "efficiency": {},
       "extractor_failure_count": 0,
       "failure": {},
@@ -10318,6 +10707,195 @@
       "status": "success",
       "suite": "patch_validation_coder7b_l5",
       "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen2.5-coder:7b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9474,
+      "run_at": "2026-08-12T20:33:38.815349",
+      "run_class": "smoke",
+      "run_id": "fa73f099-33ee-4734-ae9d-c6274e59e27c",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen2.5-coder:7b->Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "6e93053c242f3e0eaa3c3719bba5330dcb0183436e7da3dcc2c7bc25b21966d2",
+        "config_id": "geoimport-v2:qwen2.5-coder:7b->Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.9474,
+      "score_pct": 94.74000000000001,
+      "status": "success",
+      "suite": "campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen2.5-coder:7b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9474,
+      "run_at": "2026-08-12T20:33:42.026344",
+      "run_class": "smoke",
+      "run_id": "86808db3-51a9-46f2-932d-fa4fb66ea49c",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen2.5-coder:7b->Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "6e93053c242f3e0eaa3c3719bba5330dcb0183436e7da3dcc2c7bc25b21966d2",
+        "config_id": "geoimport-v2:qwen2.5-coder:7b->Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.9474,
+      "score_pct": 94.74000000000001,
+      "status": "success",
+      "suite": "campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_plan",
+      "model": "qwen2.5-coder:7b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7273,
+      "run_at": "2026-08-12T20:33:40.824102",
+      "run_class": "smoke",
+      "run_id": "5de0fda7-f8da-458e-9026-4772ed4875a4",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen2.5-coder:7b->Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "6e93053c242f3e0eaa3c3719bba5330dcb0183436e7da3dcc2c7bc25b21966d2",
+        "config_id": "geoimport-v2:qwen2.5-coder:7b->Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.7273,
+      "score_pct": 72.72999999999999,
+      "status": "success",
+      "suite": "campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1",
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
       "efficiency": {},
@@ -17178,6 +17756,28 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-dataimport"
+      ],
+      "last_run_at": "2026-08-12T20:32:10+00:00",
+      "model": "qwen2.5-coder:14b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_qwen25coder_14b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-08-12T20:32:29.554409",
+      "model": "qwen2.5-coder:14b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_qwen25coder_14b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "lm_eval"
       ],
       "last_run_at": "2026-03-05T14:06:44.980759",
@@ -17284,6 +17884,28 @@
       "records": 2,
       "successes": 2,
       "suite": "bench-reasoning_qwen2.5-coder_7b_rr_l100_c05_20260311_221559_p11439"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-dataimport"
+      ],
+      "last_run_at": "2026-08-12T20:33:31+00:00",
+      "model": "qwen2.5-coder:7b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_qwen25coder_7b_dataimport_smoke_20260812_qwen25coder_small_import_comparison_r1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-08-12T20:33:42.026344",
+      "model": "qwen2.5-coder:7b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_qwen25coder_7b_geoimport_smoke_20260812_qwen25coder_small_import_comparison_r1"
     },
     {
       "failures": 0,

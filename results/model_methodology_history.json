@@ -4591,6 +4591,40 @@
       "test_id": "bbh"
     },
     {
+      "attempt_count": 1,
+      "comparison_group": "dataimport-capability-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-dataimport/capability",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:14b",
+      "selected_run_at": "2026-08-12T20:32:10+00:00",
+      "selected_run_class": "smoke",
+      "selected_run_id": "75e1d2bc-2ddc-4a12-8a65-36bd48665e41",
+      "selected_sample_count": 1,
+      "selected_score": 0.8571428571428571,
+      "success_count": 1,
+      "test_id": "dataimport_reference_owid_co2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "dataimport-capability-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-dataimport/capability",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:14b",
+      "selected_run_at": "2026-08-12T20:31:22+00:00",
+      "selected_run_class": "smoke",
+      "selected_run_id": "d3558703-07f2-4412-bc9c-eef1a4a2b619",
+      "selected_sample_count": 1,
+      "selected_score": 0.6667,
+      "success_count": 1,
+      "test_id": "dataimport_schema_loc_id"
+    },
+    {
       "attempt_count": 2,
       "comparison_group": "legacy:drop",
       "failure_count": 0,
@@ -4640,6 +4674,57 @@
       "selected_score": 0.4802000000000002,
       "success_count": 2,
       "test_id": "drop_f1"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen2.5-coder:14b",
+      "selected_run_at": "2026-08-12T20:32:24.009553",
+      "selected_run_class": "smoke",
+      "selected_run_id": "b2a0e2fb-070c-4bf0-89fd-44469e39a036",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen2.5-coder:14b",
+      "selected_run_at": "2026-08-12T20:32:29.554409",
+      "selected_run_class": "smoke",
+      "selected_run_id": "4a5b486f-bca6-442b-a205-49ca9a7b9c89",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen2.5-coder:14b",
+      "selected_run_at": "2026-08-12T20:32:27.204384",
+      "selected_run_class": "smoke",
+      "selected_run_id": "d18fe941-4f82-48ee-8fd5-5800bd3e3dac",
+      "selected_sample_count": 1,
+      "selected_score": 0.7576,
+      "success_count": 1,
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
       "attempt_count": 2,
@@ -5441,6 +5526,40 @@
       "test_id": "daedalmap_type_routing_type_correct_rate"
     },
     {
+      "attempt_count": 1,
+      "comparison_group": "dataimport-capability-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-dataimport/capability",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-08-12T20:33:31+00:00",
+      "selected_run_class": "smoke",
+      "selected_run_id": "3237952d-ba0a-4bef-8636-6f18cb71ec39",
+      "selected_sample_count": 1,
+      "selected_score": 0.8571428571428571,
+      "success_count": 1,
+      "test_id": "dataimport_reference_owid_co2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "dataimport-capability-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-dataimport/capability",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-08-12T20:33:07+00:00",
+      "selected_run_class": "smoke",
+      "selected_run_id": "af487737-7a69-4d19-b7d7-606615f170b2",
+      "selected_sample_count": 1,
+      "selected_score": 0.6667,
+      "success_count": 1,
+      "test_id": "dataimport_schema_loc_id"
+    },
+    {
       "attempt_count": 2,
       "comparison_group": "legacy:drop",
       "failure_count": 0,
@@ -5490,6 +5609,57 @@
       "selected_score": 0.6,
       "success_count": 2,
       "test_id": "drop_f1"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-08-12T20:33:38.815349",
+      "selected_run_class": "smoke",
+      "selected_run_id": "fa73f099-33ee-4734-ae9d-c6274e59e27c",
+      "selected_sample_count": 1,
+      "selected_score": 0.9474,
+      "success_count": 1,
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-08-12T20:33:42.026344",
+      "selected_run_class": "smoke",
+      "selected_run_id": "86808db3-51a9-46f2-932d-fa4fb66ea49c",
+      "selected_sample_count": 1,
+      "selected_score": 0.9474,
+      "success_count": 1,
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-08-12T20:33:40.824102",
+      "selected_run_class": "smoke",
+      "selected_run_id": "5de0fda7-f8da-458e-9026-4772ed4875a4",
+      "selected_sample_count": 1,
+      "selected_score": 0.7273,
+      "success_count": 1,
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
       "attempt_count": 3,
@@ -8654,13 +8824,13 @@
       "test_id": "gsm8k_strict"
     }
   ],
-  "generated_at": "2026-08-12T20:13:57.611360+00:00",
-  "group_count": 509,
+  "generated_at": "2026-08-12T20:33:42.745695+00:00",
+  "group_count": 519,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 900,
+  "record_count": 910,
   "schema_version": 1
 }
