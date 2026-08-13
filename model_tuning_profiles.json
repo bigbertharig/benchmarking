@@ -121,7 +121,7 @@
       "_alias_of": "Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf"
     },
     "Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf": {
-      "status": "smoke_pending",
+      "status": "smoke_complete",
       "last_tuned_at": null,
       "benchmark_suite": "import_prep",
       "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
@@ -627,7 +627,7 @@
             "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."
         },
     "Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf": {
-      "status": "artifact_invalid",
+      "status": "smoke_complete",
       "last_tuned_at": null,
       "benchmark_suite": "agent_reliability",
       "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }.",
@@ -642,7 +642,7 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Worker-tier candidate. First load on 2026-08-09 failed before CUDA initialization: GGUF tensor data is outside file bounds. Replace or re-verify the local artifact before smoke runs."
+      "notes": "Brain-tier candidate. Corrupt archive artifact replaced and SHA-256 verified on 2026-08-12; geo-import smoke completed successfully."
     },
     "devstral-small:24b": {
       "_alias_of": "Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
@@ -672,7 +672,7 @@
       "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer."
     },
     "Qwen3.5-27B-Q4_K_M.gguf": {
-      "status": "artifact_invalid",
+      "status": "smoke_pending",
       "last_tuned_at": null,
       "benchmark_suite": "agent_reliability",
       "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
@@ -688,7 +688,7 @@
         "n_gpu_layers": 999
       },
       "extra_args": ["--reasoning-budget", "0"],
-      "notes": "Brain-tier candidate on the RTX 3090. First load on 2026-08-09 failed before CUDA initialization: GGUF tensor data is outside file bounds. Replace or re-verify the local artifact before smoke runs."
+      "notes": "Brain-tier candidate on the RTX 3090. Corrupt archive artifact replaced and SHA-256 verified on 2026-08-12; data-import and geo-import smoke completed successfully."
     },
     "qwen3.5:27b": {
       "_alias_of": "Qwen3.5-27B-Q4_K_M.gguf",

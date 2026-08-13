@@ -1,0 +1,31 @@
+{
+  "name": "qwen35_27b_import_smoke",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 600
+  },
+  "blocks": [
+    {
+      "id": "qwen35_27b_dataimport",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": ["--tasks", "converter,reference,schema_understanding", "--run-class", "smoke"],
+      "limit": 1,
+      "runtime_args": ["--reasoning-budget", "0"],
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen35_27b_geoimport",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
+      "limit": 5,
+      "runtime_args": ["--reasoning-budget", "0"],
+      "ctx_size": 16384
+    }
+  ]
+}
