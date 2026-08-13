@@ -1,0 +1,470 @@
+{
+  "name": "modern_models_limit5_collection",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 600
+  },
+  "blocks": [
+    {
+      "id": "qwen3coder_30b_pipeline",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen3coder_30b_reasoning",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "qwen3coder_30b_knowledge",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-knowledge",
+      "suite_args": [
+        "--tasks",
+        "mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "qwen3coder_30b_dataimport",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": [
+        "--tasks",
+        "converter,reference,schema_understanding",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "qwen3coder_30b_geoimport",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "devstral_24b_pipeline",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192
+    },
+    {
+      "id": "devstral_24b_reasoning",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "devstral_24b_knowledge",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-knowledge",
+      "suite_args": [
+        "--tasks",
+        "mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "devstral_24b_dataimport",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": [
+        "--tasks",
+        "converter,reference,schema_understanding",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "devstral_24b_geoimport",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_14b_pipeline",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192
+    },
+    {
+      "id": "ministral3_14b_reasoning",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_14b_knowledge",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-knowledge",
+      "suite_args": [
+        "--tasks",
+        "mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_14b_dataimport",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": [
+        "--tasks",
+        "converter,reference,schema_understanding",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_14b_geoimport",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 8192,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_8b_pipeline",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384
+    },
+    {
+      "id": "ministral3_8b_reasoning",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_8b_knowledge",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-knowledge",
+      "suite_args": [
+        "--tasks",
+        "mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_8b_dataimport",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": [
+        "--tasks",
+        "converter,reference,schema_understanding",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_8b_geoimport",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_3b_pipeline",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384
+    },
+    {
+      "id": "ministral3_3b_reasoning",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_3b_knowledge",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-knowledge",
+      "suite_args": [
+        "--tasks",
+        "mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_3b_dataimport",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": [
+        "--tasks",
+        "converter,reference,schema_understanding",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "ministral3_3b_geoimport",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "qwen35_27b_pipeline",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict,custom_command_safety,custom_tool_plan_sequence,custom_ambiguity_handling,custom_orchestration_tradeoff,custom_long_context_extract",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "runtime_args": [
+        "--reasoning-budget",
+        "0"
+      ]
+    },
+    {
+      "id": "qwen35_27b_reasoning",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5,
+      "runtime_args": [
+        "--reasoning-budget",
+        "0"
+      ]
+    },
+    {
+      "id": "qwen35_27b_knowledge",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-knowledge",
+      "suite_args": [
+        "--tasks",
+        "mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5
+    },
+    {
+      "id": "qwen35_27b_dataimport",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": [
+        "--tasks",
+        "converter,reference,schema_understanding",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5,
+      "runtime_args": [
+        "--reasoning-budget",
+        "0"
+      ]
+    },
+    {
+      "id": "qwen35_27b_geoimport",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff",
+        "--run-class",
+        "smoke"
+      ],
+      "ctx_size": 16384,
+      "limit": 5,
+      "runtime_args": [
+        "--reasoning-budget",
+        "0"
+      ]
+    }
+  ]
+}
+
