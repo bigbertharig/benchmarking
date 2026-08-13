@@ -8,8 +8,8 @@ The unified campaign runner is the canonical path for both modes:
 
 ## Sequential Blocks
 
-Use `depends_on` when order matters. This example keeps the model on the same
-placement class but gives each suite a separately managed runtime lifecycle:
+Use `runtime_group` to load one model once and run its suite blocks in manifest
+order. Use `depends_on` only for dependencies outside that model sequence:
 
 ```json
 {
@@ -21,7 +21,8 @@ placement class but gives each suite a separately managed runtime lifecycle:
       "model": "model-id",
       "gguf": "/mnt/shared/models/model/model.gguf",
       "placement": "brain",
-      "suite": "bench-pipeline"
+      "suite": "bench-pipeline",
+      "runtime_group": "model-id-core"
     },
     {
       "id": "reasoning",
@@ -29,9 +30,9 @@ placement class but gives each suite a separately managed runtime lifecycle:
       "gguf": "/mnt/shared/models/model/model.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
+      "runtime_group": "model-id-core",
       "suite_args": ["--tasks", "gsm8k"],
-      "limit": 5,
-      "depends_on": ["pipeline"]
+      "limit": 5
     }
   ]
 }

@@ -77,6 +77,7 @@ Required block fields are `id`, `model`, `gguf`, and `suite`. Optional fields:
 | `load_timeout_s` | campaign default or 300 | Runtime readiness timeout |
 | `hardware_id` | derived from slot | Optional explicit hardware identity |
 | `env_file` | none | Optional, only for suites that declare support |
+| `runtime_group` | none | Keep one compatible model runtime loaded across consecutive suite blocks |
 
 Do not put `--model`, `--runtime-base`, `--run-name`, `--run-class`, output
 paths, profile paths, hardware identity, or GGUF paths in `suite_args`. The
@@ -110,6 +111,20 @@ cycles, and missing required system prompts fail before a model is loaded.
 The profile policy is suite-specific and declared in `suite_contracts.json`.
 Some frozen harnesses intentionally own their prompts and do not inject a model
 system prompt.
+
+## One Load, Multiple Suites
+
+Give consecutive blocks the same `runtime_group` to load a model once, run each
+suite in manifest order on the same slot, and unload after the final block.
+Every block in the group must have identical model, GGUF, placement, runtime
+image, context, batch, and runtime arguments. The runner rejects mixed settings
+before loading.
+
+Runtime-group order is independent of score or suite success. With
+`--on-failure continue`, a failed suite is recorded and the next suite still
+runs on the loaded model. With `--on-failure stop`, the campaign stops at the
+failure. On resume, a group whose earlier blocks are already complete loads the
+model once at its first unfinished block.
 
 ## Scheduling
 

@@ -72,6 +72,53 @@ class CampaignRunnerTests(unittest.TestCase):
                 RUNNER.validate_resolved_blocks(blocks)
             self.assertIn("does not support bounded", str(raised.exception))
 
+    def test_runtime_group_reuses_slot_for_next_suite(self):
+        common = {
+            "model": "qwen3-coder:30b-a3b",
+            "gguf": "/tmp/model.gguf",
+            "placement": "brain",
+            "runtime_image": "runtime:test",
+            "ctx_size": 4096,
+            "batch_size": 64,
+            "runtime_args": [],
+            "suite_args": [],
+            "run_class": "smoke",
+            "runtime_group": "model-a",
+            "_run_id": "unit",
+        }
+        first = RUNNER.BlockState("first", {**common, "id": "first", "suite": "bench-pipeline"})
+        second = RUNNER.BlockState("second", {**common, "id": "second", "suite": "bench-knowledge"})
+        state = RUNNER.CampaignState(
+            name="unit", run_id="unit", manifest_path="unit.json",
+            blocks={"first": first, "second": second}, started_at=RUNNER.now_iso(),
+        )
+        scheduler = RUNNER.Scheduler(state, dry_run=True)
+        first.status = RUNNER.COMPLETED
+        first.assigned_slot = RUNNER.SLOTS["brain"]
+        first.runtime_container = "runtime-a"
+        scheduler.occupied["brain"] = "first"
+        self.assertTrue(scheduler.handoff_runtime(first))
+        self.assertEqual(second.status, RUNNER.RUNNING_SUITE)
+        self.assertEqual(second.runtime_container, "runtime-a")
+        self.assertIsNone(first.runtime_container)
+        self.assertEqual(scheduler.occupied["brain"], "second")
+
+    def test_runtime_group_requires_identical_runtime_settings(self):
+        with tempfile.NamedTemporaryFile() as gguf:
+            common = {
+                "model": "qwen3-coder:30b-a3b", "gguf": gguf.name,
+                "placement": "brain", "runtime_image": "runtime:test",
+                "batch_size": 64, "runtime_args": [], "suite_args": [],
+                "run_class": "smoke", "runtime_group": "model-a",
+            }
+            blocks = {
+                "first": RUNNER.BlockState("first", {**common, "id": "first", "suite": "bench-pipeline", "ctx_size": 4096}),
+                "second": RUNNER.BlockState("second", {**common, "id": "second", "suite": "bench-knowledge", "ctx_size": 8192}),
+            }
+            with self.assertRaises(SystemExit) as raised:
+                RUNNER.validate_resolved_blocks(blocks)
+            self.assertIn("changes runtime settings", str(raised.exception))
+
 
 if __name__ == "__main__":
     unittest.main()
