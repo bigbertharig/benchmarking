@@ -176,6 +176,11 @@ ssh 10.0.0.3 'cd /mnt/shared/plans/shoulders/benchmarking/docker && \
   docker build -t bench-knowledge bench-knowledge'
 ```
 
+Campaign-compatible images carry the Docker label
+`daedalmap.benchmark.contract=campaign-v1`. The unified campaign runner checks
+this label for every requested suite before loading a model, so stale or
+partially rebuilt deployments fail during preflight instead of during a run.
+
 To check if an image is stale:
 ```bash
 docker run --rm --entrypoint cat bench-pipeline /opt/bench/run.sh | head -15

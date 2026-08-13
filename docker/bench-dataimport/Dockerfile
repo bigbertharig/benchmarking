@@ -1,5 +1,7 @@
 FROM python:3.12-slim
 
+LABEL daedalmap.benchmark.contract="campaign-v1"
+
 RUN pip install --no-cache-dir pandas pyarrow
 
 COPY run.sh /opt/bench/run.sh

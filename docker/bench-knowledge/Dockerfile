@@ -16,6 +16,8 @@ FROM llama-runtime:sm61-sm86 AS llama-src
 # Stage 2: main image
 FROM nvidia/cuda:12.6.3-devel-ubuntu24.04
 
+LABEL daedalmap.benchmark.contract="campaign-v1"
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # System deps
