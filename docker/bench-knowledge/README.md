@@ -1,181 +1,59 @@
 # bench-knowledge
 
-Runs lm-eval knowledge/loglikelihood-heavy tasks using a GGUF model served by
-`llama_cpp.server` inside the container. Unlike other suites, this one runs its
-own llama.cpp server internally — it needs a GPU device, not a worker port.
+Runs a frozen, generation-scored multiple-choice probe against the campaign's
+shared OpenAI-compatible runtime. It measures basic academic, science,
+commonsense, misconception-resistance, and reading behavior without depending
+on llama.cpp completion logprob response internals.
 
-## Quick Start
+This is methodology `bench-knowledge/chat-mc` version `3.0.0`. It is not
+directly comparable with historical `lm-eval-gguf` results.
 
-All commands run on the rig (`ssh 10.0.0.3`). Does NOT need a pre-loaded worker — it loads the GGUF itself.
+## Tasks
 
-**7B on a single GPU (e.g. GPU 2), limit 5 smoke test (~1.5-8h):**
-```bash
-docker run --rm --gpus '"device=2"' \
-  -v /mnt/shared:/mnt/shared \
-  -v /mnt/shared/models:/models:ro \
-  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-knowledge \
-  /models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf \
-  --reserve-gpu gpu-2 \
-  --limit 5 \
-  --run-name knowledge_coder7b_v1
+- `academic`
+- `science`
+- `commonsense`
+- `truthfulness`
+- `reading`
+
+Legacy task names `mmlu`, `arc_challenge`, `hellaswag`, `truthfulqa_mc2`, and
+`boolq` are accepted as aliases, but results are recorded under explicit
+`knowledge_<task>_probe_v1` IDs. They are not official benchmark dataset scores.
+
+## Campaign Use
+
+```json
+{
+  "id": "model_knowledge",
+  "model": "model-id",
+  "gguf": "/mnt/shared/models/model/model.gguf",
+  "placement": "brain",
+  "suite": "bench-knowledge",
+  "suite_args": ["--tasks", "academic,science,commonsense,truthfulness,reading"],
+  "limit": 5,
+  "run_class": "smoke"
+}
 ```
 
-**32B on brain GPU (GPU 0):**
-```bash
-docker run --rm --gpus '"device=0"' \
-  -v /mnt/shared:/mnt/shared \
-  -v /mnt/shared/models:/models:ro \
-  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-knowledge \
-  /models/qwen2.5-coder-32b/Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf \
-  --reserve-gpu gpu-0 \
-  --limit 5 \
-  --run-name knowledge_coder32b_v1
+The suite accepts the common campaign flags plus `--tasks`, `--limit`,
+`--tuning-profiles`, `--cases-file`, and `--timeout`. It requires a uniquely
+resolved model profile with a `system_prompt`.
+
+## Output and Resume
+
+Artifacts are written to:
+
+```text
+/results/bench-knowledge_<model_safe>_<run_name>/
 ```
 
-**Run specific tasks only:**
-```bash
-  --tasks mmlu,arc_challenge
-```
+`status.json` tracks task-level completion. Reusing the run name skips completed
+tasks. Each task writes its parsed answer trace to `<task>.json`, and canonical
+result rows go to the shared records ledger.
 
-Runtime at limit 5: Mistral ~1.5h, Qwen-Coder ~7.5h, DeepSeek-R1 ~7h.
-Qwen3.5 models are incompatible (SWA architecture causes 503 errors).
+## Historical Backend
 
-## Entrypoint
-
-Positional argument:
-- `<path-to-gguf>` (required)
-
-Optional args:
-- `--tasks` comma-separated lm-eval task names
-- `--limit` sample limit per task
-- `--results-dir` output root (default: `/results`)
-- `--model-name` override model label in output path
-- `--run-name` stable run id for task-level checkpoint/resume
-- `--scripts-dir` benchmark root mount inside container (default: `/benchmark-scripts`)
-- `--use-model-prompts` / `--no-model-prompts` toggle per-model prompt resolution
-- `--prompt-profiles` model prompt profile path
-- `--tuning-profiles` model tuning profile path
-- `--require-model-prompt` fail if model-specific prompt is missing
-- `--allow-generic-prompt-fallback` allow fallback to profile default prompt
-
-## Example
-
-```bash
-docker run --rm --gpus '"device=1"' \
-  -v /mnt/shared/models:/models:ro \
-  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-knowledge \
-  /models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf \
-  --tasks mmlu,arc_challenge,hellaswag,boolq \
-  --limit 50 \
-  --run-name knowledge_full_v1
-```
-
-## Trimmed Suite
-
-Frozen config:
-- `/media/bryan/shared/plans/shoulders/benchmarking/suites/knowledge_lite_v1.json`
-
-Command:
-
-```bash
-docker run --rm --gpus '"device=1"' \
-  -v /mnt/shared/models:/models:ro \
-  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-knowledge \
-  /models/<model-folder>/<model-file>.gguf \
-  --tasks mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq \
-  --limit 10
-```
-
-## Test Volume And Limits
-
-- Public-size quick view (approximate; can shift by lm-eval version):
-  - `mmlu`: ~14k
-  - `arc_challenge`: ~1.1k
-  - `hellaswag`: ~10k
-  - `truthfulqa_mc2`: ~800
-  - `boolq`: ~3.3k
-  - default full set total: roughly **~29k** items
-- Limit behavior:
-  - this suite supports per-task `--limit L`
-  - effective max `L` is each task's dataset size; setting larger than dataset size acts like full dataset
-  - cap formula with default 5 tasks: up to `5 * L` scored prompts
-  - examples:
-    - `L=10` => up to **50** total
-    - `L=150` => up to **750** total
-- All-or-nothing:
-  - **No**. Partial/limited runs are valid and scored.
-
-## Output
-
-- Result folder:
-  `/results/bench-knowledge_<model_name>_<timestamp>/`
-- lm-eval JSON output files inside that folder.
-- Checkpoint file (when `--run-name` is set):
-  `/results/bench-knowledge_<model_safe>_<run_name>/status.json`
-
-## Resumable Runs
-
-`bench-knowledge` now checkpoints at task boundaries.
-
-- completed tasks are skipped on rerun
-- failed/incomplete tasks are rerun
-
-Use a stable run name:
-
-```bash
-docker run --rm --gpus '"device=1"' \
-  -v /mnt/shared/models:/models:ro \
-  -v /mnt/shared/logs/benchmarks/bench-knowledge/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-knowledge \
-  /models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf \
-  --tasks mmlu,arc_challenge,hellaswag,truthfulqa_mc2,boolq \
-  --limit 150 \
-  --run-name knowledge_full_v1
-```
-
-## Prompt Methodology
-
-This suite runs MC/loglikelihood-heavy tasks via llama.cpp's endpoint inside the
-container. The runner now supports per-model system prompts through lm-eval
-`--system_instruction`.
-
-Resolution order:
-1. `custom_tasks/model_prompt_profiles.json` model-level `system_prompt`
-2. `model_tuning_profiles.json` model-level `system_prompt`
-3. Optional generic fallback only when `--allow-generic-prompt-fallback` is set
-
-Default behavior enforces model-specific prompts (`--require-model-prompt`).
-
-Historical runs are archived in per-run result directories under
-`/media/bryan/shared/logs/benchmarks/bench-knowledge_*/`.
-
-## Run History
-
-All historical results for this suite live in:
-- [BENCH_KNOWLEDGE_HISTORY.md](BENCH_KNOWLEDGE_HISTORY.md)
-
-Each entry records: model (GGUF file), tasks, scores, timestamp, and run path.
-The main MODEL_LIBRARY.md holds only the latest scores.
-
-## Common Issues
-
-- GGUF path not mounted correctly:
-  - confirm `/models/...` path and `:ro` mount
-- `No model-specific system prompt found for ...`:
-  - add `system_prompt` for that model in `custom_tasks/model_prompt_profiles.json` or `model_tuning_profiles.json`
-  - or run with `--allow-generic-prompt-fallback`
-- Server start failure:
-  - verify GPU visibility and free VRAM
-- Slow startup:
-  - larger GGUFs take longer to map/load before evaluation starts
-- `Unknown arg: ...` for a documented flag:
-  - stale Docker image; rebuild `bench-knowledge` before rerunning
+Version 2 used an internal llama.cpp server and lm-eval loglikelihood requests.
+Modern llama.cpp no longer provides the completion echo/logprob response shape
+that adapter expected. That method is retained as `retired` in the methodology
+registry and its existing artifacts remain historical evidence.

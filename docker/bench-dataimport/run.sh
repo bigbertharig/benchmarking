@@ -21,9 +21,9 @@ SYSTEM_PROMPT_FILE="/opt/bench/dataimport_system_prompt.md"
 USE_MODEL_PROMPTS=1
 TUNING_PROFILES=""
 RAW_DIR="/raw"
-RECORDS_PATH="/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl"
-REFERENCE_OUTPUT="/mnt/shared/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md"
-SCOREBOARD_OUTPUT="/mnt/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json"
+RECORDS_PATH="${BENCHMARK_RECORDS_PATH:-/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl}"
+REFERENCE_OUTPUT="${BENCHMARK_REFERENCE_OUTPUT:-/mnt/shared/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md}"
+SCOREBOARD_OUTPUT="${BENCHMARK_SCOREBOARD_OUTPUT:-/mnt/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json}"
 METHODOLOGY_ID="bench-dataimport/capability"
 METHODOLOGY_VERSION="1.0.0"
 COMPARISON_GROUP="dataimport-capability-v1"
@@ -125,35 +125,26 @@ fi
 echo "Runtime OK"
 
 # --- Resolve system prompt ---
-# Use DATA_IMPORT_RIG.md as system prompt (the same doc used in real pipeline)
-SYSTEM_PROMPT=""
-if [[ "$USE_MODEL_PROMPTS" == "1" && -f "$SYSTEM_PROMPT_FILE" ]]; then
-  SYSTEM_PROMPT=$(cat "$SYSTEM_PROMPT_FILE")
-  echo "System prompt: $SYSTEM_PROMPT_FILE ($(wc -c < "$SYSTEM_PROMPT_FILE") bytes)"
-elif [[ "$USE_MODEL_PROMPTS" == "1" && -n "$TUNING_PROFILES" && -f "$TUNING_PROFILES" ]]; then
-  # Try to extract from tuning profiles
-  SYSTEM_PROMPT=$(python3 - "$TUNING_PROFILES" "$MODEL" <<'PYEOF'
-import json, sys
-profiles_path, model = sys.argv[1:3]
-with open(profiles_path, encoding="utf-8") as f:
-    profiles = json.load(f)
-for key in profiles.get('models', {}):
-    if model in key or key in model:
-        sp = profiles['models'][key].get('system_prompt', '')
-        if sp:
-            print(sp)
-            sys.exit(0)
-print('')
-PYEOF
-)
-  if [[ -n "$SYSTEM_PROMPT" ]]; then
-    echo "System prompt: from tuning profiles"
-  fi
+if [[ ! -f "$SYSTEM_PROMPT_FILE" ]]; then
+  echo "ERROR: task system prompt not found: $SYSTEM_PROMPT_FILE"
+  exit 1
 fi
+TASK_SYSTEM_PROMPT=$(cat "$SYSTEM_PROMPT_FILE")
+SYSTEM_PROMPT="$TASK_SYSTEM_PROMPT"
+if [[ "$USE_MODEL_PROMPTS" == "1" ]]; then
+  if [[ -n "$TUNING_PROFILES" && -f "$TUNING_PROFILES" ]]; then
+    MODEL_SYSTEM_PROMPT=$(python3 "${SCRIPTS_DIR}/scripts/active/model_profiles.py" \
+      --profiles "$TUNING_PROFILES" --model "$MODEL" --field system_prompt \
+      --require-system-prompt)
+    SYSTEM_PROMPT="${MODEL_SYSTEM_PROMPT}
 
-if [[ -z "$SYSTEM_PROMPT" ]]; then
-  echo "WARN: No system prompt found. Using minimal fallback."
-  SYSTEM_PROMPT="You are a data engineering assistant. Follow instructions exactly. Output only what is requested."
+${TASK_SYSTEM_PROMPT}"
+    echo "System prompt: model profile plus $SYSTEM_PROMPT_FILE"
+  else
+    echo "System prompt: $SYSTEM_PROMPT_FILE (no tuning profile supplied)"
+  fi
+else
+  echo "System prompt: $SYSTEM_PROMPT_FILE"
 fi
 
 # --- Init status ---

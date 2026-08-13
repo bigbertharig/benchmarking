@@ -1,4 +1,7 @@
-# Single-GPU Cohort Suites
+# Single-GPU Cohort Suites (Retired Launcher)
+
+The launcher described below is historical. New and resumed work must express
+the cohort as blocks in `run_campaign.py`; see `CAMPAIGN_RUNNER.md`.
 
 This is a thin wrapper path for:
 

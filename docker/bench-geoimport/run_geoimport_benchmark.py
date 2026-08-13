@@ -40,24 +40,6 @@ def merge_dicts(base: dict[str, Any], overlay: dict[str, Any]) -> dict[str, Any]
     return merged
 
 
-def resolve_model_profile(models: dict[str, Any], model: str, seen: set[str] | None = None) -> tuple[dict[str, Any], str]:
-    if model not in models:
-        return {}, "suite-default"
-    seen = set(seen or ())
-    if model in seen:
-        raise ValueError(f"model tuning profile alias cycle at {model}")
-    seen.add(model)
-    entry = models[model]
-    if not isinstance(entry, dict):
-        raise ValueError(f"model tuning profile must be an object: {model}")
-    alias = entry.get("_alias_of")
-    local = {key: value for key, value in entry.items() if key != "_alias_of"}
-    if not alias:
-        return local, model
-    base, source = resolve_model_profile(models, str(alias), seen)
-    return merge_dicts(base, local), f"{model}->{source}"
-
-
 def load_run_profile(path: Path, model: str, override_json: str, disabled: bool) -> tuple[dict[str, Any], str, str]:
     profile: dict[str, Any] = {}
     source = "suite-default"
@@ -68,7 +50,15 @@ def load_run_profile(path: Path, model: str, override_json: str, disabled: bool)
         models = root.get("models", {})
         if not isinstance(models, dict):
             raise ValueError("model tuning profiles must contain an object named models")
-        profile, source = resolve_model_profile(models, model)
+        sys.path.insert(0, str(path.parent / "scripts" / "active"))
+        from model_profiles import resolve_profile
+
+        resolved = resolve_profile(models, model)
+        if resolved is not None:
+            source, profile = resolved
+            canonical = str(profile.get("_resolved_from", "")).strip()
+            if canonical:
+                source = f"{source}->{canonical}"
 
     inference = merge_dicts(DEFAULT_INFERENCE, profile.get("inference", {}))
     overrides = json.loads(override_json)

@@ -1,0 +1,71 @@
+{
+  "name": "harness_remaining_suites_smoke",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 300,
+    "run_class": "smoke"
+  },
+  "blocks": [
+    {
+      "id": "pipeline",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "suite_args": ["--tests", "custom_json_schema_strict"],
+      "ctx_size": 4096
+    },
+    {
+      "id": "reasoning",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "suite_args": ["--tasks", "gsm8k"],
+      "limit": 1,
+      "ctx_size": 4096,
+      "depends_on": ["pipeline"]
+    },
+    {
+      "id": "agent",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-agent",
+      "suite_args": ["--cases", "agent_plan_sequence"],
+      "limit": 1,
+      "ctx_size": 4096,
+      "depends_on": ["reasoning"]
+    },
+    {
+      "id": "routing",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-routing",
+      "limit": 1,
+      "ctx_size": 4096,
+      "depends_on": ["agent"]
+    },
+    {
+      "id": "runtime",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "ctx_size": 4096,
+      "depends_on": ["routing"]
+    },
+    {
+      "id": "daedalmap",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-daedalmap",
+      "suite_args": ["--tasks", "json_discipline"],
+      "limit": 1,
+      "ctx_size": 4096,
+      "depends_on": ["runtime"]
+    }
+  ]
+}

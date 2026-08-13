@@ -29,6 +29,9 @@ RESERVATION_HELPER=""
 RESERVATION_PORT=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 RECORD_RESULT_SCRIPT=""
+RECORDS_PATH="${BENCHMARK_RECORDS_PATH:-/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl}"
+REFERENCE_OUTPUT="${BENCHMARK_REFERENCE_OUTPUT:-/mnt/shared/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md}"
+SCOREBOARD_OUTPUT="${BENCHMARK_SCOREBOARD_OUTPUT:-/mnt/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json}"
 METHODOLOGY_ID="bench-reasoning/lm-eval-normalized"
 METHODOLOGY_VERSION="2.0.0"
 COMPARISON_GROUP="lm-eval-0.4.11-reasoning-extract-v2"
@@ -141,6 +144,9 @@ record_result_row() {
         --methodology-id "$METHODOLOGY_ID" \
         --methodology-version "$METHODOLOGY_VERSION" \
         --comparison-group "$COMPARISON_GROUP" \
+        --records "$RECORDS_PATH" \
+        --reference-output "$REFERENCE_OUTPUT" \
+        --scoreboard-output "$SCOREBOARD_OUTPUT" \
         --config-id "lm-eval-0.4.11-reasoning-extract-v2" \
         --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v2"}' \
         --run-at "$(date -Iseconds)" \
@@ -160,6 +166,9 @@ record_failure_row() {
         --methodology-id "$METHODOLOGY_ID" \
         --methodology-version "$METHODOLOGY_VERSION" \
         --comparison-group "$COMPARISON_GROUP" \
+        --records "$RECORDS_PATH" \
+        --reference-output "$REFERENCE_OUTPUT" \
+        --scoreboard-output "$SCOREBOARD_OUTPUT" \
         --failure-kind harness_exit \
         --failure-message "lm-eval exited with code ${exit_code}" \
         --failed-request-count 1 >/dev/null
@@ -459,6 +468,7 @@ if [ "$USE_MODEL_PROMPTS" -eq 1 ]; then
     fi
     readarray -t _PROMPT_INFO < <(python3 - "$MODEL" "$PROMPT_PROFILES" "$TUNING_PROFILES" "$REQUIRE_MODEL_PROMPT" <<'PY'
 import base64, json, re, sys
+from pathlib import Path
 model, prompt_profiles_path, tuning_profiles_path, require_flag = sys.argv[1:5]
 require_model_prompt = str(require_flag).strip() == "1"
 
@@ -525,7 +535,10 @@ if item:
         source = "prompt_profiles:model_system_prompt"
 
 if not prompt:
-    t_item = lookup(tuning.get("models", {}), model)
+    sys.path.insert(0, str(Path(tuning_profiles_path).parent / "scripts" / "active"))
+    from model_profiles import resolve_profile
+    resolved = resolve_profile(tuning.get("models", {}), model)
+    t_item = resolved[1] if resolved else None
     if t_item:
         sp = str(t_item.get("system_prompt", "")).strip()
         if sp:

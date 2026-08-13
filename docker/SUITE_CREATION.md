@@ -1,206 +1,127 @@
-# Suite Creation
+# Creating a Benchmark Suite
 
-This guide defines how to build new Docker benchmark suites that work with this rig's existing orchestration, logs, and dashboard.
+All campaign-compatible suites implement `campaign-v1`. The machine-readable
+source of truth is `docker/suite_contracts.json`; the only scheduler is
+`/mnt/shared/scripts/benchmarks/run_campaign.py`.
 
-## Goal
+## 1. Choose the Contract
 
-A valid suite must:
+Add the suite to `suite_contracts.json` with explicit values for:
 
-1. Run as a standalone Docker image.
-2. Write resumable run artifacts to shared storage.
-3. Expose live progress through status files/logs (so dashboard can show worker state/holding).
-4. Fail clearly on real task failures, but skip unavailable tasks cleanly.
+- `runtime_mode`: normally `external`; the campaign runner owns model loading.
+- `limit_supported`: whether bounded smoke runs accept `--limit N`.
+- `task_selector`: `--tasks`, `--tests`, `--cases`, or `null`.
+- `profile_policy`: how prompts are selected.
+- `hardware_id_required`: whether hardware identity is part of the result.
+- `container_gpu_access`: only for suites that inspect GPU telemetry directly.
+- `env_file_supported`: only for suites with an explicit optional env file.
 
-## Required Runtime Contract
+Profile policies:
 
-Each suite container should accept at least:
+| Policy | Meaning |
+| --- | --- |
+| `required` | Resolve the model through `scripts/active/model_profiles.py`; require `system_prompt`. |
+| `task_prompt_plus_profile` | Combine a frozen task prompt with the resolved model profile. |
+| `fixed_evalplus_prompt` | EvalPlus owns the prompt; model profile is not injected. |
+| `fixed_case_prompt` | Each frozen case owns its prompt. |
+| `fixed_probe_prompt` | The operational probe owns its prompt. |
+| `fixed_suite_prompt` | The suite owns one frozen prompt. |
 
-- `--model <model-id-or-path>`
-- `--runtime-base <http://localhost:PORT>` (if using external llama runtime)
-- `--tasks <comma,list>`
-- `--limit <N>` (optional, but strongly recommended)
-- `--run-name <id>` (required for resumable operation)
-- `--results-dir <path>` (default `/results`)
+Do not add suite-specific profile matching. Import `resolve_profile()` or invoke
+`model_profiles.py`; this is what makes aliases and model-specific settings
+behave identically across suites.
 
-Expected launch pattern:
+## 2. Implement the CLI
+
+Every entrypoint accepts:
+
+```text
+--model MODEL
+--run-name RUN_NAME
+--run-class smoke|provisional|validated|full
+--results-dir PATH
+```
+
+External-runtime suites also accept `--runtime-base URL`. Add the registered
+task selector, `--limit`, `--tuning-profiles`, and `--hardware-id` exactly when
+the registry says they are supported. Runner-owned flags must not be placed in
+manifest `suite_args`.
+
+The Dockerfile must use a JSON `ENTRYPOINT` and include:
+
+```dockerfile
+LABEL daedalmap.benchmark.contract="campaign-v1"
+```
+
+## 3. Own Outputs Correctly
+
+Write run artifacts beneath:
+
+```text
+/results/<suite>_<model_safe>_<run_name>/
+```
+
+At minimum, write a live `status.json`, deterministic task artifacts, and a
+final summary or terminal task states. Reusing the same run name must skip only
+completed work and rerun failed or interrupted work.
+
+The benchmark source mount is read-only. Canonical result records must use
+writable shared paths, either the standard defaults or explicit arguments:
+
+```text
+/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl
+/mnt/shared/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md
+/mnt/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json
+```
+
+Never rely on recorder defaults derived from `/benchmark-scripts`, because that
+mount is read-only in campaign containers.
+
+The campaign runner supplies `HOME`, `HF_HOME`, `HF_DATASETS_CACHE`, and
+`XDG_CACHE_HOME`. Suites must respect those paths rather than deriving a cache
+from `/` or writing dependencies into the source mount.
+
+## 4. Register Methodology
+
+Add an entry to `benchmark_methodologies.json`. Change the methodology version
+or comparison group whenever scoring, extraction, case data, prompts, or runtime
+semantics change. The harness records observations; it does not impose a pass
+threshold or decide whether a model is acceptable.
+
+## 5. Add Documentation
+
+Each `docker/bench-<name>/` directory must contain:
+
+- `README.md`: scope, task IDs, CLI, outputs, and a direct debug command.
+- `BENCH_<NAME>_HISTORY.md`: methodology changes and run notes.
+
+Direct `docker run` commands are for suite debugging. Sequential and parallel
+production runs both use the campaign runner.
+
+## 6. Validate and Smoke Test
+
+Run from the benchmarking repository:
 
 ```bash
-docker run --rm --network host \
-  -v /mnt/shared:/mnt/shared \
-  -v /mnt/shared/logs/benchmarks/<suite>/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  <suite-image> \
-  --model <model> \
-  --runtime-base http://localhost:1143X \
-  --tasks <task1,task2,...> \
-  --limit 100 \
-  --run-name <run_id>
+python3 scripts/active/validate_suite_contract.py
+python3 -m unittest tests.test_model_profiles tests.test_suite_contract
 ```
 
-## Required Output Layout
-
-Write run outputs under:
-
-- `/results/<suite>_<model_safe>_<run_name>/`
-
-Minimum files:
-
-1. `status.json` (live-updated)
-2. per-task output dirs (`gsm8k/`, `bbh/`, etc.)
-3. suite log at run root (for live progress parsing)
-
-Recommended naming:
-
-- `<worker_label>.log` in the run root for parallel launches
-- keep all paths deterministic from `run-name`
-
-## `status.json` Schema (Minimum)
-
-Use this shape so dashboard + tooling can parse without custom adapters:
-
-```json
-{
-  "run_start": "2026-03-12T21:17:53.098347",
-  "model": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
-  "runtime": "http://localhost:11436",
-  "tasks_requested": ["gsm8k", "bbh", "drop"],
-  "limit": "100",
-  "num_fewshot": "",
-  "tasks": {
-    "gsm8k": {
-      "state": "completed",
-      "exit_code": 0,
-      "output_dir": "/results/.../gsm8k",
-      "started_at": "2026-03-12T21:17:53+00:00",
-      "ended_at": "2026-03-12T21:34:36+00:00"
-    }
-  },
-  "updated_at": "2026-03-12T21:34:36.818111"
-}
-```
-
-Task state values to use:
-
-- terminal success: `completed`
-- terminal fail: `failed`
-- optional in-progress: `running`
-
-## Task Availability Preflight (Mandatory)
-
-Before execution, filter requested tasks to what the suite runtime actually supports.
-
-Why:
-
-- prevents fake failures like `Tasks not found: math_500`
-- keeps `tasks_requested` accurate (dashboard counters reflect real workload)
-
-Pattern:
-
-1. list available tasks (`python -m lm_eval ls tasks` or suite equivalent)
-2. compute `kept` and `missing`
-3. log `missing` as warning
-4. run only `kept`
-5. write filtered list into `status.json.tasks_requested`
-6. hard fail only if `kept` is empty
-
-## Progress Reporting (Dashboard-Friendly)
-
-Dashboard reads:
-
-- suite from status file location (`bench-reasoning`, `bench-code`, etc.)
-- current task + progress from status/log tail
-
-To support good live labels:
-
-1. Emit clear per-task markers in logs:
-   - `--- Running task: <task> ---`
-2. Emit incremental counters where possible:
-   - `Requesting API: ... X/Y`
-3. Keep `status.json.updated_at` fresh on each stage transition.
-
-Current display target:
-
-- `State`: suite name (`reasoning`, `code`, `pipeline`, ...)
-- `Holding`: `<task> <task_index>/<task_total> - <x/limit-or-x/total>`
-
-## Checkpoint/Resume Rules
-
-For each task in `tasks_requested`:
-
-1. If `status.json.tasks[task].state == completed`, skip.
-2. If missing/failed/incomplete, rerun.
-3. Re-running with same `--run-name` must be idempotent.
-
-Do not overwrite successful task artifacts when resuming.
-
-## Nickname Mapping for Long Task Names
-
-If task identifiers are too long/noisy, map them using:
-
-- `/home/bryan/Desktop/shared/plans/shoulders/benchmarking/docker/task_nicknames.json`
-
-Use short stable names for UI, keep raw ids in artifacts.
-
-## New Suite Checklist
-
-1. Create `docker/<suite>/Dockerfile`
-2. Create `docker/<suite>/run.sh` with CLI contract above
-3. Add task preflight filtering
-4. Add `status.json` init/update helpers
-5. Add checkpoint skip logic
-6. Add suite `README.md` (what it validates, tasks, commands)
-7. Add suite history doc `BENCH_<SUITE>_HISTORY.md`
-8. Add canonical run command to `docker/README.md`
-9. Run smoke test (`--limit 3`) then resumable test (`same run-name`)
-10. Verify dashboard shows suite + live holding progress
-
-## Minimal `run.sh` Flow
+Then build and inspect the image on the rig:
 
 ```bash
-parse_args
-verify_runtime
-filter_available_tasks
-init_or_refresh_status
-
-for task in tasks_requested:
-  if task_completed(task): continue
-  mark_running(task)
-  run_task_command(task)
-  mark_completed_or_failed(task)
-
-print_summary
-exit_nonzero_if_failures
+docker build -t bench-<name> docker/bench-<name>
+docker image inspect bench-<name> \
+  --format '{{ index .Config.Labels "daedalmap.benchmark.contract" }}'
 ```
 
-## Orchestrator Coexistence
+Create one campaign manifest containing a bounded suite block. Verify:
 
-Benchmark suites run outside the orchestrator's task queue — they talk directly to
-worker HTTP endpoints. This means the orchestrator has no visibility into benchmark
-activity.
+1. `--dry-run --verbose` produces the expected Docker command.
+2. A real `--limit 1` run records an artifact and exits zero.
+3. Reusing `--run-id` resumes without duplicating completed work.
+4. Two independent blocks can occupy non-overlapping slots.
+5. Two dependent blocks execute in dependency order.
 
-Current contract:
-- benchmark launches must reserve the target GPU before starting work
-- reserved GPUs are hidden from normal orchestrator balancing and refuse queued work
-- benchmark launchers are responsible for releasing the reservation on exit
-- if the suite self-manages reservation inside the container, the container must also
-  have the shared root mounted at `/mnt/shared`
-
-Required integration options for a new suite:
-- use a host-side launcher that calls `/mnt/shared/scripts/benchmark_gpu_reservation.py`
-  before and after the container run
-- or document the exact manual reserve/release commands if the suite is intended for
-  direct ad hoc `docker run`
-
-Do not assume that talking to `http://localhost:1143X` is enough. Without the explicit
-reservation step, plans and benchmarks can still collide on the same worker.
-
-See the main [README](README.md) "Running Benchmarks Alongside Plans" section for the
-operator-facing workflow.
-
-## What To Avoid
-
-- Hardcoding task lists without availability checks.
-- Counting unavailable tasks as failures.
-- Writing only final results (no live status updates).
-- Non-deterministic output directories (breaks resume/dashboard).
-- Creating a custom status format that bypasses current dashboard parsers.
+`bench-code` is intentionally all-problem EvalPlus and does not support
+`--limit`; validate its command contract separately from bounded suites.

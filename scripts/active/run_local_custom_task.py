@@ -14,6 +14,8 @@ from typing import Any
 
 import requests
 
+from model_profiles import resolve_profile
+
 from benchmark_records import RUN_CLASSES
 
 
@@ -147,7 +149,8 @@ def resolve_system_prompt(
         if model_prompt:
             return model_prompt, f"model:{model_id}"
 
-    tuning_item = _lookup_model_entry_by_id(tuning_profiles.get("models", {}), model)
+    tuning_match = resolve_profile(tuning_profiles.get("models", {}), model)
+    tuning_item = tuning_match[1] if tuning_match else None
     if tuning_item:
         universal_prompt = str(tuning_item.get("system_prompt", "")).strip()
         if universal_prompt:
@@ -166,7 +169,8 @@ def has_model_prompt_source(
         model_prompt = str(item.get("system_prompt", "")).strip()
         if model_prompt:
             return True
-    tuning_item = _lookup_model_entry_by_id(tuning_profiles.get("models", {}), model)
+    tuning_match = resolve_profile(tuning_profiles.get("models", {}), model)
+    tuning_item = tuning_match[1] if tuning_match else None
     if tuning_item:
         universal_prompt = str(tuning_item.get("system_prompt", "")).strip()
         if universal_prompt:

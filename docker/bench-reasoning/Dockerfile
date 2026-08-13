@@ -25,6 +25,14 @@ ENV PATH="/opt/bench/bin:$PATH"
 # lm_eval[api] for chat completions + transformers for chat templates + langdetect for ifeval
 RUN pip install --no-cache-dir "lm_eval[api]==0.4.11" transformers==5.3.0 langdetect==1.0.9
 
+# Model-specific extraction patches are selected at runtime. Only the four
+# patched lm-eval files need to be writable by the campaign container user.
+RUN chmod a+rw \
+    /opt/bench/lib/python3.12/site-packages/lm_eval/models/openai_completions.py \
+    /opt/bench/lib/python3.12/site-packages/lm_eval/models/api_models.py \
+    /opt/bench/lib/python3.12/site-packages/lm_eval/tasks/bbh/cot_fewshot/_cot_fewshot_template_yaml \
+    /opt/bench/lib/python3.12/site-packages/lm_eval/tasks/drop/default.yaml
+
 COPY run.sh /opt/bench/run.sh
 RUN chmod +x /opt/bench/run.sh
 

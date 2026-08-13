@@ -24,6 +24,9 @@ RESERVATION_HELPER=""
 RESERVATION_PORT=""
 AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 RECORD_RESULT_SCRIPT=""
+RECORDS_PATH="${BENCHMARK_RECORDS_PATH:-/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl}"
+REFERENCE_OUTPUT="${BENCHMARK_REFERENCE_OUTPUT:-/mnt/shared/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md}"
+SCOREBOARD_OUTPUT="${BENCHMARK_SCOREBOARD_OUTPUT:-/mnt/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -127,6 +130,9 @@ record_result_row() {
         --methodology-id "$METHODOLOGY_ID" \
         --methodology-version "$METHODOLOGY_VERSION" \
         --comparison-group "$COMPARISON_GROUP" \
+        --records "$RECORDS_PATH" \
+        --reference-output "$REFERENCE_OUTPUT" \
+        --scoreboard-output "$SCOREBOARD_OUTPUT" \
         --config-id "$CONFIG_ID" \
         --config-json "$CONFIG_JSON" \
         --run-at "$(date -Iseconds)" \
@@ -146,6 +152,9 @@ record_failure_row() {
         --methodology-id "$METHODOLOGY_ID" \
         --methodology-version "$METHODOLOGY_VERSION" \
         --comparison-group "$COMPARISON_GROUP" \
+        --records "$RECORDS_PATH" \
+        --reference-output "$REFERENCE_OUTPUT" \
+        --scoreboard-output "$SCOREBOARD_OUTPUT" \
         --config-id "$CONFIG_ID" \
         --config-json "$CONFIG_JSON" \
         --failure-kind harness_exit \

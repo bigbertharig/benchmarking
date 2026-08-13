@@ -737,6 +737,18 @@
   ],
   "result_families": [
     {
+      "id": "geoimport_case_results",
+      "harness": "bench-geoimport",
+      "pattern": "^geoimport_(classify|job_plan|qa|prep_(classify|plan|handoff))_[a-z0-9_]+(?:_v[0-9]+)?$",
+      "what_it_tests": "Versioned geometry/admin-spine preparation case results emitted by bench-geoimport."
+    },
+    {
+      "id": "knowledge_generation_probes",
+      "harness": "bench-knowledge",
+      "pattern": "^knowledge_(academic|science|commonsense|truthfulness|reading)_probe_v1$",
+      "what_it_tests": "Frozen generation-scored knowledge probe categories; not official public dataset scores."
+    },
+    {
       "id": "daedalmap_category_metrics",
       "harness": "bench-daedalmap",
       "pattern": "^daedalmap_(json_discipline|type_routing|source_grounding|catalog_discipline|geographic_precision|multi_source)_(pass_rate|json_valid_rate|type_correct_rate|no_halluc_rate|source_hit_rate|source_valid_rate)$",

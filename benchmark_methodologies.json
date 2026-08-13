@@ -49,10 +49,21 @@
       "version": "2.0.0",
       "comparison_group": "lm-eval-0.4.11-knowledge-v1",
       "suite": "bench-knowledge",
-      "status": "optional",
+      "status": "retired",
       "dependencies": {
         "lm_eval": "0.4.11",
         "llama_cpp_python": "0.3.16"
+      }
+    },
+    {
+      "id": "bench-knowledge/chat-mc",
+      "version": "3.0.0",
+      "comparison_group": "knowledge-chat-mc-v1",
+      "suite": "bench-knowledge",
+      "status": "active",
+      "dependencies": {
+        "runtime_api": "openai-chat-completions",
+        "case_set": "knowledge-cases-v1"
       }
     },
     {

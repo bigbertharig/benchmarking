@@ -1,220 +1,157 @@
 # Unified Campaign Runner
 
-`run_campaign.py` runs arbitrary combinations of models and benchmark suites
-across all available GPUs with parallel scheduling and checkpoint/resume.
+`/mnt/shared/scripts/benchmarks/run_campaign.py` is the only production
+benchmark scheduler. It uses `docker/suite_contracts.json` to run sequential or
+parallel suite blocks with one model-loading and checkpoint contract.
 
-Script: `/mnt/shared/scripts/benchmarks/run_campaign.py`
-Manifests: `/mnt/shared/plans/shoulders/benchmarking/campaigns/*.json`
-
-Controlled runtime matrices are declared under `runtime_matrices/` and compiled
-into compatible manifests with `build_runtime_matrix_campaign.py`. Generated
-matrix blocks are dependency-chained to keep variants on one GPU slot.
-
-## Quick Start
+## Commands
 
 ```bash
-# Dry-run to verify schedule
-ssh 10.0.0.3
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/gemma4_reasoning_rerun.json \
-  --dry-run
-
-# Run for real
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/gemma4_reasoning_rerun.json
-
-# Resume a previous run
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/gemma4_reasoning_rerun.json \
-  --run-id 20260607_143000
+python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --dry-run --verbose
+python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --run-id run_001
+python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --run-id run_001
 ```
 
-## CLI
+The final command resumes the same run. Additional controls:
 
+```text
+--on-failure continue|stop
+--limit-override N
+--limit BLOCK_ID=N
+--verbose
 ```
-python3 run_campaign.py MANIFEST [--run-id ID] [--dry-run] [--on-failure continue|stop]
-    [--limit-override N] [--limit BLOCK_ID=N ...] [--verbose]
-```
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `MANIFEST` | required | Path to campaign manifest JSON |
-| `--run-id` | timestamp | Run identifier (reuse to resume) |
-| `--dry-run` | off | Print schedule, don't start containers |
-| `--on-failure` | `continue` | `stop` halts entire campaign on first failure |
-| `--limit-override N` | manifest | Override limit for ALL blocks (e.g. `--limit-override 10` for smoke) |
-| `--limit BLOCK=N` | manifest | Override limit for one block (repeatable; wins over `--limit-override`) |
-| `--verbose` | off | Print docker commands and debug details |
+Limit priority is block override, global override, manifest `limit`, then suite
+default. An override fails preflight for suites whose contract does not support
+bounded runs.
 
-**Limit priority**: `--limit BLOCK=N` > `--limit-override N` > manifest `limit` field > suite default
-
-## Manifest Format
+## Manifest
 
 ```json
 {
-  "name": "my_campaign",
+  "name": "model_import_smoke",
   "defaults": {
     "runtime_image": "llama-runtime:b8884-candidate",
-    "load_timeout_s": 300
+    "load_timeout_s": 300,
+    "run_class": "smoke"
   },
   "blocks": [
     {
-      "id": "unique_block_id",
-      "model": "gemma-4:e4b",
-      "gguf": "/mnt/shared/models/gemma-4-e4b/gemma-4-e4b-it-Q4_K_M.gguf",
-      "placement": "single",
-      "suite": "bench-reasoning",
-      "suite_args": ["--tasks", "gsm8k,bbh,drop", "--patch-think-tag-strip"],
-      "limit": 50,
-      "runtime_args": ["--reasoning-budget", "0"],
-      "ctx_size": 4096,
-      "depends_on": []
+      "id": "data",
+      "model": "model-id",
+      "gguf": "/mnt/shared/models/model/model.gguf",
+      "placement": "brain",
+      "suite": "bench-dataimport",
+      "suite_args": ["--tasks", "converter,reference"],
+      "limit": 2,
+      "ctx_size": 8192,
+      "runtime_args": []
+    },
+    {
+      "id": "geometry",
+      "model": "model-id",
+      "gguf": "/mnt/shared/models/model/model.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification,prep_plan"],
+      "limit": 2,
+      "depends_on": ["data"]
     }
   ]
 }
 ```
 
-### Block Fields
+Required block fields are `id`, `model`, `gguf`, and `suite`. Optional fields:
 
-| Field | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `id` | yes | — | Unique block identifier |
-| `model` | yes | — | Model ID (passed to suite `--model`) |
-| `gguf` | yes | — | Full path to GGUF file on rig |
-| `suite` | yes | — | Suite name: `bench-pipeline`, `bench-code`, `bench-reasoning`, `bench-knowledge` |
-| `placement` | no | `single` | GPU placement: `brain`, `single`, `split_1_3`, `split_4_5` |
-| `suite_args` | no | `[]` | Extra args passed to suite container |
-| `limit` | no | suite default | Convenience for `--limit N` (explicit `--limit` in suite_args wins) |
-| `runtime_args` | no | `[]` | Extra llama-server args (e.g., `["--reasoning-budget", "0"]`) |
-| `runtime_image` | no | from defaults | Docker image for llama-server |
-| `ctx_size` | no | tuning profile or 2048 | Context window size |
-| `batch_size` | no | tuning profile or 128 | Batch size |
-| `load_timeout_s` | no | from defaults or 300 | Max seconds to wait for model load |
-| `depends_on` | no | `[]` | Block IDs that must complete first |
+| Field | Default | Meaning |
+| --- | --- | --- |
+| `placement` | `single` | `brain`, `single`, `split_1_3`, or `split_4_5` |
+| `suite_args` | `[]` | Suite-owned flags only |
+| `run_class` | default or `provisional` | Evidence class; no score gate is imposed |
+| `limit` | suite default | Bounded sample count where supported |
+| `depends_on` | `[]` | Completed prerequisite block IDs |
+| `ctx_size` | model profile or 2048 | Runtime context size |
+| `batch_size` | model profile or 128 | Runtime batch size |
+| `runtime_args` | profile plus block args | Additional llama-server arguments |
+| `runtime_image` | campaign default | Runtime image tag |
+| `load_timeout_s` | campaign default or 300 | Runtime readiness timeout |
+| `hardware_id` | derived from slot | Optional explicit hardware identity |
+| `env_file` | none | Optional, only for suites that declare support |
 
-### Defaults Section
+Do not put `--model`, `--runtime-base`, `--run-name`, `--run-class`, output
+paths, profile paths, hardware identity, or GGUF paths in `suite_args`. The
+runner owns them.
 
-Fields in `defaults` apply to all blocks unless overridden per-block:
-- `runtime_image`
-- `load_timeout_s`
+## Supported Suites
 
-### Config Lookup Chain
+The live suite list and capabilities come from `suite_contracts.json`:
 
-For `ctx_size` and `batch_size`, if not specified in the block:
-1. Look up model in `model_tuning_profiles.json` `runtime` section
-2. Fall back to hardcoded defaults (2048, 128)
+- `bench-pipeline`
+- `bench-code`
+- `bench-reasoning`
+- `bench-knowledge`
+- `bench-dataimport`
+- `bench-geoimport`
+- `bench-agent`
+- `bench-routing`
+- `bench-runtime`
+- `bench-daedalmap`
 
-For `runtime_args`, the block's list is merged with `extra_args` from tuning profiles.
+`bench-code`, `bench-pipeline`, and `bench-runtime` currently do not support a
+generic `--limit`. `bench-code` runs the selected EvalPlus problem sets in full.
 
-## GPU Layout
+## Profiles
 
-| Slot | GPUs | Port | Tier | Notes |
-|------|------|------|------|-------|
-| `brain` | 0 | 11434 | brain | 3090 24GB |
-| `gpu_1` | 1 | 11435 | single | 1060 6GB |
-| `gpu_2` | 2 | 11436 | single | 1060 6GB |
-| `gpu_3` | 3 | 11437 | single | 1060 6GB |
-| `gpu_4` | 4 | 11438 | single | 1060 6GB |
-| `gpu_5` | 5 | 11439 | single | 1060 6GB |
-| `split_1_3` | 1,3 | 11435 | split | 14B models |
-| `split_4_5` | 4,5 | 11438 | split | 14B models |
+`model_tuning_profiles.json` is resolved through
+`scripts/active/model_profiles.py`. Aliases inherit the canonical profile, then
+apply explicit alias overrides. Ambiguous matches, missing alias targets, alias
+cycles, and missing required system prompts fail before a model is loaded.
 
-Placement values: `brain`, `single`, `split_1_3`, `split_4_5`
-
-Conflict rule: two blocks conflict if their GPU sets overlap. A `split_1_3`
-block conflicts with any `single` block on GPU 1 or GPU 3.
+The profile policy is suite-specific and declared in `suite_contracts.json`.
+Some frozen harnesses intentionally own their prompts and do not inject a model
+system prompt.
 
 ## Scheduling
 
-1. Parse manifest, build dependency graph
-2. Main loop (3s ticks):
-   - Reap finished suite processes
-   - Advance blocks whose `depends_on` resolved
-   - If load lock free: pick next ready block with a free GPU slot, start loading
-   - When load completes: release load lock, start suite container
-   - On suite completion: release GPU slot, stop runtime
-3. Blocks needing the same GPU auto-wait (no explicit `depends_on` needed)
+The runner exposes these rig slots:
 
-**Key constraint**: only one model loads at a time (shared PCIe bus). Once
-loaded, suites run in parallel across different GPUs.
+| Placement | GPUs | Port |
+| --- | --- | --- |
+| `brain` | 0 | 11434 |
+| `single` | first free of 1-5 | 11435-11439 |
+| `split_1_3` | 1,3 | 11435 |
+| `split_4_5` | 4,5 | 11438 |
 
-### Block State Machine
+Model loads are serialized to bound shared bus and storage pressure. Loaded
+suites run concurrently on non-overlapping GPU sets. `depends_on` supplies
+strict ordering when required.
 
-```
-pending -> waiting_deps -> waiting_gpu -> loading -> running_suite -> completed
-                                                                   -> failed
-```
+## Preflight and Resume
 
-## Checkpoint/Resume
+Before loading a model the runner verifies:
 
-Checkpoint: `campaigns/history/<name>/<run_id>/campaign_state.json`
-Status: `campaigns/history/<name>/<run_id>/status.json`
+- manifest structure and dependency references
+- GGUF and optional env-file existence
+- model profile requirements
+- suite limit policy and runner-owned flags
+- suite image contract labels
+- writable result roots and `/mnt/shared/cache/benchmarks`
 
-On restart with the same `--run-id`:
-- Completed blocks are skipped
-- Blocks that were mid-load or mid-suite restart from scratch (orphan
-  containers are stopped first)
+Containers receive an explicit temporary `HOME` and a persistent shared
+Hugging Face cache under `/mnt/shared/cache/benchmarks`. This avoids root-home
+permission failures and reuses frozen dataset downloads across model runs.
 
-## Container Naming
+Campaign status and checkpoints are under:
 
-- Runtime: `llama-campaign-{block_id}` (e.g., `llama-campaign-e4b_reasoning`)
-- Suite: `bench-{suite_short}-campaign-{block_id}` (e.g., `bench-reasoning-campaign-e4b_reasoning`)
-
-The heartbeat keeper auto-detects containers matching `llama-*` and `bench-*`.
-
-## Memory Limits
-
-The runtime uses mmap by default (no `--no-mmap`). GGUF file pages are
-file-backed and reclaimable under Docker cgroup pressure, so actual anonymous
-memory stays under ~1 GB regardless of model size. The campaign runner sets
-safety-cap memory limits per tier:
-
-| Tier | `--memory` | `--memory-swap` | Tested peak (mmap) | Old (no-mmap) |
-|------|------------|-----------------|-------------------|---------------|
-| single (1060) | 2g | 3g | 1.6 GB (E4B, ctx 4k) | 6g/8g |
-| brain (3090) | 10g | 12g | 10 GB (31B, ctx 16k) | 11g/13g |
-| split (2x 1060) | 10g | 12g | — | 10g/12g |
-
-Anonymous memory scales with `ctx_size`, not model size (KV cache scratch
-buffers). Single-tier models use ctx 4096 and need ~1 GB. Brain/split models
-use ctx 16384 and need ~8-9 GB.
-
-`docker stats` may show higher usage than expected — this includes reclaimable
-file cache from the mmap'd GGUF. The kernel reclaims these pages under pressure.
-See BENCHMARK_LESSONS_LEARNED.md "`--no-mmap` causes Docker OOM kills" for the
-full investigation.
-
-## Error Handling
-
-- Load timeout: block marked failed, slot released, other blocks continue
-- Suite exit != 0: block marked failed, other blocks continue
-- `--on-failure stop`: halt entire campaign on first failure
-- SIGINT/SIGTERM: stop all running containers, write final checkpoint
-
-## Suite Logs
-
-Per-block logs are captured to:
-```
-/mnt/shared/logs/benchmarks/campaigns/history/<name>/<run_id>/logs/<block_id>.log
+```text
+/mnt/shared/logs/benchmarks/campaigns/history/<campaign>/<run_id>/
 ```
 
-Suite results go to the standard suite history directories:
-```
-/mnt/shared/logs/benchmarks/bench-{suite}/history/
-```
+Completed blocks are skipped on resume. Blocks interrupted during load or suite
+execution restart from the beginning. Dry runs do not create or consume a
+checkpoint.
 
-## Example: Gemma 4 Reasoning Re-Run
+## Adding a Suite
 
-```bash
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/gemma4_reasoning_rerun.json \
-  --dry-run
-```
-
-Expected schedule:
-- E4B loads on GPU 1, E2B waits (load lock)
-- E2B loads on GPU 3 after E4B load completes
-- 26B loads on brain after both workers start their suites
-- E4B + E2B + 26B suites run in parallel
-- When brain finishes 26B, loads 31B
-- Workers may still be running (reasoning is slower on 1060s)
+Follow `docker/SUITE_CREATION.md`. A suite is not campaign-compatible until it
+is registered and `python3 scripts/active/validate_suite_contract.py` passes.

@@ -1,0 +1,21 @@
+{
+  "name": "contract_all_suites_dry_run",
+  "_purpose": "Preflight and command-generation coverage for every campaign-v1 suite. Do not run without reviewing unbounded suites.",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 300,
+    "run_class": "smoke"
+  },
+  "blocks": [
+    {"id":"pipeline","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-pipeline","ctx_size":4096},
+    {"id":"code","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-code","ctx_size":4096,"depends_on":["pipeline"]},
+    {"id":"reasoning","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-reasoning","ctx_size":4096,"suite_args":["--tasks","gsm8k"],"limit":1,"depends_on":["code"]},
+    {"id":"knowledge","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-knowledge","ctx_size":4096,"suite_args":["--tasks","academic"],"limit":1,"depends_on":["reasoning"]},
+    {"id":"dataimport","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-dataimport","ctx_size":4096,"suite_args":["--tasks","schema_understanding"],"limit":1,"depends_on":["knowledge"]},
+    {"id":"geoimport","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-geoimport","ctx_size":4096,"suite_args":["--tasks","classification"],"limit":1,"depends_on":["dataimport"]},
+    {"id":"agent","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-agent","ctx_size":4096,"limit":1,"depends_on":["geoimport"]},
+    {"id":"routing","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-routing","ctx_size":4096,"limit":1,"depends_on":["agent"]},
+    {"id":"runtime","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-runtime","ctx_size":4096,"depends_on":["routing"]},
+    {"id":"daedalmap","model":"ministral-3:3b","gguf":"/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf","placement":"brain","suite":"bench-daedalmap","ctx_size":4096,"suite_args":["--tasks","json_discipline"],"limit":1,"depends_on":["runtime"]}
+  ]
+}

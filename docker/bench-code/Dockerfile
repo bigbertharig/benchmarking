@@ -11,6 +11,8 @@
 
 FROM python:3.12-slim
 
+LABEL daedalmap.benchmark.contract="campaign-v1"
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

@@ -1,0 +1,41 @@
+{
+  "name": "harness_sequential_parallel_smoke",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 300,
+    "run_class": "smoke"
+  },
+  "blocks": [
+    {
+      "id": "knowledge_lane",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-knowledge",
+      "suite_args": ["--tasks", "academic"],
+      "limit": 5,
+      "ctx_size": 4096
+    },
+    {
+      "id": "data_parallel_lane",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-dataimport",
+      "suite_args": ["--tasks", "converter"],
+      "limit": 1,
+      "ctx_size": 4096
+    },
+    {
+      "id": "geometry_after_knowledge",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-geoimport",
+      "suite_args": ["--tasks", "classification"],
+      "limit": 1,
+      "ctx_size": 4096,
+      "depends_on": ["knowledge_lane"]
+    }
+  ]
+}

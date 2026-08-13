@@ -1,5 +1,7 @@
 FROM python:3.12-slim
 
+LABEL daedalmap.benchmark.contract="campaign-v1"
+
 COPY run_runtime_benchmark.py /opt/bench/run_runtime_benchmark.py
 COPY runtime_cases.json /opt/bench/runtime_cases.json
 

@@ -1,4 +1,7 @@
-# Multi-Model Single-Suite Campaigns
+# Multi-Model Single-Suite Campaigns (Retired Launcher)
+
+The launcher described below is historical. New and resumed work must express
+each model as a block in `run_campaign.py`; see `CAMPAIGN_RUNNER.md`.
 
 This is a separate operator path from [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md).
 

@@ -1,0 +1,87 @@
+{
+  "contract_version": "campaign-v1",
+  "managed_args": [
+    "--model",
+    "--runtime-base",
+    "--run-name",
+    "--run-class",
+    "--results-dir",
+    "--scripts-dir",
+    "--tuning-profiles",
+    "--limit"
+  ],
+  "suites": {
+    "bench-pipeline": {
+      "runtime_mode": "external",
+      "limit_supported": false,
+      "task_selector": "--tests",
+      "profile_policy": "required",
+      "hardware_id_required": false
+    },
+    "bench-code": {
+      "runtime_mode": "external",
+      "limit_supported": false,
+      "task_selector": "--tasks",
+      "profile_policy": "fixed_evalplus_prompt",
+      "hardware_id_required": false
+    },
+    "bench-reasoning": {
+      "runtime_mode": "external",
+      "limit_supported": true,
+      "task_selector": "--tasks",
+      "profile_policy": "required",
+      "hardware_id_required": false
+    },
+    "bench-knowledge": {
+      "runtime_mode": "external",
+      "limit_supported": true,
+      "task_selector": "--tasks",
+      "profile_policy": "required",
+      "hardware_id_required": false
+    },
+    "bench-dataimport": {
+      "runtime_mode": "external",
+      "limit_supported": true,
+      "task_selector": "--tasks",
+      "profile_policy": "task_prompt_plus_profile",
+      "hardware_id_required": false
+    },
+    "bench-geoimport": {
+      "runtime_mode": "external",
+      "limit_supported": true,
+      "task_selector": "--tasks",
+      "profile_policy": "task_prompt_plus_profile",
+      "hardware_id_required": false
+    },
+    "bench-agent": {
+      "runtime_mode": "external",
+      "limit_supported": true,
+      "task_selector": "--cases",
+      "profile_policy": "fixed_case_prompt",
+      "hardware_id_required": true
+    },
+    "bench-routing": {
+      "runtime_mode": "external",
+      "limit_supported": true,
+      "task_selector": null,
+      "profile_policy": "fixed_case_prompt",
+      "hardware_id_required": true
+    },
+    "bench-runtime": {
+      "runtime_mode": "external",
+      "limit_supported": false,
+      "task_selector": null,
+      "profile_policy": "fixed_probe_prompt",
+      "hardware_id_required": true,
+      "container_gpu_access": true
+    },
+    "bench-daedalmap": {
+      "runtime_mode": "external",
+      "limit_supported": true,
+      "task_selector": "--tasks",
+      "profile_policy": "fixed_suite_prompt",
+      "hardware_id_required": false,
+      "env_file_supported": true
+    }
+  }
+}
