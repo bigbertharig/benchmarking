@@ -881,9 +881,14 @@ PY
     STAGE_END=$(date -Iseconds)
 
     if [ "$EXIT_CODE" -eq 0 ]; then
-      update_task_status "$TASK" "completed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
-      record_reasoning_task_results "$TASK" "$TASK_OUTPUT_DIR"
-      echo "--- ${TASK} complete ---"
+      if record_reasoning_task_results "$TASK" "$TASK_OUTPUT_DIR"; then
+        update_task_status "$TASK" "completed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
+        echo "--- ${TASK} complete ---"
+      else
+        update_task_status "$TASK" "recording_failed" "1" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
+        echo "--- ${TASK} result recording failed ---"
+        FAILED_COUNT=$((FAILED_COUNT + 1))
+      fi
     else
       update_task_status "$TASK" "failed" "$EXIT_CODE" "$TASK_OUTPUT_DIR" "$STAGE_START" "$STAGE_END"
       record_failure_row "$TASK" "$EXIT_CODE"
