@@ -4,6 +4,7 @@ Use this doc when writing or updating a plan. It translates benchmark results
 into practical `llm_model`, `llm_min_tier`, and `llm_placement` choices.
 
 Source of truth:
+- current decisions: [MODEL_BEST_OF.md](MODEL_BEST_OF.md)
 - raw scores: [BENCHMARK_SCORES.md](BENCHMARK_SCORES.md)
 - runtime requirements: [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md)
 - selection hub: [MODEL_LIBRARY.md](MODEL_LIBRARY.md)

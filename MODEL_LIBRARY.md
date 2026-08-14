@@ -6,6 +6,7 @@ Central hub for model selection and benchmarking documentation.
 
 | Doc | What's in it |
 |-----|-------------|
+| [MODEL_BEST_OF.md](MODEL_BEST_OF.md) | Compact current decisions by job and rig lane |
 | [BENCHMARK_SCORES.md](BENCHMARK_SCORES.md) | Pure score tables — pipeline, code, reasoning, knowledge |
 | [MODEL_SELECTION_FOR_PLANS.md](MODEL_SELECTION_FOR_PLANS.md) | Plan-facing model choices by task type |
 | [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) | Per-model runtime requirements, best practices, memory, compatibility |
@@ -32,11 +33,12 @@ ssh 10.0.0.3 'python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared
 ```
 
 Rules:
+- update final model decisions in [MODEL_BEST_OF.md](MODEL_BEST_OF.md)
 - update scores in [BENCHMARK_SCORES.md](BENCHMARK_SCORES.md)
 - update plan-facing routing in [MODEL_SELECTION_FOR_PLANS.md](MODEL_SELECTION_FOR_PLANS.md)
 - update runtime notes in [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md)
 - update investigation details in [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md)
-- update this doc only for: best choices, model inventory, suite rationale, cloud reference
+- update this doc only for: model inventory, suite rationale, cloud reference
 
 ## What Scores Mean for Real Tasks
 
@@ -76,20 +78,8 @@ Each benchmark tests a specific capability. Use this to match model strengths to
 
 ## Current Best Choices
 
-| Task Profile | Preferred Model | Why | Fallback |
-| --- | --- | --- | --- |
-| structured extraction | `qwen2.5-coder:7b` | cheapest worker-tier default | `qwen2.5-coder:14b` |
-| deep reasoning (brain) | `qwen3.6:27b` | best GSM8K (0.94), DROP (0.883), 100% safety | `qwen3.6:35b-a3b` |
-| deep reasoning (worker) | `qwen2.5-coder:14b` | strongest validated reasoning in worker/split set | `qwen2.5-coder:7b` |
-| code generation (brain) | `qwen3.6:27b` | best HumanEval (93.3%), MBPP (92.6%) | `qwen3.6:35b-a3b` |
-| code generation (worker) | `qwen2.5-coder:14b` | coder family default for worker-tier | `qwen2.5-coder:7b` |
-| code review | `qwen2.5-coder:14b` | better fit for bug-finding and patch reasoning | `qwen2.5-coder:7b` |
-| general QA | `qwen2.5-coder:7b` | throughput-first worker default | `qwen2.5-coder:14b` |
-| text extraction (worker) | `gemma-4:e4b` | DROP 0.31 at l10 (E2B scored 0.00); needs higher-limit validation | `gemma-4:e2b` |
-| fast brain inference | `qwen3.6:35b-a3b` | MoE ~3B active, 32s pipeline, 20m code suite | `qwen3.6:27b` |
-| fast worker reasoning | `smollm3:3b` | BBH 0.668 in 4h vs Qwen-7B 0.667 in 9h — same score, half the time | `llama3.2:3b` |
-| pipeline reliability | `gemma-4:26b-a4b` | best orchestration (91.7%), ambiguity (69.2%) | `qwen3.6:27b` |
-| edge/RPi deployment | `smollm3:3b` | best reasoning in 3B tier (BBH 0.668), fits in 3GB | `llama3.2:3b` |
+See [MODEL_BEST_OF.md](MODEL_BEST_OF.md). It is the single current decision
+matrix. This library retains supporting interpretation and inventory only.
 
 ## Active Model Inventory
 

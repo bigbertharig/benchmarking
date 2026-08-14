@@ -7,6 +7,7 @@ which tests and suites we run, how to run them, and where results live.
 
 ### Docs
 - This file: entry point, architecture, procedure, everything
+- [MODEL_BEST_OF.md](MODEL_BEST_OF.md): current best model by job and rig lane
 - [MODEL_LIBRARY.md](MODEL_LIBRARY.md): operator-facing model selection, latest scores, prompt methodology
 - [BENCHMARK_UPDATE.md](BENCHMARK_UPDATE.md): benchmark taxonomy update, small local vs frontier agentic vs cloud reference
 - [archive/docs/BENCHMARK_HISTORY_pre_archive.md](archive/docs/BENCHMARK_HISTORY_pre_archive.md): lessons learned and prior failures (archived 2026-03-10, run data moved to docker suite histories)
