@@ -180,59 +180,8 @@ record_reasoning_task_results() {
     if [ ! -d "$task_output_dir" ]; then
         return 0
     fi
-    python3 - "$task" "$task_output_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric raw_score normalized_score compatibility extractor_failures sample_count notes; do
-import json, sys
-from pathlib import Path
-
-task, task_output_dir = sys.argv[1:3]
-root = Path(task_output_dir)
-files = sorted(root.glob("**/results_*.json"))
-if not files:
-    raise SystemExit(0)
-data = json.loads(files[-1].read_text(encoding="utf-8"))
-results = data.get("results", {})
-groups = data.get("groups", {})
-sample_block = (data.get("n-samples") or {}).get(task)
-if isinstance(sample_block, dict):
-    sample_count = sample_block.get("effective") or sample_block.get("original")
-elif isinstance(sample_block, (int, float)):
-    sample_count = sample_block
-else:
-    sample_count = None
-if sample_count is None or int(sample_count) <= 0:
-    raise SystemExit(f"missing sample count for {task}")
-sample_count = int(sample_count)
-
-def emit(test_id, score, metric, raw=None, normalized=None, compatibility="unknown", extractor_failures=0, notes=""):
-    if score is None:
-        return
-    raw = score if raw is None else raw
-    normalized = score if normalized is None else normalized
-    print(f"{test_id}\t{score}\t{metric}\t{raw}\t{normalized}\t{compatibility}\t{extractor_failures}\t{sample_count}\t{notes}")
-
-if task == "gsm8k":
-    block = results.get("gsm8k", {})
-    strict = block.get("exact_match,strict-match")
-    flexible = block.get("exact_match,flexible-extract")
-    failures = round(max(0.0, float(flexible or 0) - float(strict or 0)) * sample_count)
-    compatibility = "degraded" if failures else "compatible"
-    emit("gsm8k_strict", strict, "exact_match,strict-match", strict, flexible, compatibility, failures)
-    emit("gsm8k_flexible", flexible, "exact_match,flexible-extract", strict, flexible, compatibility, failures)
-elif task == "bbh":
-    block = groups.get("bbh") or results.get("bbh", {})
-    emit("bbh", block.get("exact_match,get-answer"), "exact_match,get-answer")
-elif task == "drop":
-    block = results.get("drop", {})
-    emit("drop_em", block.get("em,none"), "em,none")
-    emit("drop_f1", block.get("f1,none"), "f1,none")
-else:
-    block = results.get(task, {})
-    for key, value in block.items():
-        if key == "alias" or key.endswith("_stderr"):
-            continue
-        if isinstance(value, (int, float)):
-            emit(f"{task}_{key.replace(',', '_')}", value, key)
-PY
+    python3 "${SCRIPTS_DIR}/scripts/active/extract_reasoning_results.py" \
+        "$task" "$task_output_dir" | while IFS=$'\t' read -r test_id score metric raw_score normalized_score compatibility extractor_failures sample_count notes; do
         [ -z "$test_id" ] && continue
         record_result_row "$test_id" "$score" "$metric" "$raw_score" "$normalized_score" "$compatibility" "$extractor_failures" "$sample_count" "$notes"
     done

@@ -56,6 +56,36 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertIsNotNone(slot)
         self.assertNotIn(slot.name, {"gpu_1", "gpu_3"})
 
+    def test_multi_gpu_suite_command_quotes_device_list(self):
+        config = {
+            "id": "runtime",
+            "model": "ministral-3:14b",
+            "gguf": "/tmp/model.gguf",
+            "suite": "bench-runtime",
+            "suite_args": [],
+            "run_class": "smoke",
+            "_run_id": "unit",
+        }
+        block = RUNNER.BlockState("runtime", config)
+        command = RUNNER.build_suite_cmd(block, RUNNER.SLOTS["split_1_3"])
+        index = command.index("--gpus")
+        self.assertEqual(command[index + 1], '"device=1,3"')
+
+    def test_single_runtime_has_bounded_headroom(self):
+        config = {
+            "id": "single",
+            "model": "ministral-3:3b",
+            "gguf": "/tmp/model.gguf",
+            "runtime_image": "runtime:test",
+            "ctx_size": 8192,
+            "batch_size": 64,
+            "runtime_args": [],
+        }
+        block = RUNNER.BlockState("single", config)
+        command = RUNNER.build_runtime_cmd(block, RUNNER.SLOTS["gpu_2"])
+        self.assertEqual(command[command.index("--memory-limit") + 1], "4g")
+        self.assertEqual(command[command.index("--memory-swap") + 1], "5g")
+
     def test_limit_policy_fails_during_preflight(self):
         with tempfile.NamedTemporaryFile() as gguf:
             config = {
