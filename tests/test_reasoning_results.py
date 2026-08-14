@@ -14,6 +14,16 @@ SPEC.loader.exec_module(MODULE)
 
 
 class ReasoningResultTests(unittest.TestCase):
+    def test_reasoning_image_has_ifeval_dependencies(self):
+        dockerfile = (ROOT / "docker" / "bench-reasoning" / "Dockerfile").read_text()
+        self.assertIn("langdetect==1.0.9", dockerfile)
+        self.assertIn("immutabledict==4.2.1", dockerfile)
+
+    def test_mmlu_fewshot_is_single_turn_for_template_portability(self):
+        run_script = (ROOT / "docker" / "bench-reasoning" / "run.sh").read_text()
+        self.assertIn('if [ "$TASK" = "mmlu_pro" ]', run_script)
+        self.assertIn('CMD+=(--fewshot_as_multiturn false)', run_script)
+
     def test_direct_sample_count(self):
         data = {"n-samples": {"gsm8k": {"effective": 5, "original": 10}}}
         self.assertEqual(MODULE.sample_count_for("gsm8k", data), 5)

@@ -863,6 +863,13 @@ PY
       CMD+=(--num_fewshot "$NUM_FEWSHOT")
     fi
 
+    # Some valid model chat templates reject lm-eval's synthetic alternating
+    # few-shot turns. Keep MMLU-Pro few-shot, but serialize examples into the
+    # task prompt so the invocation is portable across model families.
+    if [ "$TASK" = "mmlu_pro" ]; then
+      CMD+=(--fewshot_as_multiturn false)
+    fi
+
     if [ -n "$GEN_KWARGS" ]; then
       CMD+=(--gen_kwargs "$GEN_KWARGS")
     fi

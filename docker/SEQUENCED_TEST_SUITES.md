@@ -55,6 +55,11 @@ python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --run-id ru
 python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --run-id run_001
 ```
 
+Use `--max-active-models 1` when each model must finish all of its suites before
+the next model loads. Omit it to allow independent model groups to occupy free
+GPU lanes concurrently. Runtime groups reuse one loaded model across their
+remaining suites, including when earlier suites were already checkpointed.
+
 The second real invocation resumes `run_001`: completed blocks are skipped and
 interrupted blocks restart. Direct suite launches remain useful for debugging an
 entrypoint, but are not a second orchestration path.

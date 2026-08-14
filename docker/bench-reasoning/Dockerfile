@@ -22,8 +22,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python3 -m venv /opt/bench
 ENV PATH="/opt/bench/bin:$PATH"
 
-# lm_eval[api] for chat completions + transformers for chat templates + langdetect for ifeval
-RUN pip install --no-cache-dir "lm_eval[api]==0.4.11" transformers==5.3.0 langdetect==1.0.9
+# lm_eval[api] for chat completions + transformers for chat templates.
+# IFEval imports both langdetect and immutabledict at task load time.
+RUN pip install --no-cache-dir \
+    "lm_eval[api]==0.4.11" \
+    transformers==5.3.0 \
+    langdetect==1.0.9 \
+    immutabledict==4.2.1
 
 # Model-specific extraction patches are selected at runtime. Only the four
 # patched lm-eval files need to be writable by the campaign container user.
