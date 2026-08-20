@@ -302,6 +302,51 @@
       ]
     },
     {
+      "id": "qwen3-coder:30b-a3b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "code",
+        "moe"
+      ]
+    },
+    {
+      "id": "ministral-3:14b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": ["gpu-1", "gpu-3"],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": ["gpu-4", "gpu-5"],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "worker_candidate",
+        "code",
+        "import_prep"
+      ]
+    },
+    {
+      "id": "ministral-3:8b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "tags": [
+        "worker_candidate",
+        "code",
+        "import_prep"
+      ]
+    },
+    {
       "id": "qwen3:14b",
       "tier": 2,
       "placement": "split_gpu",
