@@ -100,6 +100,29 @@ Operational note:
 - Best for: code generation (91.5% HumanEval, 89.7% MBPP)
 - Pipeline underperformance is likely system prompt mismatch (tuned for 7B style)
 
+### August 2026 modern brain models
+
+- `qwen3.5:27b`: `Qwen3.5-27B-Q4_K_M.gguf`, GPU 0, context 16384,
+  `llama-runtime:b8884-candidate`, and `--reasoning-budget 0`.
+- `qwen3-coder:30b-a3b`: `Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf`,
+  GPU 0, context 16384, and `llama-runtime:b8884-candidate`.
+- `devstral-small:24b`: `Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf`,
+  GPU 0, context 8192, and `llama-runtime:b8884-candidate`.
+- The Qwen 3.5 and Devstral archive artifacts were replaced and SHA-256
+  verified on 2026-08-12 after corrupt first copies were detected.
+
+### Ministral 3 family
+
+- `ministral-3:14b`: split worker on GPU 1+3 or 4+5, context 8192,
+  batch 64, tensor split `1,1`, `llama-runtime:b8884-candidate`.
+- `ministral-3:8b`: benchmarked as a split worker on GPU 1+3 or 4+5 at
+  context 8192. Do not assume it is a supported single-1060 load merely from
+  its parameter count.
+- `ministral-3:3b`: single 1060, context 8192, batch 64. Qualification is
+  pending the focused full-code and runtime rerun.
+- All three use the strict worker prompt in `model_tuning_profiles.json` and
+  do not require Qwen thinking-mode flags.
+
 ### gemma-4 family (E4B, E2B, 12B, 26B-A4B, 31B)
 
 - GGUFs: `gemma-4-e4b-it-Q4_K_M.gguf`, `gemma-4-e2b-it-Q8_0.gguf`, `gemma-4-12B-it-Q4_K_M.gguf`, `gemma-4-26B-A4B-it-Q4_K_M.gguf`, `gemma-4-31B-it-Q4_K_M.gguf`

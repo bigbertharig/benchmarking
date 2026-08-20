@@ -35,13 +35,14 @@ known model quirks belong in docs/config, not hidden in scripts.
 | Cheap document claims / summaries | `qwen2.5-coder:7b` | `llm_min_tier: 1`, `llm_placement: single_gpu` | `gemma-4:e2b-q8` for pure extraction | Good throughput, reliable JSON, broad enough for repo/doc work. |
 | Text extraction / document QA | `gemma-4:e2b-q8` | `llm_min_tier: 1`, `llm_placement: single_gpu` | `gemma-4:e4b` | Best worker DROP F1: 0.787; not a code model. |
 | Fast lightweight reasoning | `smollm3:3b` | `llm_min_tier: 1`, `llm_placement: single_gpu` | `llama3.2:3b` | BBH 0.6678 at 3B tier; weaker ambiguity handling. |
-| Worker code generation | `qwen2.5-coder:14b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | `qwen2.5-coder:7b` | HumanEval 90.2% base / 86.6% plus. |
-| Worker code review / verification | `qwen2.5-coder:14b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | `qwen2.5-coder:7b` | Best worker-tier mix for code plus reasoning. |
-| Worker deep reasoning / adjudication | `qwen2.5-coder:14b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | `smollm3:3b` when speed matters | Stronger GSM8K than 7B; use 3B only for cheap reasoning waves. |
-| Safe tool-use / command risk checks | `phi-4:14b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | `qwen3.6:27b` if brain-tier is acceptable | 100% command safety and tool-plan/orchestration scores; weak JSON schema. |
-| Brain-tier synthesis / final report | active brain model | omit `llm_model` for `executor: brain` | `qwen3.6:35b-a3b` as speed-oriented brain candidate | Plans should not hardcode brain endpoint/model. |
-| Brain-tier highest-quality reasoning/code | `qwen3.6:27b` | only for explicit worker/benchmark use; brain runtime otherwise owns it | `qwen3.6:35b-a3b` | Best current overall quality: code, reasoning, safety, DROP. |
-| Brain-tier fast MoE pass | `qwen3.6:35b-a3b` | only for explicit worker/benchmark use; brain runtime otherwise owns it | `qwen3.6:27b` | Near-27B quality with much faster benchmark runtime. |
+| Worker code generation | `ministral-3:14b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | `ministral-3:8b` | Modern full EvalPlus leader in the split lane: HumanEval+ base 87.2%. |
+| Worker code review / verification | `ministral-3:14b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | `qwen2.5-coder:14b` | Best current split-worker code result; validated reasoning is still pending. |
+| Fast import preparation | `ministral-3:8b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | `ministral-3:14b` | Faster modern split option with 76.0% data and 83.4% geometry smoke results. |
+| Worker deep reasoning / adjudication | hold | do not route by model yet | active brain model for critical work | Modern validated reasoning campaign is pending; current grouped results have five examples per leaf. |
+| Safe tool-use / command risk checks | `phi-4:14b` | `llm_min_tier: 2`, `llm_placement: split_gpu` | active brain model | 100% command safety and tool-plan/orchestration scores; weak JSON schema. |
+| Brain-tier synthesis / final report | active brain model | omit `llm_model` for `executor: brain` | `qwen3.5:27b` for explicit benchmark/operator loads | Plans should not hardcode brain endpoint/model. |
+| Brain-tier country/geometry coordination | `qwen3.5:27b` | only for explicit worker/benchmark use; brain runtime otherwise owns it | `devstral-small:24b` | Best complete August import-oriented and geometry smoke result. |
+| Brain-tier code generation | `qwen3.5:27b` | only for explicit worker/benchmark use; brain runtime otherwise owns it | `qwen3-coder:30b-a3b` | Qwen 3.5 leads HumanEval+; Qwen Coder leads MBPP+, so choose the fallback for MBPP-style code work. |
 
 ## Prompt And Runtime Split
 
@@ -67,5 +68,9 @@ role-specific prompt when the workflow needs different behavior.
   Let llama.cpp auto-fit or preflight readiness can fail.
 - Split-GPU plan tasks should stay single-model. Use separate extractor and
   verifier tasks when a workflow needs multiple roles.
+- `ministral-3:3b` is not a production single-GPU default. Its focused
+  code/runtime qualification must complete before routing work to it.
+- Do not use the preserved failed-attempt rows from the August campaign as the
+  final state; use the latest completed run per model, task, and methodology.
 - For `executor: brain` LLM tasks, do not set `llm_model`; the active brain
   runtime is the owner of model selection.

@@ -16,8 +16,8 @@ Last decision review: `2026-08-14`
 | Split-worker code generation | `ministral-3:14b` | `ministral-3:8b` | 2x 1060 split | HumanEval+ base 87.2% vs 84.1% | Full code suites completed; 14B is stronger but slower. |
 | Fast split-worker import prep | `ministral-3:8b` | `ministral-3:14b` | 2x 1060 split | Data 76.0%; geometry 83.4% | Use when throughput matters more than best available planning quality. |
 | Agent/tool orchestration | `qwen3.5:27b` (provisional) | `qwen3-coder:30b-a3b` | 3090 | Pipeline 75.7%; routing 88.6% | Agent suite is still too small for a final decision. |
-| Deep reasoning | Hold | Hold | Any | Reasoning results need harness repair | Do not rank models from the current sample-count failures. |
-| Single-1060 worker | Hold | Hold | 1x 1060 | Ministral 3B runtime interrupted | Rerun the 3B group before selecting a default. |
+| Deep reasoning | Hold | Hold | Any | August evidence has five examples per leaf; l50 validation was thermally interrupted | Do not rank models until a hardware-cleared validation run completes. |
+| Single-1060 worker | Hold | Hold | 1x 1060 | Ministral 3B full code run was thermally interrupted | Rerun code/runtime qualification after hardware clearance. |
 | CPU worker | Hold | Hold | CPU stack | No comparable modern campaign | Select only after bounded CPU runtime tests. |
 
 ## Best By Rig Lane
@@ -37,6 +37,8 @@ Last decision review: `2026-08-14`
 - HumanEval+ and MBPP+ code results are full-suite results from the same campaign.
 - Runtime failures are not model-quality scores. Failed or interrupted groups
   stay out of final decisions until rerun.
+- Validation attempt `20260820_modern_validation_l50` ended in a rig thermal
+  shutdown at 100C. Partial rows from that run are not decision evidence.
 - A close score is not treated as a permanent winner. Prefer the cheaper lane
   when the difference is small and the task does not require the stronger model.
 
@@ -52,4 +54,3 @@ Evidence:
 - [Machine-readable scoreboard](results/model_library_scoreboard.json)
 - [Runtime guide](MODEL_RUNTIME_GUIDE.md)
 - [Benchmark lessons](BENCHMARK_LESSONS_LEARNED.md)
-

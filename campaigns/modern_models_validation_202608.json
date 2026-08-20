@@ -1,0 +1,132 @@
+{
+  "name": "modern_models_validation_202608",
+  "defaults": {
+    "runtime_image": "llama-runtime:b8884-candidate",
+    "load_timeout_s": 600,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "qwen35_27b_reasoning_l50",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen35_27b_validation",
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,drop,ifeval"]
+    },
+    {
+      "id": "qwen35_27b_runtime",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen35_27b_validation",
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen3coder_30b_reasoning_l50",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen3coder_30b_validation",
+      "depends_on": ["qwen35_27b_runtime"],
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,drop,ifeval"]
+    },
+    {
+      "id": "qwen3coder_30b_runtime",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen3coder_30b_validation",
+      "ctx_size": 16384
+    },
+    {
+      "id": "devstral_24b_reasoning_l50",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "devstral_24b_validation",
+      "depends_on": ["qwen3coder_30b_runtime"],
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,drop,ifeval"]
+    },
+    {
+      "id": "devstral_24b_runtime",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "devstral_24b_validation",
+      "ctx_size": 8192
+    },
+    {
+      "id": "ministral3_14b_reasoning_l50",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "split_1_3",
+      "suite": "bench-reasoning",
+      "runtime_group": "ministral3_14b_validation",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,drop,ifeval"]
+    },
+    {
+      "id": "ministral3_14b_runtime",
+      "model": "ministral-3:14b",
+      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "split_1_3",
+      "suite": "bench-runtime",
+      "runtime_group": "ministral3_14b_validation",
+      "ctx_size": 8192
+    },
+    {
+      "id": "ministral3_8b_reasoning_l50",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "split_4_5",
+      "suite": "bench-reasoning",
+      "runtime_group": "ministral3_8b_validation",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,drop,ifeval"]
+    },
+    {
+      "id": "ministral3_8b_runtime",
+      "model": "ministral-3:8b",
+      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "split_4_5",
+      "suite": "bench-runtime",
+      "runtime_group": "ministral3_8b_validation",
+      "ctx_size": 8192
+    },
+    {
+      "id": "ministral3_3b_code_full",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-code",
+      "runtime_group": "ministral3_3b_qualification",
+      "ctx_size": 8192,
+      "run_class": "full",
+      "suite_args": ["--tasks", "humaneval,mbpp"]
+    },
+    {
+      "id": "ministral3_3b_runtime",
+      "model": "ministral-3:3b",
+      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-runtime",
+      "runtime_group": "ministral3_3b_qualification",
+      "ctx_size": 8192
+    }
+  ]
+}

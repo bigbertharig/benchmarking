@@ -347,6 +347,17 @@
       ]
     },
     {
+      "id": "ministral-3:3b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "tags": [
+        "worker_candidate",
+        "single_gpu",
+        "qualification_pending"
+      ]
+    },
+    {
       "id": "qwen3:14b",
       "tier": 2,
       "placement": "split_gpu",

@@ -142,8 +142,8 @@
       "_alias_of": "Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf"
     },
     "Ministral-3-14B-Instruct-2512-Q4_K_M.gguf": {
-      "status": "smoke_pending",
-      "last_tuned_at": null,
+      "status": "smoke_complete",
+      "last_tuned_at": "2026-08-14T00:00:00+00:00",
       "benchmark_suite": "import_prep",
       "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
       "inference": {
@@ -163,8 +163,8 @@
       "_alias_of": "Ministral-3-14B-Instruct-2512-Q4_K_M.gguf"
     },
     "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf": {
-      "status": "smoke_pending",
-      "last_tuned_at": null,
+      "status": "smoke_complete",
+      "last_tuned_at": "2026-08-14T00:00:00+00:00",
       "benchmark_suite": "import_prep",
       "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
       "inference": {
@@ -184,8 +184,8 @@
       "_alias_of": "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf"
     },
     "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf": {
-      "status": "smoke_pending",
-      "last_tuned_at": null,
+      "status": "tuning",
+      "last_tuned_at": "2026-08-14T00:00:00+00:00",
       "benchmark_suite": "import_prep",
       "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
       "inference": {
@@ -199,7 +199,7 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Cheap-worker lower-bound candidate; initial compatibility smoke runs on the 3090."
+      "notes": "Single-1060 qualification candidate. Broad smoke tasks eventually completed, but the full EvalPlus code block timed out and the first campaign left stale failure rows. Keep out of production routing until the focused code/runtime rerun completes."
     },
     "ministral-3:3b": {
       "_alias_of": "Ministral-3-3B-Instruct-2512-Q4_K_M.gguf"
@@ -672,8 +672,8 @@
       "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer."
     },
     "Qwen3.5-27B-Q4_K_M.gguf": {
-      "status": "smoke_pending",
-      "last_tuned_at": null,
+      "status": "smoke_complete",
+      "last_tuned_at": "2026-08-14T00:00:00+00:00",
       "benchmark_suite": "agent_reliability",
       "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
       "inference": {

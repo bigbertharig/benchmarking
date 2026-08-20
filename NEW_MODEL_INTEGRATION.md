@@ -594,6 +594,48 @@ GGUF: <filename> | Size: <size> | Source: <url>
 
 # Part 2: Integration Log
 
+## Integration: August 2026 Modern Models (2026-08-12 to 2026-08-20)
+
+Models: `qwen3.5:27b`, `qwen3-coder:30b-a3b`, `devstral-small:24b`,
+`ministral-3:14b`, `ministral-3:8b`, and `ministral-3:3b`.
+
+### Current gate state
+
+| Model | Download/register/load | Broad smoke | Full code | Validated reasoning | Final state |
+| --- | --- | --- | --- | --- | --- |
+| `qwen3.5:27b` | complete | complete | complete | pending modern-only l50 run | provisional brain default |
+| `qwen3-coder:30b-a3b` | complete | complete | complete | pending modern-only l50 run | code-focused brain alternative |
+| `devstral-small:24b` | complete | complete | complete | pending modern-only l50 run | brain runner-up |
+| `ministral-3:14b` | complete | complete | complete | pending modern-only l50 run | provisional split-quality default |
+| `ministral-3:8b` | complete | complete | complete | pending modern-only l50 run | provisional split-speed default |
+| `ministral-3:3b` | complete | partial with retained failed attempts | timed out | smoke reasoning completed | qualification pending |
+
+The August campaign used limit 5 per leaf task. Grouped suites therefore produced
+135 BBH samples (27 subtasks) and 70 MMLU-Pro samples (14 categories), but remain
+smoke evidence because each leaf had only five examples. Pipeline, import, agent,
+routing, runtime, and DaedalMap suites have bounded case sets and cannot be made
+full merely by applying a larger global limit. EvalPlus code runs use their full
+HumanEval+ and MBPP+ datasets unless the runner explicitly limits them.
+
+Earlier failed attempts remain in the append-only ledger. The final August logs
+show all five reasoning tasks completed for the five selected models; do not
+interpret the preserved parent-task failure rows as the final campaign state.
+
+### Remaining closure campaign
+
+- Manifest: `campaigns/modern_models_validation_202608.json`
+- Five selected models: validated GSM8K, DROP, and IFEval at limit 50.
+- Ministral 3B: rerun full EvalPlus code and the operational runtime suite.
+- No archived or superseded model is included.
+- Update final decisions only after reviewing the new records and runtime logs.
+
+Attempt `20260820_modern_validation_l50` was interrupted by a rig thermal
+shutdown and reboot. CPU temperature reached 100C while four model lanes were
+active. Any rows written before the reboot are partial evidence and must not be
+promoted. Hardware clearance is required before starting a new run ID; begin
+with at most two active models and monitor CPU temperature continuously. See
+`/media/bryan/shared/workspace/human/HUMAN_BENCHMARK_THERMAL_SHUTDOWN_20260820.md`.
+
 ## Integration: Gemma 4 12B (2026-06-05)
 
 Tier: split (2x 1060 6GB) | GPU target: GPU 1+3 or 4+5 | Port: 11440 or 11441
