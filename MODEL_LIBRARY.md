@@ -101,12 +101,12 @@ See [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) for per-model runtime detai
 | `Qwen3.6-35B-A3B` | 30B brain | GPU 0 (3090) | complete |
 | `gpt-oss-20B` | 20B MoE brain | GPU 0 (3090) | full (pipeline, code, reasoning l100) |
 | `Phi-4-mini-reasoning` | 3.8B single | GPU 1-5 | smoke partial (pipeline, reasoning; bench-code incompatible) |
-| `Qwen3.5-27B` | 27B brain | GPU 0 (3090) | modern smoke complete; validated reasoning pending |
-| `Qwen3-Coder-30B-A3B` | 30B MoE brain | GPU 0 (3090) | modern smoke and full code complete; validated reasoning pending |
-| `Devstral-Small-24B` | 24B brain | GPU 0 (3090) | modern smoke complete; validated reasoning pending |
-| `Ministral-3-14B` | 14B split | GPU 1+3 or 4+5 | modern smoke and full code complete; validated reasoning pending |
-| `Ministral-3-8B` | 8B split | GPU 1+3 or 4+5 | modern smoke and full code complete; validated reasoning pending |
-| `Ministral-3-3B` | 3B single | GPU 1-5 | qualification pending; code/runtime rerun required |
+| `Qwen3.5-27B` | 27B brain | GPU 0 (3090) | smoke/full code complete; l50 retry invalidated by stale Qwen3.6 runtime; brain-only rerun required |
+| `Qwen3-Coder-30B-A3B` | 30B MoE brain | GPU 0 (3090) | smoke/full code complete; l50 retry invalidated by stale Qwen3.6 runtime; brain-only rerun required |
+| `Devstral-Small-24B` | 24B brain | GPU 0 (3090) | smoke complete; l50 retry invalidated by stale Qwen3.6 runtime; brain-only rerun required |
+| `Ministral-3-14B` | 14B split | GPU 1+3 or 4+5 | smoke/full code plus l50 reasoning/runtime complete |
+| `Ministral-3-8B` | 8B split | GPU 1+3 or 4+5 | smoke/full code plus l50 reasoning/runtime complete |
+| `Ministral-3-3B` | 3B single | GPU 1-5 | full code/runtime complete; tested alternative, not the single-worker default |
 
 ### Archived Models
 

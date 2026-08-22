@@ -603,12 +603,12 @@ Models: `qwen3.5:27b`, `qwen3-coder:30b-a3b`, `devstral-small:24b`,
 
 | Model | Download/register/load | Broad smoke | Full code | Validated reasoning | Final state |
 | --- | --- | --- | --- | --- | --- |
-| `qwen3.5:27b` | complete | complete | complete | pending modern-only l50 run | provisional brain default |
-| `qwen3-coder:30b-a3b` | complete | complete | complete | pending modern-only l50 run | code-focused brain alternative |
-| `devstral-small:24b` | complete | complete | complete | pending modern-only l50 run | brain runner-up |
-| `ministral-3:14b` | complete | complete | complete | pending modern-only l50 run | provisional split-quality default |
-| `ministral-3:8b` | complete | complete | complete | pending modern-only l50 run | provisional split-speed default |
-| `ministral-3:3b` | complete | partial with retained failed attempts | timed out | smoke reasoning completed | qualification pending |
+| `qwen3.5:27b` | complete | complete | complete | retry invalidated; brain-only l50 rerun pending | provisional brain default |
+| `qwen3-coder:30b-a3b` | complete | complete | complete | retry invalidated; brain-only l50 rerun pending | code-focused brain alternative |
+| `devstral-small:24b` | complete | complete | complete | retry invalidated; brain-only l50 rerun pending | brain runner-up |
+| `ministral-3:14b` | complete | complete | complete | l50 reasoning/runtime complete | split-quality default |
+| `ministral-3:8b` | complete | complete | complete | l50 reasoning/runtime complete | split-speed default |
+| `ministral-3:3b` | complete | partial with retained failed attempts | full rerun complete | smoke reasoning and runtime complete | tested compact alternative |
 
 The August campaign used limit 5 per leaf task. Grouped suites therefore produced
 135 BBH samples (27 subtasks) and 70 MMLU-Pro samples (14 categories), but remain
@@ -621,20 +621,32 @@ Earlier failed attempts remain in the append-only ledger. The final August logs
 show all five reasoning tasks completed for the five selected models; do not
 interpret the preserved parent-task failure rows as the final campaign state.
 
-### Remaining closure campaign
+### Closure campaign outcome
 
 - Manifest: `campaigns/modern_models_validation_202608.json`
 - Five selected models: validated GSM8K, DROP, and IFEval at limit 50.
-- Ministral 3B: rerun full EvalPlus code and the operational runtime suite.
+- Ministral 3B: full EvalPlus code and the operational runtime suite.
 - No archived or superseded model is included.
-- Update final decisions only after reviewing the new records and runtime logs.
+- Retry3 completed all 12 manifest lanes sequentially. The Ministral 14B and 8B
+  reasoning/runtime results and Ministral 3B code/runtime results are valid.
+- Ministral 3B completed 164 HumanEval and 378 MBPP cases. HumanEval base/plus
+  pass rates were 76.2%/74.4%; MBPP base/plus were 69.0%/56.1%.
 
 Attempt `20260820_modern_validation_l50` was interrupted by a rig thermal
 shutdown and reboot. CPU temperature reached 100C while four model lanes were
 active. Any rows written before the reboot are partial evidence and must not be
-promoted. Hardware clearance is required before starting a new run ID; begin
-with at most two active models and monitor CPU temperature continuously. See
-`/media/bryan/shared/workspace/human/HUMAN_BENCHMARK_THERMAL_SHUTDOWN_20260820.md`.
+promoted. After physical fan/wiring checks and a clean SSH reboot, a two-lane
+retry approached 90C and was stopped. Sequential retry
+`20260820_modern_validation_l50_retry3` completed with a 94C maximum and no
+95C guard activation.
+
+The retry's three brain lanes are invalid despite their successful exit codes.
+Port 11434 remained owned by a `qwen3.6:27b` container, and process snapshots
+showed that same GGUF during the Qwen3.5, Qwen Coder, and Devstral suites. Their
+misattributed rows were removed from the canonical ledger. Before a brain-only
+rerun, the controller must reclaim the expected runtime and verify
+`/v1/models` identity before allowing a suite to record results. Retain
+`--max-active-models 1` and the 95C thermal guard.
 
 ## Integration: Gemma 4 12B (2026-06-05)
 

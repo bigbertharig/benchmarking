@@ -118,10 +118,25 @@ Operational note:
 - `ministral-3:8b`: benchmarked as a split worker on GPU 1+3 or 4+5 at
   context 8192. Do not assume it is a supported single-1060 load merely from
   its parameter count.
-- `ministral-3:3b`: single 1060, context 8192, batch 64. Qualification is
-  pending the focused full-code and runtime rerun.
+- `ministral-3:3b`: single 1060, context 8192, batch 64. The focused rerun
+  completed all 164 HumanEval and 378 MBPP cases: base/plus pass rates were
+  76.2%/74.4% and 69.0%/56.1%, respectively. All operational runtime probes
+  passed. It is a tested compact alternative, not the default over the stronger
+  established 7B lane.
 - All three use the strict worker prompt in `model_tuning_profiles.json` and
   do not require Qwen thinking-mode flags.
+
+### Benchmark thermal and identity controls
+
+- Run validation campaigns sequentially on this host (`--max-active-models 1`)
+  while sampling CPU package temperature. The guarded sequential closure run
+  peaked at 94C; terminate the campaign at 95C, below the 100C hardware limit.
+- Before every suite, query `/v1/models` and require the served GGUF/model ID to
+  match the manifest entry. A healthy occupied port is not proof that the
+  requested model loaded. Fail the lane and record no result on any mismatch.
+- The brain portions of `20260820_modern_validation_l50_retry3` are invalid
+  because port 11434 remained owned by `qwen3.6:27b`. Split-worker and single
+  worker results from that retry used their requested runtimes and remain valid.
 
 ### gemma-4 family (E4B, E2B, 12B, 26B-A4B, 31B)
 

@@ -3,7 +3,7 @@
 Use this page for model decisions. Detailed scores, runtime notes, and test
 history remain in the linked evidence documents.
 
-Last decision review: `2026-08-14`
+Last decision review: `2026-08-22`
 
 ## Best By Job
 
@@ -16,8 +16,8 @@ Last decision review: `2026-08-14`
 | Split-worker code generation | `ministral-3:14b` | `ministral-3:8b` | 2x 1060 split | HumanEval+ base 87.2% vs 84.1% | Full code suites completed; 14B is stronger but slower. |
 | Fast split-worker import prep | `ministral-3:8b` | `ministral-3:14b` | 2x 1060 split | Data 76.0%; geometry 83.4% | Use when throughput matters more than best available planning quality. |
 | Agent/tool orchestration | `qwen3.5:27b` (provisional) | `qwen3-coder:30b-a3b` | 3090 | Pipeline 75.7%; routing 88.6% | Agent suite is still too small for a final decision. |
-| Deep reasoning | Hold | Hold | Any | August evidence has five examples per leaf; l50 validation was thermally interrupted | Do not rank models until a hardware-cleared validation run completes. |
-| Single-1060 worker | Hold | Hold | 1x 1060 | Ministral 3B full code run was thermally interrupted | Rerun code/runtime qualification after hardware clearance. |
+| Split-worker deep reasoning | `ministral-3:14b` | `ministral-3:8b` | 2x 1060 split | Valid l50 GSM8K, DROP, and IFEval plus runtime coverage | Prefer 14B for quality; 8B remains the faster lane. Brain l50 evidence is still pending. |
+| Single-1060 worker | `qwen2.5-coder:7b` | `ministral-3:3b` | 1x 1060 | Ministral 3B completed full EvalPlus and runtime qualification | Keep the established 7B default; Ministral 3B is a smaller tested alternative. |
 | CPU worker | Hold | Hold | CPU stack | No comparable modern campaign | Select only after bounded CPU runtime tests. |
 
 ## Best By Rig Lane
@@ -27,7 +27,7 @@ Last decision review: `2026-08-14`
 | 3090 brain | `qwen3.5:27b` | Country imports, geometry prep, broad orchestration, general code | Use `qwen3-coder:30b-a3b` for code-heavy MBPP-style work. |
 | 2x 1060 quality | `ministral-3:14b` | Data prep and split-worker code | Geometry planning currently trails the brain models. |
 | 2x 1060 speed | `ministral-3:8b` | Parallel import-prep lanes and cheaper code work | Escalate difficult prep plans and final handoffs. |
-| 1x 1060 | No default yet | Reserved pending rerun | Do not route production prep to Ministral 3B yet. |
+| 1x 1060 | `qwen2.5-coder:7b` | Structured extraction, code, and document preparation | `ministral-3:3b` is tested but weaker and remains an explicit alternative. |
 | CPU stack | No default yet | Deterministic bounded preprocessing | Do not assign open-ended model inference yet. |
 
 ## Evidence State
@@ -39,6 +39,14 @@ Last decision review: `2026-08-14`
   stay out of final decisions until rerun.
 - Validation attempt `20260820_modern_validation_l50` ended in a rig thermal
   shutdown at 100C. Partial rows from that run are not decision evidence.
+- Sequential retry `20260820_modern_validation_l50_retry3` completed without a
+  thermal abort. CPU package temperature peaked at 94C. Ministral 14B/8B l50
+  reasoning and runtime evidence, plus Ministral 3B full code/runtime evidence,
+  is valid.
+- The retry's three brain lanes are invalid: port 11434 continued serving
+  `qwen3.6:27b` while the controller attributed responses to Qwen3.5, Qwen
+  Coder, and Devstral. Those rows were removed from the canonical ledger and
+  cannot be used until a brain-only rerun verifies runtime model identity.
 - A close score is not treated as a permanent winner. Prefer the cheaper lane
   when the difference is small and the task does not require the stronger model.
 
