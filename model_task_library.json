@@ -207,6 +207,40 @@
       "parallel": 1,
       "extra_args": [],
       "default": true
+    },
+    {
+      "id": "coder-30b",
+      "model": "qwen3-coder:30b-a3b",
+      "description": "Coding MoE (30B, 3B active). Roo candidate. 32k ctx on the 3090.",
+      "gpus_needed": [{"min_vram_mb": 20000}],
+      "ctx_size": 32768,
+      "batch_size": 64,
+      "parallel": 1,
+      "image": "llama-runtime:b8884-candidate",
+      "extra_args": [],
+      "default": false
+    },
+    {
+      "id": "devstral-24b",
+      "model": "devstral-small:24b",
+      "description": "Agentic coding model (built for tool-using agents). Roo candidate. 32k ctx on the 3090.",
+      "gpus_needed": [{"min_vram_mb": 20000}],
+      "ctx_size": 32768,
+      "batch_size": 64,
+      "parallel": 1,
+      "extra_args": [],
+      "default": false
+    },
+    {
+      "id": "gpt-oss-20b",
+      "model": "gpt-oss:20b",
+      "description": "MoE (21B, 3.6B active), strong tool calling, fast. Roo candidate. 65k ctx on the 3090.",
+      "gpus_needed": [{"min_vram_mb": 20000}],
+      "ctx_size": 65536,
+      "batch_size": 64,
+      "parallel": 1,
+      "extra_args": ["--jinja"],
+      "default": false
     }
   ]
 }
