@@ -183,5 +183,32 @@
       "profile": "safe_tool_use",
       "keywords": ["safety", "command", "shell", "tool use", "risk", "dangerous"]
     }
+  ],
+  "remote_profiles": [
+    {
+      "id": "chat-27b",
+      "model": "qwen3.6:27b",
+      "description": "Strong general/coding model for interactive agents (Roo). 65k ctx on 3090 + one 1060.",
+      "gpus": [0, 4],
+      "tensor_split": "4,1",
+      "port": 11434,
+      "ctx_size": 65536,
+      "batch_size": 64,
+      "parallel": 1,
+      "extra_args": ["--reasoning", "off"],
+      "default": true
+    },
+    {
+      "id": "coder-7b",
+      "model": "qwen2.5-coder:7b",
+      "description": "Fast small coder for scoped/bulk tasks. 16k ctx on one 1060.",
+      "gpus": [1],
+      "port": 11435,
+      "ctx_size": 16384,
+      "batch_size": 64,
+      "parallel": 1,
+      "extra_args": [],
+      "default": true
+    }
   ]
 }
