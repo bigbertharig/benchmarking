@@ -192,7 +192,7 @@
       "gpus_needed": [{"min_vram_mb": 20000}, {"min_vram_mb": 5800}],
       "tensor_split": "4,1",
       "ctx_size": 65536,
-      "batch_size": 64,
+      "batch_size": 512,
       "parallel": 1,
       "extra_args": ["--reasoning", "off"],
       "default": true
