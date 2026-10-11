@@ -1,0 +1,21 @@
+{
+  "case_id": "CKPT-SEC-001",
+  "family": "bug_fix",
+  "title": "Public pack details leak a private build path",
+  "source": {
+    "tool": "codex",
+    "model": "gpt-5.4",
+    "session_date": "2026-06-30",
+    "request_origin": "rebuilt_from_accepted_change"
+  },
+  "repo": "county-map",
+  "base_commit": "90f51b0ae51805a92e0c84aa6effab1a10b92083^",
+  "accepted_commit": "90f51b0ae51805a92e0c84aa6effab1a10b92083",
+  "request": "Public API pack-detail responses are hydrated with fresh fields from each source's metadata. We found that the hydrated `browser_artifact` block can carry a private filesystem path (`local_artifact_path`) from the private build, which must never appear in a public response. Fix the pack-detail hydration so public pack details still include the browser artifact metadata (storage key, hashes, sizes, timestamps) but never include `local_artifact_path`. Keep the change small and add or update tests if useful. Do not change unrelated behavior.",
+  "context_hint": "mapmover/data_loading.py",
+  "hidden_tests": ["tests/test_repo_split_runtime_boundaries.py"],
+  "grader": {"type": "pytest", "targets": ["tests/test_repo_split_runtime_boundaries.py"]},
+  "accepted_footprint": {"files": ["mapmover/data_loading.py"], "added": 11, "deleted": 3},
+  "budget": {"max_turns": 40, "max_cost_usd": 2.0, "time_s": 1800},
+  "notes": "Small security-boundary fix. Grader is the test the accepted commit added; the model does not see it."
+}

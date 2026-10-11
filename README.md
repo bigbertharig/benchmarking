@@ -12,6 +12,8 @@ which tests and suites we run, how to run them, and where results live.
 - [BENCHMARK_UPDATE.md](BENCHMARK_UPDATE.md): benchmark taxonomy update, small local vs frontier agentic vs cloud reference
 - [archive/docs/BENCHMARK_HISTORY_pre_archive.md](archive/docs/BENCHMARK_HISTORY_pre_archive.md): lessons learned and prior failures (archived 2026-03-10, run data moved to docker suite histories)
 - [custom_tasks/README.md](custom_tasks/README.md): local custom test definitions and prompt tuning
+- [IMPORT_SUITE_DESIGN.md](IMPORT_SUITE_DESIGN.md): proposed import operations suite; the current import runbook remains in `county-map-private/docs/data_import_operations.md`
+- [CHECKPOINT_SUITE_DESIGN.md](CHECKPOINT_SUITE_DESIGN.md): checkpoint campaign design; [desktop prototype](docker/bench-checkpoint/README.md) is not a registered suite
 - [docker/README.md](docker/README.md): test execution lives here — each suite has its own README, prompt config, and run history
 - Archived docs: [archive/docs](archive/docs)
 - Session report archive: [archive/reports](archive/reports)
