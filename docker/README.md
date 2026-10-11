@@ -103,6 +103,11 @@ Recommended operator flow:
 | [bench-routing](bench-routing/README.md) | Cheapest-sufficient execution-tier selection | ~5 min |
 | [bench-runtime](bench-runtime/README.md) | Stability, TTFT, throughput, context, and optional GPU telemetry | ~5-20 min |
 
+## Designs and prototypes
+
+- [Import operations design](../IMPORT_SUITE_DESIGN.md): planned `bench-importops` suite for the current data import runbook. The existing `bench-dataimport` measures converter and schema capabilities.
+- [Checkpoint desktop prototype](bench-checkpoint/README.md): one-case runner and history. [Campaign design](../CHECKPOINT_SUITE_DESIGN.md) lists the work needed before it becomes a registered suite.
+
 ## Before Running
 
 **Status checks are part of the standard workflow.** Use:
