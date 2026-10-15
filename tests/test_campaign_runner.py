@@ -227,19 +227,164 @@ class CampaignRunnerTests(unittest.TestCase):
         first.runtime_container = "runtime-a"
         scheduler.occupied["brain"] = "first"
 
-        original_probe = RUNNER.probe_health
+        original_served = RUNNER.served_model_id
         original_stop = RUNNER.stop_runtime
         try:
-            RUNNER.probe_health = lambda port: False
+            RUNNER.served_model_id = lambda port: None
             RUNNER.stop_runtime = lambda container: None
             self.assertFalse(scheduler.handoff_runtime(first))
         finally:
-            RUNNER.probe_health = original_probe
+            RUNNER.served_model_id = original_served
             RUNNER.stop_runtime = original_stop
 
         self.assertEqual(second.status, RUNNER.PENDING)
         self.assertIsNone(first.runtime_container)
         self.assertNotIn("brain", scheduler.occupied)
+
+    # Runtime identity: campaign 20260820_modern_validation_l50_retry3 recorded three
+    # brain models' results against a stale qwen3.6 server that was healthy on 11434.
+
+    def _brain_block(self, block_id="brain-lane", gguf="/models/Qwen3.5-27B-Q4_K_M.gguf"):
+        config = {
+            "id": block_id, "model": "qwen3.5:27b", "gguf": gguf, "placement": "brain",
+            "suite": "bench-pipeline", "runtime_image": "runtime:test", "ctx_size": 4096,
+            "batch_size": 64, "runtime_args": [], "suite_args": [], "run_class": "smoke",
+            "_run_id": "unit",
+        }
+        return RUNNER.BlockState(block_id, config)
+
+    def _patch(self, **replacements):
+        originals = {name: getattr(RUNNER, name) for name in replacements}
+        for name, value in replacements.items():
+            setattr(RUNNER, name, value)
+        self.addCleanup(lambda: [setattr(RUNNER, n, v) for n, v in originals.items()])
+
+    def test_stale_healthy_server_fails_preflight_before_load(self):
+        block = self._brain_block()
+        launched = []
+        self._patch(
+            docker_stop=lambda name: None,
+            served_model_id=lambda port: "Qwen3.6-27B-Q4_K_M.gguf",
+            build_runtime_cmd=lambda b, s: launched.append(b) or ["true"],
+        )
+        original_sleep = RUNNER.time.sleep
+        RUNNER.time.sleep = lambda s: None
+        self.addCleanup(setattr, RUNNER.time, "sleep", original_sleep)
+        with self.assertRaises(RuntimeError) as raised:
+            RUNNER.start_runtime(block, RUNNER.SLOTS["brain"])
+        self.assertIn("already serves Qwen3.6-27B-Q4_K_M.gguf", str(raised.exception))
+        self.assertEqual(launched, [])
+
+    def _loading_scheduler(self, block):
+        state = RUNNER.CampaignState(
+            name="unit", run_id="unit", manifest_path="unit.json",
+            blocks={block.block_id: block}, started_at=RUNNER.now_iso(),
+        )
+        scheduler = RUNNER.Scheduler(state)
+        block.status = RUNNER.LOADING
+        block.assigned_slot = RUNNER.SLOTS["brain"]
+        block.runtime_container = "llama-campaign-brain-lane"
+        block.load_started_at = RUNNER.now_iso()
+        scheduler.occupied["brain"] = block.block_id
+        scheduler.load_lock = True
+        scheduler.loading_block = block.block_id
+        return scheduler
+
+    def test_identity_mismatch_fails_lane_without_starting_suite(self):
+        block = self._brain_block()
+        scheduler = self._loading_scheduler(block)
+        stopped, suites = [], []
+        self._patch(
+            served_model_id=lambda port: "Qwen3.6-27B-Q4_K_M.gguf",
+            container_info=lambda name: {"running": "true", "id": "abc", "image": "runtime:test"},
+            stop_runtime=lambda name: stopped.append(name),
+            start_suite=lambda b, s: suites.append(b),
+        )
+        scheduler.check_load_complete()
+        self.assertEqual(block.status, RUNNER.FAILED)
+        self.assertIn("serves Qwen3.6-27B-Q4_K_M.gguf, expected Qwen3.5-27B-Q4_K_M.gguf", block.error)
+        self.assertEqual(suites, [])
+        self.assertEqual(stopped, ["llama-campaign-brain-lane"])
+        self.assertNotIn("brain", scheduler.occupied)
+        self.assertFalse(scheduler.load_lock)
+
+    def test_healthy_port_without_owned_container_is_not_ready(self):
+        block = self._brain_block()
+        scheduler = self._loading_scheduler(block)
+        suites = []
+        self._patch(
+            served_model_id=lambda port: "Qwen3.5-27B-Q4_K_M.gguf",
+            container_info=lambda name: None,
+            stop_runtime=lambda name: None,
+            start_suite=lambda b, s: suites.append(b),
+        )
+        scheduler.check_load_complete()
+        self.assertEqual(block.status, RUNNER.FAILED)
+        self.assertIn("is not running", block.error)
+        self.assertEqual(suites, [])
+
+    def test_matching_identity_starts_suite_and_records_evidence(self):
+        block = self._brain_block()
+        scheduler = self._loading_scheduler(block)
+        self._patch(
+            served_model_id=lambda port: "Qwen3.5-27B-Q4_K_M.gguf",
+            container_info=lambda name: {"running": "true", "id": "abc123", "image": "runtime:test"},
+            start_suite=lambda b, s: object(),
+        )
+        scheduler.check_load_complete()
+        self.assertEqual(block.status, RUNNER.RUNNING_SUITE)
+        self.assertEqual(block.identity["observed"], "Qwen3.5-27B-Q4_K_M.gguf")
+        self.assertEqual(block.identity["container_id"], "abc123")
+        status = RUNNER.build_status_dict(scheduler.state)
+        self.assertEqual(status["blocks"]["brain-lane"]["runtime_identity"]["port"], 11434)
+
+    def test_runtime_group_does_not_reuse_runtime_with_wrong_identity(self):
+        first = self._brain_block("first")
+        second = self._brain_block("second")
+        for block in (first, second):
+            block.config["runtime_group"] = "model-a"
+        state = RUNNER.CampaignState(
+            name="unit", run_id="unit", manifest_path="unit.json",
+            blocks={"first": first, "second": second}, started_at=RUNNER.now_iso(),
+        )
+        scheduler = RUNNER.Scheduler(state)
+        first.status = RUNNER.COMPLETED
+        first.assigned_slot = RUNNER.SLOTS["brain"]
+        first.runtime_container = "runtime-a"
+        scheduler.occupied["brain"] = "first"
+        self._patch(
+            served_model_id=lambda port: "Qwen3.6-27B-Q4_K_M.gguf",
+            container_info=lambda name: {"running": "true", "id": "abc", "image": "runtime:test"},
+            stop_runtime=lambda name: None,
+        )
+        self.assertFalse(scheduler.handoff_runtime(first))
+        self.assertEqual(second.status, RUNNER.PENDING)
+        self.assertIsNone(second.runtime_container)
+        self.assertNotIn("brain", scheduler.occupied)
+
+    def test_identity_change_during_suite_invalidates_block(self):
+        block = self._brain_block()
+        state = RUNNER.CampaignState(
+            name="unit", run_id="unit", manifest_path="unit.json",
+            blocks={block.block_id: block}, started_at=RUNNER.now_iso(),
+        )
+        scheduler = RUNNER.Scheduler(state)
+        block.status = RUNNER.RUNNING_SUITE
+        block.assigned_slot = RUNNER.SLOTS["brain"]
+        block.identity = {"requested": "Qwen3.5-27B-Q4_K_M.gguf"}
+
+        class Finished:
+            def poll(self):
+                return 0
+
+        block.suite_process = Finished()
+        self._patch(
+            served_model_id=lambda port: "Qwen3.6-27B-Q4_K_M.gguf",
+            stop_runtime=lambda name: None,
+        )
+        scheduler.reap_finished()
+        self.assertEqual(block.status, RUNNER.FAILED)
+        self.assertIn("results invalid", block.error)
 
     def test_runtime_group_requires_identical_runtime_settings(self):
         with tempfile.NamedTemporaryFile() as gguf:
