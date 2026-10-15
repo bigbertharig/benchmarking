@@ -1,13 +1,13 @@
 {
-  "version": "2026-03-10",
-  "notes": "Per-suite/test prompt tuning profiles. The system_prompt here is the test-suite-level prompt. Per-model test_overrides let us learn what works best for specific test categories. The universal model system prompt lives in model_tuning_profiles.json.",
+  "version": "2026-10-15",
+  "notes": "Generated from model_registry.json by scripts/active/model_library.py export. Do not edit.",
   "default_system_prompt": "",
   "models": [
     {
-      "id": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
-      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
+      "id": "DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else.",
       "test_overrides": {
-        "custom_json_schema_strict": "Return only one raw JSON object. No markdown, no code fences, no extra text."
+        "custom_json_schema_strict": "Output only a strict JSON object with required keys. No markdown, no explanation, no reasoning steps."
       }
     },
     {
@@ -18,10 +18,10 @@
       }
     },
     {
-      "id": "DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
-      "system_prompt": "You are a strict evaluator assistant. Never output reasoning, analysis, or internal thoughts. For boolean tasks, output exactly one sentence in this exact format: So the answer is True. or So the answer is False. Do not output anything else.",
+      "id": "Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal.",
       "test_overrides": {
-        "custom_json_schema_strict": "Output only a strict JSON object with required keys. No markdown, no explanation, no reasoning steps."
+        "custom_json_schema_strict": "Return only one raw JSON object. No markdown, no code fences, no extra text."
       }
     },
     {

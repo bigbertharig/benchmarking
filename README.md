@@ -23,12 +23,15 @@ which tests and suites we run, how to run them, and where results live.
 
 ### Data and Config
 - Runtime config: `config.benchmark.json`
-- Per-model tuning profiles (includes universal system prompts): `model_tuning_profiles.json`
-- Model catalog: `models.catalog.json`
+- Model library (edit only these two, then run `scripts/active/model_library.py export`):
+  - `model_roles.json`: quick reference other repos use; model + profile per rig lane and job, remote profiles
+  - `model_registry.json`: every tested model with status, archive GGUF, placement, and named profiles
+  - `scripts/active/model_library.py`: resolves roles/models to full settings; `check` validates
+- Generated from the registry (do not edit): `models.catalog.json`, `model_tuning_profiles.json`,
+  `custom_tasks/model_prompt_profiles.json`
 - Benchmark catalog: `benchmark_catalog.json`
 - Suite presets: `suite_presets.json`
 - Backend certification status: `benchmark_status.json`
-- Task-model routing: `model_task_library.json`
 
 ### Results
 - Canonical ledger (append-only): `results/model_benchmark_records.jsonl`
@@ -558,5 +561,5 @@ maintain models → maintain tests → run controlled batches → record results
 ```
 
 The feed-back loop uses:
-- `model_task_library.json`
+- `model_roles.json` (change a role after a benchmark review)
 - `recommend_plan_models.py`

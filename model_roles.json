@@ -1,0 +1,252 @@
+{
+  "schema": "model-roles/1",
+  "updated": "2026-10-15",
+  "about": "Quick reference: the model and profile to use for each rig lane and job. Other repos read this (through model_library.py) instead of choosing models themselves. Change a role only after a benchmark review; 'evidence' names the campaign behind it.",
+  "roles": {
+    "brain": {
+      "model": "qwen3.6:27b",
+      "profile": "default",
+      "lane": "3090",
+      "why": "Running brain model; Qwen3.8-27B is the next candidate.",
+      "evidence": "MODEL_BEST_OF 2026-08-22 (qwen3.5:27b provisional); operator choice 2026-10-15"
+    },
+    "brain_code": {
+      "model": "qwen3-coder:30b-a3b",
+      "profile": "default",
+      "lane": "3090",
+      "why": "Leads MBPP+ base 87.8% vs 85.7%; code-only brain work.",
+      "evidence": "20260813_limit5_all full EvalPlus"
+    },
+    "split_quality": {
+      "model": "ministral-3:14b",
+      "profile": "default",
+      "lane": "2x1060",
+      "why": "Data prep and split-worker code; HumanEval+ base 87.2%.",
+      "evidence": "20260820_modern_validation_l50_retry3"
+    },
+    "split_speed": {
+      "model": "ministral-3:8b",
+      "profile": "default",
+      "lane": "2x1060",
+      "why": "Faster split lane for parallel import prep and cheaper code work.",
+      "evidence": "20260820_modern_validation_l50_retry3"
+    },
+    "single_1060": {
+      "model": "qwen2.5-coder:7b",
+      "profile": "default",
+      "lane": "1x1060",
+      "why": "Structured extraction, code, document prep on one 1060.",
+      "evidence": "complete l100 suites"
+    },
+    "single_1060_compact": {
+      "model": "ministral-3:3b",
+      "profile": "default",
+      "lane": "1x1060",
+      "why": "Tested smaller alternative; weaker than the 7B default.",
+      "evidence": "20260820_modern_validation_l50_retry3 full code/runtime"
+    },
+    "text_extraction": {
+      "model": "gemma-4:e2b-q8",
+      "profile": "default",
+      "lane": "1x1060",
+      "why": "Document QA and reading comprehension (high DROP, low code).",
+      "evidence": "model_task_library 2026-04-28"
+    },
+    "safe_tool_use": {
+      "model": "phi-4:14b",
+      "profile": "default",
+      "lane": "2x1060",
+      "why": "Command safety and tool sequencing; not for complex reasoning.",
+      "evidence": "model_task_library 2026-04-28"
+    }
+  },
+  "jobs": [
+    {
+      "id": "country_import_coordinator",
+      "role": "brain",
+      "keywords": [
+        "country import",
+        "coordinate import"
+      ]
+    },
+    {
+      "id": "geometry_preparation",
+      "role": "brain",
+      "keywords": [
+        "geometry",
+        "boundary",
+        "admin spine"
+      ]
+    },
+    {
+      "id": "agent_orchestration",
+      "role": "brain",
+      "keywords": [
+        "orchestrate",
+        "plan tasks",
+        "agent"
+      ]
+    },
+    {
+      "id": "data_preparation",
+      "role": "split_quality",
+      "keywords": [
+        "data prep",
+        "prepare source",
+        "convert"
+      ]
+    },
+    {
+      "id": "code_generation",
+      "role": "split_quality",
+      "keywords": [
+        "generate code",
+        "write code",
+        "implement",
+        "patch",
+        "fix bug"
+      ]
+    },
+    {
+      "id": "code_review",
+      "role": "split_quality",
+      "keywords": [
+        "review",
+        "diagnose",
+        "debug",
+        "refactor"
+      ]
+    },
+    {
+      "id": "deep_reasoning",
+      "role": "split_quality",
+      "keywords": [
+        "score",
+        "judge",
+        "reason",
+        "rank",
+        "decide",
+        "tradeoff"
+      ]
+    },
+    {
+      "id": "fast_import_prep",
+      "role": "split_speed",
+      "keywords": [
+        "bulk prep",
+        "parallel prep"
+      ]
+    },
+    {
+      "id": "structured_extraction",
+      "role": "single_1060",
+      "keywords": [
+        "extract",
+        "json",
+        "schema",
+        "parse",
+        "triage",
+        "plan_searches"
+      ]
+    },
+    {
+      "id": "general_qa",
+      "role": "single_1060",
+      "keywords": [
+        "summarize",
+        "answer",
+        "qa",
+        "question"
+      ]
+    },
+    {
+      "id": "text_extraction",
+      "role": "text_extraction",
+      "keywords": [
+        "document qa",
+        "evidence",
+        "quote",
+        "passage",
+        "reading",
+        "extract facts"
+      ]
+    },
+    {
+      "id": "safe_tool_use",
+      "role": "safe_tool_use",
+      "keywords": [
+        "safety",
+        "command",
+        "shell",
+        "tool use",
+        "risk",
+        "dangerous"
+      ]
+    }
+  ],
+  "remote_profiles": [
+    {
+      "id": "chat-27b",
+      "model": "qwen3.6:27b",
+      "profile": "interactive",
+      "description": "Strong general/coding model for interactive agents (Roo). 65k ctx on the 3090 + any free 1060.",
+      "gpus_needed": [
+        {
+          "min_vram_mb": 20000
+        },
+        {
+          "min_vram_mb": 5800
+        }
+      ],
+      "default": true
+    },
+    {
+      "id": "coder-7b",
+      "model": "qwen2.5-coder:7b",
+      "profile": "interactive",
+      "description": "Fast small coder for scoped/bulk tasks. 16k ctx on any free 1060.",
+      "gpus_needed": [
+        {
+          "min_vram_mb": 5800
+        }
+      ],
+      "default": true
+    },
+    {
+      "id": "coder-30b",
+      "model": "qwen3-coder:30b-a3b",
+      "profile": "interactive",
+      "description": "Coding MoE (30B, 3B active). Roo candidate. 32k ctx on the 3090.",
+      "gpus_needed": [
+        {
+          "min_vram_mb": 20000
+        }
+      ],
+      "default": false
+    },
+    {
+      "id": "devstral-24b",
+      "model": "devstral-small:24b",
+      "profile": "interactive",
+      "description": "Agentic coding model (built for tool-using agents). Roo candidate. 32k ctx on the 3090.",
+      "gpus_needed": [
+        {
+          "min_vram_mb": 20000
+        }
+      ],
+      "default": false
+    },
+    {
+      "id": "gpt-oss-20b",
+      "model": "gpt-oss:20b",
+      "profile": "interactive",
+      "description": "MoE (21B, 3.6B active), strong tool calling, fast. Roo candidate. 65k ctx on the 3090.",
+      "gpus_needed": [
+        {
+          "min_vram_mb": 20000
+        }
+      ],
+      "default": false
+    }
+  ]
+}

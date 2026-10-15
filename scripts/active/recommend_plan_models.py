@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Suggest llm_model fields for plan tasks using model_task_library.json."""
+"""Suggest llm_model fields for plan tasks from the job routing in model_roles.json."""
 
 from __future__ import annotations
 
@@ -8,6 +8,8 @@ import json
 import re
 from pathlib import Path
 from typing import Any
+
+import model_library
 
 
 def parse_plan_tasks(plan_text: str) -> list[dict[str, str]]:
@@ -30,66 +32,52 @@ def parse_plan_tasks(plan_text: str) -> list[dict[str, str]]:
     return tasks
 
 
-def choose_profile(task: dict[str, str], lib: dict[str, Any]) -> str:
-    hay = f"{task.get('id', '').lower()} {task.get('command', '').lower()}"
-    for rule in lib.get("keyword_profile_map", []):
-        profile = str(rule.get("profile", "")).strip()
-        for kw in rule.get("keywords", []):
-            keyword = str(kw).strip().lower()
-            if keyword and keyword in hay:
-                return profile
-    return "general_qa"
+DEFAULT_JOB = "general_qa"
 
 
-def profile_index(lib: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    out: dict[str, dict[str, Any]] = {}
-    for entry in lib.get("task_profiles", []):
-        pid = str(entry.get("id", "")).strip()
-        if pid:
-            out[pid] = entry
-    return out
+def choose_job(task: dict[str, str], roles: dict[str, Any]) -> tuple[str, str]:
+    hay = f"{task.get('id', '')} {task.get('command', '')}"
+    match = model_library.job_role(hay, roles)
+    if match:
+        return match
+    default = next(j for j in roles["jobs"] if j["id"] == DEFAULT_JOB)
+    return default["id"], default["role"]
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Recommend model settings for llm tasks in a plan.")
     ap.add_argument("--plan", required=True, help="Path to plan.md")
-    ap.add_argument("--library", default="model_task_library.json", help="Path to model task library JSON")
     ap.add_argument("--output", default="", help="Optional output JSON path")
     args = ap.parse_args()
 
     plan_path = Path(args.plan).expanduser().resolve()
-    benchmark_root = Path(__file__).resolve().parents[2]
-    lib_path = (benchmark_root / args.library).resolve() if not Path(args.library).is_absolute() else Path(args.library)
-
-    lib = json.loads(lib_path.read_text(encoding="utf-8"))
-    profiles = profile_index(lib)
+    roles = model_library.load_roles()
+    registry = model_library.load_registry()
     tasks = parse_plan_tasks(plan_path.read_text(encoding="utf-8"))
 
     recs: list[dict[str, Any]] = []
     for task in tasks:
         if task.get("task_class") != "llm":
             continue
-        profile = choose_profile(task, lib)
-        entry = profiles.get(profile) or profiles.get("general_qa")
-        if not entry:
-            continue
-        model = entry.get("recommended_model", {})
+        job, role = choose_job(task, roles)
+        r = model_library.resolve_role(role, roles, registry)
         recs.append(
             {
                 "task_id": task.get("id"),
-                "profile": profile,
+                "job": job,
+                "role": role,
                 "recommendation": {
-                    "llm_model": model.get("llm_model"),
-                    "llm_min_tier": model.get("llm_min_tier"),
-                    "llm_placement": model.get("llm_placement")
+                    "llm_model": r["model"],
+                    "llm_min_tier": r["schedule"].get("tier"),
+                    "llm_placement": r["schedule"].get("placement"),
                 },
-                "evidence_test_ids": entry.get("evidence_test_ids", [])
+                "evidence": r.get("evidence", ""),
             }
         )
 
     payload = {
         "plan": str(plan_path),
-        "library": str(lib_path),
+        "roles": str(model_library.ROLES_PATH),
         "recommendations": recs
     }
 
