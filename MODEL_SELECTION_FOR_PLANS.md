@@ -1,5 +1,7 @@
 # Model Selection For Plans
 
+> **Superseded 2026-10-15** by [model_roles.json](model_roles.json) (which model and settings to use per lane and job) and [model_registry.json](model_registry.json) (every tested model with its profiles), resolved by [scripts/active/model_library.py](scripts/active/model_library.py). Model choices, statuses, and settings in this document are history and are no longer updated; `models.catalog.json` and `model_tuning_profiles.json` are now generated from the registry.
+
 Use this doc when writing or updating a plan. It translates benchmark results
 into practical `llm_model`, `llm_min_tier`, and `llm_placement` choices.
 

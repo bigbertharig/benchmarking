@@ -1,5 +1,7 @@
 # New Model Integration Playbook
 
+> **Superseded 2026-10-15** by [model_roles.json](model_roles.json) (which model and settings to use per lane and job) and [model_registry.json](model_registry.json) (every tested model with its profiles), resolved by [scripts/active/model_library.py](scripts/active/model_library.py). Model choices, statuses, and settings in this document are history and are no longer updated; `models.catalog.json` and `model_tuning_profiles.json` are now generated from the registry.
+
 Repeatable process for onboarding a new model: download, register, load, test, benchmark, finalize.
 
 Companion docs:
@@ -75,38 +77,37 @@ ssh 10.0.0.3 'ls -lh /mnt/shared/models/<model-dir>/<filename>.gguf'
 
 ## Phase 1: Register
 
-Add the model to the two config files that the benchmark system reads.
-
-### 1a. model_tuning_profiles.json
-
-Add two entries: the GGUF key (full filename) and a short alias.
+Add one entry to `model_registry.json` (keyed by the short model id), then regenerate the
+derived files. Never edit `models.catalog.json` or `model_tuning_profiles.json`; they are
+generated and `check` fails if they drift.
 
 ```json
-{
-  "<GGUF-filename>.gguf": {
-    "status": "untuned",
-    "last_tuned_at": null,
-    "benchmark_suite": "agent_reliability",
-    "system_prompt": "<pick from prompt families below>",
-    "inference": {
-      "temperature": 0.0,
-      "top_p": 1.0,
-      "max_tokens": 512
-    },
-    "runtime": {
-      "ctx_size": <4096 for worker, 16384 for brain>,
-      "batch_size": <64 for worker, 128 for brain>,
-      "parallel": 1,
-      "n_gpu_layers": 999
-    },
-    "notes": "<tier and placement info>"
+"<short-id>": {
+  "gguf": "<model-dir>/<filename>.gguf",
+  "status": "candidate",
+  "schedule": {
+    "tier": <1 single, 2 split, 3 brain>,
+    "placement": "<single_gpu|split_gpu>",
+    "tags": ["<relevant>", "<tags>"]
   },
-  "<short-alias>": {
-    "_alias_of": "<GGUF-filename>.gguf",
-    "system_prompt": "<same as above>"
+  "profiles": {
+    "default": {
+      "system_prompt": "<pick from prompt families below>",
+      "inference": {"temperature": 0.0, "top_p": 1.0, "max_tokens": 512},
+      "runtime": {"ctx_size": <4096 worker, 16384 brain>, "batch_size": <64 worker, 128 brain>,
+                  "parallel": 1, "n_gpu_layers": 999},
+      "extra_args": [],
+      "tuning": {"status": "untuned", "last_tuned_at": null, "benchmark_suite": "agent_reliability"},
+      "notes": "<tier and placement info>"
+    }
   }
 }
 ```
+
+Split models add `"split_groups"` inside `schedule`:
+`[{"id": "pair_1_3", "members": ["gpu-1", "gpu-3"], "port": 11440}, {"id": "pair_4_5", "members": ["gpu-4", "gpu-5"], "port": 11441}]`.
+Extra short ids for the same file go in `"aliases": [...]`. Named variants (for example a long-context
+interactive profile) go under `profiles` next to `default`; they only list what differs.
 
 **Prompt families** (choose based on model behavior):
 
@@ -116,31 +117,18 @@ Add two entries: the GGUF key (full filename) and a short alias.
 | Thinking suppression | Qwen 3.x/3.5/3.6 family | `"You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer."` |
 | Benchmark assistant | Small models (3B and under) | `"You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."` |
 
-### 1b. models.catalog.json
+Then run:
 
-Add an entry to the `models` array:
-
-```json
-{
-  "id": "<short-id>",
-  "tier": <1 for single, 2 for split, 3 for brain>,
-  "placement": "<single_gpu|split_gpu>",
-  "gguf_path": "/mnt/shared/models/<model-dir>/<filename>.gguf",
-  "tags": ["<relevant>", "<tags>"]
-}
+```bash
+python3 scripts/active/model_library.py export
+python3 scripts/active/model_library.py check --archive-root /mnt/shared/models
+python3 scripts/active/model_library.py model <short-id>
 ```
 
-For split models, add `split_groups`:
-```json
-{
-  "split_groups": [
-    {"id": "pair_1_3", "members": ["gpu-1", "gpu-3"], "port": 11440},
-    {"id": "pair_4_5", "members": ["gpu-4", "gpu-5"], "port": 11441}
-  ]
-}
-```
+Promote `status` to `active` only after the model completes the gates below; roles in
+`model_roles.json` may only point at active models.
 
-**Gate**: Both files have valid JSON. Short alias resolves in tuning profiles.
+**Gate**: `check` reports ok; `model <short-id>` resolves the expected GGUF and settings.
 
 ## Phase 2: First Load
 

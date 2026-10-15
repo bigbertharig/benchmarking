@@ -1,5 +1,7 @@
 # Model Selection Guide
 
+> **Superseded 2026-10-15** by [model_roles.json](model_roles.json) (which model and settings to use per lane and job) and [model_registry.json](model_registry.json) (every tested model with its profiles), resolved by [scripts/active/model_library.py](scripts/active/model_library.py). Model choices, statuses, and settings in this document are history and are no longer updated; `models.catalog.json` and `model_tuning_profiles.json` are now generated from the registry.
+
 How to pick which models are worth testing on our rig, and how to pre-screen them fast.
 
 ## Philosophy
