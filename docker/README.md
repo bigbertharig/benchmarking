@@ -767,8 +767,8 @@ Current limits:
 | Brain (32B/35B, 3090) | 11g | 13g | Model weights mostly in VRAM, CPU buffer ~500MB. Applies to qwen2.5-coder:32b, deepseek-r1:32b, qwen3.5:35b-a3b |
 
 Config locations:
-- `config.benchmark.json` → `llama_split_defaults.memory_limit` / `memory_swap`
-- `config.benchmark.json` → per-model overrides in `llama_single_profiles` / `llama_split_profiles`
+- `model_registry.json` → `orchestration_defaults.single` / `.split` (`memory_limit` / `memory_swap`)
+- `model_registry.json` → per-model `orchestration` profile (`memory_limit` / `memory_swap`)
 - `run_runtime.sh` → `--memory-limit` / `--memory-swap` flags
 
 **Tuning rule:** Set Docker memory limit ~2GB above observed RSS peak. Docker's OOM handler

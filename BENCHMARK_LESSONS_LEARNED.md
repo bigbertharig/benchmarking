@@ -331,6 +331,10 @@ Per-model score paragraphs from the reasoning table:
 
 **Fix**: Always specify `--image llama-runtime:b8884-candidate` when loading any Gemma 4 model with `run_runtime.sh`.
 
+**Superseded 2026-10-15**: every model now runs on one image, `runtime_image` in `model_registry.json`;
+`run_runtime.sh`, orchestration, remote mode and campaigns all default to it, and per-model images are
+rejected by `model_library.py check`. Upgrades go through `upgrade_runtime.sh` in llm_orchestration.
+
 **Lesson**: When scripting multi-model campaigns, explicitly specify the runtime image per block. Different model families may require different runtime builds. The default image is not guaranteed to support all architectures. This is documented in model_tuning_profiles.json notes and MODEL_RUNTIME_GUIDE.md but easy to miss in ad-hoc scripts.
 
 ## Split-Load Reference

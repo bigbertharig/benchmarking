@@ -27,11 +27,14 @@ bounded runs.
 
 ## Manifest
 
+Every block runs on the model library's one image (`runtime_image` in
+`model_registry.json`). A manifest `runtime_image` is ignored with a warning; certify an upgrade
+candidate with `run_campaign.py <manifest> --runtime-image llama-runtime:<tag>-candidate`.
+
 ```json
 {
   "name": "model_import_smoke",
   "defaults": {
-    "runtime_image": "llama-runtime:b8884-candidate",
     "load_timeout_s": 300,
     "run_class": "smoke"
   },
