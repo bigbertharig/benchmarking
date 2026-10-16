@@ -1,0 +1,99 @@
+{
+  "name": "october_candidates_202610_b",
+  "description": "October 2026 candidates still downloading on 2026-10-15 (ornith-1.5:35b-a3b, nex-n2.5:mini, mellum2.1:12b-a2.5b). Run after model_library.py check passes and each model clears the smoke litmus. Ornith-35B and Nex are 21-22 GB on the 24 GB 3090; lower ctx_size if they OOM. Mellum reasoning flag is still TBD in the registry.",
+  "defaults": {
+    "load_timeout_s": 600,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "ornith15_35b_runtime",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "ornith15_35b_validation",
+      "ctx_size": 8192
+    },
+    {
+      "id": "ornith15_35b_reasoning_l50",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "ornith15_35b_validation",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "bbh,drop"
+      ]
+    },
+    {
+      "id": "nex_n25_mini_runtime",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "nex_n25_mini_validation",
+      "depends_on": [
+        "ornith15_35b_reasoning_l50"
+      ],
+      "ctx_size": 8192
+    },
+    {
+      "id": "nex_n25_mini_reasoning_l50",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "nex_n25_mini_validation",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "bbh,drop"
+      ]
+    },
+    {
+      "id": "mellum21_12b_reasoning_l50",
+      "model": "mellum2.1:12b-a2.5b",
+      "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+      "placement": "split_1_3",
+      "suite": "bench-reasoning",
+      "runtime_group": "mellum21_12b_validation",
+      "depends_on": [
+        "nex_n25_mini_reasoning_l50"
+      ],
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ]
+    },
+    {
+      "id": "mellum21_12b_code_full",
+      "model": "mellum2.1:12b-a2.5b",
+      "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+      "placement": "split_1_3",
+      "suite": "bench-code",
+      "runtime_group": "mellum21_12b_validation",
+      "ctx_size": 8192,
+      "suite_args": [
+        "--tasks",
+        "humaneval,mbpp"
+      ],
+      "run_class": "full"
+    },
+    {
+      "id": "mellum21_12b_runtime",
+      "model": "mellum2.1:12b-a2.5b",
+      "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+      "placement": "split_1_3",
+      "suite": "bench-runtime",
+      "runtime_group": "mellum21_12b_validation",
+      "ctx_size": 8192
+    }
+  ]
+}

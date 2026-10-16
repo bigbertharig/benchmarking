@@ -1,0 +1,113 @@
+{
+  "name": "october_candidates_202610_a",
+  "description": "October 2026 candidates already on the archive (qwen3.8:27b, ornith-1.5:9b, minicpm5:2b). New models only; compare against existing ledger scores. Qwen3.8 brain blocks run first and double as the brain-lane thermal test (run under startup_thermal_monitor.py with the 95C guard). Part B covers ornith-1.5:35b-a3b, nex-n2.5:mini and mellum2.1:12b-a2.5b.",
+  "defaults": {
+    "load_timeout_s": 600,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "qwen38_27b_runtime",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen38_27b_validation",
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen38_27b_reasoning_l50",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen38_27b_validation",
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "bbh,drop"
+      ]
+    },
+    {
+      "id": "qwen38_27b_geoimport",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "runtime_group": "qwen38_27b_validation",
+      "ctx_size": 16384,
+      "limit": 5,
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff"
+      ]
+    },
+    {
+      "id": "ornith15_9b_reasoning_l50",
+      "model": "ornith-1.5:9b",
+      "gguf": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+      "placement": "split_1_3",
+      "suite": "bench-reasoning",
+      "runtime_group": "ornith15_9b_validation",
+      "depends_on": [
+        "qwen38_27b_geoimport"
+      ],
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ]
+    },
+    {
+      "id": "ornith15_9b_runtime",
+      "model": "ornith-1.5:9b",
+      "gguf": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+      "placement": "split_1_3",
+      "suite": "bench-runtime",
+      "runtime_group": "ornith15_9b_validation",
+      "ctx_size": 8192
+    },
+    {
+      "id": "minicpm5_2b_reasoning_l5",
+      "model": "minicpm5:2b",
+      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-reasoning",
+      "runtime_group": "minicpm5_2b_validation",
+      "depends_on": [
+        "ornith15_9b_runtime"
+      ],
+      "ctx_size": 4096,
+      "limit": 5,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop,mmlu_pro,ifeval"
+      ]
+    },
+    {
+      "id": "minicpm5_2b_code_full",
+      "model": "minicpm5:2b",
+      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-code",
+      "runtime_group": "minicpm5_2b_validation",
+      "ctx_size": 4096,
+      "suite_args": [
+        "--tasks",
+        "humaneval,mbpp"
+      ],
+      "run_class": "full"
+    },
+    {
+      "id": "minicpm5_2b_runtime",
+      "model": "minicpm5:2b",
+      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-runtime",
+      "runtime_group": "minicpm5_2b_validation",
+      "ctx_size": 4096
+    }
+  ]
+}
