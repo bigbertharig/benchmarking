@@ -1,0 +1,74 @@
+{
+  "name": "october_brain_202610",
+  "description": "October 2026 brain candidates on the 3090 only (qwen3.8:27b, ornith-1.5:35b-a3b, nex-n2.5:mini), one model at a time. Replaces the brain blocks of october_candidates_202610_a/_b after two hard resets with the 1060s loaded (2026-10-15, suspected dual-PSU sync wiring). qwen3.8:27b bench-runtime already completed in october_candidates_202610_a run 20261015_223209. Compare against qwen3.6:27b and qwen3.6:35b-a3b ledger scores. Run under startup_thermal_monitor.py with the 95C guard and --fast-gpu-ms.",
+  "defaults": {
+    "load_timeout_s": 900,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "qwen38_27b_reasoning_l50",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen38_27b_validation",
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": ["--tasks", "bbh,drop"]
+    },
+    {
+      "id": "qwen38_27b_geoimport",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "runtime_group": "qwen38_27b_validation",
+      "ctx_size": 16384,
+      "limit": 5,
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff"]
+    },
+    {
+      "id": "ornith15_35b_runtime",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "ornith15_35b_validation",
+      "depends_on": ["qwen38_27b_geoimport"],
+      "ctx_size": 8192
+    },
+    {
+      "id": "ornith15_35b_reasoning_l50",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "ornith15_35b_validation",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "bbh,drop"]
+    },
+    {
+      "id": "nex_n25_mini_runtime",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "nex_n25_mini_validation",
+      "depends_on": ["ornith15_35b_reasoning_l50"],
+      "ctx_size": 8192
+    },
+    {
+      "id": "nex_n25_mini_reasoning_l50",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "nex_n25_mini_validation",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "bbh,drop"]
+    }
+  ]
+}
