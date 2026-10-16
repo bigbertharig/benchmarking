@@ -132,12 +132,11 @@
       "gguf": "devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
-        "tier": 1,
+        "tier": 3,
         "placement": "single_gpu",
         "tags": [
-          "code",
-          "worker_candidate",
-          "moe"
+          "brain_candidate",
+          "code"
         ]
       },
       "profiles": {
@@ -315,15 +314,15 @@
             "n_gpu_layers": 999
           },
           "extra_args": [
-            "--reasoning-budget",
-            "0"
+            "--reasoning",
+            "off"
           ],
           "tuning": {
             "status": "untuned",
             "last_tuned_at": null,
             "benchmark_suite": "agent_reliability"
           },
-          "notes": "Brain-tier (3090). Gemma 4 26B MoE, 3.8B active. Loads 16GB VRAM + 577MB CPU buffer. BENCHMARK: use --reasoning-budget 0 (A/B confirmed on 26B: budget=0 scored BBH 0.867 l5, previous thinking-on score was 0.265 l50)."
+          "notes": "Brain-tier (3090). Gemma 4 26B MoE, 3.8B active. Loads 16GB VRAM + 577MB CPU buffer. BENCHMARK: use --reasoning-budget 0 (A/B confirmed on 26B: budget=0 scored BBH 0.867 l5, previous thinking-on score was 0.265 l50). llama.cpp b11669: --reasoning-budget 0 no longer suppresses Gemma 4 thinking (answer leaked reasoning); --reasoning off does (2026-10-15)."
         }
       }
     },
@@ -354,15 +353,15 @@
             "n_gpu_layers": 999
           },
           "extra_args": [
-            "--reasoning-budget",
-            "0"
+            "--reasoning",
+            "off"
           ],
           "tuning": {
             "status": "untuned",
             "last_tuned_at": null,
             "benchmark_suite": "agent_reliability"
           },
-          "notes": "Brain-tier (3090). Gemma 4 31B dense. 19.5GB VRAM, comfortable fit. Has reasoning_content field active. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes)."
+          "notes": "Brain-tier (3090). Gemma 4 31B dense. 19.5GB VRAM, comfortable fit. Has reasoning_content field active. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes). llama.cpp b11669: --reasoning-budget 0 no longer suppresses Gemma 4 thinking (answer leaked reasoning); --reasoning off does (2026-10-15)."
         }
       }
     },
@@ -396,15 +395,15 @@
             "n_gpu_layers": 999
           },
           "extra_args": [
-            "--reasoning-budget",
-            "0"
+            "--reasoning",
+            "off"
           ],
           "tuning": {
             "status": "untuned",
             "last_tuned_at": null,
             "benchmark_suite": "agent_reliability"
           },
-          "notes": "Worker-tier (1060 6GB). Gemma 4 E2B dense ~5.1B Q8_0. Wraps JSON in markdown fences in smoke test. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes)."
+          "notes": "Worker-tier (1060 6GB). Gemma 4 E2B dense ~5.1B Q8_0. Wraps JSON in markdown fences in smoke test. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes). llama.cpp b11669: --reasoning-budget 0 no longer suppresses Gemma 4 thinking (answer leaked reasoning); --reasoning off does (2026-10-15)."
         }
       }
     },
@@ -435,15 +434,15 @@
             "n_gpu_layers": 999
           },
           "extra_args": [
-            "--reasoning-budget",
-            "0"
+            "--reasoning",
+            "off"
           ],
           "tuning": {
             "status": "untuned",
             "last_tuned_at": null,
             "benchmark_suite": "agent_reliability"
           },
-          "notes": "Worker-tier (1060 6GB). Gemma 4 E4B dense ~4B. Clean JSON output observed in smoke test \u2014 explicit JSON prompt retained for consistency. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes)."
+          "notes": "Worker-tier (1060 6GB). Gemma 4 E4B dense ~4B. Clean JSON output observed in smoke test \u2014 explicit JSON prompt retained for consistency. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes). llama.cpp b11669: --reasoning-budget 0 no longer suppresses Gemma 4 thinking (answer leaked reasoning); --reasoning off does (2026-10-15)."
         }
       }
     },

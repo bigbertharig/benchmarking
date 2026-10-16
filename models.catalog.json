@@ -15,13 +15,12 @@
     },
     {
       "id": "devstral-small:24b",
-      "tier": 1,
+      "tier": 3,
       "placement": "single_gpu",
       "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "tags": [
-        "code",
-        "worker_candidate",
-        "moe"
+        "brain_candidate",
+        "code"
       ]
     },
     {
