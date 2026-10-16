@@ -152,6 +152,45 @@
       ]
     },
     {
+      "id": "mellum2.1:12b-a2.5b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": [
+            "gpu-1",
+            "gpu-3"
+          ],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": [
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "code",
+        "worker_candidate",
+        "moe"
+      ]
+    },
+    {
+      "id": "minicpm5:2b",
+      "tier": 1,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "tags": [
+        "small",
+        "worker_candidate"
+      ]
+    },
+    {
       "id": "ministral-3:14b",
       "tier": 2,
       "placement": "split_gpu",
@@ -210,6 +249,54 @@
       "tags": [
         "instruction_following",
         "worker_candidate"
+      ]
+    },
+    {
+      "id": "nex-n2.5:mini",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "moe"
+      ]
+    },
+    {
+      "id": "ornith-1.5:35b-a3b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "moe"
+      ]
+    },
+    {
+      "id": "ornith-1.5:9b",
+      "tier": 2,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "pair_1_3",
+          "members": [
+            "gpu-1",
+            "gpu-3"
+          ],
+          "port": 11440
+        },
+        {
+          "id": "pair_4_5",
+          "members": [
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11441
+        }
+      ],
+      "tags": [
+        "worker_candidate",
+        "dense"
       ]
     },
     {
@@ -359,6 +446,16 @@
       "tags": [
         "brain_candidate",
         "moe"
+      ]
+    },
+    {
+      "id": "qwen3.8:27b",
+      "tier": 3,
+      "placement": "single_gpu",
+      "gguf_path": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "tags": [
+        "brain_candidate",
+        "dense"
       ]
     },
     {

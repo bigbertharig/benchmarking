@@ -320,6 +320,48 @@
     "llama3.3:70b": {
       "_alias_of": "Llama-3.3-70B-Instruct-Q4_K_M.gguf"
     },
+    "Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Split-worker (2x 1060). JetBrains Mellum2.1 12B MoE (2.5B active) code model, Apache-2.0, new 'mellum' arch (load on b11669 unverified). Thinking model: decide reasoning flag at litmus. Competes with ministral-3:14b (split_quality)."
+    },
+    "mellum2.1:12b-a2.5b": {
+      "_alias_of": "Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf"
+    },
+    "MiniCPM5-2B-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 4096,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Single 1060. OpenBMB MiniCPM5 2B dense, Apache-2.0, llama arch. Cheap lower-bound worker; compare with ministral-3:3b."
+    },
+    "minicpm5:2b": {
+      "_alias_of": "MiniCPM5-2B-Q4_K_M.gguf"
+    },
     "Ministral-3-14B-Instruct-2512-Q4_K_M.gguf": {
       "status": "smoke_complete",
       "last_tuned_at": "2026-08-14T00:00:00+00:00",
@@ -403,6 +445,81 @@
     },
     "mistral:7b-instruct": {
       "_alias_of": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf"
+    },
+    "nex-agi_Nex-N2.5-mini-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
+      "notes": "Brain-tier (3090). Nex N2.5 mini 35B MoE (3B active), Apache-2.0, Qwen3.5 MoE base. 22.3 GB GGUF: tightest fit; ctx 8192, lower if it OOMs. Competes with qwen3.6:35b-a3b."
+    },
+    "nex-n2.5:mini": {
+      "_alias_of": "nex-agi_Nex-N2.5-mini-Q4_K_M.gguf"
+    },
+    "Ornith-1.5-35B-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
+      "notes": "Brain-tier (3090). Ornith 1.5 35B MoE (~3B active), MIT, qwen3_5_moe arch. 21.7 GB GGUF: tight on 24 GB, ctx 8192 to start. Competes with qwen3.6:35b-a3b."
+    },
+    "ornith-1.5:35b-a3b": {
+      "_alias_of": "Ornith-1.5-35B-Q4_K_M.gguf"
+    },
+    "Ornith-1.5-9B-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
+      "notes": "Split-worker (2x 1060): the 5.8 GB Q4_K_M does not fit one 6 GB 1060 with context. Ornith 1.5 9B dense, MIT, qwen3_5 arch. Competes with ministral-3:14b / ministral-3:8b."
+    },
+    "ornith-1.5:9b": {
+      "_alias_of": "Ornith-1.5-9B-Q4_K_M.gguf"
     },
     "Phi-4-mini-reasoning-Q4_K_M.gguf": {
       "status": "untuned",
@@ -683,6 +800,31 @@
     },
     "qwen3.6:35b-a3b": {
       "_alias_of": "Qwen3.6-35B-A3B-UD-Q4_K_M.gguf"
+    },
+    "Qwen3.8-27B-UD-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
+      "notes": "Brain-tier (3090). Qwen3.8 27B dense, Apache-2.0, qwen35 arch, MTP layers (speculative decoding via --spec-type draft-mtp, untested). Expected successor of qwen3.6:27b and qwen3.5:27b. Thinking on by default in the template; --reasoning off."
+    },
+    "qwen3.8:27b": {
+      "_alias_of": "Qwen3.8-27B-UD-Q4_K_M.gguf"
     },
     "Qwen3-1.7B-Q4_K_M.gguf": {
       "status": "tuning",
