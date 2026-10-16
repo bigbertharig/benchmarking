@@ -14,6 +14,7 @@ Usage:
   model_library.py role brain               resolved settings for a role
   model_library.py model qwen3.6:27b [--profile interactive]
   model_library.py remote-profiles          resolved remote profiles (rig mode selector, gateway)
+  model_library.py runtime-image            the llama-server image all models run on
   model_library.py job "extract json from a page"
   model_library.py export                   rewrite the generated files
   model_library.py check                    validate sources and generated files (exit 1 on problems)
@@ -65,6 +66,11 @@ def find_model(registry: dict[str, Any], model_id: str) -> tuple[str, dict[str, 
 
 def gguf_path(registry: dict[str, Any], entry: dict[str, Any]) -> str:
     return f"{registry['archive_root']}/{entry['gguf']}"
+
+
+def runtime_image(registry: dict[str, Any] | None = None) -> str:
+    """The one llama-server image every model runs on (no per-model images)."""
+    return str((registry or load_registry())["runtime_image"])
 
 
 def resolve(model_id: str, profile: str = "default", registry: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -120,7 +126,7 @@ def remote_profiles(roles: dict[str, Any] | None = None,
             "ctx_size": r["runtime"]["ctx_size"], "batch_size": r["runtime"]["batch_size"],
             "parallel": r["runtime"].get("parallel", 1), "extra_args": r["extra_args"],
             **({"tensor_split": r["tensor_split"]} if r.get("tensor_split") else {}),
-            **({"image": r["image"]} if r.get("image") else {}),
+            "image": runtime_image(registry),
         }
     return out
 
@@ -237,11 +243,16 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
             errors.append(f"{mid}: archived without status_note")
         if archive_root is not None and not (archive_root / entry["gguf"]).is_file():
             errors.append(f"{mid}: GGUF missing under {archive_root}: {entry['gguf']}")
+        for pname, prof in entry.get("profiles", {}).items():
+            if "image" in prof:
+                errors.append(f"{mid}: profile {pname} sets image; all models use the registry runtime_image")
         orch = entry.get("profiles", {}).get("orchestration")
         if orch is not None and "ctx_size" not in orch.get("runtime", {}):
             errors.append(f"{mid}: orchestration profile has no runtime.ctx_size")
 
     # The orchestrator loads the brain and worker defaults from these (llm_orchestration brain_core).
+    if not str(registry.get("runtime_image", "")).startswith("llama-runtime:"):
+        errors.append("runtime_image must name a llama-runtime image")
     for lane in ORCHESTRATOR_ROLES:
         if lane not in roles["roles"]:
             errors.append(f"role {lane} is required by the orchestrator")
@@ -306,6 +317,7 @@ def main() -> int:
     s.add_argument("id")
     s.add_argument("--profile", default="default")
     sub.add_parser("remote-profiles")
+    sub.add_parser("runtime-image")
     s = sub.add_parser("job")
     s.add_argument("text")
     sub.add_parser("export")
@@ -320,6 +332,8 @@ def main() -> int:
             print(json.dumps(resolve(args.id, args.profile), indent=2))
         elif args.cmd == "remote-profiles":
             print(json.dumps(remote_profiles(), indent=2))
+        elif args.cmd == "runtime-image":
+            print(runtime_image())
         elif args.cmd == "job":
             match = job_role(args.text)
             print(json.dumps({"job": match[0], **resolve_role(match[1])} if match else None, indent=2))

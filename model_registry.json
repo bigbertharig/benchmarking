@@ -3,6 +3,8 @@
   "updated": "2026-10-15",
   "about": "Every model the rig has tested, with its archive GGUF, status, scheduling placement, and named profiles. The only place model settings are edited. models.catalog.json, model_tuning_profiles.json and custom_tasks/model_prompt_profiles.json are generated from this file by scripts/active/model_library.py.",
   "archive_root": "/mnt/shared/models",
+  "runtime_image": "llama-runtime:b10333",
+  "runtime_image_note": "Every model runs on this one llama-server image (orchestration, remote mode, campaigns). Upgrade with llm_orchestration shared/scripts/llama_runtime/upgrade_runtime.sh.",
   "catalog_defaults": {
     "schema_version": 1,
     "default_llm_min_tier": 1
@@ -638,9 +640,8 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
-          "image": "llama-runtime:b8884-candidate",
           "extra_args": [],
-          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       }
     },
@@ -684,9 +685,8 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
-          "image": "llama-runtime:b8884-candidate",
           "extra_args": [],
-          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       }
     },
@@ -730,9 +730,8 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
-          "image": "llama-runtime:b8884-candidate",
           "extra_args": [],
-          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       }
     },
@@ -1102,7 +1101,6 @@
             "parallel": 1
           },
           "extra_args": [],
-          "image": "llama-runtime:b8884-candidate",
           "notes": "Interactive remote use (coder-30b); runtime fields replace the default profile's."
         },
         "orchestration": {
@@ -1112,9 +1110,8 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
-          "image": "llama-runtime:b8884-candidate",
           "extra_args": [],
-          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       }
     },
@@ -1166,8 +1163,7 @@
             "--reasoning-budget",
             "0"
           ],
-          "image": "llama-runtime:b8884-candidate",
-          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       }
     },

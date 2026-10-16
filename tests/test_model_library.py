@@ -87,6 +87,15 @@ class ModelLibraryTests(unittest.TestCase):
         self.assertTrue(any("orchestration profile has no runtime.ctx_size" in e
                             for e in ML.validate(registry, self.roles)))
 
+    def test_profiles_cannot_pin_their_own_image(self):
+        registry = copy.deepcopy(self.registry)
+        registry["models"]["qwen3.6:27b"]["profiles"]["default"]["image"] = "llama-runtime:old"
+        self.assertTrue(any("sets image" in e for e in ML.validate(registry, self.roles)))
+
+    def test_remote_profiles_use_the_one_runtime_image(self):
+        images = {p["image"] for p in ML.remote_profiles(self.roles, self.registry).values()}
+        self.assertEqual(images, {self.registry["runtime_image"]})
+
     def test_job_keywords_pick_a_role(self):
         self.assertEqual(ML.job_role("extract the json schema", self.roles)[1], "single_1060")
         self.assertIsNone(ML.job_role("zzz", self.roles))
