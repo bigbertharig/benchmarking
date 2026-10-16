@@ -237,9 +237,17 @@ files = sorted(Path(task_dir).glob("*_eval_results.json"))
 if not files:
     raise SystemExit(0)
 data = json.loads(files[-1].read_text(encoding="utf-8"))
-pass_at_1 = data.get("pass@1", {})
+pass_at_1 = data.get("pass@1") or {}
 base = pass_at_1.get("base")
 plus = pass_at_1.get("plus")
+# EvalPlus eval_results.json carries per-problem results under "eval" and no pass@1
+# summary; with greedy decoding (one sample per problem) pass@1 is the pass fraction.
+# "plus" means the problem passed both the base and the extra tests.
+results = data.get("eval") or {}
+if base is None and results:
+    firsts = [samples[0] for samples in results.values() if samples]
+    base = sum(s.get("base_status") == "pass" for s in firsts) / len(firsts)
+    plus = sum(s.get("base_status") == "pass" and s.get("plus_status") == "pass" for s in firsts) / len(firsts)
 if isinstance(base, (int, float)):
     print(f"{task}_base\t{base}\tpass@1_base\t")
 if isinstance(plus, (int, float)):
@@ -525,8 +533,12 @@ import json, glob, os
 for f in sorted(glob.glob('${OUTPUT_DIR}/**/*_eval_results.json', recursive=True)):
     data = json.load(open(f))
     dataset = os.path.basename(os.path.dirname(f))
-    base = data.get('pass@1', {}).get('base', 'N/A')
-    plus = data.get('pass@1', {}).get('plus', 'N/A')
+    base = (data.get('pass@1') or {}).get('base', 'N/A')
+    plus = (data.get('pass@1') or {}).get('plus', 'N/A')
+    firsts = [v[0] for v in (data.get('eval') or {}).values() if v]
+    if base == 'N/A' and firsts:
+        base = round(sum(s.get('base_status') == 'pass' for s in firsts) / len(firsts), 3)
+        plus = round(sum(s.get('base_status') == 'pass' and s.get('plus_status') == 'pass' for s in firsts) / len(firsts), 3)
     print(f'  {dataset}: pass@1 base={base}, plus={plus}')
 " 2>/dev/null || echo "(could not parse results)"
 
