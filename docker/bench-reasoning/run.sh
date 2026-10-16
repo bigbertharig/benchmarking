@@ -22,6 +22,7 @@ PATCH_THINK_TAG_STRIP=0
 GEN_KWARGS=""
 SYSTEM_PROMPT_OVERRIDE=""
 DISABLE_THINKING=0
+LOG_SAMPLES=0
 RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
 RESERVATION_OWNER="${BENCHMARK_RESERVATION_OWNER:-bench-reasoning}"
 RESERVATION_RUN_ID=""
@@ -60,6 +61,7 @@ while [[ $# -gt 0 ]]; do
         --gen-kwargs) GEN_KWARGS="$2"; shift 2 ;;
         --system-prompt-override) SYSTEM_PROMPT_OVERRIDE="$2"; shift 2 ;;
         --disable-thinking) DISABLE_THINKING=1; shift 1 ;;
+        --log-samples) LOG_SAMPLES=1; shift 1 ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
     esac
 done
@@ -390,6 +392,7 @@ echo "Patch think-tag strip: $PATCH_THINK_TAG_STRIP"
 [ -n "$GEN_KWARGS" ] && echo "Gen kwargs override: $GEN_KWARGS"
 [ -n "$SYSTEM_PROMPT_OVERRIDE" ] && echo "System prompt override: enabled"
 echo "Disable thinking: $DISABLE_THINKING"
+echo "Log samples: $LOG_SAMPLES"
 echo "Run class: $RUN_CLASS"
 echo "Checkpoint file: $STATUS_FILE"
 
@@ -872,6 +875,11 @@ PY
 
     if [ -n "$GEN_KWARGS" ]; then
       CMD+=(--gen_kwargs "$GEN_KWARGS")
+    fi
+
+    # Raw per-sample prompts and responses (samples_<task>_*.jsonl) for smoke review.
+    if [ "$LOG_SAMPLES" -eq 1 ]; then
+      CMD+=(--log_samples)
     fi
 
     STAGE_START=$(date -Iseconds)
