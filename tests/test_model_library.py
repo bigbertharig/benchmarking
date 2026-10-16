@@ -75,6 +75,18 @@ class ModelLibraryTests(unittest.TestCase):
         for key in ("ctx_size", "batch_size", "parallel", "extra_args", "gpus_needed"):
             self.assertIn(key, chat)
 
+    def test_orchestrator_roles_are_required(self):
+        roles = copy.deepcopy(self.roles)
+        del roles["roles"]["single_1060"]
+        roles["jobs"] = [j for j in roles["jobs"] if j["role"] != "single_1060"]
+        self.assertTrue(any("single_1060 is required" in e for e in ML.validate(self.registry, roles)))
+
+    def test_orchestration_profile_needs_ctx_size(self):
+        registry = copy.deepcopy(self.registry)
+        registry["models"]["qwen3.6:27b"]["profiles"]["orchestration"]["runtime"].pop("ctx_size")
+        self.assertTrue(any("orchestration profile has no runtime.ctx_size" in e
+                            for e in ML.validate(registry, self.roles)))
+
     def test_job_keywords_pick_a_role(self):
         self.assertEqual(ML.job_role("extract the json schema", self.roles)[1], "single_1060")
         self.assertIsNone(ML.job_role("zzz", self.roles))

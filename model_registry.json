@@ -7,6 +7,20 @@
     "schema_version": 1,
     "default_llm_min_tier": 1
   },
+  "orchestration_defaults": {
+    "single": {
+      "ctx_size": 16384,
+      "batch_size": 64,
+      "parallel": 1,
+      "n_gpu_layers": 999
+    },
+    "split": {
+      "ctx_size": 16384,
+      "batch_size": 128,
+      "parallel": 1,
+      "n_gpu_layers": 999
+    }
+  },
   "models": {
     "deepseek-r1:14b": {
       "gguf": "deepseek-r1-14b/DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
@@ -94,6 +108,16 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Keep as baseline settings until next locked-suite tuning pass."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       },
       "test_prompt_overrides": {
@@ -604,6 +628,17 @@
             "benchmark_suite": "import_prep"
           },
           "notes": "Modern 14B split-worker candidate; initial compatibility smoke runs on the 3090."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 8192,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "image": "llama-runtime:b8884-candidate",
+          "extra_args": [],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
         }
       }
     },
@@ -639,6 +674,17 @@
             "benchmark_suite": "import_prep"
           },
           "notes": "Single-1060 qualification candidate. Broad smoke tasks eventually completed, but the full EvalPlus code block timed out and the first campaign left stale failure rows. Keep out of production routing until the focused code/runtime rerun completes."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 8192,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "image": "llama-runtime:b8884-candidate",
+          "extra_args": [],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
         }
       }
     },
@@ -674,6 +720,17 @@
             "benchmark_suite": "import_prep"
           },
           "notes": "Modern single-worker candidate; initial compatibility smoke runs on the 3090."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 8192,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "image": "llama-runtime:b8884-candidate",
+          "extra_args": [],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
         }
       }
     },
@@ -709,6 +766,16 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Higher score than qwen2.5-coder:7b on this run, but slower."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 12288,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       },
       "test_prompt_overrides": {
@@ -890,6 +957,20 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Split-load (2x 1060). Prompt updated 2026-03-14: added explicit markdown/code-block suppression for JSON tasks (was 0% on json_schema_strict due to ```json wrapping)."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 128,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [
+            "--no-warmup"
+          ],
+          "tensor_split": "1,1",
+          "meta_timeout_seconds": 600,
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       }
     },
@@ -961,6 +1042,18 @@
           },
           "extra_args": [],
           "notes": "Interactive remote use (coder-7b); runtime fields replace the default profile's."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [
+            "--no-warmup"
+          ],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       },
       "test_prompt_overrides": {
@@ -1009,6 +1102,17 @@
           "extra_args": [],
           "image": "llama-runtime:b8884-candidate",
           "notes": "Interactive remote use (coder-30b); runtime fields replace the default profile's."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "image": "llama-runtime:b8884-candidate",
+          "extra_args": [],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
         }
       }
     },
@@ -1048,6 +1152,20 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Brain-tier candidate on the RTX 3090. Corrupt archive artifact replaced and SHA-256 verified on 2026-08-12; data-import and geo-import smoke completed successfully."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [
+            "--reasoning-budget",
+            "0"
+          ],
+          "image": "llama-runtime:b8884-candidate",
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15). 'image' is recorded but orchestration loads use the global llama_runtime_image."
         }
       }
     },
@@ -1112,6 +1230,19 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "A/B prompt test complete (2026-03-11): keep A profile as baseline; B profile underperformed."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [
+            "--reasoning-budget",
+            "0"
+          ],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       },
       "test_prompt_overrides": {
@@ -1151,6 +1282,19 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "A/B prompt test complete (2026-03-11): keep A profile as baseline; B profile underperformed."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [
+            "--reasoning-budget",
+            "0"
+          ],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       },
       "test_prompt_overrides": {
@@ -1201,6 +1345,19 @@
           ],
           "tensor_split": "4,1",
           "notes": "Interactive remote use (chat-27b); runtime fields replace the default profile's."
+        },
+        "orchestration": {
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [
+            "--reasoning-budget",
+            "0"
+          ],
+          "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
       }
     },

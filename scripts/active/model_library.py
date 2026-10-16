@@ -3,6 +3,8 @@
 
 Sources (the only files edited by hand):
   model_registry.json  every tested model: archive GGUF, status, scheduling, named profiles
+                       (default = benchmark settings, interactive = remote use, orchestration =
+                       orchestrator llama launch), plus orchestration_defaults
   model_roles.json     which model + profile to use per rig lane and job, plus remote profiles
 
 Generated from the registry (never edit; `export` rewrites them, `check` fails on drift):
@@ -34,6 +36,7 @@ TUNING_PATH = ROOT / "model_tuning_profiles.json"
 PROMPT_PROFILES_PATH = ROOT / "custom_tasks" / "model_prompt_profiles.json"
 GENERATED_NOTE = "Generated from model_registry.json by scripts/active/model_library.py export. Do not edit."
 ROLE_STATUSES = {"active"}
+ORCHESTRATOR_ROLES = ("brain", "single_1060")
 STATUSES = {"active", "candidate", "archived", "invalid"}
 
 
@@ -234,6 +237,17 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
             errors.append(f"{mid}: archived without status_note")
         if archive_root is not None and not (archive_root / entry["gguf"]).is_file():
             errors.append(f"{mid}: GGUF missing under {archive_root}: {entry['gguf']}")
+        orch = entry.get("profiles", {}).get("orchestration")
+        if orch is not None and "ctx_size" not in orch.get("runtime", {}):
+            errors.append(f"{mid}: orchestration profile has no runtime.ctx_size")
+
+    # The orchestrator loads the brain and worker defaults from these (llm_orchestration brain_core).
+    for lane in ORCHESTRATOR_ROLES:
+        if lane not in roles["roles"]:
+            errors.append(f"role {lane} is required by the orchestrator")
+    for kind in ("single", "split"):
+        if "ctx_size" not in registry.get("orchestration_defaults", {}).get(kind, {}):
+            errors.append(f"orchestration_defaults.{kind} needs ctx_size")
 
     def check_ref(where: str, model_id: str, profile: str) -> None:
         try:
