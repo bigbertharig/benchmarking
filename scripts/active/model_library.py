@@ -248,6 +248,8 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
     for kind in ("single", "split"):
         if "ctx_size" not in registry.get("orchestration_defaults", {}).get(kind, {}):
             errors.append(f"orchestration_defaults.{kind} needs ctx_size")
+    if not isinstance(registry.get("orchestration_defaults", {}).get("max_tokens"), int):
+        errors.append("orchestration_defaults.max_tokens (worker generation cap) must be an integer")
 
     def check_ref(where: str, model_id: str, profile: str) -> None:
         try:

@@ -19,7 +19,9 @@
       "batch_size": 128,
       "parallel": 1,
       "n_gpu_layers": 999
-    }
+    },
+    "max_tokens": 8192,
+    "_notes": "single/split: llama launch fallbacks when a model has no orchestration profile. max_tokens: generation cap per worker request."
   },
   "models": {
     "deepseek-r1:14b": {
