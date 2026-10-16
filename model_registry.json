@@ -1632,7 +1632,7 @@
       },
       "profiles": {
         "default": {
-          "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+          "system_prompt": "You are a worker assistant. Do not output <think> tags. Answer in the exact format the task asks for. Use JSON only when the task explicitly asks for JSON, and then return raw JSON with no markdown or extra text; otherwise answer in plain text. When the task shows worked examples, follow their format and end with the same closing phrase they use, for example: So the answer is <answer>. For short questions, give only the shortest answer phrase.",
           "inference": {
             "temperature": 0.0,
             "top_p": 1.0,
@@ -1649,11 +1649,11 @@
             "off"
           ],
           "tuning": {
-            "status": "untuned",
-            "last_tuned_at": null,
-            "benchmark_suite": "agent_reliability"
+            "status": "tuning",
+            "last_tuned_at": "2026-10-16T00:00:00+00:00",
+            "benchmark_suite": "phase4_smoke"
           },
-          "notes": "Brain-tier (3090). Qwen3.8 27B dense, Apache-2.0, qwen35 arch, MTP layers (speculative decoding via --spec-type draft-mtp, untested). Expected successor of qwen3.6:27b and qwen3.5:27b. Thinking on by default in the template; --reasoning off."
+          "notes": "Brain-tier (3090). Qwen3.8 27B dense, Apache-2.0, qwen35 arch, MTP layers (speculative decoding via --spec-type draft-mtp, untested). Expected successor of qwen3.6:27b and qwen3.5:27b. Thinking on by default in the template; --reasoning off gives a clean empty think block (litmus 3/3 clean). Prompt v2 (2026-10-16): the thinking-suppression family prompt made it omit the BBH closing phrase (40/270 limit-10 answers) and answer in JSON when none was asked (2/10 DROP); v2 drops 'only the final answer' and limits JSON to explicit requests."
         }
       }
     },
