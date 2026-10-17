@@ -106,6 +106,13 @@ class CampaignRunnerTests(unittest.TestCase):
                 RUNNER.TREE = original_tree
         self.assertEqual(command[command.index("--model") + 1], "/mnt/shared/models/ministral/model.gguf")
 
+    def test_tree_is_the_checkout_holding_the_machine_config(self):
+        # run_campaign.py lives at <tree>/scripts/benchmarks/; the hot-set lookup reads
+        # <tree>/agents/config.json, so TREE must be the checkout root.
+        self.assertEqual(RUNNER.TREE, ROOT.parents[2].resolve())
+        self.assertTrue((RUNNER.TREE / "agents").is_dir())
+        self.assertTrue((RUNNER.TREE / "scripts" / "benchmarks" / "run_campaign.py").is_file())
+
     def test_single_gpu_runtime_telemetry_uses_container_gpu_zero(self):
         config = {
             "id": "runtime",
