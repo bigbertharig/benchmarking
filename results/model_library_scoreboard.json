@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T19:48:36.372777+00:00",
+  "generated_at": "2026-10-17T21:11:56.625119+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -440,11 +440,11 @@
     },
     {
       "failures": 2,
-      "last_run_at": "2026-10-17T09:12:39.861759+00:00",
+      "last_run_at": "2026-10-17T20:32:43+00:00",
       "model": "nex-n2.5:mini",
-      "records": 85,
+      "records": 89,
       "selected_tests": 31,
-      "successes": 83,
+      "successes": 87,
       "suites": [
         "campaign_nex_geoimport_20261017_011528",
         "campaign_nex_mmlu_pro_l20_20261017_011528",
@@ -461,6 +461,8 @@
         "nex_n25_mini_p45_think_bbh2",
         "nex_n25_mini_smoke_v1",
         "nex_n25_mini_smoke_v1_x3",
+        "nex_n25_mini_split4",
+        "nex_n25_mini_split5_concurrent",
         "smoke_nex_effort_none_bench_prompt_v1",
         "smoke_nex_effort_none_v1",
         "smoke_nex_reasoning_off_v1"
@@ -729,12 +731,17 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-04-25T06:40:58+00:00",
+      "last_run_at": "2026-10-17T21:11:56+00:00",
       "model": "qwen3.6:35b-a3b",
-      "records": 6,
-      "selected_tests": 3,
-      "successes": 6,
+      "records": 44,
+      "selected_tests": 27,
+      "successes": 44,
       "suites": [
+        "qwen36_35b_a3b_p45_geo_mt1024",
+        "qwen36_35b_a3b_p45_geo_mt512",
+        "qwen36_35b_a3b_p45_off",
+        "qwen36_35b_a3b_p45_think",
+        "qwen36_35b_a3b_smoke_v1",
         "qwen36_35b_l50_bbhdrop_patched",
         "qwen36_35b_l50_bbhdrop_v2"
       ]
@@ -3310,9 +3317,9 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 1904,
+  "record_count": 1946,
   "schema_version": 3,
-  "selected_count": 1081,
+  "selected_count": 1105,
   "selected_per_model_test": [
     {
       "efficiency": {},
@@ -45111,6 +45118,358 @@
       "test_id": "bbh"
     },
     {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 1,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 0.9111111111111111,
+      "notes": "",
+      "raw_harness_score": 0.9074074074074074,
+      "run_at": "2026-10-17T21:06:47+00:00",
+      "run_class": "smoke",
+      "run_id": "bbc2fe8f-b3e7-4c50-9a23-a7d6486908c6",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 270,
+      "schema_version": 3,
+      "score": 0.9111111111111111,
+      "score_pct": 91.11111111111111,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_off",
+      "test_id": "bbh_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "passes=7; total=13; result_path=/results/custom_ambiguity_handling_qwen3.6_35b-a3b_20261017_201308_419040/result.json",
+      "raw_harness_score": 0.5384615384615384,
+      "run_at": "2026-10-17T20:13:12+00:00",
+      "run_class": "smoke",
+      "run_id": "420863f6-ddb0-4ade-9400-1456fa20673c",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.5384615384615384,
+      "score_pct": 53.84615384615385,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "passes=12; total=12; result_path=/results/custom_command_safety_qwen3.6_35b-a3b_20261017_201258_494225/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-17T20:13:07+00:00",
+      "run_class": "smoke",
+      "run_id": "cba4a067-eba9-4f82-9cb2-43f48cb3f245",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "custom_command_safety"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "passes=3; total=13; result_path=/results/custom_json_schema_strict_qwen3.6_35b-a3b_20261017_201252_905310/result.json",
+      "raw_harness_score": 0.23076923076923078,
+      "run_at": "2026-10-17T20:12:57+00:00",
+      "run_class": "smoke",
+      "run_id": "b815d802-e724-41ac-a9ba-c34bdf687c3e",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.23076923076923078,
+      "score_pct": 23.076923076923077,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_qwen3.6_35b-a3b_20261017_201323_097418/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-17T20:13:28+00:00",
+      "run_class": "smoke",
+      "run_id": "fb829226-040e-410a-8d24-da8f84390387",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 14,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "passes=9; total=12; result_path=/results/custom_orchestration_tradeoff_qwen3.6_35b-a3b_20261017_201317_674915/result.json",
+      "raw_harness_score": 0.75,
+      "run_at": "2026-10-17T20:13:22+00:00",
+      "run_class": "smoke",
+      "run_id": "a6754fbc-3e5d-4119-bc2c-e590e416ce90",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.75,
+      "score_pct": 75.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_qwen3.6_35b-a3b_20261017_201313_026992/result.json",
+      "raw_harness_score": 0.9333333333333333,
+      "run_at": "2026-10-17T20:13:17+00:00",
+      "run_class": "smoke",
+      "run_id": "168d0f87-3e7a-4726-bdab-5d59fa53bf14",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 15,
+      "schema_version": 3,
+      "score": 0.9333333333333333,
+      "score_pct": 93.33333333333333,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
       "efficiency": {},
       "extractor_failure_count": 0,
       "failure": {},
@@ -45167,6 +45526,993 @@
       "status": "success",
       "suite": "qwen36_35b_l50_bbhdrop_v2",
       "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "answer_contained",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 0.8,
+      "notes": "",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-17T20:43:42+00:00",
+      "run_class": "smoke",
+      "run_id": "b04ed6fe-81f0-4cd1-9b52-e3e3c933eaa4",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.8,
+      "score_pct": 80.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "drop_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-17T21:07:00.789996",
+      "run_class": "smoke",
+      "run_id": "4f22c217-4703-4242-befb-6844ceddae73",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 1024,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "84a278f4379f0386558aadd2c4251dc46161458ea7420f7073598faddfa5787b",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_geo_mt1024",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-17T21:07:02.533926",
+      "run_class": "smoke",
+      "run_id": "cc269b57-86fc-47f5-84fb-bcd9887ecf60",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 1024,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "84a278f4379f0386558aadd2c4251dc46161458ea7420f7073598faddfa5787b",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_geo_mt1024",
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-17T21:07:06.282094",
+      "run_class": "smoke",
+      "run_id": "de2b78a6-72e7-4ea2-9de0-554edc1f61d5",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 1024,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "84a278f4379f0386558aadd2c4251dc46161458ea7420f7073598faddfa5787b",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_geo_mt1024",
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9048,
+      "run_at": "2026-10-17T21:07:08.138246",
+      "run_class": "smoke",
+      "run_id": "dcc9b4ac-0a8c-48b0-be42-9b5f53624935",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 1024,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "84a278f4379f0386558aadd2c4251dc46161458ea7420f7073598faddfa5787b",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.9048,
+      "score_pct": 90.48,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_geo_mt1024",
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_plan",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8788,
+      "run_at": "2026-10-17T21:07:04.795585",
+      "run_class": "smoke",
+      "run_id": "d8bc3d8a-150e-4a2c-9298-d13a55c4f36d",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 1024,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "84a278f4379f0386558aadd2c4251dc46161458ea7420f7073598faddfa5787b",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b->Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.8788,
+      "score_pct": 87.88,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_geo_mt1024",
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 1.0,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-17T20:58:26+00:00",
+      "run_class": "smoke",
+      "run_id": "a376b364-d301-4ca7-91c1-88f8a6b924ca",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_off",
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,strict-match",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 1.0,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-17T20:58:26+00:00",
+      "run_class": "smoke",
+      "run_id": "034918ea-4dd4-4ca6-8dac-d5e8e592f12c",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_p45_off",
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.926829268292683,
+      "run_at": "2026-10-17T20:20:00+00:00",
+      "run_class": "full",
+      "run_id": "509c3f64-53a3-48a6-a98d-7d942b34dabf",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.926829268292683,
+      "score_pct": 92.6829268292683,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "humaneval_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8963414634146342,
+      "run_at": "2026-10-17T20:20:01+00:00",
+      "run_class": "full",
+      "run_id": "6621ef89-14e7-473b-b097-650dd3b99202",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.8963414634146342,
+      "score_pct": 89.63414634146342,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "humaneval_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_loose_acc,none",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 0.8888888888888888,
+      "notes": "",
+      "raw_harness_score": 0.8888888888888888,
+      "run_at": "2026-10-17T20:54:25+00:00",
+      "run_class": "smoke",
+      "run_id": "39c14eb5-3a92-4b71-b4c5-46eceef13619",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.8888888888888888,
+      "score_pct": 88.88888888888889,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_strict_acc,none",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 0.8888888888888888,
+      "notes": "",
+      "raw_harness_score": 0.8888888888888888,
+      "run_at": "2026-10-17T20:54:24+00:00",
+      "run_class": "smoke",
+      "run_id": "f09f6486-dbea-4e5c-8297-5d02b6c91bf8",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.8888888888888888,
+      "score_pct": 88.88888888888889,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_loose_acc,none",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 0.8,
+      "notes": "",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-17T20:54:25+00:00",
+      "run_class": "smoke",
+      "run_id": "4fd76b10-f86f-4296-baf1-ded135308ca3",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.8,
+      "score_pct": 80.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_strict_acc,none",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 0.8,
+      "notes": "",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-17T20:54:24+00:00",
+      "run_class": "smoke",
+      "run_id": "543941ab-ef00-417a-8ff1-f8ae2e2ab7ae",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.8,
+      "score_pct": 80.0,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9074074074074074,
+      "run_at": "2026-10-17T20:34:25+00:00",
+      "run_class": "full",
+      "run_id": "a541829e-9ab3-4ea8-a0ad-2415ebbe4db9",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.9074074074074074,
+      "score_pct": 90.74074074074075,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "mbpp_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7671957671957672,
+      "run_at": "2026-10-17T20:34:26+00:00",
+      "run_class": "full",
+      "run_id": "9d2638cb-790c-4351-a8bc-144ec78831a3",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.7671957671957672,
+      "score_pct": 76.71957671957672,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "mbpp_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,custom-extract",
+      "model": "qwen3.6:35b-a3b",
+      "normalized_answer_score": 0.8214285714285714,
+      "notes": "",
+      "raw_harness_score": 0.8214285714285714,
+      "run_at": "2026-10-17T20:53:50+00:00",
+      "run_class": "smoke",
+      "run_id": "5c52a927-28e4-4ef9-a1da-c85d0b782f1c",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 140,
+      "schema_version": 3,
+      "score": 0.8214285714285714,
+      "score_pct": 82.14285714285714,
+      "status": "success",
+      "suite": "qwen36_35b_a3b_smoke_v1",
+      "test_id": "mmlu_pro_exact_match_custom-extract"
     },
     {
       "efficiency": {
@@ -51475,6 +52821,28 @@
       "harnesses": [
         "bench-reasoning"
       ],
+      "last_run_at": "2026-10-17T20:32:43+00:00",
+      "model": "nex-n2.5:mini",
+      "records": 2,
+      "successes": 2,
+      "suite": "nex_n25_mini_split4"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-17T20:19:31+00:00",
+      "model": "nex-n2.5:mini",
+      "records": 2,
+      "successes": 2,
+      "suite": "nex_n25_mini_split5_concurrent"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
       "last_run_at": "2026-10-16T18:52:24+00:00",
       "model": "nex-n2.5:mini",
       "records": 3,
@@ -52725,6 +54093,63 @@
       "records": 2,
       "successes": 2,
       "suite": "smoke_qwen36_27b_tts_drop_l5"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-10-17T21:07:08.138246",
+      "model": "qwen3.6:35b-a3b",
+      "records": 5,
+      "successes": 5,
+      "suite": "qwen36_35b_a3b_p45_geo_mt1024"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-10-17T21:06:57.880878",
+      "model": "qwen3.6:35b-a3b",
+      "records": 5,
+      "successes": 5,
+      "suite": "qwen36_35b_a3b_p45_geo_mt512"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-17T21:06:47+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 4,
+      "successes": 4,
+      "suite": "qwen36_35b_a3b_p45_off"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-17T21:11:56+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 2,
+      "successes": 2,
+      "suite": "qwen36_35b_a3b_p45_think"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-17T20:54:25+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 22,
+      "successes": 22,
+      "suite": "qwen36_35b_a3b_smoke_v1"
     },
     {
       "failures": 0,
