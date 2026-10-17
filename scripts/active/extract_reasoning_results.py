@@ -15,7 +15,8 @@ from typing import Any
 # phrasing the harness extracts. Only for tasks whose prompt demonstrates a format
 # without instructing it (BBH few-shot examples, DROP plain questions). Tasks that
 # instruct a format (IFEval) stay strict. Strict rows are emitted unchanged beside these.
-ANSWER_PHRASE = re.compile(r"(?i)\b(?:so\s+)?the\s+(?:final\s+)?answer\s+is\s*:?\s*(.+)")
+ANSWER_PHRASE = re.compile(r"(?i)\b(?:final\s+)?answer(?:\s+is\s*:?|\s*:)\s*(.+)")
+OPTION_TOKEN = re.compile(r"\(([A-Ra-r])\)")
 LEAD_IN = re.compile(r"(?i)^\s*(?:so\s+)?(?:the\s+)?(?:final\s+)?answer(?:\s+is)?\s*[:\-]?\s*")
 OPTION = re.compile(r"^\(([a-z])\)$")
 
@@ -45,6 +46,11 @@ def _bbh_candidates(response: str) -> list[str]:
     lines = [line for line in stripped.splitlines() if line.strip()]
     if lines:
         candidates.append(lines[-1])
+        # A concluding line that names exactly one option ("Therefore, the sarcastic
+        # statement is (A).") answers with that option.
+        options = {o.lower() for o in OPTION_TOKEN.findall(lines[-1])}
+        if len(options) == 1:
+            candidates.append(f"({options.pop()})")
     candidates.append(stripped)
     return [_clean(c) for c in candidates if c and len(c.strip()) <= 80]
 

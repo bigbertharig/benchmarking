@@ -149,8 +149,8 @@ record_result_row() {
         --records "$RECORDS_PATH" \
         --reference-output "$REFERENCE_OUTPUT" \
         --scoreboard-output "$SCOREBOARD_OUTPUT" \
-        --config-id "lm-eval-0.4.11-reasoning-extract-v2" \
-        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v2"}' \
+        --config-id "lm-eval-0.4.11-reasoning-extract-v3" \
+        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v3","bbh_stop":"newline Q:","flexible_rows":["bbh_flexible","drop_flexible"]}' \
         --run-at "$(date -Iseconds)" \
         --notes "$notes" >/dev/null
 }
@@ -752,6 +752,14 @@ if bbh_template.exists():
         src = src.replace("max_gen_toks: 1024", "max_gen_toks: 512")
         changed = True
         print("  BBH: reduced max_gen_toks to 512")
+
+    # 6. Stop at the next few-shot question ("\nQ:"), not at any capital Q. The bare
+    #    "Q" stop cut answers such as "(Q)" in reasoning_about_colored_objects and any
+    #    reasoning containing a word like "Queen" (2026-10-16, extract v3).
+    if '    - "Q"\n' in src:
+        src = src.replace('    - "Q"\n', '    - "\\nQ:"\n', 1)
+        changed = True
+        print("  BBH: stop sequence Q -> \\nQ:")
 
     if changed:
         bbh_template.write_text(src, encoding="utf-8")

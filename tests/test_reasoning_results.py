@@ -84,17 +84,23 @@ class FlexibleScoringTests(unittest.TestCase):
             _bbh("(C)", '{"answer": "(C)"}'),
             _bbh("(B)", "Step one.\nStep two.\nSo the answer is **(B)**."),
             _bbh("True", "Working through it.\nTrue"),
+            _bbh("(C)", "kniggt is not a word.\nAbove the above, answer is (C)."),
+            _bbh("No", "Since Michaela lies, Elanor lies.\nTherefore, Elanor does not tell the truth. Answer: No."),
+            _bbh("(A)", "The praise is sincere.\nTherefore, the sarcastic statement is (A)."),
+            _bbh("(D)", "So the answer is (D) kite."),
             _bbh("(A)", "So the answer is (A).", strict=1),
         ]
         score, rescued = MODULE.bbh_flexible(samples)
         self.assertEqual(score, 1.0)
-        self.assertEqual(rescued, 4)
+        self.assertEqual(rescued, 8)
 
     def test_bbh_rejects_wrong_or_missing_answers(self):
         samples = [
             _bbh("(A)", "(B)"),
             _bbh("(A)", "Options are (A) owl, (B) raven. The leftmost bird is"),
             _bbh("valid", "invalid"),
+            _bbh("(K)", "Two pairs of equal adjacent sides.\n\nAnswer: (D) kite"),
+            _bbh("(Q)", "The cup is first, so to its right is the purple mug.\n\nAnswer: ("),
         ]
         score, rescued = MODULE.bbh_flexible(samples)
         self.assertEqual((score, rescued), (0.0, 0))
@@ -141,6 +147,10 @@ class FlexibleScoringTests(unittest.TestCase):
     def test_run_script_keeps_samples_for_flexible_tasks(self):
         run_script = (ROOT / "docker" / "bench-reasoning" / "run.sh").read_text()
         self.assertIn('[ "$TASK" = "bbh" ] || [ "$TASK" = "drop" ]', run_script)
+
+    def test_bbh_stop_is_next_question_not_any_capital_q(self):
+        run_script = (ROOT / "docker" / "bench-reasoning" / "run.sh").read_text()
+        self.assertIn("""src.replace('    - "Q"\\n', '    - "\\\\nQ:"\\n', 1)""", run_script)
 
 
 if __name__ == "__main__":

@@ -53,6 +53,26 @@ Earlier individual task runs (from lm-eval, not full suite):
     - `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105/mistral7b.log`
     - `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105/deepseek_r1_7b.log`
 
+## 2026-10-16 Scoring Changes (extract v3)
+
+Rows recorded from this date carry `config_id` `lm-eval-0.4.11-reasoning-extract-v3`
+(earlier: `-v2`). The comparison group is unchanged.
+
+- Flexible rows beside the strict ones, scored from logged samples by
+  `scripts/active/extract_reasoning_results.py`:
+  - `bbh_flexible`: correct final answer without the demonstrated "So the answer is" phrase
+    (bare option, `Answer: X`, JSON `answer` field, or a final line naming exactly one option).
+  - `drop_flexible`: the response contains every span of a gold answer after normalization
+    (lead-ins, fuller sentences and spelled-out numbers up to twenty accepted).
+  - IFEval stays strict: its prompts instruct the format. Strict `bbh`, `drop_em`, `drop_f1` are unchanged.
+  - bbh and drop always run with `--log_samples` so these rows can be scored.
+- BBH stop sequence `"Q"` -> `"\nQ:"`. The bare `Q` stop cut any output at a capital Q, so answers like
+  `(Q)` in reasoning_about_colored_objects (options run to R) could never be produced, and reasoning with
+  words like "Queen" was truncated. This can raise strict BBH slightly versus extract-v2 rows.
+- Why: limit-10 smokes of qwen3.8:27b, ornith-1.5:35b-a3b and nex-n2.5:mini showed correct answers
+  failing on phrasing (for example DROP "So the answer is 3", BBH `{"answer": "(C)"}`), which pushed
+  prompt tuning toward the extractor instead of better answers. See NEW_MODEL_INTEGRATION.md (2026-10-16).
+
 ## 2026-03-12 Debug Sweep (BBH Boolean, Small Limits)
 
 Goal:
