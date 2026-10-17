@@ -900,15 +900,15 @@
             "n_gpu_layers": 999
           },
           "extra_args": [
-            "--reasoning",
-            "off"
+            "--chat-template-kwargs",
+            "{\"reasoning_effort\":\"none\"}"
           ],
           "tuning": {
-            "status": "untuned",
-            "last_tuned_at": null,
-            "benchmark_suite": "agent_reliability"
+            "status": "tuning",
+            "last_tuned_at": "2026-10-16T00:00:00+00:00",
+            "benchmark_suite": "phase4_smoke"
           },
-          "notes": "Brain-tier (3090). Nex N2.5 mini 35B MoE (3B active), Apache-2.0, Qwen3.5 MoE base. 22.3 GB GGUF: tightest fit; ctx 8192, lower if it OOMs. Competes with qwen3.6:35b-a3b."
+          "notes": "Brain-tier (3090). Nex N2.5 mini 35B MoE (3B active), Apache-2.0, Qwen3.5 MoE base. 22.3 GB GGUF: tightest fit; ctx 8192, lower if it OOMs. Competes with qwen3.6:35b-a3b. Thinking control (2026-10-16): its chat template always ends the prompt with an open <think> and ignores --reasoning off, --reasoning-budget 0 and enable_thinking=false, so the first token is a newline and DROP's newline stop returns empty answers (limit-50 DROP 0.0). The template's own switch reasoning_effort=none emits an empty closed think block; set via --chat-template-kwargs."
         }
       }
     },

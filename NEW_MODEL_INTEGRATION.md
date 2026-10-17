@@ -582,6 +582,71 @@ GGUF: <filename> | Size: <size> | Source: <url>
 
 # Part 2: Integration Log
 
+## Integration: Ornith-1.5 35B-A3B (2026-10-16)
+
+Tier: brain (3090 Ti 24GB) | GPU target: GPU 0 | Port: 11434
+GGUF: `Ornith-1.5-35B-Q4_K_M.gguf` | Size: 21.71 GB | Source: ornith-ai/Ornith-1.5-35B-A3B-GGUF
+
+Same process note as Qwen3.8: the `october_brain_202610` limit-50 run came before Phases 3.5 and 4.
+
+### Phase 0: Download
+- [x] GGUF in `/mnt/shared/models/ornith-1.5-35b-a3b/`
+- [x] SHA-256 matched the Hugging Face LFS oid (desktop download); archive copy size 21713463040 bytes
+
+### Phase 1: Register
+- [x] `model_registry.json` entry `ornith-1.5:35b-a3b` (status candidate), `export` + `check` ok
+- [x] System prompt: thinking-suppression family (kept; see Phase 4)
+- [x] Runtime config: ctx_size=8192, batch_size=128, n_gpu_layers=999, extra args `--reasoning off`
+
+### Phase 2: First Load
+- [x] Runtime started with `run_runtime.sh` (container `llama-ornith35-test`, port 11434, 10g/12g)
+- [x] `/v1/models` responds with the GGUF path as model id
+- [x] Docker logs: `thinking = 0`; 42/42 layers offloaded; MoE 256 experts, 8 used; n_ctx_train 262144
+- [x] Warnings: 20 "unused tensor" lines, all `blk.40.*`, the next-token-prediction (MTP) layer
+  (`nextn_predict_layers = 1`), skipped unless speculative decoding is enabled; benign. Also the llama.cpp
+  "no API key, CORS open" notice (server binds 127.0.0.1).
+- [x] VRAM usage: 20417 MiB of 24564 MiB
+- [x] Load time: 362.0 s cold from the shared archive (NFS)
+- [x] Runtime image: `llama-runtime:b11669`
+
+### Phase 3: Litmus Test
+- [x] Reasoning check (555): PASS
+- [x] JSON check: PASS, `{"name": "Alice", "age": 30}`
+- [x] Code generation check: PASS, function wrapped in a ```python fence (EvalPlus sanitizes it; code scores below)
+
+### Phase 3.5: Runtime Characterization
+- [x] Record: `results/runtime_experiments/ornith15_35b_runtime_characterization_20261016.json`
+- Decode 164.86 tok/s (768 tokens, 4.9 s wall), prompt 346 tok/s; about 3.8x Qwen3.8 27B dense
+- GPU 0: avg 298.0 W, peak 329.5 W, peak 62 C, 89.8% utilization; decode energy 0.41 Wh
+  (only 5 one-second samples because the decode is short)
+
+### Phase 4: Smoke Runs (limit 10)
+- [x] bench-pipeline: json_schema 0.154, cmd_safety 1.0, ambiguity 0.538, tool_plan 0.933, orch_tradeoff 0.75, long_context 1.0
+- [x] bench-code (full 542): HumanEval base 0.902 / plus 0.854, MBPP base 0.886 / plus 0.754
+- [x] bench-reasoning --limit 10: GSM8K 0.80 / 0.80, BBH 0.830 (flexible 0.830), DROP EM 0.40 / F1 0.47
+  (flexible 0.60), MMLU-Pro 0.757, IFEval prompt strict 0.90 / inst strict 0.944
+- [x] Raw outputs inspected
+- [x] All suites produce non-zero scores
+- Flags needed: none
+- Settings: no changes. `--reasoning off` gives a clean empty think block; the family prompt beat the
+  benchmark-assistant prompt in an A/B smoke (`smoke_ornith35_bench_prompt_v1`: DROP EM 0.40 -> 0.10,
+  the "think silently" wording made it reason in the visible first line).
+- Findings:
+  - json_schema_strict: 9 of 11 failures are the undefined "priority" convention (suite limitation, see Qwen3.8).
+  - ambiguity_handling: some failures are correct answers in other words ("prompt the user to provide",
+    "verify with the user") that miss the confirm/clarify/ask keyword groups; others act without asking.
+    Candidate for a versioned keyword update, not a model setting.
+  - DROP misses that flexible scoring keeps failing are wrong answers (counting errors, wrong field goal).
+  - BBH misses without the answer phrase are all cut at the 512-token BBH cap on long tasks
+    (dyck, geometric shapes, logical deduction); same pattern as Qwen3.8.
+- Run names: `ornith15_35b_smoke_v1`
+
+### Phase 5: Full Run (limit 50/100)
+- [ ] pending
+
+### Phase 6: Finalize
+- [ ] pending
+
 ## Integration: Qwen3.8 27B (2026-10-16)
 
 Tier: brain (3090 Ti 24GB) | GPU target: GPU 0 | Port: 11434
