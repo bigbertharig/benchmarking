@@ -88,6 +88,24 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertEqual(command[command.index("--memory-limit") + 1], "8g")
         self.assertEqual(command[command.index("--memory-swap") + 1], "10g")
 
+    def test_runtime_uses_archive_path_without_machine_config(self):
+        config = {
+            "id": "single",
+            "model": "ministral-3:3b",
+            "gguf": "/mnt/shared/models/ministral/model.gguf",
+            "runtime_image": "runtime:test",
+            "ctx_size": 8192,
+            "runtime_args": [],
+        }
+        original_tree = RUNNER.TREE
+        with tempfile.TemporaryDirectory() as tmp:
+            RUNNER.TREE = Path(tmp)
+            try:
+                command = RUNNER.build_runtime_cmd(RUNNER.BlockState("single", config), RUNNER.SLOTS["gpu_2"])
+            finally:
+                RUNNER.TREE = original_tree
+        self.assertEqual(command[command.index("--model") + 1], "/mnt/shared/models/ministral/model.gguf")
+
     def test_single_gpu_runtime_telemetry_uses_container_gpu_zero(self):
         config = {
             "id": "runtime",
