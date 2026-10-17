@@ -9589,6 +9589,1060 @@
       "test_id": "gsm8k_strict"
     },
     {
+      "attempt_count": 11,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 2,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:04:45+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "fabd2fa8-3959-4f7d-988d-415647a7ab9d",
+      "selected_sample_count": 1350,
+      "selected_score": 0.7377777777777778,
+      "success_count": 9,
+      "test_id": "bbh"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:04:45+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "8372d9f0-30b1-4e94-a8e6-8271e54eb1d0",
+      "selected_sample_count": 1350,
+      "selected_score": 0.8214814814814815,
+      "success_count": 5,
+      "test_id": "bbh_flexible"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:15+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "9a7ab5f2-e700-4bdc-84b9-a0b3f9e65324",
+      "selected_sample_count": 13,
+      "selected_score": 0.9230769230769231,
+      "success_count": 2,
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:10+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "1b734d78-fc6e-48b9-825d-f63baae3a749",
+      "selected_sample_count": 12,
+      "selected_score": 0.8333333333333334,
+      "success_count": 2,
+      "test_id": "custom_command_safety"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:02+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "887d1d6a-5185-4f93-a2a1-d315ae8256f0",
+      "selected_sample_count": 13,
+      "selected_score": 0.23076923076923078,
+      "success_count": 2,
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:31+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "6d58f188-fff2-48a9-994e-d44bd9fe0602",
+      "selected_sample_count": 14,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:26+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "7a5e2b01-3078-419b-a558-8db0bc60af58",
+      "selected_sample_count": 12,
+      "selected_score": 0.6666666666666666,
+      "success_count": 2,
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:19+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "dbafbe68-c8f2-4a28-9e17-f59814f9bf91",
+      "selected_sample_count": 15,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "attempt_count": 6,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:05:11+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "0674b4c3-8c73-495a-84c6-bc72ab220f94",
+      "selected_sample_count": 50,
+      "selected_score": 0.58,
+      "success_count": 6,
+      "test_id": "drop_em"
+    },
+    {
+      "attempt_count": 6,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:05:11+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "bf48db91-070b-4580-bbc3-5bce49ad4eff",
+      "selected_sample_count": 50,
+      "selected_score": 0.7228000000000001,
+      "success_count": 6,
+      "test_id": "drop_f1"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:05:11+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "419a60b2-6fc1-4c92-b210-f26f928ea637",
+      "selected_sample_count": 50,
+      "selected_score": 0.88,
+      "success_count": 2,
+      "test_id": "drop_flexible"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:11:41.927156",
+      "selected_run_class": "validated",
+      "selected_run_id": "81c82691-d152-4b2c-9e6d-ef1fb0ddc288",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 3,
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:11:44.175969",
+      "selected_run_class": "validated",
+      "selected_run_id": "3397a9cb-3f28-49a0-a1dd-02a2ab0eb106",
+      "selected_sample_count": 1,
+      "selected_score": 0.9412,
+      "success_count": 3,
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:11:52.002964",
+      "selected_run_class": "validated",
+      "selected_run_id": "9e3a8df4-cd07-45ac-bc44-d1ab4893422b",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 3,
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:11:54.150966",
+      "selected_run_class": "validated",
+      "selected_run_id": "05dfff28-1a4a-4ce7-a086-a08d215cfb18",
+      "selected_sample_count": 1,
+      "selected_score": 0.9524,
+      "success_count": 3,
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:11:49.549692",
+      "selected_run_class": "validated",
+      "selected_run_id": "658d7733-28c1-40e9-bede-31621efd68e7",
+      "selected_sample_count": 1,
+      "selected_score": 0.9394,
+      "success_count": 3,
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T08:20:30+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "64be342e-9f3d-4f46-b43c-14f0f435afa1",
+      "selected_sample_count": 50,
+      "selected_score": 0.82,
+      "success_count": 3,
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T08:20:30+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "c5023372-d950-406e-a040-09eef8420781",
+      "selected_sample_count": 50,
+      "selected_score": 0.78,
+      "success_count": 3,
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T01:50:08+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "a6a60b44-1069-435c-bfb8-2b5e160607f3",
+      "selected_sample_count": 164,
+      "selected_score": 0.8780487804878049,
+      "success_count": 1,
+      "test_id": "humaneval_base"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T01:50:09+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "34457cde-29a5-4c98-98df-5cb02748237f",
+      "selected_sample_count": 164,
+      "selected_score": 0.823170731707317,
+      "success_count": 1,
+      "test_id": "humaneval_plus"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:07:13+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "5ca1817d-a8be-46a7-bb1d-61097cef243d",
+      "selected_sample_count": 50,
+      "selected_score": 0.8421052631578947,
+      "success_count": 2,
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:07:12+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "69605815-44b9-4dd0-b276-f93811266c70",
+      "selected_sample_count": 50,
+      "selected_score": 0.8421052631578947,
+      "success_count": 2,
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:07:12+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "fbd69aae-4734-42f7-98c8-bd21abf65cc2",
+      "selected_sample_count": 50,
+      "selected_score": 0.8,
+      "success_count": 2,
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:07:12+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "1ba19b3e-ebae-4df8-91de-83ea341805c0",
+      "selected_sample_count": 50,
+      "selected_score": 0.82,
+      "success_count": 2,
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T02:00:42+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "0119049d-a561-4cb7-8736-e0afa17ae4df",
+      "selected_sample_count": 378,
+      "selected_score": 0.7936507936507936,
+      "success_count": 1,
+      "test_id": "mbpp_base"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T02:00:43+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "13afdb50-34f2-45da-a3ef-b8a4dceba8bb",
+      "selected_sample_count": 378,
+      "selected_score": 0.6481481481481481,
+      "success_count": 1,
+      "test_id": "mbpp_plus"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:11:38+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "afda45c9-1d12-4e55-8ca7-f7324d05d848",
+      "selected_sample_count": 280,
+      "selected_score": 0.6928571428571428,
+      "success_count": 2,
+      "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:39.861759+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "4d20b611-1dd3-476c-beed-d1bab79b7340",
+      "selected_sample_count": 2,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:35.945300+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "40d47e83-ed80-45db-a729-57520c9090b7",
+      "selected_sample_count": 5,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_stability"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:37.841269+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "f0e87c75-92a1-4d73-a152-5193312abd0f",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_throughput"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nex-n2.5:mini",
+      "selected_run_at": "2026-10-17T09:12:36.574909+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "7378a058-bd4b-4423-8f61-4658dbf70667",
+      "selected_sample_count": 3,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_ttft"
+    },
+    {
+      "attempt_count": 7,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:26:25+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "6efd7d5d-87f1-43b7-9e74-ae6548affd3d",
+      "selected_sample_count": 1350,
+      "selected_score": 0.9237037037037037,
+      "success_count": 7,
+      "test_id": "bbh"
+    },
+    {
+      "attempt_count": 4,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:26:25+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "34c4bb64-7777-4ada-a9cd-fd424a9ac0b5",
+      "selected_sample_count": 1350,
+      "selected_score": 0.9259259259259259,
+      "success_count": 4,
+      "test_id": "bbh_flexible"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:54:41+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "17958a97-4664-4730-9c7b-aa40265b58f1",
+      "selected_sample_count": 13,
+      "selected_score": 0.7692307692307693,
+      "success_count": 3,
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:54:28+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "b2d87e99-de42-4d71-817c-7a1ccf38bc16",
+      "selected_sample_count": 12,
+      "selected_score": 0.8333333333333334,
+      "success_count": 3,
+      "test_id": "custom_command_safety"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:54:01+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "67007104-3342-4b01-9b55-133b29df4c3a",
+      "selected_sample_count": 13,
+      "selected_score": 0.38461538461538464,
+      "success_count": 3,
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:55:22+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "1e9a212c-06a8-4328-bcd3-6fc08db984dc",
+      "selected_sample_count": 14,
+      "selected_score": 1.0,
+      "success_count": 3,
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:55:11+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "bec335cd-341e-4beb-a5cd-43dc53fd57a4",
+      "selected_sample_count": 12,
+      "selected_score": 0.75,
+      "success_count": 3,
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:54:54+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "b74cb297-ebf1-49c6-8770-fb2769df78b7",
+      "selected_sample_count": 15,
+      "selected_score": 0.8666666666666667,
+      "success_count": 3,
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "attempt_count": 6,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:27:15+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "e5a1507a-1be2-4ec9-968f-534f77a68034",
+      "selected_sample_count": 50,
+      "selected_score": 0.34,
+      "success_count": 6,
+      "test_id": "drop_em"
+    },
+    {
+      "attempt_count": 6,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:27:16+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "eb2963bc-a96e-4f98-8a85-181f446ebdf2",
+      "selected_sample_count": 50,
+      "selected_score": 0.6278000000000001,
+      "success_count": 6,
+      "test_id": "drop_f1"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:27:16+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "f86f0bc2-9faf-40d9-9dc7-687e36298ee8",
+      "selected_sample_count": 50,
+      "selected_score": 0.98,
+      "success_count": 3,
+      "test_id": "drop_flexible"
+    },
+    {
+      "attempt_count": 4,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:53:29.835765",
+      "selected_run_class": "validated",
+      "selected_run_id": "da2fe535-f973-4e25-8903-38f7007150de",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 4,
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "attempt_count": 4,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:53:35.345757",
+      "selected_run_class": "validated",
+      "selected_run_id": "20ee93ec-b0b4-4b12-96f7-c6e90225f32d",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 4,
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "attempt_count": 4,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:53:44.283699",
+      "selected_run_class": "validated",
+      "selected_run_id": "3ab462e5-324c-411d-ae36-3d8228b8b8c4",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 4,
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "attempt_count": 4,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:53:48.362674",
+      "selected_run_class": "validated",
+      "selected_run_id": "717d37bf-c214-4751-a79b-0e519bbcd43e",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 4,
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "attempt_count": 4,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:53:40.838551",
+      "selected_run_class": "validated",
+      "selected_run_id": "e3c48346-e091-4686-95cd-92699be193e6",
+      "selected_sample_count": 1,
+      "selected_score": 0.9394,
+      "success_count": 4,
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T09:17:29+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "d040f8e8-c1b5-4313-8693-9e0bfb0e158c",
+      "selected_sample_count": 50,
+      "selected_score": 0.94,
+      "success_count": 3,
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T09:17:28+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "44a402f8-dcfe-4b42-9262-449589b4b168",
+      "selected_sample_count": 50,
+      "selected_score": 0.94,
+      "success_count": 3,
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T01:11:33+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "a9f71801-42d6-4ef0-b3b5-3364b6712b29",
+      "selected_sample_count": 164,
+      "selected_score": 0.9024390243902439,
+      "success_count": 1,
+      "test_id": "humaneval_base"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T01:11:34+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "7f39c7f4-35c5-4f29-b685-1bbe29a30768",
+      "selected_sample_count": 164,
+      "selected_score": 0.8536585365853658,
+      "success_count": 1,
+      "test_id": "humaneval_plus"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:30:18+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "4bad4a64-6623-4c99-b6a3-40037758d557",
+      "selected_sample_count": 50,
+      "selected_score": 0.881578947368421,
+      "success_count": 3,
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:30:17+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "34c4fbe1-3c66-4853-83b3-62f50ae499e1",
+      "selected_sample_count": 50,
+      "selected_score": 0.881578947368421,
+      "success_count": 3,
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:30:17+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "918c5e09-fba6-4b33-8632-8171896ae4e4",
+      "selected_sample_count": 50,
+      "selected_score": 0.82,
+      "success_count": 3,
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:30:17+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "6bd1ae62-1834-4776-9baf-b60d15d6d9ae",
+      "selected_sample_count": 50,
+      "selected_score": 0.82,
+      "success_count": 3,
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T01:25:33+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "feac6a3d-011f-422c-afa4-c38728f46b22",
+      "selected_sample_count": 378,
+      "selected_score": 0.8862433862433863,
+      "success_count": 1,
+      "test_id": "mbpp_base"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T01:25:33+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "f641f978-dc3c-4cca-bf68-d1f5297a0d7b",
+      "selected_sample_count": 378,
+      "selected_score": 0.753968253968254,
+      "success_count": 1,
+      "test_id": "mbpp_plus"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:53:19+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "2d09ba7a-de11-404b-82c8-8913fd184ecd",
+      "selected_sample_count": 280,
+      "selected_score": 0.7714285714285715,
+      "success_count": 2,
+      "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:55:31.927881+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "fa25782d-aeed-48ed-97d9-1c19c67bd52e",
+      "selected_sample_count": 2,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:55:27.954107+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "ad6253f1-f34d-4758-8905-3f021b65e2ff",
+      "selected_sample_count": 5,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_stability"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:55:29.843659+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "ee5f46ea-d808-4f34-bc3c-5d008bf2c9a2",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_throughput"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "ornith-1.5:35b-a3b",
+      "selected_run_at": "2026-10-17T10:55:28.693458+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "9b348423-75a5-4737-859a-f84d1e673d5f",
+      "selected_sample_count": 3,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_ttft"
+    },
+    {
       "attempt_count": 3,
       "comparison_group": "legacy:bbh",
       "failure_count": 0,
@@ -15488,6 +16542,533 @@
       "test_id": "drop_f1"
     },
     {
+      "attempt_count": 11,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:03:49+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "5263996b-045b-4ae2-9899-f0014c12f512",
+      "selected_sample_count": 1350,
+      "selected_score": 0.4162962962962963,
+      "success_count": 11,
+      "test_id": "bbh"
+    },
+    {
+      "attempt_count": 6,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:03:50+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "9e3519ce-43fa-4fc5-9539-6369a6ed8358",
+      "selected_sample_count": 1350,
+      "selected_score": 0.9103703703703704,
+      "success_count": 6,
+      "test_id": "bbh_flexible"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:45:19+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "52bc61b5-b903-4bf9-808d-7d7db5d6a54e",
+      "selected_sample_count": 13,
+      "selected_score": 0.9230769230769231,
+      "success_count": 5,
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:44:36+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "d5482611-0344-449f-8f2a-e3679a251fcc",
+      "selected_sample_count": 12,
+      "selected_score": 1.0,
+      "success_count": 5,
+      "test_id": "custom_command_safety"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:43:06+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "186656ae-0d12-49ff-8a50-979552adfa57",
+      "selected_sample_count": 13,
+      "selected_score": 0.38461538461538464,
+      "success_count": 5,
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:48:20+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "3a5284c1-b13d-42d1-847c-7297b2a4b52a",
+      "selected_sample_count": 14,
+      "selected_score": 1.0,
+      "success_count": 5,
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:47:27+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "a901cfd2-bb2d-4d22-af8b-e8aef8660e7e",
+      "selected_sample_count": 12,
+      "selected_score": 0.8333333333333334,
+      "success_count": 5,
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "pipeline-local-custom-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:46:06+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "45158e26-46c5-43df-9a6d-3dbc7af59174",
+      "selected_sample_count": 15,
+      "selected_score": 0.9333333333333333,
+      "success_count": 5,
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "attempt_count": 9,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:09:45+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "623f9afa-bf1b-4fae-af45-097369295af1",
+      "selected_sample_count": 50,
+      "selected_score": 0.78,
+      "success_count": 9,
+      "test_id": "drop_em"
+    },
+    {
+      "attempt_count": 9,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:09:46+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "5a722fe1-5266-4a16-a3c9-00d62181c355",
+      "selected_sample_count": 50,
+      "selected_score": 0.8658000000000001,
+      "success_count": 9,
+      "test_id": "drop_f1"
+    },
+    {
+      "attempt_count": 4,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:09:46+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "f7449fdf-17f0-4d6d-8758-2add68f63f60",
+      "selected_sample_count": 50,
+      "selected_score": 0.96,
+      "success_count": 4,
+      "test_id": "drop_flexible"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:39:54.179240",
+      "selected_run_class": "validated",
+      "selected_run_id": "f31272f3-d5bf-4188-aaad-c9b3d8526d81",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 5,
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:40:15.114585",
+      "selected_run_class": "validated",
+      "selected_run_id": "516b37dc-1236-4ed2-81a8-a7cd9925c333",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 5,
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:41:22.692916",
+      "selected_run_class": "validated",
+      "selected_run_id": "5d32ae81-e202-40be-9cc2-ecae12f6946a",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 5,
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:41:40.815825",
+      "selected_run_class": "validated",
+      "selected_run_id": "fd562229-ef35-4c72-8207-8834aedf8617",
+      "selected_sample_count": 1,
+      "selected_score": 0.9524,
+      "success_count": 5,
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:41:08.086763",
+      "selected_run_class": "validated",
+      "selected_run_id": "c54dd571-d0b6-47d6-9e81-b626cbd4c2dd",
+      "selected_sample_count": 1,
+      "selected_score": 0.9697,
+      "success_count": 5,
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
+    },
+    {
+      "attempt_count": 7,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T11:05:21+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "b86ad090-e4d6-4a2b-af8f-8b50dcd82bbc",
+      "selected_sample_count": 50,
+      "selected_score": 0.94,
+      "success_count": 7,
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "attempt_count": 7,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T11:05:20+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "201e161d-1192-4fe2-a655-b765f10328e3",
+      "selected_sample_count": 50,
+      "selected_score": 0.62,
+      "success_count": 7,
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-16T23:09:46+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "3bf5fc8e-f1bd-4d16-9782-82565d271806",
+      "selected_sample_count": 164,
+      "selected_score": 0.9329268292682927,
+      "success_count": 1,
+      "test_id": "humaneval_base"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-16T23:09:47+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "fc288871-b2cd-4958-a601-431075398cce",
+      "selected_sample_count": 164,
+      "selected_score": 0.9024390243902439,
+      "success_count": 1,
+      "test_id": "humaneval_plus"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:37:01+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "1556341b-7561-4b1d-bfb1-4ddddd135a75",
+      "selected_sample_count": 50,
+      "selected_score": 0.9210526315789473,
+      "success_count": 5,
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:37:00+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "b6624ddc-f5cf-4f62-8801-d350298583a9",
+      "selected_sample_count": 50,
+      "selected_score": 0.9342105263157895,
+      "success_count": 5,
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:37:00+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "f65154d5-3be9-4c5a-967e-bebcbd58624a",
+      "selected_sample_count": 50,
+      "selected_score": 0.9,
+      "success_count": 5,
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "attempt_count": 5,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T17:37:00+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "e6baf3f4-4b8b-4e8b-aa91-f537b5ab6f77",
+      "selected_sample_count": 50,
+      "selected_score": 0.92,
+      "success_count": 5,
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-16T23:09:54+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "72ad8db7-5ad2-4646-94e4-27b560a6ac61",
+      "selected_sample_count": 378,
+      "selected_score": 0.9074074074074074,
+      "success_count": 1,
+      "test_id": "mbpp_base"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-16T23:09:54+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "b6f2d86d-b913-4b94-b5f3-26e76c5e03ef",
+      "selected_sample_count": 378,
+      "selected_score": 0.7751322751322751,
+      "success_count": 1,
+      "test_id": "mbpp_plus"
+    },
+    {
+      "attempt_count": 3,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:39:18+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "7bc00481-5e84-4cbc-810e-e1ab6532dca9",
+      "selected_sample_count": 280,
+      "selected_score": 0.8107142857142857,
+      "success_count": 3,
+      "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:48:35.965150+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "568e9022-2c66-4787-8704-749c0c439b5d",
+      "selected_sample_count": 2,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:48:27.124892+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "91a67dd1-2b02-4427-a7d8-35749053af71",
+      "selected_sample_count": 5,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_stability"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:48:31.944742+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "d8ae8b29-99fa-4925-843f-aff1760927c7",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_throughput"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen3.8:27b",
+      "selected_run_at": "2026-10-17T19:48:28.601075+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "5ab9b441-e3ae-49da-b131-a436522e40ee",
+      "selected_sample_count": 3,
+      "selected_score": 1.0,
+      "success_count": 2,
+      "test_id": "runtime_ttft"
+    },
+    {
       "attempt_count": 1,
       "comparison_group": "legacy:bbh",
       "failure_count": 0,
@@ -17035,13 +18616,13 @@
       "test_id": "gsm8k_strict"
     }
   ],
-  "generated_at": "2026-08-22T20:30:53.072355+00:00",
-  "group_count": 1002,
+  "generated_at": "2026-10-17T19:48:36.640816+00:00",
+  "group_count": 1095,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 1580,
+  "record_count": 1904,
   "schema_version": 1
 }

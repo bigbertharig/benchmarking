@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "experiment_id": "ornith15_35b_runtime_characterization_20261016",
+  "recorded_at": "2026-10-16T18:04:34-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "ornith-1.5:35b-a3b",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "8192",
+    "batch_size": "128",
+    "extra_args": "--reasoning off",
+    "vram_mib": "20417",
+    "experts": "256 total, 8 active"
+  },
+  "first_load": {
+    "seconds": 362.0,
+    "source": "shared archive (/mnt/shared NFS), cold"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 63,
+    "generation_tokens_per_second": 164.86,
+    "prompt_tokens_per_second": 346.46,
+    "wall_seconds": 4.9,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 0,
+      "samples": 5,
+      "avg_power_w": 298.0,
+      "peak_power_w": 329.54,
+      "peak_temperature_c": 62.0,
+      "avg_utilization_pct": 89.8,
+      "avg_sm_clock_mhz": 2055
+    }
+  ],
+  "combined_avg_gpu_power_w": 298.0,
+  "decode_energy_wh": 0.408
+}
