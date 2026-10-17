@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T22:17:02.304007+00:00",
+  "generated_at": "2026-10-17T23:37:29.016714+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -731,16 +731,17 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-17T22:17:02.109445",
+      "last_run_at": "2026-10-17T23:37:28+00:00",
       "model": "qwen3.6:35b-a3b",
-      "records": 64,
+      "records": 75,
       "selected_tests": 27,
-      "successes": 64,
+      "successes": 75,
       "suites": [
         "qwen36_35b_a3b_p45_geo_mt1024",
         "qwen36_35b_a3b_p45_geo_mt512",
         "qwen36_35b_a3b_p45_off",
         "qwen36_35b_a3b_p45_think",
+        "qwen36_35b_a3b_p45_think8k",
         "qwen36_35b_a3b_p45_think_geo",
         "qwen36_35b_a3b_p45_think_pipeline",
         "qwen36_35b_a3b_smoke_v1",
@@ -3319,7 +3320,7 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 1966,
+  "record_count": 1977,
   "schema_version": 3,
   "selected_count": 1105,
   "selected_per_model_test": [
@@ -45132,7 +45133,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 19,
+      "extractor_failure_count": 20,
       "failure": {
         "kind": "",
         "message": ""
@@ -45146,12 +45147,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "qwen3.6:35b-a3b",
-      "normalized_answer_score": 0.8,
+      "normalized_answer_score": 0.8518518518518519,
       "notes": "",
-      "raw_harness_score": 0.7296296296296296,
-      "run_at": "2026-10-17T22:02:07+00:00",
+      "raw_harness_score": 0.7777777777777778,
+      "run_at": "2026-10-17T23:32:34+00:00",
       "run_class": "smoke",
-      "run_id": "93f74b18-0538-4108-9513-3adc05624e07",
+      "run_id": "8c3c9a19-a858-4b53-ae10-764a5294b5ed",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -45171,10 +45172,10 @@
       },
       "sample_count": 270,
       "schema_version": 3,
-      "score": 0.8,
-      "score_pct": 80.0,
+      "score": 0.8518518518518519,
+      "score_pct": 85.18518518518519,
       "status": "success",
-      "suite": "qwen36_35b_a3b_p45_think",
+      "suite": "qwen36_35b_a3b_p45_think8k",
       "test_id": "bbh_flexible"
     },
     {
@@ -46149,12 +46150,12 @@
       },
       "metric": "inst_level_loose_acc,none",
       "model": "qwen3.6:35b-a3b",
-      "normalized_answer_score": 0.6111111111111112,
+      "normalized_answer_score": 0.7777777777777778,
       "notes": "",
-      "raw_harness_score": 0.6111111111111112,
-      "run_at": "2026-10-17T22:05:53+00:00",
+      "raw_harness_score": 0.7777777777777778,
+      "run_at": "2026-10-17T23:37:28+00:00",
       "run_class": "smoke",
-      "run_id": "3d92031a-7455-40ac-87c4-481443e6d3d3",
+      "run_id": "19155e1b-56a1-41f0-97bf-3f93c0a7d75d",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -46174,10 +46175,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.6111111111111112,
-      "score_pct": 61.111111111111114,
+      "score": 0.7777777777777778,
+      "score_pct": 77.77777777777779,
       "status": "success",
-      "suite": "qwen36_35b_a3b_p45_think",
+      "suite": "qwen36_35b_a3b_p45_think8k",
       "test_id": "ifeval_inst_level_loose_acc_none"
     },
     {
@@ -46207,12 +46208,12 @@
       },
       "metric": "inst_level_strict_acc,none",
       "model": "qwen3.6:35b-a3b",
-      "normalized_answer_score": 0.6111111111111112,
+      "normalized_answer_score": 0.7777777777777778,
       "notes": "",
-      "raw_harness_score": 0.6111111111111112,
-      "run_at": "2026-10-17T22:05:52+00:00",
+      "raw_harness_score": 0.7777777777777778,
+      "run_at": "2026-10-17T23:37:28+00:00",
       "run_class": "smoke",
-      "run_id": "2aceca4d-8d3b-4b94-9089-eec9f032070b",
+      "run_id": "d70fc218-b7f1-428a-9a30-8d816a8da39e",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -46232,10 +46233,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.6111111111111112,
-      "score_pct": 61.111111111111114,
+      "score": 0.7777777777777778,
+      "score_pct": 77.77777777777779,
       "status": "success",
-      "suite": "qwen36_35b_a3b_p45_think",
+      "suite": "qwen36_35b_a3b_p45_think8k",
       "test_id": "ifeval_inst_level_strict_acc_none"
     },
     {
@@ -46265,12 +46266,12 @@
       },
       "metric": "prompt_level_loose_acc,none",
       "model": "qwen3.6:35b-a3b",
-      "normalized_answer_score": 0.7,
+      "normalized_answer_score": 0.8,
       "notes": "",
-      "raw_harness_score": 0.7,
-      "run_at": "2026-10-17T22:05:52+00:00",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-17T23:37:28+00:00",
       "run_class": "smoke",
-      "run_id": "f2d12461-bd8c-4c70-99dd-8a7013ea3d6b",
+      "run_id": "eba34379-a9f9-4683-b967-ca70b2713cca",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -46290,10 +46291,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.7,
-      "score_pct": 70.0,
+      "score": 0.8,
+      "score_pct": 80.0,
       "status": "success",
-      "suite": "qwen36_35b_a3b_p45_think",
+      "suite": "qwen36_35b_a3b_p45_think8k",
       "test_id": "ifeval_prompt_level_loose_acc_none"
     },
     {
@@ -46323,12 +46324,12 @@
       },
       "metric": "prompt_level_strict_acc,none",
       "model": "qwen3.6:35b-a3b",
-      "normalized_answer_score": 0.7,
+      "normalized_answer_score": 0.8,
       "notes": "",
-      "raw_harness_score": 0.7,
-      "run_at": "2026-10-17T22:05:52+00:00",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-17T23:37:27+00:00",
       "run_class": "smoke",
-      "run_id": "fdb9474b-f2bb-44b4-8ece-e3b1bb46b73b",
+      "run_id": "53ab9311-2829-48a9-9d51-986cb55ac513",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -46348,10 +46349,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.7,
-      "score_pct": 70.0,
+      "score": 0.8,
+      "score_pct": 80.0,
       "status": "success",
-      "suite": "qwen36_35b_a3b_p45_think",
+      "suite": "qwen36_35b_a3b_p45_think8k",
       "test_id": "ifeval_prompt_level_strict_acc_none"
     },
     {
@@ -54139,6 +54140,17 @@
       "records": 11,
       "successes": 11,
       "suite": "qwen36_35b_a3b_p45_think"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-17T23:37:28+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 11,
+      "successes": 11,
+      "suite": "qwen36_35b_a3b_p45_think8k"
     },
     {
       "failures": 0,
