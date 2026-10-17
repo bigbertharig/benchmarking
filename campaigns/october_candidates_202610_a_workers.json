@@ -1,0 +1,61 @@
+{
+  "name": "october_candidates_202610_a_workers",
+  "description": "1060 half of october_candidates_202610_a, run concurrently with the Qwen3.8 brain blocks as a 3-model thermal step (3090 + 1060 pair 4/5 + 1060 #1). Block ids differ from part A so runtime container names never collide. Run with --max-active-models 2 under its own thermal guard.",
+  "defaults": {
+    "load_timeout_s": 600,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "w_ornith15_9b_reasoning_l50",
+      "model": "ornith-1.5:9b",
+      "gguf": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+      "placement": "split_4_5",
+      "suite": "bench-reasoning",
+      "runtime_group": "w_ornith15_9b_validation",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,drop,ifeval"]
+    },
+    {
+      "id": "w_ornith15_9b_runtime",
+      "model": "ornith-1.5:9b",
+      "gguf": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+      "placement": "split_4_5",
+      "suite": "bench-runtime",
+      "runtime_group": "w_ornith15_9b_validation",
+      "ctx_size": 8192
+    },
+    {
+      "id": "w_minicpm5_2b_reasoning_l5",
+      "model": "minicpm5:2b",
+      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-reasoning",
+      "runtime_group": "w_minicpm5_2b_validation",
+      "ctx_size": 4096,
+      "limit": 5,
+      "suite_args": ["--tasks", "gsm8k,bbh,drop,mmlu_pro,ifeval"]
+    },
+    {
+      "id": "w_minicpm5_2b_code_full",
+      "model": "minicpm5:2b",
+      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-code",
+      "runtime_group": "w_minicpm5_2b_validation",
+      "ctx_size": 4096,
+      "run_class": "full",
+      "suite_args": ["--tasks", "humaneval,mbpp"]
+    },
+    {
+      "id": "w_minicpm5_2b_runtime",
+      "model": "minicpm5:2b",
+      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "placement": "single",
+      "suite": "bench-runtime",
+      "runtime_group": "w_minicpm5_2b_validation",
+      "ctx_size": 4096
+    }
+  ]
+}
