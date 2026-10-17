@@ -582,6 +582,75 @@ GGUF: <filename> | Size: <size> | Source: <url>
 
 # Part 2: Integration Log
 
+## Integration: Nex-N2.5 mini 35B-A3B (2026-10-16)
+
+Tier: brain (3090 Ti 24GB) | GPU target: GPU 0 | Port: 11434
+GGUF: `nex-agi_Nex-N2.5-mini-Q4_K_M.gguf` | Size: 22.32 GB | Source: bartowski/nex-agi_Nex-N2.5-mini-GGUF
+
+The `october_brain_202610` limit-50 run used `--reasoning off` and is invalid for reasoning: DROP 0.0 and
+BBH 0.454 came from the thinking-control problem below, not the model.
+
+### Phase 0: Download
+- [x] GGUF in `/mnt/shared/models/nex-n2.5-mini/`
+- [x] SHA-256 matched the Hugging Face LFS oid (desktop download); archive copy size 22318512256 bytes
+
+### Phase 1: Register
+- [x] `model_registry.json` entry `nex-n2.5:mini` (status candidate), `export` + `check` ok
+- [x] System prompt: thinking-suppression family (kept)
+- [x] Runtime config: ctx_size=8192, batch_size=128, n_gpu_layers=999
+- [x] Extra args: `--chat-template-kwargs {"reasoning_effort":"none"}` (registry commit 79a406c), replacing `--reasoning off`
+
+### Phase 2: First Load
+- [x] Runtime started with `run_runtime.sh` (container `llama-nex-test`, port 11434, 10g/12g)
+- [x] `/v1/models` responds with the GGUF path as model id
+- [x] Docker logs: 41/41 layers offloaded; MoE 256 experts, 8 used; n_ctx_train 262144; `thinking = 1` is
+  reported, but the rendered prompt ends `<think>\n\n</think>\n\n` (closed, empty) with the template switch
+- [x] Warnings: reasoning-preserve default (multi-turn only); "no API key, CORS open" (server binds 127.0.0.1)
+- [x] VRAM usage: 21275 MiB of 24564 MiB (tightest of the three brain candidates)
+- [x] Load time: 253.3 s cold from the shared archive (NFS)
+- [x] Runtime image: `llama-runtime:b11669`
+- Thinking control: the template always ends the prompt with an open `<think>` and ignores `--reasoning off`,
+  `--reasoning-budget 0` and `enable_thinking=false`. The model's first token is the newline after
+  `<think>`, so any newline stop (DROP) returns an empty answer. The template's own
+  `reasoning_effort == 'none'` branch emits an empty closed think block; set with `--chat-template-kwargs`.
+  Diagnosed by replaying a DROP prompt through `/apply-template` and `/completion`.
+
+### Phase 3: Litmus Test
+- [x] Reasoning check (555): PASS
+- [x] JSON check: PASS, `{"name":"Alice","age":30}`
+- [x] Code generation check: PASS, bare function
+- Note: litmus would also pass with `--reasoning off` (no stop sequences, thinking lands in
+  reasoning_content); only the DROP stop exposed the problem.
+
+### Phase 3.5: Runtime Characterization
+- [x] Record: `results/runtime_experiments/nex_n25_mini_runtime_characterization_20261016.json`
+- Decode 142.22 tok/s (768 tokens, 5.6 s wall), prompt 508 tok/s
+- GPU 0: avg 294.8 W, peak 320.1 W, peak 60 C, 88% utilization; decode energy 0.46 Wh (6 samples)
+
+### Phase 4: Smoke Runs (limit 10)
+- [x] bench-pipeline: json_schema 0.231, cmd_safety 0.833, ambiguity 0.923, tool_plan 1.0, orch_tradeoff 0.667, long_context 1.0
+- [x] bench-code (full 542): HumanEval base 0.878 / plus 0.823, MBPP base 0.794 / plus 0.648
+- [x] bench-reasoning --limit 10: GSM8K 0.90 / 0.90, BBH 0.719 (flexible 0.763), DROP EM 0.60 / F1 0.725
+  (flexible 0.90), MMLU-Pro 0.686, IFEval prompt strict 0.90 / inst strict 0.944
+- [x] BBH rerun on extract v3 (`\nQ:` stop): strict 0.752, flexible 0.807 (`nex_n25_mini_smoke_v1_x3`)
+- [x] Raw outputs inspected
+- [x] All suites produce non-zero scores
+- Flags needed: none
+- Findings:
+  - BBH has the most plain wrong answers of the three (54 of 270 at extract v2); a real weakness, not format.
+  - Before extract v3, `(Q)` answers were cut by the bare `Q` stop ("Answer: ("); fixed in the harness.
+  - json_schema_strict: all 10 failures are the undefined "priority" convention (suite limitation).
+  - ambiguity_handling 0.923: asks or confirms with the expected wording (Ornith-35B: 0.538).
+- Run names: `smoke_nex_reasoning_off_v1` (diagnosis), `smoke_nex_effort_none_v1`,
+  `smoke_nex_effort_none_bench_prompt_v1` (prompt A/B: DROP 0.60 -> 0.40, family prompt kept),
+  `nex_n25_mini_smoke_v1`, `nex_n25_mini_smoke_v1_x3`
+
+### Phase 5: Full Run (limit 50/100)
+- [ ] pending
+
+### Phase 6: Finalize
+- [ ] pending
+
 ## Integration: Ornith-1.5 35B-A3B (2026-10-16)
 
 Tier: brain (3090 Ti 24GB) | GPU target: GPU 0 | Port: 11434
