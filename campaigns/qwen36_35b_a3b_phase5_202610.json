@@ -1,0 +1,61 @@
+{
+  "name": "qwen36_35b_a3b_phase5_202610",
+  "description": "NEW_MODEL_INTEGRATION Phase 5 rerun of qwen3.6:35b-a3b on the 3090 with its Phase 4.5 settings from the registry (thinking off, b11669, extract v4), same blocks as october_brain_phase5_202610 so it compares directly with the October brain candidates. Code (full EvalPlus) was run in Phase 4.",
+  "defaults": {
+    "load_timeout_s": 900,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "qwen36moe_reasoning_l50",
+      "model": "qwen3.6:35b-a3b",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen36moe_phase5",
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,bbh,drop,ifeval"]
+    },
+    {
+      "id": "qwen36moe_mmlu_pro_l20",
+      "model": "qwen3.6:35b-a3b",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen36moe_phase5",
+      "ctx_size": 16384,
+      "limit": 20,
+      "suite_args": ["--tasks", "mmlu_pro"]
+    },
+    {
+      "id": "qwen36moe_geoimport",
+      "model": "qwen3.6:35b-a3b",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "runtime_group": "qwen36moe_phase5",
+      "ctx_size": 16384,
+      "limit": 5,
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff"]
+    },
+    {
+      "id": "qwen36moe_pipeline",
+      "model": "qwen3.6:35b-a3b",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "runtime_group": "qwen36moe_phase5",
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen36moe_runtime",
+      "model": "qwen3.6:35b-a3b",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen36moe_phase5",
+      "ctx_size": 16384
+    }
+  ]
+}

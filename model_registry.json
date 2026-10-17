@@ -1623,12 +1623,16 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
+          "extra_args": [
+            "--reasoning",
+            "off"
+          ],
           "tuning": {
-            "status": "untuned",
-            "last_tuned_at": null,
-            "benchmark_suite": "agent_reliability"
+            "status": "tuned",
+            "last_tuned_at": "2026-10-17T00:00:00+00:00",
+            "benchmark_suite": "phase4_5_settings"
           },
-          "notes": "Brain-tier (3090). Qwen 3.6 35B MoE, ~3B active. 21GB VRAM \u2014 tight on 3090, ~3GB headroom. Same prompt family as Qwen3.5. First benchmark pass."
+          "notes": "Brain-tier (3090). Qwen 3.6 35B MoE, ~3B active. 21GB VRAM - tight on 3090, ~3GB headroom. Same prompt family as Qwen3.5. Re-integrated 2026-10-17 on b11669: the profile had no reasoning flag, so thinking was on by default. Phase 4.5 (limit 10): thinking off GSM8K 1.00, BBH flexible 0.911 (7:53), DROP 0.80, IFEval 0.80 / 0.889; thinking on was worse at both budgets (4096: BBH 0.800 with 47/270 empty, IFEval 0.70 / 0.611, 49:43; 8192: BBH 0.852 with 29 empty, 65:30) because it thinks past the budget. Thinking off. max_tokens 512 and 1024 score the same on geoimport (plan 0.879)."
         }
       }
     },
