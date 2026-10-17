@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "experiment_id": "nex_n25_mini_split5_concurrent_runtime_characterization_20261017",
+  "recorded_at": "2026-10-17T13:16:58-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "nex-n2.5:mini",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "8192",
+    "batch_size": "128",
+    "tensor_split": "1,1,1,1,1"
+  },
+  "first_load": {
+    "seconds": 212.4,
+    "source": "NVMe hot-set, 5x GTX 1060 split, 3090 busy"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 63,
+    "generation_tokens_per_second": 21.65,
+    "prompt_tokens_per_second": 69.46,
+    "wall_seconds": 36.8,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 1,
+      "samples": 35,
+      "avg_power_w": 32.1,
+      "peak_power_w": 54.78,
+      "peak_temperature_c": 42.0,
+      "avg_utilization_pct": 20.0,
+      "avg_sm_clock_mhz": 1666
+    },
+    {
+      "gpu": 2,
+      "samples": 35,
+      "avg_power_w": 29.9,
+      "peak_power_w": 37.34,
+      "peak_temperature_c": 41.0,
+      "avg_utilization_pct": 17.7,
+      "avg_sm_clock_mhz": 1634
+    },
+    {
+      "gpu": 3,
+      "samples": 35,
+      "avg_power_w": 29.7,
+      "peak_power_w": 36.07,
+      "peak_temperature_c": 49.0,
+      "avg_utilization_pct": 17.9,
+      "avg_sm_clock_mhz": 1569
+    },
+    {
+      "gpu": 4,
+      "samples": 35,
+      "avg_power_w": 33.0,
+      "peak_power_w": 43.13,
+      "peak_temperature_c": 59.0,
+      "avg_utilization_pct": 17.0,
+      "avg_sm_clock_mhz": 1715
+    },
+    {
+      "gpu": 5,
+      "samples": 35,
+      "avg_power_w": 40.6,
+      "peak_power_w": 62.24,
+      "peak_temperature_c": 55.0,
+      "avg_utilization_pct": 34.6,
+      "avg_sm_clock_mhz": 1823
+    }
+  ],
+  "combined_avg_gpu_power_w": 165.3,
+  "decode_energy_wh": 1.688
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "experiment_id": "nex_n25_mini_split4_runtime_characterization_20261017",
+  "recorded_at": "2026-10-17T13:30:07-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "nex-n2.5:mini",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "8192",
+    "batch_size": "128",
+    "tensor_split": "0.75,1,1,1"
+  },
+  "first_load": {
+    "seconds": 211.8,
+    "source": "NVMe hot-set, 4x GTX 1060 layer split, 3090 busy (qwen3.6:35b-a3b Phase 4 running)"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 63,
+    "generation_tokens_per_second": 21.99,
+    "prompt_tokens_per_second": 78.96,
+    "wall_seconds": 36.1,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 1,
+      "samples": 34,
+      "avg_power_w": 32.6,
+      "peak_power_w": 44.38,
+      "peak_temperature_c": 54.0,
+      "avg_utilization_pct": 20.7,
+      "avg_sm_clock_mhz": 1666
+    },
+    {
+      "gpu": 2,
+      "samples": 34,
+      "avg_power_w": 32.7,
+      "peak_power_w": 52.61,
+      "peak_temperature_c": 56.0,
+      "avg_utilization_pct": 23.3,
+      "avg_sm_clock_mhz": 1666
+    },
+    {
+      "gpu": 3,
+      "samples": 34,
+      "avg_power_w": 39.2,
+      "peak_power_w": 57.65,
+      "peak_temperature_c": 58.0,
+      "avg_utilization_pct": 23.9,
+      "avg_sm_clock_mhz": 1873
+    },
+    {
+      "gpu": 4,
+      "samples": 34,
+      "avg_power_w": 52.1,
+      "peak_power_w": 72.49,
+      "peak_temperature_c": 67.0,
+      "avg_utilization_pct": 38.0,
+      "avg_sm_clock_mhz": 1987
+    }
+  ],
+  "combined_avg_gpu_power_w": 156.6,
+  "decode_energy_wh": 1.57
+}
