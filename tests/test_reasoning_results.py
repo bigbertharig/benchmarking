@@ -157,5 +157,22 @@ class FlexibleScoringTests(unittest.TestCase):
         self.assertNotIn('replace("max_gen_toks: 1024", "max_gen_toks: 512")', run_script)
 
 
+def _cache_block(suite):
+    text = (ROOT / "docker" / suite / "run.sh").read_text()
+    start = text.index("# --- Persistent download cache ---")
+    end = text.index('echo "Hugging Face unreachable', start)
+    return text[start:end]
+
+
+class DownloadCacheTests(unittest.TestCase):
+    def test_downloading_suites_share_one_cache_block(self):
+        self.assertEqual(_cache_block("bench-reasoning"), _cache_block("bench-code"))
+
+    def test_cache_covers_every_runtime_download(self):
+        block = _cache_block("bench-reasoning")
+        for var in ("HF_HOME", "HF_DATASETS_CACHE", "XDG_CACHE_HOME", "NLTK_DATA", "HF_HUB_OFFLINE"):
+            self.assertIn(var, block)
+
+
 if __name__ == "__main__":
     unittest.main()

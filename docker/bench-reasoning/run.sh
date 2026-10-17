@@ -37,6 +37,26 @@ METHODOLOGY_ID="bench-reasoning/lm-eval-normalized"
 METHODOLOGY_VERSION="2.0.0"
 COMPARISON_GROUP="lm-eval-0.4.11-reasoning-extract-v2"
 
+# --- Persistent download cache ---
+# lm-eval datasets (Hugging Face), EvalPlus problem files (XDG cache) and NLTK data live on
+# the shared drive, so runs do not re-download them and still work when the internet is
+# down. Any caller may override these; run_campaign.py sets the same paths.
+BENCH_CACHE_ROOT="${BENCHMARK_CACHE_ROOT:-${RESERVATION_SHARED_PATH}/cache/benchmarks}"
+if [ -d "$BENCH_CACHE_ROOT" ] && [ -w "$BENCH_CACHE_ROOT" ]; then
+    export HF_HOME="${HF_HOME:-$BENCH_CACHE_ROOT/huggingface}"
+    export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-$HF_HOME/datasets}"
+    export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$BENCH_CACHE_ROOT/xdg}"
+    export NLTK_DATA="${NLTK_DATA:-$BENCH_CACHE_ROOT/nltk_data}"
+    mkdir -p "$HF_DATASETS_CACHE" "$XDG_CACHE_HOME" "$NLTK_DATA"
+    echo "Download cache: $BENCH_CACHE_ROOT"
+else
+    echo "WARNING: download cache $BENCH_CACHE_ROOT is not mounted or not writable; downloads stay in the container"
+fi
+if ! python3 -c "import urllib.request; urllib.request.urlopen('https://huggingface.co', timeout=5)" >/dev/null 2>&1; then
+    export HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1
+    echo "Hugging Face unreachable: using cached datasets only (HF_HUB_OFFLINE=1)"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --model) MODEL="$2"; shift 2 ;;
