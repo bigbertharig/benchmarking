@@ -149,8 +149,8 @@ record_result_row() {
         --records "$RECORDS_PATH" \
         --reference-output "$REFERENCE_OUTPUT" \
         --scoreboard-output "$SCOREBOARD_OUTPUT" \
-        --config-id "lm-eval-0.4.11-reasoning-extract-v3" \
-        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v3","bbh_stop":"newline Q:","flexible_rows":["bbh_flexible","drop_flexible"]}' \
+        --config-id "lm-eval-0.4.11-reasoning-extract-v4" \
+        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v4","bbh_stop":"newline Q:","bbh_max_gen_toks":1024,"flexible_rows":["bbh_flexible","drop_flexible"]}' \
         --run-at "$(date -Iseconds)" \
         --notes "$notes" >/dev/null
 }
@@ -746,12 +746,10 @@ if bbh_template.exists():
         changed = True
         print("  BBH: removed \\n\\n stop sequence")
 
-    # 5. Reduce max_gen_toks from 1024 to 512 — without \n\n stop, 1024 can
-    #    OOM large models on 3090. 512 is enough for CoT + "the answer is X".
-    if "max_gen_toks: 1024" in src:
-        src = src.replace("max_gen_toks: 1024", "max_gen_toks: 512")
-        changed = True
-        print("  BBH: reduced max_gen_toks to 512")
+    # 5. Keep the template's max_gen_toks 1024. It was cut to 512 on an OOM concern, but
+    #    llama-server sizes memory by ctx_size at load, not by the request's output budget:
+    #    a 1024 A/B on nex-n2.5:mini (2026-10-16, extract v4) moved peak VRAM 21275 -> 21317
+    #    MiB, rescued long CoT tasks (dyck_languages, word_sorting) and lost no answers.
 
     # 6. Stop at the next few-shot question ("\nQ:"), not at any capital Q. The bare
     #    "Q" stop cut answers such as "(Q)" in reasoning_about_colored_objects and any

@@ -152,6 +152,10 @@ class FlexibleScoringTests(unittest.TestCase):
         run_script = (ROOT / "docker" / "bench-reasoning" / "run.sh").read_text()
         self.assertIn("""src.replace('    - "Q"\\n', '    - "\\\\nQ:"\\n', 1)""", run_script)
 
+    def test_bbh_keeps_its_1024_output_budget(self):
+        run_script = (ROOT / "docker" / "bench-reasoning" / "run.sh").read_text()
+        self.assertNotIn('replace("max_gen_toks: 1024", "max_gen_toks: 512")', run_script)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -29,6 +29,7 @@ Each new model goes through 7 phases:
 | 3 | Litmus Test | 1 min | 3 curl checks pass |
 | 3.5 | Runtime Characterization | 5-30 min | Load time, sustained decode rate, and power envelope recorded |
 | 4 | Smoke Runs | 30 min - 2h | All suites produce non-zero scores |
+| 4.5 | Settings Experiments | 1-4h | Each setting choice backed by an A/B smoke, not inherited |
 | 5 | Full Run | 2-12h | Limit 50/100 scores recorded |
 | 6 | Finalize | 10 min | All companion docs updated |
 
@@ -313,6 +314,32 @@ If runtime died, reload before continuing.
 
 **Gate**: All suites produce non-zero scores. Record exact scores.
 
+## Phase 4.5: Settings Experiments
+
+Phase 4 proves the model works and fixes format failures. Phase 4.5 looks for the model's best
+settings before hours of full runs. Every model behaves differently; do not inherit a family
+default because it passed Phase 4.
+
+For each candidate, A/B one setting at a time against the Phase 4 configuration, at smoke size,
+on the suites that setting can move:
+
+| Setting | How to vary it | Measure on |
+|---|---|---|
+| Thinking / reasoning mode | runtime args (`--reasoning`, `--reasoning-budget`, template kwargs such as `reasoning_effort`); thinking runs need `--gen-kwargs max_gen_toks=<large>` | bbh, gsm8k (DROP's newline stop cuts thinking short: record as a limitation) |
+| System prompt | registry `system_prompt`, or `--system-prompt-override` for a one-off | pipeline, bbh, drop, ifeval |
+| Output budget | registry `inference.max_tokens` | pipeline and custom suites that produce long structured output (geoimport plans) |
+| Template switches | `--chat-template-kwargs` (read the template's `add_generation_prompt` block) | litmus + the suite that exposed the issue |
+
+Rules:
+- Read raw outputs for every experiment; a score change without a visible cause is noise at limit 10.
+- Change the harness only for defects that hit every model (record them in the suite history and
+  version the rows); change the model's registry profile for model behavior.
+- Keep the speed/quality trade-off explicit: record tok/s or wall time next to each A/B, since a
+  brain model and a worker model weigh it differently.
+- Write each experiment, its result, and the chosen setting into the model's integration log.
+
+**Gate**: The registry profile holds the chosen settings and each one has an A/B result behind it.
+
 ## Phase 5: Full Run
 
 Run the standard suite at limit 50 or 100 for publishable scores.
@@ -562,6 +589,13 @@ GGUF: <filename> | Size: <size> | Source: <url>
 - [ ] All suites produce non-zero scores
 - Flags needed: <list>
 - Fixes applied: <none or description>
+- Notes:
+
+### Phase 4.5: Settings Experiments
+- [ ] Thinking mode A/B: <setting> vs <setting>: <scores, tok/s or wall time>
+- [ ] System prompt A/B (if format or behavior issues): <scores>
+- [ ] Output budget A/B (if long outputs truncate): <scores>
+- [ ] Chosen settings written to the registry profile
 - Notes:
 
 ### Phase 5: Full Run (limit 50/100)

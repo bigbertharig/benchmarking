@@ -53,6 +53,15 @@ Earlier individual task runs (from lm-eval, not full suite):
     - `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105/mistral7b.log`
     - `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105/deepseek_r1_7b.log`
 
+## 2026-10-16 BBH Output Budget (extract v4)
+
+Rows from this point carry `config_id` `lm-eval-0.4.11-reasoning-extract-v4`. BBH keeps the template's
+`max_gen_toks: 1024` instead of the harness cutting it to 512. A/B on nex-n2.5:mini (limit 10,
+`nex_n25_mini_smoke_v1_x3` at 512 vs `nex_n25_mini_p45_bbh1024` at 1024): strict 0.752 -> 0.763,
+flexible 0.807 -> 0.837; 3 strict answers gained (dyck_languages, word_sorting), none lost; peak VRAM
+21275 -> 21317 MiB, so the old OOM rationale does not hold (llama-server sizes memory by ctx_size).
+Long chain-of-thought tasks were being cut before the answer for every model tested.
+
 ## 2026-10-16 Scoring Changes (extract v3)
 
 Rows recorded from this date carry `config_id` `lm-eval-0.4.11-reasoning-extract-v3`
