@@ -582,6 +582,82 @@ GGUF: <filename> | Size: <size> | Source: <url>
 
 # Part 2: Integration Log
 
+## Integration: Qwen3.8 27B (2026-10-16)
+
+Tier: brain (3090 Ti 24GB) | GPU target: GPU 0 | Port: 11434
+GGUF: `Qwen3.8-27B-UD-Q4_K_M.gguf` | Size: 16.46 GB | Source: unsloth/Qwen3.8-27B-GGUF
+
+Process note: a limit-50 brain campaign (`october_brain_202610`) ran on 2026-10-16 before
+Phases 3.5 and 4 were done. Its scores are real but were taken with untuned settings; this entry
+is the integration proper.
+
+### Phase 0: Download
+- [x] GGUF in `/mnt/shared/models/qwen3.8-27b/`
+- [x] SHA-256 matched the Hugging Face LFS oid (desktop download); archive copy size 16464440224 bytes
+- Notes: downloaded on the desktop over Wi-Fi in 49.1 min, pushed to the Pi archive.
+
+### Phase 1: Register
+- [x] `model_registry.json` entry `qwen3.8:27b` (status candidate), `export` + `check` ok
+- [x] System prompt: started on the thinking-suppression family; replaced by a model-specific prompt in Phase 4
+- [x] Runtime config: ctx_size=16384, batch_size=128, n_gpu_layers=999, extra args `--reasoning off`
+
+### Phase 2: First Load
+- [x] Runtime started with `run_runtime.sh` (container `llama-qwen38-test`, port 11434, 10g/12g memory limits)
+- [x] `/v1/models` responds with the GGUF path as model id
+- [x] Docker logs: `thinking = 0`; 66/66 layers offloaded; one warning, reasoning preservation on by default (multi-turn only)
+- [x] VRAM usage: 15797 MiB of 24564 MiB
+- [x] Load time: 275.9 s cold from the shared archive (NFS); tensors done at 168 s, the rest is 16k context setup
+- [x] Runtime image: `llama-runtime:b11669`
+- [x] Extra args needed: `--reasoning off` (template ends the prompt with an empty closed think block)
+
+### Phase 3: Litmus Test
+- [x] Reasoning check (555): PASS, content `555`, no reasoning_content
+- [x] JSON check: PASS, valid `{"name": "Alice", "age": 30}`
+- [x] Code generation check: PASS, bare function, no fences
+- Fixes applied: none
+
+### Phase 3.5: Runtime Characterization
+- [x] Record: `results/runtime_experiments/qwen38_27b_runtime_characterization_20261016.json`
+- Decode 43.47 tok/s (768 tokens, 19.1 s wall), prompt 106 tok/s
+- GPU 0: avg 411.7 W, peak 449.8 W, peak 68 C, 89% utilization, 2005 MHz; decode energy 2.18 Wh
+
+### Phase 4: Smoke Runs (limit 10)
+- [x] bench-pipeline (v1 prompt): json_schema 0.308, cmd_safety 0.917, ambiguity 0.923, tool_plan 0.933, orch_tradeoff 0.75, long_context 1.0
+- [x] bench-code (full 542): HumanEval base 0.933 / plus 0.902, MBPP base 0.907 / plus 0.775
+- [x] bench-reasoning --limit 10 (v1 prompt): GSM8K strict 0.90 / flexible 0.90, BBH 0.800, DROP EM 0.60, MMLU-Pro 0.821, IFEval prompt strict 0.80 / inst strict 0.889
+- [x] Raw outputs inspected
+- [x] All suites produce non-zero scores
+- Flags needed: none at bench time
+- Fixes applied:
+  - json_schema_strict: 8 of 9 failures are "priority mismatch"; all 13 responses are valid JSON. The cases
+    expect a priority the prompt never defines (for example priority 4 for "restart gpu 4"). Suite limitation,
+    not a model setting.
+  - BBH: 40 of 270 answers lacked the "the answer is" phrase the extractor needs (bare `(D)`, or
+    `{"answer": "(C)"}`); 3 were cut by the 512-token BBH generation cap on long tasks (dyck, geometric shapes).
+  - DROP: 2 of 4 misses were JSON-wrapped answers (`{"answer": "80"}`) to plain questions.
+  - Prompt experiments, reverted: v2 (limit JSON to explicit requests, end with the examples' closing
+    phrase) lifted strict BBH to 0.878 but strict DROP fell to 0.20 because "So the answer is 3" leaked into
+    plain questions; v3 scoped that rule. Both were chasing the strict extractors, not better answers.
+  - Scoring fix instead (commit 28b20fc): BBH and DROP gained flexible rows beside the strict ones
+    (`bbh_flexible`: final answer without the demonstrated phrase; `drop_flexible`: response contains every
+    gold span, lead-ins and fuller sentences accepted). IFEval stays strict (its prompts instruct format).
+  - Re-scored limit-10 runs (strict -> flexible): family prompt BBH 0.800 -> 0.841, DROP 0.60 -> 0.90;
+    v2 BBH 0.878 -> 0.878, DROP 0.20 -> 0.70. Qwen3.8 stays on the family prompt (commit 0a863f5).
+  - Remaining BBH misses are real: long tasks (dyck, geometric shapes, logical deduction, word sorting)
+    cut at the 512-token BBH generation cap, and wrong answers.
+  - Real-use observation: on plain questions it sometimes answers in JSON (`{"answer": "80"}`).
+- bench-code recording: EvalPlus results were never written to the ledger (parser looked for a `pass@1`
+  key EvalPlus does not write). Fixed in `bench-code/run.sh` (commit c979698) and re-recorded from the
+  existing samples.
+- Run names: `qwen38_27b_smoke_v1` (family prompt), `qwen38_27b_smoke_v2` (v2 prompt, reverted),
+  `qwen38_27b_smoke_v1_flex` (family prompt, BBH/DROP with flexible rows)
+
+### Phase 5: Full Run (limit 50/100)
+- [ ] pending Phase 4 v2 review
+
+### Phase 6: Finalize
+- [ ] pending
+
 ## Integration: August 2026 Modern Models (2026-08-12 to 2026-08-20)
 
 Models: `qwen3.5:27b`, `qwen3-coder:30b-a3b`, `devstral-small:24b`,
