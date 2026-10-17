@@ -616,6 +616,52 @@ GGUF: <filename> | Size: <size> | Source: <url>
 
 # Part 2: Integration Log
 
+## Re-integration: qwen3.6:35b-a3b (2026-10-17)
+
+Tier: brain (3090 Ti 24GB) | GGUF: `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf` (20.6 GB) | active model, last scored
+2026-04-25 on an older runtime and scoring. Rerun through Phases 2-5 on b11669 and extract v4 so it compares
+directly with the October brain candidates.
+
+### Phase 2: First Load
+- [x] From the NVMe hot-set (`sync-gguf --model qwen3.6:35b-a3b`), `--reasoning off`: 165 s, 21201 MiB,
+  41/41 layers, `thinking = 0`; warnings: reasoning-preserve default, "no API key, CORS open" (127.0.0.1 only)
+- Registry gap found: the profile had no reasoning flag, so on b11669 thinking was on by default.
+
+### Phase 3: Litmus Test
+- [x] 3/3 clean (555, valid JSON, bare function)
+
+### Phase 3.5: Runtime Characterization
+- [x] `results/runtime_experiments/qwen36_35b_a3b_runtime_characterization_20261017.json`: decode 137.6 tok/s,
+  avg 270.5 W, peak 314.7 W, peak 60 C, 0.435 Wh
+
+### Phase 4: Smoke Runs (limit 10)
+- [x] bench-pipeline: json_schema 0.231, cmd_safety 1.0, ambiguity 0.538, tool_plan 0.933, orch 0.75, long_context 1.0
+- [x] bench-code (full 542): HumanEval 0.927 / 0.896, MBPP 0.907 / 0.767
+- [x] bench-reasoning: GSM8K 1.00 / 1.00, BBH 0.907 / 0.911 flexible, DROP EM 0.80 / F1 0.80 / flexible 0.80,
+  MMLU-Pro 0.821, IFEval prompt strict 0.80 / inst strict 0.889
+- Run name `qwen36_35b_a3b_smoke_v1`. Pipeline and code ran while a Nex split load ran on the 1060s; the rig
+  stayed up.
+
+### Phase 4.5: Settings Experiments
+- [x] Thinking A/B (`--reasoning on`, end-of-text stops), limit 10:
+
+  | | Off | On, 4096 budget | On, 8192 budget |
+  |---|---|---|---|
+  | GSM8K flexible | 1.00 | 0.90 | 0.90 |
+  | BBH flexible | 0.911 (7:53) | 0.800, 47/270 empty (49:43) | 0.852, 29 empty (65:30) |
+  | DROP flexible | 0.80 | 0.80 | 0.80 |
+  | IFEval prompt / inst | 0.80 / 0.889 | 0.70 / 0.611 | 0.80 / 0.778 |
+
+  It thinks past both budgets (empty answers), and when it finishes it is very accurate (216 of 223 completed
+  BBH answers right at 4096), but thinking off scores higher overall at 1/8 of the time. Thinking off.
+  Runs: `qwen36_35b_a3b_p45_off`, `_p45_think`, `_p45_think8k`.
+- [x] Thinking-on pipeline / geoimport (4096): ambiguity 0.538 -> 0.462, orchestration 0.75 -> 0.833, rest equal
+- [x] Output budget A/B (geoimport): 512 and 1024 identical (prep plan 0.879); 512 kept
+- [x] Chosen settings written to the registry: `--reasoning off`, family prompt, max_tokens 512
+
+### Phase 5: Full Run (limit 50/100)
+- [ ] Campaign `qwen36_35b_a3b_phase5_202610` (same blocks as `october_brain_phase5_202610`)
+
 ## Integration: Nex-N2.5 mini 35B-A3B (2026-10-16)
 
 Tier: brain (3090 Ti 24GB) | GPU target: GPU 0 | Port: 11434
