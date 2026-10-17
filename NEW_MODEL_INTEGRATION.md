@@ -779,7 +779,13 @@ Same process note as Qwen3.8: the `october_brain_202610` limit-50 run came befor
 - [x] Output budget A/B (geoimport): max_tokens 512 and 1024 identical (complete 2147-char plan, all cases
   1.0 except prep_plan 0.939); Ornith writes concise plans, 512 kept
   (`ornith15_35b_p45_geo_mt512`, `_mt1024`)
-- [ ] Thinking decision pending: on wins BBH/GSM8K at 2x time; needs a choice of how Phase 5 runs DROP
+- [x] Thinking on, DROP and IFEval with end-of-text stops (`ornith15_35b_p45_think_eosonly`): DROP EM 0.10 /
+  flexible 0.90 (off 0.40 / 0.60; it answers in full sentences after thinking), IFEval 0.90 / 0.944 (unchanged)
+- [x] Thinking-on pipeline / geoimport at max_tokens 4096 (`ornith15_35b_p45_think_pipeline`, `_think_geo`):
+  json_schema 0.154 -> 0.385, ambiguity 0.538 -> 0.769, cmd_safety 1.0 -> 0.833, tool_plan 0.933 -> 0.867,
+  orchestration and long_context unchanged; geoimport unchanged
+- [x] Chosen settings written to the registry: `--reasoning on` (max scores, about 2x time), family prompt,
+  max_tokens 4096 (covers the thinking); reasoning runs use `--gen-kwargs "max_gen_toks=4096,until=</s>"`
 
 ### Phase 5: Full Run (limit 50/100)
 - [ ] pending
@@ -868,10 +874,14 @@ is the integration proper.
     IFEval prompt 0.90 / inst 0.833 (off 0.80 / 0.889), BBH 0.374 / 0.896 in 67:12 (off 22:17).
   - The 10 empty BBH answers are runaway thinking past 4096 tokens, not stops: one causal_judgement item
     probed with a 12k budget thought for 8402 tokens (189 s) and answered wrong.
-  - Verdict: small gains at 3x the time with multi-minute outliers; thinking stays off.
-- [x] Output budget A/B (geoimport): 512 prep plan cut mid-JSON at 1974 chars (0.0); 1024 complete at 2200
-  chars (0.939); other cases unchanged (`qwen38_27b_p45_geo_mt512`, `_mt1024`)
-- [x] Chosen settings written to the registry: `--reasoning off`, family prompt, max_tokens 1024
+  - Thinking-on pipeline / geoimport at max_tokens 8192 (`qwen38_27b_p45_think_pipeline`, `_think_geo`):
+    equal or better everywhere (orchestration 0.75 -> 0.833, json_schema 0.308 -> 0.385, prep_plan 0.939 -> 0.970).
+  - Verdict: small gains at 3x the time with multi-minute outliers. The operator's rule is max scores with
+    time secondary unless about 5x the next slowest, so thinking is on.
+- [x] Output budget A/B (geoimport, thinking off): 512 prep plan cut mid-JSON at 1974 chars (0.0); 1024
+  complete at 2200 chars (0.939); other cases unchanged (`qwen38_27b_p45_geo_mt512`, `_mt1024`)
+- [x] Chosen settings written to the registry: `--reasoning on`, family prompt, max_tokens 8192 (covers the
+  thinking); reasoning runs use `--gen-kwargs "max_gen_toks=8192,until=</s>"`
 
 ### Phase 5: Full Run (limit 50/100)
 - [ ] pending Phase 4 v2 review

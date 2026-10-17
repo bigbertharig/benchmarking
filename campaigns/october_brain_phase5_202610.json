@@ -1,0 +1,165 @@
+{
+  "name": "october_brain_phase5_202610",
+  "description": "NEW_MODEL_INTEGRATION Phase 5 for the October brain candidates on the 3090, one model at a time, with Phase 4.5 settings from the registry (nex-n2.5:mini thinking off; ornith-1.5:35b-a3b and qwen3.8:27b thinking on). Thinking models run reasoning with end-of-text stops only and a thinking-sized output budget, because task stop sequences fire inside thinking text. Code (full EvalPlus) was run in Phase 4 with thinking off and is not repeated. Harness: bench-reasoning extract v4 (flexible BBH/DROP rows, BBH 1024-token budget, newline-Q stop). Order: fastest model first.",
+  "defaults": {
+    "load_timeout_s": 900,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "nex_reasoning_l50",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "nex_phase5",
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,bbh,drop,ifeval"]
+    },
+    {
+      "id": "nex_mmlu_pro_l20",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "nex_phase5",
+      "ctx_size": 8192,
+      "limit": 20,
+      "suite_args": ["--tasks", "mmlu_pro"]
+    },
+    {
+      "id": "nex_geoimport",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "runtime_group": "nex_phase5",
+      "ctx_size": 8192,
+      "limit": 5,
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff"]
+    },
+    {
+      "id": "nex_pipeline",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "runtime_group": "nex_phase5",
+      "ctx_size": 8192
+    },
+    {
+      "id": "nex_runtime",
+      "model": "nex-n2.5:mini",
+      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "nex_phase5",
+      "ctx_size": 8192
+    },
+    {
+      "id": "ornith35_reasoning_l50",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "ornith35_phase5",
+      "depends_on": ["nex_runtime"],
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,bbh,drop,ifeval", "--gen-kwargs", "max_gen_toks=4096,until=</s>"]
+    },
+    {
+      "id": "ornith35_mmlu_pro_l20",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "ornith35_phase5",
+      "ctx_size": 8192,
+      "limit": 20,
+      "suite_args": ["--tasks", "mmlu_pro", "--gen-kwargs", "max_gen_toks=4096,until=</s>"]
+    },
+    {
+      "id": "ornith35_geoimport",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "runtime_group": "ornith35_phase5",
+      "ctx_size": 8192,
+      "limit": 5,
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff"]
+    },
+    {
+      "id": "ornith35_pipeline",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "runtime_group": "ornith35_phase5",
+      "ctx_size": 8192
+    },
+    {
+      "id": "ornith35_runtime",
+      "model": "ornith-1.5:35b-a3b",
+      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "ornith35_phase5",
+      "ctx_size": 8192
+    },
+    {
+      "id": "qwen38_reasoning_l50",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen38_phase5",
+      "depends_on": ["ornith35_runtime"],
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,bbh,drop,ifeval", "--gen-kwargs", "max_gen_toks=8192,until=</s>"]
+    },
+    {
+      "id": "qwen38_mmlu_pro_l20",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen38_phase5",
+      "ctx_size": 16384,
+      "limit": 20,
+      "suite_args": ["--tasks", "mmlu_pro", "--gen-kwargs", "max_gen_toks=8192,until=</s>"]
+    },
+    {
+      "id": "qwen38_geoimport",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "runtime_group": "qwen38_phase5",
+      "ctx_size": 16384,
+      "limit": 5,
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff"]
+    },
+    {
+      "id": "qwen38_pipeline",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "runtime_group": "qwen38_phase5",
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen38_runtime",
+      "model": "qwen3.8:27b",
+      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen38_phase5",
+      "ctx_size": 16384
+    }
+  ]
+}

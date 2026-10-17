@@ -930,7 +930,7 @@
           "inference": {
             "temperature": 0.0,
             "top_p": 1.0,
-            "max_tokens": 512
+            "max_tokens": 4096
           },
           "runtime": {
             "ctx_size": 8192,
@@ -940,14 +940,14 @@
           },
           "extra_args": [
             "--reasoning",
-            "off"
+            "on"
           ],
           "tuning": {
-            "status": "untuned",
-            "last_tuned_at": null,
-            "benchmark_suite": "agent_reliability"
+            "status": "tuned",
+            "last_tuned_at": "2026-10-17T00:00:00+00:00",
+            "benchmark_suite": "phase4_5_settings"
           },
-          "notes": "Brain-tier (3090). Ornith 1.5 35B MoE (~3B active), MIT, qwen3_5_moe arch. 21.7 GB GGUF: tight on 24 GB, ctx 8192 to start. Competes with qwen3.6:35b-a3b."
+          "notes": "Brain-tier (3090). Ornith 1.5 35B MoE (~3B active), MIT, qwen3_5_moe arch. 21.7 GB GGUF: tight on 24 GB, ctx 8192 to start. Competes with qwen3.6:35b-a3b. Phase 4.5 (2026-10-17): thinking on (limit 10, end-of-text stops): GSM8K flexible 0.80 -> 1.00, BBH flexible 0.844 -> 0.930, DROP flexible 0.60 -> 0.90, ambiguity 0.538 -> 0.769, IFEval unchanged (0.90 / 0.944), cmd_safety 1.0 -> 0.833, tool_plan 0.933 -> 0.867; about 2x the time and still faster than qwen3.8:27b with thinking off. Chosen for max scores. max_tokens 4096 because the budget covers the thinking (geoimport plan fits 512 with thinking off). Reasoning benchmarks need --gen-kwargs max_gen_toks=4096,until=</s>: task stop sequences fire inside thinking text. The family prompt's 'never output chain-of-thought' wording was kept as tested."
         }
       }
     },
@@ -1636,7 +1636,7 @@
           "inference": {
             "temperature": 0.0,
             "top_p": 1.0,
-            "max_tokens": 1024
+            "max_tokens": 8192
           },
           "runtime": {
             "ctx_size": 16384,
@@ -1646,14 +1646,14 @@
           },
           "extra_args": [
             "--reasoning",
-            "off"
+            "on"
           ],
           "tuning": {
             "status": "tuned",
             "last_tuned_at": "2026-10-17T00:00:00+00:00",
             "benchmark_suite": "phase4_5_settings"
           },
-          "notes": "Brain-tier (3090). Qwen3.8 27B dense, Apache-2.0, qwen35 arch, MTP layers (speculative decoding via --spec-type draft-mtp, untested). Expected successor of qwen3.6:27b and qwen3.5:27b. Thinking on by default in the template; --reasoning off gives a clean empty think block (litmus 3/3 clean). Prompt (2026-10-16): stays on the thinking-suppression family prompt. Two tuned prompts (v2, v3) chased the strict BBH/DROP extractors; once BBH/DROP gained flexible scoring the family prompt scored best (limit-10 DROP flexible 0.90 vs 0.70) and they were reverted. Real-use observation: on plain questions it sometimes answers in JSON ({\"answer\": \"80\"}). Phase 4.5 (2026-10-17): thinking on (end-of-text stops only) gave small gains (GSM8K flexible 0.90 -> 1.00, BBH flexible 0.878 -> 0.896, DROP EM 0.60 -> 0.70, IFEval prompt 0.80 -> 0.90 but inst 0.889 -> 0.833) at 3x BBH time (22 -> 67 min) and with runaway thinking (one BBH answer took 8402 tokens and 189 s, and was wrong); thinking stays off. max_tokens 512 -> 1024: the geoimport prep plan needs about 2200 chars and was cut at 512 (prep_plan 0.0 -> 0.939)."
+          "notes": "Brain-tier (3090). Qwen3.8 27B dense, Apache-2.0, qwen35 arch, MTP layers (speculative decoding via --spec-type draft-mtp, untested). Expected successor of qwen3.6:27b and qwen3.5:27b. Thinking on by default in the template; --reasoning off gives a clean empty think block (litmus 3/3 clean). Prompt (2026-10-16): stays on the thinking-suppression family prompt. Two tuned prompts (v2, v3) chased the strict BBH/DROP extractors; once BBH/DROP gained flexible scoring the family prompt scored best (limit-10 DROP flexible 0.90 vs 0.70) and they were reverted. Real-use observation: on plain questions it sometimes answers in JSON ({\"answer\": \"80\"}). Phase 4.5 (2026-10-17): thinking on (end-of-text stops only) gave small gains (GSM8K flexible 0.90 -> 1.00, BBH flexible 0.878 -> 0.896, DROP EM 0.60 -> 0.70, IFEval prompt 0.80 -> 0.90 but inst 0.889 -> 0.833) at 3x BBH time (22 -> 67 min) and with runaway thinking (one BBH answer took 8402 tokens and 189 s, and was wrong). Thinking-on pipeline/geoimport at max_tokens 8192: equal or better everywhere (orchestration 0.75 -> 0.833, geoimport prep_plan 0.939 -> 0.970). Thinking on chosen for max scores (time is secondary below about 5x); max_tokens 8192 covers thinking, and reasoning benchmarks need --gen-kwargs max_gen_toks=8192,until=</s>. With thinking off, max_tokens 1024 is needed for the geoimport plan (512 cut it: prep_plan 0.0)."
         }
       }
     },
