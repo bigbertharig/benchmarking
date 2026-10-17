@@ -877,8 +877,9 @@ PY
       CMD+=(--gen_kwargs "$GEN_KWARGS")
     fi
 
-    # Raw per-sample prompts and responses (samples_<task>_*.jsonl) for smoke review.
-    if [ "$LOG_SAMPLES" -eq 1 ]; then
+    # Raw per-sample prompts and responses (samples_<task>_*.jsonl). Always kept for bbh
+    # and drop: extract_reasoning_results.py scores their flexible rows from them.
+    if [ "$LOG_SAMPLES" -eq 1 ] || [ "$TASK" = "bbh" ] || [ "$TASK" = "drop" ]; then
       CMD+=(--log_samples)
     fi
 

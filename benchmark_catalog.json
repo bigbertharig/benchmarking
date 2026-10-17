@@ -223,6 +223,28 @@
       "tags": ["reasoning", "reading", "public"]
     },
     {
+      "id": "drop_flexible",
+      "title": "DROP Answer Contained",
+      "category": "reading_comprehension",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "drop",
+      "what_it_tests": "DROP answer correctness when the response contains every span of a gold answer after normalization, so lead-ins and fuller sentences around a correct answer still count. Scored from logged samples beside the strict drop_em row.",
+      "primary_metrics": ["answer_contained"],
+      "tags": ["reasoning", "reading", "normalized", "public"]
+    },
+    {
+      "id": "bbh_flexible",
+      "title": "BIG-Bench Hard Flexible Extraction",
+      "category": "reasoning",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "bbh",
+      "what_it_tests": "BBH answer correctness when the final answer is given without the 'the answer is' phrase the few-shot examples demonstrate (bare option, JSON answer field, or final line). Scored from logged samples beside the strict bbh row.",
+      "primary_metrics": ["exact_match_flexible"],
+      "tags": ["reasoning", "hard", "normalized", "public"]
+    },
+    {
       "id": "livecodebench",
       "title": "LiveCodeBench",
       "category": "programming",
