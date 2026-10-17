@@ -5,15 +5,17 @@ Sources (the only files edited by hand):
   model_registry.json  every tested model: archive GGUF, status, scheduling, named profiles
                        (default = benchmark settings, interactive = remote use, orchestration =
                        orchestrator llama launch), plus orchestration_defaults
-  model_roles.json     which model + profile to use per rig lane and job, plus remote profiles
+  model_roles.json     which model + profile to use per rig lane and job
 
 Generated from the registry (never edit; `export` rewrites them, `check` fails on drift):
   models.catalog.json, model_tuning_profiles.json, custom_tasks/model_prompt_profiles.json
 
+Other projects generate their own forms from the registry with their own scripts. The remote
+profiles the gateway offers: llm-gateway tools/generate_profiles.py (uses resolve() below).
+
 Usage:
   model_library.py role brain               resolved settings for a role
   model_library.py model qwen3.6:27b [--profile interactive]
-  model_library.py remote-profiles          resolved remote profiles (rig mode selector, gateway)
   model_library.py runtime-image            the llama-server image all models run on
   model_library.py job "extract json from a page"
   model_library.py export                   rewrite the generated files
@@ -110,25 +112,6 @@ def resolve_role(role: str, roles: dict[str, Any] | None = None,
     spec = roles["roles"][role]
     return {"role": role, **{k: v for k, v in spec.items() if k not in ("model", "profile")},
             **resolve(spec["model"], spec.get("profile", "default"), registry)}
-
-
-def remote_profiles(roles: dict[str, Any] | None = None,
-                    registry: dict[str, Any] | None = None) -> dict[str, dict[str, Any]]:
-    """Remote profiles with their model settings flattened for the rig and the gateway."""
-    roles = roles or load_roles()
-    registry = registry or load_registry()
-    out = {}
-    for rp in roles["remote_profiles"]:
-        r = resolve(rp["model"], rp.get("profile", "default"), registry)
-        out[rp["id"]] = {
-            **{k: copy.deepcopy(v) for k, v in rp.items() if k != "profile"},
-            "model": r["model"], "gguf_path": r["gguf_path"],
-            "ctx_size": r["runtime"]["ctx_size"], "batch_size": r["runtime"]["batch_size"],
-            "parallel": r["runtime"].get("parallel", 1), "extra_args": r["extra_args"],
-            **({"tensor_split": r["tensor_split"]} if r.get("tensor_split") else {}),
-            "image": runtime_image(registry),
-        }
-    return out
 
 
 def job_role(text: str, roles: dict[str, Any] | None = None) -> tuple[str, str] | None:
@@ -278,21 +261,8 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
     for job in roles["jobs"]:
         if job["role"] not in roles["roles"]:
             errors.append(f"job {job['id']}: unknown role {job['role']}")
-    ids = set()
-    for rp in roles["remote_profiles"]:
-        if rp["id"] in ids:
-            errors.append(f"remote profile {rp['id']} defined twice")
-        ids.add(rp["id"])
-        check_ref(f"remote profile {rp['id']}", rp["model"], rp.get("profile", "default"))
-        if not rp.get("gpus_needed"):
-            errors.append(f"remote profile {rp['id']}: gpus_needed is required")
-        else:
-            try:
-                runtime = resolve(rp["model"], rp.get("profile", "default"), registry)["runtime"]
-                if "ctx_size" not in runtime or "batch_size" not in runtime:
-                    errors.append(f"remote profile {rp['id']}: profile lacks ctx_size/batch_size")
-            except KeyError:
-                pass
+    if "remote_profiles" in roles:
+        errors.append("remote_profiles moved to llm-gateway (tools/generate_profiles.py); remove them here")
     return errors
 
 
@@ -316,7 +286,6 @@ def main() -> int:
     s = sub.add_parser("model")
     s.add_argument("id")
     s.add_argument("--profile", default="default")
-    sub.add_parser("remote-profiles")
     sub.add_parser("runtime-image")
     s = sub.add_parser("job")
     s.add_argument("text")
@@ -330,8 +299,6 @@ def main() -> int:
             print(json.dumps(resolve_role(args.name), indent=2))
         elif args.cmd == "model":
             print(json.dumps(resolve(args.id, args.profile), indent=2))
-        elif args.cmd == "remote-profiles":
-            print(json.dumps(remote_profiles(), indent=2))
         elif args.cmd == "runtime-image":
             print(runtime_image())
         elif args.cmd == "job":

@@ -51,11 +51,11 @@ class ModelLibraryTests(unittest.TestCase):
         errors = ML.validate(self.registry, roles)
         self.assertTrue(any("roles may only use active models" in e for e in errors), errors)
 
-    def test_remote_profile_needs_existing_profile(self):
+    def test_remote_profiles_belong_to_the_gateway(self):
         roles = copy.deepcopy(self.roles)
-        roles["remote_profiles"][0]["profile"] = "missing"
+        roles["remote_profiles"] = []
         errors = ML.validate(self.registry, roles)
-        self.assertTrue(any("has no profile missing" in e for e in errors), errors)
+        self.assertTrue(any("remote_profiles moved to llm-gateway" in e for e in errors), errors)
 
     def test_job_must_name_a_role(self):
         roles = copy.deepcopy(self.roles)
@@ -66,14 +66,6 @@ class ModelLibraryTests(unittest.TestCase):
         registry = copy.deepcopy(self.registry)
         registry["models"]["qwen3:8b"]["superseded_by"] = "qwen9:1t"
         self.assertTrue(any("superseded_by qwen9:1t" in e for e in ML.validate(registry, self.roles)))
-
-    def test_remote_profiles_flatten_settings_for_the_rig(self):
-        profiles = ML.remote_profiles(self.roles, self.registry)
-        chat = profiles["chat-27b"]
-        self.assertEqual(chat["model"], "qwen3.6:27b")
-        self.assertTrue(chat["gguf_path"].endswith("Qwen3.6-27B-Q4_K_M.gguf"))
-        for key in ("ctx_size", "batch_size", "parallel", "extra_args", "gpus_needed"):
-            self.assertIn(key, chat)
 
     def test_orchestrator_roles_are_required(self):
         roles = copy.deepcopy(self.roles)
@@ -91,10 +83,6 @@ class ModelLibraryTests(unittest.TestCase):
         registry = copy.deepcopy(self.registry)
         registry["models"]["qwen3.6:27b"]["profiles"]["default"]["image"] = "llama-runtime:old"
         self.assertTrue(any("sets image" in e for e in ML.validate(registry, self.roles)))
-
-    def test_remote_profiles_use_the_one_runtime_image(self):
-        images = {p["image"] for p in ML.remote_profiles(self.roles, self.registry).values()}
-        self.assertEqual(images, {self.registry["runtime_image"]})
 
     def test_job_keywords_pick_a_role(self):
         self.assertEqual(ML.job_role("extract the json schema", self.roles)[1], "single_1060")
