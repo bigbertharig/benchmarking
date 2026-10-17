@@ -430,6 +430,52 @@ Obtain fresh UUIDs with: `nvidia-smi -L 2>/dev/null | grep UUID`
 | Qwen2.5-Coder-14B Q4_K_M | 3,917 | 4,231 | 418 | 49/49 | 16,384 | Working (pair_4_5) |
 | Phi-4-14B Q4_K_M | — | — | — | 41/41 auto | 16,384 | Working (no forced layers) |
 
+**Brain MoE across the 1060 farm, no 3090 (2026-10-17):**
+
+Model `nex-n2.5:mini` (35B MoE, 3B active, 22.3 GB GGUF), `llama-runtime:b11669`, layer split, ctx 8192,
+768-token decode, from the NVMe hot-set. The 3090 was serving qwen3.6:35b-a3b (its Phase 4 tests) during
+both runs; the rig stayed up.
+
+| GPUs | tensor-split | Model buffers per card (MiB) | VRAM used per card | Load | Decode tok/s | Prompt tok/s (63-token prompt) | Avg W per card | Status |
+|------|--------------|-------------------------------|--------------------|------|--------------|-------------------------------|----------------|--------|
+| 1 (3090 alone) | — | 20,758 total | 21,275 of 24,564 | 253 s (NFS) | 142.2 | 508 | 295 | reference |
+| 5 (GPUs 1-5) | 1,1,1,1,1 | 5,153 / 3,827 / 3,761 / 3,827 / 4,192 | 3,914-5,318 | 212 s | 21.7 | 69 | 30-41 | Working |
+| 4 (GPUs 1-4) | 1,1,1,1 | — | — | — | — | — | — | Fails: does not fit |
+| 4 (GPUs 1-4) | 0.75,1,1,1 | 5,153 / 5,235 / 5,176 / 5,195 | 5,318-5,400 of 6,144 | 212 s | 22.0 | 79 | 33-52 | Working (~750 MB free per card) |
+| 5 (GPUs 1-5) | 1,1,1,1,1 + `--split-mode row` | — | — | — | — | — | — | Fails: "device CUDA0 does not support split buffers" |
+
+Working command (4-way, through `run_runtime.sh`, which holds the rig-wide load lock):
+
+```bash
+~/llm_orchestration/shared/scripts/llama_runtime/run_runtime.sh \
+  --name llama-nex-split4 \
+  --model /data/model-hotset/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf \
+  --port 11445 --gpus device=1,2,3,4 --ctx-size 8192 --batch-size 128 \
+  --tensor-split 0.75,1,1,1 --memory-limit 10g --memory-swap 12g \
+  --extra-arg --chat-template-kwargs --extra-arg '{"reasoning_effort":"none"}' \
+  --extra-arg -fit --extra-arg off
+```
+
+Findings:
+- **Speed:** about 6.5x slower than the 3090 for this MoE, the same pattern as the April gemma-4:26b-a4b
+  split (6.3x); 4-way and 5-way decode at the same speed. See
+  `llm_orchestration/shared/workspace/distributed_work_guide.md` for the full speed table.
+- **Load is light per card:** a layer split runs the cards one after another per token, so each 1060 sat
+  at 14-33% utilization and 30-52 W average (72 W peak) while decoding.
+- **First card carries a fixed extra:** CUDA0 held 5,153 MiB in both the 4- and 5-way loads, about 1.3 GB
+  above its layer share, so equal weights overfill it on 4 cards. Lower its weight (0.75 worked).
+- **Quality:** litmus 3/3 on both. Greedy outputs diverge from the 3090 (2 of 10 GSM8K responses
+  identical) because Pascal and Ampere kernels differ; the 4- and 5-way splits agree with each other.
+  GSM8K limit 10 scored 0.80 on both splits vs 0.90 on the 3090: two split answers took a more verbose
+  path and were cut by the GSM8K default output budget, and one question flipped the other way.
+- **Row split** is not available for this hybrid recurrent architecture in b11669, so tensor parallelism
+  across the 1060s cannot be tested with the October brain candidates.
+- **Concurrency:** both runs ran while the 3090 served another model (3090 at about 270-334 W); no reset.
+
+Records: `results/runtime_experiments/nex_n25_mini_split5_concurrent_runtime_characterization_20261017.json`,
+`results/runtime_experiments/nex_n25_mini_split4_runtime_characterization_20261017.json`; ledger GSM8K rows
+under suites `nex_n25_mini_split5_concurrent` and `nex_n25_mini_split4`.
+
 ### Known failures and restrictions
 
 | Model | Issue | Bug/Workaround |
@@ -438,6 +484,8 @@ Obtain fresh UUIDs with: `nvidia-smi -L 2>/dev/null | grep UUID`
 | Gemma-3-12B | 262K vocab embedding too large | ~3.1GB embedding per GPU exceeds 6GB VRAM |
 | Phi-4-14B | `--n-gpu-layers 999` aborts | Remove forced layer count, let auto-fitter work |
 | Any model | `--gpus device=N,M` with errored GPUs | Use UUID passthrough via `--runtime=nvidia` + `-e NVIDIA_VISIBLE_DEVICES` |
+| nex-n2.5:mini (qwen35moe hybrid recurrent) | `--split-mode row` fails: "device CUDA0 does not support split buffers" (b11669) | Use layer split (default) |
+| nex-n2.5:mini on 4x 1060 | Equal tensor-split overfills CUDA0 (fixed ~1.3 GB extra on the first card) | `--tensor-split 0.75,1,1,1` |
 
 ### Critical rules
 
@@ -448,3 +496,7 @@ Obtain fresh UUIDs with: `nvidia-smi -L 2>/dev/null | grep UUID`
 5. **mmap ON** (default) — do NOT add `--no-mmap` (causes Docker OOM, see `--no-mmap` section above)
 6. **Port convention**: brain → 11434, pair_1_3 → 11435, pair_4_5 → 11438
 7. **Weight the tensor-split toward the 3090** — `4,1` or `4,1,1` keeps most weights on the faster GPU
+8. **On the 1060 farm, weight the first card down** — CUDA0 carries a fixed extra (~1.3 GB for Nex), so
+   give it a smaller share (`0.75,1,1,1`) when the split is near capacity
+9. **4-way and 5-way 1060 splits decode at the same speed** — use the fewest cards that fit and keep the
+   rest free for other work

@@ -695,6 +695,10 @@ BBH 0.454 came from the thinking-control problem below, not the model.
 - [x] Chosen settings written to the registry: `reasoning_effort` none, family prompt, max_tokens 1024
 - Load note: from the NVMe hot-set (Gen1 x1) with a cold page cache the load took 214 s vs 253 s over
   NFS; about 200 s of it is reading the 20.7 GB file through mmap (~100 MB/s).
+- Split placement on the GTX 1060s (2026-10-17, 3090 busy with another model): fits on 4 cards with
+  `--tensor-split 0.75,1,1,1` or 5 cards with `1,1,1,1,1`; decodes 22.0 / 21.7 tok/s vs 142.2 on the 3090
+  (about 6.5x); litmus 3/3; `--split-mode row` unsupported. Details and command in
+  BENCHMARK_LESSONS_LEARNED.md, "Brain MoE across the 1060 farm".
 
 ### Phase 5: Full Run (limit 50/100)
 - Campaign `october_brain_phase5_202610` (2026-10-17, run 20261017_011528), thinking off, extract v4,
