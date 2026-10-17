@@ -802,14 +802,14 @@
       "_alias_of": "Qwen3.6-35B-A3B-UD-Q4_K_M.gguf"
     },
     "Qwen3.8-27B-UD-Q4_K_M.gguf": {
-      "status": "tuning",
-      "last_tuned_at": "2026-10-16T00:00:00+00:00",
-      "benchmark_suite": "phase4_smoke",
+      "status": "tuned",
+      "last_tuned_at": "2026-10-17T00:00:00+00:00",
+      "benchmark_suite": "phase4_5_settings",
       "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
       "inference": {
         "temperature": 0.0,
         "top_p": 1.0,
-        "max_tokens": 512
+        "max_tokens": 1024
       },
       "runtime": {
         "ctx_size": 16384,
@@ -821,7 +821,7 @@
         "--reasoning",
         "off"
       ],
-      "notes": "Brain-tier (3090). Qwen3.8 27B dense, Apache-2.0, qwen35 arch, MTP layers (speculative decoding via --spec-type draft-mtp, untested). Expected successor of qwen3.6:27b and qwen3.5:27b. Thinking on by default in the template; --reasoning off gives a clean empty think block (litmus 3/3 clean). Prompt (2026-10-16): stays on the thinking-suppression family prompt. Two tuned prompts (v2, v3) chased the strict BBH/DROP extractors; once BBH/DROP gained flexible scoring the family prompt scored best (limit-10 DROP flexible 0.90 vs 0.70) and they were reverted. Real-use observation: on plain questions it sometimes answers in JSON ({\"answer\": \"80\"})."
+      "notes": "Brain-tier (3090). Qwen3.8 27B dense, Apache-2.0, qwen35 arch, MTP layers (speculative decoding via --spec-type draft-mtp, untested). Expected successor of qwen3.6:27b and qwen3.5:27b. Thinking on by default in the template; --reasoning off gives a clean empty think block (litmus 3/3 clean). Prompt (2026-10-16): stays on the thinking-suppression family prompt. Two tuned prompts (v2, v3) chased the strict BBH/DROP extractors; once BBH/DROP gained flexible scoring the family prompt scored best (limit-10 DROP flexible 0.90 vs 0.70) and they were reverted. Real-use observation: on plain questions it sometimes answers in JSON ({\"answer\": \"80\"}). Phase 4.5 (2026-10-17): thinking on (end-of-text stops only) gave small gains (GSM8K flexible 0.90 -> 1.00, BBH flexible 0.878 -> 0.896, DROP EM 0.60 -> 0.70, IFEval prompt 0.80 -> 0.90 but inst 0.889 -> 0.833) at 3x BBH time (22 -> 67 min) and with runaway thinking (one BBH answer took 8402 tokens and 189 s, and was wrong); thinking stays off. max_tokens 512 -> 1024: the geoimport prep plan needs about 2200 chars and was cut at 512 (prep_plan 0.0 -> 0.939)."
     },
     "qwen3.8:27b": {
       "_alias_of": "Qwen3.8-27B-UD-Q4_K_M.gguf"

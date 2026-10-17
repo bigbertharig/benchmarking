@@ -325,7 +325,7 @@ on the suites that setting can move:
 
 | Setting | How to vary it | Measure on |
 |---|---|---|
-| Thinking / reasoning mode | runtime args (`--reasoning`, `--reasoning-budget`, template kwargs such as `reasoning_effort`); thinking runs need `--gen-kwargs max_gen_toks=<large>` | bbh, gsm8k (DROP's newline stop cuts thinking short: record as a limitation) |
+| Thinking / reasoning mode | runtime args (`--reasoning`, `--reasoning-budget`, template kwargs such as `reasoning_effort`); thinking runs need `--gen-kwargs "max_gen_toks=4096,until=</s>"`: task stop sequences ("Question:", newline, "\nQ:") also fire inside the thinking text and return empty answers, and the chat template ends the turn anyway | bbh, gsm8k, drop, ifeval (check raw samples for empty answers) |
 | System prompt | registry `system_prompt`, or `--system-prompt-override` for a one-off | pipeline, bbh, drop, ifeval |
 | Output budget | registry `inference.max_tokens` | pipeline and custom suites that produce long structured output (geoimport plans) |
 | Template switches | `--chat-template-kwargs` (read the template's `add_generation_prompt` block) | litmus + the suite that exposed the issue |
@@ -761,6 +761,26 @@ Same process note as Qwen3.8: the `october_brain_202610` limit-50 run came befor
     (dyck, geometric shapes, logical deduction); same pattern as Qwen3.8.
 - Run names: `ornith15_35b_smoke_v1`
 
+### Phase 4.5: Settings Experiments
+- Loads from the NVMe hot-set: 205 s (thinking off) and 182 s (thinking on), vs 362 s over NFS.
+- [x] Thinking mode A/B (`--reasoning off` vs `--reasoning on`, thinking runs `max_gen_toks=4096`), limit 10,
+  extract v4:
+  - GSM8K: off 0.80 / 0.80 (Phase 4), on 1.00 / 1.00
+  - BBH: off 0.844 strict / 0.844 flexible in 6:48; on 0.922 / 0.930 in 13:15 (about 2x the time)
+  - Verdict: thinking is a real gain for this model (unlike Nex). DROP cannot be scored with thinking on
+    (its newline stop cuts the thinking); IFEval with thinking not yet measured.
+  - Runs: `ornith15_35b_p45_off` (BBH), `ornith15_35b_p45_think`
+  - Invalid attempt, removed: a first `ornith15_35b_p45_off` run was answered by a leftover Nex runtime on
+    the same port (the new container failed to bind and the readiness probe hit Nex). Two GSM8K rows were
+    deleted from the ledger (backup `logs/model_benchmark_records.jsonl.bak-20261017-misattributed`) and the
+    output moved to `gsm8k.nex-served-invalid-20261017`. `run_runtime.sh` now refuses an occupied port and
+    verifies the served GGUF (llm_orchestration 8de590c).
+- [x] System prompt A/B: done in Phase 4 (benchmark prompt DROP 0.40 -> 0.10); family kept
+- [x] Output budget A/B (geoimport): max_tokens 512 and 1024 identical (complete 2147-char plan, all cases
+  1.0 except prep_plan 0.939); Ornith writes concise plans, 512 kept
+  (`ornith15_35b_p45_geo_mt512`, `_mt1024`)
+- [ ] Thinking decision pending: on wins BBH/GSM8K at 2x time; needs a choice of how Phase 5 runs DROP
+
 ### Phase 5: Full Run (limit 50/100)
 - [ ] pending
 
@@ -836,6 +856,22 @@ is the integration proper.
   existing samples.
 - Run names: `qwen38_27b_smoke_v1` (family prompt), `qwen38_27b_smoke_v2` (v2 prompt, reverted),
   `qwen38_27b_smoke_v1_flex` (family prompt, BBH/DROP with flexible rows)
+
+### Phase 4.5: Settings Experiments
+- Loads from the NVMe hot-set: 142 s (thinking off), 126 s (on), vs 276 s over NFS.
+- [x] Baseline on extract v4: GSM8K 0.90 / 0.90, BBH 0.830 strict / 0.878 flexible in 22:17 (`qwen38_27b_p45_off`)
+- [x] Thinking mode A/B (`--reasoning on`, `max_gen_toks=4096`):
+  - First attempt with task stop sequences: GSM8K 0.70, BBH 0.374 / 0.896 with empty answers. GSM8K empties
+    were the "Question:" stop firing inside the thinking; with `until=</s>` GSM8K is 0.70 strict / 1.00
+    flexible (`qwen38_27b_p45_think`, `qwen38_27b_p45_think_eosonly`).
+  - End-of-text stops (`qwen38_27b_p45_think_eosonly_b`): DROP EM 0.70 / flexible 0.90 (off 0.60 / 0.90),
+    IFEval prompt 0.90 / inst 0.833 (off 0.80 / 0.889), BBH 0.374 / 0.896 in 67:12 (off 22:17).
+  - The 10 empty BBH answers are runaway thinking past 4096 tokens, not stops: one causal_judgement item
+    probed with a 12k budget thought for 8402 tokens (189 s) and answered wrong.
+  - Verdict: small gains at 3x the time with multi-minute outliers; thinking stays off.
+- [x] Output budget A/B (geoimport): 512 prep plan cut mid-JSON at 1974 chars (0.0); 1024 complete at 2200
+  chars (0.939); other cases unchanged (`qwen38_27b_p45_geo_mt512`, `_mt1024`)
+- [x] Chosen settings written to the registry: `--reasoning off`, family prompt, max_tokens 1024
 
 ### Phase 5: Full Run (limit 50/100)
 - [ ] pending Phase 4 v2 review
