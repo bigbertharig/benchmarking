@@ -697,7 +697,15 @@ BBH 0.454 came from the thinking-control problem below, not the model.
   NFS; about 200 s of it is reading the 20.7 GB file through mmap (~100 MB/s).
 
 ### Phase 5: Full Run (limit 50/100)
-- [ ] pending
+- Campaign `october_brain_phase5_202610` (2026-10-17, run 20261017_011528), thinking off, extract v4,
+  hot-set load 175 s. Nex blocks 01:15-02:12.
+- [x] bench-reasoning limit 50: GSM8K 0.78 strict / 0.82 flexible, BBH 0.738 / 0.821 flexible,
+  DROP EM 0.58 / F1 0.723 / flexible 0.88, IFEval prompt strict 0.82 / inst strict 0.842 (49 min)
+- [x] MMLU-Pro limit 20 (280): 0.693
+- [x] bench-geoimport: classify 1.0 / 0.941, prep plan 0.939, handoff 1.0 / 0.952
+- [x] bench-pipeline: json_schema 0.231, cmd_safety 0.833, ambiguity 0.923, tool_plan 1.0, orch 0.667, long_context 1.0
+- [x] bench-runtime: 4/4
+- [x] bench-code: Phase 4 full run stands (HumanEval 0.878 / 0.823, MBPP 0.794 / 0.648)
 
 ### Phase 6: Finalize
 - [ ] pending
@@ -788,7 +796,17 @@ Same process note as Qwen3.8: the `october_brain_202610` limit-50 run came befor
   max_tokens 4096 (covers the thinking); reasoning runs use `--gen-kwargs "max_gen_toks=4096,until=</s>"`
 
 ### Phase 5: Full Run (limit 50/100)
-- [ ] pending
+- Campaign `october_brain_phase5_202610` (2026-10-17, run 20261017_011528), thinking on, extract v4,
+  hot-set load 160 s. Ornith blocks 02:12-03:55.
+- [x] bench-reasoning limit 50: GSM8K 0.94 / 0.94, BBH 0.924 / 0.926 flexible (13 of 1350 answers empty:
+  thinking past the 4096 budget), DROP EM 0.34 / F1 0.628 / flexible 0.98 (answers in full sentences after
+  thinking), IFEval prompt strict 0.82 / inst strict 0.882 (75 min)
+- [x] MMLU-Pro limit 20 (280): 0.771 (23 min)
+- [x] bench-geoimport: classify 1.0 / 1.0, prep plan 0.939, handoff 1.0 / 1.0
+- [x] bench-pipeline: json_schema 0.385, cmd_safety 0.833, ambiguity 0.769, tool_plan 0.867, orch 0.75, long_context 1.0
+- [x] bench-runtime: 4/4
+- [x] bench-code: Phase 4 full run stands, thinking off (HumanEval 0.902 / 0.854, MBPP 0.886 / 0.754);
+  code with thinking on not measured
 
 ### Phase 6: Finalize
 - [ ] pending
@@ -884,7 +902,17 @@ is the integration proper.
   thinking); reasoning runs use `--gen-kwargs "max_gen_toks=8192,until=</s>"`
 
 ### Phase 5: Full Run (limit 50/100)
-- [ ] pending Phase 4 v2 review
+- Campaign `october_brain_phase5_202610` (2026-10-17, run 20261017_011528), thinking on, extract v4,
+  hot-set load 101 s. Qwen3.8 blocks 03:55-12:48.
+- [x] bench-reasoning limit 50: GSM8K 0.62 strict / 0.94 flexible, BBH 0.416 / 0.910 flexible (667 answers
+  given without the phrase after thinking; 26 of 1350 empty: thinking past the 8192 budget), DROP EM 0.78 /
+  F1 0.866 / flexible 0.96, IFEval prompt strict 0.92 / inst strict 0.934 (6 h 40 min)
+- [x] MMLU-Pro limit 20 (280): 0.811
+- [x] bench-geoimport: classify 1.0 / 1.0, prep plan 0.970, handoff 1.0 / 0.952
+- [x] bench-pipeline: json_schema 0.385, cmd_safety 1.0, ambiguity 0.923, tool_plan 0.933, orch 0.833, long_context 1.0
+- [x] bench-runtime: 4/4
+- [x] bench-code: Phase 4 full run stands, thinking off (HumanEval 0.933 / 0.902, MBPP 0.907 / 0.775);
+  code with thinking on not measured
 
 ### Phase 6: Finalize
 - [ ] pending
