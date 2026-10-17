@@ -891,7 +891,7 @@
           "inference": {
             "temperature": 0.0,
             "top_p": 1.0,
-            "max_tokens": 512
+            "max_tokens": 1024
           },
           "runtime": {
             "ctx_size": 8192,
@@ -904,11 +904,11 @@
             "{\"reasoning_effort\":\"none\"}"
           ],
           "tuning": {
-            "status": "tuning",
-            "last_tuned_at": "2026-10-16T00:00:00+00:00",
-            "benchmark_suite": "phase4_smoke"
+            "status": "tuned",
+            "last_tuned_at": "2026-10-17T00:00:00+00:00",
+            "benchmark_suite": "phase4_5_settings"
           },
-          "notes": "Brain-tier (3090). Nex N2.5 mini 35B MoE (3B active), Apache-2.0, Qwen3.5 MoE base. 22.3 GB GGUF: tightest fit; ctx 8192, lower if it OOMs. Competes with qwen3.6:35b-a3b. Thinking control (2026-10-16): its chat template always ends the prompt with an open <think> and ignores --reasoning off, --reasoning-budget 0 and enable_thinking=false, so the first token is a newline and DROP's newline stop returns empty answers (limit-50 DROP 0.0). The template's own switch reasoning_effort=none emits an empty closed think block; set via --chat-template-kwargs."
+          "notes": "Brain-tier (3090). Nex N2.5 mini 35B MoE (3B active), Apache-2.0, Qwen3.5 MoE base. 22.3 GB GGUF: tightest fit; ctx 8192, lower if it OOMs. Competes with qwen3.6:35b-a3b. Thinking control (2026-10-16): its chat template always ends the prompt with an open <think> and ignores --reasoning off, --reasoning-budget 0 and enable_thinking=false, so the first token is a newline and DROP's newline stop returns empty answers (limit-50 DROP 0.0). The template's own switch reasoning_effort=none emits an empty closed think block; set via --chat-template-kwargs. Phase 4.5 (2026-10-17): thinking on gave no accuracy gain (BBH flexible 0.833 vs 0.837, GSM8K flexible 0.90 both) and was 23% slower, so thinking stays off; family prompt beat the benchmark prompt (DROP 0.60 vs 0.40); max_tokens 512 -> 1024 because the geoimport prep plan needs about 600 tokens (geoimport 0.845 -> 0.967)."
         }
       }
     },

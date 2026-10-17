@@ -679,6 +679,23 @@ BBH 0.454 came from the thinking-control problem below, not the model.
   `smoke_nex_effort_none_bench_prompt_v1` (prompt A/B: DROP 0.60 -> 0.40, family prompt kept),
   `nex_n25_mini_smoke_v1`, `nex_n25_mini_smoke_v1_x3`
 
+### Phase 4.5: Settings Experiments
+- [x] Thinking mode A/B (template default, open think block vs `reasoning_effort` none), limit 10:
+  - GSM8K: off 0.90 / 0.90, on 0.70 strict / 0.90 flexible (thinking drops the `#### N` format)
+  - BBH (1024 budget, thinking run 4096): off 0.763 strict / 0.837 flexible in 8:33;
+    on 0.519 strict / 0.833 flexible (85 rescued: it answers a bare option after thinking) in 10:30
+  - Verdict: no accuracy gain, 23% slower on BBH. Thinking stays off.
+  - Runs: `nex_n25_mini_p45_think` (GSM8K), `nex_n25_mini_p45_think_bbh2` (BBH; first attempt failed on a
+    network outage while downloading the dataset)
+- [x] System prompt A/B: done in Phase 4 (benchmark prompt DROP 0.40 vs family 0.60); family kept
+- [x] Output budget A/B (bench-geoimport, `--inference-config-json`): max_tokens 512 average 0.845
+  (prep plan cut mid-JSON at 2169 chars, 0.333) vs 1024 average 0.967 (complete plan 2523 chars, 0.939)
+  (`nex_n25_mini_p45_geo_mt512`, `_mt1024`)
+- [x] BBH output budget (harness, all models): 512 vs 1024 on this model drove the extract-v4 change
+- [x] Chosen settings written to the registry: `reasoning_effort` none, family prompt, max_tokens 1024
+- Load note: from the NVMe hot-set (Gen1 x1) with a cold page cache the load took 214 s vs 253 s over
+  NFS; about 200 s of it is reading the 20.7 GB file through mmap (~100 MB/s).
+
 ### Phase 5: Full Run (limit 50/100)
 - [ ] pending
 
