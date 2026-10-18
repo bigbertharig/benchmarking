@@ -1052,7 +1052,7 @@
             "last_tuned_at": null,
             "benchmark_suite": "agent_reliability"
           },
-          "notes": "Worker-tier (1060 6GB). Microsoft Phi-4-mini-reasoning 3.8B dense. Q4_K_M (2.49GB). MIT license. Structural <think> tokens (same as DeepSeek-R1): --reasoning-budget 0 has no effect, runtime shows thinking=0. BENCHMARK: use --patch-think-tag-strip for bench-reasoning. bench-code INCOMPATIBLE (evalplus strips think+code together). bench-reasoning BBH/DROP FAIL on 1060 (runtime OOM from long prompts + think chains at 3g limit). bench-pipeline: json_schema 0% (think tags in JSON). Memory: needs 3g/4g Docker limits (2g causes OOM). Only GSM8K viable on 1060."
+          "notes": "Worker-tier (1060 6GB). Microsoft Phi-4-mini-reasoning 3.8B dense. Q4_K_M (2.49GB). MIT license. Structural <think> tokens (same as DeepSeek-R1): --reasoning-budget 0 has no effect, runtime shows thinking=0. BENCHMARK: use --patch-think-tag-strip for bench-reasoning. bench-code INCOMPATIBLE (evalplus strips think+code together). bench-reasoning BBH/DROP FAIL on 1060 (runtime OOM from long prompts + think chains at 3g limit). bench-pipeline: json_schema 0% (think tags in JSON). Memory: needs 3g/4g Docker limits (2g causes OOM). Only GSM8K viable on 1060. 2026-10-17 (b11669): --reasoning-format deepseek does not split the thinking either (template has no thinking markers; litmus 0/3, all answers raw <think> text). Operator: models under 7B run as-is with working settings, no further tuning; results stand with these known limits."
         }
       }
     },
