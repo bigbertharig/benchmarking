@@ -504,10 +504,22 @@ for TASK in "${TASK_ARRAY[@]}"; do
         continue
     fi
 
-    # Evaluate generated samples
-    echo "Evaluating: python3 -m evalplus.evaluate --dataset ${TASK} --samples ${SAMPLE_FILE}"
+    # Evaluate generated samples. Scoring runs every test in worker processes and peaked at 4.7 GB of
+    # RAM for one model; several lanes scoring at once helped fill the rig's RAM on 2026-10-17. With
+    # BENCH_EVAL_LOCK (a lock file on the rig's own disk, mounted in by the caller) only one scoring
+    # runs at a time on the host; generation stays parallel. BENCH_EVAL_PARALLEL caps the workers.
+    EVAL_CMD=(python3 -m evalplus.evaluate --dataset "$TASK" --samples "$SAMPLE_FILE")
+    [ -n "${BENCH_EVAL_PARALLEL:-}" ] && EVAL_CMD+=(--parallel "$BENCH_EVAL_PARALLEL")
+    printf 'Evaluating:'; printf ' %q' "${EVAL_CMD[@]}"; printf '\n'
     set +e
-    python3 -m evalplus.evaluate --dataset "$TASK" --samples "$SAMPLE_FILE"
+    if [ -n "${BENCH_EVAL_LOCK:-}" ]; then
+        echo "Waiting for the evaluation lock ${BENCH_EVAL_LOCK} (one EvalPlus scoring at a time on this host)"
+        LOCK_WAIT_START=$(date +%s)
+        flock "$BENCH_EVAL_LOCK" bash -c 'echo "Evaluation lock acquired after $(( $(date +%s) - $1 ))s"; shift; exec "$@"' \
+            _ "$LOCK_WAIT_START" "${EVAL_CMD[@]}"
+    else
+        "${EVAL_CMD[@]}"
+    fi
     EVAL_RC=$?
     set -e
     if [ "$EVAL_RC" -ne 0 ]; then

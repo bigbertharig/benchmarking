@@ -161,3 +161,14 @@ docker run --rm --network host \
   --preflight-only \
   --request-timeout 30
 ```
+
+## Scoring lock (2026-10-17)
+
+`run.sh` runs `evalplus.evaluate` under `flock "$BENCH_EVAL_LOCK"` when that variable is set, so only
+one EvalPlus scoring runs at a time on the host while generation stays parallel. Callers mount the
+rig-local `/run/lock` and set it (`scripts/integration/phase4.sh`, `llm_orchestration`
+`run_campaign.py`): `-v /run/lock:/host-lock -e BENCH_EVAL_LOCK=/host-lock/bench-evalplus.lock`.
+`BENCH_EVAL_PARALLEL` caps the scoring workers. Reason: several lanes scoring at once helped fill the
+rig RAM on 2026-10-17 (run notes `logs/benchmarks/worker_lanes_20261017_203028/RUN_NOTES.md` section 3).
+Measured with the lock: two concurrent HumanEval scorings ran one after the other (second waited
+25 s), 1.2 GB peak each, scores unchanged. Rebuild after editing run.sh: `docker build -t bench-code .`
