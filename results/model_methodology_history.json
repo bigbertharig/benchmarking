@@ -4387,7 +4387,7 @@
       "test_id": "mmlu_pro_exact_match_custom-extract"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4395,12 +4395,12 @@
         "2.0.0"
       ],
       "model": "gemma-4:e4b",
-      "selected_run_at": "2026-10-18T15:44:53+00:00",
+      "selected_run_at": "2026-10-18T22:12:57+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "50a1747b-39c2-453e-bdee-a4edf13ab5d3",
+      "selected_run_id": "59037e63-e1d2-4e46-bf05-bcfdd5844169",
       "selected_sample_count": 270,
-      "selected_score": 0.5444444444444444,
-      "success_count": 3,
+      "selected_score": 0.337037037037037,
+      "success_count": 6,
       "test_id": "bbh"
     },
     {
@@ -4421,7 +4421,7 @@
       "test_id": "bbh"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4429,12 +4429,12 @@
         "2.0.0"
       ],
       "model": "gemma-4:e4b",
-      "selected_run_at": "2026-10-18T15:44:53+00:00",
+      "selected_run_at": "2026-10-18T22:12:58+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "a3c25775-b67a-4602-9e2a-1ce2feaa0378",
+      "selected_run_id": "1dc11b3b-1676-4800-a1af-fdeb4b5350fd",
       "selected_sample_count": 270,
-      "selected_score": 0.8555555555555555,
-      "success_count": 3,
+      "selected_score": 0.7962962962962963,
+      "success_count": 6,
       "test_id": "bbh_flexible"
     },
     {
@@ -4540,7 +4540,7 @@
       "test_id": "custom_tool_plan_sequence"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4548,12 +4548,12 @@
         "2.0.0"
       ],
       "model": "gemma-4:e4b",
-      "selected_run_at": "2026-10-18T12:08:10+00:00",
+      "selected_run_at": "2026-10-18T22:13:21+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "21dda9c4-3b01-46ce-a03f-810fc9bba10b",
+      "selected_run_id": "8cd0c302-7d7e-49f2-8d10-ac906f37bd15",
       "selected_sample_count": 10,
-      "selected_score": 0.7,
-      "success_count": 1,
+      "selected_score": 0.0,
+      "success_count": 4,
       "test_id": "drop_em"
     },
     {
@@ -4574,7 +4574,7 @@
       "test_id": "drop_em"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4582,12 +4582,12 @@
         "2.0.0"
       ],
       "model": "gemma-4:e4b",
-      "selected_run_at": "2026-10-18T12:08:11+00:00",
+      "selected_run_at": "2026-10-18T22:13:21+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "a877f65e-411a-4dbc-aa00-df88d745ef97",
+      "selected_run_id": "4d4d1424-8e14-4c67-b286-69c98b45fb67",
       "selected_sample_count": 10,
-      "selected_score": 0.75,
-      "success_count": 1,
+      "selected_score": 0.077,
+      "success_count": 4,
       "test_id": "drop_f1"
     },
     {
@@ -4608,7 +4608,7 @@
       "test_id": "drop_f1"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4616,16 +4616,16 @@
         "2.0.0"
       ],
       "model": "gemma-4:e4b",
-      "selected_run_at": "2026-10-18T12:08:11+00:00",
+      "selected_run_at": "2026-10-18T22:13:22+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "b3ee67bc-e9d1-49d8-93a9-f1b56e44a2ab",
+      "selected_run_id": "1e8fa9b9-19d9-4aff-9b3d-4f44251fbf65",
       "selected_sample_count": 10,
-      "selected_score": 0.8,
-      "success_count": 1,
+      "selected_score": 0.3,
+      "success_count": 4,
       "test_id": "drop_flexible"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4633,12 +4633,12 @@
         "2.0.0"
       ],
       "model": "gemma-4:e4b",
-      "selected_run_at": "2026-10-18T13:49:06+00:00",
+      "selected_run_at": "2026-10-18T20:54:10+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "85f93678-d103-49c5-a319-886f97003b98",
+      "selected_run_id": "8b3ea26b-fc41-457e-b181-29f341b0ae16",
       "selected_sample_count": 10,
       "selected_score": 0.8,
-      "success_count": 3,
+      "success_count": 6,
       "test_id": "gsm8k_flexible"
     },
     {
@@ -4659,7 +4659,7 @@
       "test_id": "gsm8k_flexible"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4667,12 +4667,12 @@
         "2.0.0"
       ],
       "model": "gemma-4:e4b",
-      "selected_run_at": "2026-10-18T13:49:06+00:00",
+      "selected_run_at": "2026-10-18T20:54:10+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "fc9bda97-ddda-4cb9-bfe1-5bd68573087b",
+      "selected_run_id": "f606dd42-9b95-4d5b-9800-1c55d8393120",
       "selected_sample_count": 10,
       "selected_score": 0.8,
-      "success_count": 3,
+      "success_count": 6,
       "test_id": "gsm8k_strict"
     },
     {
@@ -4931,7 +4931,7 @@
       "test_id": "gsm8k_strict"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4939,12 +4939,12 @@
         "2.0.0"
       ],
       "model": "llama3.2:3b",
-      "selected_run_at": "2026-10-18T08:04:51+00:00",
+      "selected_run_at": "2026-10-18T20:22:17+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "5db0d3be-a5e6-41bc-8193-5183057b30d9",
+      "selected_run_id": "efac0297-9f98-4a98-b63a-3f6d0e020efe",
       "selected_sample_count": 270,
-      "selected_score": 0.5888888888888889,
-      "success_count": 1,
+      "selected_score": 0.5777777777777777,
+      "success_count": 4,
       "test_id": "bbh"
     },
     {
@@ -4965,7 +4965,7 @@
       "test_id": "bbh"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -4973,12 +4973,12 @@
         "2.0.0"
       ],
       "model": "llama3.2:3b",
-      "selected_run_at": "2026-10-18T08:04:52+00:00",
+      "selected_run_at": "2026-10-18T20:22:18+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "65e8bf45-f247-4e4b-983a-3aa9d1761691",
+      "selected_run_id": "fd11c83d-af48-4149-940f-3b0aa1250c67",
       "selected_sample_count": 270,
-      "selected_score": 0.5962962962962963,
-      "success_count": 1,
+      "selected_score": 0.5888888888888889,
+      "success_count": 4,
       "test_id": "bbh_flexible"
     },
     {
@@ -5679,7 +5679,7 @@
       "test_id": "daedalmap_type_routing_type_correct_rate"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -5687,12 +5687,12 @@
         "2.0.0"
       ],
       "model": "llama3.2:3b",
-      "selected_run_at": "2026-10-18T08:05:20+00:00",
+      "selected_run_at": "2026-10-18T20:22:38+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "6b7f7185-436c-4d00-8a4c-e9dfd6fefebe",
+      "selected_run_id": "36e5575c-dfdf-4fef-b402-687a06b5760a",
       "selected_sample_count": 10,
-      "selected_score": 0.4,
-      "success_count": 1,
+      "selected_score": 0.0,
+      "success_count": 4,
       "test_id": "drop_em"
     },
     {
@@ -5713,7 +5713,7 @@
       "test_id": "drop_em"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -5721,12 +5721,12 @@
         "2.0.0"
       ],
       "model": "llama3.2:3b",
-      "selected_run_at": "2026-10-18T08:05:21+00:00",
+      "selected_run_at": "2026-10-18T20:22:38+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "81c2bb09-54be-45ab-9e20-6a096ce53c55",
+      "selected_run_id": "d716a146-8a9a-4b9a-b47f-0325070b2f6d",
       "selected_sample_count": 10,
-      "selected_score": 0.602,
-      "success_count": 1,
+      "selected_score": 0.18,
+      "success_count": 4,
       "test_id": "drop_f1"
     },
     {
@@ -5747,7 +5747,7 @@
       "test_id": "drop_f1"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -5755,16 +5755,16 @@
         "2.0.0"
       ],
       "model": "llama3.2:3b",
-      "selected_run_at": "2026-10-18T08:05:22+00:00",
+      "selected_run_at": "2026-10-18T20:22:39+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "9c0bf658-1b2b-429e-8e45-c5df53a861c7",
+      "selected_run_id": "a69d904f-d7d2-491d-a000-d7cfe9faa533",
       "selected_sample_count": 10,
-      "selected_score": 0.9,
-      "success_count": 1,
+      "selected_score": 0.7,
+      "success_count": 4,
       "test_id": "drop_flexible"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -5772,12 +5772,12 @@
         "2.0.0"
       ],
       "model": "llama3.2:3b",
-      "selected_run_at": "2026-10-18T07:37:46+00:00",
+      "selected_run_at": "2026-10-18T20:23:27+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "507aa1e7-5cae-4938-87c7-54ae6c380805",
+      "selected_run_id": "5316198f-2673-4b6c-a130-1386ccaca4f4",
       "selected_sample_count": 10,
       "selected_score": 0.7,
-      "success_count": 1,
+      "success_count": 4,
       "test_id": "gsm8k_flexible"
     },
     {
@@ -5798,7 +5798,7 @@
       "test_id": "gsm8k_flexible"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -5806,12 +5806,12 @@
         "2.0.0"
       ],
       "model": "llama3.2:3b",
-      "selected_run_at": "2026-10-18T07:37:45+00:00",
+      "selected_run_at": "2026-10-18T20:23:27+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "ff30cb02-fb98-4965-8056-cb064d9f1379",
+      "selected_run_id": "1492aabe-6509-4c3e-bbf2-d36432337fc9",
       "selected_sample_count": 10,
       "selected_score": 0.7,
-      "success_count": 1,
+      "success_count": 4,
       "test_id": "gsm8k_strict"
     },
     {
@@ -7804,7 +7804,7 @@
       "test_id": "agent_tool_select"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 1,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -7812,16 +7812,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T09:28:36+00:00",
+      "selected_run_at": "2026-10-18T20:15:54+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "cdf1921a-614a-4dba-a255-d3a2b685a402",
+      "selected_run_id": "989e833b-f73f-435b-a710-da8fd28a8d7e",
       "selected_sample_count": 270,
-      "selected_score": 0.022222222222222223,
-      "success_count": 2,
+      "selected_score": 0.07037037037037037,
+      "success_count": 5,
       "test_id": "bbh"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -7829,12 +7829,12 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T09:28:37+00:00",
+      "selected_run_at": "2026-10-18T20:15:55+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "9fa215b1-ddbe-4ffa-95e0-ffa339601a2b",
+      "selected_run_id": "a74a24db-955c-4654-a783-889cd8884b68",
       "selected_sample_count": 270,
-      "selected_score": 0.04814814814814815,
-      "success_count": 1,
+      "selected_score": 0.4962962962962963,
+      "success_count": 4,
       "test_id": "bbh_flexible"
     },
     {
@@ -8620,7 +8620,7 @@
       "test_id": "drop"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 5,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -8628,16 +8628,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T09:29:03+00:00",
+      "selected_run_at": "2026-10-18T20:16:17+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "4ada19cf-827e-4fd0-8515-829419ec3b5a",
+      "selected_run_id": "ac83a475-95ab-4d83-bb02-388acc380b35",
       "selected_sample_count": 10,
-      "selected_score": 0.2,
-      "success_count": 2,
+      "selected_score": 0.0,
+      "success_count": 5,
       "test_id": "drop_em"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 5,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -8645,16 +8645,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T09:29:04+00:00",
+      "selected_run_at": "2026-10-18T20:16:18+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "8b560556-0bcb-4eab-84bb-f89b53a56a78",
+      "selected_run_id": "5a66f036-eb2d-4890-bc24-812f5d62461a",
       "selected_sample_count": 10,
-      "selected_score": 0.32399999999999995,
-      "success_count": 2,
+      "selected_score": 0.09000000000000001,
+      "success_count": 5,
       "test_id": "drop_f1"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -8662,12 +8662,12 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T09:29:05+00:00",
+      "selected_run_at": "2026-10-18T20:16:18+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "663ac92b-6d36-40b0-9002-2d7dc4822114",
+      "selected_run_id": "4e0b9965-cf1e-4a8a-a26b-c70778e54446",
       "selected_sample_count": 10,
-      "selected_score": 0.4,
-      "success_count": 1,
+      "selected_score": 0.7,
+      "success_count": 4,
       "test_id": "drop_flexible"
     },
     {
@@ -8773,7 +8773,7 @@
       "test_id": "gsm8k"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -8781,16 +8781,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T09:18:17+00:00",
+      "selected_run_at": "2026-10-18T19:33:11+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "1ec35b93-06e6-45dd-8bb1-f0fd605a891c",
+      "selected_run_id": "cc64e6b3-bcc9-41cc-94e8-b62644d39ce6",
       "selected_sample_count": 10,
       "selected_score": 0.8,
-      "success_count": 3,
+      "success_count": 6,
       "test_id": "gsm8k_flexible"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -8798,12 +8798,12 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T09:18:17+00:00",
+      "selected_run_at": "2026-10-18T19:33:10+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "e253c33d-d832-48fa-9614-70cae7c6aae8",
+      "selected_run_id": "f546f52b-417e-48e0-a305-8a7a34e4ef8f",
       "selected_sample_count": 10,
-      "selected_score": 0.6,
-      "success_count": 3,
+      "selected_score": 0.8,
+      "success_count": 6,
       "test_id": "gsm8k_strict"
     },
     {
@@ -21846,13 +21846,13 @@
       "test_id": "mmlu_pro_exact_match_custom-extract"
     }
   ],
-  "generated_at": "2026-10-18T17:09:41.007246+00:00",
+  "generated_at": "2026-10-18T22:15:13.951735+00:00",
   "group_count": 1285,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 2230,
+  "record_count": 2293,
   "schema_version": 1
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T17:09:40.836055+00:00",
+  "generated_at": "2026-10-18T22:15:13.784217+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -303,15 +303,18 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-18T15:44:53+00:00",
+      "last_run_at": "2026-10-18T22:15:13+00:00",
       "model": "gemma-4:e4b",
-      "records": 70,
+      "records": 91,
       "selected_tests": 22,
-      "successes": 70,
+      "successes": 91,
       "suites": [
         "campaign_e4b_reasoning",
         "campaign_e4b_reasoning_20260608_141848",
         "e4b_tts_drop_l100",
+        "gemma-4_e4b_ab_answer",
+        "gemma-4_e4b_ab_plain",
+        "gemma-4_e4b_ab_worker",
         "gemma-4_e4b_w_p45_off",
         "gemma-4_e4b_w_p45_think",
         "gemma-4_e4b_w_smoke_v1",
@@ -347,15 +350,18 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-18T08:16:12+00:00",
+      "last_run_at": "2026-10-18T20:23:27+00:00",
       "model": "llama3.2:3b",
-      "records": 73,
+      "records": 94,
       "selected_tests": 57,
-      "successes": 73,
+      "successes": 94,
       "suites": [
         "bench-reasoning_llama3.2_3b_small_llama32_3b_reasoning_l100_v1",
         "daedalmap_small_models_full_v1_llama3.2_3b",
         "daedalmap_small_models_smoke_v7_llama3.2_3b",
+        "llama3_2_3b_ab_answer",
+        "llama3_2_3b_ab_plain",
+        "llama3_2_3b_ab_worker",
         "llama3_2_3b_w_smoke_v1"
       ]
     },
@@ -398,11 +404,11 @@
     },
     {
       "failures": 30,
-      "last_run_at": "2026-10-18T09:35:15+00:00",
+      "last_run_at": "2026-10-18T20:17:36+00:00",
       "model": "ministral-3:3b",
-      "records": 165,
+      "records": 186,
       "selected_tests": 81,
-      "successes": 135,
+      "successes": 156,
       "suites": [
         "campaign_agent_20260813_contract_v1",
         "campaign_daedalmap_20260813_contract_v1",
@@ -427,6 +433,9 @@
         "campaign_reasoning_20260813_contract_v1",
         "campaign_routing_20260813_contract_v1",
         "campaign_runtime_20260813_contract_v1",
+        "ministral-3_3b_ab_answer",
+        "ministral-3_3b_ab_plain",
+        "ministral-3_3b_ab_worker",
         "ministral-3_3b_w_smoke_v1"
       ]
     },
@@ -3411,7 +3420,7 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 2230,
+  "record_count": 2293,
   "schema_version": 3,
   "selected_count": 1241,
   "selected_per_model_test": [
@@ -13445,7 +13454,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 84,
+      "extractor_failure_count": 124,
       "failure": {
         "kind": "",
         "message": ""
@@ -13459,12 +13468,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "gemma-4:e4b",
-      "normalized_answer_score": 0.8555555555555555,
+      "normalized_answer_score": 0.7962962962962963,
       "notes": "",
-      "raw_harness_score": 0.5444444444444444,
-      "run_at": "2026-10-18T15:44:53+00:00",
+      "raw_harness_score": 0.337037037037037,
+      "run_at": "2026-10-18T22:12:58+00:00",
       "run_class": "smoke",
-      "run_id": "a3c25775-b67a-4602-9e2a-1ce2feaa0378",
+      "run_id": "1dc11b3b-1676-4800-a1af-fdeb4b5350fd",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -13484,10 +13493,10 @@
       },
       "sample_count": 270,
       "schema_version": 3,
-      "score": 0.8555555555555555,
-      "score_pct": 85.55555555555556,
+      "score": 0.7962962962962963,
+      "score_pct": 79.62962962962963,
       "status": "success",
-      "suite": "gemma-4_e4b_w_p45_think",
+      "suite": "gemma-4_e4b_ab_plain",
       "test_id": "bbh_flexible"
     },
     {
@@ -13855,7 +13864,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 1,
+      "extractor_failure_count": 3,
       "failure": {
         "kind": "",
         "message": ""
@@ -13869,12 +13878,12 @@
       },
       "metric": "answer_contained",
       "model": "gemma-4:e4b",
-      "normalized_answer_score": 0.8,
+      "normalized_answer_score": 0.3,
       "notes": "",
-      "raw_harness_score": 0.7,
-      "run_at": "2026-10-18T12:08:11+00:00",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-18T22:13:22+00:00",
       "run_class": "smoke",
-      "run_id": "b3ee67bc-e9d1-49d8-93a9-f1b56e44a2ab",
+      "run_id": "1e8fa9b9-19d9-4aff-9b3d-4f44251fbf65",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -13894,10 +13903,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.8,
-      "score_pct": 80.0,
+      "score": 0.3,
+      "score_pct": 30.0,
       "status": "success",
-      "suite": "gemma-4_e4b_w_smoke_v1",
+      "suite": "gemma-4_e4b_ab_plain",
       "test_id": "drop_flexible"
     },
     {
@@ -14643,7 +14652,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 2,
+      "extractor_failure_count": 3,
       "failure": {
         "kind": "",
         "message": ""
@@ -14657,12 +14666,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "llama3.2:3b",
-      "normalized_answer_score": 0.5962962962962963,
+      "normalized_answer_score": 0.5888888888888889,
       "notes": "",
-      "raw_harness_score": 0.5888888888888889,
-      "run_at": "2026-10-18T08:04:52+00:00",
+      "raw_harness_score": 0.5777777777777777,
+      "run_at": "2026-10-18T20:22:18+00:00",
       "run_class": "smoke",
-      "run_id": "65e8bf45-f247-4e4b-983a-3aa9d1761691",
+      "run_id": "fd11c83d-af48-4149-940f-3b0aa1250c67",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -14682,10 +14691,10 @@
       },
       "sample_count": 270,
       "schema_version": 3,
-      "score": 0.5962962962962963,
-      "score_pct": 59.62962962962963,
+      "score": 0.5888888888888889,
+      "score_pct": 58.88888888888889,
       "status": "success",
-      "suite": "llama3_2_3b_w_smoke_v1",
+      "suite": "llama3_2_3b_ab_plain",
       "test_id": "bbh_flexible"
     },
     {
@@ -16068,7 +16077,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 5,
+      "extractor_failure_count": 7,
       "failure": {
         "kind": "",
         "message": ""
@@ -16082,12 +16091,12 @@
       },
       "metric": "answer_contained",
       "model": "llama3.2:3b",
-      "normalized_answer_score": 0.9,
+      "normalized_answer_score": 0.7,
       "notes": "",
-      "raw_harness_score": 0.4,
-      "run_at": "2026-10-18T08:05:22+00:00",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-18T20:22:39+00:00",
       "run_class": "smoke",
-      "run_id": "9c0bf658-1b2b-429e-8e45-c5df53a861c7",
+      "run_id": "a69d904f-d7d2-491d-a000-d7cfe9faa533",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -16107,10 +16116,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.9,
-      "score_pct": 90.0,
+      "score": 0.7,
+      "score_pct": 70.0,
       "status": "success",
-      "suite": "llama3_2_3b_w_smoke_v1",
+      "suite": "llama3_2_3b_ab_plain",
       "test_id": "drop_flexible"
     },
     {
@@ -22389,12 +22398,12 @@
       },
       "metric": "exact_match,get-answer",
       "model": "ministral-3:3b",
-      "normalized_answer_score": 0.022222222222222223,
+      "normalized_answer_score": 0.07037037037037037,
       "notes": "",
-      "raw_harness_score": 0.022222222222222223,
-      "run_at": "2026-10-18T09:28:36+00:00",
+      "raw_harness_score": 0.07037037037037037,
+      "run_at": "2026-10-18T20:15:54+00:00",
       "run_class": "smoke",
-      "run_id": "cdf1921a-614a-4dba-a255-d3a2b685a402",
+      "run_id": "989e833b-f73f-435b-a710-da8fd28a8d7e",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -22414,10 +22423,10 @@
       },
       "sample_count": 270,
       "schema_version": 3,
-      "score": 0.022222222222222223,
-      "score_pct": 2.2222222222222223,
+      "score": 0.07037037037037037,
+      "score_pct": 7.037037037037037,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "ministral-3_3b_ab_plain",
       "test_id": "bbh"
     },
     {
@@ -22433,7 +22442,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 7,
+      "extractor_failure_count": 115,
       "failure": {
         "kind": "",
         "message": ""
@@ -22447,12 +22456,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "ministral-3:3b",
-      "normalized_answer_score": 0.04814814814814815,
+      "normalized_answer_score": 0.4962962962962963,
       "notes": "",
-      "raw_harness_score": 0.022222222222222223,
-      "run_at": "2026-10-18T09:28:37+00:00",
+      "raw_harness_score": 0.07037037037037037,
+      "run_at": "2026-10-18T20:15:55+00:00",
       "run_class": "smoke",
-      "run_id": "9fa215b1-ddbe-4ffa-95e0-ffa339601a2b",
+      "run_id": "a74a24db-955c-4654-a783-889cd8884b68",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -22472,10 +22481,10 @@
       },
       "sample_count": 270,
       "schema_version": 3,
-      "score": 0.04814814814814815,
-      "score_pct": 4.814814814814815,
+      "score": 0.4962962962962963,
+      "score_pct": 49.629629629629626,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "ministral-3_3b_ab_plain",
       "test_id": "bbh_flexible"
     },
     {
@@ -24855,12 +24864,12 @@
       },
       "metric": "em,none",
       "model": "ministral-3:3b",
-      "normalized_answer_score": 0.2,
+      "normalized_answer_score": 0.0,
       "notes": "",
-      "raw_harness_score": 0.2,
-      "run_at": "2026-10-18T09:29:03+00:00",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-18T20:16:17+00:00",
       "run_class": "smoke",
-      "run_id": "4ada19cf-827e-4fd0-8515-829419ec3b5a",
+      "run_id": "ac83a475-95ab-4d83-bb02-388acc380b35",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -24880,10 +24889,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.2,
-      "score_pct": 20.0,
+      "score": 0.0,
+      "score_pct": 0.0,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "ministral-3_3b_ab_plain",
       "test_id": "drop_em"
     },
     {
@@ -24913,12 +24922,12 @@
       },
       "metric": "f1,none",
       "model": "ministral-3:3b",
-      "normalized_answer_score": 0.32399999999999995,
+      "normalized_answer_score": 0.09000000000000001,
       "notes": "",
-      "raw_harness_score": 0.32399999999999995,
-      "run_at": "2026-10-18T09:29:04+00:00",
+      "raw_harness_score": 0.09000000000000001,
+      "run_at": "2026-10-18T20:16:18+00:00",
       "run_class": "smoke",
-      "run_id": "8b560556-0bcb-4eab-84bb-f89b53a56a78",
+      "run_id": "5a66f036-eb2d-4890-bc24-812f5d62461a",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -24938,10 +24947,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.32399999999999995,
-      "score_pct": 32.4,
+      "score": 0.09000000000000001,
+      "score_pct": 9.000000000000002,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "ministral-3_3b_ab_plain",
       "test_id": "drop_f1"
     },
     {
@@ -24957,7 +24966,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 2,
+      "extractor_failure_count": 7,
       "failure": {
         "kind": "",
         "message": ""
@@ -24971,12 +24980,12 @@
       },
       "metric": "answer_contained",
       "model": "ministral-3:3b",
-      "normalized_answer_score": 0.4,
+      "normalized_answer_score": 0.7,
       "notes": "",
-      "raw_harness_score": 0.2,
-      "run_at": "2026-10-18T09:29:05+00:00",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-18T20:16:18+00:00",
       "run_class": "smoke",
-      "run_id": "663ac92b-6d36-40b0-9002-2d7dc4822114",
+      "run_id": "4e0b9965-cf1e-4a8a-a26b-c70778e54446",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -24996,10 +25005,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.4,
-      "score_pct": 40.0,
+      "score": 0.7,
+      "score_pct": 70.0,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "ministral-3_3b_ab_plain",
       "test_id": "drop_flexible"
     },
     {
@@ -25330,12 +25339,12 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 2,
+      "extractor_failure_count": 0,
       "failure": {
         "kind": "",
         "message": ""
       },
-      "format_compatibility": "degraded",
+      "format_compatibility": "compatible",
       "harness": "bench-reasoning",
       "methodology": {
         "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
@@ -25346,10 +25355,10 @@
       "model": "ministral-3:3b",
       "normalized_answer_score": 0.8,
       "notes": "",
-      "raw_harness_score": 0.6,
-      "run_at": "2026-10-18T09:18:17+00:00",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-18T19:33:11+00:00",
       "run_class": "smoke",
-      "run_id": "1ec35b93-06e6-45dd-8bb1-f0fd605a891c",
+      "run_id": "cc64e6b3-bcc9-41cc-94e8-b62644d39ce6",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -25372,7 +25381,7 @@
       "score": 0.8,
       "score_pct": 80.0,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "ministral-3_3b_ab_answer",
       "test_id": "gsm8k_flexible"
     },
     {
@@ -25388,12 +25397,12 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 2,
+      "extractor_failure_count": 0,
       "failure": {
         "kind": "",
         "message": ""
       },
-      "format_compatibility": "degraded",
+      "format_compatibility": "compatible",
       "harness": "bench-reasoning",
       "methodology": {
         "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
@@ -25404,10 +25413,10 @@
       "model": "ministral-3:3b",
       "normalized_answer_score": 0.8,
       "notes": "",
-      "raw_harness_score": 0.6,
-      "run_at": "2026-10-18T09:18:17+00:00",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-18T19:33:10+00:00",
       "run_class": "smoke",
-      "run_id": "e253c33d-d832-48fa-9614-70cae7c6aae8",
+      "run_id": "f546f52b-417e-48e0-a305-8a7a34e4ef8f",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -25427,10 +25436,10 @@
       },
       "sample_count": 10,
       "schema_version": 3,
-      "score": 0.6,
-      "score_pct": 60.0,
+      "score": 0.8,
+      "score_pct": 80.0,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "ministral-3_3b_ab_answer",
       "test_id": "gsm8k_strict"
     },
     {
@@ -59472,6 +59481,39 @@
       "harnesses": [
         "bench-reasoning"
       ],
+      "last_run_at": "2026-10-18T20:54:10+00:00",
+      "model": "gemma-4:e4b",
+      "records": 7,
+      "successes": 7,
+      "suite": "gemma-4_e4b_ab_answer"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T22:15:13+00:00",
+      "model": "gemma-4:e4b",
+      "records": 7,
+      "successes": 7,
+      "suite": "gemma-4_e4b_ab_plain"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T19:45:19+00:00",
+      "model": "gemma-4:e4b",
+      "records": 7,
+      "successes": 7,
+      "suite": "gemma-4_e4b_ab_worker"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
       "last_run_at": "2026-10-18T13:44:17+00:00",
       "model": "gemma-4:e4b",
       "records": 4,
@@ -59732,6 +59774,39 @@
       "records": 11,
       "successes": 11,
       "suite": "daedalmap_small_models_smoke_v7_llama3.2_3b"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T19:51:49+00:00",
+      "model": "llama3.2:3b",
+      "records": 7,
+      "successes": 7,
+      "suite": "llama3_2_3b_ab_answer"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T20:23:27+00:00",
+      "model": "llama3.2:3b",
+      "records": 7,
+      "successes": 7,
+      "suite": "llama3_2_3b_ab_plain"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T19:21:07+00:00",
+      "model": "llama3.2:3b",
+      "records": 7,
+      "successes": 7,
+      "suite": "llama3_2_3b_ab_worker"
     },
     {
       "failures": 0,
@@ -60187,6 +60262,39 @@
       "records": 4,
       "successes": 4,
       "suite": "campaign_runtime_20260813_contract_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T19:33:11+00:00",
+      "model": "ministral-3:3b",
+      "records": 7,
+      "successes": 7,
+      "suite": "ministral-3_3b_ab_answer"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T20:17:36+00:00",
+      "model": "ministral-3:3b",
+      "records": 7,
+      "successes": 7,
+      "suite": "ministral-3_3b_ab_plain"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-18T19:04:47+00:00",
+      "model": "ministral-3:3b",
+      "records": 7,
+      "successes": 7,
+      "suite": "ministral-3_3b_ab_worker"
     },
     {
       "failures": 0,
