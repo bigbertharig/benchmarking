@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "llama3_2_3b_runtime_characterization_20261018",
+  "recorded_at": "2026-10-18T00:04:56-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "llama3.2:3b",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "4096",
+    "batch_size": "64",
+    "extra_args": "none"
+  },
+  "first_load": {
+    "seconds": 237.8,
+    "source": "NVMe/SATA hot-set or archive, GTX 1060 lane"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 86,
+    "generation_tokens_per_second": 38.31,
+    "prompt_tokens_per_second": 583.44,
+    "wall_seconds": 20.1,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 4,
+      "samples": 19,
+      "avg_power_w": 118.8,
+      "peak_power_w": 128.18,
+      "peak_temperature_c": 75.0,
+      "avg_utilization_pct": 96.3,
+      "avg_sm_clock_mhz": 1949
+    }
+  ],
+  "combined_avg_gpu_power_w": 118.8,
+  "decode_energy_wh": 0.664
+}
