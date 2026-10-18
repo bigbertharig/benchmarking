@@ -660,7 +660,15 @@ directly with the October brain candidates.
 - [x] Chosen settings written to the registry: `--reasoning off`, family prompt, max_tokens 512
 
 ### Phase 5: Full Run (limit 50/100)
-- [ ] Campaign `qwen36_35b_a3b_phase5_202610` (same blocks as `october_brain_phase5_202610`)
+- Campaign `qwen36_35b_a3b_phase5_202610` (2026-10-17, run 20261017_164139), thinking off, extract v4,
+  same blocks as `october_brain_phase5_202610`; 16:41-17:48 (reasoning block 46 min).
+- [x] bench-reasoning limit 50: GSM8K 0.94 / 0.94, BBH 0.910 / 0.913 flexible, DROP EM 0.82 / F1 0.86 /
+  flexible 0.88, IFEval prompt strict 0.86 / inst strict 0.908
+- [x] MMLU-Pro limit 20 (280): 0.782
+- [x] bench-geoimport: classify 1.0 / 1.0, prep plan 0.879, handoff 1.0 / 0.905
+- [x] bench-pipeline: json_schema 0.231, cmd_safety 1.0, ambiguity 0.538, tool_plan 0.933, orch 0.75, long_context 1.0
+- [x] bench-runtime: 4/4
+- [x] bench-code: Phase 4 full run stands (HumanEval 0.927 / 0.896, MBPP 0.907 / 0.767)
 
 ## Integration: Nex-N2.5 mini 35B-A3B (2026-10-16)
 
