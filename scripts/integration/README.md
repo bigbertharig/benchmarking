@@ -13,7 +13,8 @@ candidate integration. Run them on the rig (they talk to rig-local runtime ports
 | `smoke_reasoning.sh <model> <run> [flags]` | 4 / 4.5 | bbh + drop limit 10 with raw samples against :11434, for prompt or flag A/Bs |
 | `bbh_misses.py <run> ...` | 4 | Classifies BBH misses: wrong answer vs missing answer phrase vs likely cut |
 | `run_worker_lanes.sh <gpu-list> <model> [model ...]` | 2-4.5 | Works through a queue of single-GPU models on several GTX 1060s in parallel under one thermal guard; each card takes the next model as soon as it is free. Logs in `/mnt/shared/logs/benchmarks/worker_lanes_<ts>/` |
-| `worker_lane.sh <gpu> <queue-file>` | 2-4.5 | One lane (used by the above): load with registry settings, litmus, runtime record, Phase 4 smoke, thinking A/B when the template supports thinking |
+| `worker_lane.sh <gpu> <queue-file>` | 2-4.5 | One lane (used by the above): load with registry settings, litmus, runtime record, Phase 4 smoke, thinking A/B when the template supports thinking. Holds a `benchmarks` lease on its GPU from the rig manager for the whole run (refused card: `LANE_REFUSED`, the lane does not run). `LANE_STOP_AFTER=3` stops each model after Phase 3 for a quick check |
+| `harness_lease.sh acquire\|renew\|release` | - | Lease a GPU from the rig manager (llm-gateway on the Pi, `rigctl` over ssh). Unreachable manager: runs without a lease, audited as `no-lease` by `run_runtime.sh` |
 | `resolve_model.py <model>` | - | Registry settings as shell assignments (hot-set path, ctx, batch, extra args, thinking budget) |
 | `probe_template.py <samples.jsonl>` | 4 | Shows how the loaded model's chat template ends the prompt and what it generates first (thinking-control diagnosis) |
 

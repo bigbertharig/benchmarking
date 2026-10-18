@@ -3,6 +3,9 @@
 # GPU and port, until the queue is empty. Several lanes share one queue, so each card picks up the
 # next model as soon as it frees up. Only ever touches its own container (llama-lane-gpuN);
 # run_runtime.sh still loads one model at a time rig-wide.
+# The lane holds a `benchmarks` lease on its GPU from the rig manager for its whole run
+# (harness_lease.sh; refused card = the lane does not run) and passes it to every load.
+# LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check.
 # usage: worker_lane.sh <gpu-index> <queue-file>
 set -uo pipefail
 GPU=$1; QUEUE=$2
@@ -25,7 +28,8 @@ load() {  # extra-args-string -> sets LOAD_S, returns nonzero on failure
   s=$(date +%s.%N)
   "$RR" --name "$NAME" --model "$GGUF" --port "$PORT" --gpus "device=$GPU" --ctx-size "$CTX" \
       --batch-size "$BATCH" --parallel "$PARALLEL" --n-gpu-layers "$NGL" \
-      --memory-limit 8g --memory-swap 10g "${extra[@]}" >/dev/null 2>"/tmp/lane_gpu${GPU}.err" || return 1
+      --memory-limit 8g --memory-swap 10g ${LEASE:+--lease "$LEASE"} "${extra[@]}" \
+      >/dev/null 2>"/tmp/lane_gpu${GPU}.err" || return 1
   LOAD_S=$(python3 -c "print(round($(date +%s.%N)-$s,1))")
 }
 prompt_tail() {
@@ -48,6 +52,24 @@ next_model() {  # pop the first line of the queue under a lock; empty output whe
   ) 8>"$QUEUE.lock"
 }
 
+OWNER="lane-gpu$GPU"
+RUN_ID="$(basename "$(dirname "$QUEUE")")"
+LEASE=$("$HERE/harness_lease.sh" acquire "$GPU" "$OWNER" "$RUN_ID" "queue") || {
+  say "LANE_REFUSED: the rig manager did not lease GPU $GPU to this lane"; exit 2; }
+say "lease ${LEASE:-none (manager unreachable, running offline)}"
+renewer=""
+if [ -n "$LEASE" ]; then
+  ( while sleep 120; do "$HERE/harness_lease.sh" renew "$LEASE" "$OWNER"; done ) &
+  renewer=$!
+fi
+finish() {
+  docker rm -f "$NAME" >/dev/null 2>&1
+  [ -n "$renewer" ] && kill "$renewer" 2>/dev/null
+  "$HERE/harness_lease.sh" release "$LEASE" "$OWNER"
+}
+trap finish EXIT
+trap 'exit 143' TERM INT   # stop_all / operator: still run finish (container out, lease released)
+
 while MODEL=$(next_model) && [ -n "$MODEL" ]; do
   slug=$(echo "$MODEL" | tr ':.' '__' | tr -cd 'A-Za-z0-9_-')
   eval "$(python3 "$HERE/resolve_model.py" "$MODEL")"
@@ -63,6 +85,11 @@ print("yes" if any(k in t for k in ("<think>", "enable_thinking", "reasoning")) 
   python3 "$HERE/runtime_char.py" "$MODEL" "$PORT" "$GPU" "$LOAD_S" "NVMe/SATA hot-set or archive, GTX 1060 lane" \
     "$RX/${slug}_runtime_characterization_${STAMP}.json" image=llama-runtime:b11669 ctx_size="$CTX" \
     batch_size="$BATCH" extra_args="${EXTRA:-none}" | grep -E "generation_tokens_per_second|avg_power_w" | sed "s/^/    /"
+  if [ "${LANE_STOP_AFTER:-}" = "3" ]; then
+    docker rm -f "$NAME" >/dev/null 2>&1
+    say "== $MODEL done (LANE_STOP_AFTER=3)"
+    continue
+  fi
   say "Phase 4 smoke"
   "$HERE/phase4.sh" "$MODEL" "${slug}_w_smoke_v1" "$PORT" | sed "s/^/    /"
   if [ "$thinking_capable" = "yes" ]; then
