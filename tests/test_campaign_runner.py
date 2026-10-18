@@ -428,5 +428,63 @@ class CampaignRunnerTests(unittest.TestCase):
             self.assertIn("changes runtime settings", str(raised.exception))
 
 
+    # Campaign leases: one `benchmarks` lease per occupied slot from the rig manager.
+
+    def _fake_lease_helper(self, mode="ok"):
+        tmp = Path(tempfile.mkdtemp())
+        calls = tmp / "calls"
+        helper = tmp / "harness_lease.sh"
+        helper.write_text(
+            "#!/bin/bash\n"
+            f'echo "$*" >> {calls}\n'
+            'case "$1" in\n'
+            f'  acquire) case "{mode}" in ok|stuck) echo "lease-$2";; offline) exit 0;; refused) echo nope >&2; exit 2;; esac ;;\n'
+            f'  release) [ "{mode}" = stuck ] && echo "release failed" >&2; exit 0 ;;\n'
+            "esac\n", encoding="utf-8")
+        self._patch(LEASE_HELPER=helper)
+        return lambda: calls.read_text(encoding="utf-8").splitlines() if calls.exists() else []
+
+    def test_lease_taken_once_per_slot_and_released_when_freed(self):
+        calls = self._fake_lease_helper()
+        leases = RUNNER.CampaignLeases("run-1")
+        slots = RUNNER.OccupiedSlots(leases)
+        self.assertEqual(leases.ensure(RUNNER.SLOTS["split_1_3"], "m:8b"), "lease-1,3")
+        self.assertEqual(leases.ensure(RUNNER.SLOTS["split_1_3"], "m:8b"), "lease-1,3")
+        slots["split_1_3"] = "block-a"
+        slots.pop("split_1_3", None)
+        self.assertEqual(calls(), ["acquire 1,3 campaign-split_1_3 run-1 m:8b",
+                                   "release lease-1,3 campaign-split_1_3"])
+        self.assertEqual(leases.held, {})
+
+    def test_refused_card_fails_and_unreachable_manager_runs_without_lease(self):
+        self._fake_lease_helper("refused")
+        with self.assertRaises(RuntimeError) as raised:
+            RUNNER.CampaignLeases("run-1").ensure(RUNNER.SLOTS["gpu_2"], "m")
+        self.assertIn("did not lease gpu_2", str(raised.exception))
+        self._fake_lease_helper("offline")
+        self.assertIsNone(RUNNER.CampaignLeases("run-1").ensure(RUNNER.SLOTS["gpu_2"], "m"))
+
+    def test_release_refused_is_retried(self):
+        self._fake_lease_helper("stuck")
+        leases = RUNNER.CampaignLeases("run-1")
+        leases.ensure(RUNNER.SLOTS["gpu_3"], "m")
+        leases.release("gpu_3")
+        self.assertEqual(leases.pending, {"gpu_3": "lease-3"})
+
+    def test_runtime_command_carries_the_lease(self):
+        block = self._brain_block()
+        seen = []
+        self._patch(docker_stop=lambda name: None, served_model_id=lambda port: None,
+                    build_runtime_cmd=lambda b, s: ["true"])
+        original_run = RUNNER.subprocess.run
+        original_sleep = RUNNER.time.sleep
+        RUNNER.time.sleep = lambda s: None
+        RUNNER.subprocess.run = lambda cmd, **kw: seen.append(cmd) or original_run(["true"], **kw)
+        self.addCleanup(setattr, RUNNER.subprocess, "run", original_run)
+        self.addCleanup(setattr, RUNNER.time, "sleep", original_sleep)
+        RUNNER.start_runtime(block, RUNNER.SLOTS["brain"], "lease-0")
+        self.assertEqual(seen[-1], ["true", "--lease", "lease-0"])
+
+
 if __name__ == "__main__":
     unittest.main()
