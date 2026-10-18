@@ -3,7 +3,12 @@
 set -uo pipefail
 model=$1; tag=$2; port=${3:-11434}; shift 3 2>/dev/null || shift $#
 L=/mnt/shared/logs/benchmarks/phase4_${tag}
-alive() { curl -sf "http://127.0.0.1:$port/v1/models" >/dev/null || { echo "RUNTIME DOWN before $1"; exit 3; }; }
+alive() {  # on a dead runtime, say why (exit code, OOM, rig guard action, earlyoom) before giving up
+  curl -sf "http://127.0.0.1:$port/v1/models" >/dev/null && return 0
+  echo "RUNTIME DOWN before $1"
+  rig why --port "$port" 2>&1 | sed 's/^/  /'
+  exit 3
+}
 common=(--rm --network host -e BENCHMARK_DISABLE_AUTO_RESERVE=1 -v /mnt/shared:/mnt/shared
         -v /run/lock:/host-lock -e BENCH_EVAL_LOCK=/host-lock/bench-evalplus.lock)  # one EvalPlus scoring at a time
 alive pipeline
