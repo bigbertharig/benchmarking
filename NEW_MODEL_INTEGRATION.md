@@ -250,6 +250,13 @@ must be documented in the tuning profile before the smoke campaign starts.
 
 Run each suite with `--limit 10` to confirm non-zero scores and catch format issues early.
 
+Suites without a limit: bench-pipeline (about 80 cases, about 30 s on the 3090) and bench-runtime
+(4 cases) are small and run whole here. bench-code has no limit, only `--tasks`: Phase 4 runs
+HumanEval alone (164 problems, `--tasks humaneval --run-class smoke`), and the full code run
+(HumanEval + MBPP, 542 problems) waits for Phase 5 with the settings Phase 4.5 chose (decided
+2026-10-18; before that Phase 4 ran full code and Phase 5 reused it, so code was never measured with
+thinking on).
+
 **Why limit 10, not limit 5**: Limit 5 is too few samples to distinguish real model problems
 from noise. Limit 10 gives enough signal to catch format extraction failures (e.g. GSM8K
 strict-match 0.0 because model outputs `$18` instead of `#### 18`), while still completing
@@ -288,7 +295,8 @@ docker run --rm --network host \
   -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
   -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
-  bench-code --model <model-id> --runtime-base http://localhost:<port> --run-name <model>_smoke_v1
+  bench-code --model <model-id> --runtime-base http://localhost:<port> --run-name <model>_smoke_v1 \
+  --run-class smoke --tasks humaneval
 ```
 
 **Reasoning** (from rig):
@@ -346,7 +354,7 @@ Run the standard suite at limit 50 or 100 for publishable scores.
 
 **Option A: Manual docker runs** (same as Phase 4, with higher limits):
 - Reasoning: `--limit 50` or `--limit 100`
-- Code: no limit flag (full 542 problems)
+- Code: full HumanEval + MBPP (542 problems, `--run-class full`), with the Phase 4.5 settings
 - Pipeline: no limit flag (full custom test set)
 
 **Option B: Campaign runner** (preferred for multi-model or multi-suite runs):
@@ -583,7 +591,7 @@ GGUF: <filename> | Size: <size> | Source: <url>
 
 ### Phase 4: Smoke Runs (limit 10)
 - [ ] bench-pipeline: <scores or link>
-- [ ] bench-code: <scores or link>
+- [ ] bench-code (HumanEval smoke): <scores or link>
 - [ ] bench-reasoning --limit 10: <scores or link>
 - [ ] Raw outputs inspected — format issues identified and documented
 - [ ] All suites produce non-zero scores
@@ -600,7 +608,7 @@ GGUF: <filename> | Size: <size> | Source: <url>
 
 ### Phase 5: Full Run (limit 50/100)
 - [ ] bench-pipeline: <scores>
-- [ ] bench-code: <scores>
+- [ ] bench-code (full, chosen settings): <scores>
 - [ ] bench-reasoning --limit <N>: <scores>
 - Run names: <list>
 - Notes:
