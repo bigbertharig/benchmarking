@@ -7,7 +7,9 @@
 # is on the GPUs. A model that does not fit the group is skipped (LOAD FAILED with the reason).
 # The lane holds a rig claim on its cards for its whole run (`rigctl claim lane-<group>`), so they stay
 # reserved between loads; a refused claim = the lane does not run (LANE_REFUSED).
-# LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check.
+# LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check;
+# LANE_STOP_AFTER=4 after the Phase 4 smoke. LANE_START_AT=4.5 runs only the Phase 4.5 thinking A/B
+# (for a model whose Phases 2-4 already ran, e.g. after a rig restart in between).
 # usage: worker_lane.sh <gpu-group> <queue-file>     e.g. worker_lane.sh 1+3 queue.txt
 set -uo pipefail
 GROUP=$1; QUEUE=$2
@@ -32,12 +34,14 @@ rigctl() {  # ssh re-splits the remote line, so every argument is quoted for the
 }
 
 PROFILE=""
+LOADED_ARGS=""
 unload() {
   [ -n "$PROFILE" ] || return 0
   rigctl unload "$PROFILE" > /dev/null 2>&1 || say "unload of $PROFILE failed"
   PROFILE=""
 }
 load() {  # extra-args-string -> sets PROFILE, CTX, LOAD_S; nonzero with the reason in LOAD_ERR
+  if [ -n "$PROFILE" ] && [ "$LOADED_ARGS" = "$MODEL|$1" ]; then return 0; fi  # already loaded this way
   unload
   local s out
   s=$(date +%s.%N)
@@ -49,6 +53,13 @@ load() {  # extra-args-string -> sets PROFILE, CTX, LOAD_S; nonzero with the rea
   eval "$(python3 -c 'import json,shlex,sys; d=json.load(sys.stdin)
 print("PROFILE=%s CTX=%s SPLIT=%s" % (shlex.quote(d["profile"]), d["ctx"], shlex.quote(str(d.get("tensor_split") or "-"))))' <<< "$out")"
   LOAD_S=$(python3 -c "print(round($(date +%s.%N)-$s,1))")
+  LOADED_ARGS="$MODEL|$1"
+}
+thinking_template() {
+  curl -s "http://127.0.0.1:$PORT/props" | python3 -c '
+import json, sys
+t = json.load(sys.stdin).get("chat_template", "")
+print("yes" if any(k in t for k in ("<think>", "enable_thinking", "reasoning")) else "no")'
 }
 prompt_tail() {
   curl -s "http://127.0.0.1:$PORT/apply-template" -d '{"messages":[{"role":"user","content":"hi"}]}' |
@@ -85,14 +96,17 @@ trap 'exit 143' TERM INT   # stop_all / operator: still run finish (model unload
 while MODEL=$(next_model) && [ -n "$MODEL" ]; do
   slug=$(echo "$MODEL" | tr ':.' '__' | tr -cd 'A-Za-z0-9_-')
   eval "$(python3 "$HERE/resolve_model.py" "$MODEL")"   # EXTRA, BASE_EXTRA (registry args); THINK_TOKS below
+  if [ "${LANE_START_AT:-2}" = "4.5" ]; then
+    say "== $MODEL: Phase 4.5 only (LANE_START_AT=4.5)"
+    if ! load "--reasoning off"; then say "LOAD FAILED $MODEL: $LOAD_ERR"; continue; fi
+    THINK_TOKS=$(( CTX - 2048 < 4096 ? (CTX - 2048 < 1024 ? 1024 : CTX - 2048) : 4096 ))
+    thinking_capable=$(thinking_template)
+  else
   say "== $MODEL: Phase 2 (registry args: ${EXTRA:-none})"
   if ! load ""; then say "LOAD FAILED $MODEL: $LOAD_ERR"; continue; fi
   THINK_TOKS=$(( CTX - 2048 < 4096 ? (CTX - 2048 < 1024 ? 1024 : CTX - 2048) : 4096 ))
   say "loaded $PROFILE in ${LOAD_S}s: ctx $CTX split $SPLIT; vram $(nvidia-smi --query-gpu=memory.used --format=csv,noheader -i "$GPUS" | tr '\n' ' '); prompt tail $(prompt_tail)"
-  thinking_capable=$(curl -s "http://127.0.0.1:$PORT/props" | python3 -c '
-import json, sys
-t = json.load(sys.stdin).get("chat_template", "")
-print("yes" if any(k in t for k in ("<think>", "enable_thinking", "reasoning")) else "no")')
+  thinking_capable=$(thinking_template)
   say "Phase 3 litmus"; python3 "$HERE/litmus.py" "$PORT" | sed "s/^/    /"
   python3 "$HERE/runtime_char.py" "$MODEL" "$PORT" "$GPUS" "$LOAD_S" "harness load ($PROFILE), lane GPU $GPUS" \
     "$RX/${slug}_runtime_characterization_${STAMP}.json" image=llama-runtime:b11669 ctx_size="$CTX" \
@@ -104,6 +118,12 @@ print("yes" if any(k in t for k in ("<think>", "enable_thinking", "reasoning")) 
   fi
   say "Phase 4 smoke"
   "$HERE/phase4.sh" "$MODEL" "${slug}_w_smoke_v1" "$PORT" | sed "s/^/    /"
+  if [ "${LANE_STOP_AFTER:-}" = "4" ]; then
+    unload
+    say "== $MODEL done (LANE_STOP_AFTER=4)"
+    continue
+  fi
+  fi
   if [ "$thinking_capable" = "yes" ]; then
     for variant in off on; do
       # The registry's own reasoning flag is replaced: the harness appends this after the registry args.

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # NEW_MODEL_INTEGRATION Phase 4 smoke on the runtime at :PORT: pipeline (fixed set, small), code smoke
-# (HumanEval only; the full HumanEval + MBPP run is Phase 5, with the chosen settings), reasoning limit 10. usage: phase4.sh <model-id> <run-tag> [port] [extra reasoning flags...]
+# (the first 50 HumanEval problems; the full HumanEval + MBPP run is Phase 5, with the chosen settings),
+# reasoning limit 10. usage: phase4.sh <model-id> <run-tag> [port] [extra reasoning flags...]
 set -uo pipefail
 model=$1; tag=$2; port=${3:-11434}; shift 3 2>/dev/null || shift $#
 L=/mnt/shared/logs/benchmarks/phase4_${tag}
@@ -19,7 +20,7 @@ docker run "${common[@]}" -v /mnt/shared/logs/benchmarks/bench-pipeline/history:
   > "${L}_pipeline.log" 2>&1; echo "pipeline exit=$?"
 alive code
 docker run "${common[@]}" -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
-  bench-code --model "$model" --runtime-base "http://localhost:$port" --run-name "${tag}" --run-class smoke --tasks humaneval \
+  bench-code --model "$model" --runtime-base "http://localhost:$port" --run-name "${tag}" --run-class smoke --tasks humaneval --limit 50 \
   > "${L}_code.log" 2>&1; echo "code exit=$?"
 alive reasoning
 docker run "${common[@]}" -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
