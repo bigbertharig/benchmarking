@@ -2,7 +2,8 @@
 
 Small tools for NEW_MODEL_INTEGRATION.md Phases 3-4.5, written during the October 2026 brain
 candidate integration. Run them on the rig (they talk to rig-local runtime ports and read
-`/mnt/shared`). Model loads go through `run_runtime.sh`, which holds the rig-wide load lock.
+`/mnt/shared`). Model loads go through `run_runtime.sh`, which holds the rig-wide load lock; the
+lanes load through the harness (llm-gateway `docs/MANAGER.md`, "Model loads").
 
 | Script | Phase | What it does |
 |---|---|---|
@@ -12,8 +13,8 @@ candidate integration. Run them on the rig (they talk to rig-local runtime ports
 | `p45.sh <model> <tag> <gguf> <ctx> "<off args>" "<on args>"` | 4.5 | Thinking off vs on (end-of-text stops, 4096 budget), geoimport output budget 512 vs 1024, thinking-on pipeline and geoimport; loads on the 3090 |
 | `smoke_reasoning.sh <model> <run> [flags]` | 4 / 4.5 | bbh + drop limit 10 with raw samples against :11434, for prompt or flag A/Bs |
 | `bbh_misses.py <run> ...` | 4 | Classifies BBH misses: wrong answer vs missing answer phrase vs likely cut |
-| `run_worker_lanes.sh <gpu-list> <model> [model ...]` | 2-4.5 | Works through a queue of single-GPU models on several GTX 1060s in parallel under one thermal guard; each card takes the next model as soon as it is free. Logs in `/mnt/shared/logs/benchmarks/worker_lanes_<ts>/` |
-| `worker_lane.sh <gpu> <queue-file>` | 2-4.5 | One lane (used by the above): load with registry settings, litmus, runtime record, Phase 4 smoke, thinking A/B when the template supports thinking. Holds a `benchmarks` lease on its GPU from the rig manager for the whole run (refused card: `LANE_REFUSED`, the lane does not run). `LANE_STOP_AFTER=3` stops each model after Phase 3 for a quick check |
+| `run_worker_lanes.sh <lane-list> <model> [model ...]` | 2-4.5 | Works through a queue of models on several lanes in parallel under one thermal guard; a lane is one card (`1`) or a card group (`1+3`, one model split across them), and each takes the next model as soon as it is free. Logs in `/mnt/shared/logs/benchmarks/worker_lanes_<ts>/` |
+| `worker_lane.sh <gpu-group> <queue-file>` | 2-4.5 | One lane (used by the above): load through the harness (`rigctl load-model <model> --gpus <group>`: the manager checks the fit and picks context and split, the rig loads and confirms full offload; a model that does not fit is skipped with the reason), litmus, runtime record, Phase 4 smoke, thinking A/B when the template supports thinking. Holds a rig claim `lane-<group>` on its cards for the whole run (refused: `LANE_REFUSED`, the lane does not run). `LANE_STOP_AFTER=3` stops each model after Phase 3 for a quick check |
 | `harness_lease.sh acquire\|renew\|release` | - | Lease a GPU from the rig manager (llm-gateway on the Pi, `rigctl` over ssh). Unreachable manager: runs without a lease, audited as `no-lease` by `run_runtime.sh` |
 | `resolve_model.py <model>` | - | Registry settings as shell assignments (hot-set path, ctx, batch, extra args, thinking budget) |
 | `probe_template.py <samples.jsonl>` | 4 | Shows how the loaded model's chat template ends the prompt and what it generates first (thinking-control diagnosis) |

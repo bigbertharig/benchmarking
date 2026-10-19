@@ -1,35 +1,53 @@
 #!/usr/bin/env bash
-# One GTX 1060 lane: take models from a shared queue file and run Phases 2-4.5 for each on one
-# GPU and port, until the queue is empty. Several lanes share one queue, so each card picks up the
-# next model as soon as it frees up. Only ever touches its own container (llama-lane-gpuN);
-# run_runtime.sh still loads one model at a time rig-wide.
-# The lane holds a `benchmarks` lease on its GPU from the rig manager for its whole run
-# (harness_lease.sh; refused card = the lane does not run) and passes it to every load.
+# One lane: a card group (one GPU like 1, or several like 1+3) that takes models from a shared queue
+# file and runs Phases 2-4.5 for each, until the queue is empty. Several lanes share one queue, so each
+# group picks up the next model as soon as it frees up.
+# Loads go through the harness (llm-gateway rig manager, `rigctl load-model` over ssh): it checks the
+# model fits the group and picks the context and tensor split, the rig loads it and confirms every layer
+# is on the GPUs. A model that does not fit the group is skipped (LOAD FAILED with the reason).
+# The lane holds a rig claim on its cards for its whole run (`rigctl claim lane-<group>`), so they stay
+# reserved between loads; a refused claim = the lane does not run (LANE_REFUSED).
 # LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check.
-# usage: worker_lane.sh <gpu-index> <queue-file>
+# usage: worker_lane.sh <gpu-group> <queue-file>     e.g. worker_lane.sh 1+3 queue.txt
 set -uo pipefail
-GPU=$1; QUEUE=$2
-PORT=$((11434 + GPU))
-NAME="llama-lane-gpu${GPU}"
+GROUP=$1; QUEUE=$2
+GPUS=${GROUP//+/,}                 # 1,3
+TAG=${GROUP//+/-}                  # 1-3
+FIRST=${GROUP%%+*}
+PORT=$((11434 + FIRST))            # the manager's port rule: 11434 + the lowest GPU
+CLAIM="lane-$TAG"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BENCH="$(cd "$HERE/../.." && pwd)"
-RR="$(cd "$BENCH/../../.." && pwd)/scripts/llama_runtime/run_runtime.sh"
 RX=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments
 L=/mnt/shared/logs/benchmarks
 STAMP=$(date +%Y%m%d)
+HOST="${HARNESS_HOST:-pi}"
+RIGCTL="${HARNESS_RIGCTL:-~/llm-gateway/tools/rigctl.py}"
 common=(--rm --network host -e BENCHMARK_DISABLE_AUTO_RESERVE=1 -v /mnt/shared:/mnt/shared
         -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro)
-say() { echo "$(date +%T) [gpu$GPU] $*"; }
+say() { echo "$(date +%T) [gpu$TAG] $*"; }
+rigctl() {  # ssh re-splits the remote line, so every argument is quoted for the remote shell
+  local q=() a
+  for a in "$@"; do q+=("$(printf '%q' "$a")"); done
+  ssh -o BatchMode=yes -o ConnectTimeout=10 "$HOST" python3 "$RIGCTL" "${q[@]}"
+}
 
-load() {  # extra-args-string -> sets LOAD_S, returns nonzero on failure
-  docker rm -f "$NAME" >/dev/null 2>&1
-  local extra=() s
-  eval "set -- $1"; for a in "$@"; do extra+=(--extra-arg "$a"); done
+PROFILE=""
+unload() {
+  [ -n "$PROFILE" ] || return 0
+  rigctl unload "$PROFILE" > /dev/null 2>&1 || say "unload of $PROFILE failed"
+  PROFILE=""
+}
+load() {  # extra-args-string -> sets PROFILE, CTX, LOAD_S; nonzero with the reason in LOAD_ERR
+  unload
+  local s out
   s=$(date +%s.%N)
-  "$RR" --name "$NAME" --model "$GGUF" --port "$PORT" --gpus "device=$GPU" --ctx-size "$CTX" \
-      --batch-size "$BATCH" --parallel "$PARALLEL" --n-gpu-layers "$NGL" \
-      --memory-limit 8g --memory-swap 10g ${LEASE:+--lease "$LEASE"} "${extra[@]}" \
-      >/dev/null 2>"/tmp/lane_gpu${GPU}.err" || return 1
+  out=$(rigctl load-model "$MODEL" --gpus "$GPUS" --claim "$CLAIM" --use benchmark "--args=$1" --json)
+  LOAD_ERR=$(python3 -c 'import json,sys; d=json.loads(sys.stdin.read() or "{}"); print((d.get("error") or {}).get("message", ""))' <<< "$out" 2>/dev/null)
+  if [ -n "$LOAD_ERR" ] || ! grep -q '"state": "ready"' <<< "$out"; then
+    LOAD_ERR=${LOAD_ERR:-$out}; return 1
+  fi
+  eval "$(python3 -c 'import json,shlex,sys; d=json.load(sys.stdin)
+print("PROFILE=%s CTX=%s SPLIT=%s" % (shlex.quote(d["profile"]), d["ctx"], shlex.quote(str(d.get("tensor_split") or "-"))))' <<< "$out")"
   LOAD_S=$(python3 -c "print(round($(date +%s.%N)-$s,1))")
 }
 prompt_tail() {
@@ -52,41 +70,35 @@ next_model() {  # pop the first line of the queue under a lock; empty output whe
   ) 8>"$QUEUE.lock"
 }
 
-OWNER="lane-gpu$GPU"
 RUN_ID="$(basename "$(dirname "$QUEUE")")"
-LEASE=$("$HERE/harness_lease.sh" acquire "$GPU" "$OWNER" "$RUN_ID" "queue") || {
-  say "LANE_REFUSED: the rig manager did not lease GPU $GPU to this lane"; exit 2; }
-say "lease ${LEASE:-none (manager unreachable, running offline)}"
-renewer=""
-if [ -n "$LEASE" ]; then
-  ( while sleep 120; do "$HERE/harness_lease.sh" renew "$LEASE" "$OWNER"; done ) &
-  renewer=$!
+if ! out=$(rigctl claim "$CLAIM" --gpus "$GPUS" --note "benchmark lane $RUN_ID" 2>&1); then
+  say "LANE_REFUSED: the rig manager did not give cards $GPUS to this lane: $out"; exit 2
 fi
+say "claim $CLAIM on GPU $GPUS"
 finish() {
-  docker rm -f "$NAME" >/dev/null 2>&1
-  [ -n "$renewer" ] && kill "$renewer" 2>/dev/null
-  "$HERE/harness_lease.sh" release "$LEASE" "$OWNER"
+  unload
+  rigctl unclaim "$CLAIM" > /dev/null 2>&1 || say "unclaim of $CLAIM failed"
 }
 trap finish EXIT
-trap 'exit 143' TERM INT   # stop_all / operator: still run finish (container out, lease released)
+trap 'exit 143' TERM INT   # stop_all / operator: still run finish (model unloaded, claim released)
 
 while MODEL=$(next_model) && [ -n "$MODEL" ]; do
   slug=$(echo "$MODEL" | tr ':.' '__' | tr -cd 'A-Za-z0-9_-')
-  eval "$(python3 "$HERE/resolve_model.py" "$MODEL")"
-  say "== $MODEL: Phase 2 (registry args: ${EXTRA:-none}) $GGUF"
-  if ! load "$EXTRA"; then say "LOAD FAILED $MODEL: $(grep -aE ' E |error' /tmp/lane_gpu${GPU}.err | tail -2 | tr '\n' ' ')"; continue; fi
-  say "loaded in ${LOAD_S}s; vram $(nvidia-smi --query-gpu=memory.used --format=csv,noheader -i "$GPU"); prompt tail $(prompt_tail)"
-  docker logs "$NAME" 2>&1 | grep -E "offloaded|thinking =" | sed "s/^/    /"
+  eval "$(python3 "$HERE/resolve_model.py" "$MODEL")"   # EXTRA, BASE_EXTRA (registry args); THINK_TOKS below
+  say "== $MODEL: Phase 2 (registry args: ${EXTRA:-none})"
+  if ! load ""; then say "LOAD FAILED $MODEL: $LOAD_ERR"; continue; fi
+  THINK_TOKS=$(( CTX - 2048 < 4096 ? (CTX - 2048 < 1024 ? 1024 : CTX - 2048) : 4096 ))
+  say "loaded $PROFILE in ${LOAD_S}s: ctx $CTX split $SPLIT; vram $(nvidia-smi --query-gpu=memory.used --format=csv,noheader -i "$GPUS" | tr '\n' ' '); prompt tail $(prompt_tail)"
   thinking_capable=$(curl -s "http://127.0.0.1:$PORT/props" | python3 -c '
 import json, sys
 t = json.load(sys.stdin).get("chat_template", "")
 print("yes" if any(k in t for k in ("<think>", "enable_thinking", "reasoning")) else "no")')
   say "Phase 3 litmus"; python3 "$HERE/litmus.py" "$PORT" | sed "s/^/    /"
-  python3 "$HERE/runtime_char.py" "$MODEL" "$PORT" "$GPU" "$LOAD_S" "NVMe/SATA hot-set or archive, GTX 1060 lane" \
+  python3 "$HERE/runtime_char.py" "$MODEL" "$PORT" "$GPUS" "$LOAD_S" "harness load ($PROFILE), lane GPU $GPUS" \
     "$RX/${slug}_runtime_characterization_${STAMP}.json" image=llama-runtime:b11669 ctx_size="$CTX" \
-    batch_size="$BATCH" extra_args="${EXTRA:-none}" | grep -E "generation_tokens_per_second|avg_power_w" | sed "s/^/    /"
+    tensor_split="$SPLIT" extra_args="${EXTRA:-none}" | grep -E "generation_tokens_per_second|avg_power_w" | sed "s/^/    /"
   if [ "${LANE_STOP_AFTER:-}" = "3" ]; then
-    docker rm -f "$NAME" >/dev/null 2>&1
+    unload
     say "== $MODEL done (LANE_STOP_AFTER=3)"
     continue
   fi
@@ -94,8 +106,9 @@ print("yes" if any(k in t for k in ("<think>", "enable_thinking", "reasoning")) 
   "$HERE/phase4.sh" "$MODEL" "${slug}_w_smoke_v1" "$PORT" | sed "s/^/    /"
   if [ "$thinking_capable" = "yes" ]; then
     for variant in off on; do
-      if ! load "$BASE_EXTRA --reasoning $variant"; then say "LOAD FAILED ($variant)"; continue; fi
-      say "Phase 4.5 thinking $variant: loaded in ${LOAD_S}s, prompt tail $(prompt_tail)"
+      # The registry's own reasoning flag is replaced: the harness appends this after the registry args.
+      if ! load "--reasoning $variant"; then say "LOAD FAILED ($variant): $LOAD_ERR"; continue; fi
+      say "Phase 4.5 thinking $variant: $PROFILE loaded in ${LOAD_S}s, ctx $CTX, prompt tail $(prompt_tail)"
       if [ "$variant" = "on" ]; then
         reasoning "${slug}_w_p45_think" --tasks gsm8k,bbh --gen-kwargs "max_gen_toks=${THINK_TOKS},until=</s>"
       else
@@ -105,7 +118,7 @@ print("yes" if any(k in t for k in ("<think>", "enable_thinking", "reasoning")) 
   else
     say "Phase 4.5 thinking A/B skipped: template has no thinking control"
   fi
-  docker rm -f "$NAME" >/dev/null 2>&1
+  unload
   say "== $MODEL done"
 done
 say LANE_DONE

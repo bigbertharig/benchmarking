@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# Work through a queue of single-GPU models on several GTX 1060s under one thermal guard.
-# Each card takes the next model as soon as it finishes the last one.
-# usage: run_worker_lanes.sh <gpu-list> <model-id> [model-id ...]
-# Example: run_worker_lanes.sh 1,2,3,4 qwen2.5-coder:7b ministral-3:8b gemma-4:e4b minicpm5:2b
+# Work through a queue of models on several lanes under one thermal guard. A lane is one card or a
+# group of cards joined with + (one model split across them); the harness checks each model fits its
+# lane and picks the context and split (worker_lane.sh). Each lane takes the next model as soon as it
+# finishes the last one; a model that does not fit a lane is skipped there.
+# usage: run_worker_lanes.sh <lane-list> <model-id> [model-id ...]
+# Examples: run_worker_lanes.sh 1,2,3,4 qwen2.5-coder:7b ministral-3:8b gemma-4:e4b minicpm5:2b
+#           run_worker_lanes.sh 1+3,4+5 mellum2.1:12b-a2.5b ornith-1.5:9b
 # Queue order is pick-up order: put the slowest models first. A SIGTERM (thermal guard or operator)
 # stops every lane and its container.
 set -uo pipefail
@@ -20,12 +23,12 @@ stop_all() {
   echo "$(date +%T) stopping all lanes"
   : > "$QUEUE"
   for p in "${pids[@]}"; do pkill -TERM -P "$p" 2>/dev/null; kill "$p" 2>/dev/null; done
-  for g in "${gpus[@]}"; do docker rm -f "llama-lane-gpu$g" >/dev/null 2>&1; done
+  # each lane unloads its model and releases its claim on TERM (worker_lane.sh finish)
   exit 1
 }
 trap stop_all TERM INT
 for gpu in "${gpus[@]}"; do
-  "$HERE/worker_lane.sh" "$gpu" "$QUEUE" > "$LOGDIR/lane_gpu$gpu.log" 2>&1 &
+  "$HERE/worker_lane.sh" "$gpu" "$QUEUE" > "$LOGDIR/lane_gpu${gpu//+/-}.log" 2>&1 &
   pids+=($!)
   echo "$(date +%T) lane gpu$gpu pid $!"
   sleep 5   # stagger start-up; loads are serialized by run_runtime.sh anyway
