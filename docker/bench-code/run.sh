@@ -7,6 +7,10 @@ TASKS="humaneval,mbpp"
 RESULTS_DIR="/results"
 RUN_NAME=""
 RUN_CLASS="full"
+# --limit N: only the first N problems of each task (a smoke; EvalPlus itself has no limit). Codegen
+# gets --id_range [0,N]; EvalPlus evaluate insists on every problem, so the rest are padded with empty
+# solutions (they fail at once and are not counted); pass@1 is over the N generated problems.
+LIMIT=""
 PREFLIGHT_ONLY=0
 REQUEST_TIMEOUT="30"
 RESERVATION_SHARED_PATH="${BENCHMARK_RESERVATION_SHARED_PATH:-/mnt/shared}"
@@ -51,6 +55,7 @@ while [[ $# -gt 0 ]]; do
         --results-dir) RESULTS_DIR="$2"; shift 2 ;;
         --run-name) RUN_NAME="$2"; shift 2 ;;
         --run-class) RUN_CLASS="$2"; shift 2 ;;
+        --limit) LIMIT="$2"; shift 2 ;;
         --preflight-only) PREFLIGHT_ONLY=1; shift 1 ;;
         --request-timeout) REQUEST_TIMEOUT="$2"; shift 2 ;;
         *) echo "Unknown arg: $1"; exit 1 ;;
@@ -248,11 +253,12 @@ record_code_task_results() {
     local task="$1"
     local task_dir="$2"
     local sample_count="$3"
-    python3 - "$task" "$task_dir" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
+    local samples="${4:-}"
+    python3 - "$task" "$task_dir" "$LIMIT" "$samples" <<'PY' | while IFS=$'\t' read -r test_id score metric notes; do
 import json, sys
 from pathlib import Path
 
-task, task_dir = sys.argv[1:3]
+task, task_dir, limit, samples = sys.argv[1:5]
 files = sorted(Path(task_dir).glob("*_eval_results.json"))
 if not files:
     raise SystemExit(0)
@@ -260,6 +266,12 @@ data = json.loads(files[-1].read_text(encoding="utf-8"))
 pass_at_1 = data.get("pass@1") or {}
 base = pass_at_1.get("base")
 plus = pass_at_1.get("plus")
+notes = ""
+if limit and samples:  # count only the problems that were generated (the padding is not)
+    ids = {json.loads(l)["task_id"] for l in Path(samples).read_text(encoding="utf-8").splitlines() if l.strip()}
+    data["eval"] = {k: v for k, v in (data.get("eval") or {}).items() if k in ids}
+    base = plus = None
+    notes = f"limit {limit}: first {len(ids)} problems"
 # EvalPlus eval_results.json carries per-problem results under "eval" and no pass@1
 # summary; with greedy decoding (one sample per problem) pass@1 is the pass fraction.
 # "plus" means the problem passed both the base and the extra tests.
@@ -269,9 +281,9 @@ if base is None and results:
     base = sum(s.get("base_status") == "pass" for s in firsts) / len(firsts)
     plus = sum(s.get("base_status") == "pass" and s.get("plus_status") == "pass" for s in firsts) / len(firsts)
 if isinstance(base, (int, float)):
-    print(f"{task}_base\t{base}\tpass@1_base\t")
+    print(f"{task}_base\t{base}\tpass@1_base\t{notes}")
 if isinstance(plus, (int, float)):
-    print(f"{task}_plus\t{plus}\tpass@1_plus\t")
+    print(f"{task}_plus\t{plus}\tpass@1_plus\t{notes}")
 PY
         [ -z "$test_id" ] && continue
         record_result_row "$test_id" "$score" "$metric" "$sample_count" "$notes"
@@ -413,17 +425,43 @@ IFS=',' read -ra TASK_ARRAY <<< "$TASKS"
 
 task_expected_count() {
     local task="$1"
-    python3 - "$task" <<'PY'
+    python3 - "$task" "$LIMIT" <<'PY'
 import sys
-task = sys.argv[1].strip().lower()
+task, limit = sys.argv[1].strip().lower(), sys.argv[2]
 if task == "humaneval":
     from evalplus.data import get_human_eval_plus
-    print(len(get_human_eval_plus()))
+    n = len(get_human_eval_plus())
 elif task == "mbpp":
     from evalplus.data import get_mbpp_plus
-    print(len(get_mbpp_plus()))
+    n = len(get_mbpp_plus())
 else:
-    print(0)
+    n = 0
+print(min(n, int(limit)) if limit and n else n)
+PY
+}
+
+# With --limit: a copy of the samples with an empty solution for every problem not generated, so
+# EvalPlus evaluate runs; prints the padded file's path.
+pad_samples() {
+    local task="$1" samples="$2"
+    python3 - "$task" "$samples" <<'PY'
+import json, sys
+from pathlib import Path
+task, samples = sys.argv[1].strip().lower(), Path(sys.argv[2])
+if task == "humaneval":
+    from evalplus.data import get_human_eval_plus as load
+else:
+    from evalplus.data import get_mbpp_plus as load
+rows = [json.loads(l) for l in samples.read_text(encoding="utf-8").splitlines() if l.strip()]
+have = {r["task_id"] for r in rows}
+padded = samples.with_name(samples.stem + ".padded.jsonl")
+with padded.open("w", encoding="utf-8") as f:
+    for r in rows:
+        f.write(json.dumps(r) + "\n")
+    for tid in load():
+        if tid not in have:
+            f.write(json.dumps({"task_id": tid, "solution": ""}) + "\n")
+print(padded)
 PY
 }
 
@@ -464,6 +502,7 @@ for TASK in "${TASK_ARRAY[@]}"; do
     # evalplus codegen: positional args are MODEL DATASET
     # Note: evalplus evaluate requires ALL problems in samples.
     GEN_CMD=(python3 -m evalplus.codegen "$MODEL" "$TASK" --backend openai --greedy --root "$OUTPUT_DIR")
+    [ -n "$LIMIT" ] && GEN_CMD+=(--id_range "[0,${LIMIT}]")
     echo "{\"task\":\"${TASK}\",\"state\":\"generating\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
 
     printf 'Generating:'
@@ -480,7 +519,7 @@ for TASK in "${TASK_ARRAY[@]}"; do
 
     # Find the generated samples file
     SAMPLE_DIR="${OUTPUT_DIR}/${TASK}"
-    SAMPLE_FILE=$(find "$SAMPLE_DIR" -name "*.jsonl" ! -name "*.raw.jsonl" 2>/dev/null | head -1)
+    SAMPLE_FILE=$(find "$SAMPLE_DIR" -name "*.jsonl" ! -name "*.raw.jsonl" ! -name "*.padded.jsonl" 2>/dev/null | head -1)
 
     if [ -z "$SAMPLE_FILE" ]; then
         echo "ERROR: No sample file found in $SAMPLE_DIR"
@@ -508,7 +547,12 @@ for TASK in "${TASK_ARRAY[@]}"; do
     # RAM for one model; several lanes scoring at once helped fill the rig's RAM on 2026-10-17. With
     # BENCH_EVAL_LOCK (a lock file on the rig's own disk, mounted in by the caller) only one scoring
     # runs at a time on the host; generation stays parallel. BENCH_EVAL_PARALLEL caps the workers.
-    EVAL_CMD=(python3 -m evalplus.evaluate --dataset "$TASK" --samples "$SAMPLE_FILE")
+    EVAL_SAMPLES="$SAMPLE_FILE"
+    if [ -n "$LIMIT" ]; then
+        EVAL_SAMPLES=$(pad_samples "$TASK" "$SAMPLE_FILE")
+        echo "Limit ${LIMIT}: scoring the first ${GENERATED_COUNT} problems (the rest padded empty, not counted)"
+    fi
+    EVAL_CMD=(python3 -m evalplus.evaluate --dataset "$TASK" --samples "$EVAL_SAMPLES")
     [ -n "${BENCH_EVAL_PARALLEL:-}" ] && EVAL_CMD+=(--parallel "$BENCH_EVAL_PARALLEL")
     printf 'Evaluating:'; printf ' %q' "${EVAL_CMD[@]}"; printf '\n'
     set +e
@@ -530,7 +574,7 @@ for TASK in "${TASK_ARRAY[@]}"; do
     fi
     echo "{\"task\":\"${TASK}\",\"state\":\"evaluated\",\"generated\":${GENERATED_COUNT},\"expected\":${EXPECTED_COUNT},\"samples\":\"${SAMPLE_FILE}\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
     update_status "$TASK" "evaluated" "$GENERATED_COUNT" "$EXPECTED_COUNT" "$SAMPLE_FILE"
-    record_code_task_results "$TASK" "$TASK_DIR" "$GENERATED_COUNT"
+    record_code_task_results "$TASK" "$TASK_DIR" "$GENERATED_COUNT" "$SAMPLE_FILE"
 
     echo "--- ${TASK} done ---"
 done
@@ -567,6 +611,11 @@ for f in sorted(glob.glob('${OUTPUT_DIR}/**/*_eval_results.json', recursive=True
     dataset = os.path.basename(os.path.dirname(f))
     base = (data.get('pass@1') or {}).get('base', 'N/A')
     plus = (data.get('pass@1') or {}).get('plus', 'N/A')
+    if '${LIMIT}':  # only the generated problems count
+        gen = [g for g in glob.glob(os.path.dirname(f) + '/*.jsonl') if not g.endswith(('.raw.jsonl', '.padded.jsonl'))]
+        ids = {json.loads(l)['task_id'] for g in gen for l in open(g) if l.strip()}
+        data['eval'] = {k: v for k, v in (data.get('eval') or {}).items() if k in ids}
+        base = plus = 'N/A'
     firsts = [v[0] for v in (data.get('eval') or {}).values() if v]
     if base == 'N/A' and firsts:
         base = round(sum(s.get('base_status') == 'pass' for s in firsts) / len(firsts), 3)

@@ -251,8 +251,9 @@ must be documented in the tuning profile before the smoke campaign starts.
 Run each suite with `--limit 10` to confirm non-zero scores and catch format issues early.
 
 Suites without a limit: bench-pipeline (about 80 cases, about 30 s on the 3090) and bench-runtime
-(4 cases) are small and run whole here. bench-code has no limit, only `--tasks`: Phase 4 runs
-HumanEval alone (164 problems, `--tasks humaneval --run-class smoke`), and the full code run
+(4 cases) are small and run whole here. EvalPlus has no limit, so bench-code adds one (`--limit N`:
+the first N problems, scored over those N): Phase 4 runs the first 50 HumanEval problems
+(`--tasks humaneval --limit 50 --run-class smoke`), and the full code run
 (HumanEval + MBPP, 542 problems) waits for Phase 5 with the settings Phase 4.5 chose (decided
 2026-10-18; before that Phase 4 ran full code and Phase 5 reused it, so code was never measured with
 thinking on).
@@ -296,7 +297,7 @@ docker run --rm --network host \
   -v /mnt/shared:/mnt/shared \
   -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
   bench-code --model <model-id> --runtime-base http://localhost:<port> --run-name <model>_smoke_v1 \
-  --run-class smoke --tasks humaneval
+  --run-class smoke --tasks humaneval --limit 50
 ```
 
 **Reasoning** (from rig):
