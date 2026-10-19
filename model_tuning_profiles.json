@@ -775,6 +775,10 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
       "notes": "Brain-tier (3090). Qwen 3.6 27B dense. 16GB VRAM + comfortable headroom. Same prompt family as Qwen3.5. First benchmark pass."
     },
     "qwen3.6:27b": {
