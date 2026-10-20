@@ -32,11 +32,18 @@
       "evidence": "20260820_modern_validation_l50_retry3"
     },
     "single_1060": {
+      "model": "ornith-1.5:9b",
+      "profile": "default",
+      "lane": "1x1060",
+      "why": "General single-1060 worker: structured extraction, document prep, QA. Provisional; leads qwen2.5-coder:7b on reasoning, ambiguity, orchestration and long context.",
+      "evidence": "smoke suites 2026-10-19 (full code and l50 reasoning pending); switched 2026-10-20"
+    },
+    "single_1060_code": {
       "model": "qwen2.5-coder:7b",
       "profile": "default",
       "lane": "1x1060",
-      "why": "Structured extraction, code, document prep on one 1060.",
-      "evidence": "complete l100 suites"
+      "why": "Code on one 1060: still leads ornith-1.5:9b on HumanEval+ (84.1 vs 73.8). The single_1060 default until 2026-10-20.",
+      "evidence": "complete l100 suites; full code 2026-10-18"
     },
     "single_1060_compact": {
       "model": "ministral-3:3b",

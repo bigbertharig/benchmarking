@@ -273,30 +273,13 @@
     },
     {
       "id": "ornith-1.5:9b",
-      "tier": 2,
-      "placement": "split_gpu",
+      "tier": 1,
+      "placement": "single_gpu",
       "gguf_path": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
-      "split_groups": [
-        {
-          "id": "pair_1_3",
-          "members": [
-            "gpu-1",
-            "gpu-3"
-          ],
-          "port": 11440
-        },
-        {
-          "id": "pair_4_5",
-          "members": [
-            "gpu-4",
-            "gpu-5"
-          ],
-          "port": 11441
-        }
-      ],
       "tags": [
         "worker_candidate",
-        "dense"
+        "dense",
+        "single_gpu"
       ]
     },
     {

@@ -967,32 +967,15 @@
     },
     "ornith-1.5:9b": {
       "gguf": "ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
-      "status": "candidate",
-      "status_note": "Downloaded 2026-10-15 from ornith-ai/Ornith-1.5-9B-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
+      "status": "active",
+      "status_note": "Provisional single_1060 default since 2026-10-20 on smoke evidence from 2026-10-19 (leads qwen2.5-coder:7b on GSM8K, BBH, ambiguity, orchestration, long context; trails it on HumanEval+). Full code and l50 reasoning suites still to run. Downloaded 2026-10-15 from ornith-ai/Ornith-1.5-9B-GGUF.",
       "schedule": {
-        "tier": 2,
-        "placement": "split_gpu",
+        "tier": 1,
+        "placement": "single_gpu",
         "tags": [
           "worker_candidate",
-          "dense"
-        ],
-        "split_groups": [
-          {
-            "id": "pair_1_3",
-            "members": [
-              "gpu-1",
-              "gpu-3"
-            ],
-            "port": 11440
-          },
-          {
-            "id": "pair_4_5",
-            "members": [
-              "gpu-4",
-              "gpu-5"
-            ],
-            "port": 11441
-          }
+          "dense",
+          "single_gpu"
         ]
       },
       "profiles": {
@@ -1018,7 +1001,7 @@
             "last_tuned_at": null,
             "benchmark_suite": "agent_reliability"
           },
-          "notes": "Split-worker (2x 1060): the 5.8 GB Q4_K_M does not fit one 6 GB 1060 with context. Ornith 1.5 9B dense, MIT, qwen3_5 arch. Competes with ministral-3:14b / ministral-3:8b."
+          "notes": "Single 1060 (corrected 2026-10-20): the harness fit puts 33 layers (4812 MiB) + KV 496 MiB + compute 169 MiB on one 6 GB card at ctx 26880 (hybrid attention keeps KV small); it loaded and served on GPU 1 alone in rig_stress runs 2026-10-18/19. The earlier note said it needed a 2x 1060 split. Ornith 1.5 9B, MIT, qwen3_5 arch."
         }
       }
     },

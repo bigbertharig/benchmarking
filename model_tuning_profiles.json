@@ -516,7 +516,7 @@
         "--reasoning",
         "off"
       ],
-      "notes": "Split-worker (2x 1060): the 5.8 GB Q4_K_M does not fit one 6 GB 1060 with context. Ornith 1.5 9B dense, MIT, qwen3_5 arch. Competes with ministral-3:14b / ministral-3:8b."
+      "notes": "Single 1060 (corrected 2026-10-20): the harness fit puts 33 layers (4812 MiB) + KV 496 MiB + compute 169 MiB on one 6 GB card at ctx 26880 (hybrid attention keeps KV small); it loaded and served on GPU 1 alone in rig_stress runs 2026-10-18/19. The earlier note said it needed a 2x 1060 split. Ornith 1.5 9B, MIT, qwen3_5 arch."
     },
     "ornith-1.5:9b": {
       "_alias_of": "Ornith-1.5-9B-Q4_K_M.gguf"
