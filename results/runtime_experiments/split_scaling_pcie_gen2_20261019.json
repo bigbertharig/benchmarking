@@ -1,0 +1,246 @@
+{
+ "label": "gen2",
+ "model": "qwen2.5-coder:7b",
+ "ctx": 8192,
+ "rows": [
+  {
+   "gpus": [
+    1
+   ],
+   "cards": 1,
+   "hops": 0,
+   "extra_args": null,
+   "tensor_split": null,
+   "load_s": 40,
+   "decode_tps": 22.32,
+   "decode_ms_per_tok": 44.81,
+   "prefill_tps": 318.6,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    22.36,
+    22.32,
+    22.27
+   ],
+   "prefill_runs": [
+    318.6,
+    319.2,
+    318.0
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    2
+   ],
+   "cards": 2,
+   "hops": 1,
+   "extra_args": null,
+   "tensor_split": "16,13",
+   "load_s": 21,
+   "decode_tps": 23.62,
+   "decode_ms_per_tok": 42.35,
+   "prefill_tps": 363.8,
+   "prefill_prompt_tokens": 3760,
+   "decode_runs": [
+    23.62,
+    23.62,
+    23.6
+   ],
+   "prefill_runs": [
+    363.9,
+    363.5,
+    363.8
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    3
+   ],
+   "cards": 2,
+   "hops": 1,
+   "extra_args": null,
+   "tensor_split": "16,13",
+   "load_s": 27,
+   "decode_tps": 22.02,
+   "decode_ms_per_tok": 45.4,
+   "prefill_tps": 349.0,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    22.07,
+    22.02,
+    22.01
+   ],
+   "prefill_runs": [
+    348.7,
+    349.0,
+    349.0
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    2,
+    4
+   ],
+   "cards": 3,
+   "hops": 2,
+   "extra_args": null,
+   "tensor_split": "10,11,8",
+   "load_s": 21,
+   "decode_tps": 22.14,
+   "decode_ms_per_tok": 45.17,
+   "prefill_tps": 383.1,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    21.76,
+    22.47,
+    22.14
+   ],
+   "prefill_runs": [
+    380.5,
+    383.4,
+    383.1
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    2,
+    4,
+    5
+   ],
+   "cards": 4,
+   "hops": 3,
+   "extra_args": null,
+   "tensor_split": "8,8,8,5",
+   "load_s": 24,
+   "decode_tps": 22.83,
+   "decode_ms_per_tok": 43.81,
+   "prefill_tps": 377.2,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    22.84,
+    22.83,
+    21.5
+   ],
+   "prefill_runs": [
+    373.3,
+    377.2,
+    377.3
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    2,
+    4,
+    5,
+    3
+   ],
+   "cards": 5,
+   "hops": 4,
+   "extra_args": null,
+   "tensor_split": "6,7,7,6,3",
+   "load_s": 24,
+   "decode_tps": 22.31,
+   "decode_ms_per_tok": 44.83,
+   "prefill_tps": 369.2,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    22.31,
+    22.32,
+    21.17
+   ],
+   "prefill_runs": [
+    365.2,
+    370.1,
+    369.2
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    2,
+    4,
+    5,
+    3
+   ],
+   "cards": 5,
+   "hops": 4,
+   "extra_args": "-b 2048 -ub 128",
+   "tensor_split": "6,7,7,6,3",
+   "load_s": 24,
+   "decode_tps": 23.09,
+   "decode_ms_per_tok": 43.31,
+   "prefill_tps": 487.1,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    23.12,
+    23.09,
+    21.15
+   ],
+   "prefill_runs": [
+    484.3,
+    487.5,
+    487.1
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    2,
+    4,
+    5,
+    3
+   ],
+   "cards": 5,
+   "hops": 4,
+   "extra_args": "-b 2048 -ub 512",
+   "tensor_split": "6,7,7,6,3",
+   "load_s": 27,
+   "decode_tps": 22.68,
+   "decode_ms_per_tok": 44.09,
+   "prefill_tps": 889.0,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    22.68,
+    22.72,
+    21.24
+   ],
+   "prefill_runs": [
+    754.7,
+    892.5,
+    889.0
+   ]
+  },
+  {
+   "gpus": [
+    1,
+    2,
+    4,
+    5,
+    3
+   ],
+   "cards": 5,
+   "hops": 4,
+   "extra_args": "-b 2048 -ub 2048",
+   "tensor_split": "6,7,7,6,3",
+   "load_s": 27,
+   "decode_tps": 21.64,
+   "decode_ms_per_tok": 46.21,
+   "prefill_tps": 507.0,
+   "prefill_prompt_tokens": 3761,
+   "decode_runs": [
+    21.7,
+    21.64,
+    21.31
+   ],
+   "prefill_runs": [
+    501.8,
+    507.0,
+    508.3
+   ]
+  }
+ ]
+}

@@ -476,6 +476,51 @@ Records: `results/runtime_experiments/nex_n25_mini_split5_concurrent_runtime_cha
 `results/runtime_experiments/nex_n25_mini_split4_runtime_characterization_20261017.json`; ledger GSM8K rows
 under suites `nex_n25_mini_split5_concurrent` and `nex_n25_mini_split4`.
 
+### PCIe generation and split scaling (2026-10-19)
+
+qwen2.5-coder:7b (Q4_K_M), ctx 8192, through the harness (`rigctl load-model --gpus`), `llama-runtime:b11669`.
+Decode: median of 3 x 256 tokens. Prefill: median of 3 unique 3761-token prompts. GPU 3 links at Gen1 in
+both runs and joins last. Tool: llm-gateway `tools/split_sweep.py`.
+
+| GPUs | Hops | Decode tok/s Gen2 | Decode tok/s Gen3 | Prefill tok/s Gen2 | Prefill tok/s Gen3 |
+|------|------|------|------|------|------|
+| 1 | 0 | 22.3 | 22.9 | 319 | 323 |
+| 1,2 | 1 | 23.6 | 24.4 | 364 | 374 |
+| 1,3 (Gen1 hop) | 1 | 22.0 | 22.2 | 349 | 357 |
+| 1,2,4 | 2 | 22.1 | 23.3 | 383 | 398 |
+| 1,2,4,5 | 3 | 22.8 | 23.2 | 377 | 396 |
+| 1,2,4,5,3 | 4 | 22.3 | 22.8 | 369 | 387 |
+| 5-card, `-b 2048 -ub 128` | 4 | 23.1 | 23.8 | 487 | 502 |
+| 5-card, `-b 2048 -ub 512` | 4 | 22.7 | 22.0 | 889 | 903 |
+| 5-card, `-b 2048 -ub 2048` | 4 | 21.6 | 23.4 | 507 | 520 |
+
+qwen3.6:35b-a3b on GPUs 1-5 (8,8,8,8,9 layers, ctx 89344), cold page cache, then 10 minutes of
+long unique prompts (about 5-8k tokens) plus decode requests, 3 at a time (`tools/pcie_split_test.py`):
+
+| | Gen2 | Gen3 |
+|---|---|---|
+| Cold load (NVMe hot-set) | 132 s | 90 s |
+| Prefill / decode | 355 / 24.5 tok/s | 364 / 25.9 tok/s |
+| Requests, errors | 28, 0 | 29, 0 |
+| Link replays after (GPU 1/2/4/5) | 0/0/0/0 | 15162/51386/65535/12370 |
+
+Findings:
+- **Decode does not depend on hops or PCIe speed.** 0 to 4 hops stay within card-to-card variation, and the
+  single card (no hops) moved by as much as the splits between Gen2 and Gen3. A layer split runs the cards
+  one after another; each 1060's VRAM bandwidth sets the speed. A split buys capacity, not decode speed.
+- **The links are nearly idle during split inference:** 6-58 MB/s per 1060 in each direction against about
+  500 MB/s for Gen2 x1. Cards sat at 17-32% utilization and 26-36 W.
+- **Micro-batch is the big prefill lever.** The 1060 profiles use batch 64; `-b 2048 -ub 512` gave 2.4x the
+  prefill (369 to 889 tok/s) on the 5-card split with no decode cost. 2048 fell back to about 510.
+- **Gen3 helps loads only.** NVMe O_DIRECT read 434 to 847 MB/s; cold mmap read (what llama.cpp does)
+  438 to 503 MB/s; cold 5-way load 132 to 90 s. The GPU links at Gen3 logged replays on every 1060 riser
+  link, so the BIOS stays at Gen2 (llm_orchestration `systems_prep.md` item 8).
+- **Gen1 vs Gen2 hop:** GPUs 1+3 ran about 3 ms/token slower than 1+2, but GPU 3 is both the Gen1 link and a
+  different board; not separated yet.
+
+Records: `results/runtime_experiments/split_scaling_pcie_gen2_20261019.json`,
+`results/runtime_experiments/split_scaling_pcie_gen3_20261019.json`.
+
 ### Known failures and restrictions
 
 | Model | Issue | Bug/Workaround |
