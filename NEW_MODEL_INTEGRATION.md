@@ -85,6 +85,7 @@ generated and `check` fails if they drift.
 ```json
 "<short-id>": {
   "gguf": "<model-dir>/<filename>.gguf",
+  "source_url": "https://huggingface.co/<org>/<repo>/resolve/main/<filename>.gguf",
   "status": "candidate",
   "schedule": {
     "tier": <1 single, 2 split, 3 brain>,
@@ -104,6 +105,9 @@ generated and `check` fails if they drift.
   }
 }
 ```
+
+`source_url` is where the GGUF was downloaded from, so a lost model can be fetched again (the same
+model and quant; byte-identical is not required).
 
 Split models add `"split_groups"` inside `schedule`:
 `[{"id": "pair_1_3", "members": ["gpu-1", "gpu-3"], "port": 11440}, {"id": "pair_4_5", "members": ["gpu-4", "gpu-5"], "port": 11441}]`.

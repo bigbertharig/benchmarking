@@ -1,6 +1,6 @@
 {
   "schema": "model-registry/1",
-  "updated": "2026-10-15",
+  "updated": "2026-10-20",
   "about": "Every model the rig has tested, with its archive GGUF, status, scheduling placement, and named profiles. The only place model settings are edited. models.catalog.json, model_tuning_profiles.json and custom_tasks/model_prompt_profiles.json are generated from this file by scripts/active/model_library.py.",
   "archive_root": "/mnt/shared/models",
   "runtime_image": "llama-runtime:b11669",
@@ -28,6 +28,7 @@
   "models": {
     "deepseek-r1:14b": {
       "gguf": "deepseek-r1-14b/DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Benchmark-incompatible (structural think-tag issue)",
       "profiles": {
@@ -55,6 +56,7 @@
     },
     "deepseek-r1:32b": {
       "gguf": "deepseek-r1-32b/DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-32B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Benchmark-incompatible (structural think-tag issue)",
       "profiles": {
@@ -82,6 +84,7 @@
     },
     "deepseek-r1:7b": {
       "gguf": "deepseek-r1-7b/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/DeepSeek-R1-Distill-Qwen-7B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Benchmark-incompatible (structural think-tag issue)",
       "schedule": {
@@ -130,6 +133,7 @@
     },
     "devstral-small:24b": {
       "gguf": "devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Devstral-Small-2-24B-Instruct-2512-GGUF/resolve/main/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -173,6 +177,7 @@
     },
     "gemma-3:12b": {
       "gguf": "gemma-3-12b/gemma-3-12b-it-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/ggml-org/gemma-3-12b-it-GGUF/resolve/main/gemma-3-12b-it-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Superseded by Gemma-4, can't split on 1060s",
       "superseded_by": "gemma-4:12b",
@@ -201,6 +206,7 @@
     },
     "gemma-3:4b": {
       "gguf": "gemma-3-4b/gemma-3-4b-it-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/ggml-org/gemma-3-4b-it-GGUF/resolve/main/gemma-3-4b-it-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Superseded by Gemma-4-E4B",
       "superseded_by": "gemma-4:e4b",
@@ -237,6 +243,7 @@
     },
     "gemma-4:12b": {
       "gguf": "gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/bartowski/gemma-4-12B-it-GGUF/resolve/main/gemma-4-12B-it-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 2,
@@ -289,6 +296,7 @@
     },
     "gemma-4:26b-a4b": {
       "gguf": "gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/lmstudio-community/gemma-4-26B-A4B-it-GGUF/resolve/main/gemma-4-26B-A4B-it-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -328,6 +336,7 @@
     },
     "gemma-4:31b": {
       "gguf": "gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/gemma-4-31B-it-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -367,6 +376,7 @@
     },
     "gemma-4:e2b-q8": {
       "gguf": "gemma-4-e2b/gemma-4-e2b-it-Q8_0.gguf",
+      "source_url": "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/main/gemma-4-E2B-it-Q8_0.gguf",
       "status": "active",
       "aliases": [
         "gemma-4:e2b"
@@ -409,6 +419,7 @@
     },
     "gemma-4:e4b": {
       "gguf": "gemma-4-e4b/gemma-4-e4b-it-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF/resolve/main/gemma-4-E4B-it-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 1,
@@ -448,6 +459,7 @@
     },
     "gpt-oss:20b": {
       "gguf": "gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
+      "source_url": "https://huggingface.co/ggml-org/gpt-oss-20b-GGUF/resolve/main/gpt-oss-20b-MXFP4.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -499,6 +511,7 @@
     },
     "llama3.2:3b": {
       "gguf": "llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 1,
@@ -533,6 +546,7 @@
     },
     "llama3.3:70b": {
       "gguf": "llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Llama-3.3-70B-Instruct-GGUF/resolve/main/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
       "status": "candidate",
       "status_note": "Capacity candidate (all 6 GPUs); reasoning/code smoke pending",
       "schedule": {
@@ -583,6 +597,7 @@
     },
     "mellum2.1:12b-a2.5b": {
       "gguf": "mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/JetBrains/Mellum2.1-12B-A2.5B-Thinking-GGUF/resolve/main/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "status": "candidate",
       "status_note": "Downloaded 2026-10-15 from JetBrains/Mellum2.1-12B-A2.5B-Thinking-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
       "schedule": {
@@ -638,6 +653,7 @@
     },
     "minicpm5:2b": {
       "gguf": "minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/openbmb/MiniCPM5-2B-GGUF/resolve/main/MiniCPM5-2B-Q4_K_M.gguf",
       "status": "candidate",
       "status_note": "Downloaded 2026-10-15 from openbmb/MiniCPM5-2B-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
       "schedule": {
@@ -674,6 +690,7 @@
     },
     "ministral-3:14b": {
       "gguf": "ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Ministral-3-14B-Instruct-2512-GGUF/resolve/main/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 2,
@@ -737,6 +754,7 @@
     },
     "ministral-3:3b": {
       "gguf": "ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Ministral-3-3B-Instruct-2512-GGUF/resolve/main/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 1,
@@ -782,6 +800,7 @@
     },
     "ministral-3:8b": {
       "gguf": "ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 1,
@@ -827,6 +846,7 @@
     },
     "mistral:7b-instruct": {
       "gguf": "mistral-7b-instruct/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF/resolve/main/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Old gen, no unique strength",
       "schedule": {
@@ -875,6 +895,7 @@
     },
     "nex-n2.5:mini": {
       "gguf": "nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/bartowski/nex-agi_Nex-N2.5-mini-GGUF/resolve/main/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "status": "candidate",
       "status_note": "Downloaded 2026-10-15 from bartowski/nex-agi_Nex-N2.5-mini-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
       "schedule": {
@@ -928,6 +949,7 @@
     },
     "ornith-1.5:35b-a3b": {
       "gguf": "ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B-GGUF/resolve/main/Ornith-1.5-35B-Q4_K_M.gguf",
       "status": "candidate",
       "status_note": "Downloaded 2026-10-15 from ornith-ai/Ornith-1.5-35B-A3B-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
       "schedule": {
@@ -967,6 +989,7 @@
     },
     "ornith-1.5:9b": {
       "gguf": "ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/ornith-ai/Ornith-1.5-9B-GGUF/resolve/main/Ornith-1.5-9B-Q4_K_M.gguf",
       "status": "active",
       "status_note": "Provisional single_1060 default since 2026-10-20 on smoke evidence from 2026-10-19 (leads qwen2.5-coder:7b on GSM8K, BBH, ambiguity, orchestration, long context; trails it on HumanEval+). Full code and l50 reasoning suites still to run. Downloaded 2026-10-15 from ornith-ai/Ornith-1.5-9B-GGUF.",
       "schedule": {
@@ -1007,6 +1030,7 @@
     },
     "phi-4-mini-reasoning:3.8b": {
       "gguf": "phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Phi-4-mini-reasoning-GGUF/resolve/main/Phi-4-mini-reasoning-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 1,
@@ -1041,6 +1065,7 @@
     },
     "phi-4-mini:3.8b": {
       "gguf": "phi-4-mini/Phi-4-mini-instruct-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Phi-4-mini-instruct-GGUF/resolve/main/Phi-4-mini-instruct-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Covered by Phi-4-14B, incomplete reasoning",
       "superseded_by": "phi-4:14b",
@@ -1077,6 +1102,7 @@
     },
     "phi-4:14b": {
       "gguf": "phi-4-14b/phi-4-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/phi-4-GGUF/resolve/main/phi-4-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 2,
@@ -1130,6 +1156,7 @@
     },
     "qwen2.5-coder:14b": {
       "gguf": "qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen2.5-Coder-14B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
       "status": "active",
       "aliases": [
         "qwen2.5:14b"
@@ -1199,6 +1226,7 @@
     },
     "qwen2.5-coder:32b": {
       "gguf": "qwen2.5-coder-32b/Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen2.5-Coder-32B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Beaten by Qwen3.6-27B on all metrics",
       "superseded_by": "qwen3.6:27b",
@@ -1227,6 +1255,7 @@
     },
     "qwen2.5-coder:7b": {
       "gguf": "qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/main/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 1,
@@ -1285,6 +1314,7 @@
     },
     "qwen3-coder:30b-a3b": {
       "gguf": "qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF/resolve/main/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -1339,6 +1369,7 @@
     },
     "qwen3.5:27b": {
       "gguf": "qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3.5-27B-GGUF/resolve/main/Qwen3.5-27B-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -1391,6 +1422,7 @@
     },
     "qwen3.5:35b-a3b": {
       "gguf": "qwen3.5-35b-a3b/Qwen3.5-35B-A3B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3.5-35B-A3B-GGUF/resolve/main/Qwen3.5-35B-A3B-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Superseded by Qwen3.6-35B-A3B (same arch, better scores, no SWA)",
       "superseded_by": "qwen3.6:35b-a3b",
@@ -1419,6 +1451,7 @@
     },
     "qwen3.5:4b": {
       "gguf": "qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Superseded by Gemma-4-E4B, SWA blocks reasoning",
       "superseded_by": "gemma-4:e4b",
@@ -1471,6 +1504,7 @@
     },
     "qwen3.5:9b-q3km": {
       "gguf": "qwen3.5-9b/Qwen3.5-9B-Q3_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3.5-9B-GGUF/resolve/main/Qwen3.5-9B-Q3_K_M.gguf",
       "status": "archived",
       "status_note": "Superseded by Qwen3.6, SWA blocks reasoning",
       "superseded_by": "qwen3.6:27b",
@@ -1523,6 +1557,7 @@
     },
     "qwen3.6:27b": {
       "gguf": "qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/ggml-org/Qwen3.6-27B-GGUF/resolve/main/Qwen3.6-27B-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -1587,6 +1622,7 @@
     },
     "qwen3.6:35b-a3b": {
       "gguf": "qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3.6-35B-A3B-GGUF/resolve/main/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 3,
@@ -1625,6 +1661,7 @@
     },
     "qwen3.8:27b": {
       "gguf": "qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF/resolve/main/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "status": "candidate",
       "status_note": "Downloaded 2026-10-15 from unsloth/Qwen3.8-27B-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
       "schedule": {
@@ -1664,6 +1701,7 @@
     },
     "qwen3:1.7b": {
       "gguf": "qwen3-1.7b/Qwen3-1.7B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/ggml-org/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Weak everywhere (BBH 0.0), no niche",
       "schedule": {
@@ -1699,6 +1737,7 @@
     },
     "qwen3:14b": {
       "gguf": "qwen3-14b/Qwen3-14B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/ggml-org/Qwen3-14B-GGUF/resolve/main/Qwen3-14B-Q4_K_M.gguf",
       "status": "invalid",
       "status_note": "GGUF artifact invalid (tensor data outside file bounds); replace before testing",
       "schedule": {
@@ -1756,6 +1795,7 @@
     },
     "qwen3:8b": {
       "gguf": "qwen3-8b/Qwen3-8B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3-8B-GGUF/resolve/main/Qwen3-8B-Q4_K_M.gguf",
       "status": "archived",
       "status_note": "Superseded by Qwen3.6-27B",
       "superseded_by": "qwen3.6:27b",
@@ -1784,6 +1824,7 @@
     },
     "smollm3:3b": {
       "gguf": "smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/unsloth/SmolLM3-3B-GGUF/resolve/main/SmolLM3-3B-Q4_K_M.gguf",
       "status": "active",
       "schedule": {
         "tier": 1,
