@@ -120,8 +120,8 @@ Metrics per case: `grader_pass`, `partial` (for example some tests pass),
 
 Results depend on the harness as much as the model. The agent loop and its
 prompt are versioned in `benchmark_methodologies.json`; changing either starts a
-new comparison group. Harness research lives in the llm-gateway repo under
-`docs/harness/`.
+new comparison group. Harness research lives in the llm-harness repo
+(`docs/research/`, lessons in `docs/lessons_bench_checkpoint.md`).
 
 ## Calibration
 
