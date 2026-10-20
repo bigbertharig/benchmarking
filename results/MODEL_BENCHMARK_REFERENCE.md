@@ -1,10 +1,10 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-10-18T22:15:13.690146+00:00`
+- Generated at: `2026-10-19T04:10:31.454208+00:00`
 - Canonical records: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/benchmark-scripts/benchmark_status.json`
-- Total records: `2293`
-- Selected model/test results: `1241`
+- Total records: `2343`
+- Selected model/test results: `1288`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
@@ -396,6 +396,16 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | llama3.2:3b | mbpp_base | 0.6507936507936508 | 65.07936507936508 | pass@1_base | full | 378 | unknown | 2026-10-18T07:36:34+00:00 | bench-code | llama3_2_3b_w_smoke_v1 |
 | llama3.2:3b | mbpp_plus | 0.5423280423280423 | 54.232804232804234 | pass@1_plus | full | 378 | unknown | 2026-10-18T07:36:35+00:00 | bench-code | llama3_2_3b_w_smoke_v1 |
 | llama3.2:3b | mmlu_pro_exact_match_custom-extract | 0.14285714285714285 | 14.285714285714285 | exact_match,custom-extract | smoke | 140 | unknown | 2026-10-18T08:15:00+00:00 | bench-reasoning | llama3_2_3b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | custom_ambiguity_handling | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-10-19T01:11:14+00:00 | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | custom_command_safety | 0.8333333333333334 | 83.33333333333334 | score | smoke | 12 | unknown | 2026-10-19T01:09:39+00:00 | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-10-19T01:07:30+00:00 | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | smoke | 14 | unknown | 2026-10-19T01:15:55+00:00 | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | smoke | 12 | unknown | 2026-10-19T01:14:25+00:00 | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-10-19T01:13:12+00:00 | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | smoke | 10 | compatible | 2026-10-19T02:11:45+00:00 | bench-reasoning | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | smoke | 10 | compatible | 2026-10-19T02:11:44+00:00 | bench-reasoning | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | humaneval_base | 0.04878048780487805 | 4.878048780487805 | pass@1_base | smoke | 164 | unknown | 2026-10-19T02:09:37+00:00 | bench-code | mellum2_1_12b-a2_5b_w_smoke_v1 |
+| mellum2.1:12b-a2.5b | humaneval_plus | 0.04878048780487805 | 4.878048780487805 | pass@1_plus | smoke | 164 | unknown | 2026-10-19T02:09:38+00:00 | bench-code | mellum2_1_12b-a2_5b_w_smoke_v1 |
 | minicpm5:2b | bbh | 0.774074074074074 | 77.4074074074074 | exact_match,get-answer | smoke | 270 | unknown | 2026-10-18T16:31:17+00:00 | bench-reasoning | minicpm5_2b_w_p45_think |
 | minicpm5:2b | bbh_flexible | 0.7814814814814814 | 78.14814814814814 | exact_match,flexible-extract | smoke | 270 | compatible | 2026-10-18T15:12:36+00:00 | bench-reasoning | minicpm5_2b_w_p45_off |
 | minicpm5:2b | custom_ambiguity_handling | 0.46153846153846156 | 46.15384615384615 | score | smoke | 13 | unknown | 2026-10-18T09:41:04+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1 |
@@ -760,6 +770,26 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ornith-1.5:35b-a3b | runtime_stability | 1.0 | 100.0 | request_success_rate | validated | 5 | compatible | 2026-10-17T10:55:27.954107+00:00 | bench-runtime | campaign_ornith35_runtime_20261017_011528 |
 | ornith-1.5:35b-a3b | runtime_throughput | 1.0 | 100.0 | request_success_rate | validated | 1 | compatible | 2026-10-17T10:55:29.843659+00:00 | bench-runtime | campaign_ornith35_runtime_20261017_011528 |
 | ornith-1.5:35b-a3b | runtime_ttft | 1.0 | 100.0 | request_success_rate | validated | 3 | compatible | 2026-10-17T10:55:28.693458+00:00 | bench-runtime | campaign_ornith35_runtime_20261017_011528 |
+| ornith-1.5:9b | bbh | 0.8222222222222222 | 82.22222222222221 | exact_match,get-answer | smoke | 270 | unknown | 2026-10-19T03:33:48+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | bbh_flexible | 0.8222222222222222 | 82.22222222222221 | exact_match,flexible-extract | smoke | 270 | compatible | 2026-10-19T03:33:49+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | custom_ambiguity_handling | 0.7692307692307693 | 76.92307692307693 | score | smoke | 13 | unknown | 2026-10-19T01:09:05+00:00 | bench-pipeline | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | custom_command_safety | 1.0 | 100.0 | score | smoke | 12 | unknown | 2026-10-19T01:08:34+00:00 | bench-pipeline | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | custom_json_schema_strict | 0.5384615384615384 | 53.84615384615385 | score | smoke | 13 | unknown | 2026-10-19T01:06:28+00:00 | bench-pipeline | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | custom_long_context_extract | 1.0 | 100.0 | score | smoke | 14 | unknown | 2026-10-19T01:10:36+00:00 | bench-pipeline | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | smoke | 12 | unknown | 2026-10-19T01:10:05+00:00 | bench-pipeline | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-10-19T01:09:30+00:00 | bench-pipeline | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | drop_em | 0.4 | 40.0 | em,none | smoke | 10 | unknown | 2026-10-19T03:34:17+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | drop_f1 | 0.429 | 42.9 | f1,none | smoke | 10 | unknown | 2026-10-19T03:34:18+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | drop_flexible | 0.5 | 50.0 | answer_contained | smoke | 10 | degraded | 2026-10-19T03:34:18+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | smoke | 10 | compatible | 2026-10-19T02:32:01+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | smoke | 10 | compatible | 2026-10-19T02:32:01+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | humaneval_base | 0.7804878048780488 | 78.04878048780488 | pass@1_base | smoke | 164 | unknown | 2026-10-19T02:29:43+00:00 | bench-code | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | humaneval_plus | 0.7378048780487805 | 73.78048780487805 | pass@1_plus | smoke | 164 | unknown | 2026-10-19T02:29:43+00:00 | bench-code | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | ifeval_inst_level_loose_acc_none | 0.8333333333333334 | 83.33333333333334 | inst_level_loose_acc,none | smoke | 10 | unknown | 2026-10-19T04:10:31+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | ifeval_inst_level_strict_acc_none | 0.7777777777777778 | 77.77777777777779 | inst_level_strict_acc,none | smoke | 10 | unknown | 2026-10-19T04:10:30+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | ifeval_prompt_level_loose_acc_none | 0.7 | 70.0 | prompt_level_loose_acc,none | smoke | 10 | unknown | 2026-10-19T04:10:30+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | ifeval_prompt_level_strict_acc_none | 0.6 | 60.0 | prompt_level_strict_acc,none | smoke | 10 | unknown | 2026-10-19T04:10:29+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
+| ornith-1.5:9b | mmlu_pro_exact_match_custom-extract | 0.7 | 70.0 | exact_match,custom-extract | smoke | 140 | unknown | 2026-10-19T04:07:17+00:00 | bench-reasoning | ornith-1_5_9b_w_smoke_v1 |
 | phi-4-Q4_K_M.gguf | bbh | 0.1259259259259259 | 12.592592592592592 | exact_match,get-answer | legacy |  | unknown | 2026-03-17T01:43:41+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
 | phi-4-Q4_K_M.gguf | drop_em | 0.0 | 0.0 | em,none | legacy |  | unknown | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
 | phi-4-Q4_K_M.gguf | drop_f1 | 0.0 | 0.0 | f1,none | legacy |  | unknown | 2026-03-17T01:45:09+00:00 | bench-reasoning | bench-reasoning_phi-4-Q4_K_M.gguf_reasoning_phi4_v5_answerfmt |
@@ -1121,10 +1151,18 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3.5:9b-q3km | gsm8k_flexible | 0.0 | 0.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
 | qwen3.5:9b-q3km | gsm8k_strict | 0.0 | 0.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:54:36+00:00 | bench-reasoning | bench-reasoning_qwen3.5_9b-q3km_rr_l100_c05_20260311_221559_p11438 |
 | qwen3.6:27b | bbh | 0.8925925925925926 | 89.25925925925927 | exact_match,get-answer | legacy |  | unknown | 2026-04-25T05:54:41+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
+| qwen3.6:27b | bbh_flexible | 0.9222222222222223 | 92.22222222222223 | exact_match,flexible-extract | smoke | 270 | compatible | 2026-10-19T01:50:57+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | custom_ambiguity_handling | 0.46153846153846156 | 46.15384615384615 | score | smoke | 13 | unknown | 2026-10-19T01:07:29+00:00 | bench-pipeline | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | smoke | 12 | unknown | 2026-10-19T01:07:18+00:00 | bench-pipeline | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-10-19T01:06:54+00:00 | bench-pipeline | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | custom_long_context_extract | 1.0 | 100.0 | score | smoke | 14 | unknown | 2026-10-19T01:08:00+00:00 | bench-pipeline | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | smoke | 12 | unknown | 2026-10-19T01:07:50+00:00 | bench-pipeline | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-10-19T01:07:38+00:00 | bench-pipeline | qwen3_6_27b_w_smoke_v1 |
 | qwen3.6:27b | dataimport_reference_owid_co2 | 1.0 | 100.0 | reference_quality | smoke | 1 | unknown | 2026-08-12T20:02:33+00:00 | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_prep_v2_r1 |
 | qwen3.6:27b | dataimport_schema_loc_id | 1.0 | 100.0 | schema_understanding | smoke | 1 | unknown | 2026-08-12T20:00:58+00:00 | bench-dataimport | campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_prep_v2_r1 |
 | qwen3.6:27b | drop_em | 0.84 | 84.0 | em,none | legacy |  | unknown | 2026-04-25T05:55:36+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
 | qwen3.6:27b | drop_f1 | 0.8834000000000001 | 88.34 | f1,none | legacy |  | unknown | 2026-04-25T05:55:36+00:00 | bench-reasoning | qwen36_27b_l50_bbhdrop_v2 |
+| qwen3.6:27b | drop_flexible | 0.9 | 90.0 | answer_contained | smoke | 10 | degraded | 2026-10-19T01:51:21+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
 | qwen3.6:27b | geoimport_classify_australia_asgs | 0.9 | 90.0 | classification | smoke | 1 | unknown | 2026-08-12T19:38:21.271914 | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5 |
 | qwen3.6:27b | geoimport_job_plan_brazil_spine | 0.7895 | 78.95 | job_plan | smoke | 1 | unknown | 2026-08-12T19:38:32.854958 | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5 |
 | qwen3.6:27b | geoimport_prep_classify_australia_asgs_v2 | 0.9474 | 94.74000000000001 | classification | smoke | 1 | unknown | 2026-08-12T20:13:34.073734 | bench-geoimport | campaign_qwen36_27b_geoimport_prep_v2_20260812_qwen36_27b_geoimport_prep_v2_r2 |
@@ -1133,6 +1171,15 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3.6:27b | geoimport_prep_handoff_ready_v2 | 1.0 | 100.0 | prep_handoff | smoke | 1 | unknown | 2026-08-12T20:13:56.896872 | bench-geoimport | campaign_qwen36_27b_geoimport_prep_v2_20260812_qwen36_27b_geoimport_prep_v2_r2 |
 | qwen3.6:27b | geoimport_prep_plan_brazil_spine_v2 | 0.8788 | 87.88 | prep_plan | smoke | 1 | unknown | 2026-08-12T20:13:47.193207 | bench-geoimport | campaign_qwen36_27b_geoimport_prep_v2_20260812_qwen36_27b_geoimport_prep_v2_r2 |
 | qwen3.6:27b | geoimport_qa_parent_failure | 0.6667 | 66.67 | qa_interpretation | smoke | 1 | unknown | 2026-08-12T19:38:38.052567 | bench-geoimport | campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5 |
+| qwen3.6:27b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | smoke | 10 | compatible | 2026-10-19T01:27:04+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | smoke | 10 | compatible | 2026-10-19T01:27:03+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | humaneval_base | 0.9390243902439024 | 93.90243902439023 | pass@1_base | smoke | 164 | unknown | 2026-10-19T01:25:49+00:00 | bench-code | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | humaneval_plus | 0.9024390243902439 | 90.2439024390244 | pass@1_plus | smoke | 164 | unknown | 2026-10-19T01:25:50+00:00 | bench-code | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | ifeval_inst_level_loose_acc_none | 1.0 | 100.0 | inst_level_loose_acc,none | smoke | 10 | unknown | 2026-10-19T02:14:38+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | ifeval_inst_level_strict_acc_none | 1.0 | 100.0 | inst_level_strict_acc,none | smoke | 10 | unknown | 2026-10-19T02:14:37+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | ifeval_prompt_level_loose_acc_none | 1.0 | 100.0 | prompt_level_loose_acc,none | smoke | 10 | unknown | 2026-10-19T02:14:37+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | ifeval_prompt_level_strict_acc_none | 1.0 | 100.0 | prompt_level_strict_acc,none | smoke | 10 | unknown | 2026-10-19T02:14:36+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
+| qwen3.6:27b | mmlu_pro_exact_match_custom-extract | 0.8142857142857143 | 81.42857142857143 | exact_match,custom-extract | smoke | 140 | unknown | 2026-10-19T02:13:30+00:00 | bench-reasoning | qwen3_6_27b_w_smoke_v1 |
 | qwen3.6:35b-a3b | bbh | 0.9103703703703704 | 91.03703703703704 | exact_match,get-answer | validated | 1350 | unknown | 2026-10-18T00:25:20+00:00 | bench-reasoning | campaign_qwen36moe_reasoning_l50_20261017_164139 |
 | qwen3.6:35b-a3b | bbh_flexible | 0.9133333333333333 | 91.33333333333333 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-18T00:25:21+00:00 | bench-reasoning | campaign_qwen36moe_reasoning_l50_20261017_164139 |
 | qwen3.6:35b-a3b | custom_ambiguity_handling | 0.5384615384615384 | 53.84615384615385 | score | validated | 13 | unknown | 2026-10-18T00:48:27+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
@@ -1347,43 +1394,43 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-10-18T22:15:13+00:00 | gemma-4:e4b | gsm8k_strict | success | smoke | 10 | 0.6 | exact_match,strict-match | bench-reasoning | gemma-4_e4b_ab_plain | d554e9c8-d7c6-48c2-ba08-531c83e0d4d2 |
-| 2026-10-18T22:15:13+00:00 | gemma-4:e4b | gsm8k_flexible | success | smoke | 10 | 0.8 | exact_match,flexible-extract | bench-reasoning | gemma-4_e4b_ab_plain | 0d136ad5-5398-4cb2-b545-6004d29278b7 |
-| 2026-10-18T22:13:22+00:00 | gemma-4:e4b | drop_flexible | success | smoke | 10 | 0.3 | answer_contained | bench-reasoning | gemma-4_e4b_ab_plain | 1e8fa9b9-19d9-4aff-9b3d-4f44251fbf65 |
-| 2026-10-18T22:13:21+00:00 | gemma-4:e4b | drop_em | success | smoke | 10 | 0.0 | em,none | bench-reasoning | gemma-4_e4b_ab_plain | 8cd0c302-7d7e-49f2-8d10-ac906f37bd15 |
-| 2026-10-18T22:13:21+00:00 | gemma-4:e4b | drop_f1 | success | smoke | 10 | 0.077 | f1,none | bench-reasoning | gemma-4_e4b_ab_plain | 4d4d1424-8e14-4c67-b286-69c98b45fb67 |
-| 2026-10-18T22:12:58+00:00 | gemma-4:e4b | bbh_flexible | success | smoke | 270 | 0.7962962962962963 | exact_match,flexible-extract | bench-reasoning | gemma-4_e4b_ab_plain | 1dc11b3b-1676-4800-a1af-fdeb4b5350fd |
-| 2026-10-18T22:12:57+00:00 | gemma-4:e4b | bbh | success | smoke | 270 | 0.337037037037037 | exact_match,get-answer | bench-reasoning | gemma-4_e4b_ab_plain | 59037e63-e1d2-4e46-bf05-bcfdd5844169 |
-| 2026-10-18T20:54:10+00:00 | gemma-4:e4b | gsm8k_strict | success | smoke | 10 | 0.8 | exact_match,strict-match | bench-reasoning | gemma-4_e4b_ab_answer | f606dd42-9b95-4d5b-9800-1c55d8393120 |
-| 2026-10-18T20:54:10+00:00 | gemma-4:e4b | gsm8k_flexible | success | smoke | 10 | 0.8 | exact_match,flexible-extract | bench-reasoning | gemma-4_e4b_ab_answer | 8b3ea26b-fc41-457e-b181-29f341b0ae16 |
-| 2026-10-18T20:52:21+00:00 | gemma-4:e4b | drop_f1 | success | smoke | 10 | 0.024 | f1,none | bench-reasoning | gemma-4_e4b_ab_answer | 43a762e2-88fa-4a36-a98e-bbc4470254e4 |
-| 2026-10-18T20:52:21+00:00 | gemma-4:e4b | drop_flexible | success | smoke | 10 | 0.3 | answer_contained | bench-reasoning | gemma-4_e4b_ab_answer | 3fddcd91-c72d-4e05-91ae-70e721f297ee |
-| 2026-10-18T20:52:20+00:00 | gemma-4:e4b | drop_em | success | smoke | 10 | 0.0 | em,none | bench-reasoning | gemma-4_e4b_ab_answer | d7ccc502-d868-433c-854f-d3d790e31a53 |
-| 2026-10-18T20:51:50+00:00 | gemma-4:e4b | bbh | success | smoke | 270 | 0.8407407407407408 | exact_match,get-answer | bench-reasoning | gemma-4_e4b_ab_answer | 8a9dc6a3-6b85-4909-8738-4867b3f8ea22 |
-| 2026-10-18T20:51:50+00:00 | gemma-4:e4b | bbh_flexible | success | smoke | 270 | 0.8444444444444444 | exact_match,flexible-extract | bench-reasoning | gemma-4_e4b_ab_answer | 64b5b8d4-d3aa-49d1-9633-f232ffbf3e5a |
-| 2026-10-18T20:23:27+00:00 | llama3.2:3b | gsm8k_flexible | success | smoke | 10 | 0.7 | exact_match,flexible-extract | bench-reasoning | llama3_2_3b_ab_plain | 5316198f-2673-4b6c-a130-1386ccaca4f4 |
-| 2026-10-18T20:23:27+00:00 | llama3.2:3b | gsm8k_strict | success | smoke | 10 | 0.7 | exact_match,strict-match | bench-reasoning | llama3_2_3b_ab_plain | 1492aabe-6509-4c3e-bbf2-d36432337fc9 |
-| 2026-10-18T20:22:39+00:00 | llama3.2:3b | drop_flexible | success | smoke | 10 | 0.7 | answer_contained | bench-reasoning | llama3_2_3b_ab_plain | a69d904f-d7d2-491d-a000-d7cfe9faa533 |
-| 2026-10-18T20:22:38+00:00 | llama3.2:3b | drop_f1 | success | smoke | 10 | 0.18 | f1,none | bench-reasoning | llama3_2_3b_ab_plain | d716a146-8a9a-4b9a-b47f-0325070b2f6d |
-| 2026-10-18T20:22:38+00:00 | llama3.2:3b | drop_em | success | smoke | 10 | 0.0 | em,none | bench-reasoning | llama3_2_3b_ab_plain | 36e5575c-dfdf-4fef-b402-687a06b5760a |
-| 2026-10-18T20:22:18+00:00 | llama3.2:3b | bbh_flexible | success | smoke | 270 | 0.5888888888888889 | exact_match,flexible-extract | bench-reasoning | llama3_2_3b_ab_plain | fd11c83d-af48-4149-940f-3b0aa1250c67 |
-| 2026-10-18T20:22:17+00:00 | llama3.2:3b | bbh | success | smoke | 270 | 0.5777777777777777 | exact_match,get-answer | bench-reasoning | llama3_2_3b_ab_plain | efac0297-9f98-4a98-b63a-3f6d0e020efe |
-| 2026-10-18T20:17:36+00:00 | ministral-3:3b | gsm8k_flexible | success | smoke | 10 | 0.8 | exact_match,flexible-extract | bench-reasoning | ministral-3_3b_ab_plain | 829928ff-ebfb-45af-af60-ee7e53ad7655 |
-| 2026-10-18T20:17:36+00:00 | ministral-3:3b | gsm8k_strict | success | smoke | 10 | 0.2 | exact_match,strict-match | bench-reasoning | ministral-3_3b_ab_plain | 0e50f3d5-bda4-4d72-a6cb-c26ce65fcefa |
-| 2026-10-18T20:16:18+00:00 | ministral-3:3b | drop_f1 | success | smoke | 10 | 0.09000000000000001 | f1,none | bench-reasoning | ministral-3_3b_ab_plain | 5a66f036-eb2d-4890-bc24-812f5d62461a |
-| 2026-10-18T20:16:18+00:00 | ministral-3:3b | drop_flexible | success | smoke | 10 | 0.7 | answer_contained | bench-reasoning | ministral-3_3b_ab_plain | 4e0b9965-cf1e-4a8a-a26b-c70778e54446 |
-| 2026-10-18T20:16:17+00:00 | ministral-3:3b | drop_em | success | smoke | 10 | 0.0 | em,none | bench-reasoning | ministral-3_3b_ab_plain | ac83a475-95ab-4d83-bb02-388acc380b35 |
-| 2026-10-18T20:15:55+00:00 | ministral-3:3b | bbh_flexible | success | smoke | 270 | 0.4962962962962963 | exact_match,flexible-extract | bench-reasoning | ministral-3_3b_ab_plain | a74a24db-955c-4654-a783-889cd8884b68 |
-| 2026-10-18T20:15:54+00:00 | ministral-3:3b | bbh | success | smoke | 270 | 0.07037037037037037 | exact_match,get-answer | bench-reasoning | ministral-3_3b_ab_plain | 989e833b-f73f-435b-a710-da8fd28a8d7e |
-| 2026-10-18T19:51:49+00:00 | llama3.2:3b | gsm8k_flexible | success | smoke | 10 | 0.8 | exact_match,flexible-extract | bench-reasoning | llama3_2_3b_ab_answer | d314a555-fa22-4ee3-bd3d-1bf556b59ff5 |
-| 2026-10-18T19:51:48+00:00 | llama3.2:3b | gsm8k_strict | success | smoke | 10 | 0.8 | exact_match,strict-match | bench-reasoning | llama3_2_3b_ab_answer | ef5a9a44-2fa1-4577-93b3-14615ebba124 |
-| 2026-10-18T19:51:01+00:00 | llama3.2:3b | drop_flexible | success | smoke | 10 | 0.7 | answer_contained | bench-reasoning | llama3_2_3b_ab_answer | 07ffc4d9-5f8c-419f-a832-039fbdf772af |
-| 2026-10-18T19:51:00+00:00 | llama3.2:3b | drop_f1 | success | smoke | 10 | 0.146 | f1,none | bench-reasoning | llama3_2_3b_ab_answer | f72e0a89-2495-4bfb-9b24-1e44115d3037 |
-| 2026-10-18T19:51:00+00:00 | llama3.2:3b | drop_em | success | smoke | 10 | 0.0 | em,none | bench-reasoning | llama3_2_3b_ab_answer | 165650f3-907d-444e-bbee-b7a14d0e0427 |
-| 2026-10-18T19:50:38+00:00 | llama3.2:3b | bbh_flexible | success | smoke | 270 | 0.5777777777777777 | exact_match,flexible-extract | bench-reasoning | llama3_2_3b_ab_answer | c7a67144-3aca-4a3d-ad1d-36b1dd9ec884 |
-| 2026-10-18T19:50:38+00:00 | llama3.2:3b | bbh | success | smoke | 270 | 0.5740740740740741 | exact_match,get-answer | bench-reasoning | llama3_2_3b_ab_answer | aca2e3c0-1b03-40c4-9de0-e2f72ed8e957 |
-| 2026-10-18T19:45:19+00:00 | gemma-4:e4b | gsm8k_strict | success | smoke | 10 | 0.8 | exact_match,strict-match | bench-reasoning | gemma-4_e4b_ab_worker | fa640a03-0f4a-4e35-9ebb-7a03932762ff |
-| 2026-10-18T19:45:19+00:00 | gemma-4:e4b | gsm8k_flexible | success | smoke | 10 | 0.9 | exact_match,flexible-extract | bench-reasoning | gemma-4_e4b_ab_worker | c1c73a47-8781-4a25-bde9-265b1192ae83 |
-| 2026-10-18T19:43:36+00:00 | gemma-4:e4b | drop_flexible | success | smoke | 10 | 0.8 | answer_contained | bench-reasoning | gemma-4_e4b_ab_worker | 00802dac-5e57-44c5-bdae-0a42606003f3 |
-| 2026-10-18T19:43:35+00:00 | gemma-4:e4b | drop_em | success | smoke | 10 | 0.7 | em,none | bench-reasoning | gemma-4_e4b_ab_worker | 6f7720bc-cedc-4383-b2d6-ecf325e1cb2f |
-| 2026-10-18T19:43:35+00:00 | gemma-4:e4b | drop_f1 | success | smoke | 10 | 0.74 | f1,none | bench-reasoning | gemma-4_e4b_ab_worker | 15921107-6848-4aba-abcf-61a9db75099b |
+| 2026-10-19T04:10:31+00:00 | ornith-1.5:9b | ifeval_inst_level_loose_acc_none | success | smoke | 10 | 0.8333333333333334 | inst_level_loose_acc,none | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 4a884fe7-0d03-4f5a-9326-69f1c1e308d2 |
+| 2026-10-19T04:10:30+00:00 | ornith-1.5:9b | ifeval_prompt_level_loose_acc_none | success | smoke | 10 | 0.7 | prompt_level_loose_acc,none | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | e9e87612-db6d-4d8f-bdaa-486fc3d04325 |
+| 2026-10-19T04:10:30+00:00 | ornith-1.5:9b | ifeval_inst_level_strict_acc_none | success | smoke | 10 | 0.7777777777777778 | inst_level_strict_acc,none | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 147447be-f2d8-40cd-8d9a-f06717c7ad44 |
+| 2026-10-19T04:10:29+00:00 | ornith-1.5:9b | ifeval_prompt_level_strict_acc_none | success | smoke | 10 | 0.6 | prompt_level_strict_acc,none | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 40b45730-a214-4aaf-973c-fa30a74957a3 |
+| 2026-10-19T04:07:17+00:00 | ornith-1.5:9b | mmlu_pro_exact_match_custom-extract | success | smoke | 140 | 0.7 | exact_match,custom-extract | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 3a517cc2-089c-4e74-b894-c9d9fbb3cd0f |
+| 2026-10-19T03:34:18+00:00 | ornith-1.5:9b | drop_f1 | success | smoke | 10 | 0.429 | f1,none | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 62b276c0-825f-4d71-8539-b7952e16965c |
+| 2026-10-19T03:34:18+00:00 | ornith-1.5:9b | drop_flexible | success | smoke | 10 | 0.5 | answer_contained | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 54b9e1af-7357-4b48-bda6-cdb007433cb4 |
+| 2026-10-19T03:34:17+00:00 | ornith-1.5:9b | drop_em | success | smoke | 10 | 0.4 | em,none | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 896a03f5-082a-476d-83ab-69c0e0d0928c |
+| 2026-10-19T03:33:49+00:00 | ornith-1.5:9b | bbh_flexible | success | smoke | 270 | 0.8222222222222222 | exact_match,flexible-extract | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | c97507e8-f926-4352-b221-72177d57676b |
+| 2026-10-19T03:33:48+00:00 | ornith-1.5:9b | bbh | success | smoke | 270 | 0.8222222222222222 | exact_match,get-answer | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | 0f9463c4-0c9d-4c84-8599-c981d4af39a1 |
+| 2026-10-19T02:32:01+00:00 | ornith-1.5:9b | gsm8k_flexible | success | smoke | 10 | 0.9 | exact_match,flexible-extract | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | eee9d984-36b4-470d-8401-9a0ce0c007cc |
+| 2026-10-19T02:32:01+00:00 | ornith-1.5:9b | gsm8k_strict | success | smoke | 10 | 0.9 | exact_match,strict-match | bench-reasoning | ornith-1_5_9b_w_smoke_v1 | b2367260-9e94-4253-889b-b3c466b69ebb |
+| 2026-10-19T02:29:43+00:00 | ornith-1.5:9b | humaneval_base | success | smoke | 164 | 0.7804878048780488 | pass@1_base | bench-code | ornith-1_5_9b_w_smoke_v1 | 8145d0fa-3f13-4158-988a-eeb75b645309 |
+| 2026-10-19T02:29:43+00:00 | ornith-1.5:9b | humaneval_plus | success | smoke | 164 | 0.7378048780487805 | pass@1_plus | bench-code | ornith-1_5_9b_w_smoke_v1 | 1a9bdb69-dd51-49ef-a41f-e80043ecf722 |
+| 2026-10-19T02:14:38+00:00 | qwen3.6:27b | ifeval_inst_level_loose_acc_none | success | smoke | 10 | 1.0 | inst_level_loose_acc,none | bench-reasoning | qwen3_6_27b_w_smoke_v1 | 46f914fc-7347-4092-a237-30dc6fe2813f |
+| 2026-10-19T02:14:37+00:00 | qwen3.6:27b | ifeval_prompt_level_loose_acc_none | success | smoke | 10 | 1.0 | prompt_level_loose_acc,none | bench-reasoning | qwen3_6_27b_w_smoke_v1 | c94828fd-fd9d-44f2-89a6-fc702298153e |
+| 2026-10-19T02:14:37+00:00 | qwen3.6:27b | ifeval_inst_level_strict_acc_none | success | smoke | 10 | 1.0 | inst_level_strict_acc,none | bench-reasoning | qwen3_6_27b_w_smoke_v1 | 637d7d96-3dbb-4b1d-8620-d298540daf6f |
+| 2026-10-19T02:14:36+00:00 | qwen3.6:27b | ifeval_prompt_level_strict_acc_none | success | smoke | 10 | 1.0 | prompt_level_strict_acc,none | bench-reasoning | qwen3_6_27b_w_smoke_v1 | 07f2e6b9-d55b-4cbb-be96-a1e568926cc6 |
+| 2026-10-19T02:13:30+00:00 | qwen3.6:27b | mmlu_pro_exact_match_custom-extract | success | smoke | 140 | 0.8142857142857143 | exact_match,custom-extract | bench-reasoning | qwen3_6_27b_w_smoke_v1 | e1be068e-88d1-4908-a25d-8ad781023ed2 |
+| 2026-10-19T02:11:45+00:00 | mellum2.1:12b-a2.5b | gsm8k_flexible | success | smoke | 10 | 0.0 | exact_match,flexible-extract | bench-reasoning | mellum2_1_12b-a2_5b_w_smoke_v1 | d9d5847a-70c4-4360-8e0c-f1ec14fb0733 |
+| 2026-10-19T02:11:44+00:00 | mellum2.1:12b-a2.5b | gsm8k_strict | success | smoke | 10 | 0.0 | exact_match,strict-match | bench-reasoning | mellum2_1_12b-a2_5b_w_smoke_v1 | 91abbe40-9747-409a-a049-cd2ab416e4a6 |
+| 2026-10-19T02:09:38+00:00 | mellum2.1:12b-a2.5b | humaneval_plus | success | smoke | 164 | 0.04878048780487805 | pass@1_plus | bench-code | mellum2_1_12b-a2_5b_w_smoke_v1 | 98205087-f38e-4489-a9d8-9e8d18e0ca0d |
+| 2026-10-19T02:09:37+00:00 | mellum2.1:12b-a2.5b | humaneval_base | success | smoke | 164 | 0.04878048780487805 | pass@1_base | bench-code | mellum2_1_12b-a2_5b_w_smoke_v1 | 045ad14c-9532-479f-aa3e-f63ffa98b539 |
+| 2026-10-19T01:51:21+00:00 | qwen3.6:27b | drop_f1 | success | smoke | 10 | 0.818 | f1,none | bench-reasoning | qwen3_6_27b_w_smoke_v1 | d2abde73-b50a-4e26-821d-d5215cbd746b |
+| 2026-10-19T01:51:21+00:00 | qwen3.6:27b | drop_flexible | success | smoke | 10 | 0.9 | answer_contained | bench-reasoning | qwen3_6_27b_w_smoke_v1 | 37eb32d4-5bf2-4687-8097-75bf92cfa6e9 |
+| 2026-10-19T01:51:20+00:00 | qwen3.6:27b | drop_em | success | smoke | 10 | 0.8 | em,none | bench-reasoning | qwen3_6_27b_w_smoke_v1 | a70cd025-aab5-48b5-915e-95a89a7e9701 |
+| 2026-10-19T01:50:57+00:00 | qwen3.6:27b | bbh_flexible | success | smoke | 270 | 0.9222222222222223 | exact_match,flexible-extract | bench-reasoning | qwen3_6_27b_w_smoke_v1 | eec75518-4395-485a-9da4-ff4883b2f9e0 |
+| 2026-10-19T01:50:56+00:00 | qwen3.6:27b | bbh | success | smoke | 270 | 0.9222222222222223 | exact_match,get-answer | bench-reasoning | qwen3_6_27b_w_smoke_v1 | 0c75a302-e8f6-4576-b86b-7c820627057b |
+| 2026-10-19T01:27:04+00:00 | qwen3.6:27b | gsm8k_flexible | success | smoke | 10 | 0.9 | exact_match,flexible-extract | bench-reasoning | qwen3_6_27b_w_smoke_v1 | 141dcdab-734c-4d52-abca-a4893400ec35 |
+| 2026-10-19T01:27:03+00:00 | qwen3.6:27b | gsm8k_strict | success | smoke | 10 | 0.9 | exact_match,strict-match | bench-reasoning | qwen3_6_27b_w_smoke_v1 | 464268a2-415a-4694-afe8-75e3e247003f |
+| 2026-10-19T01:25:50+00:00 | qwen3.6:27b | humaneval_plus | success | smoke | 164 | 0.9024390243902439 | pass@1_plus | bench-code | qwen3_6_27b_w_smoke_v1 | 1ea7ee84-8203-4647-9655-58eb38c47a09 |
+| 2026-10-19T01:25:49+00:00 | qwen3.6:27b | humaneval_base | success | smoke | 164 | 0.9390243902439024 | pass@1_base | bench-code | qwen3_6_27b_w_smoke_v1 | df30bd1a-fe0f-43f9-b331-c372a51d8005 |
+| 2026-10-19T01:15:55+00:00 | mellum2.1:12b-a2.5b | custom_long_context_extract | success | smoke | 14 | 0.9285714285714286 | score | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 | d1b495a2-e8d0-43fb-9665-61524e45916c |
+| 2026-10-19T01:14:25+00:00 | mellum2.1:12b-a2.5b | custom_orchestration_tradeoff | success | smoke | 12 | 0.8333333333333334 | score | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 | b85a6894-4f11-4a29-88f9-2f7736d440a8 |
+| 2026-10-19T01:13:12+00:00 | mellum2.1:12b-a2.5b | custom_tool_plan_sequence | success | smoke | 15 | 0.9333333333333333 | score | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 | 70245d65-c124-4f63-9e2c-9d786dd61cb7 |
+| 2026-10-19T01:11:14+00:00 | mellum2.1:12b-a2.5b | custom_ambiguity_handling | success | smoke | 13 | 0.23076923076923078 | score | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 | f2c2b2d7-5425-4be7-9531-274ff5c14265 |
+| 2026-10-19T01:10:36+00:00 | ornith-1.5:9b | custom_long_context_extract | success | smoke | 14 | 1.0 | score | bench-pipeline | ornith-1_5_9b_w_smoke_v1 | 0c88ebd5-41cd-4603-a2a1-c7ec70034f4d |
+| 2026-10-19T01:10:05+00:00 | ornith-1.5:9b | custom_orchestration_tradeoff | success | smoke | 12 | 0.8333333333333334 | score | bench-pipeline | ornith-1_5_9b_w_smoke_v1 | 02295642-e221-4f2c-acf6-e6a51929c0ef |
+| 2026-10-19T01:09:39+00:00 | mellum2.1:12b-a2.5b | custom_command_safety | success | smoke | 12 | 0.8333333333333334 | score | bench-pipeline | mellum2_1_12b-a2_5b_w_smoke_v1 | 32aa3f3f-ca62-4c85-80ab-62ee2d40c26a |
+| 2026-10-19T01:09:30+00:00 | ornith-1.5:9b | custom_tool_plan_sequence | success | smoke | 15 | 0.9333333333333333 | score | bench-pipeline | ornith-1_5_9b_w_smoke_v1 | 6d48d01c-3632-4a35-9d05-11d79c64d751 |

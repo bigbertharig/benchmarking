@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T22:15:13.784217+00:00",
+  "generated_at": "2026-10-19T04:10:31.550424+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -367,6 +367,17 @@
     },
     {
       "failures": 0,
+      "last_run_at": "2026-10-19T02:11:45+00:00",
+      "model": "mellum2.1:12b-a2.5b",
+      "records": 10,
+      "selected_tests": 10,
+      "successes": 10,
+      "suites": [
+        "mellum2_1_12b-a2_5b_w_smoke_v1"
+      ]
+    },
+    {
+      "failures": 0,
       "last_run_at": "2026-10-18T16:31:17+00:00",
       "model": "minicpm5:2b",
       "records": 30,
@@ -534,6 +545,17 @@
         "ornith15_35b_smoke_v1",
         "smoke_ornith35_bench_prompt_v1",
         "smoke_ornith35_worker_prompt_v1"
+      ]
+    },
+    {
+      "failures": 0,
+      "last_run_at": "2026-10-19T04:10:31+00:00",
+      "model": "ornith-1.5:9b",
+      "records": 20,
+      "selected_tests": 20,
+      "successes": 20,
+      "suites": [
+        "ornith-1_5_9b_w_smoke_v1"
       ]
     },
     {
@@ -747,11 +769,11 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-08-12T20:13:56.896872",
+      "last_run_at": "2026-10-19T02:14:38+00:00",
       "model": "qwen3.6:27b",
-      "records": 40,
-      "selected_tests": 13,
-      "successes": 40,
+      "records": 60,
+      "selected_tests": 30,
+      "successes": 60,
       "suites": [
         "campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_prep_v2_r1",
         "campaign_qwen36_27b_dataimport_smoke_20260812_qwen36_27b_import_smoke_r2",
@@ -763,6 +785,7 @@
         "campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5",
         "qwen36_27b_l50_bbhdrop_patched",
         "qwen36_27b_l50_bbhdrop_v2",
+        "qwen3_6_27b_w_smoke_v1",
         "smoke_qwen36_27b_nothink_bbh_l2",
         "smoke_qwen36_27b_nothink_bbh_l5",
         "smoke_qwen36_27b_nothink_drop_l5",
@@ -3420,9 +3443,9 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 2293,
+  "record_count": 2343,
   "schema_version": 3,
-  "selected_count": 1241,
+  "selected_count": 1288,
   "selected_per_model_test": [
     {
       "efficiency": {},
@@ -16677,6 +16700,520 @@
       "status": "success",
       "suite": "llama3_2_3b_w_smoke_v1",
       "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "passes=3; total=13; result_path=/results/custom_ambiguity_handling_mellum2.1_12b-a2.5b_20261019_010940_256850/result.json",
+      "raw_harness_score": 0.23076923076923078,
+      "run_at": "2026-10-19T01:11:14+00:00",
+      "run_class": "smoke",
+      "run_id": "f2c2b2d7-5425-4be7-9531-274ff5c14265",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.23076923076923078,
+      "score_pct": 23.076923076923077,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "passes=10; total=12; result_path=/results/custom_command_safety_mellum2.1_12b-a2.5b_20261019_010730_993743/result.json",
+      "raw_harness_score": 0.8333333333333334,
+      "run_at": "2026-10-19T01:09:39+00:00",
+      "run_class": "smoke",
+      "run_id": "32aa3f3f-ca62-4c85-80ab-62ee2d40c26a",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.8333333333333334,
+      "score_pct": 83.33333333333334,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "custom_command_safety"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "passes=3; total=13; result_path=/results/custom_json_schema_strict_mellum2.1_12b-a2.5b_20261019_010501_163257/result.json",
+      "raw_harness_score": 0.23076923076923078,
+      "run_at": "2026-10-19T01:07:30+00:00",
+      "run_class": "smoke",
+      "run_id": "c8a0c5a5-5254-4af7-9e24-f362c29e3648",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.23076923076923078,
+      "score_pct": 23.076923076923077,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "passes=13; total=14; result_path=/results/custom_long_context_extract_mellum2.1_12b-a2.5b_20261019_011425_827634/result.json",
+      "raw_harness_score": 0.9285714285714286,
+      "run_at": "2026-10-19T01:15:55+00:00",
+      "run_class": "smoke",
+      "run_id": "d1b495a2-e8d0-43fb-9665-61524e45916c",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 14,
+      "schema_version": 3,
+      "score": 0.9285714285714286,
+      "score_pct": 92.85714285714286,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "passes=10; total=12; result_path=/results/custom_orchestration_tradeoff_mellum2.1_12b-a2.5b_20261019_011313_175528/result.json",
+      "raw_harness_score": 0.8333333333333334,
+      "run_at": "2026-10-19T01:14:25+00:00",
+      "run_class": "smoke",
+      "run_id": "b85a6894-4f11-4a29-88f9-2f7736d440a8",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.8333333333333334,
+      "score_pct": 83.33333333333334,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_mellum2.1_12b-a2.5b_20261019_011114_636801/result.json",
+      "raw_harness_score": 0.9333333333333333,
+      "run_at": "2026-10-19T01:13:12+00:00",
+      "run_class": "smoke",
+      "run_id": "70245d65-c124-4f63-9e2c-9d786dd61cb7",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 15,
+      "schema_version": 3,
+      "score": 0.9333333333333333,
+      "score_pct": 93.33333333333333,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": 0.0,
+      "notes": "",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-19T02:11:45+00:00",
+      "run_class": "smoke",
+      "run_id": "d9d5847a-70c4-4360-8e0c-f1ec14fb0733",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.0,
+      "score_pct": 0.0,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,strict-match",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": 0.0,
+      "notes": "",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-19T02:11:44+00:00",
+      "run_class": "smoke",
+      "run_id": "91abbe40-9747-409a-a049-cd2ab416e4a6",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.0,
+      "score_pct": 0.0,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.04878048780487805,
+      "run_at": "2026-10-19T02:09:37+00:00",
+      "run_class": "smoke",
+      "run_id": "045ad14c-9532-479f-aa3e-f63ffa98b539",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.04878048780487805,
+      "score_pct": 4.878048780487805,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "humaneval_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.04878048780487805,
+      "run_at": "2026-10-19T02:09:38+00:00",
+      "run_class": "smoke",
+      "run_id": "98205087-f38e-4489-a9d8-9e8d18e0ca0d",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.04878048780487805,
+      "score_pct": 4.878048780487805,
+      "status": "success",
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "test_id": "humaneval_plus"
     },
     {
       "efficiency": {
@@ -35669,6 +36206,1100 @@
       "test_id": "runtime_ttft"
     },
     {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,get-answer",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.8222222222222222,
+      "notes": "",
+      "raw_harness_score": 0.8222222222222222,
+      "run_at": "2026-10-19T03:33:48+00:00",
+      "run_class": "smoke",
+      "run_id": "0f9463c4-0c9d-4c84-8599-c981d4af39a1",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 270,
+      "schema_version": 3,
+      "score": 0.8222222222222222,
+      "score_pct": 82.22222222222221,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "bbh"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.8222222222222222,
+      "notes": "",
+      "raw_harness_score": 0.8222222222222222,
+      "run_at": "2026-10-19T03:33:49+00:00",
+      "run_class": "smoke",
+      "run_id": "c97507e8-f926-4352-b221-72177d57676b",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 270,
+      "schema_version": 3,
+      "score": 0.8222222222222222,
+      "score_pct": 82.22222222222221,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "bbh_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "passes=10; total=13; result_path=/results/custom_ambiguity_handling_ornith-1.5_9b_20261019_010834_708974/result.json",
+      "raw_harness_score": 0.7692307692307693,
+      "run_at": "2026-10-19T01:09:05+00:00",
+      "run_class": "smoke",
+      "run_id": "19a3192d-ff12-4fb9-a95d-571fd79bd52d",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.7692307692307693,
+      "score_pct": 76.92307692307693,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "passes=12; total=12; result_path=/results/custom_command_safety_ornith-1.5_9b_20261019_010629_251935/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-19T01:08:34+00:00",
+      "run_class": "smoke",
+      "run_id": "1cc0081b-49d8-4c84-b29a-5f987b9edd4c",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "custom_command_safety"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "passes=7; total=13; result_path=/results/custom_json_schema_strict_ornith-1.5_9b_20261019_010556_912797/result.json",
+      "raw_harness_score": 0.5384615384615384,
+      "run_at": "2026-10-19T01:06:28+00:00",
+      "run_class": "smoke",
+      "run_id": "e45b6fa6-55ad-4784-9a0d-3203e086edfb",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.5384615384615384,
+      "score_pct": 53.84615384615385,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_ornith-1.5_9b_20261019_011005_677944/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-19T01:10:36+00:00",
+      "run_class": "smoke",
+      "run_id": "0c88ebd5-41cd-4603-a2a1-c7ec70034f4d",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 14,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "passes=10; total=12; result_path=/results/custom_orchestration_tradeoff_ornith-1.5_9b_20261019_010930_579319/result.json",
+      "raw_harness_score": 0.8333333333333334,
+      "run_at": "2026-10-19T01:10:05+00:00",
+      "run_class": "smoke",
+      "run_id": "02295642-e221-4f2c-acf6-e6a51929c0ef",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.8333333333333334,
+      "score_pct": 83.33333333333334,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_ornith-1.5_9b_20261019_010905_734333/result.json",
+      "raw_harness_score": 0.9333333333333333,
+      "run_at": "2026-10-19T01:09:30+00:00",
+      "run_class": "smoke",
+      "run_id": "6d48d01c-3632-4a35-9d05-11d79c64d751",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 15,
+      "schema_version": 3,
+      "score": 0.9333333333333333,
+      "score_pct": 93.33333333333333,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "em,none",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.4,
+      "notes": "",
+      "raw_harness_score": 0.4,
+      "run_at": "2026-10-19T03:34:17+00:00",
+      "run_class": "smoke",
+      "run_id": "896a03f5-082a-476d-83ab-69c0e0d0928c",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.4,
+      "score_pct": 40.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "drop_em"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "f1,none",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.429,
+      "notes": "",
+      "raw_harness_score": 0.429,
+      "run_at": "2026-10-19T03:34:18+00:00",
+      "run_class": "smoke",
+      "run_id": "62b276c0-825f-4d71-8539-b7952e16965c",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.429,
+      "score_pct": 42.9,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 1,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "answer_contained",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.5,
+      "notes": "",
+      "raw_harness_score": 0.4,
+      "run_at": "2026-10-19T03:34:18+00:00",
+      "run_class": "smoke",
+      "run_id": "54b9e1af-7357-4b48-bda6-cdb007433cb4",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.5,
+      "score_pct": 50.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "drop_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.9,
+      "run_at": "2026-10-19T02:32:01+00:00",
+      "run_class": "smoke",
+      "run_id": "eee9d984-36b4-470d-8401-9a0ce0c007cc",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,strict-match",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.9,
+      "run_at": "2026-10-19T02:32:01+00:00",
+      "run_class": "smoke",
+      "run_id": "b2367260-9e94-4253-889b-b3c466b69ebb",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7804878048780488,
+      "run_at": "2026-10-19T02:29:43+00:00",
+      "run_class": "smoke",
+      "run_id": "8145d0fa-3f13-4158-988a-eeb75b645309",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.7804878048780488,
+      "score_pct": 78.04878048780488,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "humaneval_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7378048780487805,
+      "run_at": "2026-10-19T02:29:43+00:00",
+      "run_class": "smoke",
+      "run_id": "1a9bdb69-dd51-49ef-a41f-e80043ecf722",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.7378048780487805,
+      "score_pct": 73.78048780487805,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "humaneval_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_loose_acc,none",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.8333333333333334,
+      "notes": "",
+      "raw_harness_score": 0.8333333333333334,
+      "run_at": "2026-10-19T04:10:31+00:00",
+      "run_class": "smoke",
+      "run_id": "4a884fe7-0d03-4f5a-9326-69f1c1e308d2",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.8333333333333334,
+      "score_pct": 83.33333333333334,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_strict_acc,none",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.7777777777777778,
+      "notes": "",
+      "raw_harness_score": 0.7777777777777778,
+      "run_at": "2026-10-19T04:10:30+00:00",
+      "run_class": "smoke",
+      "run_id": "147447be-f2d8-40cd-8d9a-f06717c7ad44",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.7777777777777778,
+      "score_pct": 77.77777777777779,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_loose_acc,none",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.7,
+      "notes": "",
+      "raw_harness_score": 0.7,
+      "run_at": "2026-10-19T04:10:30+00:00",
+      "run_class": "smoke",
+      "run_id": "e9e87612-db6d-4d8f-bdaa-486fc3d04325",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.7,
+      "score_pct": 70.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_strict_acc,none",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.6,
+      "notes": "",
+      "raw_harness_score": 0.6,
+      "run_at": "2026-10-19T04:10:29+00:00",
+      "run_class": "smoke",
+      "run_id": "40b45730-a214-4aaf-973c-fa30a74957a3",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.6,
+      "score_pct": 60.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,custom-extract",
+      "model": "ornith-1.5:9b",
+      "normalized_answer_score": 0.7,
+      "notes": "",
+      "raw_harness_score": 0.7,
+      "run_at": "2026-10-19T04:07:17+00:00",
+      "run_class": "smoke",
+      "run_id": "3a517cc2-089c-4e74-b894-c9d9fbb3cd0f",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 140,
+      "schema_version": 3,
+      "score": 0.7,
+      "score_pct": 70.0,
+      "status": "success",
+      "suite": "ornith-1_5_9b_w_smoke_v1",
+      "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
       "efficiency": {},
       "extractor_failure_count": 0,
       "failure": {},
@@ -51174,6 +52805,358 @@
         "kind": "",
         "message": ""
       },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 0.9222222222222223,
+      "notes": "",
+      "raw_harness_score": 0.9222222222222223,
+      "run_at": "2026-10-19T01:50:57+00:00",
+      "run_class": "smoke",
+      "run_id": "eec75518-4395-485a-9da4-ff4883b2f9e0",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 270,
+      "schema_version": 3,
+      "score": 0.9222222222222223,
+      "score_pct": 92.22222222222223,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "bbh_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "passes=6; total=13; result_path=/results/custom_ambiguity_handling_qwen3.6_27b_20261019_010719_558308/result.json",
+      "raw_harness_score": 0.46153846153846156,
+      "run_at": "2026-10-19T01:07:29+00:00",
+      "run_class": "smoke",
+      "run_id": "34f57928-cc6e-4d1d-a62b-fdc1b1e981b4",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.46153846153846156,
+      "score_pct": 46.15384615384615,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "passes=11; total=12; result_path=/results/custom_command_safety_qwen3.6_27b_20261019_010655_237366/result.json",
+      "raw_harness_score": 0.9166666666666666,
+      "run_at": "2026-10-19T01:07:18+00:00",
+      "run_class": "smoke",
+      "run_id": "39612ee5-50f5-4237-99d4-91b5e63722e4",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.9166666666666666,
+      "score_pct": 91.66666666666666,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "custom_command_safety"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "passes=3; total=13; result_path=/results/custom_json_schema_strict_qwen3.6_27b_20261019_010642_286528/result.json",
+      "raw_harness_score": 0.23076923076923078,
+      "run_at": "2026-10-19T01:06:54+00:00",
+      "run_class": "smoke",
+      "run_id": "bdf53083-ffa5-4d26-baef-e0b5ecb69685",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.23076923076923078,
+      "score_pct": 23.076923076923077,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_qwen3.6_27b_20261019_010751_551494/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-19T01:08:00+00:00",
+      "run_class": "smoke",
+      "run_id": "b15d9bdc-c686-4437-8b6b-608ffb0af94d",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 14,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "passes=10; total=12; result_path=/results/custom_orchestration_tradeoff_qwen3.6_27b_20261019_010739_284337/result.json",
+      "raw_harness_score": 0.8333333333333334,
+      "run_at": "2026-10-19T01:07:50+00:00",
+      "run_class": "smoke",
+      "run_id": "59066d42-fe05-4e2a-8da3-8d30100704b9",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.8333333333333334,
+      "score_pct": 83.33333333333334,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v1",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.0.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_qwen3.6_27b_20261019_010730_110953/result.json",
+      "raw_harness_score": 0.9333333333333333,
+      "run_at": "2026-10-19T01:07:38+00:00",
+      "run_class": "smoke",
+      "run_id": "f0bddfae-85c1-456d-9b37-19b8d3791a81",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 15,
+      "schema_version": 3,
+      "score": 0.9333333333333333,
+      "score_pct": 93.33333333333333,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
       "format_compatibility": "unknown",
       "harness": "bench-dataimport",
       "methodology": {
@@ -51311,6 +53294,64 @@
       "status": "success",
       "suite": "qwen36_27b_l50_bbhdrop_v2",
       "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 1,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "answer_contained",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-10-19T01:51:21+00:00",
+      "run_class": "smoke",
+      "run_id": "37eb32d4-5bf2-4687-8097-75bf92cfa6e9",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "drop_flexible"
     },
     {
       "efficiency": {
@@ -51773,6 +53814,516 @@
       "status": "success",
       "suite": "campaign_qwen36_27b_geoimport_smoke_20260812_qwen36_27b_import_smoke_r5",
       "test_id": "geoimport_qa_parent_failure"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.9,
+      "run_at": "2026-10-19T01:27:04+00:00",
+      "run_class": "smoke",
+      "run_id": "141dcdab-734c-4d52-abca-a4893400ec35",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,strict-match",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.9,
+      "run_at": "2026-10-19T01:27:03+00:00",
+      "run_class": "smoke",
+      "run_id": "464268a2-415a-4694-afe8-75e3e247003f",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9390243902439024,
+      "run_at": "2026-10-19T01:25:49+00:00",
+      "run_class": "smoke",
+      "run_id": "df30bd1a-fe0f-43f9-b331-c372a51d8005",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.9390243902439024,
+      "score_pct": 93.90243902439023,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "humaneval_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9024390243902439,
+      "run_at": "2026-10-19T01:25:50+00:00",
+      "run_class": "smoke",
+      "run_id": "1ea7ee84-8203-4647-9655-58eb38c47a09",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.9024390243902439,
+      "score_pct": 90.2439024390244,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "humaneval_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_loose_acc,none",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 1.0,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-19T02:14:38+00:00",
+      "run_class": "smoke",
+      "run_id": "46f914fc-7347-4092-a237-30dc6fe2813f",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_strict_acc,none",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 1.0,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-19T02:14:37+00:00",
+      "run_class": "smoke",
+      "run_id": "637d7d96-3dbb-4b1d-8620-d298540daf6f",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_loose_acc,none",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 1.0,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-19T02:14:37+00:00",
+      "run_class": "smoke",
+      "run_id": "c94828fd-fd9d-44f2-89a6-fc702298153e",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_strict_acc,none",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 1.0,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-19T02:14:36+00:00",
+      "run_class": "smoke",
+      "run_id": "07f2e6b9-d55b-4cbb-be96-a1e568926cc6",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,custom-extract",
+      "model": "qwen3.6:27b",
+      "normalized_answer_score": 0.8142857142857143,
+      "notes": "",
+      "raw_harness_score": 0.8142857142857143,
+      "run_at": "2026-10-19T02:13:30+00:00",
+      "run_class": "smoke",
+      "run_id": "e1be068e-88d1-4908-a25d-8ad781023ed2",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v4",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 140,
+      "schema_version": 3,
+      "score": 0.8142857142857143,
+      "score_pct": 81.42857142857143,
+      "status": "success",
+      "suite": "qwen3_6_27b_w_smoke_v1",
+      "test_id": "mmlu_pro_exact_match_custom-extract"
     },
     {
       "efficiency": {
@@ -59824,6 +62375,19 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-19T02:11:45+00:00",
+      "model": "mellum2.1:12b-a2.5b",
+      "records": 10,
+      "successes": 10,
+      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-reasoning"
       ],
       "last_run_at": "2026-10-18T15:12:36+00:00",
@@ -60945,6 +63509,19 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-19T04:10:31+00:00",
+      "model": "ornith-1.5:9b",
+      "records": 20,
+      "successes": 20,
+      "suite": "ornith-1_5_9b_w_smoke_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-reasoning"
       ],
       "last_run_at": "2026-03-16T23:08:30+00:00",
@@ -61924,6 +64501,19 @@
       "records": 3,
       "successes": 3,
       "suite": "qwen36_27b_l50_bbhdrop_v2"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-19T02:14:38+00:00",
+      "model": "qwen3.6:27b",
+      "records": 20,
+      "successes": 20,
+      "suite": "qwen3_6_27b_w_smoke_v1"
     },
     {
       "failures": 0,

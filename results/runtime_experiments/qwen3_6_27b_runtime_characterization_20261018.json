@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "qwen3_6_27b_runtime_characterization_20261018",
+  "recorded_at": "2026-10-18T18:06:41-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "qwen3.6:27b",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "185088",
+    "tensor_split": "-",
+    "extra_args": "--reasoning off"
+  },
+  "first_load": {
+    "seconds": 163.9,
+    "source": "harness load (qwen3.6-27b-g0), lane GPU 0"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 63,
+    "generation_tokens_per_second": 44.61,
+    "prompt_tokens_per_second": 313.52,
+    "wall_seconds": 17.4,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 0,
+      "samples": 17,
+      "avg_power_w": 437.5,
+      "peak_power_w": 448.37,
+      "peak_temperature_c": 68.0,
+      "avg_utilization_pct": 95.1,
+      "avg_sm_clock_mhz": 1981
+    }
+  ],
+  "combined_avg_gpu_power_w": 437.5,
+  "decode_energy_wh": 2.116
+}
