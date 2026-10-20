@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-15",
+  "version": "2026-10-20",
   "notes": "Generated from model_registry.json by scripts/active/model_library.py export. Do not edit.",
   "default_system_prompt": "",
   "models": [
