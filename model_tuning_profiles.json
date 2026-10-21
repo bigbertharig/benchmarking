@@ -144,6 +144,10 @@
         "parallel": 1,
         "n_gpu_layers": 48
       },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
       "notes": "Split-load (2x 1060). Gemma 4 12B dense Q4_K_M. Requires -fit off and --tensor-split 1,1 (2 visible GPUs). Do NOT use --n-gpu-layers 999 (auto-fitter aborts). CPU mapped ~924 MiB. VRAM: 3.1+3.8 GB across GPUs. Requires llama-runtime:b8884-candidate. BENCHMARK: use --reasoning-budget 0 (A/B tested: budget=0 scored BBH 0.82, budget=1024 scored 0.24 \u2014 thinking tokens consume generation budget)."
     },
     "gemma-4:12b": {

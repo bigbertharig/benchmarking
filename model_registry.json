@@ -285,6 +285,10 @@
             "parallel": 1,
             "n_gpu_layers": 48
           },
+          "extra_args": [
+            "--reasoning",
+            "off"
+          ],
           "tuning": {
             "status": "untuned",
             "last_tuned_at": null,
