@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 # Ask the rig manager (llm-gateway on the Pi, docs/MANAGER.md) for a GPU lease, the harness process
 # every benchmark lane follows. Runs on the rig; reaches the manager with rigctl over ssh.
-#   harness_lease.sh acquire <gpu> <owner> <run-id> [model]  -> prints the lease id
+#   harness_lease.sh acquire <gpu> <owner> <run-id> [model] [claim]  -> prints the lease id
 #   harness_lease.sh renew <lease-id> <owner>
 #   harness_lease.sh release <lease-id> <owner>
+#   harness_lease.sh reserve <gpus> <name> <owner> [model]   reserve cards that are still busy (a claim
+#                                                            with a TTL; MANAGER.md "Reservations")
+#   harness_lease.sh renew-reservation <name> <owner>
+#   harness_lease.sh unreserve <name>
 # acquire exits 2 if the manager refuses (card held, claimed or busy) and the lane must not run.
 # If the manager cannot be reached, acquire prints nothing and exits 0: the rig works offline, and
 # run_runtime.sh audits the load as no-lease.
@@ -13,15 +17,17 @@ HOST="${HARNESS_HOST:-pi}"
 RIGCTL="${HARNESS_RIGCTL:-~/llm-gateway/tools/rigctl.py}"
 TTL=600
 
-rigctl() {  # every argument is a plain token (ids, numbers), so ssh's re-splitting is harmless
-  ssh -o BatchMode=yes -o ConnectTimeout=5 "$HOST" python3 "$RIGCTL" "$@"
+rigctl() {  # ssh re-splits the remote line, so every argument is quoted for the remote shell
+  local q=() a
+  for a in "$@"; do q+=("$(printf '%q' "$a")"); done
+  ssh -o BatchMode=yes -o ConnectTimeout=5 "$HOST" python3 "$RIGCTL" "${q[@]}"
 }
 
 case "${1:-}" in
   acquire)
-    gpu=$2; owner=$3; run_id=$4; model=${5:-}
+    gpu=$2; owner=$3; run_id=$4; model=${5:-}; claim=${6:-}
     out=$(rigctl acquire --controller benchmarks --owner "$owner" --run-id "$run_id" --gpus "$gpu" \
-          --ttl "$TTL" --model "${model:-none}" 2>&1); rc=$?
+          --ttl "$TTL" --model "${model:-none}" ${claim:+--claim "$claim"} 2>&1); rc=$?
     if [ "$rc" -eq 255 ] || grep -q "manager unreachable" <<< "$out"; then
       echo "harness_lease: manager not reachable; running without a lease" >&2
       exit 0
@@ -40,5 +46,20 @@ case "${1:-}" in
     [ -n "${2:-}" ] || exit 0
     rigctl release "$2" --owner "$3" > /dev/null 2>&1 || echo "harness_lease: release of $2 failed" >&2
     ;;
-  *) echo "usage: harness_lease.sh acquire|renew|release ..." >&2; exit 64 ;;
+  reserve)
+    gpus=$2; name=$3; owner=$4; model=${5:-}
+    out=$(rigctl claim "$name" --gpus "$gpus" --owner "$owner" --ttl "$TTL" --purpose "waiting for cards" \
+          --note "reservation by $owner" ${model:+--model "$model"} 2>&1); rc=$?
+    if [ "$rc" -ne 0 ]; then
+      echo "harness_lease: reservation of GPU $gpus refused: $out" >&2
+      exit 2
+    fi
+    ;;
+  renew-reservation)
+    rigctl renew-claim "$2" --owner "$3" --ttl "$TTL" > /dev/null 2>&1 || exit 2
+    ;;
+  unreserve)
+    rigctl unclaim "$2" > /dev/null 2>&1 || true
+    ;;
+  *) echo "usage: harness_lease.sh acquire|renew|release|reserve|renew-reservation|unreserve ..." >&2; exit 64 ;;
 esac

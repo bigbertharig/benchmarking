@@ -481,19 +481,33 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertEqual(block.status, RUNNER.LOADING)
         self.assertEqual(block.assigned_slot.name, "gpu_2")
 
-    def test_pinned_block_fails_after_three_refusals(self):
-        self._fake_lease_helper("refused")
+    def test_pinned_block_reserves_its_card_and_waits_then_gives_up(self):
+        calls = self._fake_lease_helper("refused")
         self._patch(LEASE_REFUSED_COOLDOWN_S=0)
         block = self._brain_block("pinned")
         block.config["placement"] = "gpu_3"
         block.status = RUNNER.WAITING_GPU
         sched = RUNNER.Scheduler(RUNNER.CampaignState("c", "run-1", "m.json", {"pinned": block}, "now"))
-        for _ in range(2):
+        for _ in range(4):                       # refusals no longer fail it: it reserves and keeps waiting
             sched.try_start_load()
             self.assertEqual(block.status, RUNNER.WAITING_GPU)
+        self.assertEqual(sched.leases.reserved, {"gpu_3": "campaign-run-1-gpu_3"})
+        self.assertEqual(sum(c.startswith("reserve 3 campaign-run-1-gpu_3") for c in calls()), 1)
+        self._patch(LEASE_RESERVATION_WAIT_S=0)  # past its wait limit: fails and drops the reservation
         sched.try_start_load()
         self.assertEqual(block.status, RUNNER.FAILED)
-        self.assertIn("after 3 refusals", block.error)
+        self.assertIn("not free after 0 s", block.error)
+        self.assertEqual(sched.leases.reserved, {})
+        self.assertIn("unreserve campaign-run-1-gpu_3", calls())
+
+    def test_lease_on_a_reserved_slot_names_the_reservation_then_drops_it(self):
+        calls = self._fake_lease_helper()
+        leases = RUNNER.CampaignLeases("run-1")
+        leases.reserved["split_4_5"] = "campaign-run-1-split_4_5"
+        self.assertEqual(leases.ensure(RUNNER.SLOTS["split_4_5"], "m:14b"), "lease-4,5")
+        self.assertEqual(calls(), ["acquire 4,5 campaign-split_4_5 run-1 m:14b campaign-run-1-split_4_5",
+                                   "unreserve campaign-run-1-split_4_5"])
+        self.assertEqual(leases.reserved, {})
 
     def test_release_refused_is_retried(self):
         self._fake_lease_helper("stuck")
