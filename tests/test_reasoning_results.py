@@ -152,6 +152,8 @@ class FlexibleScoringTests(unittest.TestCase):
         _, _, drop_unread = MODULE.drop_flexible([_drop([["3"]], "```json"), _drop([["3"]], "{"), _drop([["3"]], "4")])
         self.assertEqual(drop_unread, 2)
         self.assertEqual(MODULE.gsm8k_unreadable([{"resps": [["no idea"]]}, {"resps": [["#### 18"]]}]), 1)
+        per_filter = [{"doc_id": 0, "filter": f, "resps": [["no idea"]]} for f in ("strict-match", "flexible-extract")]
+        self.assertEqual(MODULE.gsm8k_unreadable(per_filter), 1)
 
     def test_mmlu_pro_reads_letters_however_they_are_written(self):
         samples = [

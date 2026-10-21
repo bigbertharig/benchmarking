@@ -219,8 +219,10 @@ def mmlu_pro_flexible(samples: list[dict[str, Any]]) -> tuple[float, int, int] |
 
 
 def gsm8k_unreadable(samples: list[dict[str, Any]]) -> int:
-    """Answers with no number anywhere: nothing the flexible extractor could take."""
-    return sum(1 for s in samples if not re.search(r"\d", _response(s)))
+    """Answers with no number anywhere: nothing the flexible extractor could take.
+    lm-eval logs one sample per filter, so each document is counted once."""
+    responses = {s.get("doc_id", i): _response(s) for i, s in enumerate(samples)}
+    return sum(1 for r in responses.values() if not re.search(r"\d", r))
 
 
 def _count(block: Any) -> int | None:
