@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "gpt-oss_20b_runtime_characterization_20261020",
+  "recorded_at": "2026-10-20T20:39:14-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "gpt-oss:20b",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "131072",
+    "tensor_split": "-",
+    "extra_args": "--jinja --reasoning-budget 0"
+  },
+  "first_load": {
+    "seconds": 42.8,
+    "source": "harness load (gpt-oss-20b-g0), lane GPU 0"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 118,
+    "generation_tokens_per_second": 194.43,
+    "prompt_tokens_per_second": 1154.25,
+    "wall_seconds": 4.0,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 0,
+      "samples": 4,
+      "avg_power_w": 390.7,
+      "peak_power_w": 402.69,
+      "peak_temperature_c": 61.0,
+      "avg_utilization_pct": 87.7,
+      "avg_sm_clock_mhz": 2055
+    }
+  ],
+  "combined_avg_gpu_power_w": 390.7,
+  "decode_energy_wh": 0.436
+}
