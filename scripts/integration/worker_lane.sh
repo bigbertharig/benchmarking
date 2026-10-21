@@ -11,7 +11,9 @@
 # MANAGER.md, "Reservations"). A card still busy when a load starts (another holder finishing) is
 # waited for, reserved by the claim, up to LANE_LOAD_WAIT_S (default 3600 s).
 # LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check;
-# LANE_STOP_AFTER=4 after the Phase 4 smoke. LANE_START_AT=4.5 runs only the Phase 4.5 thinking A/B
+# LANE_STOP_AFTER=4 after the Phase 4 smoke. LANE_RUN_SUFFIX (e.g. _r2) is appended to every run name, so a
+# re-run after a settings fix starts fresh instead of resuming the old run's checkpoints.
+# LANE_START_AT=4.5 runs only the Phase 4.5 thinking A/B
 # (for a model whose Phases 2-4 already ran, e.g. after a rig restart in between).
 # usage: worker_lane.sh <gpu-group> <queue-file>     e.g. worker_lane.sh 1+3 queue.txt
 set -uo pipefail
@@ -126,7 +128,7 @@ while MODEL=$(next_model) && [ -n "$MODEL" ]; do
     continue
   fi
   say "Phase 4 smoke"
-  "$HERE/phase4.sh" "$MODEL" "${slug}_w_smoke_v1" "$PORT" | sed "s/^/    /"
+  "$HERE/phase4.sh" "$MODEL" "${slug}_w_smoke_v1${LANE_RUN_SUFFIX:-}" "$PORT" | sed "s/^/    /"
   if [ "${LANE_STOP_AFTER:-}" = "4" ]; then
     unload
     say "== $MODEL done (LANE_STOP_AFTER=4)"
@@ -139,9 +141,9 @@ while MODEL=$(next_model) && [ -n "$MODEL" ]; do
       if ! load "--reasoning $variant"; then say "LOAD FAILED ($variant): $LOAD_ERR"; continue; fi
       say "Phase 4.5 thinking $variant: $PROFILE loaded in ${LOAD_S}s, ctx $CTX, prompt tail $(prompt_tail)"
       if [ "$variant" = "on" ]; then
-        reasoning "${slug}_w_p45_think" --tasks gsm8k,bbh --gen-kwargs "max_gen_toks=${THINK_TOKS},until=</s>"
+        reasoning "${slug}_w_p45_think${LANE_RUN_SUFFIX:-}" --tasks gsm8k,bbh --gen-kwargs "max_gen_toks=${THINK_TOKS},until=</s>"
       else
-        reasoning "${slug}_w_p45_off" --tasks gsm8k,bbh
+        reasoning "${slug}_w_p45_off${LANE_RUN_SUFFIX:-}" --tasks gsm8k,bbh
       fi
     done
   else
