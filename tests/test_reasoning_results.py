@@ -73,6 +73,11 @@ def _bbh(target, response, strict=0):
     return {"target": target, "resps": [[response]], "exact_match": strict}
 
 
+def _mc(target, response, strict=0):
+    return {"target": target, "resps": [[response]], "exact_match": strict,
+            "filtered_resps": [target if strict else "[invalid]"]}
+
+
 def _drop(golds, response, strict=0):
     return {"doc": {"answers": golds}, "resps": [[response]], "em": strict}
 
@@ -90,9 +95,9 @@ class FlexibleScoringTests(unittest.TestCase):
             _bbh("(D)", "So the answer is (D) kite."),
             _bbh("(A)", "So the answer is (A).", strict=1),
         ]
-        score, rescued = MODULE.bbh_flexible(samples)
+        score, rescued, unreadable = MODULE.bbh_flexible(samples)
         self.assertEqual(score, 1.0)
-        self.assertEqual(rescued, 8)
+        self.assertEqual((rescued, unreadable), (8, 0))
 
     def test_bbh_rejects_wrong_or_missing_answers(self):
         samples = [
@@ -102,7 +107,7 @@ class FlexibleScoringTests(unittest.TestCase):
             _bbh("(K)", "Two pairs of equal adjacent sides.\n\nAnswer: (D) kite"),
             _bbh("(Q)", "The cup is first, so to its right is the purple mug.\n\nAnswer: ("),
         ]
-        score, rescued = MODULE.bbh_flexible(samples)
+        score, rescued, unreadable = MODULE.bbh_flexible(samples)
         self.assertEqual((score, rescued), (0.0, 0))
 
     def test_drop_accepts_lead_ins_and_fuller_answers(self):
@@ -113,9 +118,9 @@ class FlexibleScoringTests(unittest.TestCase):
             _drop([["2"]], "Sebastian Janikowski made two field goals."),
             _drop([["Chaz Schilens"]], "Chaz Schilens", strict=1),
         ]
-        score, rescued = MODULE.drop_flexible(samples)
+        score, rescued, unreadable = MODULE.drop_flexible(samples)
         self.assertEqual(score, 1.0)
-        self.assertEqual(rescued, 4)
+        self.assertEqual((rescued, unreadable), (4, 0))
 
     def test_drop_needs_every_span_and_whole_tokens(self):
         samples = [
@@ -123,8 +128,8 @@ class FlexibleScoringTests(unittest.TestCase):
             _drop([["2"]], "He kicked 24 yards"),
             _drop([["Raiders"]], "The Texans won"),
         ]
-        score, rescued = MODULE.drop_flexible(samples)
-        self.assertEqual((score, rescued), (0.0, 0))
+        score, rescued, unreadable = MODULE.drop_flexible(samples)
+        self.assertEqual((score, rescued, unreadable), (0.0, 0, 0))   # wrong, but readable
 
     def test_flexible_rows_sit_beside_strict_rows(self):
         data = {
@@ -137,8 +142,40 @@ class FlexibleScoringTests(unittest.TestCase):
         flexible = rows["drop_flexible"]
         self.assertEqual(flexible[1], 1.0)   # score
         self.assertEqual(flexible[3], 0.5)   # raw (strict) score
-        self.assertEqual(flexible[6], 1)     # answers rescued
+        self.assertEqual(flexible[6], 0)     # unreadable answers (extractor failures)
+        self.assertEqual(flexible[8], "rescued 1; unreadable 0")
         self.assertEqual(rows["drop_em"][1], 0.5)
+
+    def test_unreadable_answers_are_counted_not_just_scored_wrong(self):
+        _, _, bbh_unread = MODULE.bbh_flexible([_bbh("(A)", ""), _bbh("(A)", "{"), _bbh("(A)", "(B)")])
+        self.assertEqual(bbh_unread, 2)       # empty and a bare JSON opener; "(B)" is readable, just wrong
+        _, _, drop_unread = MODULE.drop_flexible([_drop([["3"]], "```json"), _drop([["3"]], "{"), _drop([["3"]], "4")])
+        self.assertEqual(drop_unread, 2)
+        self.assertEqual(MODULE.gsm8k_unreadable([{"resps": [["no idea"]]}, {"resps": [["#### 18"]]}]), 1)
+
+    def test_mmlu_pro_reads_letters_however_they_are_written(self):
+        samples = [
+            _mc("E", "E"), _mc("H", "(H)."), _mc("B", "Answer: B"), _mc("C", '{"answer": "C"}'),
+            _mc("D", "Option two is wrong.\nThe correct choice is (D)."), _mc("A", "So the answer is (A).", strict=1),
+            _mc("A", "So the answer is (H)."),     # readable, wrong
+            _mc("A", ""),                           # unreadable
+        ]
+        score, rescued, unreadable = MODULE.mmlu_pro_flexible(samples)
+        self.assertEqual((round(score, 3), rescued, unreadable), (0.75, 5, 1))
+
+    def test_fenced_json_answers_are_read(self):
+        fenced = '```json\n{\n  "answer": "(C)"\n}\n```'
+        score, rescued, _ = MODULE.bbh_flexible([_bbh("(C)", fenced), _bbh("(K)", '{"color": "teal", "option": "K"}')])
+        self.assertEqual((score, rescued), (1.0, 2))
+        score, _, _ = MODULE.mmlu_pro_flexible([_mc("D", '```json\n{"choice": "D"}\n```')])
+        self.assertEqual(score, 1.0)
+
+    def test_mmlu_pro_flexible_row_sits_beside_the_strict_row(self):
+        data = {"n-samples": {"mmlu_pro_math": {"effective": 2}},
+                "groups": {"mmlu_pro": {"exact_match,custom-extract": 0.5}}}
+        rows = {r[0]: r for r in MODULE.extract_rows("mmlu_pro", data, [_mc("E", "E"), _mc("B", "So the answer is (B).", strict=1)])}
+        self.assertEqual(sorted(rows), ["mmlu_pro_exact_match_custom-extract", "mmlu_pro_flexible"])
+        self.assertEqual(rows["mmlu_pro_flexible"][1], 1.0)
 
     def test_no_samples_means_no_flexible_row(self):
         data = {"n-samples": {"drop": {"effective": 2}}, "results": {"drop": {"em,none": 0.5}}}
@@ -147,6 +184,8 @@ class FlexibleScoringTests(unittest.TestCase):
     def test_run_script_keeps_samples_for_flexible_tasks(self):
         run_script = (ROOT / "docker" / "bench-reasoning" / "run.sh").read_text()
         self.assertIn('[ "$TASK" = "bbh" ] || [ "$TASK" = "drop" ]', run_script)
+        self.assertIn('[ "$TASK" = "mmlu_pro" ] || [ "$TASK" = "gsm8k" ]', run_script)
+        self.assertIn('lm-eval-0.4.11-reasoning-extract-v5', run_script)
 
     def test_bbh_stop_is_next_question_not_any_capital_q(self):
         run_script = (ROOT / "docker" / "bench-reasoning" / "run.sh").read_text()

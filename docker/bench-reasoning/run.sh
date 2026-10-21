@@ -169,8 +169,8 @@ record_result_row() {
         --records "$RECORDS_PATH" \
         --reference-output "$REFERENCE_OUTPUT" \
         --scoreboard-output "$SCOREBOARD_OUTPUT" \
-        --config-id "lm-eval-0.4.11-reasoning-extract-v4" \
-        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v4","bbh_stop":"newline Q:","bbh_max_gen_toks":1024,"flexible_rows":["bbh_flexible","drop_flexible"]}' \
+        --config-id "lm-eval-0.4.11-reasoning-extract-v5" \
+        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v5","bbh_stop":"newline Q:","bbh_max_gen_toks":1024,"flexible_rows":["bbh_flexible","drop_flexible","mmlu_pro_flexible","gsm8k_flexible"]}' \
         --run-at "$(date -Iseconds)" \
         --notes "$notes" >/dev/null
 }
@@ -903,9 +903,11 @@ PY
       CMD+=(--gen_kwargs "$GEN_KWARGS")
     fi
 
-    # Raw per-sample prompts and responses (samples_<task>_*.jsonl). Always kept for bbh
-    # and drop: extract_reasoning_results.py scores their flexible rows from them.
-    if [ "$LOG_SAMPLES" -eq 1 ] || [ "$TASK" = "bbh" ] || [ "$TASK" = "drop" ]; then
+    # Raw per-sample prompts and responses (samples_<task>_*.jsonl). Always kept for the
+    # flexibly scored tasks: extract_reasoning_results.py scores their flexible rows and
+    # counts unreadable answers from them.
+    if [ "$LOG_SAMPLES" -eq 1 ] || [ "$TASK" = "bbh" ] || [ "$TASK" = "drop" ] \
+        || [ "$TASK" = "mmlu_pro" ] || [ "$TASK" = "gsm8k" ]; then
       CMD+=(--log_samples)
     fi
 

@@ -53,6 +53,34 @@ Earlier individual task runs (from lm-eval, not full suite):
     - `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105/mistral7b.log`
     - `/mnt/shared/logs/benchmarks/bench-reasoning/history/reasoning_top3_l100_20260312_2105/deepseek_r1_7b.log`
 
+## 2026-10-20 Lenient Scoring for Rankings (extract v5)
+
+Rows from this point carry `config_id` `lm-eval-0.4.11-reasoning-extract-v5`. Model rankings use the
+flexible rows; strict rows are still recorded beside them, unchanged, so harness-comparable numbers stay
+available. The goal of the suite is a rough ranking between models, so a correct answer counts however
+it is written, and only answers that cannot be read at all are treated as a separate failure.
+
+- `mmlu_pro_flexible` (new): the option letter read from a bare letter, `(H).`, `Answer: B`, JSON
+  (`answer`, `final_answer`, `result`, `option` or `choice` keys, fenced or not), or a closing line that
+  names exactly one option. Strict `mmlu_pro_exact_match_custom-extract` only accepts "The answer is (X)".
+- JSON answers inside markdown fences are read by every flexible scorer, and the `option`/`choice` keys
+  are accepted alongside `answer`.
+- Unreadable counts: every flexible row's `extractor_failure_count` is now the number of answers that could
+  not be read at all (empty, cut off, a bare JSON opener or fence, no option or number anywhere). Notes say
+  `rescued N; unreadable M`, where rescued is the strict misses the flexible reading credited. Before v5
+  that field held the rescued count. A high unreadable count flags a model whose output defeats the
+  scorer (for example phi-4:14b DROP, 10 of 10 truncated JSON) rather than one that answered wrong.
+- `gsm8k_flexible` is lm-eval's own flexible extract, unchanged, but now carries the unreadable count.
+- mmlu_pro and gsm8k always run with `--log_samples`, like bbh and drop.
+- Past runs were re-scored from their logged samples by `scripts/active/rescore_reasoning_records.py`.
+  The new rows keep the original run time, suite and run class, and have `rescored_from_samples` in
+  their config. Runs from before MMLU-Pro samples were logged have no `mmlu_pro_flexible` row.
+- Why: Phase 4 smokes on 2026-10-20 showed models that answer well but in their own format scored near
+  zero: ministral-3:14b bbh 0.022 strict vs 0.370 flexible and MMLU-Pro 0.429 vs 0.657 (JSON answers),
+  devstral-small:24b MMLU-Pro 0.186 vs 0.521 (bare letters), gpt-oss:20b DROP 0 vs 0.9
+  ("So the answer is ..." with a fuller span). Tuning prompts to the extractor was optimizing for the
+  test, not for the work.
+
 ## 2026-10-16 BBH Output Budget (extract v4)
 
 Rows from this point carry `config_id` `lm-eval-0.4.11-reasoning-extract-v4`. BBH keeps the template's
