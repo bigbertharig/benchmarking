@@ -5,6 +5,8 @@
 #   worker   the model's registry system prompt (no override)
 #   answer   answer-format prompt: reason briefly, end with "So the answer is (X)", plain text
 #   plain    "You are a helpful assistant."
+#   examples the worker prompt without its JSON emphasis: follow the question's examples and answer
+#            format, plain text, JSON only when asked (2026-10-20: ministral answered bbh in JSON)
 # usage: prompt_ab.sh <gpu> <model-id> <tag> [variant ...]   (default: worker answer plain)
 set -uo pipefail
 GPU=$1; MODEL=$2; TAG=$3; shift 3
@@ -16,6 +18,7 @@ BENCH="$(cd "$HERE/../.." && pwd)"
 RR="$(cd "$BENCH/../../.." && pwd)/scripts/llama_runtime/run_runtime.sh"
 ANSWER_PROMPT="You are a helpful assistant. When answering multiple choice questions, reason briefly then conclude with exactly: So the answer is (X). Use plain text only, no markdown formatting. When JSON is requested, return raw JSON only, no code blocks."
 PLAIN_PROMPT="You are a helpful assistant."
+EXAMPLES_PROMPT="You are a strict worker assistant. Follow the instructions and any examples exactly, including the answer format they show, and keep output minimal. Answer in plain text. Return JSON only when JSON is explicitly requested, and then raw JSON with no code blocks."
 say() { echo "$(date +%T) [gpu$GPU $MODEL] $*"; }
 
 eval "$(python3 "$HERE/resolve_model.py" "$MODEL")"   # GGUF CTX BATCH PARALLEL NGL EXTRA ...
@@ -48,6 +51,7 @@ for variant in "${VARIANTS[@]}"; do
     worker) flags=() ;;
     answer) flags=(--system-prompt-override "$ANSWER_PROMPT") ;;
     plain)  flags=(--system-prompt-override "$PLAIN_PROMPT") ;;
+    examples) flags=(--system-prompt-override "$EXAMPLES_PROMPT") ;;
     *) say "unknown variant $variant"; continue ;;
   esac
   s=$(date +%s)
