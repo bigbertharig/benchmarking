@@ -645,13 +645,28 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
-          "extra_args": [],
+          "extra_args": [
+            "--reasoning",
+            "off"
+          ],
           "tuning": {
             "status": "untuned",
             "last_tuned_at": null,
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Split-worker (2x 1060). JetBrains Mellum2.1 12B MoE (2.5B active) code model, Apache-2.0, new 'mellum' arch (load on b11669 unverified). Thinking model: decide reasoning flag at litmus. Competes with ministral-3:14b (split_quality)."
+        },
+        "thinking": {
+          "inference": {
+            "temperature": 0.0,
+            "top_p": 1.0,
+            "max_tokens": 4096
+          },
+          "extra_args": [
+            "--reasoning",
+            "on"
+          ],
+          "notes": "Thinking variant (2026-10-20 Phase 4.5, GPUs 1+2): reasoning on with a 4096-token output budget scored bbh 0.707 vs 0.437 and gsm8k 1.0 vs 0.8 against the default, at about 7x the wall time (278 vs 38 min). The default is reasoning off: with no flag this Thinking model thinks, and under the default 512-token budget 18 of 20 gsm8k answers came back empty (Phase 4 2026-10-18)."
         }
       }
     },
@@ -682,7 +697,10 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
-          "extra_args": [],
+          "extra_args": [
+            "--reasoning",
+            "off"
+          ],
           "tuning": {
             "status": "untuned",
             "last_tuned_at": null,
@@ -1864,6 +1882,10 @@
             "parallel": 1,
             "n_gpu_layers": 999
           },
+          "extra_args": [
+            "--reasoning",
+            "off"
+          ],
           "tuning": {
             "status": "tuning",
             "last_tuned_at": "2026-03-16T00:00:00+00:00",

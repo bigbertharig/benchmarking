@@ -340,6 +340,10 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
       "notes": "Split-worker (2x 1060). JetBrains Mellum2.1 12B MoE (2.5B active) code model, Apache-2.0, new 'mellum' arch (load on b11669 unverified). Thinking model: decide reasoning flag at litmus. Competes with ministral-3:14b (split_quality)."
     },
     "mellum2.1:12b-a2.5b": {
@@ -361,6 +365,10 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
       "notes": "Single 1060. OpenBMB MiniCPM5 2B dense, Apache-2.0, llama arch. Cheap lower-bound worker; compare with ministral-3:3b."
     },
     "minicpm5:2b": {
@@ -921,6 +929,10 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
       "notes": "RPi5-tier (3B). HuggingFace SmolLM3. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
     },
     "smollm3:3b": {
