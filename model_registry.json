@@ -1025,6 +1025,18 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Single 1060 (corrected 2026-10-20): the harness fit puts 33 layers (4812 MiB) + KV 496 MiB + compute 169 MiB on one 6 GB card at ctx 26880 (hybrid attention keeps KV small); it loaded and served on GPU 1 alone in rig_stress runs 2026-10-18/19. The earlier note said it needed a 2x 1060 split. Ornith 1.5 9B, MIT, qwen3_5 arch."
+        },
+        "thinking": {
+          "inference": {
+            "temperature": 0.0,
+            "top_p": 1.0,
+            "max_tokens": 4096
+          },
+          "extra_args": [
+            "--reasoning",
+            "on"
+          ],
+          "notes": "Thinking variant (2026-10-20 Phase 4.5, GPU 3 alone, ctx 26880): reasoning on with a 4096-token output budget scored gsm8k 1.0 vs 0.9 and bbh 0.896 vs 0.822 against the default, at about 2.6x the wall time (172 vs 67 min); answers kept the expected format (0 of 270 bbh misses from extraction). Same system prompt as the default, as in that run. Pick it per task in the harness: thinking for accuracy, default for throughput."
         }
       }
     },
