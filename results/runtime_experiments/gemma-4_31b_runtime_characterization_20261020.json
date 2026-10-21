@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "gemma-4_31b_runtime_characterization_20261020",
+  "recorded_at": "2026-10-20T15:55:39-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "gemma-4:31b",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "90368",
+    "tensor_split": "-",
+    "extra_args": "--reasoning off"
+  },
+  "first_load": {
+    "seconds": 195.6,
+    "source": "harness load (gemma-4-31b-g0), lane GPU 0"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 65,
+    "generation_tokens_per_second": 38.59,
+    "prompt_tokens_per_second": 606.63,
+    "wall_seconds": 20.0,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 0,
+      "samples": 19,
+      "avg_power_w": 446.7,
+      "peak_power_w": 448.74,
+      "peak_temperature_c": 70.0,
+      "avg_utilization_pct": 96.1,
+      "avg_sm_clock_mhz": 1975
+    }
+  ],
+  "combined_avg_gpu_power_w": 446.7,
+  "decode_energy_wh": 2.482
+}

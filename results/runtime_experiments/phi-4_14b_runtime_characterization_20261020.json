@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "experiment_id": "phi-4_14b_runtime_characterization_20261020",
+  "recorded_at": "2026-10-20T18:23:33-07:00",
+  "purpose": "NEW_MODEL_INTEGRATION Phase 3.5 runtime characterization (first load, sustained decode, GPU envelope).",
+  "kind": "runtime_characterization",
+  "quality_ledger": false,
+  "methodology": {
+    "id": "llama-server/sustained-decode-envelope",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1
+  },
+  "model": "phi-4:14b",
+  "runtime": {
+    "image": "llama-runtime:b11669",
+    "ctx_size": "16384",
+    "tensor_split": "21,20",
+    "extra_args": "none"
+  },
+  "first_load": {
+    "seconds": 143.9,
+    "source": "harness load (phi-4-14b-g1-2), lane GPU 1,2"
+  },
+  "decode": {
+    "completion_tokens": 768,
+    "prompt_tokens": 58,
+    "generation_tokens_per_second": 12.3,
+    "prompt_tokens_per_second": 160.39,
+    "wall_seconds": 62.7,
+    "finish_reason": "length"
+  },
+  "gpu_envelope": [
+    {
+      "gpu": 1,
+      "samples": 56,
+      "avg_power_w": 72.1,
+      "peak_power_w": 135.43,
+      "peak_temperature_c": 66.0,
+      "avg_utilization_pct": 50.1,
+      "avg_sm_clock_mhz": 1779
+    },
+    {
+      "gpu": 2,
+      "samples": 56,
+      "avg_power_w": 88.8,
+      "peak_power_w": 131.59,
+      "peak_temperature_c": 58.0,
+      "avg_utilization_pct": 48.9,
+      "avg_sm_clock_mhz": 2001
+    }
+  ],
+  "combined_avg_gpu_power_w": 160.9,
+  "decode_energy_wh": 2.801
+}
