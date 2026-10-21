@@ -6,6 +6,10 @@
 # usage: run_worker_lanes.sh <lane-list> <model-id> [model-id ...]
 # Examples: run_worker_lanes.sh 1,2,3,4 qwen2.5-coder:7b ministral-3:8b gemma-4:e4b minicpm5:2b
 #           run_worker_lanes.sh 1+3,4+5 mellum2.1:12b-a2.5b ornith-1.5:9b
+# Run it detached as the bryan user: lanes reach the rig manager through bryan's ssh alias for the Pi,
+# which root does not have (as root every lane is refused). For example:
+#   sudo systemd-run --unit=bench-lanes-NAME -p User=bryan -p WorkingDirectory=/home/bryan \
+#        [--setenv=LANE_STOP_AFTER=4 --setenv=LANE_RUN_SUFFIX=_r2] /bin/bash $0 4+5 gemma-4:12b
 # Queue order is pick-up order: put the slowest models first. A SIGTERM (thermal guard or operator)
 # stops every lane and its container.
 set -uo pipefail
@@ -14,7 +18,10 @@ TREE="$(cd "$HERE/../../../../.." && pwd)"
 GPUS=$1; shift
 TS=$(date +%Y%m%d_%H%M%S)
 LOGDIR=/mnt/shared/logs/benchmarks/worker_lanes_$TS
-mkdir -p "$LOGDIR"
+# Two runs started in the same second must not share a queue: the later one takes the next free second.
+while ! mkdir "$LOGDIR" 2>/dev/null; do
+  sleep 1; TS=$(date +%Y%m%d_%H%M%S); LOGDIR=/mnt/shared/logs/benchmarks/worker_lanes_$TS
+done
 QUEUE="$LOGDIR/queue.txt"
 printf '%s\n' "$@" > "$QUEUE"
 IFS=',' read -r -a gpus <<< "$GPUS"
