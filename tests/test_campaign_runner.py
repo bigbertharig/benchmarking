@@ -464,6 +464,37 @@ class CampaignRunnerTests(unittest.TestCase):
         self._fake_lease_helper("offline")
         self.assertIsNone(RUNNER.CampaignLeases("run-1").ensure(RUNNER.SLOTS["gpu_2"], "m"))
 
+    def test_refused_card_moves_the_block_to_the_next_card(self):
+        tmp = Path(tempfile.mkdtemp())
+        helper = tmp / "harness_lease.sh"
+        helper.write_text('#!/bin/bash\n[ "$1" = acquire ] && [ "$2" = 1 ] && { echo claimed >&2; exit 2; }\n'
+                          '[ "$1" = acquire ] && echo "lease-$2"\nexit 0\n', encoding="utf-8")
+        self._patch(LEASE_HELPER=helper, start_runtime=lambda b, s, lease=None: "container")
+        block = self._brain_block("single-block")
+        block.config["placement"] = "single"
+        block.status = RUNNER.WAITING_GPU
+        state = RUNNER.CampaignState("c", "run-1", "m.json", {"single-block": block}, "now")
+        sched = RUNNER.Scheduler(state)
+        sched.try_start_load()                       # GPU 1 refused: back to waiting, not failed
+        self.assertEqual(block.status, RUNNER.WAITING_GPU)
+        sched.try_start_load()                       # GPU 1 is cooling down: GPU 2 is taken
+        self.assertEqual(block.status, RUNNER.LOADING)
+        self.assertEqual(block.assigned_slot.name, "gpu_2")
+
+    def test_pinned_block_fails_after_three_refusals(self):
+        self._fake_lease_helper("refused")
+        self._patch(LEASE_REFUSED_COOLDOWN_S=0)
+        block = self._brain_block("pinned")
+        block.config["placement"] = "gpu_3"
+        block.status = RUNNER.WAITING_GPU
+        sched = RUNNER.Scheduler(RUNNER.CampaignState("c", "run-1", "m.json", {"pinned": block}, "now"))
+        for _ in range(2):
+            sched.try_start_load()
+            self.assertEqual(block.status, RUNNER.WAITING_GPU)
+        sched.try_start_load()
+        self.assertEqual(block.status, RUNNER.FAILED)
+        self.assertIn("after 3 refusals", block.error)
+
     def test_release_refused_is_retried(self):
         self._fake_lease_helper("stuck")
         leases = RUNNER.CampaignLeases("run-1")
