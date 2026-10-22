@@ -1,6 +1,6 @@
 {
   "schema": "model-registry/1",
-  "updated": "2026-10-20",
+  "updated": "2026-10-21",
   "about": "Every model the rig has tested, with its archive GGUF, status, scheduling placement, and named profiles. The only place model settings are edited. models.catalog.json, model_tuning_profiles.json and custom_tasks/model_prompt_profiles.json are generated from this file by scripts/active/model_library.py.",
   "archive_root": "/mnt/shared/models",
   "runtime_image": "llama-runtime:b11669",
@@ -1892,6 +1892,58 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "RPi5-tier (3B). HuggingFace SmolLM3. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
+        }
+      }
+    },
+    "qwen3-coder-next:80b-a3b": {
+      "gguf": "qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+      "source_url": "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_S.gguf",
+      "status": "candidate",
+      "status_note": "Capacity candidate (all 6 GPUs); smoke pending",
+      "schedule": {
+        "tier": 3,
+        "placement": "split_gpu",
+        "split_groups": [
+          {
+            "id": "all_gpus_capacity",
+            "members": [
+              "gpu-0",
+              "gpu-1",
+              "gpu-2",
+              "gpu-3",
+              "gpu-4",
+              "gpu-5"
+            ],
+            "port": 11445
+          }
+        ],
+        "tags": [
+          "capacity_candidate",
+          "code",
+          "moe",
+          "multi_gpu"
+        ]
+      },
+      "profiles": {
+        "default": {
+          "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
+          "inference": {
+            "temperature": 0.0,
+            "top_p": 1.0,
+            "max_tokens": 512
+          },
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "tuning": {
+            "status": "tuning",
+            "last_tuned_at": null,
+            "benchmark_suite": "agent_reliability"
+          },
+          "notes": "Qwen3-Next architecture coder: 80B total, about 3B active per token (hybrid linear/full attention MoE). Q4_K_S (45.5 GB) chosen over Q4_K_M (48.5 GB) to leave room for six cards' compute buffers and context in 54 GB. Downloaded 2026-10-21 straight to the rig NVMe hotset."
         }
       }
     }

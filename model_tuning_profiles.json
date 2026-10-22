@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-20",
+  "version": "2026-10-21",
   "notes": "Generated from model_registry.json by scripts/active/model_library.py export. Do not edit.",
   "models": {
     "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf": {
@@ -937,6 +937,27 @@
     },
     "smollm3:3b": {
       "_alias_of": "SmolLM3-3B-Q4_K_M.gguf"
+    },
+    "Qwen3-Coder-Next-Q4_K_S.gguf": {
+      "status": "tuning",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "notes": "Qwen3-Next architecture coder: 80B total, about 3B active per token (hybrid linear/full attention MoE). Q4_K_S (45.5 GB) chosen over Q4_K_M (48.5 GB) to leave room for six cards' compute buffers and context in 54 GB. Downloaded 2026-10-21 straight to the rig NVMe hotset."
+    },
+    "qwen3-coder-next:80b-a3b": {
+      "_alias_of": "Qwen3-Coder-Next-Q4_K_S.gguf"
     }
   }
 }
