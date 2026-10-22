@@ -29,7 +29,7 @@ Each new model goes through 7 phases:
 | 3 | Litmus Test | 1 min | 3 curl checks pass |
 | 3.5 | Runtime Characterization | 5-30 min | Load time, sustained decode rate, and power envelope recorded |
 | 4 | Smoke Runs | 30 min - 2h | All suites produce non-zero scores |
-| 4.5 | Settings Experiments | 1-4h | Each setting choice backed by an A/B smoke, not inherited |
+| 4.5 | Settings Experiments (optional) | 0-4h | Each problem Phase 4 showed has been tried against the options that could fix it |
 | 5 | Full Run | 2-12h | Limit 50/100 scores recorded |
 | 6 | Finalize | 10 min | All companion docs updated |
 
@@ -333,7 +333,27 @@ Phase 4 proves the model works and fixes format failures. Phase 4.5 looks for th
 settings before hours of full runs. Every model behaves differently; do not inherit a family
 default because it passed Phase 4.
 
-For each candidate, A/B one setting at a time against the Phase 4 configuration, at smoke size,
+Phase 4.5 is a menu, not a checklist (operator, 2026-10-22). It is optional: a model whose Phase 4
+results show nothing to fix can go straight to Phase 5, and a model only tries the options that bear on
+what Phase 4 showed. Pick experiments from the symptoms:
+
+| Phase 4 symptom | Options to try |
+|---|---|
+| A task's answers unreadable or cut off (`unreadable` count in the flexible rows, empty or one-line samples) | system prompt; output budget; thinking off |
+| Answers wrapped in JSON or markdown the task did not ask for | system prompt (one that does not talk about formats) |
+| Thinking model: empty answers, or very slow | thinking on vs off; reasoning budget |
+| Scores fine, but slow for its intended use | thinking off; context and batch size (speed only: they do not move benchmark scores) |
+| Template quirks in litmus (think tags, missing generation prompt) | template switches |
+
+Example: phi-4:14b (2026-10-22) answered every DROP question as multi-line JSON, so DROP's newline stop cut
+all 50 answers to `{` or a fenced `json` line, while its other tasks scored normally. Its system prompt is
+mostly JSON formatting rules; the experiment is a system prompt without them, A/B on the smoke set.
+
+The lanes run only the thinking on vs off A/B automatically (`worker_lane.sh`, Phase 4.5 step, skipped when
+the template has no thinking control). The other options are run by hand: `scripts/integration/prompt_ab.sh`
+for system prompts, `--gen-kwargs` and registry profiles for budgets.
+
+For each experiment you do run, A/B one setting at a time against the Phase 4 configuration, at smoke size,
 on the suites that setting can move:
 
 | Setting | How to vary it | Measure on |
@@ -351,7 +371,9 @@ Rules:
   brain model and a worker model weigh it differently.
 - Write each experiment, its result, and the chosen setting into the model's integration log.
 
-**Gate**: The registry profile holds the chosen settings and each one has an A/B result behind it.
+**Gate**: Every setting changed from the Phase 4 configuration has an A/B result behind it, and each
+Phase 4 problem was either fixed or recorded as a known limit of the model. A model with no Phase 4
+problems passes with no experiments.
 
 ## Phase 5: Full Run
 
