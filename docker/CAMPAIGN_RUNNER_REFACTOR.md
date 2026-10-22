@@ -32,7 +32,7 @@ Placement in a block is one of:
 | Placement | Meaning | Manager request |
 | --- | --- | --- |
 | `brain` | the RTX 3090 Ti | `gpu_ids: [0]` |
-| `workers` | the worker cards (the 1060s today); the harness picks one card or the fewest that hold it | no cards named, worker cards only (see gap 2) |
+| `workers` | the harness picks one card or the fewest that hold it, from what the queue can spare | no cards named (see gaps 1 and 2) |
 | `gpus: [1, 3]` | exactly these cards, for runs that must not move | `gpu_ids: [1, 3]` |
 
 There is no single vs split distinction in a manifest: one card or several is the harness's answer to how
@@ -45,8 +45,8 @@ For each runtime group (the blocks that share one loaded model) the runner:
    and `wait_s` (the block's wait limit, 2 h by default);
 2. takes `profile`, `port`, `gpus` and `ctx` from the answer and runs the group's suites against that port,
    handing the runtime from block to block as now;
-3. unloads the profile (`POST /v1/manager/profiles/<id>/unload`) when the group ends, fails or the campaign
-   is stopped.
+3. unloads the profile (`POST /v1/manager/profiles/<id>/unload`) when the group ends or fails, and when
+   the campaign ends or is stopped asks the manager to cancel everything its run owns (gap 3).
 
 The runner keeps everything that is about suites: manifest parsing and validation, dependencies, runtime
 groups and hand-off, the served-model identity check (against the port the manager returned), suite
@@ -79,24 +79,32 @@ Elsewhere:
 
 ## Gaps in the manager to close first
 
-1. **Waiting with harness-chosen cards does not reserve.** `load_model` with no cards and `wait_s` polls
-   `fit_model` until a plan fits (`core.py`, the `elif wait_s > 0` branch) but holds nothing meanwhile, so
-   single work can keep taking cards and a multi-card load can starve, the problem reservations were built
-   for. Fix: when the best plan needs cards that are busy, reserve the cards of that plan (the same claim
-   path as explicit `gpu_ids`), renew while waiting, re-plan when cards free, and drop the reservation once
-   the lease holds them. Decide whether the plan may change while waiting (it should prefer the reserved
-   set, but take an equal plan on other cards that free first).
-2. **No way to keep a request off a card class.** With no cards named the harness takes the smallest class
-   that holds the model, which is the 1060s for small models, but if every 1060 is busy a small model can
-   land on the 3090 (`fit.choose`). A campaign's worker queue must not take the brain card. Fix: a request
-   field such as `card_class` (`worker` / `brain`) or `exclude_gpus`; the brain card's identity belongs in
-   rig config, not in the request.
-3. **A load outlives a dead campaign.** The manager's lease for a load is renewed by its reconciler for as
-   long as the rig profile lives, so a campaign that crashes leaves its models loaded until someone unloads
-   them. Lanes avoid this with a claim that has a TTL and is renewed while the lane runs. Fix: let a load
-   carry an owner and TTL (renewed by the caller, `POST .../profiles/<id>/renew` or a claim per load), and
-   have the reconciler unload profiles whose owner stopped renewing. This also serves lanes and the
-   gateway's chat loads.
+Decisions recorded 2026-10-22 (operator).
+
+1. **A load that names no cards must collect cards as they free.** Today `load_model` with no cards and
+   `wait_s` polls `fit_model` until a plan fits (`core.py`, the `elif wait_s > 0` branch) and holds nothing
+   meanwhile, so single work keeps taking each card as it frees and a multi-card load starves. Fix: the
+   waiting load claims single cards one at a time as they finish (a claim it grows), so it always has
+   something to load into, and loads once the cards it holds make a plan that fits. It plans for the
+   cards it holds plus what it still needs, and gives back any card the final plan does not use.
+2. **Card choice depends on the queue, not a fixed rule.** The 3090 may take small models; whether it
+   should depends on what is waiting for it next. Orchestration already does this for plans: the brain
+   watches a window of upcoming tasks and inserts model load and unload tasks
+   (`agents/brain_resources.py`: `_collect_llm_demand_window_snapshot`, `_update_llm_demand_timers`,
+   `_choose_single_model_for_demand`, `_make_resource_decisions`). The manager should take the same
+   approach for every caller: a request carries enough about the work behind it (its queue, or what the
+   caller has waiting), and placement looks at pending demand before putting a small model on a big card.
+   Start by reading that orchestration logic and moving the reusable part into the manager rather than
+   writing a second version. Until then a campaign's `workers` placement can name the worker cards
+   explicitly through rig config.
+3. **The manager must be able to cancel a run and reclaim its cards.** No timeouts on loads. Instead every
+   load, claim and reservation carries the owner that asked for it (a campaign run id, a lane, the
+   gateway), and the manager gets one operation that cancels an owner: stop its queued loads, unload its
+   profiles, release its leases, drop its claims and reservations, and log what it cleaned up. The
+   campaign runner calls it on a normal finish and from its signal handler; an operator calls it with
+   `rigctl` for a run that died. Leases and claims already record an owner, so this is mostly one
+   endpoint and a `rigctl cancel-owner` command next to `rigctl kill` (which cleans up by card, not by
+   owner).
 
 ## Order of work
 
