@@ -89,7 +89,10 @@ Decisions recorded 2026-10-22 (operator).
    waiting load claims single cards one at a time as they finish (a claim it grows), so it always has
    something to load into, and loads once the cards it holds make a plan that fits. It plans for the
    cards it holds plus what it still needs, and gives back any card the final plan does not use.
-2. **Card choice depends on the queue, not a fixed rule.** The 3090 may take small models; whether it
+2. **Card choice depends on the queue, not a fixed rule.** Built in part 2026-10-22 (MANAGER.md, "Runs,
+   cancel by owner, and demand"): a load that names no cards will not spill onto a bigger card while a wait
+   or a run's declared `needs` wants that size. Still to do: reading orchestration's demand window, and a
+   campaign declaring its later blocks. The 3090 may take small models; whether it
    should depends on what is waiting for it next. Orchestration already does this for plans: the brain
    watches a window of upcoming tasks and inserts model load and unload tasks
    (`agents/brain_resources.py`: `_collect_llm_demand_window_snapshot`, `_update_llm_demand_timers`,
@@ -99,7 +102,8 @@ Decisions recorded 2026-10-22 (operator).
    Start by reading that orchestration logic and moving the reusable part into the manager rather than
    writing a second version. Until then a campaign's `workers` placement can name the worker cards
    explicitly through rig config.
-3. **The manager must be able to cancel a run and reclaim its cards.** No timeouts on loads. Instead every
+3. **The manager must be able to cancel a run and reclaim its cards.** Built 2026-10-22: `rigctl
+   cancel-owner WHO` and `POST /v1/manager/owners/WHO/cancel`; loads carry `owner` (`requested_by` on the lease). No timeouts on loads. Instead every
    load, claim and reservation carries the owner that asked for it (a campaign run id, a lane, the
    gateway), and the manager gets one operation that cancels an owner: stop its queued loads, unload its
    profiles, release its leases, drop its claims and reservations, and log what it cleaned up. The
@@ -108,7 +112,9 @@ Decisions recorded 2026-10-22 (operator).
    endpoint and a `rigctl cancel-owner` command next to `rigctl kill` (which cleans up by card, not by
    owner).
 
-4. **Campaigns and lanes must be in the report, so a crash and an outage are told apart.** The report
+4. **Campaigns and lanes must be in the report, so a crash and an outage are told apart.** Built
+   2026-10-22: runs (`job` plan items, `rigctl run-start / runs / recover / run-stop / dismiss`, dashboard
+   Resume / Stop / Dismiss), and waits that ride out an unreachable rig. The report
    and its two copies already do this for model loads (MANAGER.md rule 1c: the rig keeps the plan with a
    version and its boot id, the controller keeps a copy; after a reboot the rig marks the running item
    `interrupted` and holds the plan; a lost network is not a hold and the rig finishes its work). The gap

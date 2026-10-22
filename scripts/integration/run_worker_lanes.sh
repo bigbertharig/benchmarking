@@ -6,7 +6,10 @@
 # usage: run_worker_lanes.sh <lane-list> <model-id> [model-id ...]
 # Examples: run_worker_lanes.sh 1,2,3,4 qwen2.5-coder:7b ministral-3:8b gemma-4:e4b minicpm5:2b
 #           run_worker_lanes.sh 1+3,4+5 mellum2.1:12b-a2.5b ornith-1.5:9b
-# Run it detached as the bryan user: lanes reach the rig manager through bryan's ssh alias for the Pi,
+# Start it as a run, so it is in the rig's report (a reboot shows it as interrupted and the manager offers
+# to resume it; MANAGER.md, "Runs"):
+#   rigctl run-start --run lanes-NAME [--env LANE_STOP_AFTER=4] -- /bin/bash $0 4+5 gemma-4:12b
+# Or detached by hand, as the bryan user: lanes reach the rig manager through bryan's ssh alias for the Pi,
 # which root does not have (as root every lane is refused). For example:
 #   sudo systemd-run --unit=bench-lanes-NAME -p User=bryan -p WorkingDirectory=/home/bryan \
 #        [--setenv=LANE_STOP_AFTER=4 --setenv=LANE_RUN_SUFFIX=_r2] /bin/bash $0 4+5 gemma-4:12b
