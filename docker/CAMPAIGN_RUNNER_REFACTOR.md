@@ -81,7 +81,9 @@ Elsewhere:
 
 Decisions recorded 2026-10-22 (operator).
 
-1. **A load that names no cards must collect cards as they free.** Today `load_model` with no cards and
+1. **A load that names no cards must collect cards as they free.** Built 2026-10-22 (MANAGER.md,
+   Reservations rule 4a: one claim extended card by card, no time limit with `wait_s` -1, cancelled by
+   removing the claim). Today `load_model` with no cards and
    `wait_s` polls `fit_model` until a plan fits (`core.py`, the `elif wait_s > 0` branch) and holds nothing
    meanwhile, so single work keeps taking each card as it frees and a multi-card load starves. Fix: the
    waiting load claims single cards one at a time as they finish (a claim it grows), so it always has
