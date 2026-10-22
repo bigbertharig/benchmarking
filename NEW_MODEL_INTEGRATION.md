@@ -349,9 +349,13 @@ Example: phi-4:14b (2026-10-22) answered every DROP question as multi-line JSON,
 all 50 answers to `{` or a fenced `json` line, while its other tasks scored normally. Its system prompt is
 mostly JSON formatting rules; the experiment is a system prompt without them, A/B on the smoke set.
 
-The lanes run only the thinking on vs off A/B automatically (`worker_lane.sh`, Phase 4.5 step, skipped when
-the template has no thinking control). The other options are run by hand: `scripts/integration/prompt_ab.sh`
-for system prompts, `--gen-kwargs` and registry profiles for budgets.
+After the Phase 4 smoke every lane prints suggestions from the model's own results
+(`scripts/integration/suggest_p45.py MODEL RUN [--litmus FILE]`, also runnable by hand on any recorded run):
+each `SUGGEST` line names an option and the evidence for it (a task's unreadable count, what those answers
+look like, a system prompt about formats, a failed litmus check), and `NOTHING TO FIX` means Phase 4.5 is
+optional for that model. The lanes run only the thinking on vs off A/B themselves (skipped when the template
+has no thinking control). The other options are run by hand: `scripts/integration/prompt_ab.sh` for system
+prompts, `--gen-kwargs` and registry profiles for budgets.
 
 For each experiment you do run, A/B one setting at a time against the Phase 4 configuration, at smoke size,
 on the suites that setting can move:

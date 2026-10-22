@@ -13,6 +13,9 @@
 # LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check;
 # LANE_STOP_AFTER=4 after the Phase 4 smoke. LANE_RUN_SUFFIX (e.g. _r2) is appended to every run name, so a
 # re-run after a settings fix starts fresh instead of resuming the old run's checkpoints.
+# After the Phase 4 smoke the lane prints Phase 4.5 suggestions from the model's own results
+# (suggest_p45.py: unreadable answers, their shape, the profile, failed litmus checks); it runs only the
+# thinking A/B itself, the rest are for the operator to pick (NEW_MODEL_INTEGRATION.md, Phase 4.5).
 # LANE_START_AT=4.5 runs only the Phase 4.5 thinking A/B
 # (for a model whose Phases 2-4 already ran, e.g. after a rig restart in between).
 # usage: worker_lane.sh <gpu-group> <queue-file>     e.g. worker_lane.sh 1+3 queue.txt
@@ -118,7 +121,9 @@ while MODEL=$(next_model) && [ -n "$MODEL" ]; do
   THINK_TOKS=$(( CTX - 2048 < 4096 ? (CTX - 2048 < 1024 ? 1024 : CTX - 2048) : 4096 ))
   say "loaded $PROFILE in ${LOAD_S}s: ctx $CTX split $SPLIT; vram $(nvidia-smi --query-gpu=memory.used --format=csv,noheader -i "$GPUS" | tr '\n' ' '); prompt tail $(prompt_tail)"
   thinking_capable=$(thinking_template)
-  say "Phase 3 litmus"; python3 "$HERE/litmus.py" "$PORT" | sed "s/^/    /"
+  SMOKE_RUN="${slug}_w_smoke_v1${LANE_RUN_SUFFIX:-}"
+  LITMUS="$L/phase3_${SMOKE_RUN}_litmus.txt"
+  say "Phase 3 litmus"; python3 "$HERE/litmus.py" "$PORT" | tee "$LITMUS" | sed "s/^/    /"
   python3 "$HERE/runtime_char.py" "$MODEL" "$PORT" "$GPUS" "$LOAD_S" "harness load ($PROFILE), lane GPU $GPUS" \
     "$RX/${slug}_runtime_characterization_${STAMP}.json" image=llama-runtime:b11669 ctx_size="$CTX" \
     tensor_split="$SPLIT" extra_args="${EXTRA:-none}" | grep -E "generation_tokens_per_second|avg_power_w" | sed "s/^/    /"
@@ -128,7 +133,10 @@ while MODEL=$(next_model) && [ -n "$MODEL" ]; do
     continue
   fi
   say "Phase 4 smoke"
-  "$HERE/phase4.sh" "$MODEL" "${slug}_w_smoke_v1${LANE_RUN_SUFFIX:-}" "$PORT" | sed "s/^/    /"
+  "$HERE/phase4.sh" "$MODEL" "$SMOKE_RUN" "$PORT" | sed "s/^/    /"
+  say "Phase 4.5 suggestions (from this model's Phase 4)"
+  python3 "$HERE/suggest_p45.py" "$MODEL" "$SMOKE_RUN" --litmus "$LITMUS" \
+    --thinking-template "$thinking_capable" 2>&1 | sed "s/^/    /"
   if [ "${LANE_STOP_AFTER:-}" = "4" ]; then
     unload
     say "== $MODEL done (LANE_STOP_AFTER=4)"
