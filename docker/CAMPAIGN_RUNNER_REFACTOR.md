@@ -108,6 +108,23 @@ Decisions recorded 2026-10-22 (operator).
    endpoint and a `rigctl cancel-owner` command next to `rigctl kill` (which cleans up by card, not by
    owner).
 
+4. **Campaigns and lanes must be in the report, so a crash and an outage are told apart.** The report
+   and its two copies already do this for model loads (MANAGER.md rule 1c: the rig keeps the plan with a
+   version and its boot id, the controller keeps a copy; after a reboot the rig marks the running item
+   `interrupted` and holds the plan; a lost network is not a hold and the rig finishes its work). The gap
+   is written there too: jobs are not plan items, so after a reboot they do not come back and the manager
+   does not know they existed. Decisions (operator, 2026-10-22):
+   - A campaign run and a lane become a plan item kind (`job`) the rig runs as a detached unit, like loads
+     (`hw_jobs.py`), with its run id, owner and resume command (for a campaign: the same command with its
+     `--run-id`, which resumes from `campaign_state.json`).
+   - Rig rebooted with a job that was running: the manager does not restart it on its own. It reports the
+     job as interrupted (which blocks finished, which were lost mid-run) and offers "resume from
+     checkpoint?" on the dashboard and as `rigctl recover <run>` / `rigctl dismiss <run>` (dismiss is the
+     cancel-by-owner cleanup of gap 3). A job may opt in to resuming automatically.
+   - Rig unreachable without a reboot: wait. The rig keeps working; the manager answers from its copy,
+     keeps every wait it is running alive (collecting waits and named-card waits today fail on the first
+     unreachable observation), and acts when the rig comes back or the operator says otherwise.
+
 ## Order of work
 
 1. Manager gaps 1-3, with tests in `llm-gateway/tests` (fake rig already covers claims and plan items).
