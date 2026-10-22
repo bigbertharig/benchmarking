@@ -131,6 +131,9 @@ model once at its first unfinished block.
 
 ## Scheduling
 
+Planned: placement and loading move to the rig manager, see
+[CAMPAIGN_RUNNER_REFACTOR.md](CAMPAIGN_RUNNER_REFACTOR.md).
+
 The runner exposes these rig slots:
 
 | Placement | GPUs | Port |
