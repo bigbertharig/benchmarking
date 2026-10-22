@@ -128,7 +128,7 @@ def build_campaign(spec: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("suite_args values must be strings or numbers")
     if spec["suite"] != "bench-pipeline":
         raise ValueError("runtime matrices currently support only bench-pipeline")
-    if spec["placement"] not in {"brain", "single", "split_1_3", "split_4_5"}:
+    if spec["placement"] not in {"brain", "single", "split"}:
         raise ValueError(f"unsupported placement: {spec['placement']}")
     if spec.get("run_class", "provisional") not in {"smoke", "provisional", "validated", "full"}:
         raise ValueError(f"unsupported run_class: {spec.get('run_class')}")

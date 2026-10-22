@@ -68,7 +68,7 @@ Required block fields are `id`, `model`, `gguf`, and `suite`. Optional fields:
 
 | Field | Default | Meaning |
 | --- | --- | --- |
-| `placement` | `single` | `brain`, `single`, `split_1_3`, or `split_4_5` |
+| `placement` | `single` | `brain`, `single`, `split`, or a pinned slot (`gpu_3`, `gpu_2_4`) |
 | `suite_args` | `[]` | Suite-owned flags only |
 | `run_class` | default or `provisional` | Evidence class; no score gate is imposed |
 | `limit` | suite default | Bounded sample count where supported |
@@ -135,10 +135,16 @@ The runner exposes these rig slots:
 
 | Placement | GPUs | Port |
 | --- | --- | --- |
-| `brain` | 0 | 11434 |
-| `single` | first free of 1-5 | 11435-11439 |
-| `split_1_3` | 1,3 | 11435 |
-| `split_4_5` | 4,5 | 11438 |
+| `brain` | 0 (RTX 3090 Ti) | 11434 |
+| `single` | first free GTX 1060 of 1-5 | 11434 + card |
+| `split` | first free pair of GTX 1060s, any two | 11434 + lower card |
+| `gpu_N`, `gpu_A_B` | exactly those cards (pinned) | 11434 + lowest card |
+
+Slots are generated from the cards: every 1060 and every pair of them. The 1060s are all 6 GB, so any
+pair splits a model evenly. A refused `single` block tries another card; a refused `split` tries another
+free pair, and only when every pair has refused it does it reserve the last one and wait for it (up to
+`LEASE_RESERVATION_WAIT_S`), so single work cannot starve it. A pinned block reserves its cards at the
+first refusal.
 
 Model loads are serialized to bound shared bus and storage pressure. Loaded
 suites run concurrently on non-overlapping GPU sets. `depends_on` supplies

@@ -51,7 +51,7 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertIn("ctx_size", profile["runtime"])
 
     def test_split_and_single_slots_conflict(self):
-        occupied = {"split_1_3": "split-block"}
+        occupied = {"gpu_1_3": "split-block"}
         slot = RUNNER.find_free_slot("single", occupied)
         self.assertIsNotNone(slot)
         self.assertNotIn(slot.name, {"gpu_1", "gpu_3"})
@@ -67,7 +67,7 @@ class CampaignRunnerTests(unittest.TestCase):
             "_run_id": "unit",
         }
         block = RUNNER.BlockState("runtime", config)
-        command = RUNNER.build_suite_cmd(block, RUNNER.SLOTS["split_1_3"])
+        command = RUNNER.build_suite_cmd(block, RUNNER.SLOTS["gpu_1_3"])
         index = command.index("--gpus")
         self.assertEqual(command[index + 1], '"device=1,3"')
         gpu_ids_index = command.index("--gpu-ids")
@@ -448,12 +448,12 @@ class CampaignRunnerTests(unittest.TestCase):
         calls = self._fake_lease_helper()
         leases = RUNNER.CampaignLeases("run-1")
         slots = RUNNER.OccupiedSlots(leases)
-        self.assertEqual(leases.ensure(RUNNER.SLOTS["split_1_3"], "m:8b"), "lease-1,3")
-        self.assertEqual(leases.ensure(RUNNER.SLOTS["split_1_3"], "m:8b"), "lease-1,3")
-        slots["split_1_3"] = "block-a"
-        slots.pop("split_1_3", None)
-        self.assertEqual(calls(), ["acquire 1,3 campaign-split_1_3 run-1 m:8b",
-                                   "release lease-1,3 campaign-split_1_3"])
+        self.assertEqual(leases.ensure(RUNNER.SLOTS["gpu_1_3"], "m:8b"), "lease-1,3")
+        self.assertEqual(leases.ensure(RUNNER.SLOTS["gpu_1_3"], "m:8b"), "lease-1,3")
+        slots["gpu_1_3"] = "block-a"
+        slots.pop("gpu_1_3", None)
+        self.assertEqual(calls(), ["acquire 1,3 campaign-gpu_1_3 run-1 m:8b",
+                                   "release lease-1,3 campaign-gpu_1_3"])
         self.assertEqual(leases.held, {})
 
     def test_refused_card_fails_and_unreachable_manager_runs_without_lease(self):
@@ -481,6 +481,62 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertEqual(block.status, RUNNER.LOADING)
         self.assertEqual(block.assigned_slot.name, "gpu_2")
 
+    def test_slots_cover_every_card_and_every_pair_with_distinct_ports(self):
+        pairs = [s for s in RUNNER.SLOTS.values() if s.tier == "split"]
+        self.assertEqual(len(pairs), 10)                       # every pair of the five 1060s
+        self.assertEqual(RUNNER.SLOTS["gpu_2_4"].gpu_ids, [2, 4])
+        self.assertEqual(RUNNER.SLOTS["gpu_2_4"].port, 11436)   # the port of its lowest card
+        for a in RUNNER.SLOTS.values():
+            for b in RUNNER.SLOTS.values():
+                if a is not b and not RUNNER.slots_conflict(a, b):
+                    self.assertNotEqual(a.port, b.port, (a.name, b.name))
+
+    def test_split_takes_any_free_pair(self):
+        occupied = {"gpu_1": "single-a", "gpu_3": "single-b"}
+        self.assertEqual(RUNNER.find_free_slot("split", occupied).gpu_ids, [2, 4])
+        occupied["gpu_4"] = "single-c"
+        self.assertEqual(RUNNER.find_free_slot("split", occupied).gpu_ids, [2, 5])
+        occupied["gpu_2"] = "single-d"
+        self.assertIsNone(RUNNER.find_free_slot("split", occupied))
+
+    def test_refused_split_moves_to_another_pair_before_reserving(self):
+        tmp = Path(tempfile.mkdtemp())
+        helper = tmp / "harness_lease.sh"
+        log = tmp / "calls.log"
+        # Pairs containing GPU 1 are refused; everything else is leased.
+        helper.write_text(f'#!/bin/bash\necho "$*" >> {log}\n'
+                          '[ "$1" = acquire ] && [[ ",$2," == *",1,"* ]] && { echo claimed >&2; exit 2; }\n'
+                          '[ "$1" = acquire ] && echo "lease-$2"\nexit 0\n', encoding="utf-8")
+        self._patch(LEASE_HELPER=helper, start_runtime=lambda b, s, lease=None: "container")
+        block = self._brain_block("split-block")
+        block.config["placement"] = "split"
+        block.status = RUNNER.WAITING_GPU
+        sched = RUNNER.Scheduler(RUNNER.CampaignState("c", "run-1", "m.json", {"split-block": block}, "now"))
+        sched.try_start_load()                       # gpu_1_2 refused: another pair is free, no reservation
+        self.assertEqual(block.status, RUNNER.WAITING_GPU)
+        self.assertEqual(sched.leases.reserved, {})
+        for _ in range(4):                           # skips the cooling GPU 1 pairs, then leases 2+3
+            if block.status == RUNNER.LOADING:
+                break
+            sched.try_start_load()
+        self.assertEqual(block.status, RUNNER.LOADING)
+        self.assertNotIn(1, block.assigned_slot.gpu_ids)
+        self.assertFalse([c for c in log.read_text().splitlines() if c.startswith("reserve ")])
+
+    def test_split_refused_everywhere_reserves_then_drops_it_on_another_pair(self):
+        calls = self._fake_lease_helper("refused")
+        self._patch(LEASE_REFUSED_COOLDOWN_S=3600)
+        block = self._brain_block("split-block")
+        block.config["placement"] = "split"
+        block.status = RUNNER.WAITING_GPU
+        sched = RUNNER.Scheduler(RUNNER.CampaignState("c", "run-1", "m.json", {"split-block": block}, "now"))
+        for _ in range(10):                          # every pair refuses once; the last one is reserved
+            sched.try_start_load()
+        self.assertEqual(block.status, RUNNER.WAITING_GPU)
+        (reserved_slot,) = sched.leases.reserved
+        self.assertEqual(sched.reserved_for["split-block"], reserved_slot)
+        self.assertEqual(sum(c.startswith("reserve ") for c in calls()), 1)
+
     def test_pinned_block_reserves_its_card_and_waits_then_gives_up(self):
         calls = self._fake_lease_helper("refused")
         self._patch(LEASE_REFUSED_COOLDOWN_S=0)
@@ -503,10 +559,10 @@ class CampaignRunnerTests(unittest.TestCase):
     def test_lease_on_a_reserved_slot_names_the_reservation_then_drops_it(self):
         calls = self._fake_lease_helper()
         leases = RUNNER.CampaignLeases("run-1")
-        leases.reserved["split_4_5"] = "campaign-run-1-split_4_5"
-        self.assertEqual(leases.ensure(RUNNER.SLOTS["split_4_5"], "m:14b"), "lease-4,5")
-        self.assertEqual(calls(), ["acquire 4,5 campaign-split_4_5 run-1 m:14b campaign-run-1-split_4_5",
-                                   "unreserve campaign-run-1-split_4_5"])
+        leases.reserved["gpu_4_5"] = "campaign-run-1-gpu_4_5"
+        self.assertEqual(leases.ensure(RUNNER.SLOTS["gpu_4_5"], "m:14b"), "lease-4,5")
+        self.assertEqual(calls(), ["acquire 4,5 campaign-gpu_4_5 run-1 m:14b campaign-run-1-gpu_4_5",
+                                   "unreserve campaign-run-1-gpu_4_5"])
         self.assertEqual(leases.reserved, {})
 
     def test_release_refused_is_retried(self):
