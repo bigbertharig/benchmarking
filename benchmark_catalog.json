@@ -755,6 +755,28 @@
       "what_it_tests": "Multi-step soft reasoning — complex inference chains with uncertainty.",
       "primary_metrics": ["accuracy"],
       "tags": ["reasoning", "multi_step", "public"]
+    },
+    {
+      "id": "mmlu_pro_exact_match_custom-extract",
+      "title": "MMLU-Pro (strict extraction)",
+      "category": "knowledge",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "mmlu_pro",
+      "what_it_tests": "MMLU-Pro multiple choice, read only from the harness's 'The answer is (X)' pattern.",
+      "primary_metrics": ["exact_match"],
+      "tags": ["knowledge", "reasoning", "public"]
+    },
+    {
+      "id": "mmlu_pro_flexible",
+      "title": "MMLU-Pro Flexible Extraction",
+      "category": "knowledge",
+      "type": "standard",
+      "harness": "bench-reasoning",
+      "task_name": "mmlu_pro",
+      "what_it_tests": "MMLU-Pro answer correctness however the option letter is written (bare letter, 'Answer: X', JSON, or a closing line naming one option); unreadable answers counted separately (extract v5, 2026-10-20). Scored from logged samples beside the strict row.",
+      "primary_metrics": ["exact_match_flexible"],
+      "tags": ["knowledge", "reasoning", "normalized", "public"]
     }
   ],
   "result_families": [
@@ -781,6 +803,12 @@
       "harness": "legacy",
       "pattern": "^(bench_code_total_(base|plus)|custom_worker_suite_total)$",
       "what_it_tests": "Historical aggregate rows retained for graph continuity; active suites now record per-test evidence."
+    },
+    {
+      "id": "ifeval_metric_rows",
+      "harness": "bench-reasoning",
+      "pattern": "^ifeval_(prompt|inst)_level_(strict|loose)_acc_none$",
+      "what_it_tests": "IFEval's four lm-eval metrics (prompt or instruction level, strict or loose) recorded per run; rankings use prompt_level_strict."
     }
   ]
 }
