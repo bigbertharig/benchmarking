@@ -31,7 +31,7 @@ Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/..
 
 | Phase | What | How | Gate |
 |-------|------|-----|------|
-| 0 | Download | on the rig, to the NVMe hotset, then the shared library | size and SHA-256 match the source |
+| 0 | Download | on the rig, to the NVMe hotset, then the shared library | download: size and SHA-256 match the source; library copy: size |
 | 1 | Register | registry entry, `model_library.py export`, `rigctl fit` | `check` ok, `fit` says it fits |
 | 2 | First load | the lane (`rigctl load-model` through the manager) | the model serves, every layer on the GPUs |
 | 3 | Litmus | the lane (`litmus.py`) | the 3 checks pass, or each failure is documented |
@@ -69,12 +69,18 @@ nohup bash -c 'curl -L -C - --retry 20 --retry-delay 10 -o <file>.gguf.part \
   > download.log 2>&1 < /dev/null &
 ```
 
-Verify against the source: the size, and the SHA-256 Hugging Face lists for the file
-(`curl -s https://huggingface.co/api/models/<org>/<repo>/tree/main` gives `size` and `lfs.oid` per file):
+Verify the download once, on the rig: the size, and the SHA-256 Hugging Face lists for the file
+(`curl -s https://huggingface.co/api/models/<org>/<repo>/tree/main` gives `size` and `lfs.oid` per file).
+Hash here, on the NVMe, where it is fast and puts no load on the Pi:
 
 ```bash
 sha256sum /data/model-hotset/<model-dir>/<file>.gguf
 ```
+
+The hash is the one check a load cannot replace: llama.cpp validates the header and tensor shapes, not the
+weight bytes, so a corrupted chunk still loads and passes litmus and only shows up as skewed scores. Copies
+made after this (the library copy below) get a size check only; Phase 2 loading the model is the
+functional check.
 
 Then copy it to the shared library, the archive every machine sees and the copy the manager's fit reads:
 
@@ -89,7 +95,7 @@ otherwise. Directory: lowercase-hyphenated model name (`gemma-4-12b`); keep the 
 Choosing a quant: leave room for context and the compute buffers on every card (`rigctl fit` in Phase 1
 shows it); a slightly smaller quant that fits with headroom beats one that barely fits.
 
-**Gate**: the file is in the hotset and the library, and its size and SHA-256 match the source.
+**Gate**: the hotset download matches the source size and SHA-256; the library copy matches the size.
 
 ## Phase 1: Register
 
