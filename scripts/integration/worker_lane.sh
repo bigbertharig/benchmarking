@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One lane: a card group (one GPU like 1, or several like 1+3) that takes models from a shared queue
-# file and runs Phases 2-4.5 for each, until the queue is empty. Several lanes share one queue, so each
+# file and runs Phases 2-4 for each, until the queue is empty. Several lanes share one queue, so each
 # group picks up the next model as soon as it frees up.
 # Loads go through the harness (llm-gateway rig manager, `rigctl load-model` over ssh): it checks the
 # model fits the group and picks the context and tensor split, the rig loads it and confirms every layer
@@ -10,14 +10,14 @@
 # that the lane renews while it runs, so a killed lane frees its cards on its own (llm-gateway
 # MANAGER.md, "Reservations"). A card still busy when a load starts (another holder finishing) is
 # waited for, reserved by the claim, up to LANE_LOAD_WAIT_S (default 3600 s).
-# LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check;
-# LANE_STOP_AFTER=4 after the Phase 4 smoke. LANE_RUN_SUFFIX (e.g. _r2) is appended to every run name, so a
-# re-run after a settings fix starts fresh instead of resuming the old run's checkpoints.
+# LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check.
+# LANE_RUN_SUFFIX (e.g. _r2) is appended to every run name, so a re-run after a settings fix starts fresh
+# instead of resuming the old run's checkpoints.
 # After the Phase 4 smoke the lane prints Phase 4.5 suggestions from the model's own results
-# (suggest_p45.py: unreadable answers, their shape, the profile, failed litmus checks); it runs only the
-# thinking A/B itself, the rest are for the operator to pick (NEW_MODEL_INTEGRATION.md, Phase 4.5).
-# LANE_START_AT=4.5 runs only the Phase 4.5 thinking A/B
-# (for a model whose Phases 2-4 already ran, e.g. after a rig restart in between).
+# (suggest_p45.py: unreadable answers, their shape, the profile, failed litmus checks) and pauses: the
+# model stays loaded and the lane ends there, with the rest of the queue left in place. What comes next
+# (Phase 4.5, unload, the next model) is a separate decision (NEW_MODEL_INTEGRATION.md, Phase 4.5).
+# LANE_START_AT=4.5 runs the thinking A/B, for a model whose Phases 2-4 already ran.
 # usage: worker_lane.sh <gpu-group> <queue-file>     e.g. worker_lane.sh 1+3 queue.txt
 set -uo pipefail
 GROUP=$1; QUEUE=$2
@@ -137,11 +137,10 @@ while MODEL=$(next_model) && [ -n "$MODEL" ]; do
   say "Phase 4.5 suggestions (from this model's Phase 4)"
   python3 "$HERE/suggest_p45.py" "$MODEL" "$SMOKE_RUN" --litmus "$LITMUS" \
     --thinking-template "$thinking_capable" 2>&1 | sed "s/^/    /"
-  if [ "${LANE_STOP_AFTER:-}" = "4" ]; then
-    unload
-    say "== $MODEL done (LANE_STOP_AFTER=4)"
-    continue
-  fi
+  # Breakpoint after Phase 4: leave the model loaded and end the lane; the next step is chosen separately.
+  say "== $MODEL PAUSED after Phase 4: $PROFILE stays loaded on GPU $GPUS (port $PORT)"
+  PROFILE=""
+  break
   fi
   if [ "$thinking_capable" = "yes" ]; then
     for variant in off on; do

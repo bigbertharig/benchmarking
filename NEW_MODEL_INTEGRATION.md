@@ -2,7 +2,7 @@
 
 The process for taking a new model from download to published scores (Part 1, current), and the log of
 past integrations (Part 2, history). Rewritten 2026-10-23 for how the rig runs now: every load goes
-through the rig manager (llm-gateway), Phases 2-4.5 run as a lane, and Phase 5 as a campaign, both
+through the rig manager (llm-gateway), Phases 2-4 run as a lane, and Phase 5 as a campaign, both
 started as runs in the rig's report.
 
 What is current where:
@@ -37,11 +37,11 @@ Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/..
 | 3 | Litmus | the lane (`litmus.py`) | the 3 checks pass, or each failure is documented |
 | 3.5 | Runtime characterization | the lane (`runtime_char.py`) | a `results/runtime_experiments/` record |
 | 4 | Smoke (limit 10) | the lane (`phase4.sh`) | every suite scores; raw answers read |
-| 4.5 | Settings experiments (optional) | the lane's suggestions and thinking A/B, then experiments by hand | each Phase 4 problem tried against the options that could fix it |
+| 4.5 | Settings experiments (optional) | operator's choice after reading Phase 4: the lane's thinking A/B (`LANE_START_AT=4.5`), experiments by hand | each Phase 4 problem tried against the options that could fix it |
 | 5 | Full run (limit 50 + full code) | a campaign | all blocks complete |
 | 6 | Finalize | registry status and notes, integration log | the model is discoverable with its settings |
 
-Phases 2-4.5 are one command (a lane); Phase 5 is one campaign. The manager does placement: say which cards
+Phases 2-4 are one command (a lane), which stops after the smoke; Phase 4.5 is a separate, deliberate step; Phase 5 is one campaign. The manager does placement: say which cards
 a lane uses, and it checks the fit and picks context and split.
 
 ### Philosophy: model settings, not suite changes
@@ -156,9 +156,9 @@ rigctl fit <short-id> --gpus 1,2       # or for the cards a lane will use
 **Gate**: `check` reports ok; `model <short-id>` resolves the expected GGUF and settings; `fit` says it
 fits on the cards you intend to use, with headroom on every card.
 
-## Phases 2-4.5: the lane
+## Phases 2-4: the lane
 
-One command runs Phases 2 to 4.5 for a model on a card group, as a run in the rig's report (a reboot shows
+One command runs Phases 2 to 4 for a model on a card group, as a run in the rig's report (a reboot shows
 it as interrupted and offers to resume it; MANAGER.md, "Runs"):
 
 ```bash
@@ -169,7 +169,7 @@ rigctl run-start --run lanes-<slug> -- /bin/bash \
 `<group>` is the cards: `0` (the 3090), `1` (one 1060), `1+2` (a 1060 pair), `0+1+2+3+4+5` (every card,
 for capacity models). Several groups and models in one command share a queue: `run_worker_lanes.sh 0,1+2
 modelA modelB`. Options (`--env K=V` on run-start): `LANE_STOP_AFTER=3` (stop after litmus),
-`LANE_STOP_AFTER=4` (stop after the smoke), `LANE_START_AT=4.5` (only the thinking A/B, for a model whose
+`LANE_START_AT=4.5` (the thinking A/B, started by the operator after reading the smoke, for a model whose
 Phases 2-4 already ran), `LANE_RUN_SUFFIX=_r2` (fresh run names for a re-run after a settings fix).
 
 The lane claims its cards for its whole run, then for each model:
@@ -180,10 +180,12 @@ The lane claims its cards for its whole run, then for each model:
 | 3 | `litmus.py`: 15 x 37 (expect 555, no think tags), a JSON object, a Python function | lane log and `/mnt/shared/logs/benchmarks/phase3_<run>_litmus.txt` |
 | 3.5 | `runtime_char.py`: sustained decode with GPU sampling | `results/runtime_experiments/<slug>_runtime_characterization_<date>.json` |
 | 4 | `phase4.sh`: bench-pipeline (whole), bench-code (first 50 HumanEval), bench-reasoning limit 10 with raw samples | the records ledger; suite logs `/mnt/shared/logs/benchmarks/phase4_<run>_*.log` |
-| 4.5 | `suggest_p45.py`: what Phase 4 showed and what might fix it; then the thinking on vs off A/B when the template has a thinking control | lane log; runs `<slug>_w_p45_off` / `_w_p45_think` in the ledger |
+| 4 (end) | `suggest_p45.py`: what Phase 4 showed and what might fix it; then the lane pauses: the model stays loaded and the lane ends | lane log (`PAUSED` line names the profile) |
+| 4.5 (only with `LANE_START_AT=4.5`) | the thinking on vs off A/B when the template has a thinking control | lane log; runs `<slug>_w_p45_off` / `_w_p45_think` in the ledger |
 
 Watch it: `rigctl runs`, the lane log (`/mnt/shared/logs/benchmarks/worker_lanes_<time>/lane_gpu<cards>.log`, cards joined with `-`),
-the dashboard. The lane unloads the model and frees its cards when it finishes.
+the dashboard. The lane pauses after Phase 4 with the model still loaded; unload it (`rigctl unload <profile>`)
+or go on to Phase 4.5 as a separate step.
 
 Debug-only, by hand (a first look at a model that misbehaves): `rigctl load-model <id> --gpus <cards>`, then
 `python3 scripts/integration/litmus.py <port>` on the rig, then `rigctl unload <profile>`. Never start a
@@ -214,7 +216,9 @@ Every suite must produce a score. Then read the results, not just the numbers:
 Phase 4 proves the model works. Phase 4.5 looks for the model's best settings before hours of full runs.
 Every model behaves differently; do not inherit a family default because it passed Phase 4.
 
-Phase 4.5 is a menu, not a checklist (operator, 2026-10-22). It is optional: a model whose Phase 4 results
+Phase 4.5 is a menu, not a checklist (operator, 2026-10-22), and never automatic: the lane stops after
+the Phase 4 smoke, and the operator reads the results and decides whether 4.5 runs and with which
+experiments (operator, 2026-10-23). It is optional: a model whose Phase 4 results
 show nothing to fix can go straight to Phase 5, and a model only tries the options that bear on what Phase 4
 showed. Pick experiments from the symptoms:
 
@@ -230,9 +234,10 @@ Example: phi-4:14b (2026-10-22) answered every DROP question as multi-line JSON,
 all 50 answers to `{` or a fenced `json` line, while its other tasks scored normally. Its system prompt is
 mostly JSON formatting rules; the experiment is a system prompt without them, A/B on the smoke set.
 
-The lane runs only the thinking A/B itself. For the others, change the registry profile (a new named
+The lane runs the thinking A/B when started for it: `rigctl run-start --run lanes-<slug>-p45 --env
+LANE_START_AT=4.5 -- /bin/bash .../run_worker_lanes.sh <group> <short-id>`. For the others, change the registry profile (a new named
 profile, or the `default` once it wins) and re-run the smoke with a suffix:
-`rigctl run-start --run lanes-<slug>-r2 --env LANE_STOP_AFTER=4 --env LANE_RUN_SUFFIX=_r2 -- /bin/bash
+`rigctl run-start --run lanes-<slug>-r2 --env LANE_RUN_SUFFIX=_r2 -- /bin/bash
 .../run_worker_lanes.sh <group> <short-id>`. A one-off system prompt: bench-reasoning `--system-prompt-override`.
 Then compare the two runs (`python3 scripts/integration/suggest_p45.py <id> <run>` on each).
 (`p45.sh` and `smoke_reasoning.sh` predate the manager and start runtimes themselves: do not use them while
@@ -304,7 +309,7 @@ is nothing to copy by hand. `BENCHMARK_SCORES.md` is retired (last updated 2026-
 
 ## Runtime retention
 
-The lane and the campaign load and unload models themselves. A model loaded by hand (debugging, chat) stays
+The lane loads its model and pauses after Phase 4 with it still loaded; the campaign loads and unloads its own. A model loaded by hand (debugging, chat) stays
 loaded until it is unloaded (`rigctl unload <profile>`) or its owner is cancelled (`rigctl cancel-owner`):
 nothing unloads it at the end of a test on its own. Record what you left loaded.
 

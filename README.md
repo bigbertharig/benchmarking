@@ -51,10 +51,11 @@ Generated from the registry (do not edit): `models.catalog.json`, `model_tuning_
 so their paths are the rig's (`/mnt/shared/...`).
 
 ```bash
-# Phases 2-4.5 for one or more models on one card group, as a run in the rig's report
+# Phases 2-4 for one or more models on one card group, as a run in the rig's report
 # (a reboot shows it as interrupted and offers to resume it)
 rigctl run-start --run lanes-NAME -- /bin/bash /mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_worker_lanes.sh 4+5 gemma-4:12b
-#   LANE_STOP_AFTER=4 stops after the smoke; LANE_START_AT=4.5 runs only the thinking A/B (--env K=V)
+#   stops after the Phase 4 smoke; LANE_STOP_AFTER=3 stops after litmus; LANE_START_AT=4.5 runs the
+#   thinking A/B once you have read the smoke and chosen it (--env K=V)
 
 # After a smoke: what Phase 4.5 might fix (the lanes print this themselves)
 python3 scripts/integration/suggest_p45.py MODEL RUN_NAME
