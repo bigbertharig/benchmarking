@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T00:13:45.705905+00:00",
+  "generated_at": "2026-10-23T04:36:52.961127+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -227,15 +227,18 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-22T22:51:21+00:00",
+      "last_run_at": "2026-10-23T02:42:03.386028+00:00",
       "model": "gemma-4:12b",
-      "records": 72,
-      "selected_tests": 21,
-      "successes": 72,
+      "records": 89,
+      "selected_tests": 32,
+      "successes": 89,
       "suites": [
         "campaign_gemma_4_12b_code_full_20261022_024509",
+        "campaign_gemma_4_12b_geoimport_20261022_024509",
         "campaign_gemma_4_12b_mmlu_pro_l20_20261022_024509",
+        "campaign_gemma_4_12b_pipeline_20261022_024509",
         "campaign_gemma_4_12b_reasoning_l50_20261022_024509",
+        "campaign_gemma_4_12b_runtime_20261022_024509",
         "gemma-4_12b_w_p45_off",
         "gemma-4_12b_w_p45_think",
         "gemma-4_12b_w_smoke_v1",
@@ -408,13 +411,18 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-22T23:05:53+00:00",
+      "last_run_at": "2026-10-23T04:36:52.499900+00:00",
       "model": "mellum2.1:12b-a2.5b",
-      "records": 49,
-      "selected_tests": 21,
-      "successes": 49,
+      "records": 79,
+      "selected_tests": 32,
+      "successes": 79,
       "suites": [
+        "campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509",
+        "campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509",
+        "campaign_mellum2_1_12b_a2_5b_mmlu_pro_l20_20261022_024509",
+        "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509",
         "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
+        "campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509",
         "mellum2_1_12b-a2_5b_w_p45_off",
         "mellum2_1_12b-a2_5b_w_p45_think",
         "mellum2_1_12b-a2_5b_w_smoke_v1",
@@ -3545,9 +3553,9 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 3160,
+  "record_count": 3207,
   "schema_version": 3,
-  "selected_count": 1494,
+  "selected_count": 1516,
   "selected_per_model_test": [
     {
       "efficiency": {},
@@ -12375,11 +12383,11 @@
       "metric": "score",
       "model": "gemma-4:12b",
       "normalized_answer_score": null,
-      "notes": "passes=8; total=13; result_path=/results/custom_ambiguity_handling_gemma-4_12b_20261021_225943_467081/result.json",
+      "notes": "passes=8; total=13; result_path=/results/custom_ambiguity_handling_gemma-4_12b_20261023_023942_322600/result.json",
       "raw_harness_score": 0.6153846153846154,
-      "run_at": "2026-10-21T23:00:05+00:00",
-      "run_class": "smoke",
-      "run_id": "83097982-7e84-4ee6-b110-ef4e0d8c1618",
+      "run_at": "2026-10-23T02:40:06+00:00",
+      "run_class": "validated",
+      "run_id": "81258acc-4230-41c6-b1fa-d6652d78f88d",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -12393,7 +12401,7 @@
       "score": 0.6153846153846154,
       "score_pct": 61.53846153846154,
       "status": "success",
-      "suite": "gemma-4_12b_w_smoke_v1_r2",
+      "suite": "campaign_gemma_4_12b_pipeline_20261022_024509",
       "test_id": "custom_ambiguity_handling"
     },
     {
@@ -12424,11 +12432,11 @@
       "metric": "score",
       "model": "gemma-4:12b",
       "normalized_answer_score": null,
-      "notes": "passes=9; total=12; result_path=/results/custom_command_safety_gemma-4_12b_20261021_225855_331744/result.json",
+      "notes": "passes=9; total=12; result_path=/results/custom_command_safety_gemma-4_12b_20261023_023849_808395/result.json",
       "raw_harness_score": 0.75,
-      "run_at": "2026-10-21T22:59:42+00:00",
-      "run_class": "smoke",
-      "run_id": "7274ec6f-06cb-4bea-bc1f-464de298a58c",
+      "run_at": "2026-10-23T02:39:41+00:00",
+      "run_class": "validated",
+      "run_id": "044d2ec5-9f01-4b0c-8637-7368df77fb7f",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -12442,7 +12450,7 @@
       "score": 0.75,
       "score_pct": 75.0,
       "status": "success",
-      "suite": "gemma-4_12b_w_smoke_v1_r2",
+      "suite": "campaign_gemma_4_12b_pipeline_20261022_024509",
       "test_id": "custom_command_safety"
     },
     {
@@ -12473,11 +12481,11 @@
       "metric": "score",
       "model": "gemma-4:12b",
       "normalized_answer_score": null,
-      "notes": "passes=3; total=13; result_path=/results/custom_json_schema_strict_gemma-4_12b_20261021_225824_471551/result.json",
+      "notes": "passes=3; total=13; result_path=/results/custom_json_schema_strict_gemma-4_12b_20261023_023816_130878/result.json",
       "raw_harness_score": 0.23076923076923078,
-      "run_at": "2026-10-21T22:58:54+00:00",
-      "run_class": "smoke",
-      "run_id": "599bdbd5-9fab-415c-ab7c-791c71076d0c",
+      "run_at": "2026-10-23T02:38:49+00:00",
+      "run_class": "validated",
+      "run_id": "c5b5b787-dc04-4a94-b616-708c0cd61b27",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -12491,7 +12499,7 @@
       "score": 0.23076923076923078,
       "score_pct": 23.076923076923077,
       "status": "success",
-      "suite": "gemma-4_12b_w_smoke_v1_r2",
+      "suite": "campaign_gemma_4_12b_pipeline_20261022_024509",
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -12522,11 +12530,11 @@
       "metric": "score",
       "model": "gemma-4:12b",
       "normalized_answer_score": null,
-      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_gemma-4_12b_20261021_230051_887722/result.json",
+      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_gemma-4_12b_20261023_024057_659405/result.json",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-21T23:01:14+00:00",
-      "run_class": "smoke",
-      "run_id": "281ab9b9-7f54-49ca-891c-7b6fb84ccc99",
+      "run_at": "2026-10-23T02:41:22+00:00",
+      "run_class": "validated",
+      "run_id": "982e3c3e-6d2c-4991-a6ef-45ed73809aa9",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -12540,7 +12548,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "gemma-4_12b_w_smoke_v1_r2",
+      "suite": "campaign_gemma_4_12b_pipeline_20261022_024509",
       "test_id": "custom_long_context_extract"
     },
     {
@@ -12571,11 +12579,11 @@
       "metric": "score",
       "model": "gemma-4:12b",
       "normalized_answer_score": null,
-      "notes": "passes=10; total=12; result_path=/results/custom_orchestration_tradeoff_gemma-4_12b_20261021_230026_464295/result.json",
+      "notes": "passes=10; total=12; result_path=/results/custom_orchestration_tradeoff_gemma-4_12b_20261023_024029_696081/result.json",
       "raw_harness_score": 0.8333333333333334,
-      "run_at": "2026-10-21T23:00:51+00:00",
-      "run_class": "smoke",
-      "run_id": "da2f83a3-0ff2-4c18-8481-38270d6e9b23",
+      "run_at": "2026-10-23T02:40:56+00:00",
+      "run_class": "validated",
+      "run_id": "9e956b53-44a5-42a6-8aa8-fe55f3c62747",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -12589,7 +12597,7 @@
       "score": 0.8333333333333334,
       "score_pct": 83.33333333333334,
       "status": "success",
-      "suite": "gemma-4_12b_w_smoke_v1_r2",
+      "suite": "campaign_gemma_4_12b_pipeline_20261022_024509",
       "test_id": "custom_orchestration_tradeoff"
     },
     {
@@ -12620,11 +12628,11 @@
       "metric": "score",
       "model": "gemma-4:12b",
       "normalized_answer_score": null,
-      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_gemma-4_12b_20261021_230006_347581/result.json",
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_gemma-4_12b_20261023_024007_369264/result.json",
       "raw_harness_score": 0.9333333333333333,
-      "run_at": "2026-10-21T23:00:25+00:00",
-      "run_class": "smoke",
-      "run_id": "ddbda342-6f85-43d7-84ea-3654b0fe22e8",
+      "run_at": "2026-10-23T02:40:29+00:00",
+      "run_class": "validated",
+      "run_id": "79c4c3d0-d6ff-4d45-bc50-ed405e700741",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -12638,7 +12646,7 @@
       "score": 0.9333333333333333,
       "score_pct": 93.33333333333333,
       "status": "success",
-      "suite": "gemma-4_12b_w_smoke_v1_r2",
+      "suite": "campaign_gemma_4_12b_pipeline_20261022_024509",
       "test_id": "custom_tool_plan_sequence"
     },
     {
@@ -12820,6 +12828,321 @@
       "status": "success",
       "suite": "campaign_gemma_4_12b_reasoning_l50_20261022_024509",
       "test_id": "drop_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8947,
+      "run_at": "2026-10-23T02:37:06.259566",
+      "run_class": "validated",
+      "run_id": "1feb9a01-7269-4984-8134-4087fa920a1a",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "a6a9ebc53c28fa637186c3a17bca055085f706680a118f5503a378037eec9af6",
+        "config_id": "geoimport-v2:gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.8947,
+      "score_pct": 89.47,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T02:37:19.223669",
+      "run_class": "validated",
+      "run_id": "40fbb1b8-df24-43c8-81d1-378652f156f1",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "a6a9ebc53c28fa637186c3a17bca055085f706680a118f5503a378037eec9af6",
+        "config_id": "geoimport-v2:gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9474,
+      "run_at": "2026-10-23T02:37:56.690762",
+      "run_class": "validated",
+      "run_id": "56a37c2a-4521-4559-b3b0-f8d285ba1b62",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "a6a9ebc53c28fa637186c3a17bca055085f706680a118f5503a378037eec9af6",
+        "config_id": "geoimport-v2:gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.9474,
+      "score_pct": 94.74000000000001,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9524,
+      "run_at": "2026-10-23T02:38:13.924721",
+      "run_class": "validated",
+      "run_id": "ff2e0d65-5240-4e3a-9348-53d17b486c2b",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "a6a9ebc53c28fa637186c3a17bca055085f706680a118f5503a378037eec9af6",
+        "config_id": "geoimport-v2:gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.9524,
+      "score_pct": 95.24000000000001,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_plan",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.697,
+      "run_at": "2026-10-23T02:37:43.413972",
+      "run_class": "validated",
+      "run_id": "83f5ac81-b19d-4ee3-8278-ca74f0fd0ca8",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "a6a9ebc53c28fa637186c3a17bca055085f706680a118f5503a378037eec9af6",
+        "config_id": "geoimport-v2:gemma-4:12b->gemma-4-12B-it-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.697,
+      "score_pct": 69.69999999999999,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
       "efficiency": {
@@ -13304,6 +13627,110 @@
         "message": ""
       },
       "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8492063492063492,
+      "run_at": "2026-10-23T02:36:47+00:00",
+      "run_class": "full",
+      "run_id": "b665f9bb-7fc4-4ee2-acd2-c9c3f08caab6",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.8492063492063492,
+      "score_pct": 84.92063492063492,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_code_full_20261022_024509",
+      "test_id": "mbpp_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.716931216931217,
+      "run_at": "2026-10-23T02:36:48+00:00",
+      "run_class": "full",
+      "run_id": "f2254fb4-352e-4a7a-8e33-2bfe795a5a85",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.716931216931217,
+      "score_pct": 71.6931216931217,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_code_full_20261022_024509",
+      "test_id": "mbpp_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
       "harness": "bench-reasoning",
       "methodology": {
         "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
@@ -13404,6 +13831,262 @@
       "status": "success",
       "suite": "campaign_gemma_4_12b_mmlu_pro_l20_20261022_024509",
       "test_id": "mmlu_pro_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.7638668528257786,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 43.75720857598935,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7512.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 21.878604287994676
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.7638668528257786, \"failed_request_count\": 0, \"gpu_seconds\": 43.75720857598935, \"max_success_prompt_tokens\": 3545, \"peak_vram_mb\": 7512.0, \"results\": [{\"error\": \"\", \"prompt_tokens\": 905, \"success\": true, \"target_words\": 800, \"wall_seconds\": 5.5408552330045495}, {\"error\": \"\", \"prompt_tokens\": 3545, \"success\": true, \"target_words\": 3200, \"wall_seconds\": 16.337550558993826}], \"sample_count\": 2, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 21.878604287994676}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T02:42:03.386028+00:00",
+      "run_class": "validated",
+      "run_id": "8e5d10d0-dd65-414a-a3ca-f7bfd2d2d39d",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_3_4-gpu3-4",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "341a4a25986f814aea830d756ba58975139aab80a2cbbb8bc016dc2b73b14d15",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_3_4-gpu3-4",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 2,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_runtime_20261022_024509",
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.059046874684970656,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 3.452577227988513,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7512.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 1.7262886139942566
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.059046874684970656, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 3.452577227988513, \"peak_vram_mb\": 7512.0, \"request_wall_seconds\": 1.726007234014105, \"sample_count\": 5, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 1.7262886139942566}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T02:41:29.087703+00:00",
+      "run_class": "validated",
+      "run_id": "e40f72e4-e6fd-4272-b91a-d21ad7745c76",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_3_4-gpu3-4",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "341a4a25986f814aea830d756ba58975139aab80a2cbbb8bc016dc2b73b14d15",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_3_4-gpu3-4",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 5,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_runtime_20261022_024509",
+      "test_id": "runtime_stability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.4286208094330237,
+        "failed_request_count": 0,
+        "generation_tps": 12.26998369734607,
+        "gpu_seconds": 21.321145911992062,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7512.0,
+        "prompt_tps": 77.91398296280906,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 10.660572955996031
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"completion_tokens\": 128, \"energy_wh\": 0.4286208094330237, \"failed_request_count\": 0, \"generation_tps\": 12.26998369734607, \"gpu_seconds\": 21.321145911992062, \"peak_vram_mb\": 7512.0, \"prompt_tokens\": 25, \"prompt_tps\": 77.91398296280906, \"request_wall_seconds\": 10.660488357010763, \"sample_count\": 1, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 10.660572955996031}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T02:41:41.252322+00:00",
+      "run_class": "validated",
+      "run_id": "5f619326-d0fa-4d7f-b174-cde9d3e20500",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_3_4-gpu3-4",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "341a4a25986f814aea830d756ba58975139aab80a2cbbb8bc016dc2b73b14d15",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_3_4-gpu3-4",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_runtime_20261022_024509",
+      "test_id": "runtime_throughput"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.034776148986712524,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 1.9679139859799761,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7512.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": 0.23469807366685322,
+        "wall_time_seconds": 0.9839569929899881
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "gemma-4:12b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.034776148986712524, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 1.9679139859799761, \"peak_vram_mb\": 7512.0, \"sample_count\": 3, \"score\": 1.0, \"timeout_count\": 0, \"ttft_seconds\": 0.23469807366685322, \"values\": [0.27439072300330736, 0.21514437400037423, 0.21455912399687804], \"wall_time_seconds\": 0.9839569929899881}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T02:41:30.327967+00:00",
+      "run_class": "validated",
+      "run_id": "6cc9a518-8828-4d8a-aff2-4db4999d5fec",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_3_4-gpu3-4",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "341a4a25986f814aea830d756ba58975139aab80a2cbbb8bc016dc2b73b14d15",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_3_4-gpu3-4",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 3,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_gemma_4_12b_runtime_20261022_024509",
+      "test_id": "runtime_ttft"
     },
     {
       "efficiency": {
@@ -23626,35 +24309,37 @@
       },
       "metric": "exact_match,get-answer",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.43703703703703706,
+      "normalized_answer_score": 0.4562962962962963,
       "notes": "",
-      "raw_harness_score": 0.43703703703703706,
-      "run_at": "2026-10-21T04:44:39+00:00",
-      "run_class": "smoke",
-      "run_id": "ebfeeef8-e920-457f-8cde-cbd9b6b587d3",
+      "raw_harness_score": 0.4562962962962963,
+      "run_at": "2026-10-23T01:53:51+00:00",
+      "run_class": "validated",
+      "run_id": "180558e3-db50-4940-a3c8-9f95ab682898",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 270,
+      "sample_count": 1350,
       "schema_version": 3,
-      "score": 0.43703703703703706,
-      "score_pct": 43.7037037037037,
+      "score": 0.4562962962962963,
+      "score_pct": 45.62962962962963,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "bbh"
     },
     {
@@ -23670,7 +24355,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 44,
+      "extractor_failure_count": 67,
       "failure": {
         "kind": "",
         "message": ""
@@ -23684,35 +24369,37 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.6,
-      "notes": "",
-      "raw_harness_score": 0.43703703703703706,
-      "run_at": "2026-10-21T04:44:40+00:00",
-      "run_class": "smoke",
-      "run_id": "1f65a238-8779-46d7-8042-3b8467586d8d",
+      "normalized_answer_score": 0.6459259259259259,
+      "notes": "rescued 256; unreadable 67",
+      "raw_harness_score": 0.4562962962962963,
+      "run_at": "2026-10-23T01:53:52+00:00",
+      "run_class": "validated",
+      "run_id": "745294c6-9a01-4554-81b1-008f561929b8",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 270,
+      "sample_count": 1350,
       "schema_version": 3,
-      "score": 0.6,
-      "score_pct": 60.0,
+      "score": 0.6459259259259259,
+      "score_pct": 64.5925925925926,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "bbh_flexible"
     },
     {
@@ -23743,11 +24430,11 @@
       "metric": "score",
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
-      "notes": "passes=3; total=13; result_path=/results/custom_ambiguity_handling_mellum2.1_12b-a2.5b_20261021_040041_173934/result.json",
+      "notes": "passes=3; total=13; result_path=/results/custom_ambiguity_handling_mellum2.1_12b-a2.5b_20261023_043546_686265/result.json",
       "raw_harness_score": 0.23076923076923078,
-      "run_at": "2026-10-21T04:00:56+00:00",
-      "run_class": "smoke",
-      "run_id": "1b4456c9-e8cb-4b73-91c5-b697ca2ae74a",
+      "run_at": "2026-10-23T04:36:02+00:00",
+      "run_class": "validated",
+      "run_id": "40989283-d1f9-4e3e-8778-eacac75b718a",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -23761,7 +24448,7 @@
       "score": 0.23076923076923078,
       "score_pct": 23.076923076923077,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509",
       "test_id": "custom_ambiguity_handling"
     },
     {
@@ -23792,11 +24479,11 @@
       "metric": "score",
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
-      "notes": "passes=3; total=12; result_path=/results/custom_command_safety_mellum2.1_12b-a2.5b_20261021_040024_033693/result.json",
+      "notes": "passes=3; total=12; result_path=/results/custom_command_safety_mellum2.1_12b-a2.5b_20261023_043529_576795/result.json",
       "raw_harness_score": 0.25,
-      "run_at": "2026-10-21T04:00:40+00:00",
-      "run_class": "smoke",
-      "run_id": "0e255006-2282-48b6-99ab-f7f4104c2dc2",
+      "run_at": "2026-10-23T04:35:46+00:00",
+      "run_class": "validated",
+      "run_id": "48e1de75-4c1f-4e85-b866-380f2f1eef21",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -23810,7 +24497,7 @@
       "score": 0.25,
       "score_pct": 25.0,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509",
       "test_id": "custom_command_safety"
     },
     {
@@ -23841,11 +24528,11 @@
       "metric": "score",
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
-      "notes": "passes=2; total=13; result_path=/results/custom_json_schema_strict_mellum2.1_12b-a2.5b_20261021_040010_741502/result.json",
+      "notes": "passes=2; total=13; result_path=/results/custom_json_schema_strict_mellum2.1_12b-a2.5b_20261023_043516_361698/result.json",
       "raw_harness_score": 0.15384615384615385,
-      "run_at": "2026-10-21T04:00:23+00:00",
-      "run_class": "smoke",
-      "run_id": "0586078e-4291-4990-ad3b-c96dd1c5d457",
+      "run_at": "2026-10-23T04:35:28+00:00",
+      "run_class": "validated",
+      "run_id": "077cef4d-cfc6-4b41-8908-8f523b33e015",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -23859,7 +24546,7 @@
       "score": 0.15384615384615385,
       "score_pct": 15.384615384615385,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509",
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -23890,11 +24577,11 @@
       "metric": "score",
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
-      "notes": "passes=13; total=14; result_path=/results/custom_long_context_extract_mellum2.1_12b-a2.5b_20261021_040118_898314/result.json",
+      "notes": "passes=13; total=14; result_path=/results/custom_long_context_extract_mellum2.1_12b-a2.5b_20261023_043624_350734/result.json",
       "raw_harness_score": 0.9285714285714286,
-      "run_at": "2026-10-21T04:01:31+00:00",
-      "run_class": "smoke",
-      "run_id": "352b7610-4284-4860-8229-394085c3449b",
+      "run_at": "2026-10-23T04:36:37+00:00",
+      "run_class": "validated",
+      "run_id": "983422ac-ed02-482c-8374-68612a7130a6",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -23908,7 +24595,7 @@
       "score": 0.9285714285714286,
       "score_pct": 92.85714285714286,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509",
       "test_id": "custom_long_context_extract"
     },
     {
@@ -23939,11 +24626,11 @@
       "metric": "score",
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
-      "notes": "passes=7; total=12; result_path=/results/custom_orchestration_tradeoff_mellum2.1_12b-a2.5b_20261021_040105_821458/result.json",
+      "notes": "passes=7; total=12; result_path=/results/custom_orchestration_tradeoff_mellum2.1_12b-a2.5b_20261023_043611_295388/result.json",
       "raw_harness_score": 0.5833333333333334,
-      "run_at": "2026-10-21T04:01:18+00:00",
-      "run_class": "smoke",
-      "run_id": "b14b1288-31f8-46ba-9fe1-5d4d94bba090",
+      "run_at": "2026-10-23T04:36:23+00:00",
+      "run_class": "validated",
+      "run_id": "6c0fe91e-71be-470f-b516-df4e9e8ee31e",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -23957,7 +24644,7 @@
       "score": 0.5833333333333334,
       "score_pct": 58.333333333333336,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509",
       "test_id": "custom_orchestration_tradeoff"
     },
     {
@@ -23988,11 +24675,11 @@
       "metric": "score",
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
-      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_mellum2.1_12b-a2.5b_20261021_040057_281238/result.json",
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_mellum2.1_12b-a2.5b_20261023_043602_699554/result.json",
       "raw_harness_score": 0.9333333333333333,
-      "run_at": "2026-10-21T04:01:05+00:00",
-      "run_class": "smoke",
-      "run_id": "1c494f51-120a-46d0-8fc8-6043c0ed39e8",
+      "run_at": "2026-10-23T04:36:10+00:00",
+      "run_class": "validated",
+      "run_id": "b41d71d9-233f-4713-8cd7-b0aaddda6120",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -24006,7 +24693,7 @@
       "score": 0.9333333333333333,
       "score_pct": 93.33333333333333,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509",
       "test_id": "custom_tool_plan_sequence"
     },
     {
@@ -24039,32 +24726,34 @@
       "normalized_answer_score": 0.0,
       "notes": "",
       "raw_harness_score": 0.0,
-      "run_at": "2026-10-21T04:45:03+00:00",
-      "run_class": "smoke",
-      "run_id": "8da2013b-801c-4ae7-9190-2bceffc47e2c",
+      "run_at": "2026-10-23T01:54:30+00:00",
+      "run_class": "validated",
+      "run_id": "9fc26883-7437-4608-9542-33d8e48e6bb6",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
       "score": 0.0,
       "score_pct": 0.0,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "drop_em"
     },
     {
@@ -24097,33 +24786,95 @@
       "normalized_answer_score": 0.0,
       "notes": "",
       "raw_harness_score": 0.0,
-      "run_at": "2026-10-21T04:45:04+00:00",
-      "run_class": "smoke",
-      "run_id": "cc39ba55-d7ae-47cf-86fc-081e4bbba8a4",
+      "run_at": "2026-10-23T01:54:31+00:00",
+      "run_class": "validated",
+      "run_id": "5578935a-4952-4b78-ab68-aec501631d40",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
       "score": 0.0,
       "score_pct": 0.0,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 50,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "answer_contained",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": 0.0,
+      "notes": "rescued 0; unreadable 50",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-23T01:54:31+00:00",
+      "run_class": "validated",
+      "run_id": "f419af21-134d-4953-b4ba-c5ec06aab237",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.0,
+      "score_pct": 0.0,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
+      "test_id": "drop_flexible"
     },
     {
       "efficiency": {
@@ -24143,45 +24894,302 @@
         "kind": "",
         "message": ""
       },
-      "format_compatibility": "compatible",
-      "harness": "bench-reasoning",
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
       "methodology": {
-        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
-        "id": "bench-reasoning/lm-eval-normalized",
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
         "version": "2.0.0"
       },
-      "metric": "answer_contained",
+      "metric": "classification",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.0,
+      "normalized_answer_score": null,
       "notes": "",
-      "raw_harness_score": 0.0,
-      "run_at": "2026-10-21T04:45:04+00:00",
-      "run_class": "smoke",
-      "run_id": "52eab55e-fb20-40a1-a59a-cf4ff8abf471",
+      "raw_harness_score": 0.9474,
+      "run_at": "2026-10-23T04:34:51.229039",
+      "run_class": "validated",
+      "run_id": "02d7c31b-d530-4c7d-92b8-ad390f4b048a",
       "runtime": {
         "config": {
-          "bbh_max_gen_toks": 1024,
-          "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
-          "flexible_rows": [
-            "bbh_flexible",
-            "drop_flexible"
-          ],
-          "lm_eval": "0.4.11"
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "b0d545a11244c46693b97ecd689dfe1ecf9d2b6b2bb40ec398b352376e5924fa",
+        "config_id": "geoimport-v2:mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 1,
       "schema_version": 3,
-      "score": 0.0,
-      "score_pct": 0.0,
+      "score": 0.9474,
+      "score_pct": 94.74000000000001,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
-      "test_id": "drop_flexible"
+      "suite": "campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T04:34:55.740339",
+      "run_class": "validated",
+      "run_id": "6fc59e30-09a9-4ff8-9bb5-fdced2a3f0f2",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "b0d545a11244c46693b97ecd689dfe1ecf9d2b6b2bb40ec398b352376e5924fa",
+        "config_id": "geoimport-v2:mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T04:35:07.630903",
+      "run_class": "validated",
+      "run_id": "0746c938-e3a8-4112-972f-5c36e3209ba9",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "b0d545a11244c46693b97ecd689dfe1ecf9d2b6b2bb40ec398b352376e5924fa",
+        "config_id": "geoimport-v2:mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8095,
+      "run_at": "2026-10-23T04:35:12.455226",
+      "run_class": "validated",
+      "run_id": "f52d6c9d-fe39-487f-96d6-7ed938eb83ed",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "b0d545a11244c46693b97ecd689dfe1ecf9d2b6b2bb40ec398b352376e5924fa",
+        "config_id": "geoimport-v2:mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.8095,
+      "score_pct": 80.95,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_plan",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8788,
+      "run_at": "2026-10-23T04:35:03.178127",
+      "run_class": "validated",
+      "run_id": "90298d50-3c6a-4257-9c4e-d6668dfcaf8a",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "b0d545a11244c46693b97ecd689dfe1ecf9d2b6b2bb40ec398b352376e5924fa",
+        "config_id": "geoimport-v2:mellum2.1:12b-a2.5b->Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.8788,
+      "score_pct": 87.88,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509",
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
       "efficiency": {
@@ -24332,10 +25340,10 @@
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
       "notes": "",
-      "raw_harness_score": 0.04878048780487805,
-      "run_at": "2026-10-19T02:09:37+00:00",
-      "run_class": "smoke",
-      "run_id": "045ad14c-9532-479f-aa3e-f63ffa98b539",
+      "raw_harness_score": 0.8841463414634146,
+      "run_at": "2026-10-23T04:01:22+00:00",
+      "run_class": "full",
+      "run_id": "0cac64be-daee-49ac-868e-87fa0268863d",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -24349,10 +25357,10 @@
       },
       "sample_count": 164,
       "schema_version": 3,
-      "score": 0.04878048780487805,
-      "score_pct": 4.878048780487805,
+      "score": 0.8841463414634146,
+      "score_pct": 88.41463414634147,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "suite": "campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509",
       "test_id": "humaneval_base"
     },
     {
@@ -24384,10 +25392,10 @@
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": null,
       "notes": "",
-      "raw_harness_score": 0.04878048780487805,
-      "run_at": "2026-10-19T02:09:38+00:00",
-      "run_class": "smoke",
-      "run_id": "98205087-f38e-4489-a9d8-9e8d18e0ca0d",
+      "raw_harness_score": 0.8353658536585366,
+      "run_at": "2026-10-23T04:01:22+00:00",
+      "run_class": "full",
+      "run_id": "0523184b-c51e-4eaa-a156-ac657df72663",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -24401,10 +25409,10 @@
       },
       "sample_count": 164,
       "schema_version": 3,
-      "score": 0.04878048780487805,
-      "score_pct": 4.878048780487805,
+      "score": 0.8353658536585366,
+      "score_pct": 83.53658536585365,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1",
+      "suite": "campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509",
       "test_id": "humaneval_plus"
     },
     {
@@ -24434,35 +25442,37 @@
       },
       "metric": "inst_level_loose_acc,none",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.6666666666666666,
+      "normalized_answer_score": 0.6710526315789473,
       "notes": "",
-      "raw_harness_score": 0.6666666666666666,
-      "run_at": "2026-10-21T05:32:09+00:00",
-      "run_class": "smoke",
-      "run_id": "ac48abac-31fc-46d6-b3a9-c433fba4daf4",
+      "raw_harness_score": 0.6710526315789473,
+      "run_at": "2026-10-23T01:58:53+00:00",
+      "run_class": "validated",
+      "run_id": "8f1bba1f-7113-46c3-97c3-6c94335c2d7d",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6666666666666666,
-      "score_pct": 66.66666666666666,
+      "score": 0.6710526315789473,
+      "score_pct": 67.10526315789474,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "ifeval_inst_level_loose_acc_none"
     },
     {
@@ -24492,35 +25502,37 @@
       },
       "metric": "inst_level_strict_acc,none",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.6666666666666666,
+      "normalized_answer_score": 0.6578947368421053,
       "notes": "",
-      "raw_harness_score": 0.6666666666666666,
-      "run_at": "2026-10-21T05:32:08+00:00",
-      "run_class": "smoke",
-      "run_id": "0ba7ad7d-ebdb-49ac-8471-447def9d7afb",
+      "raw_harness_score": 0.6578947368421053,
+      "run_at": "2026-10-23T01:58:52+00:00",
+      "run_class": "validated",
+      "run_id": "c48a4e0e-8b78-4391-ac35-108c9c72a0e1",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6666666666666666,
-      "score_pct": 66.66666666666666,
+      "score": 0.6578947368421053,
+      "score_pct": 65.78947368421053,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "ifeval_inst_level_strict_acc_none"
     },
     {
@@ -24550,35 +25562,37 @@
       },
       "metric": "prompt_level_loose_acc,none",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.6,
+      "normalized_answer_score": 0.62,
       "notes": "",
-      "raw_harness_score": 0.6,
-      "run_at": "2026-10-21T05:32:08+00:00",
-      "run_class": "smoke",
-      "run_id": "463160dc-17bb-4ab0-aef7-44aabc3f5b1b",
+      "raw_harness_score": 0.62,
+      "run_at": "2026-10-23T01:58:53+00:00",
+      "run_class": "validated",
+      "run_id": "f4f2eb0e-cdc2-4ce3-b1a7-800a08baadec",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6,
-      "score_pct": 60.0,
+      "score": 0.62,
+      "score_pct": 62.0,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "ifeval_prompt_level_loose_acc_none"
     },
     {
@@ -24608,36 +25622,142 @@
       },
       "metric": "prompt_level_strict_acc,none",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.6,
+      "normalized_answer_score": 0.62,
       "notes": "",
-      "raw_harness_score": 0.6,
-      "run_at": "2026-10-21T05:32:07+00:00",
-      "run_class": "smoke",
-      "run_id": "f8af145b-318e-4cce-926c-5355710491d1",
+      "raw_harness_score": 0.62,
+      "run_at": "2026-10-23T01:58:52+00:00",
+      "run_class": "validated",
+      "run_id": "0c25e086-cfe1-469d-bad2-34d33f2bce95",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6,
-      "score_pct": 60.0,
+      "score": 0.62,
+      "score_pct": 62.0,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509",
       "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8518518518518519,
+      "run_at": "2026-10-23T04:34:41+00:00",
+      "run_class": "full",
+      "run_id": "ea63f122-5873-4cfb-80f2-2a0c989b48d4",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.8518518518518519,
+      "score_pct": 85.18518518518519,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509",
+      "test_id": "mbpp_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7248677248677249,
+      "run_at": "2026-10-23T04:34:42+00:00",
+      "run_class": "full",
+      "run_id": "217ea73b-5317-466c-90c4-094b303713a4",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.7248677248677249,
+      "score_pct": 72.4867724867725,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509",
+      "test_id": "mbpp_plus"
     },
     {
       "efficiency": {
@@ -24666,35 +25786,37 @@
       },
       "metric": "exact_match,custom-extract",
       "model": "mellum2.1:12b-a2.5b",
-      "normalized_answer_score": 0.42142857142857143,
+      "normalized_answer_score": 0.42857142857142855,
       "notes": "",
-      "raw_harness_score": 0.42142857142857143,
-      "run_at": "2026-10-21T05:31:07+00:00",
-      "run_class": "smoke",
-      "run_id": "78f69f39-335d-4bc6-82cc-f4fe8e4feaa5",
+      "raw_harness_score": 0.42857142857142855,
+      "run_at": "2026-10-23T03:39:06+00:00",
+      "run_class": "validated",
+      "run_id": "46174011-ef8f-4da8-82d9-f7e12fbf3b44",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 140,
+      "sample_count": 280,
       "schema_version": 3,
-      "score": 0.42142857142857143,
-      "score_pct": 42.142857142857146,
+      "score": 0.42857142857142855,
+      "score_pct": 42.857142857142854,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_mmlu_pro_l20_20261022_024509",
       "test_id": "mmlu_pro_exact_match_custom-extract"
     },
     {
@@ -24710,7 +25832,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 27,
+      "extractor_failure_count": 55,
       "failure": {
         "kind": "",
         "message": ""
@@ -24725,11 +25847,11 @@
       "metric": "exact_match,flexible-extract",
       "model": "mellum2.1:12b-a2.5b",
       "normalized_answer_score": 0.4928571428571429,
-      "notes": "rescued 10; unreadable 27; rescored from samples",
-      "raw_harness_score": 0.42142857142857143,
-      "run_at": "2026-10-21T05:31:07+00:00",
-      "run_class": "smoke",
-      "run_id": "6c8d3ba3-8aba-482c-894e-76843f07455f",
+      "notes": "rescued 18; unreadable 55",
+      "raw_harness_score": 0.42857142857142855,
+      "run_at": "2026-10-23T03:39:05+00:00",
+      "run_class": "validated",
+      "run_id": "bbbe77cc-ae2a-445d-91fc-ea2afa86fc8b",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -24741,22 +25863,277 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
-          "lm_eval": "0.4.11",
-          "rescored_from_samples": true
+          "lm_eval": "0.4.11"
         },
-        "config_hash": "f4f4a106d4a9d92fe0cdd4a2d4a1c23f9a4409499c2a22e3450415b0a63f8ad4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
         "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 140,
+      "sample_count": 280,
       "schema_version": 3,
       "score": 0.4928571428571429,
       "score_pct": 49.28571428571429,
       "status": "success",
-      "suite": "mellum2_1_12b-a2_5b_w_smoke_v1_r2",
+      "suite": "campaign_mellum2_1_12b_a2_5b_mmlu_pro_l20_20261022_024509",
       "test_id": "mmlu_pro_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.2278643451695031,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 12.033779528021114,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7916.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 6.016889764010557
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.2278643451695031, \"failed_request_count\": 0, \"gpu_seconds\": 12.033779528021114, \"max_success_prompt_tokens\": 3226, \"peak_vram_mb\": 7916.0, \"results\": [{\"error\": \"\", \"prompt_tokens\": 826, \"success\": true, \"target_words\": 800, \"wall_seconds\": 1.6647214889962925}, {\"error\": \"\", \"prompt_tokens\": 3226, \"success\": true, \"target_words\": 3200, \"wall_seconds\": 4.351978272999986}], \"sample_count\": 2, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 6.016889764010557}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T04:36:52.499900+00:00",
+      "run_class": "validated",
+      "run_id": "59a7732a-c53d-4301-86d8-1330fc6cdd27",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_1_2-gpu1-2",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "724b118212ab13a1a4607c48f98864ed8e0911f9d7315da702177e38090201c0",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_1_2-gpu1-2",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 2,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509",
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.04965809364097923,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 2.8704680759983603,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7916.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 1.4352340379991801
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.04965809364097923, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 2.8704680759983603, \"peak_vram_mb\": 7916.0, \"request_wall_seconds\": 1.4349571839993587, \"sample_count\": 5, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 1.4352340379991801}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T04:36:42.707704+00:00",
+      "run_class": "validated",
+      "run_id": "8674dcd2-c852-4977-a3c1-7187995baee6",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_1_2-gpu1-2",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "724b118212ab13a1a4607c48f98864ed8e0911f9d7315da702177e38090201c0",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_1_2-gpu1-2",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 5,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509",
+      "test_id": "runtime_stability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.10213787141527583,
+        "failed_request_count": 0,
+        "generation_tps": 49.52018064338022,
+        "gpu_seconds": 5.429918533976888,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7916.0,
+        "prompt_tps": 182.09776626740046,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 2.714959266988444
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"completion_tokens\": 128, \"energy_wh\": 0.10213787141527583, \"failed_request_count\": 0, \"generation_tps\": 49.52018064338022, \"gpu_seconds\": 5.429918533976888, \"peak_vram_mb\": 7916.0, \"prompt_tokens\": 27, \"prompt_tps\": 182.09776626740046, \"request_wall_seconds\": 2.71487748499203, \"sample_count\": 1, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 2.714959266988444}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T04:36:46.233521+00:00",
+      "run_class": "validated",
+      "run_id": "e80f701d-5f30-47d9-9de9-b06fce323f38",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_1_2-gpu1-2",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "724b118212ab13a1a4607c48f98864ed8e0911f9d7315da702177e38090201c0",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_1_2-gpu1-2",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509",
+      "test_id": "runtime_throughput"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.008382639940597356,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 0.6182425880106166,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 7916.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": 0.08123289066619084,
+        "wall_time_seconds": 0.3091212940053083
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "mellum2.1:12b-a2.5b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.008382639940597356, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 0.6182425880106166, \"peak_vram_mb\": 7916.0, \"sample_count\": 3, \"score\": 1.0, \"timeout_count\": 0, \"ttft_seconds\": 0.08123289066619084, \"values\": [0.11683120200177655, 0.06361853299313225, 0.06324893700366374], \"wall_time_seconds\": 0.3091212940053083}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-23T04:36:43.263617+00:00",
+      "run_class": "validated",
+      "run_id": "7e8e1c76-3616-4c81-86fb-d0804ab2f83f",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1
+          ],
+          "hardware_id": "rig-gpu_1_2-gpu1-2",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "724b118212ab13a1a4607c48f98864ed8e0911f9d7315da702177e38090201c0",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_1_2-gpu1-2",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 3,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509",
+      "test_id": "runtime_ttft"
     },
     {
       "efficiency": {
@@ -74755,11 +76132,22 @@
       "harnesses": [
         "bench-code"
       ],
-      "last_run_at": "2026-10-22T22:51:21+00:00",
+      "last_run_at": "2026-10-23T02:36:48+00:00",
       "model": "gemma-4:12b",
-      "records": 2,
-      "successes": 2,
+      "records": 4,
+      "successes": 4,
       "suite": "campaign_gemma_4_12b_code_full_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-10-23T02:38:13.924721",
+      "model": "gemma-4:12b",
+      "records": 5,
+      "successes": 5,
+      "suite": "campaign_gemma_4_12b_geoimport_20261022_024509"
     },
     {
       "failures": 0,
@@ -74775,6 +76163,17 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-pipeline"
+      ],
+      "last_run_at": "2026-10-23T02:41:22+00:00",
+      "model": "gemma-4:12b",
+      "records": 6,
+      "successes": 6,
+      "suite": "campaign_gemma_4_12b_pipeline_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-reasoning"
       ],
       "last_run_at": "2026-10-22T18:47:22+00:00",
@@ -74782,6 +76181,17 @@
       "records": 11,
       "successes": 11,
       "suite": "campaign_gemma_4_12b_reasoning_l50_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-runtime"
+      ],
+      "last_run_at": "2026-10-23T02:42:03.386028+00:00",
+      "model": "gemma-4:12b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_gemma_4_12b_runtime_20261022_024509"
     },
     {
       "failures": 0,
@@ -75880,13 +77290,68 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-code"
+      ],
+      "last_run_at": "2026-10-23T04:34:42+00:00",
+      "model": "mellum2.1:12b-a2.5b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-10-23T04:35:12.455226",
+      "model": "mellum2.1:12b-a2.5b",
+      "records": 5,
+      "successes": 5,
+      "suite": "campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-reasoning"
       ],
-      "last_run_at": "2026-10-22T23:05:53+00:00",
+      "last_run_at": "2026-10-23T03:39:06+00:00",
       "model": "mellum2.1:12b-a2.5b",
       "records": 2,
       "successes": 2,
+      "suite": "campaign_mellum2_1_12b_a2_5b_mmlu_pro_l20_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-pipeline"
+      ],
+      "last_run_at": "2026-10-23T04:36:37+00:00",
+      "model": "mellum2.1:12b-a2.5b",
+      "records": 6,
+      "successes": 6,
+      "suite": "campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-23T01:58:53+00:00",
+      "model": "mellum2.1:12b-a2.5b",
+      "records": 11,
+      "successes": 11,
       "suite": "campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-runtime"
+      ],
+      "last_run_at": "2026-10-23T04:36:52.499900+00:00",
+      "model": "mellum2.1:12b-a2.5b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509"
     },
     {
       "failures": 0,
