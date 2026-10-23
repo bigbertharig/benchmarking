@@ -1,565 +1,91 @@
-# Benchmarks
+# Benchmarking
 
-This folder is the benchmark hub for the rig. It defines which models we test,
-which tests and suites we run, how to run them, and where results live.
+Which models are good on the local rig, for which jobs, and at what cost. This repo holds the model
+registry (every model we test and how it loads), the roles other repos read (which model for which job),
+the benchmark suites, the integration process for a new model, campaigns, and the results.
 
-## File Map
+The previous long README (procedure, inventory, runtime notes as of 2026-10-15) is kept at
+[archive/docs/README_pre_2026-10-23.md](archive/docs/README_pre_2026-10-23.md).
 
-### Docs
-- This file: entry point, architecture, procedure, everything
-- [MODEL_BEST_OF.md](MODEL_BEST_OF.md): current best model by job and rig lane
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md): operator-facing model selection, latest scores, prompt methodology
-- [BENCHMARK_UPDATE.md](BENCHMARK_UPDATE.md): benchmark taxonomy update, small local vs frontier agentic vs cloud reference
-- [archive/docs/BENCHMARK_HISTORY_pre_archive.md](archive/docs/BENCHMARK_HISTORY_pre_archive.md): lessons learned and prior failures (archived 2026-03-10, run data moved to docker suite histories)
-- [custom_tasks/README.md](custom_tasks/README.md): local custom test definitions and prompt tuning
-- [docker/README.md](docker/README.md): test execution lives here — each suite has its own README, prompt config, and run history
-- Archived docs: [archive/docs](archive/docs)
-- Session report archive: [archive/reports](archive/reports)
+## Start here
 
-### Scripts
-- Active implementations: `scripts/active/`
-- One-off and legacy scripts: `archive/scripts/`
-- Root-level `*.py` files are compatibility wrappers that forward to `scripts/active/`
+| Doc | For |
+|---|---|
+| [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) | the entry point for running anything: the phases from download to full run (2 load, 3 litmus, 3.5 runtime, 4 smoke, 4.5 optional settings experiments, 5 full run, 6 finalize), with decision trees for common failures |
+| [MODEL_LIBRARY.md](MODEL_LIBRARY.md) | picking a model: the library, latest scores, prompt methodology |
+| [MODEL_BEST_OF.md](MODEL_BEST_OF.md) | the current best model per job and rig lane |
+| [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL_BENCHMARK_REFERENCE.md) | every model's scores (generated from the records) |
+| [docker/README.md](docker/README.md) | the suites; each `docker/bench-*/` has its README and run history |
+| [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | campaigns (Phase 5 at scale); [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md) is the planned move onto the rig manager |
+| [scripts/integration/README.md](scripts/integration/README.md) | the lane tools for Phases 3-4.5 |
+| [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md), [MODEL_SELECTION_GUIDE.md](MODEL_SELECTION_GUIDE.md), [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) | background |
 
-### Data and Config
-- Runtime config: `config.benchmark.json`
-- Model library (edit only these two, then run `scripts/active/model_library.py export`):
-  - `model_roles.json`: quick reference other repos use; model + profile per rig lane and job, remote profiles
-  - `model_registry.json`: every tested model with status, archive GGUF, placement, and named profiles
-  - `scripts/active/model_library.py`: resolves roles/models to full settings; `check` validates
-- Generated from the registry (do not edit): `models.catalog.json`, `model_tuning_profiles.json`,
-  `custom_tasks/model_prompt_profiles.json`
-- Benchmark catalog: `benchmark_catalog.json`
-- Suite presets: `suite_presets.json`
-- Backend certification status: `benchmark_status.json`
+## The four repos
 
-### Results
-- Canonical ledger (append-only): `results/model_benchmark_records.jsonl`
-- Human-readable reference (quality-selected scores): `results/MODEL_BENCHMARK_REFERENCE.md`
-- Machine-readable scoreboard (quality-selected): `results/model_library_scoreboard.json`
-- Measured quality/reliability/cost frontiers: `results/model_pareto_frontier.json`
-- Methodology-aware history: `results/model_methodology_history.json`
-- Methodology registry: `benchmark_methodologies.json`
-- Controlled runtime/config definitions: `runtime_matrices/`
-- Generated unified-runner campaigns: `campaigns/*_matrix.json`
-- Per-run harness outputs (includes prompt snapshots): `/media/bryan/shared/logs/benchmarks/`
-- Per-suite run histories: `docker/bench-*/BENCH_*_HISTORY.md`
-
-### Datasets
-- Cached benchmark repos: `repos/`
-
-### Archive
-- Archived docs: `archive/docs/`
-- Archived reports: `archive/reports/`
-- Archived snapshots: `archive/snapshots/`
-
-## Testing Scope
-
-Benchmarking is split into two scopes:
-- **worker testing**: 6 GB worker-tier models, worker-safe pipeline behavior, single-worker and split-worker runtime behavior
-- **brain testing**: GPU 0 brain model quality, planning quality, orchestration tradeoff quality
-
-Current focus: **worker testing first**.
-- the brain model normally stays loaded on GPU 0
-- GPU 0 is the control plane unless a deliberate brain smoke test replaces it
-- worker model state changes should happen through orchestrator-managed meta tasks
-- brain testing should use an explicit temporary startup config or direct debug smoke run, not ad-hoc mixed ownership
-
-## Load Paths
-
-There are two valid load paths. Use the orchestrator path by default.
-
-### Normal benchmark path
-
-Use the benchmark wrappers under `~/llm_orchestration/scripts/benchmarks/`:
-
-```bash
-python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py --json
-python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py --models qwen2.5-coder:7b --json
-```
-
-These wrappers start the benchmark orchestrator config and queue `load_llm` / `load_split_llm`
-meta tasks through `/mnt/shared/scripts/prepare_llm_runtimes.py`.
-
-When you want to start an actual worker benchmark run after the runtime is up,
-use the campaign runner instead of hand-building suite commands:
-
-```bash
-python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/<campaign>.json
-```
-
-Operator rule:
-- `start_benchmark_mode.py` puts the rig in benchmark isolation
-- `start_custom_mode.py` loads the exact worker model(s) you want
-- `run_benchmark_campaign.py` is the normal operator front door for a real benchmark run
-- direct suite commands are still valid, but they are now the lower-level path for one-off suite work and debugging
-
-### Debug-only direct runtime path
-
-Use this only for smoke testing a GGUF or isolating a runtime/container failure:
-
-```bash
-/mnt/shared/scripts/llama_runtime/run_runtime.sh \
-  --name smoke-model \
-  --model /mnt/shared/models/<family>/<file>.gguf \
-  --port 11450 \
-  --gpus device=1
-```
-
-This bypasses orchestrator ownership and should not be left running.
-
-### Status checks
-
-There is currently no supported `status.py` under `/mnt/shared`. Use direct probes:
-
-```bash
-curl -s http://127.0.0.1:<port>/v1/models
-curl -s http://127.0.0.1:<port>/health
-docker ps --format '{{.Names}}\t{{.Status}}\t{{.Ports}}'
-nvidia-smi
-```
-
-If docs mention `/mnt/shared/scripts/status.py` or a similar shared status helper, that path is stale.
-
-### Worker Port Access Rule
-
-Worker runtime ports such as `11435+` are rig-local operator ports.
-
-That means:
-- direct probes like `curl http://127.0.0.1:11435/...` should be run on `10.0.0.3`
-- benchmark/custom harnesses that talk directly to worker ports should run on the rig side
-- calling `http://10.0.0.3:11435/...` from the laptop is not the normal supported path unless you deliberately set up a proxy or tunnel
-
-Preflight helper:
-
-```bash
-python3 ~/llm_orchestration/scripts/runtime_preflight.py --config config.benchmark.json --json
-```
-
-## Prompt Configuration
-
-Prompts are managed in two layers. See [MODEL_LIBRARY.md](MODEL_LIBRARY.md) "Prompt Methodology" for full details.
-
-- **Universal system prompt** per model (deploys with the model):
-  `model_tuning_profiles.json` → `system_prompt` field
-- **Test-specific prompt overrides** (for tuning experiments):
-  `custom_tasks/model_prompt_profiles.json` → `test_overrides`
-- **Historical prompt data** (what prompt was used for each past run):
-  archived in each run's `result.json` → `prompts_snapshot` and per-case `system_prompt_used`
-
-## Runtime Environments
-
-Different tests require different inference backends. Run each test in the environment it was designed for.
-
-| Environment | What It Runs | Docker Suite | Status |
-|---|---|---|---|
-| **Host llama chat runtime** | Generation lm_eval tasks (gsm8k, bbh, drop, math_500, aime_2024) + custom tests | `bench-pipeline`, `bench-reasoning` | Working |
-| **llama.cpp gguf container** | MC/loglikelihood tasks (mmlu, arc_challenge, hellaswag, boolq, piqa, winogrande, truthfulqa_mc2) | `bench-knowledge` | Primary path |
-| **evalplus container** | HumanEval+, MBPP+ | `bench-code` | Available, revalidation pending |
-| **lighteval** | mmlu_pro, ifeval | — | Partially installed |
-| **swebench** | swe_bench_verified | — | Needs setup (defer) |
-| **livecodebench** | livecodebench | — | Needs setup (defer) |
-| **bfcl** | bfcl_v4 (function calling) | — | Needs setup |
-| **harbor** | terminal_bench_2 | — | Needs setup (defer) |
-
-Why multiple backends: the host llama chat runtime matches how workers normally serve
-generation tasks. The llama.cpp gguf container exists because MC/loglikelihood tasks
-need a direct completions/logprob path. Results are comparable because model weights
-come from the same GGUF files under `/media/bryan/shared/models/`.
-
-### Chat Template Standardization
-
-All benchmark runs must use the correct chat template for the model family.
-
-| Model Family | HF Tokenizer | Template Format |
+| Repo | Owns | Start at |
 |---|---|---|
-| qwen2.5-coder | `Qwen/Qwen2.5-Coder-7B-Instruct` (or 14B/32B) | ChatML (`<\|im_start\|>...<\|im_end\|>`) |
-| qwen2.5 | `Qwen/Qwen2.5-7B-Instruct` (or 32B) | ChatML |
-| qwen3.5 | TBD — verify after load issues resolved | TBD |
-| mistral | `mistralai/Mistral-7B-Instruct-v0.2` | Mistral `[INST]...[/INST]` |
-| deepseek-r1 | TBD — verify on first benchmark run | TBD |
-| phi4 | TBD — verify on first benchmark run | TBD |
-| gemma3 | TBD — verify on first benchmark run | TBD |
+| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | the machines and the API: rig manager (leases, placement, model loads, runs, waits), gateway, dashboard, `rigctl` | `docs/MANAGER.md` |
+| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | parallel batch work (brain, workers, plans), the rig hardware scripts, CPU workers | `shared/workspace/CONTEXT.md` |
+| **benchmarking** (this one) | which models are good: registry, roles, suites, campaigns, results | `NEW_MODEL_INTEGRATION.md` |
+| [llm-harness](https://github.com/bigbertharig/llm-harness) | one model in an interactive loop (no code yet) | `README.md` |
 
-Rules:
-- Always pass `--apply_chat_template` for lm_eval runs on the host llama chat runtime
-- For vLLM, the tokenizer auto-applies the template — verify it matches
-- Record the tokenizer used in every benchmark run
-- If two backends produce different scores for the same model+test, check template application first
+Every load goes through the rig manager (llm-gateway): lanes and campaigns ask it for cards; nothing here
+starts a model on a card by itself. The suites run on the rig and read this repo from the shared drive
+(`/mnt/shared/plans/shoulders/benchmarking` today; moving beside the other repos).
 
-### Suite-to-Environment Mapping
+## The model library
 
-| Suite | Environments | Tests |
-|---|---|---|
-| `baseline_core` | Ollama, vLLM, evalplus | gsm8k, mmlu, arc_challenge, hellaswag, winogrande, truthfulqa_mc2, humaneval_plus |
-| `fast_smoke` | Ollama, vLLM | gsm8k, boolq, piqa, hellaswag |
-| `reasoning_heavy` | Ollama, vLLM, lighteval | gsm8k, bbh, drop, arc_challenge, truthfulqa_mc2, mmlu_pro |
-| `coding_heavy` | evalplus, livecodebench, swebench | humaneval_plus, mbpp_plus, livecodebench, swe_bench_verified |
-| `agent_reliability` | Ollama | all 6 custom tests |
+Edit only these two, then run `scripts/active/model_library.py export` (and `check`):
 
-Build a suite file:
+- `model_registry.json`: every tested model: status, archive GGUF, source URL, scheduling, named profiles
+  (`default` = benchmark settings, `interactive` = gateway use, `orchestration`, and optional variants such
+  as `thinking`)
+- `model_roles.json`: which model and profile per rig lane and job (what other repos read)
 
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/build_benchmark_suite.py \
-  --preset baseline_core \
-  --output /media/bryan/shared/plans/shoulders/benchmarking/suites/baseline_core.json
-```
+Generated from the registry (do not edit): `models.catalog.json`, `model_tuning_profiles.json`,
+`custom_tasks/model_prompt_profiles.json`.
 
-### Environment Setup Priority
+## Running benchmarks
 
-1. **vLLM** — unblocks baseline_core, fast_smoke, reasoning_heavy
-2. **evalplus** — unblocks coding_heavy partially, completes baseline_core
-3. **lighteval** — completes reasoning_heavy
-4. **swebench, livecodebench, bfcl, harbor** — defer until core suites work
-
-### Deferred Environments
-
-**swe_bench_verified** (swebench, Docker):
-~500 verified GitHub issues from popular Python repos. Model writes a patch that passes the repo's test suite. Metric: `resolved_rate`.
-
-**livecodebench** (livecodebench harness):
-Competition-style problems published after training cutoffs. Guards against benchmark leakage. Metric: `pass@1`.
-
-**terminal_bench_2** (harbor, Docker):
-89 curated tasks in Docker containers (protein assembly, async debugging, security, sysadmin). Model gets a terminal. Metric: `task_success_rate`.
-
-**bfcl_v4** (bfcl harness):
-Function/tool calling accuracy: simple, parallel, multi-turn, multi-step. Metrics: `ast_accuracy`, `exec_accuracy`.
-
-## Model Inventory
-
-Shared archive: `/media/bryan/shared/models/`
-Hot-set management: `/media/bryan/shared/scripts/manage_model_hotset.py`
-
-### 6GB worker tier
-
-| Model | Archive Family | Status |
-|---|---|---|
-| `qwen2.5-coder:7b` | `qwen2.5-coder-7b` | tested |
-| `deepseek-r1:7b` | `deepseek-r1-7b` | downloaded |
-| `mistral:7b-instruct` | `mistral-7b-instruct` | available |
-| `qwen3.5:4b` | `qwen3.5-4b` | downloaded |
-| `qwen3.5:9b-q3km` | `qwen3.5-9b` | downloaded |
-| `gemma-4:e2b-q8` | `gemma-4-e2b` | blocked on llama runtime update |
-| `gemma-4:e4b` | `gemma-4-e4b` | blocked on llama runtime update |
-
-### 12GB paired-worker tier
-
-| Model | Archive Family | Status |
-|---|---|---|
-| `qwen2.5-coder:14b` | `qwen2.5-coder-14b` | tested |
-| `deepseek-r1:14b` | `deepseek-r1-14b` | downloaded |
-| `phi4:14b` | `phi-4-14b` | downloaded |
-| `gemma3:12b` | `gemma-3-12b` | downloaded |
-
-### 24GB brain tier
-
-| Model | Archive Family / Source | Status |
-|---|---|---|
-| `qwen2.5-coder:32b` | `qwen2.5-coder-32b` | tested |
-| `deepseek-r1:32b` | `deepseek-r1-32b` | downloaded |
-| `qwen3.5:27b` | Ollama pull | testing |
-| `qwen3.5:35b-a3b` | `qwen3.5-35b-a3b` | downloaded |
-| `gemma-4:26b-a4b` | `gemma-4-26b-a4b` | blocked on llama runtime update |
-| `gemma-4:31b` | `gemma-4-31b` | blocked on llama runtime update |
-
-### Gemma 4 Runtime Status
-
-As of April 2, 2026, the current benchmark container image `llama-runtime:sm61-sm86`
-cannot load Gemma 4 GGUF files. Direct smoke runs on:
-- `gemma-4:e2b-q8`
-- `gemma-4:e4b`
-- `gemma-4:31b`
-
-all failed immediately with:
-
-```text
-error loading model architecture: unknown model architecture: 'gemma4'
-```
-
-That means Gemma 4 is cataloged and downloaded, but not benchmark-runnable on the
-current llama runtime build yet. Do not spend time tuning ctx/batch/split settings
-for Gemma 4 until the runtime container is rebuilt with Gemma 4 support.
-
-### Embedding
-
-| Model | Archive Family | Purpose |
-|---|---|---|
-| `nomic-embed-text` | `nomic-embed-text` | embeddings |
-
-### Model Storage Rules
-
-- shared drive is archive storage, local Ollama storage is hot-set storage
-- promote and evict models explicitly
-- do not leave benchmark leftovers sprawled across endpoints
+`rigctl` is llm-gateway's `tools/rigctl.py` and runs on the Pi; the commands it starts run on the rig,
+so their paths are the rig's (`/mnt/shared/...`).
 
 ```bash
-python3 /media/bryan/shared/scripts/manage_model_hotset.py report
-python3 /media/bryan/shared/scripts/manage_model_hotset.py dedupe --prune-imports
-python3 /media/bryan/shared/scripts/manage_model_hotset.py promote-gguf \
-  --gguf /media/bryan/shared/models/<family>/<file>.gguf --name <model:tag> --host 127.0.0.1:11436
-python3 /media/bryan/shared/scripts/manage_model_hotset.py evict \
-  --host 127.0.0.1:11436 --keep <model:tag>
+# Phases 2-4.5 for one or more models on one card group, as a run in the rig's report
+# (a reboot shows it as interrupted and offers to resume it)
+rigctl run-start --run lanes-NAME -- /bin/bash /mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_worker_lanes.sh 4+5 gemma-4:12b
+#   LANE_STOP_AFTER=4 stops after the smoke; LANE_START_AT=4.5 runs only the thinking A/B (--env K=V)
+
+# After a smoke: what Phase 4.5 might fix (the lanes print this themselves)
+python3 scripts/integration/suggest_p45.py MODEL RUN_NAME
+
+# Phase 5: a campaign manifest, dry run first
+python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/NAME.json --dry-run
+rigctl run-start --run NAME --resume "python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/NAME.json --run-id NAME" -- \
+    python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/NAME.json --run-id NAME --max-active-models 3
 ```
 
-## Test Library
-
-Canonical machine-readable definitions:
-- `benchmark_catalog.json`
-- `suite_presets.json`
-
-| Category | Examples | Why |
-|---|---|---|
-| baseline reasoning | gsm8k, arc_challenge, bbh, gpqa_diamond | compare reasoning quality |
-| QA and knowledge | mmlu, boolq, drop, truthfulqa_mc2, mmmlu | measure reliability and breadth |
-| coding | humaneval_plus, mbpp_plus, livecodebench, swe_bench_verified | measure coding ability |
-| tool and agent behavior | bfcl_v4, terminal_bench_2 | measure tool use and terminal competence |
-| long context | longbench, ruler | measure long-context limits |
-| local pipeline reliability | custom_json_schema_strict, custom_tool_plan_sequence, custom_command_safety, custom_ambiguity_handling, custom_orchestration_tradeoff, custom_long_context_extract | measure actual rig-specific behavior |
-
-## Backend Certification
-
-Certify backend/test combinations before assuming a suite is runnable.
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/certify_benchmark_backend.py \
-  --id gsm8k \
-  --model local-chat-completions \
-  --model-args "model=qwen2.5:7b,base_url=http://localhost:11436/v1/chat/completions,api_key=ollama"
-```
-
-Catalog audit:
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/audit_benchmark_catalog.py
-```
-
-Backend profiles to certify separately:
-- `llama_chat_completions_raw`
-- `llama_chat_completions_templated`
-- `llama_completions`
-- `llama_cpp_gguf`
-
----
-
-## Operating Procedure
-
-Use this section when you are actually running tests.
-Do not improvise alternate runtime paths unless you are explicitly doing recovery work.
-
-### Step 1: Put the rig in benchmark mode
-
-```bash
-python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py
-```
-
-Or start with explicit worker models:
-
-```bash
-python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py \
-  --force-unload-first \
-  --models qwen3.5:4b qwen2.5-coder:7b qwen3.5:9b-q3km mistral:7b-instruct deepseek-r1:7b
-```
-
-Verify:
-
-```bash
-pgrep -af "brain.py|gpu.py"
-ss -ltnp | grep -E ':1143[0-9]|:11440|:11441'
-```
-
-### Step 2: Prepare model storage
-
-```bash
-python3 /media/bryan/shared/scripts/manage_model_hotset.py report
-python3 /media/bryan/shared/scripts/manage_model_hotset.py promote-gguf \
-  --gguf /media/bryan/shared/models/<family>/<file>.gguf \
-  --name <model:tag> --host 127.0.0.1:11436
-```
-
-### Step 3: Prepare runtimes deterministically
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/prepare_benchmark_runtimes.py \
-  --clear-orphan-queue-locks \
-  --strict-processing-empty \
-  --force-unload-first \
-  --restart-agents-first \
-  --brain-endpoint 127.0.0.1:11434 --brain-model qwen2.5-coder:32b \
-  --single-endpoint 127.0.0.1:11436 --single-model qwen2.5-coder:7b \
-  --split-endpoint 127.0.0.1:11441 --split-model qwen2.5-coder:14b \
-  --split-candidate-group pair_4_5
-```
-
-This clears stale locks, verifies queue safety, restarts agents, loads models sequentially,
-and verifies each endpoint. Do not replace this with manual runtime launches.
-
-### Step 3B: Measure worker context headroom (optional)
-
-Use immediately after runtime prep when tuning ctx_size for the loaded model.
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/context_window_benchmark.py \
-  --config /media/bryan/shared/agents/config.benchmark.json \
-  --workers gpu-2 \
-  --start-words 800 --step-words 800 --max-words 20000
-```
-
-Outputs: `/media/bryan/shared/logs/benchmarks/context_window_benchmark_<timestamp>.{csv,json}`
-
-Current persisted context policy (6GB worker tier):
-- `qwen3.5:4b`: `ctx_size=16384`
-- `qwen3.5:9b-q3km`: `ctx_size=16384`
-- `qwen2.5-coder:7b`: `ctx_size=16384`
-- `deepseek-r1:7b`: `ctx_size=16384`
-- `mistral:7b-instruct`: `ctx_size=12288` (16384 not stable on 6GB)
-
-### Step 4: Choose and run the tests
-
-Preferred operator path for a new benchmark run:
-
-```bash
-python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/<campaign>.json
-```
-
-Use direct single-task commands below when you are:
-- certifying one harness/backend pair
-- debugging one suite in isolation
-- doing very small spot checks outside a saved campaign
-
-Run one lm-eval test:
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/run_lm_eval_task.py \
-  --id gsm8k \
-  --model local-chat-completions \
-  --model-args "model=qwen2.5-coder:7b,base_url=http://localhost:11435/v1/chat/completions,api_key=ollama,eos_string=<|im_end|>" \
-  --apply-chat-template
-```
-
-Run one custom test:
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/run_local_custom_task.py \
-  --id custom_command_safety \
-  --model qwen2.5:7b \
-  --base-url http://localhost:11436
-```
-
-Run the full parallel worker suite:
-
-```bash
-/mnt/shared/plans/shoulders/benchmarking/start_parallel_worker_suite.sh \
-  --background --use-model-prompts
-```
-
-Docker suite runs: see [docker/README.md](docker/README.md) for per-suite commands.
-
-### Step 5: Record results
-
-Scored runs land in:
-- `results/model_benchmark_records.jsonl`
-- `results/MODEL_BENCHMARK_REFERENCE.md`
-
-Manual record:
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/record_benchmark_result.py \
-  --model qwen2.5-coder:14b --test-id gsm8k --score 0.721 \
-  --metric exact_match --run-class validated --sample-count 100 \
-  --harness lm_eval --suite baseline_core \
-  --methodology-id lm-eval/individual --methodology-version 2.0.0 \
-  --comparison-group lm-eval-individual-v2
-```
-
-Rules:
-- record the actual model tag used at the endpoint
-- use the benchmark catalog test-id
-- keep suite names stable for repeated comparisons
-- label every run `smoke`, `provisional`, `validated`, or `full`
-- record failures with `--status failure` and `--failure-kind`
-- use the registered methodology identity and comparison group
-- do not scatter scores across ad-hoc markdown notes
-
-### Step 6: Review results
-
-Refresh the scoreboard:
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/build_model_library_scoreboard.py
-```
-
-Update per-suite history files in `docker/bench-*/BENCH_*_HISTORY.md`.
-Update latest scores in [MODEL_LIBRARY.md](MODEL_LIBRARY.md).
-
-### Step 7: Feed results back into plans
-
-```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/recommend_plan_models.py \
-  --plan /media/bryan/shared/plans/arms/<plan_name>/plan.md \
-  --output /media/bryan/shared/logs/benchmarks/<plan_name>_model_recommendations.json
-```
-
-### End of run
-
-1. verify scores were recorded
-2. inspect the living reference
-3. clean endpoint hot-set if needed
-4. return to default mode:
-
-```bash
-python3 ~/llm_orchestration/scripts/benchmarks/start_default_mode.py
-```
-
----
-
-## Recovery
-
-If benchmark runtime state drifts:
-1. stop manual changes
-2. confirm `queue/` and `processing/` are clean
-3. return to default cleanly
-4. restart benchmark mode
-5. rerun deterministic runtime prep
-
-Reset sequence:
-
-```bash
-python3 ~/llm_orchestration/scripts/benchmarks/start_default_mode.py --json
-python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py --json
-```
-
-Dashboard resets:
-- **targeted**: `Reset selected GPU` — normal hard reset for one worker
-- **full**: `Return To Default` — when multiple workers or task lanes are mixed up
-
-Do not treat `reset_gpu_runtime` as the operator reset path — that is an agent-side
-thermal recovery mechanism.
-
-Compatibility and runtime-limit status is maintained in the living model document:
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md) → `Known Compatibility Limits (Living)`
-
-## Rules
-
-- start benchmark sessions through the orchestrator
-- load/unload workers through orchestrator meta tasks only
-- keep benchmark mode isolated from normal operations
-- record every scored run in the shared ledger
-- record benchmark/runtime failures in the shared ledger
-- certify backend/test compatibility before assuming a suite is runnable
-- always use `--apply_chat_template` for host llama chat-runtime lm_eval runs
-- do not run worker benchmarks by manually spawning unmanaged runtimes
-- do not treat ad-hoc markdown notes as the canonical result store
-- do not leave the result ledger unrecorded after a successful scored run
-
-## Workflow Summary
-
-```
-maintain models → maintain tests → run controlled batches → record results → feed back into plans
-```
-
-The feed-back loop uses:
-- `model_roles.json` (change a role after a benchmark review)
-- `recommend_plan_models.py`
+Placements in a campaign: `brain` (the 3090), `single` (any free worker card), `split` (any free pair),
+or pinned cards (`gpu_3`, `gpu_2_4`). Reasoning is scored leniently (extract v5: a correct answer counts
+however it is written; unreadable answers are counted separately), see
+`docker/bench-reasoning/BENCH_REASONING_HISTORY.md`.
+
+## Results
+
+- `results/model_benchmark_records.jsonl`: the append-only ledger every suite writes to
+  (`scripts/active/record_benchmark_result.py`)
+- `results/MODEL_BENCHMARK_REFERENCE.md`, `results/model_library_scoreboard.json`,
+  `results/model_methodology_history.json`: generated from the ledger on every record
+- `results/runtime_experiments/`: speed, power and runtime measurements (power cap sweeps, runtime
+  characterizations)
+- Raw run outputs (samples, logs): `/mnt/shared/logs/benchmarks/` on the drive, not in git
+- `scripts/active/rescore_reasoning_records.py`: re-score past runs from their samples after a scoring change
+
+## Layout
+
+- `scripts/active/`: the implementations; root-level `*.py` files forward there
+- `scripts/integration/`: lane tools (litmus, runtime characterization, Phase 4 and 4.5, suggestions)
+- `docker/bench-*/`: one folder per suite (Dockerfile, `run.sh`, README, history)
+- `campaigns/`: campaign manifests; `runtime_matrices/`: controlled runtime definitions
+- `custom_tasks/`: local custom tests; `tests/`: unit tests (`python3 -m unittest discover tests`)
+- `repos/`: cached upstream benchmark repos; `archive/`: older docs, reports and scripts
