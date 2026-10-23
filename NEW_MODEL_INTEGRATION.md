@@ -1,17 +1,27 @@
 # New Model Integration Playbook
 
-> **Superseded 2026-10-15** by [model_roles.json](model_roles.json) (which model and settings to use per lane and job) and [model_registry.json](model_registry.json) (every tested model with its profiles), resolved by [scripts/active/model_library.py](scripts/active/model_library.py). Model choices, statuses, and settings in this document are history and are no longer updated; `models.catalog.json` and `model_tuning_profiles.json` are now generated from the registry.
+The process for taking a new model from download to published scores (Part 1, current), and the log of
+past integrations (Part 2, history). Rewritten 2026-10-23 for how the rig runs now: every load goes
+through the rig manager (llm-gateway), Phases 2-4.5 run as a lane, and Phase 5 as a campaign, both
+started as runs in the rig's report.
 
-Repeatable process for onboarding a new model: download, register, load, test, benchmark, finalize.
+What is current where:
+- How a model loads and which settings it uses: [model_registry.json](model_registry.json) (the one
+  source of truth), resolved by [scripts/active/model_library.py](scripts/active/model_library.py).
+  Which model each job uses: [model_roles.json](model_roles.json).
+- Scores: [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL_BENCHMARK_REFERENCE.md) and
+  `results/model_library_scoreboard.json`, regenerated on every recorded result.
+- Model choices, statuses and settings written in Part 2 are history; the registry wins where they differ.
 
 Companion docs:
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md) — model selection hub, best choices, inventory
-- [BENCHMARK_SCORES.md](BENCHMARK_SCORES.md) — pure score tables
-- [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) — per-model runtime requirements and best practices
-- [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md) — debugging narratives and tuning histories
-- [docker/README.md](docker/README.md) — Docker suite operator guide
-- Model tuning profiles: `model_tuning_profiles.json`
-- Model catalog: `/media/bryan/shared/agents/models.catalog.json`
+- [MODEL_LIBRARY.md](MODEL_LIBRARY.md): picking a model, prompt methodology
+- [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md): per-model runtime notes
+- [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md): debugging narratives
+- [docker/README.md](docker/README.md): the suites; [scripts/integration/README.md](scripts/integration/README.md): the lane tools
+- llm-gateway `docs/MANAGER.md`: model loads, fit, waits, runs (`rigctl`)
+
+`rigctl` below is llm-gateway's `tools/rigctl.py`, run on the Pi (`python3 ~/llm-gateway/tools/rigctl.py`).
+Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/...`).
 
 ---
 
@@ -19,323 +29,188 @@ Companion docs:
 
 ## Overview
 
-Each new model goes through 7 phases:
+| Phase | What | How | Gate |
+|-------|------|-----|------|
+| 0 | Download | on the rig, to the NVMe hotset, then the shared library | size and SHA-256 match the source |
+| 1 | Register | registry entry, `model_library.py export`, `rigctl fit` | `check` ok, `fit` says it fits |
+| 2 | First load | the lane (`rigctl load-model` through the manager) | the model serves, every layer on the GPUs |
+| 3 | Litmus | the lane (`litmus.py`) | the 3 checks pass, or each failure is documented |
+| 3.5 | Runtime characterization | the lane (`runtime_char.py`) | a `results/runtime_experiments/` record |
+| 4 | Smoke (limit 10) | the lane (`phase4.sh`) | every suite scores; raw answers read |
+| 4.5 | Settings experiments (optional) | the lane's suggestions and thinking A/B, then experiments by hand | each Phase 4 problem tried against the options that could fix it |
+| 5 | Full run (limit 50 + full code) | a campaign | all blocks complete |
+| 6 | Finalize | registry status and notes, integration log | the model is discoverable with its settings |
 
-| Phase | What | Time | Gate |
-|-------|------|------|------|
-| 0 | Download | varies | GGUF on disk, size verified |
-| 1 | Register | 5 min | Entries in tuning profiles + catalog |
-| 2 | First Load | 2-10 min | `/v1/models` responds, no errors |
-| 3 | Litmus Test | 1 min | 3 curl checks pass |
-| 3.5 | Runtime Characterization | 5-30 min | Load time, sustained decode rate, and power envelope recorded |
-| 4 | Smoke Runs | 30 min - 2h | All suites produce non-zero scores |
-| 4.5 | Settings Experiments (optional) | 0-4h | Each problem Phase 4 showed has been tried against the options that could fix it |
-| 5 | Full Run | 2-12h | Limit 50/100 scores recorded |
-| 6 | Finalize | 10 min | All companion docs updated |
+Phases 2-4.5 are one command (a lane); Phase 5 is one campaign. The manager does placement: say which cards
+a lane uses, and it checks the fit and picks context and split.
 
-### Philosophy: Model Settings, Not Suite Changes
+### Philosophy: model settings, not suite changes
 
-The goal of integration is to see how a model works with our **existing benchmark suites** using
-only model-level settings (system prompt, runtime args, tuning profile). If a model has quirks
-with a specific suite (e.g., structural think tokens breaking code extraction), **document the
-limitation** in the integration log and tuning profile notes, then move on.
+The goal is to see how a model works with our **existing suites** using only model-level settings (system
+prompt, runtime args, registry profile). If a model has quirks with a suite, **document the limitation**
+in the registry notes and the integration log, then move on.
 
-Do not:
-- Modify suite code to accommodate a specific model
-- Add model-specific extraction logic to benchmarks
-- Create custom test harnesses
-
-Do:
-- Tune the system prompt (prompt families above)
-- Set runtime args (`--reasoning-budget`, `--jinja`, etc.)
-- Use existing suite flags (`--patch-think-tag-strip`, `--limit`, etc.)
-- Record incompatibilities as known limitations with root cause
-
-If a limitation is severe enough to matter (e.g., a model can't be evaluated at all on a suite),
-add it to the "Known Suite Incompatibilities" section in the integration log and revisit later.
+Do not modify suite code for one model, add model-specific extraction, or build custom harnesses. Do tune
+the system prompt, set runtime args (`extra_args` such as `--reasoning off`, `--jinja`), and use existing
+suite flags. Harness changes are only for defects that hit every model (record them in the suite history
+and version the rows, as extract v5 did: reasoning is scored leniently, a correct answer counts however it
+is written, and answers that cannot be read at all are counted separately).
 
 ## Phase 0: Download
 
-Get the GGUF file onto the rig.
-
-**Directory convention**: `/mnt/shared/models/<model-dir>/`
+Download on the rig (it has its own internet route), straight to the NVMe hotset, resumable, renamed into
+place only when complete:
 
 ```bash
-# Create model directory on rig
-ssh 10.0.0.3 'mkdir -p /mnt/shared/models/<model-dir>'
-
-# Download (huggingface example)
-ssh 10.0.0.3 'cd /mnt/shared/models/<model-dir> && \
-  wget -q "https://huggingface.co/<org>/<repo>/resolve/main/<filename>.gguf"'
-
-# Verify file size
-ssh 10.0.0.3 'ls -lh /mnt/shared/models/<model-dir>/<filename>.gguf'
+ssh <rig-ip>
+mkdir -p /data/model-hotset/<model-dir> && cd /data/model-hotset/<model-dir>
+nohup bash -c 'curl -L -C - --retry 20 --retry-delay 10 -o <file>.gguf.part \
+  https://huggingface.co/<org>/<repo>/resolve/main/<file>.gguf && mv <file>.gguf.part <file>.gguf && echo DONE' \
+  > download.log 2>&1 < /dev/null &
 ```
 
-**Naming convention**: directory is lowercase-hyphenated model name (e.g. `gemma-4-12b`). Keep the upstream GGUF filename as-is.
+Verify against the source: the size, and the SHA-256 Hugging Face lists for the file
+(`curl -s https://huggingface.co/api/models/<org>/<repo>/tree/main` gives `size` and `lfs.oid` per file):
 
-**Gate**: File exists, size matches expected from source.
+```bash
+sha256sum /data/model-hotset/<model-dir>/<file>.gguf
+```
+
+Then copy it to the shared library, the archive every machine sees and the copy the manager's fit reads:
+
+```bash
+mkdir -p /mnt/shared/models/<model-dir>
+cp /data/model-hotset/<model-dir>/<file>.gguf /mnt/shared/models/<model-dir>/<file>.gguf.part && \
+  mv /mnt/shared/models/<model-dir>/<file>.gguf.part /mnt/shared/models/<model-dir>/<file>.gguf
+```
+
+Loads use the hotset copy when it exists (same relative path under `/data/model-hotset/`), the library
+otherwise. Directory: lowercase-hyphenated model name (`gemma-4-12b`); keep the upstream file name.
+Choosing a quant: leave room for context and the compute buffers on every card (`rigctl fit` in Phase 1
+shows it); a slightly smaller quant that fits with headroom beats one that barely fits.
+
+**Gate**: the file is in the hotset and the library, and its size and SHA-256 match the source.
 
 ## Phase 1: Register
 
-Add one entry to `model_registry.json` (keyed by the short model id), then regenerate the
-derived files. Never edit `models.catalog.json` or `model_tuning_profiles.json`; they are
-generated and `check` fails if they drift.
+Add one entry to `model_registry.json` (keyed by the short model id), then regenerate the derived files.
+Never edit `models.catalog.json`, `model_tuning_profiles.json` or `custom_tasks/model_prompt_profiles.json`;
+they are generated and `check` fails if they drift.
 
 ```json
 "<short-id>": {
-  "gguf": "<model-dir>/<filename>.gguf",
-  "source_url": "https://huggingface.co/<org>/<repo>/resolve/main/<filename>.gguf",
+  "gguf": "<model-dir>/<file>.gguf",
+  "source_url": "https://huggingface.co/<org>/<repo>/resolve/main/<file>.gguf",
   "status": "candidate",
   "schedule": {
-    "tier": <1 single, 2 split, 3 brain>,
+    "tier": <1 single card, 2 split, 3 brain or capacity>,
     "placement": "<single_gpu|split_gpu>",
     "tags": ["<relevant>", "<tags>"]
   },
   "profiles": {
     "default": {
-      "system_prompt": "<pick from prompt families below>",
+      "system_prompt": "<a prompt family below>",
       "inference": {"temperature": 0.0, "top_p": 1.0, "max_tokens": 512},
-      "runtime": {"ctx_size": <4096 worker, 16384 brain>, "batch_size": <64 worker, 128 brain>,
+      "runtime": {"ctx_size": <4096-8192 worker, 16384 brain>, "batch_size": <64 worker, 128 brain>,
                   "parallel": 1, "n_gpu_layers": 999},
       "extra_args": [],
       "tuning": {"status": "untuned", "last_tuned_at": null, "benchmark_suite": "agent_reliability"},
-      "notes": "<tier and placement info>"
+      "notes": "<what it is, why this quant, placement>"
     }
   }
 }
 ```
 
-`source_url` is where the GGUF was downloaded from, so a lost model can be fetched again (the same
-model and quant; byte-identical is not required).
+`source_url` lets a lost model be fetched again (same model and quant; byte-identical not required).
+Named variants (for example `thinking`, or a long-context `interactive` profile) go under `profiles`
+next to `default` and list only what differs. A model whose template thinks by default and should not:
+`"extra_args": ["--reasoning", "off"]` in `default`.
 
-Split models add `"split_groups"` inside `schedule`:
-`[{"id": "pair_1_3", "members": ["gpu-1", "gpu-3"], "port": 11440}, {"id": "pair_4_5", "members": ["gpu-4", "gpu-5"], "port": 11441}]`.
-Extra short ids for the same file go in `"aliases": [...]`. Named variants (for example a long-context
-interactive profile) go under `profiles` next to `default`; they only list what differs.
-
-**Prompt families** (choose based on model behavior):
+**Prompt families**:
 
 | Family | When to use | Prompt |
 |--------|-------------|--------|
-| Worker (strict) | Default for most models | `"You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }."` |
-| Thinking suppression | Qwen 3.x/3.5/3.6 family | `"You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer."` |
-| Benchmark assistant | Small models (3B and under) | `"You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."` |
+| Worker (strict) | default for most models | `"You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text."` |
+| Thinking suppression | models that leak reasoning into the answer | `"You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer."` |
+| Benchmark assistant | small models (3B and under) | `"You are a strict benchmark assistant. Think silently and output only the final answer. Never include reasoning, analysis, or extra text. For GSM8K-style math, end with exactly: #### <answer>. For BBH-style reasoning, end with exactly: So the answer is <answer>. For short reading-comprehension questions, output only the shortest final answer phrase."` |
 
-Then run:
+A prompt that is mostly format rules can make a model answer everything in that format (phi-4:14b answered
+every DROP question as JSON, 2026-10-22); keep format rules short.
+
+Then:
 
 ```bash
 python3 scripts/active/model_library.py export
-python3 scripts/active/model_library.py check --archive-root /mnt/shared/models
+python3 scripts/active/model_library.py check
 python3 scripts/active/model_library.py model <short-id>
+rigctl fit <short-id>                  # the harness picks the cards: ctx, split, MiB per card
+rigctl fit <short-id> --gpus 1,2       # or for the cards a lane will use
 ```
 
-Promote `status` to `active` only after the model completes the gates below; roles in
-`model_roles.json` may only point at active models.
+**Gate**: `check` reports ok; `model <short-id>` resolves the expected GGUF and settings; `fit` says it
+fits on the cards you intend to use, with headroom on every card.
 
-**Gate**: `check` reports ok; `model <short-id>` resolves the expected GGUF and settings.
+## Phases 2-4.5: the lane
 
-## Phase 2: First Load
-
-Start the runtime and verify the model loads cleanly.
-
-**Debug-only direct path** (use this for first-time load testing):
+One command runs Phases 2 to 4.5 for a model on a card group, as a run in the rig's report (a reboot shows
+it as interrupted and offers to resume it; MANAGER.md, "Runs"):
 
 ```bash
-ssh 10.0.0.3
-
-# Single GPU (worker tier)
-/mnt/shared/scripts/llama_runtime/run_runtime.sh \
-  --name llama-<model>-test \
-  --model /mnt/shared/models/<model-dir>/<filename>.gguf \
-  --port <port> \
-  --gpus device=<gpu-id> \
-  --ctx-size <from profile> \
-  --batch-size <from profile> \
-  --memory-limit 2g --memory-swap 3g
-
-# Brain GPU (3090)
-/mnt/shared/scripts/llama_runtime/run_runtime.sh \
-  --name llama-<model>-test \
-  --model /mnt/shared/models/<model-dir>/<filename>.gguf \
-  --port 11434 \
-  --gpus device=0 \
-  --ctx-size 16384 \
-  --batch-size 128 \
-  --memory-limit 10g --memory-swap 12g
-
-# Split GPU (14B tier)
-/mnt/shared/scripts/llama_runtime/run_runtime.sh \
-  --name llama-<model>-test \
-  --model /mnt/shared/models/<model-dir>/<filename>.gguf \
-  --port <port> \
-  --gpus device=<gpu1>,<gpu2> \
-  --ctx-size <from profile> \
-  --batch-size <from profile> \
-  --tensor-split 1,1 \
-  --memory-limit 10g --memory-swap 12g
+rigctl run-start --run lanes-<slug> -- /bin/bash \
+  /mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_worker_lanes.sh <group> <short-id>
 ```
 
-**Extra args** (add as needed):
-- Qwen 3.x/3.5/3.6: `--extra-arg "--reasoning-budget" --extra-arg "0"`
-- Gemma 4 (all sizes): `--extra-arg "--reasoning-budget" --extra-arg "0"` (REQUIRED — thinking mode destroys BBH/DROP extraction)
-- OpenAI models (gpt-oss): `--extra-arg "--jinja"` (required for chat template)
-- Split models that fail with `--n-gpu-layers 999`: remove forced layer count, let llama.cpp auto-fit
-- MXFP4/native quant models: no special flags needed — llama.cpp handles MXFP4 natively (supported since ~b6962)
+`<group>` is the cards: `0` (the 3090), `1` (one 1060), `1+2` (a 1060 pair), `0+1+2+3+4+5` (every card,
+for capacity models). Several groups and models in one command share a queue: `run_worker_lanes.sh 0,1+2
+modelA modelB`. Options (`--env K=V` on run-start): `LANE_STOP_AFTER=3` (stop after litmus),
+`LANE_STOP_AFTER=4` (stop after the smoke), `LANE_START_AT=4.5` (only the thinking A/B, for a model whose
+Phases 2-4 already ran), `LANE_RUN_SUFFIX=_r2` (fresh run names for a re-run after a settings fix).
 
-**Verification**:
+The lane claims its cards for its whole run, then for each model:
 
-```bash
-# Check model responds
-curl -s http://localhost:<port>/v1/models | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin),indent=2))"
+| Phase | What the lane does | Where the output goes |
+|---|---|---|
+| 2 | `rigctl load-model <id> --gpus <group> --use benchmark --wait`: the manager fits it, the rig loads it and refuses a load not fully on the GPUs | lane log: profile, ctx, split, VRAM per card, the end of the chat template |
+| 3 | `litmus.py`: 15 x 37 (expect 555, no think tags), a JSON object, a Python function | lane log and `/mnt/shared/logs/benchmarks/phase3_<run>_litmus.txt` |
+| 3.5 | `runtime_char.py`: sustained decode with GPU sampling | `results/runtime_experiments/<slug>_runtime_characterization_<date>.json` |
+| 4 | `phase4.sh`: bench-pipeline (whole), bench-code (first 50 HumanEval), bench-reasoning limit 10 with raw samples | the records ledger; suite logs `/mnt/shared/logs/benchmarks/phase4_<run>_*.log` |
+| 4.5 | `suggest_p45.py`: what Phase 4 showed and what might fix it; then the thinking on vs off A/B when the template has a thinking control | lane log; runs `<slug>_w_p45_off` / `_w_p45_think` in the ledger |
 
-# Check container logs
-docker logs $(docker ps -q --filter "ancestor=llama-runtime*" | head -1) 2>&1 | tail -30
+Watch it: `rigctl runs`, the lane log (`/mnt/shared/logs/benchmarks/worker_lanes_<time>/lane_gpu<cards>.log`, cards joined with `-`),
+the dashboard. The lane unloads the model and frees its cards when it finishes.
 
-# Check VRAM
-nvidia-smi --query-gpu=index,memory.used,memory.total --format=csv,noheader
-```
+Debug-only, by hand (a first look at a model that misbehaves): `rigctl load-model <id> --gpus <cards>`, then
+`python3 scripts/integration/litmus.py <port>` on the rig, then `rigctl unload <profile>`. Never start a
+runtime with `run_runtime.sh` or `docker run` directly: the manager would not know the cards are busy.
 
-**Gate**: `/v1/models` returns correct model ID, no warnings in logs, VRAM within expected range.
+### Phase 2 gate
+The model serves and every layer is on the GPUs (the rig refuses anything else). A load that fails says
+why in the lane log (won't fit, out of memory, unknown architecture): see the decision trees.
 
-## Phase 3: Litmus Test
+### Phase 3 gate
+All 3 checks pass, or each failure is understood and documented in the registry notes (a fenced JSON
+answer fails the raw-JSON check but is read fine by the suites).
 
-Three quick curl checks to catch output format issues before committing to benchmarks.
+### Phase 4: reading the smoke
+Every suite must produce a score. Then read the results, not just the numbers:
 
-```bash
-PORT=<port>
-MODEL_ID=<model-id>
+- The reasoning rows that count are the lenient ones (`bbh_flexible`, `gsm8k_flexible`, `drop_flexible`,
+  `mmlu_pro_flexible`, and `ifeval` strict). Each flexible row records how many answers could not be read
+  at all (`extractor_failure_count`, notes `rescued N; unreadable M`): a high unreadable count is a format
+  problem, not a capability one.
+- The lane's suggestions (`SUGGEST ...` lines, or `NOTHING TO FIX`) name the problem and the options.
+- Read 2-3 raw answers of any task that looks wrong (`/mnt/shared/logs/benchmarks/bench-reasoning/history/`).
 
-# 1. Reasoning check (expect: 555, no think tags)
-curl -s http://localhost:$PORT/v1/chat/completions -d '{
-  "model": "'$MODEL_ID'",
-  "messages": [{"role":"user","content":"What is 15 * 37? Reply with ONLY the number."}],
-  "temperature": 0
-}' | python3 -c "import json,sys; r=json.load(sys.stdin); c=r['choices'][0]['message']['content']; print(c); ok='555' in c and '<think>' not in c; print('PASS' if ok else 'FAIL: check for think tags or wrong answer')"
-
-# 2. JSON check (expect: valid JSON with name/age)
-curl -s http://localhost:$PORT/v1/chat/completions -d '{
-  "model": "'$MODEL_ID'",
-  "messages": [{"role":"user","content":"Return a JSON object with keys \"name\" and \"age\" for a 30-year-old named Alice. Output ONLY valid JSON, no explanation."}],
-  "temperature": 0
-}' | python3 -c "import json,sys; r=json.load(sys.stdin); c=r['choices'][0]['message']['content']; print(c); json.loads(c); print('PASS')"
-
-# 3. Code generation check (expect: function def, no think tags)
-curl -s http://localhost:$PORT/v1/chat/completions -d '{
-  "model": "'$MODEL_ID'",
-  "messages": [{"role":"user","content":"Write a Python function is_palindrome(s) that returns True if s is a palindrome. Output ONLY the function, no explanation."}],
-  "temperature": 0
-}' | python3 -c "import json,sys; c=json.load(sys.stdin)['choices'][0]['message']['content']; print(c); ok='def is_palindrome' in c and '<think>' not in c; print('PASS' if ok else 'FAIL')"
-```
-
-**If any check fails**, see the Decision Trees below before proceeding.
-
-**Gate**: All 3 checks PASS (with or without applied fixes documented in notes).
-
-## Phase 3.5: Runtime Characterization
-
-Run this mandatory measurement for every newly certified model before suite smoke runs. It
-captures the operational cost that quality scores do not represent and must use the same
-runtime image, placement, tensor split, context size, and batch size intended for testing.
-
-Record:
-
-- First-load duration: container start to the first successful `/v1/models` response, including whether the GGUF came from shared storage or a rig-local hot set.
-- Sustained decode: at least 256 generated tokens (512 preferred) from a deterministic prompt; record completion-token count, generation tok/s, prompt tok/s, and wall time from the server response timings.
-- GPU envelope: sample `nvidia-smi` once per second during that same decode; record average and peak power, temperature, and utilization for every participating GPU, plus combined average GPU power and decode energy in Wh.
-
-Store the result in `results/runtime_experiments/` with `quality_ledger: false`. Runtime
-results complement quality history; they never replace or invalidate previous model scores.
-
-**Gate**: A reproducible runtime record exists. A format limitation discovered during litmus
-must be documented in the tuning profile before the smoke campaign starts.
-
-## Phase 4: Smoke Runs (limit 10)
-
-Run each suite with `--limit 10` to confirm non-zero scores and catch format issues early.
-
-Suites without a limit: bench-pipeline (about 80 cases, about 30 s on the 3090) and bench-runtime
-(4 cases) are small and run whole here. EvalPlus has no limit, so bench-code adds one (`--limit N`:
-the first N problems, scored over those N): Phase 4 runs the first 50 HumanEval problems
-(`--tasks humaneval --limit 50 --run-class smoke`), and the full code run
-(HumanEval + MBPP, 542 problems) waits for Phase 5 with the settings Phase 4.5 chose (decided
-2026-10-18; before that Phase 4 ran full code and Phase 5 reused it, so code was never measured with
-thinking on).
-
-**Why limit 10, not limit 5**: Limit 5 is too few samples to distinguish real model problems
-from noise. Limit 10 gives enough signal to catch format extraction failures (e.g. GSM8K
-strict-match 0.0 because model outputs `$18` instead of `#### 18`), while still completing
-in minutes instead of hours. Always review smoke scores and a few raw outputs before
-committing to the full limit 100 run.
-
-**Check raw outputs after smoke**: After the smoke run, inspect 2-3 raw model responses to
-verify the model is producing answers in the expected format. A non-zero flexible-extract
-score with zero strict-match usually means a format issue that may or may not improve at
-scale — decide whether to fix before the full run.
-
-**Pre-flight**:
-```bash
-# Verify runtime is still up
-curl -s http://localhost:<port>/v1/models
-
-# Verify Docker images are current
-docker run --rm --entrypoint cat bench-pipeline /opt/bench/run.sh | head -5
-# If stale, rebuild:
-# cd /mnt/shared/plans/shoulders/benchmarking/docker && docker build -t bench-pipeline bench-pipeline && docker build -t bench-code bench-code && docker build -t bench-reasoning bench-reasoning
-```
-
-**Pipeline** (from rig):
-```bash
-docker run --rm --network host \
-  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
-  -v /mnt/shared:/mnt/shared \
-  -v /mnt/shared/logs/benchmarks/bench-pipeline/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-pipeline --model <model-id> --runtime-base http://localhost:<port> --run-name <model>_smoke_v1
-```
-
-**Code** (from rig):
-```bash
-docker run --rm --network host \
-  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
-  -v /mnt/shared:/mnt/shared \
-  -v /mnt/shared/logs/benchmarks/bench-code/history:/results \
-  bench-code --model <model-id> --runtime-base http://localhost:<port> --run-name <model>_smoke_v1 \
-  --run-class smoke --tasks humaneval --limit 50
-```
-
-**Reasoning** (from rig):
-```bash
-docker run --rm --network host \
-  -e BENCHMARK_DISABLE_AUTO_RESERVE=1 \
-  -v /mnt/shared:/mnt/shared \
-  -v /mnt/shared/logs/benchmarks/bench-reasoning/history:/results \
-  -v /mnt/shared/plans/shoulders/benchmarking:/benchmark-scripts:ro \
-  bench-reasoning --model <model-id> --runtime-base http://localhost:<port> --run-name <model>_smoke_v1 --limit 10
-```
-
-**Add flags as needed**:
-- Gemma 4: `--patch-think-tag-strip` for bench-reasoning (runtime MUST have `--reasoning-budget 0`)
-- Qwen 3.x/3.6: `--patch-think-tag-strip` for bench-reasoning (runtime MUST have `--reasoning-budget 0`)
-- Phi-4-mini-reasoning / DeepSeek-R1: `--patch-think-tag-strip` for bench-reasoning (structural think tokens, `--reasoning-budget 0` has no effect)
-
-**Verify between suites**:
-```bash
-curl -s http://localhost:<port>/v1/models
-```
-If runtime died, reload before continuing.
-
-**Gate**: All suites produce non-zero scores. Record exact scores.
+**Gate**: every suite scores, raw answers have been read, and format problems are noted for Phase 4.5.
 
 ## Phase 4.5: Settings Experiments
 
-Phase 4 proves the model works and fixes format failures. Phase 4.5 looks for the model's best
-settings before hours of full runs. Every model behaves differently; do not inherit a family
-default because it passed Phase 4.
+Phase 4 proves the model works. Phase 4.5 looks for the model's best settings before hours of full runs.
+Every model behaves differently; do not inherit a family default because it passed Phase 4.
 
-Phase 4.5 is a menu, not a checklist (operator, 2026-10-22). It is optional: a model whose Phase 4
-results show nothing to fix can go straight to Phase 5, and a model only tries the options that bear on
-what Phase 4 showed. Pick experiments from the symptoms:
+Phase 4.5 is a menu, not a checklist (operator, 2026-10-22). It is optional: a model whose Phase 4 results
+show nothing to fix can go straight to Phase 5, and a model only tries the options that bear on what Phase 4
+showed. Pick experiments from the symptoms:
 
 | Phase 4 symptom | Options to try |
 |---|---|
@@ -349,97 +224,83 @@ Example: phi-4:14b (2026-10-22) answered every DROP question as multi-line JSON,
 all 50 answers to `{` or a fenced `json` line, while its other tasks scored normally. Its system prompt is
 mostly JSON formatting rules; the experiment is a system prompt without them, A/B on the smoke set.
 
-After the Phase 4 smoke every lane prints suggestions from the model's own results
-(`scripts/integration/suggest_p45.py MODEL RUN [--litmus FILE]`, also runnable by hand on any recorded run):
-each `SUGGEST` line names an option and the evidence for it (a task's unreadable count, what those answers
-look like, a system prompt about formats, a failed litmus check), and `NOTHING TO FIX` means Phase 4.5 is
-optional for that model. The lanes run only the thinking on vs off A/B themselves (skipped when the template
-has no thinking control). The other options are run by hand: `scripts/integration/prompt_ab.sh` for system
-prompts, `--gen-kwargs` and registry profiles for budgets.
+The lane runs only the thinking A/B itself. For the others, change the registry profile (a new named
+profile, or the `default` once it wins) and re-run the smoke with a suffix:
+`rigctl run-start --run lanes-<slug>-r2 --env LANE_STOP_AFTER=4 --env LANE_RUN_SUFFIX=_r2 -- /bin/bash
+.../run_worker_lanes.sh <group> <short-id>`. A one-off system prompt: bench-reasoning `--system-prompt-override`.
+Then compare the two runs (`python3 scripts/integration/suggest_p45.py <id> <run>` on each).
+(`p45.sh` and `smoke_reasoning.sh` predate the manager and start runtimes themselves: do not use them while
+anything else runs on the rig.)
 
-For each experiment you do run, A/B one setting at a time against the Phase 4 configuration, at smoke size,
-on the suites that setting can move:
+For each experiment, change one setting at a time against the Phase 4 configuration, at smoke size, on the
+suites that setting can move:
 
 | Setting | How to vary it | Measure on |
 |---|---|---|
-| Thinking / reasoning mode | runtime args (`--reasoning`, `--reasoning-budget`, template kwargs such as `reasoning_effort`); thinking runs need `--gen-kwargs "max_gen_toks=4096,until=</s>"`: task stop sequences ("Question:", newline, "\nQ:") also fire inside the thinking text and return empty answers, and the chat template ends the turn anyway | bbh, gsm8k, drop, ifeval (check raw samples for empty answers) |
+| Thinking / reasoning mode | `extra_args` (`--reasoning on/off`, `--reasoning-budget N`, template kwargs such as `reasoning_effort`); thinking runs need `--gen-kwargs "max_gen_toks=4096,until=</s>"` (the lane passes this): task stop sequences fire inside thinking text and return empty answers | bbh, gsm8k, drop, ifeval |
 | System prompt | registry `system_prompt`, or `--system-prompt-override` for a one-off | pipeline, bbh, drop, ifeval |
-| Output budget | registry `inference.max_tokens` | pipeline and custom suites that produce long structured output (geoimport plans) |
-| Template switches | `--chat-template-kwargs` (read the template's `add_generation_prompt` block) | litmus + the suite that exposed the issue |
+| Output budget | registry `inference.max_tokens` | pipeline and custom suites with long structured output (geoimport) |
+| Template switches | `--chat-template-kwargs` (read the template's `add_generation_prompt` block) | litmus and the suite that exposed the issue |
 
 Rules:
 - Read raw outputs for every experiment; a score change without a visible cause is noise at limit 10.
-- Change the harness only for defects that hit every model (record them in the suite history and
-  version the rows); change the model's registry profile for model behavior.
-- Keep the speed/quality trade-off explicit: record tok/s or wall time next to each A/B, since a
-  brain model and a worker model weigh it differently.
-- Write each experiment, its result, and the chosen setting into the model's integration log.
+- Change the model's registry profile for model behavior; change the harness only for defects that hit
+  every model.
+- Keep the speed/quality trade-off explicit: record wall time next to each A/B (thinking on can cost 5-10x
+  the time for a few points).
 
-**Gate**: Every setting changed from the Phase 4 configuration has an A/B result behind it, and each
-Phase 4 problem was either fixed or recorded as a known limit of the model. A model with no Phase 4
-problems passes with no experiments.
+**Gate**: every setting changed from the Phase 4 configuration has an A/B result behind it, and each Phase 4
+problem was either fixed or recorded as a known limit. A model with no Phase 4 problems passes with no
+experiments.
 
 ## Phase 5: Full Run
 
-Run the standard suite at limit 50 or 100 for publishable scores.
-
-**Option A: Manual docker runs** (same as Phase 4, with higher limits):
-- Reasoning: `--limit 50` or `--limit 100`
-- Code: full HumanEval + MBPP (542 problems, `--run-class full`), with the Phase 4.5 settings
-- Pipeline: no limit flag (full custom test set)
-
-**Option B: Campaign runner** (preferred for multi-model or multi-suite runs):
-
-Create a campaign manifest and use `run_campaign.py` for automated GPU scheduling,
-checkpoint/resume, and parallel execution. See [CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md).
+Reasoning at limit 50 (gsm8k, bbh, drop, ifeval), MMLU-Pro at limit 20, the full code suite (HumanEval +
+MBPP, 542 problems), geoimport, pipeline and runtime, with the Phase 4.5 settings. Run it as a campaign:
+one manifest, any number of models, started as a run so a reboot is recoverable.
 
 ```bash
-# Create manifest, then:
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/<manifest>.json \
-  --dry-run   # verify schedule first
+# Manifest: one block per suite per model (see campaigns/overnight_phase5_20261022.json for the shape;
+# placement brain | single | split | gpu_N | gpu_A_B, ctx from the registry profile)
+python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/<name>.json --dry-run      # on the rig
+rigctl run-start --run <name> \
+  --resume "python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<name>.json --run-id <name>" -- \
+  python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
+  /mnt/shared/plans/shoulders/benchmarking/campaigns/<name>.json --run-id <name> --max-active-models 3
 ```
 
-**Recommended sequence** (for manual runs): pipeline → code → reasoning (reasoning is longest, do it last).
+Placements: `brain` the 3090; `single` any free 1060; `split` any free pair of 1060s; `gpu_3`, `gpu_2_4`
+pinned. A refused `split` tries other pairs before reserving one and waiting. `--max-active-models` caps how
+many models run at once (set it to the number of card groups that can run together). Models that need every
+card run in their own campaign. See [CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md); the runner's move onto
+the manager is planned in [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md).
 
-**Monitor progress**:
-```bash
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'
-```
+Time to expect (2026-10-22, at the standing power caps): mixture-of-experts models on the 3090 about 1-1.5 h;
+dense 24-31B on the 3090 2.5-4.5 h; 12-14B models on a 1060 pair 5.5 h (MoE) to 17 h (dense).
 
-**Gate**: All suites complete with stable scores. Record run names and exact scores.
-
-## Runtime Retention During An Active Campaign
-
-Do not unload a model merely because one benchmark stage finishes. Keep the certified runtime
-loaded at its recorded port for the entire active model campaign so follow-on litmus, smoke,
-power, throughput, reasoning, and code tests do not repay the first-load cost.
-
-At the end of an operator-directed test set, pause in the current runtime state. Treat the end
-of testing as a handoff point for the next instruction, never as an implicit reset.
-
-Unload or replace a loaded model only when one of these is true:
-
-- The operator explicitly requests cleanup, restoration, or a different model.
-- The next approved test requires the same GPU lanes.
-- The runtime has failed and must be replaced as part of recovery.
-
-The normal brain runtime is a startup default, not an implicit end-of-benchmark cleanup action.
-Record the resident model, port, and GPU placement in the active campaign notes before ending an
-operator session.
+**Gate**: all blocks complete (`rigctl runs`, the campaign status), scores recorded.
 
 ## Phase 6: Finalize
 
-Update all companion docs with the new model's data.
+| What | Where |
+|---|---|
+| Status `candidate` -> `active` once it completed the gates (roles may only point at active models); `tuning.status` and `last_tuned_at` | `model_registry.json`, then `model_library.py export` |
+| What was learned: chosen settings and why, known limits, speed | the profile `notes` in the registry |
+| An integration entry: phases, settings, known limits, run names | Part 2 of this file (template below) |
+| A role, if it is the best at a job | `model_roles.json`, and `MODEL_BEST_OF.md` |
+| Runtime notes worth keeping | `MODEL_RUNTIME_GUIDE.md` |
+| A debugging story worth keeping | `BENCHMARK_LESSONS_LEARNED.md` |
 
-| Doc | What to update |
-|-----|---------------|
-| [BENCHMARK_SCORES.md](BENCHMARK_SCORES.md) | Add score rows to each suite table |
-| [MODEL_LIBRARY.md](MODEL_LIBRARY.md) | Add to Active Model Inventory; update Best Choices if applicable |
-| [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) | Add runtime notes section for the model |
-| [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md) | Add entry if non-trivial issues were encountered |
+Score tables are generated (`results/MODEL_BENCHMARK_REFERENCE.md`, the scoreboard, the dashboard); there
+is nothing to copy by hand. `BENCHMARK_SCORES.md` is retired (last updated 2026-06-13).
 
-**Gate**: All docs updated, scores published, model is discoverable.
+**Gate**: the registry has the chosen settings and status, and the integration entry exists.
+
+## Runtime retention
+
+The lane and the campaign load and unload models themselves. A model loaded by hand (debugging, chat) stays
+loaded until it is unloaded (`rigctl unload <profile>`) or its owner is cancelled (`rigctl cancel-owner`):
+nothing unloads it at the end of a test on its own. Record what you left loaded.
 
 ---
 
@@ -449,206 +310,152 @@ Update all companion docs with the new model's data.
 
 ```
 Litmus shows <think> tags or empty content
-├── Check model family
-│
-├── OpenAI gpt-oss (channel-based thinking)
-│   → thinking=1 but content field is CLEAN
-│   → Reasoning goes to reasoning_content field via channel system
-│   → No --reasoning-budget 0 needed, no --patch-think-tag-strip needed
-│   → This is the ideal behavior — litmus should pass all 3 checks
-│   → If litmus passes: proceed normally, no special bench flags
-│
-├── Qwen 3.x / 3.5 / 3.6
-│   → Add --reasoning-budget 0 to runtime args
-│   → Reload runtime
-│   → Retest litmus
-│   → If still shows empty <think></think> wrappers:
-│     add --patch-think-tag-strip at bench time
-│
-├── Gemma 4 (any size)
-│   → Expected: model uses <|channel>thought prefix
-│   → Content field should still have the answer
-│   → If content empty: reasoning consumed max_gen_toks
-│   → Fix: --reasoning-budget 0 on runtime (REQUIRED for ALL sizes)
-│   → A/B tested on 12B: budget=0 scored BBH 0.82, budget=1024 scored 0.24
-│   → Confirmed on 26B-A4B: budget=0 scored BBH 0.87, previous thinking-on was 0.27
-│   → Thinking tokens consume generation budget → answer truncated
-│   → Also apply --patch-think-tag-strip at bench time (BBH + DROP)
-│   → Mark litmus PASS with note
-│
-├── DeepSeek-R1 (any size)
-│   → Structural: <think> tokens baked into vocabulary
-│   → --reasoning-budget 0 does NOT help
-│   → --patch-think-tag-strip partially helps (BBH yes, DROP no, code no)
-│   → Record limitation, proceed with known constraints
-│
-└── Phi-4-mini-reasoning (and similar reasoning-finetuned models)
-    → Structural: <think> tokens from reasoning finetune
-    → --reasoning-budget 0 does NOT help (runtime shows thinking=0 anyway)
-    → --patch-think-tag-strip needed for BBH/DROP
-    → Code suite will have degraded results (think tokens stripped with code)
-    → Same behavior pattern as DeepSeek-R1
++-- Check model family
+|
++-- OpenAI gpt-oss (channel-based thinking)
+|   -> thinking=1 but content field is CLEAN
+|   -> Reasoning goes to reasoning_content field via channel system
+|   -> No --reasoning-budget 0 needed, no --patch-think-tag-strip needed
+|   -> This is the ideal behavior - litmus should pass all 3 checks
+|   -> If litmus passes: proceed normally, no special bench flags
+|
++-- Qwen 3.x / 3.5 / 3.6
+|   -> Set registry extra_args `--reasoning off` (older runtimes: `--reasoning-budget 0`)
+|   -> Re-run the lane with a suffix (LANE_RUN_SUFFIX=_r2)
+|   -> If still shows empty <think></think> wrappers:
+|     add --patch-think-tag-strip at bench time
+|
++-- Gemma 4 (any size)
+|   -> Expected: model uses <|channel>thought prefix
+|   -> Content field should still have the answer
+|   -> If content empty: reasoning consumed max_gen_toks
+|   -> Fix: registry extra_args `--reasoning off` (REQUIRED for ALL sizes; earlier `--reasoning-budget 0`)
+|   -> A/B tested on 12B: budget=0 scored BBH 0.82, budget=1024 scored 0.24
+|   -> Confirmed on 26B-A4B: budget=0 scored BBH 0.87, previous thinking-on was 0.27
+|   -> Thinking tokens consume generation budget -> answer truncated
+|   -> Also apply --patch-think-tag-strip at bench time (BBH + DROP)
+|   -> Mark litmus PASS with note
+|
++-- DeepSeek-R1 (any size)
+|   -> Structural: <think> tokens baked into vocabulary
+|   -> --reasoning-budget 0 does NOT help
+|   -> --patch-think-tag-strip partially helps (BBH yes, DROP no, code no)
+|   -> Record limitation, proceed with known constraints
+|
++-- Phi-4-mini-reasoning (and similar reasoning-finetuned models)
+    -> Structural: <think> tokens from reasoning finetune
+    -> --reasoning-budget 0 does NOT help (runtime shows thinking=0 anyway)
+    -> --patch-think-tag-strip needed for BBH/DROP
+    -> Code suite will have degraded results (think tokens stripped with code)
+    -> Same behavior pattern as DeepSeek-R1
 ```
 
 ### Smoke Suite Scores All Zero
 
 ```
 All scores 0 in a suite
-├── Check container logs for "Use model prompts: 1"
-│   └── Shows 0 → Stale Docker image
-│       → Rebuild: docker build -t bench-<suite> bench-<suite>
-│
-├── Check container logs for "thinking = 1"
-│   └── Shows 1 → Thinking mode active
-│       → Add --reasoning-budget 0 to runtime, reload
-│       → Verify: docker logs <ctr> 2>&1 | grep "thinking ="
-│
-├── Check if model ID fuzzy-matches tuning profiles
-│   └── No match → Model prompts not resolving
-│       → Add explicit alias to model_tuning_profiles.json
-│       → Or run with --allow-generic-prompt-fallback
-│
-└── Check for stop sequence truncation
-    ├── BBH: \n\n stop truncates after think tags
-    │   → Apply --patch-think-tag-strip
-    └── DROP: . stop truncates inside think chains
-        → Apply --patch-think-tag-strip + max_gen_toks 512
++-- Check container logs for "Use model prompts: 1"
+|   +-- Shows 0 -> Stale Docker image
+|       -> Rebuild: docker build -t bench-<suite> bench-<suite>
+|
++-- Check container logs for "thinking = 1"
+|   +-- Shows 1 -> Thinking mode active
+|       -> Set `--reasoning off` in the registry profile, re-run the lane with a suffix
+|       -> Verify: docker logs <ctr> 2>&1 | grep "thinking ="
+|
++-- Check if model ID fuzzy-matches tuning profiles
+|   +-- No match -> Model prompts not resolving
+|       -> Add an alias in the registry entry (`aliases`), then `model_library.py export`
+|       -> Or run with --allow-generic-prompt-fallback
+|
++-- Check for stop sequence truncation
+    +-- BBH: \n\n stop truncates after think tags
+    |   -> Apply --patch-think-tag-strip
+    +-- DROP: . stop truncates inside think chains
+        -> Apply --patch-think-tag-strip + max_gen_toks 512
 ```
 
 ### Runtime Won't Load (OOM / Timeout)
 
 ```
 Runtime fails to start or gets OOM-killed
-├── Exit code 137 (Docker OOM)
-│   → Container hit memory limit
-│   → Increase memory_limit in config.benchmark.json
-│   → Or add --memory=Xg --memory-swap=Yg to docker run
-│
-├── Split model fails with "need to use X MiB less"
-│   → Remove --n-gpu-layers 999, let llama.cpp auto-fit
-│   → The auto-fitter will place layers across GPUs correctly
-│
-├── Timeout (no /v1/models response after 300s)
-│   → Reduce ctx_size (try 4096 for smoke, increase later)
-│   → Check if model is too large for target GPUs
-│   → For split: ensure both GPUs are free
-│
-├── "unknown model architecture" error
-│   → Runtime image too old for this model family
-│   → Check required image tag in MODEL_RUNTIME_GUIDE.md
-│   → Rebuild/pull updated runtime image
-│
-└── System RAM pressure
-    → Check: free -h; docker stats --no-stream
-    → See docker/README.md "Memory Protection" section
-    → Reduce number of concurrent models
++-- Exit code 137 (Docker OOM)
+|   -> Container hit its memory limit (loads through the manager: the rig's limit, rig.py REMOTE_MEMORY_LIMIT)
+|   -> Lower the context, or check host RAM (the rig guard frees RAM at critical)
+|
++-- "won't fit" from the manager, or a load refused as not fully on the GPUs
+|   -> `rigctl fit <id> --gpus <cards>` shows MiB per card
+|   -> More cards, a smaller context (`--ctx`), or a smaller quant (layers are never left to the CPU)
+|
++-- Timeout (the load never serves)
+|   -> The lane log shows the rig's reason; a cold first load from the shared drive is slow
+|   -> Check the cards are free (`rigctl status`)
+|
++-- "unknown model architecture" error
+|   -> Runtime image too old for this model family
+|   -> Check required image tag in MODEL_RUNTIME_GUIDE.md
+|   -> Rebuild/pull updated runtime image
+|
++-- System RAM pressure
+    -> Check: free -h; docker stats --no-stream
+    -> See docker/README.md "Memory Protection" section
+    -> Reduce number of concurrent models
 ```
 
 ### Code Suite All-Zero but Pipeline/Reasoning Work
 
 ```
 bench-code produces 0% but other suites score
-├── Think tags consumed code output
-│   → evalplus sanitizer strips <think> + code together
-│   → No clean fix for thinking models
-│   → Record as known limitation
-│
-└── Model emits markdown fences around code
-    → evalplus expects raw code
-    → Check if code output starts with ```python
-    → May need prompt tuning to suppress fences
++-- Think tags consumed code output
+|   -> evalplus sanitizer strips <think> + code together
+|   -> No clean fix for thinking models
+|   -> Record as known limitation
+|
++-- Model emits markdown fences around code
+    -> evalplus expects raw code
+    -> Check if code output starts with ```python
+    -> May need prompt tuning to suppress fences
 ```
 
 ### Special Model Types
 
-**MoE (Mixture of Experts)** — e.g., Gemma 4 26B-A4B, Qwen3.5 35B-A3B, gpt-oss 20B:
+**MoE (Mixture of Experts)** - e.g., Gemma 4 26B-A4B, Qwen3.5 35B-A3B, gpt-oss 20B:
 - GGUF file size reflects total params but active params per-token are much smaller
 - Inference speed closer to the active param count (3-4B active runs like a 3-4B dense model)
 - VRAM usage depends on total params (all experts must be loaded), not active params
 - Brain tier for models >12GB GGUF, single tier if GGUF fits in 6GB
 
-**MXFP4/Native Quantization** — e.g., gpt-oss 20B:
+**MXFP4/Native Quantization** - e.g., gpt-oss 20B:
 - Some models ship as MXFP4 (Microscaling FP4) GGUFs instead of post-training quantized Q4/Q8
 - llama.cpp handles MXFP4 natively (supported since ~b6962, our runtime is b8884+)
-- No special flags needed — treat like any other GGUF
+- No special flags needed - treat like any other GGUF
 - File size may differ from Q4_K_M expectations for same param count
 
-**OpenAI-family models** — e.g., gpt-oss:
+**OpenAI-family models** - e.g., gpt-oss:
 - Require `--jinja` flag for chat template processing
 - Add `--extra-arg "--jinja"` to run_runtime.sh invocation
 - Add `"--jinja"` to `extra_args` in tuning profiles
 
 ---
 
-## Phase Checklist Template
+## Integration entry template
 
-Copy this section for each new model integration. Replace placeholders with actual values.
+Add one per model to Part 2 (newest first), short:
 
 ```markdown
-## Integration: <model-name> (<date>)
+## Integration: <model> (<date>)
 
-Tier: <single/split/brain> | GPU target: <gpu list> | Port: <port>
-GGUF: <filename> | Size: <size> | Source: <url>
+Cards: <group> | GGUF: <file> (<size>, SHA-256 checked) | Source: <url>
 
-### Phase 0: Download
-- [ ] GGUF downloaded to `/mnt/shared/models/<dir>/`
-- [ ] File size verified: <expected> vs <actual>
-- Notes:
-
-### Phase 1: Register
-- [ ] `model_tuning_profiles.json` — GGUF key added
-- [ ] `model_tuning_profiles.json` — short alias added
-- [ ] `models.catalog.json` — entry added
-- [ ] System prompt: <which prompt family>
-- [ ] Runtime config: ctx_size=<>, batch_size=<>, n_gpu_layers=<>
-- Notes:
-
-### Phase 2: First Load
-- [ ] Runtime started with `run_runtime.sh`
-- [ ] `/v1/models` responds with correct model ID
-- [ ] Docker logs checked — no warnings
-- [ ] VRAM usage: <amount>
-- [ ] Load time: <seconds>
-- [ ] Runtime image: <image tag>
-- [ ] Extra args needed: <list or none>
-- Notes:
-
-### Phase 3: Litmus Test
-- [ ] Reasoning check (555): PASS/FAIL
-- [ ] JSON check: PASS/FAIL
-- [ ] Code generation check: PASS/FAIL
-- Fixes applied: <none or description>
-- Notes:
-
-### Phase 4: Smoke Runs (limit 10)
-- [ ] bench-pipeline: <scores or link>
-- [ ] bench-code (HumanEval smoke): <scores or link>
-- [ ] bench-reasoning --limit 10: <scores or link>
-- [ ] Raw outputs inspected — format issues identified and documented
-- [ ] All suites produce non-zero scores
-- Flags needed: <list>
-- Fixes applied: <none or description>
-- Notes:
-
-### Phase 4.5: Settings Experiments
-- [ ] Thinking mode A/B: <setting> vs <setting>: <scores, tok/s or wall time>
-- [ ] System prompt A/B (if format or behavior issues): <scores>
-- [ ] Output budget A/B (if long outputs truncate): <scores>
-- [ ] Chosen settings written to the registry profile
-- Notes:
-
-### Phase 5: Full Run (limit 50/100)
-- [ ] bench-pipeline: <scores>
-- [ ] bench-code (full, chosen settings): <scores>
-- [ ] bench-reasoning --limit <N>: <scores>
-- Run names: <list>
-- Notes:
-
-### Phase 6: Finalize
-- [ ] BENCHMARK_SCORES.md updated
-- [ ] MODEL_LIBRARY.md inventory updated
-- [ ] MODEL_RUNTIME_GUIDE.md notes added
-- [ ] BENCHMARK_LESSONS_LEARNED.md updated (if applicable)
+- Phase 0-1: hotset + library; registry `<short-id>` (<prompt family>, extra args); fit: ctx <N>, split <..>
+- Lane: run `<run id>`, log `<path>`
+- Phase 2: loaded in <s>; VRAM <per card>
+- Phase 3: litmus <pass, or what failed and why>
+- Phase 3.5: decode <tok/s>, power <W>
+- Phase 4 smoke: <key scores>; suggestions: <SUGGEST lines or NOTHING TO FIX>
+- Phase 4.5: <experiments and results, or none>; chosen: <settings>
+- Phase 5: campaign `<name>`: <key scores>, <time>
+- Known limits: <...>
 ```
 
 ---
