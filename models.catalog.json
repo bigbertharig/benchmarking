@@ -514,6 +514,32 @@
         "moe",
         "multi_gpu"
       ]
+    },
+    {
+      "id": "nemotron-3.5-bolt:74b-a9b",
+      "tier": 3,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+      "split_groups": [
+        {
+          "id": "all_gpus_capacity",
+          "members": [
+            "gpu-0",
+            "gpu-1",
+            "gpu-2",
+            "gpu-3",
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11445
+        }
+      ],
+      "tags": [
+        "capacity_candidate",
+        "moe",
+        "hybrid_mamba",
+        "multi_gpu"
+      ]
     }
   ]
 }

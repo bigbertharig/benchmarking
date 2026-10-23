@@ -1,6 +1,6 @@
 {
   "schema": "model-registry/1",
-  "updated": "2026-10-21",
+  "updated": "2026-10-23",
   "about": "Every model the rig has tested, with its archive GGUF, status, scheduling placement, and named profiles. The only place model settings are edited. models.catalog.json, model_tuning_profiles.json and custom_tasks/model_prompt_profiles.json are generated from this file by scripts/active/model_library.py.",
   "archive_root": "/mnt/shared/models",
   "runtime_image": "llama-runtime:b11669",
@@ -1944,6 +1944,62 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Qwen3-Next architecture coder: 80B total, about 3B active per token (hybrid linear/full attention MoE). Q4_K_S (45.5 GB) chosen over Q4_K_M (48.5 GB) to leave room for six cards' compute buffers and context in 54 GB. Downloaded 2026-10-21 straight to the rig NVMe hotset."
+        }
+      }
+    },
+    "nemotron-3.5-bolt:74b-a9b": {
+      "gguf": "nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+      "source_url": "https://huggingface.co/unsloth/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-GGUF/resolve/main/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+      "status": "candidate",
+      "status_note": "Downloaded 2026-10-23 from unsloth/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-GGUF (size and SHA-256 match); integration phases 2-6 pending.",
+      "schedule": {
+        "tier": 3,
+        "placement": "split_gpu",
+        "split_groups": [
+          {
+            "id": "all_gpus_capacity",
+            "members": [
+              "gpu-0",
+              "gpu-1",
+              "gpu-2",
+              "gpu-3",
+              "gpu-4",
+              "gpu-5"
+            ],
+            "port": 11445
+          }
+        ],
+        "tags": [
+          "capacity_candidate",
+          "moe",
+          "hybrid_mamba",
+          "multi_gpu"
+        ]
+      },
+      "profiles": {
+        "default": {
+          "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
+          "inference": {
+            "temperature": 0.0,
+            "top_p": 1.0,
+            "max_tokens": 512
+          },
+          "runtime": {
+            "ctx_size": 16384,
+            "batch_size": 64,
+            "parallel": 1,
+            "n_gpu_layers": 999
+          },
+          "extra_args": [
+            "--reasoning",
+            "off"
+          ],
+          "tuning": {
+            "status": "untuned",
+            "last_tuned_at": null,
+            "benchmark_suite": "agent_reliability"
+          },
+          "notes": "NVIDIA Nemotron 3.5 Bolt (released 2026-10-14): 74B total, about 9B active per token, Mamba-2/Transformer hybrid LatentMoE (GGUF arch nemotron_h_moe, present in llama-runtime:b11669), up to 256K context, OpenMDW-1.1. Compressed from Nemotron 3.5 Super VL; the vision projector (mmproj, 1.7 GB) is not downloaded, text only. UD-Q3_K_XL (39.0 GB) chosen over UD-Q4_K_XL (50.2 GB) to leave headroom in 54 GB across six cards. Template thinks by default (enable_thinking); default profile runs --reasoning off, Phase 4.5 A/B decides. NVIDIA also ships a native 2-bit 24GB GGUF (22.0 GB) for a single 3090, not tested."
         }
       }
     }
