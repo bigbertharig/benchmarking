@@ -221,7 +221,7 @@ with open(cp_file, "r", encoding="utf-8") as f:
     data = json.load(f)
 entries = (data.get("tests") or {}).values()
 passed = sum(1 for e in entries if e.get("state") == "passed")
-failed = sum(1 for e in entries if e.get("state") == "failed")
+failed = sum(1 for e in entries if e.get("state") in ("failed", "recording_failed"))
 print(f"{passed} {failed}")
 PY
 }
@@ -347,6 +347,7 @@ SKIPPED_TESTS=0
 IFS=',' read -ra TEST_ARRAY <<< "$TESTS"
 TOTAL_TESTS=${#TEST_ARRAY[@]}
 
+RECORDING_FAILED=0
 for TEST_ID in "${TEST_ARRAY[@]}"; do
     TEST_ID="$(echo "$TEST_ID" | xargs)"
     [ -z "$TEST_ID" ] && continue
@@ -406,6 +407,17 @@ for TEST_ID in "${TEST_ARRAY[@]}"; do
     STAGE_DURATION=$((STAGE_END_EPOCH - STAGE_START_EPOCH))
     ELAPSED_TOTAL=$((STAGE_END_EPOCH - RUN_START_EPOCH))
 
+    # Record before the checkpoint marks the test passed: a refused record leaves it to run again on resume.
+    if [ "$STAGE_STATUS" = "passed" ] && [ -n "${SCORE:-}" ]; then
+      if ! record_result_row "$TEST_ID" "$SCORE" "score" "passes=${CASE_PASSES:-}; total=${CASE_TOTAL:-}; result_path=${RESULT_PATH:-}" "$CASE_TOTAL"; then
+        STAGE_STATUS="recording_failed"
+        RECORDING_FAILED=$((RECORDING_FAILED + 1))
+        echo "--- ${TEST_ID} result recording failed ---"
+      fi
+    elif [ "$STAGE_STATUS" = "failed" ]; then
+      record_failure_row "$TEST_ID" "$RUN_CODE"
+    fi
+
     update_checkpoint "$TEST_ID" "$STAGE_STATUS" "$RUN_CODE" "${RESULT_PATH:-}" "${SCORE:-}" "${CASE_PASSES:-}" "${CASE_TOTAL:-}" "$STAGE_START_ISO" "$STAGE_END_ISO"
 
     read PASSED_TESTS FAILED_TESTS <<< "$(checkpoint_counts)"
@@ -418,12 +430,6 @@ for TEST_ID in "${TEST_ARRAY[@]}"; do
 
     printf '{"time":"%s","run_start":"%s","model":"%s","runtime":"%s","current_test":"%s","completed_stages":%s,"total_stages":%s,"passed_stages":%s,"failed_stages":%s,"skipped_stages":%s,"last_status":"%s","last_result_path":"%s","last_duration_seconds":%s,"elapsed_total_seconds":%s,"checkpoint_file":"%s"}\n' \
       "$STAGE_END_ISO" "$RUN_START_ISO" "$MODEL" "$RUNTIME_BASE" "$TEST_ID" "$((PASSED_TESTS + FAILED_TESTS))" "$TOTAL_TESTS" "$PASSED_TESTS" "$FAILED_TESTS" "$SKIPPED_TESTS" "$STAGE_STATUS" "${RESULT_PATH:-}" "$STAGE_DURATION" "$ELAPSED_TOTAL" "$CHECKPOINT_FILE" > "$STATUS_FILE"
-
-    if [ "$STAGE_STATUS" = "passed" ] && [ -n "${SCORE:-}" ]; then
-      record_result_row "$TEST_ID" "$SCORE" "score" "passes=${CASE_PASSES:-}; total=${CASE_TOTAL:-}; result_path=${RESULT_PATH:-}" "$CASE_TOTAL"
-    elif [ "$STAGE_STATUS" = "failed" ]; then
-      record_failure_row "$TEST_ID" "$RUN_CODE"
-    fi
 
     echo "--- ${TEST_ID} done ---"
 done
@@ -439,4 +445,8 @@ RUN_DURATION=$((RUN_END_EPOCH - RUN_START_EPOCH))
 printf '{"run_start":"%s","run_end":"%s","model":"%s","runtime":"%s","total_stages":%s,"passed_stages":%s,"failed_stages":%s,"skipped_stages":%s,"duration_seconds":%s,"stage_updates_file":"%s","status_file":"%s","checkpoint_file":"%s"}\n' \
   "$RUN_START_ISO" "$RUN_END_ISO" "$MODEL" "$RUNTIME_BASE" "$TOTAL_TESTS" "$PASSED_TESTS" "$FAILED_TESTS" "$SKIPPED_TESTS" "$RUN_DURATION" "$STAGE_FILE" "$STATUS_FILE" "$CHECKPOINT_FILE" > "$FINAL_FILE"
 
+if [ "$RECORDING_FAILED" -gt 0 ]; then
+    echo "=== bench-pipeline FAILED (results not recorded: $RECORDING_FAILED) ==="
+    exit 1
+fi
 echo "=== bench-pipeline COMPLETE ==="

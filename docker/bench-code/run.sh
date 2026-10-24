@@ -286,7 +286,7 @@ if isinstance(plus, (int, float)):
     print(f"{task}_plus\t{plus}\tpass@1_plus\t{notes}")
 PY
         [ -z "$test_id" ] && continue
-        record_result_row "$test_id" "$score" "$metric" "$sample_count" "$notes"
+        record_result_row "$test_id" "$score" "$metric" "$sample_count" "$notes" || exit 1  # the loop's subshell
     done
 }
 
@@ -572,9 +572,15 @@ for TASK in "${TASK_ARRAY[@]}"; do
         INCOMPLETE_TASKS=$((INCOMPLETE_TASKS + 1))
         continue
     fi
+    # Record before marking the task evaluated: a refused record leaves it to run again on resume.
+    if ! record_code_task_results "$TASK" "$TASK_DIR" "$GENERATED_COUNT" "$SAMPLE_FILE"; then
+        update_status "$TASK" "recording_failed" "$GENERATED_COUNT" "$EXPECTED_COUNT" "$SAMPLE_FILE"
+        echo "--- ${TASK} result recording failed ---"
+        INCOMPLETE_TASKS=$((INCOMPLETE_TASKS + 1))
+        continue
+    fi
     echo "{\"task\":\"${TASK}\",\"state\":\"evaluated\",\"generated\":${GENERATED_COUNT},\"expected\":${EXPECTED_COUNT},\"samples\":\"${SAMPLE_FILE}\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
     update_status "$TASK" "evaluated" "$GENERATED_COUNT" "$EXPECTED_COUNT" "$SAMPLE_FILE"
-    record_code_task_results "$TASK" "$TASK_DIR" "$GENERATED_COUNT" "$SAMPLE_FILE"
 
     echo "--- ${TASK} done ---"
 done
