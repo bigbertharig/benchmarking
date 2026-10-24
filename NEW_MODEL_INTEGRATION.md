@@ -473,6 +473,20 @@ Cards: <group> | GGUF: <file> (<size>, SHA-256 checked) | Source: <url>
 
 # Part 2: Integration Log
 
+## Integration: nemotron-3.5-bolt:74b-a9b (2026-10-23)
+
+Cards: manager-placed, GPUs 0-3 | GGUF: NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf (39.0 GB, SHA-256 checked) | Source: unsloth/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-GGUF
+
+- Phase 0-1: hotset + library; registry `nemotron-3.5-bolt:74b-a9b` (worker strict, `--reasoning off`); fit: ctx 16384 on GPUs 0-3, split 57,16,10,6
+- Lane: run `lanes-nemotron-bolt`, log `/mnt/shared/logs/benchmarks/worker_lanes_20261023_133057/`
+- Phase 2: loaded in 215 s; VRAM 23555 / 5134 / 5126 / 4116 MiB
+- Phase 3: litmus 3/3, no think tags, no fences
+- Phase 3.5: decode 24.1 tok/s; 3090 142 W, 1060s about 42 W
+- Phase 4 smoke: run `nemotron-3_5-bolt_74b-a9b_w_smoke_v1`; suggestions: NOTHING TO FIX
+- Phase 4.5: none; chosen: registry default (thinking off)
+- Phase 5: campaign `nemotron_bolt_phase5_20261023`, run `nemotron-bolt-phase5`, 6 h
+- Known limits: asks for clarification less than peers (pipeline ambiguity, command safety)
+
 ## Re-integration: qwen3.6:35b-a3b (2026-10-17)
 
 Tier: brain (3090 Ti 24GB) | GGUF: `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf` (20.6 GB) | active model, last scored

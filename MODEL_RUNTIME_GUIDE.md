@@ -191,6 +191,13 @@ Operational note:
 - Memory limits: **3g/4g** (2g causes OOM — higher than E4B at same ctx_size due to different KV/scratch requirements)
 - Load time: ~3s
 
+### nemotron-3.5-bolt:74b-a9b
+
+- GGUF: `NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf` (39.0 GB). MoE 74B total / about 9B active, Mamba-2/Transformer hybrid (`nemotron_h_moe`), needs llama.cpp b11669 or newer
+- Placement: no single card holds it; the manager places it on the 3090 plus three 1060s at ctx 16384; all six cards hold ctx 226816. Mamba layers keep KV small
+- Thinking: on by default in the template; `--reasoning off` gives an empty `<think></think>` and clean answers
+- Text only here: the vision projector (mmproj) is not loaded
+
 ## Startup Context Policy
 
 Last validated: 2026-03-10

@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-23",
+  "version": "2026-10-24",
   "notes": "Generated from model_registry.json by scripts/active/model_library.py export. Do not edit.",
   "models": {
     "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf": {
@@ -979,7 +979,7 @@
         "--reasoning",
         "off"
       ],
-      "notes": "NVIDIA Nemotron 3.5 Bolt (released 2026-10-14): 74B total, about 9B active per token, Mamba-2/Transformer hybrid LatentMoE (GGUF arch nemotron_h_moe, present in llama-runtime:b11669), up to 256K context, OpenMDW-1.1. Compressed from Nemotron 3.5 Super VL; the vision projector (mmproj, 1.7 GB) is not downloaded, text only. UD-Q3_K_XL (39.0 GB) chosen over UD-Q4_K_XL (50.2 GB) to leave headroom in 54 GB across six cards. Template thinks by default (enable_thinking); default profile runs --reasoning off, Phase 4.5 A/B decides. NVIDIA also ships a native 2-bit 24GB GGUF (22.0 GB) for a single 3090, not tested."
+      "notes": "NVIDIA Nemotron 3.5 Bolt: 74B total, about 9B active, Mamba-2/Transformer hybrid MoE (GGUF arch nemotron_h_moe, llama-runtime:b11669), OpenMDW-1.1, used text only (no mmproj). UD-Q3_K_XL (39.0 GB) for headroom in 54 GB. Bench placement: GPUs 0-3 at ctx 16384 (split 57,16,10,6); all six cards hold ctx 226816. Decode 24.1 tok/s (3090 about 142 W, 1060s about 42 W each). The template thinks by default; --reasoning off kept: Phase 4 showed nothing to fix, thinking A/B not run. Known limit: asks for clarification less than peers (pipeline ambiguity and command safety)."
     },
     "nemotron-3.5-bolt:74b-a9b": {
       "_alias_of": "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf"
