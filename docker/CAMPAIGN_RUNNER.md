@@ -2,7 +2,10 @@
 
 `/mnt/shared/scripts/benchmarks/run_campaign.py` is the only production
 benchmark scheduler. It uses `docker/suite_contracts.json` to run sequential or
-parallel suite blocks with one model-loading and checkpoint contract.
+parallel suite blocks with one model-loading and checkpoint contract. Models are
+placed and loaded by the rig manager (`rigctl load-model --use benchmark`), which
+puts the rig in bench mode (isolated modes, 2026-10-23; see
+[CAMPAIGN_RUNNER_REFACTOR.md](CAMPAIGN_RUNNER_REFACTOR.md)).
 
 ## Commands
 
@@ -27,34 +30,29 @@ bounded runs.
 
 ## Manifest
 
-Every block runs on the model library's one image (`runtime_image` in
-`model_registry.json`). A manifest `runtime_image` is ignored with a warning; certify an upgrade
-candidate with `run_campaign.py <manifest> --runtime-image llama-runtime:<tag>-candidate`.
+A block names a registry model; the manager loads it from `model_registry.json` (its GGUF, the
+library's one runtime image, the profile's context, batch and extra args). A manifest carries only what
+it overrides. `runtime_image`, `batch_size` and `load_timeout_s` in older manifests are ignored, and a
+`gguf` is only a cross-check (preflight fails when it is not the registry's file).
 
 ```json
 {
   "name": "model_import_smoke",
   "defaults": {
-    "load_timeout_s": 300,
     "run_class": "smoke"
   },
   "blocks": [
     {
       "id": "data",
       "model": "model-id",
-      "gguf": "/mnt/shared/models/model/model.gguf",
-      "placement": "brain",
       "suite": "bench-dataimport",
       "suite_args": ["--tasks", "converter,reference"],
-      "limit": 2,
-      "ctx_size": 8192,
-      "runtime_args": []
+      "limit": 2
     },
     {
       "id": "geometry",
       "model": "model-id",
-      "gguf": "/mnt/shared/models/model/model.gguf",
-      "placement": "brain",
+      "gpus": [0],
       "suite": "bench-geoimport",
       "suite_args": ["--tasks", "classification,prep_plan"],
       "limit": 2,
@@ -64,21 +62,21 @@ candidate with `run_campaign.py <manifest> --runtime-image llama-runtime:<tag>-c
 }
 ```
 
-Required block fields are `id`, `model`, `gguf`, and `suite`. Optional fields:
+Required block fields are `id`, `model`, and `suite`. Optional fields:
 
 | Field | Default | Meaning |
 | --- | --- | --- |
-| `placement` | `single` | `brain`, `single`, `split`, or a pinned slot (`gpu_3`, `gpu_2_4`) |
+| `gpus` | none: the manager picks | Pinned cards, e.g. `[0, 1, 2, 3]`; `placement: brain` (GPU 0) and `placement: gpu_1_3` mean the same. `single` and `split` are gone |
 | `suite_args` | `[]` | Suite-owned flags only |
 | `run_class` | default or `provisional` | Evidence class; no score gate is imposed |
 | `limit` | suite default | Bounded sample count where supported |
 | `depends_on` | `[]` | Completed prerequisite block IDs |
-| `ctx_size` | model profile or 2048 | Runtime context size |
-| `batch_size` | model profile or 128 | Runtime batch size |
-| `runtime_args` | profile plus block args | Additional llama-server arguments |
-| `runtime_image` | campaign default | Runtime image tag |
-| `load_timeout_s` | campaign default or 300 | Runtime readiness timeout |
-| `hardware_id` | derived from slot | Optional explicit hardware identity |
+| `ctx_size` | the registry profile's | Exact context to load at (bench mode loads the profile's otherwise) |
+| `profile` | `default` | Registry profile to load (e.g. a `thinking` variant) |
+| `runtime_args` | none | llama-server arguments after the profile's own `extra_args` |
+| `wait_s` | 7200 | How long the load may wait for busy cards (the manager collects them); -1 waits forever |
+| `gguf` | the registry's | Optional cross-check only |
+| `hardware_id` | derived from the cards | Optional explicit hardware identity |
 | `env_file` | none | Optional, only for suites that declare support |
 | `runtime_group` | none | Keep one compatible model runtime loaded across consecutive suite blocks |
 
@@ -118,10 +116,9 @@ system prompt.
 ## One Load, Multiple Suites
 
 Give consecutive blocks the same `runtime_group` to load a model once, run each
-suite in manifest order on the same slot, and unload after the final block.
-Every block in the group must have identical model, GGUF, placement, runtime
-image, context, batch, and runtime arguments. The runner rejects mixed settings
-before loading.
+suite in manifest order on the same runtime, and unload after the final block.
+Every block in the group must have identical model, GGUF, profile, cards, context,
+runtime arguments and wait. The runner rejects mixed settings before loading.
 
 Runtime-group order is independent of score or suite success. With
 `--on-failure continue`, a failed suite is recorded and the next suite still
@@ -131,34 +128,26 @@ model once at its first unfinished block.
 
 ## Scheduling
 
-Planned: placement and loading move to the rig manager, see
-[CAMPAIGN_RUNNER_REFACTOR.md](CAMPAIGN_RUNNER_REFACTOR.md).
+The runner keeps no model of the rig. For each runtime group it asks the manager to load the model
+(`rigctl load-model MODEL --use benchmark --json --owner campaign-<run-id> --wait <wait_s>`, plus `--gpus`,
+`--ctx`, `--profile`, `--args` only when the block sets them) and runs the group's suites against the port
+the manager answers with. With no cards named the manager picks the fewest that hold the model at its
+profile's context (it placed Nemotron 3.5 Bolt on GPUs 0-3); busy cards are waited for and collected as
+they free. A refusal (won't fit, the rig busy in another mode, cards never freed) fails the block with the
+manager's reason. The group's model is unloaded (`rigctl unload <profile>`) after its last block, and a
+finished or stopped campaign runs `rigctl cancel-owner campaign-<run-id>` so nothing it asked for remains.
 
-The runner exposes these rig slots:
-
-| Placement | GPUs | Port |
-| --- | --- | --- |
-| `brain` | 0 (RTX 3090 Ti) | 11434 |
-| `single` | first free GTX 1060 of 1-5 | 11434 + card |
-| `split` | first free pair of GTX 1060s, any two | 11434 + lower card |
-| `gpu_N`, `gpu_A_B` | exactly those cards (pinned) | 11434 + lowest card |
-
-Slots are generated from the cards: every 1060 and every pair of them. The 1060s are all 6 GB, so any
-pair splits a model evenly. A refused `single` block tries another card; a refused `split` tries another
-free pair, and only when every pair has refused it does it reserve the last one and wait for it (up to
-`LEASE_RESERVATION_WAIT_S`), so single work cannot starve it. A pinned block reserves its cards at the
-first refusal.
-
-Model loads are serialized to bound shared bus and storage pressure. Loaded
-suites run concurrently on non-overlapping GPU sets. `depends_on` supplies
-strict ordering when required.
+One load request is in flight at a time: the rig loads one model at a time anyway, and two multi-card loads
+collecting cards together could each hold cards the other needs. Loaded groups run side by side on
+whatever cards the manager gave them; `--max-active-models` caps how many. `depends_on` supplies strict
+ordering when required.
 
 ## Preflight and Resume
 
 Before loading a model the runner verifies:
 
-- manifest structure and dependency references
-- GGUF and optional env-file existence
+- manifest structure, placements and dependency references
+- the registry's GGUF for each model (and a manifest `gguf`, if given, matches it), env-file existence
 - model profile requirements
 - suite limit policy and runner-owned flags
 - suite image contract labels

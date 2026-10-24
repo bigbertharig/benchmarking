@@ -272,7 +272,7 @@ one manifest, any number of models, started as a run so a reboot is recoverable.
 
 ```bash
 # Manifest: one block per suite per model (see campaigns/overnight_phase5_20261022.json for the shape;
-# placement brain | single | split | gpu_N | gpu_A_B, ctx from the registry profile)
+# no placement: the rig manager picks the cards; gpus: [..] pins them; ctx from the registry profile)
 python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/<name>.json --dry-run      # on the rig
 rigctl run-start --run <name> \
   --resume "python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<name>.json --run-id <name>" -- \
@@ -280,11 +280,11 @@ rigctl run-start --run <name> \
   /mnt/shared/plans/shoulders/benchmarking/campaigns/<name>.json --run-id <name> --max-active-models 3
 ```
 
-Placements: `brain` the 3090; `single` any free 1060; `split` any free pair of 1060s; `gpu_3`, `gpu_2_4`
-pinned. A refused `split` tries other pairs before reserving one and waiting. `--max-active-models` caps how
-many models run at once (set it to the number of card groups that can run together). Models that need every
-card run in their own campaign. See [CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md); the runner's move onto
-the manager is planned in [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md).
+Placement: omit it and the rig manager picks the cards (the fewest that hold the model at its profile's
+context, across the 3090 and the 1060s alike), or pin them with `gpus: [0, 1, 2, 3]` (`brain` is GPU 0).
+The campaign puts the rig in bench mode; busy cards are waited for. `--max-active-models` caps how many
+models run at once. See [CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) and
+[CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md).
 
 Time to expect (2026-10-22, at the standing power caps): mixture-of-experts models on the 3090 about 1-1.5 h;
 dense 24-31B on the 3090 2.5-4.5 h; 12-14B models on a 1060 pair 5.5 h (MoE) to 17 h (dense).

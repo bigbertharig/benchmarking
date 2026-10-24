@@ -128,6 +128,8 @@ def build_campaign(spec: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("suite_args values must be strings or numbers")
     if spec["suite"] != "bench-pipeline":
         raise ValueError("runtime matrices currently support only bench-pipeline")
+    # Campaign placement (run_campaign.py): brain pins GPU 0; single and split mean "the manager picks"
+    # (one card or several is its answer to the model's size), so they emit no placement.
     if spec["placement"] not in {"brain", "single", "split"}:
         raise ValueError(f"unsupported placement: {spec['placement']}")
     if spec.get("run_class", "provisional") not in {"smoke", "provisional", "validated", "full"}:
@@ -179,7 +181,7 @@ def build_campaign(spec: dict[str, Any]) -> dict[str, Any]:
             "id": block_id,
             "model": str(spec["model"]),
             "gguf": str(spec["gguf"]),
-            "placement": str(spec["placement"]),
+            **({"placement": "brain"} if spec["placement"] == "brain" else {}),
             "suite": str(spec["suite"]),
             "suite_args": args,
             "runtime_args": runtime_args(runtime),
