@@ -1,6 +1,7 @@
 # Campaign runner refactor: isolated rig modes, the manager places and loads models
 
-Status: planned 2026-10-22, revised 2026-10-23 for isolated modes (operator), in progress. Owner files:
+Status: planned 2026-10-22, revised 2026-10-23 for isolated modes (operator); steps 1-3 built 2026-10-24,
+step 4 open. Owner files:
 `llm_orchestration/shared/scripts/benchmarks/run_campaign.py` (the runner), `tests/test_campaign_runner.py`,
 this folder's `CAMPAIGN_RUNNER.md`, the rig mode selector `llm_orchestration/shared/scripts/rig/rig.py`, and the
 rig manager in `llm-gateway` (`src/llm_gateway/manager/`, `docs/MANAGER.md`).
@@ -95,7 +96,8 @@ In `run_campaign.py`:
 Elsewhere:
 
 - `rig.py`: the `bench` stack unit (`STACK_UNITS["bench"]`); `llm-bench.service`; orchestration's
-  `scripts/benchmarks/start_benchmark_mode.py` (starts that stack)
+  `scripts/benchmarks/start_benchmark_mode.py`, `start_custom_mode.py`, `start_empty_mode.py` (that stack's
+  wrappers); all removed 2026-10-24
 - `scripts/active/build_runtime_matrix_campaign.py` and `campaigns/*` that are still run: placements become
   omitted / `gpus` / `brain`
 - `harness_lease.sh`: check whether anything but the runner uses `acquire`/`reserve`; delete what is unused

@@ -18,10 +18,9 @@ For building new suites that integrate cleanly with dashboard/orchestration:
 - [SINGLE_GPU_COHORT_SUITES.md](SINGLE_GPU_COHORT_SUITES.md)
 
 For operator use, the canonical control surface is now:
-- `python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py`
-- `python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py`
-- `python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py <campaign>` (single-model, multi-suite)
-- `python3 /mnt/shared/scripts/benchmarks/run_campaign.py <manifest>` (unified: multi-model, multi-suite, parallel GPU scheduling — see [CAMPAIGN_RUNNER.md](CAMPAIGN_RUNNER.md))
+- a lane for Phases 2-4 of a new model (`scripts/integration/run_worker_lanes.sh`, see [NEW_MODEL_INTEGRATION.md](../NEW_MODEL_INTEGRATION.md))
+- `python3 /mnt/shared/scripts/benchmarks/run_campaign.py <manifest>` (multi-model, multi-suite; the rig manager places and loads each model — see [CAMPAIGN_RUNNER.md](CAMPAIGN_RUNNER.md))
+- `rigctl load-model MODEL --use benchmark` for one model by hand (llm-gateway `docs/MANAGER.md`)
 - Batch model testing: `bash /mnt/shared/scripts/benchmarks/run_<campaign>.sh` (see [SEQUENCED_TEST_SUITES.md](SEQUENCED_TEST_SUITES.md#automated-multi-model-campaign-script))
 
 Use this Docker README for suite semantics, suite-specific flags, and direct
@@ -81,10 +80,9 @@ Recommended operator flow:
 2. if a run is active but suspicious, run `bench_status.sh --deep`
 3. if runs may have finished or partially completed, run `bench_status.sh --results`
 
-**How to start a new benchmark run**:
-1. `python3 ~/llm_orchestration/scripts/benchmarks/start_benchmark_mode.py --json`
-2. `python3 ~/llm_orchestration/scripts/benchmarks/start_custom_mode.py --models <model> --force-unload-first --json`
-3. `python3 /mnt/shared/plans/shoulders/benchmarking/scripts/active/run_benchmark_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<campaign>.json`
+**How to start a new benchmark run**: a campaign started as a run, `rigctl run-start --run NAME -- python3
+/mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<campaign>.json
+--run-id NAME` (dry run first with `--dry-run`). The rig manager loads each model in bench mode.
 
 **How to debug one suite directly**: pick a suite README below, find the Quick Start for your model tier, and use the direct suite command on the rig.
 
@@ -115,14 +113,11 @@ Do the fast check before launches. Use `--deep` during long-running `bench-code`
 `bench-reasoning`, or any time a run feels stalled. Use `--results` when you need
 to know what actually finished and what is still incomplete.
 
-**Canonical sequence for multiple suites on one model:**
-1. start benchmark mode
-2. load the target model through `start_custom_mode.py`
-3. verify `/v1/models` on the target port
-4. run a saved campaign through `run_benchmark_campaign.py`
+**Canonical sequence for multiple suites on one model:** a campaign whose blocks share a `runtime_group`
+(one load, every suite in order, one unload).
 
 If you are intentionally bypassing the campaign runner for suite debugging, then:
-1. load the model runtime
+1. load the model with `rigctl load-model MODEL --use benchmark` (the answer names the port)
 2. verify `/v1/models` on the target port
 3. run `bench-pipeline`
 4. verify `/v1/models` again
@@ -536,8 +531,10 @@ Rules:
 
 ## Running Benchmarks Alongside Plans
 
-Benchmarks can now coexist with plans, but only when the target worker GPUs are
-explicitly reserved first.
+They do not run together: the rig is in one mode at a time (isolated modes, 2026-10-23). A benchmark load
+puts the rig in bench mode, and `rig start orchestration` is refused until it ends, and the other way round.
+The reservation mechanism below predates that and applies only to a suite pointed by hand at an
+orchestration worker while orchestration runs.
 
 What exists now:
 - worker GPUs publish a benchmark reservation in heartbeat
@@ -584,11 +581,10 @@ What would be needed:
 2. A guard in `gpu_tasks.py:claim_tasks()` that skips non-meta tasks when reserved.
 3. A meta-task pair (`reserve_gpu` / `release_gpu`) so benchmark scripts can set/clear
    the flag through the normal task queue.
-4. `start_custom_mode.py` sets reservation after benchmark mode starts, before model loads.
+4. The launcher sets the reservation before model loads.
 5. `start_parallel_worker_suite.sh` clears reservation after all containers finish.
 
-Until this exists: **do not submit plans while benchmarks are running.** The workers
-will interleave benchmark and plan work on the same GPU, corrupting both.
+Isolated modes cover the normal case: plans cannot run while the rig is in bench mode.
 
 ## Memory Protection (OOM Prevention)
 

@@ -40,12 +40,11 @@ order. Use `depends_on` only for dependencies outside that model sequence:
 
 ## Parallel Blocks
 
-Blocks without dependencies may run concurrently when their GPU sets do not
-overlap. The runner serializes model loads to bound PCIe and storage pressure,
-then allows the loaded suites to execute in parallel.
+Blocks without dependencies may run concurrently on whatever cards the rig
+manager gives them. The runner asks for one load at a time, then lets the loaded
+suites execute in parallel.
 
-Use `placement: single` for automatic selection among GPUs 1-5. Explicit split
-placements conflict with single-GPU slots that use either member of the split.
+Omit placement and the manager picks the cards; `gpus: [..]` pins them.
 
 ## Run and Resume
 
