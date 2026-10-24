@@ -1,0 +1,53 @@
+{
+  "name": "nemotron_bolt_phase5_20261023",
+  "description": "NEW_MODEL_INTEGRATION Phase 5 for nemotron-3.5-bolt:74b-a9b (limit 50 reasoning, MMLU-Pro 20, full EvalPlus code, geoimport, pipeline, runtime) with its registry default profile (thinking off; Phase 4 showed nothing to fix and 4.5 was skipped). No placement: the rig manager picks the cards at the profile's context (bench mode). First campaign on the manager-placed runner (CAMPAIGN_RUNNER_REFACTOR.md).",
+  "defaults": {
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "nemotron_bolt_reasoning_l50",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "suite": "bench-reasoning",
+      "runtime_group": "nemotron_bolt_phase5",
+      "limit": 50,
+      "suite_args": ["--tasks", "gsm8k,bbh,drop,ifeval"]
+    },
+    {
+      "id": "nemotron_bolt_mmlu_pro_l20",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "suite": "bench-reasoning",
+      "runtime_group": "nemotron_bolt_phase5",
+      "limit": 20,
+      "suite_args": ["--tasks", "mmlu_pro"]
+    },
+    {
+      "id": "nemotron_bolt_code_full",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "suite": "bench-code",
+      "runtime_group": "nemotron_bolt_phase5",
+      "run_class": "full",
+      "suite_args": ["--tasks", "humaneval,mbpp"]
+    },
+    {
+      "id": "nemotron_bolt_geoimport",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "suite": "bench-geoimport",
+      "runtime_group": "nemotron_bolt_phase5",
+      "limit": 5,
+      "suite_args": ["--tasks", "classification,prep_plan,prep_handoff"]
+    },
+    {
+      "id": "nemotron_bolt_pipeline",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "suite": "bench-pipeline",
+      "runtime_group": "nemotron_bolt_phase5"
+    },
+    {
+      "id": "nemotron_bolt_runtime",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "suite": "bench-runtime",
+      "runtime_group": "nemotron_bolt_phase5"
+    }
+  ]
+}
