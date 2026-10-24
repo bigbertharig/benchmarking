@@ -14502,7 +14502,7 @@
       "test_id": "gsm8k_strict"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14510,16 +14510,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:31:01+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "6ded3d49-e742-4669-b283-030afb33e0de",
-      "selected_sample_count": 270,
-      "selected_score": 0.8666666666666667,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T09:57:13+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "6ccdc6ec-fe7c-468e-ba15-1c92af4298e5",
+      "selected_sample_count": 1350,
+      "selected_score": 0.8851851851851852,
+      "success_count": 2,
       "test_id": "bbh"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14527,12 +14527,12 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:31:01+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "623c39f8-c00d-40b6-aa1d-29a42ee466d3",
-      "selected_sample_count": 270,
-      "selected_score": 0.8666666666666667,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T09:57:13+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "f7d26c3c-2f24-4f1b-839b-7786b994fe8e",
+      "selected_sample_count": 1350,
+      "selected_score": 0.8851851851851852,
+      "success_count": 2,
       "test_id": "bbh_flexible"
     },
     {
@@ -14554,6 +14554,23 @@
     },
     {
       "attempt_count": 1,
+      "comparison_group": "pipeline-local-custom-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.1.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T19:25:16+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "8d2ba831-afca-4386-bf1c-2cfc5ff825eb",
+      "selected_sample_count": 13,
+      "selected_score": 0.38461538461538464,
+      "success_count": 1,
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "attempt_count": 1,
       "comparison_group": "pipeline-local-custom-v1",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -14564,6 +14581,23 @@
       "selected_run_at": "2026-10-23T20:36:00+00:00",
       "selected_run_class": "smoke",
       "selected_run_id": "5c2f12b8-1b6b-401c-a949-61988eb56bb4",
+      "selected_sample_count": 12,
+      "selected_score": 0.5833333333333334,
+      "success_count": 1,
+      "test_id": "custom_command_safety"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "pipeline-local-custom-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.1.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T19:24:56+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "a490fa38-f2c2-4e4e-9638-d33553ae752d",
       "selected_sample_count": 12,
       "selected_score": 0.5833333333333334,
       "success_count": 1,
@@ -14587,7 +14621,7 @@
       "test_id": "custom_json_schema_strict"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -14595,12 +14629,12 @@
         "2.1.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T20:35:37+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "3c513423-7277-46ab-affd-42bd2c192c88",
+      "selected_run_at": "2026-10-24T12:01:37.873901",
+      "selected_run_class": "validated",
+      "selected_run_id": "6a628f56-9fd1-4d83-b227-7f7ac2395fd3",
       "selected_sample_count": 13,
-      "selected_score": 0.9230769230769231,
-      "success_count": 1,
+      "selected_score": 1.0,
+      "success_count": 2,
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -14615,6 +14649,23 @@
       "selected_run_at": "2026-10-23T20:37:26+00:00",
       "selected_run_class": "smoke",
       "selected_run_id": "cc30f1ee-41d8-42e5-bc46-f01c92e58391",
+      "selected_sample_count": 14,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "pipeline-local-custom-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.1.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T19:26:25+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "77d2a8ea-eb5f-487a-92bd-d192abf4bb3e",
       "selected_sample_count": 14,
       "selected_score": 1.0,
       "success_count": 1,
@@ -14639,6 +14690,23 @@
     },
     {
       "attempt_count": 1,
+      "comparison_group": "pipeline-local-custom-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.1.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T19:26:01+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "d4e40469-d9b4-4ddf-aa1f-ed96e15a56bd",
+      "selected_sample_count": 12,
+      "selected_score": 0.9166666666666666,
+      "success_count": 1,
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "attempt_count": 1,
       "comparison_group": "pipeline-local-custom-v1",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -14656,6 +14724,23 @@
     },
     {
       "attempt_count": 1,
+      "comparison_group": "pipeline-local-custom-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-pipeline/local-custom",
+      "methodology_versions": [
+        "2.1.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T19:25:38+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "607b606d-a83a-43e3-836b-a30777e88735",
+      "selected_sample_count": 15,
+      "selected_score": 0.9333333333333333,
+      "success_count": 1,
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14663,16 +14748,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:31:32+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "55950d49-7e97-488d-bf40-b72191d849a0",
-      "selected_sample_count": 10,
-      "selected_score": 0.7,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T09:58:33+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "ac19e93f-22b7-4136-9339-7b6d1a7f300b",
+      "selected_sample_count": 50,
+      "selected_score": 0.78,
+      "success_count": 2,
       "test_id": "drop_em"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14680,16 +14765,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:31:32+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "acc6cf19-c42c-497f-ae41-f8ba24685487",
-      "selected_sample_count": 10,
-      "selected_score": 0.779,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T09:58:34+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "fd99ac1d-14cb-4145-aa49-1a6be030590f",
+      "selected_sample_count": 50,
+      "selected_score": 0.8654000000000001,
+      "success_count": 2,
       "test_id": "drop_f1"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14697,16 +14782,101 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:31:33+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "cb357b9b-ff74-4eb8-91f8-78c4c5066efe",
-      "selected_sample_count": 10,
-      "selected_score": 0.9,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T09:58:34+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "7a77d9a3-d224-442d-a608-dbad085508bd",
+      "selected_sample_count": 50,
+      "selected_score": 0.94,
+      "success_count": 2,
       "test_id": "drop_flexible"
     },
     {
       "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:00:18.377354",
+      "selected_run_class": "validated",
+      "selected_run_id": "8da40d44-8aea-4d51-a67e-d1da06b8cda1",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:00:27.928230",
+      "selected_run_class": "validated",
+      "selected_run_id": "a0e8f277-6d46-4dbe-a3d5-6aafc18eb658",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:00:58.876974",
+      "selected_run_class": "validated",
+      "selected_run_id": "7ddafed6-ad72-4c8e-b419-f34e0ddeda31",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:01:07.382395",
+      "selected_run_class": "validated",
+      "selected_run_id": "09c52f58-2346-4824-b4cc-0e68e28c8874",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:00:48.954604",
+      "selected_run_class": "validated",
+      "selected_run_id": "613090f6-2011-4b7f-b62e-6be552dd57b7",
+      "selected_sample_count": 1,
+      "selected_score": 0.9394,
+      "success_count": 1,
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
+    },
+    {
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14714,16 +14884,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T20:47:25+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "9f36108f-c9ad-4e09-b9fa-816ef005acfe",
-      "selected_sample_count": 10,
-      "selected_score": 0.9,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T06:13:27+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "45e57719-8c46-4898-acd6-b752e0a85cb0",
+      "selected_sample_count": 50,
+      "selected_score": 0.88,
+      "success_count": 2,
       "test_id": "gsm8k_flexible"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14731,16 +14901,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T20:47:25+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "441bf577-5149-40bb-9f98-26599569ab57",
-      "selected_sample_count": 10,
-      "selected_score": 0.9,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T06:13:26+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "7c18406f-fe73-4755-be80-cc9677e588b3",
+      "selected_sample_count": 50,
+      "selected_score": 0.88,
+      "success_count": 2,
       "test_id": "gsm8k_strict"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "evalplus-0.3-plus-v1",
       "failure_count": 0,
       "methodology_id": "bench-code/evalplus",
@@ -14748,16 +14918,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T20:45:15+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "f3ec74d1-1527-4da7-9347-f04efe77d473",
-      "selected_sample_count": 50,
-      "selected_score": 0.98,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T11:11:51+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "2e316eba-4790-48a5-a189-df81135fb3e0",
+      "selected_sample_count": 164,
+      "selected_score": 0.9512195121951219,
+      "success_count": 2,
       "test_id": "humaneval_base"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "evalplus-0.3-plus-v1",
       "failure_count": 0,
       "methodology_id": "bench-code/evalplus",
@@ -14765,16 +14935,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T20:45:16+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "db9491db-8eab-484b-92db-3ea5e7e33dc2",
-      "selected_sample_count": 50,
-      "selected_score": 0.96,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T11:11:52+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "46dea0ec-f6a2-42cf-8011-a594e1ce3f92",
+      "selected_sample_count": 164,
+      "selected_score": 0.926829268292683,
+      "success_count": 2,
       "test_id": "humaneval_plus"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14782,16 +14952,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:49:43+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "d792cae5-a111-4181-8f1c-756d2d4f4f44",
-      "selected_sample_count": 10,
-      "selected_score": 0.8888888888888888,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T10:04:17+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "2abd7ee7-dae9-4b18-883a-a7d4325db49c",
+      "selected_sample_count": 50,
+      "selected_score": 0.9210526315789473,
+      "success_count": 2,
       "test_id": "ifeval_inst_level_loose_acc_none"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14799,16 +14969,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:49:42+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "65db734f-ad9a-49bc-a654-d1c91d5d34d7",
-      "selected_sample_count": 10,
-      "selected_score": 0.8888888888888888,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T10:04:16+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "235ed293-6ef8-44a3-8ebe-b990a5d39104",
+      "selected_sample_count": 50,
+      "selected_score": 0.9342105263157895,
+      "success_count": 2,
       "test_id": "ifeval_inst_level_strict_acc_none"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14816,16 +14986,16 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:49:43+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "644e9889-c31c-4e4d-9af7-a28282a05f39",
-      "selected_sample_count": 10,
-      "selected_score": 0.8,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T10:04:17+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "e82dca8c-af95-4476-b7b7-1e1368b9a935",
+      "selected_sample_count": 50,
+      "selected_score": 0.88,
+      "success_count": 2,
       "test_id": "ifeval_prompt_level_loose_acc_none"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14833,33 +15003,50 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:49:42+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "e2334de1-4519-4835-9ae9-1e28ede7c0f3",
-      "selected_sample_count": 10,
-      "selected_score": 0.8,
-      "success_count": 1,
+      "selected_run_at": "2026-10-24T10:04:15+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "ec1be68a-6f98-4ad5-9822-924998f19e69",
+      "selected_sample_count": 50,
+      "selected_score": 0.9,
+      "success_count": 2,
       "test_id": "ifeval_prompt_level_strict_acc_none"
     },
     {
       "attempt_count": 1,
-      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "comparison_group": "evalplus-0.3-plus-v1",
       "failure_count": 0,
-      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_id": "bench-code/evalplus",
       "methodology_versions": [
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:48:35+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "524dde59-9f2c-481d-9df0-30d693f61c08",
-      "selected_sample_count": 140,
-      "selected_score": 0.65,
+      "selected_run_at": "2026-10-24T12:00:04+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "6f2f3914-b981-4a00-836c-16549f6f0ac8",
+      "selected_sample_count": 378,
+      "selected_score": 0.91005291005291,
       "success_count": 1,
-      "test_id": "mmlu_pro_exact_match_custom-extract"
+      "test_id": "mbpp_base"
     },
     {
       "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:00:05+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "cdbac5f8-f109-4df8-9f30-c8dd51befb90",
+      "selected_sample_count": 378,
+      "selected_score": 0.7645502645502645,
+      "success_count": 1,
+      "test_id": "mbpp_plus"
+    },
+    {
+      "attempt_count": 2,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -14867,13 +15054,98 @@
         "2.0.0"
       ],
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "selected_run_at": "2026-10-23T21:48:34+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "0a245b34-2bc2-4a9a-ad7c-e216d7b578cd",
-      "selected_sample_count": 140,
+      "selected_run_at": "2026-10-24T10:40:54+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "f49fa621-60ce-40c2-80ce-4742bc943be5",
+      "selected_sample_count": 280,
       "selected_score": 0.6571428571428571,
-      "success_count": 1,
+      "success_count": 2,
+      "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T10:40:53+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "a96f86e2-af0d-4bd8-8a33-6830c721f443",
+      "selected_sample_count": 280,
+      "selected_score": 0.6607142857142857,
+      "success_count": 2,
       "test_id": "mmlu_pro_flexible"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:02:08.456887+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "91a22d82-2734-41a6-b2f0-4ad8b8056763",
+      "selected_sample_count": 2,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:01:46.884250+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "1b7175ad-8232-4b01-ac41-361f07836e86",
+      "selected_sample_count": 5,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_stability"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:01:55.874401+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "e49c40b1-22d5-406f-8a09-bdc7673d9637",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_throughput"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "selected_run_at": "2026-10-24T12:01:49.322981+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "8104ce3f-5199-45a8-9fff-202a5e3e81e5",
+      "selected_sample_count": 3,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_ttft"
     },
     {
       "attempt_count": 11,
@@ -27813,13 +28085,13 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "generated_at": "2026-10-24T00:30:19.662750+00:00",
-  "group_count": 1636,
+  "generated_at": "2026-10-24T19:27:14.861940+00:00",
+  "group_count": 1652,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 3284,
+  "record_count": 3316,
   "schema_version": 1
 }
