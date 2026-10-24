@@ -1,10 +1,10 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-10-23T04:36:52.720892+00:00`
-- Canonical records: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
-- Status file: `/benchmark-scripts/benchmark_status.json`
-- Total records: `3207`
-- Selected model/test results: `1516`
+- Generated at: `2026-10-24T00:30:19.261416+00:00`
+- Canonical records: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
+- Status file: `/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/benchmark_status.json`
+- Total records: `3284`
+- Selected model/test results: `1537`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
@@ -157,7 +157,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | devstral-small:24b | bbh_flexible | 0.7651851851851852 | 76.51851851851852 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-22T22:59:24+00:00 | bench-reasoning | campaign_devstral_small_24b_reasoning_l50_20261022_024509 |
 | devstral-small:24b | custom_ambiguity_handling | 0.7692307692307693 | 76.92307692307693 | score | validated | 13 | unknown | 2026-10-23T00:13:19+00:00 | bench-pipeline | campaign_devstral_small_24b_pipeline_20261022_024509 |
 | devstral-small:24b | custom_command_safety | 0.4166666666666667 | 41.66666666666667 | score | validated | 12 | unknown | 2026-10-23T00:13:14+00:00 | bench-pipeline | campaign_devstral_small_24b_pipeline_20261022_024509 |
-| devstral-small:24b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-23T00:13:08+00:00 | bench-pipeline | campaign_devstral_small_24b_pipeline_20261022_024509 |
+| devstral-small:24b | custom_json_schema_strict | 0.38461538461538464 | 38.46153846153847 | score | validated | 13 | unknown | 2026-10-23T00:13:08+00:00 | bench-pipeline | campaign_devstral_small_24b_pipeline_20261022_024509 |
 | devstral-small:24b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | validated | 14 | unknown | 2026-10-23T00:13:34+00:00 | bench-pipeline | campaign_devstral_small_24b_pipeline_20261022_024509 |
 | devstral-small:24b | custom_orchestration_tradeoff | 0.6666666666666666 | 66.66666666666666 | score | validated | 12 | unknown | 2026-10-23T00:13:29+00:00 | bench-pipeline | campaign_devstral_small_24b_pipeline_20261022_024509 |
 | devstral-small:24b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-23T00:13:23+00:00 | bench-pipeline | campaign_devstral_small_24b_pipeline_20261022_024509 |
@@ -281,7 +281,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gemma-4:12b | bbh_flexible | 0.902962962962963 | 90.29629629629629 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-22T18:31:06+00:00 | bench-reasoning | campaign_gemma_4_12b_reasoning_l50_20261022_024509 |
 | gemma-4:12b | custom_ambiguity_handling | 0.6153846153846154 | 61.53846153846154 | score | validated | 13 | unknown | 2026-10-23T02:40:06+00:00 | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 |
 | gemma-4:12b | custom_command_safety | 0.75 | 75.0 | score | validated | 12 | unknown | 2026-10-23T02:39:41+00:00 | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 |
-| gemma-4:12b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-23T02:38:49+00:00 | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 |
+| gemma-4:12b | custom_json_schema_strict | 1.0 | 100.0 | score | validated | 13 | unknown | 2026-10-23T02:38:49+00:00 | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 |
 | gemma-4:12b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-23T02:41:22+00:00 | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 |
 | gemma-4:12b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-23T02:40:56+00:00 | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 |
 | gemma-4:12b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-23T02:40:29+00:00 | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 |
@@ -313,7 +313,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gemma-4:26b-a4b | bbh_flexible | 0.9051851851851852 | 90.51851851851852 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-22T12:42:28+00:00 | bench-reasoning | campaign_gemma_4_26b_a4b_reasoning_l50_20261022_024509 |
 | gemma-4:26b-a4b | custom_ambiguity_handling | 0.6923076923076923 | 69.23076923076923 | score | validated | 13 | unknown | 2026-10-22T13:28:56+00:00 | bench-pipeline | campaign_gemma_4_26b_a4b_pipeline_20261022_024509 |
 | gemma-4:26b-a4b | custom_command_safety | 0.75 | 75.0 | score | validated | 12 | unknown | 2026-10-22T13:28:53+00:00 | bench-pipeline | campaign_gemma_4_26b_a4b_pipeline_20261022_024509 |
-| gemma-4:26b-a4b | custom_json_schema_strict | 0.15384615384615385 | 15.384615384615385 | score | validated | 13 | unknown | 2026-10-22T13:28:48+00:00 | bench-pipeline | campaign_gemma_4_26b_a4b_pipeline_20261022_024509 |
+| gemma-4:26b-a4b | custom_json_schema_strict | 0.6923076923076923 | 69.23076923076923 | score | validated | 13 | unknown | 2026-10-22T13:28:48+00:00 | bench-pipeline | campaign_gemma_4_26b_a4b_pipeline_20261022_024509 |
 | gemma-4:26b-a4b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-22T13:29:05+00:00 | bench-pipeline | campaign_gemma_4_26b_a4b_pipeline_20261022_024509 |
 | gemma-4:26b-a4b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-22T13:29:02+00:00 | bench-pipeline | campaign_gemma_4_26b_a4b_pipeline_20261022_024509 |
 | gemma-4:26b-a4b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-22T13:28:59+00:00 | bench-pipeline | campaign_gemma_4_26b_a4b_pipeline_20261022_024509 |
@@ -345,7 +345,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gemma-4:31b | bbh_flexible | 0.9340740740740741 | 93.4074074074074 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-22T19:42:09+00:00 | bench-reasoning | campaign_gemma_4_31b_reasoning_l50_20261022_024509 |
 | gemma-4:31b | custom_ambiguity_handling | 0.6153846153846154 | 61.53846153846154 | score | validated | 13 | unknown | 2026-10-22T21:47:04+00:00 | bench-pipeline | campaign_gemma_4_31b_pipeline_20261022_024509 |
 | gemma-4:31b | custom_command_safety | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-22T21:46:56+00:00 | bench-pipeline | campaign_gemma_4_31b_pipeline_20261022_024509 |
-| gemma-4:31b | custom_json_schema_strict | 0.15384615384615385 | 15.384615384615385 | score | validated | 13 | unknown | 2026-10-22T21:46:40+00:00 | bench-pipeline | campaign_gemma_4_31b_pipeline_20261022_024509 |
+| gemma-4:31b | custom_json_schema_strict | 0.7692307692307693 | 76.92307692307693 | score | validated | 13 | unknown | 2026-10-22T21:46:40+00:00 | bench-pipeline | campaign_gemma_4_31b_pipeline_20261022_024509 |
 | gemma-4:31b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-22T21:47:26+00:00 | bench-pipeline | campaign_gemma_4_31b_pipeline_20261022_024509 |
 | gemma-4:31b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-22T21:47:18+00:00 | bench-pipeline | campaign_gemma_4_31b_pipeline_20261022_024509 |
 | gemma-4:31b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-22T21:47:11+00:00 | bench-pipeline | campaign_gemma_4_31b_pipeline_20261022_024509 |
@@ -382,7 +382,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gemma-4:e2b-q8 | bbh_flexible | 0.7407407407407407 | 74.07407407407408 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-18T13:27:15+00:00 | bench-reasoning | gemma-4_e2b-q8_w_p45_think |
 | gemma-4:e2b-q8 | custom_ambiguity_handling | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-10-18T03:53:16+00:00 | bench-pipeline | gemma-4_e2b-q8_w_smoke_v1 |
 | gemma-4:e2b-q8 | custom_command_safety | 0.5 | 50.0 | score | smoke | 12 | unknown | 2026-10-18T03:53:07+00:00 | bench-pipeline | gemma-4_e2b-q8_w_smoke_v1 |
-| gemma-4:e2b-q8 | custom_json_schema_strict | 0.3076923076923077 | 30.76923076923077 | score | smoke | 13 | unknown | 2026-10-18T03:52:58+00:00 | bench-pipeline | gemma-4_e2b-q8_w_smoke_v1 |
+| gemma-4:e2b-q8 | custom_json_schema_strict | 0.9230769230769231 | 92.3076923076923 | score | smoke | 13 | unknown | 2026-10-18T03:52:58+00:00 | bench-pipeline | gemma-4_e2b-q8_w_smoke_v1 |
 | gemma-4:e2b-q8 | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | smoke | 14 | unknown | 2026-10-18T03:53:47+00:00 | bench-pipeline | gemma-4_e2b-q8_w_smoke_v1 |
 | gemma-4:e2b-q8 | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | smoke | 12 | unknown | 2026-10-18T03:53:35+00:00 | bench-pipeline | gemma-4_e2b-q8_w_smoke_v1 |
 | gemma-4:e2b-q8 | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-10-18T03:53:25+00:00 | bench-pipeline | gemma-4_e2b-q8_w_smoke_v1 |
@@ -405,7 +405,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gemma-4:e4b | bbh_flexible | 0.7962962962962963 | 79.62962962962963 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-18T22:12:58+00:00 | bench-reasoning | gemma-4_e4b_ab_plain |
 | gemma-4:e4b | custom_ambiguity_handling | 0.46153846153846156 | 46.15384615384615 | score | smoke | 13 | unknown | 2026-10-18T03:34:34+00:00 | bench-pipeline | gemma-4_e4b_w_smoke_v1 |
 | gemma-4:e4b | custom_command_safety | 0.5 | 50.0 | score | smoke | 12 | unknown | 2026-10-18T03:34:21+00:00 | bench-pipeline | gemma-4_e4b_w_smoke_v1 |
-| gemma-4:e4b | custom_json_schema_strict | 0.07692307692307693 | 7.6923076923076925 | score | smoke | 13 | unknown | 2026-10-18T03:33:59+00:00 | bench-pipeline | gemma-4_e4b_w_smoke_v1 |
+| gemma-4:e4b | custom_json_schema_strict | 0.8461538461538461 | 84.61538461538461 | score | smoke | 13 | unknown | 2026-10-18T03:33:59+00:00 | bench-pipeline | gemma-4_e4b_w_smoke_v1 |
 | gemma-4:e4b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | smoke | 14 | unknown | 2026-10-18T03:35:16+00:00 | bench-pipeline | gemma-4_e4b_w_smoke_v1 |
 | gemma-4:e4b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | smoke | 12 | unknown | 2026-10-18T03:35:01+00:00 | bench-pipeline | gemma-4_e4b_w_smoke_v1 |
 | gemma-4:e4b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-10-18T03:34:46+00:00 | bench-pipeline | gemma-4_e4b_w_smoke_v1 |
@@ -428,7 +428,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gpt-oss:20b | bbh_flexible | 0.8511111111111112 | 85.11111111111111 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-22T11:17:26+00:00 | bench-reasoning | campaign_gpt_oss_20b_reasoning_l50_20261022_024509 |
 | gpt-oss:20b | custom_ambiguity_handling | 0.6153846153846154 | 61.53846153846154 | score | validated | 13 | unknown | 2026-10-22T11:53:11+00:00 | bench-pipeline | campaign_gpt_oss_20b_pipeline_20261022_024509 |
 | gpt-oss:20b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | validated | 12 | unknown | 2026-10-22T11:53:07+00:00 | bench-pipeline | campaign_gpt_oss_20b_pipeline_20261022_024509 |
-| gpt-oss:20b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-22T11:52:58+00:00 | bench-pipeline | campaign_gpt_oss_20b_pipeline_20261022_024509 |
+| gpt-oss:20b | custom_json_schema_strict | 0.46153846153846156 | 46.15384615384615 | score | validated | 13 | unknown | 2026-10-22T11:52:58+00:00 | bench-pipeline | campaign_gpt_oss_20b_pipeline_20261022_024509 |
 | gpt-oss:20b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | validated | 14 | unknown | 2026-10-22T11:53:21+00:00 | bench-pipeline | campaign_gpt_oss_20b_pipeline_20261022_024509 |
 | gpt-oss:20b | custom_orchestration_tradeoff | 0.5 | 50.0 | score | validated | 12 | unknown | 2026-10-22T11:53:17+00:00 | bench-pipeline | campaign_gpt_oss_20b_pipeline_20261022_024509 |
 | gpt-oss:20b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-22T11:53:14+00:00 | bench-pipeline | campaign_gpt_oss_20b_pipeline_20261022_024509 |
@@ -518,7 +518,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | mellum2.1:12b-a2.5b | bbh_flexible | 0.6459259259259259 | 64.5925925925926 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-23T01:53:52+00:00 | bench-reasoning | campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509 |
 | mellum2.1:12b-a2.5b | custom_ambiguity_handling | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-23T04:36:02+00:00 | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 |
 | mellum2.1:12b-a2.5b | custom_command_safety | 0.25 | 25.0 | score | validated | 12 | unknown | 2026-10-23T04:35:46+00:00 | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 |
-| mellum2.1:12b-a2.5b | custom_json_schema_strict | 0.15384615384615385 | 15.384615384615385 | score | validated | 13 | unknown | 2026-10-23T04:35:28+00:00 | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 |
+| mellum2.1:12b-a2.5b | custom_json_schema_strict | 0.6923076923076923 | 69.23076923076923 | score | validated | 13 | unknown | 2026-10-23T04:35:28+00:00 | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 |
 | mellum2.1:12b-a2.5b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | validated | 14 | unknown | 2026-10-23T04:36:37+00:00 | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 |
 | mellum2.1:12b-a2.5b | custom_orchestration_tradeoff | 0.5833333333333334 | 58.333333333333336 | score | validated | 12 | unknown | 2026-10-23T04:36:23+00:00 | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 |
 | mellum2.1:12b-a2.5b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-23T04:36:10+00:00 | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 |
@@ -550,7 +550,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | minicpm5:2b | bbh_flexible | 0.7814814814814814 | 78.14814814814814 | exact_match,flexible-extract | smoke | 270 | compatible | 2026-10-21T23:24:04+00:00 | bench-reasoning | minicpm5_2b_w_smoke_v1_r2 |
 | minicpm5:2b | custom_ambiguity_handling | 0.15384615384615385 | 15.384615384615385 | score | smoke | 13 | unknown | 2026-10-21T22:58:47+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1_r2 |
 | minicpm5:2b | custom_command_safety | 0.6666666666666666 | 66.66666666666666 | score | smoke | 12 | unknown | 2026-10-21T22:58:41+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1_r2 |
-| minicpm5:2b | custom_json_schema_strict | 0.15384615384615385 | 15.384615384615385 | score | smoke | 13 | unknown | 2026-10-21T22:58:31+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1_r2 |
+| minicpm5:2b | custom_json_schema_strict | 0.9230769230769231 | 92.3076923076923 | score | smoke | 13 | unknown | 2026-10-21T22:58:31+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1_r2 |
 | minicpm5:2b | custom_long_context_extract | 1.0 | 100.0 | score | smoke | 14 | unknown | 2026-10-21T22:59:06+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1_r2 |
 | minicpm5:2b | custom_orchestration_tradeoff | 0.6666666666666666 | 66.66666666666666 | score | smoke | 12 | unknown | 2026-10-21T22:58:59+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1_r2 |
 | minicpm5:2b | custom_tool_plan_sequence | 0.8 | 80.0 | score | smoke | 15 | unknown | 2026-10-21T22:58:53+00:00 | bench-pipeline | minicpm5_2b_w_smoke_v1_r2 |
@@ -856,11 +856,32 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | mistral:7b-instruct | daedalmap_type_routing_type_correct_rate | 0.7 | 70.0 | type_correct_rate | legacy |  | unknown | 2026-03-21T03:46:07+00:00 | bench-daedalmap | daedalmap_single_gpu_large_full_v1_mistral_7b-instruct |
 | mistral:7b-instruct | gsm8k_flexible | 0.48 | 48.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
 | mistral:7b-instruct | gsm8k_strict | 0.48 | 48.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-12T05:36:44+00:00 | bench-reasoning | bench-reasoning_mistral_7b-instruct_rr_l100_c05_20260311_221559_p11435 |
+| nemotron-3.5-bolt:74b-a9b | bbh | 0.8666666666666667 | 86.66666666666667 | exact_match,get-answer | smoke | 270 | unknown | 2026-10-23T21:31:01+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | bbh_flexible | 0.8666666666666667 | 86.66666666666667 | exact_match,flexible-extract | smoke | 270 | compatible | 2026-10-23T21:31:01+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | custom_ambiguity_handling | 0.3076923076923077 | 30.76923076923077 | score | smoke | 13 | unknown | 2026-10-23T20:36:20+00:00 | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | custom_command_safety | 0.5833333333333334 | 58.333333333333336 | score | smoke | 12 | unknown | 2026-10-23T20:36:00+00:00 | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | custom_json_schema_strict | 0.9230769230769231 | 92.3076923076923 | score | smoke | 13 | unknown | 2026-10-23T20:35:37+00:00 | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | custom_long_context_extract | 1.0 | 100.0 | score | smoke | 14 | unknown | 2026-10-23T20:37:26+00:00 | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | custom_orchestration_tradeoff | 0.9166666666666666 | 91.66666666666666 | score | smoke | 12 | unknown | 2026-10-23T20:37:02+00:00 | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-10-23T20:36:41+00:00 | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | drop_em | 0.7 | 70.0 | em,none | smoke | 10 | unknown | 2026-10-23T21:31:32+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | drop_f1 | 0.779 | 77.9 | f1,none | smoke | 10 | unknown | 2026-10-23T21:31:32+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | drop_flexible | 0.9 | 90.0 | answer_contained | smoke | 10 | degraded | 2026-10-23T21:31:33+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | gsm8k_flexible | 0.9 | 90.0 | exact_match,flexible-extract | smoke | 10 | compatible | 2026-10-23T20:47:25+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | gsm8k_strict | 0.9 | 90.0 | exact_match,strict-match | smoke | 10 | compatible | 2026-10-23T20:47:25+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | humaneval_base | 0.98 | 98.0 | pass@1_base | smoke | 50 | unknown | 2026-10-23T20:45:15+00:00 | bench-code | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | humaneval_plus | 0.96 | 96.0 | pass@1_plus | smoke | 50 | unknown | 2026-10-23T20:45:16+00:00 | bench-code | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | ifeval_inst_level_loose_acc_none | 0.8888888888888888 | 88.88888888888889 | inst_level_loose_acc,none | smoke | 10 | unknown | 2026-10-23T21:49:43+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | ifeval_inst_level_strict_acc_none | 0.8888888888888888 | 88.88888888888889 | inst_level_strict_acc,none | smoke | 10 | unknown | 2026-10-23T21:49:42+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | ifeval_prompt_level_loose_acc_none | 0.8 | 80.0 | prompt_level_loose_acc,none | smoke | 10 | unknown | 2026-10-23T21:49:43+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | ifeval_prompt_level_strict_acc_none | 0.8 | 80.0 | prompt_level_strict_acc,none | smoke | 10 | unknown | 2026-10-23T21:49:42+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | mmlu_pro_exact_match_custom-extract | 0.65 | 65.0 | exact_match,custom-extract | smoke | 140 | unknown | 2026-10-23T21:48:35+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
+| nemotron-3.5-bolt:74b-a9b | mmlu_pro_flexible | 0.6571428571428571 | 65.71428571428571 | exact_match,flexible-extract | smoke | 140 | degraded | 2026-10-23T21:48:34+00:00 | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 |
 | nex-n2.5:mini | bbh | 0.7377777777777778 | 73.77777777777777 | exact_match,get-answer | validated | 1350 | unknown | 2026-10-17T09:04:45+00:00 | bench-reasoning | campaign_nex_reasoning_l50_20261017_011528 |
 | nex-n2.5:mini | bbh_flexible | 0.8214814814814815 | 82.14814814814815 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-17T09:04:45+00:00 | bench-reasoning | campaign_nex_reasoning_l50_20261017_011528 |
 | nex-n2.5:mini | custom_ambiguity_handling | 0.9230769230769231 | 92.3076923076923 | score | validated | 13 | unknown | 2026-10-17T09:12:15+00:00 | bench-pipeline | campaign_nex_pipeline_20261017_011528 |
 | nex-n2.5:mini | custom_command_safety | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-17T09:12:10+00:00 | bench-pipeline | campaign_nex_pipeline_20261017_011528 |
-| nex-n2.5:mini | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-17T09:12:02+00:00 | bench-pipeline | campaign_nex_pipeline_20261017_011528 |
+| nex-n2.5:mini | custom_json_schema_strict | 1.0 | 100.0 | score | validated | 13 | unknown | 2026-10-17T09:12:02+00:00 | bench-pipeline | campaign_nex_pipeline_20261017_011528 |
 | nex-n2.5:mini | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-17T09:12:31+00:00 | bench-pipeline | campaign_nex_pipeline_20261017_011528 |
 | nex-n2.5:mini | custom_orchestration_tradeoff | 0.6666666666666666 | 66.66666666666666 | score | validated | 12 | unknown | 2026-10-17T09:12:26+00:00 | bench-pipeline | campaign_nex_pipeline_20261017_011528 |
 | nex-n2.5:mini | custom_tool_plan_sequence | 1.0 | 100.0 | score | validated | 15 | unknown | 2026-10-17T09:12:19+00:00 | bench-pipeline | campaign_nex_pipeline_20261017_011528 |
@@ -892,7 +913,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ornith-1.5:35b-a3b | bbh_flexible | 0.9259259259259259 | 92.5925925925926 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-17T10:26:25+00:00 | bench-reasoning | campaign_ornith35_reasoning_l50_20261017_011528 |
 | ornith-1.5:35b-a3b | custom_ambiguity_handling | 0.7692307692307693 | 76.92307692307693 | score | validated | 13 | unknown | 2026-10-17T10:54:41+00:00 | bench-pipeline | campaign_ornith35_pipeline_20261017_011528 |
 | ornith-1.5:35b-a3b | custom_command_safety | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-17T10:54:28+00:00 | bench-pipeline | campaign_ornith35_pipeline_20261017_011528 |
-| ornith-1.5:35b-a3b | custom_json_schema_strict | 0.38461538461538464 | 38.46153846153847 | score | validated | 13 | unknown | 2026-10-17T10:54:01+00:00 | bench-pipeline | campaign_ornith35_pipeline_20261017_011528 |
+| ornith-1.5:35b-a3b | custom_json_schema_strict | 1.0 | 100.0 | score | validated | 13 | unknown | 2026-10-17T10:54:01+00:00 | bench-pipeline | campaign_ornith35_pipeline_20261017_011528 |
 | ornith-1.5:35b-a3b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-17T10:55:22+00:00 | bench-pipeline | campaign_ornith35_pipeline_20261017_011528 |
 | ornith-1.5:35b-a3b | custom_orchestration_tradeoff | 0.75 | 75.0 | score | validated | 12 | unknown | 2026-10-17T10:55:11+00:00 | bench-pipeline | campaign_ornith35_pipeline_20261017_011528 |
 | ornith-1.5:35b-a3b | custom_tool_plan_sequence | 0.8666666666666667 | 86.66666666666667 | score | validated | 15 | unknown | 2026-10-17T10:54:54+00:00 | bench-pipeline | campaign_ornith35_pipeline_20261017_011528 |
@@ -924,7 +945,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ornith-1.5:9b | bbh_flexible | 0.8133333333333334 | 81.33333333333333 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-21T06:32:51+00:00 | bench-reasoning | campaign_ornith9b_reasoning_l50_20261020_180314 |
 | ornith-1.5:9b | custom_ambiguity_handling | 0.7692307692307693 | 76.92307692307693 | score | validated | 13 | unknown | 2026-10-21T12:43:31+00:00 | bench-pipeline | campaign_ornith9b_pipeline_20261020_180314 |
 | ornith-1.5:9b | custom_command_safety | 1.0 | 100.0 | score | validated | 12 | unknown | 2026-10-21T12:42:59+00:00 | bench-pipeline | campaign_ornith9b_pipeline_20261020_180314 |
-| ornith-1.5:9b | custom_json_schema_strict | 0.5384615384615384 | 53.84615384615385 | score | validated | 13 | unknown | 2026-10-21T12:40:49+00:00 | bench-pipeline | campaign_ornith9b_pipeline_20261020_180314 |
+| ornith-1.5:9b | custom_json_schema_strict | 0.8461538461538461 | 84.61538461538461 | score | validated | 13 | unknown | 2026-10-21T12:40:49+00:00 | bench-pipeline | campaign_ornith9b_pipeline_20261020_180314 |
 | ornith-1.5:9b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-21T12:45:05+00:00 | bench-pipeline | campaign_ornith9b_pipeline_20261020_180314 |
 | ornith-1.5:9b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-21T12:44:33+00:00 | bench-pipeline | campaign_ornith9b_pipeline_20261020_180314 |
 | ornith-1.5:9b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-21T12:43:56+00:00 | bench-pipeline | campaign_ornith9b_pipeline_20261020_180314 |
@@ -999,7 +1020,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | phi-4:14b | bbh_flexible | 0.86 | 86.0 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-22T16:32:56+00:00 | bench-reasoning | campaign_phi_4_14b_reasoning_l50_20261022_024509 |
 | phi-4:14b | custom_ambiguity_handling | 0.3076923076923077 | 30.76923076923077 | score | validated | 13 | unknown | 2026-10-22T22:56:27+00:00 | bench-pipeline | campaign_phi_4_14b_pipeline_20261022_024509 |
 | phi-4:14b | custom_command_safety | 1.0 | 100.0 | score | validated | 12 | unknown | 2026-10-22T22:56:07+00:00 | bench-pipeline | campaign_phi_4_14b_pipeline_20261022_024509 |
-| phi-4:14b | custom_json_schema_strict | 0.15384615384615385 | 15.384615384615385 | score | validated | 13 | unknown | 2026-10-22T22:54:14+00:00 | bench-pipeline | campaign_phi_4_14b_pipeline_20261022_024509 |
+| phi-4:14b | custom_json_schema_strict | 0.6153846153846154 | 61.53846153846154 | score | validated | 13 | unknown | 2026-10-22T22:54:14+00:00 | bench-pipeline | campaign_phi_4_14b_pipeline_20261022_024509 |
 | phi-4:14b | custom_long_context_extract | 0.9285714285714286 | 92.85714285714286 | score | validated | 14 | unknown | 2026-10-22T22:57:31+00:00 | bench-pipeline | campaign_phi_4_14b_pipeline_20261022_024509 |
 | phi-4:14b | custom_orchestration_tradeoff | 0.9166666666666666 | 91.66666666666666 | score | validated | 12 | unknown | 2026-10-22T22:57:09+00:00 | bench-pipeline | campaign_phi_4_14b_pipeline_20261022_024509 |
 | phi-4:14b | custom_tool_plan_sequence | 1.0 | 100.0 | score | validated | 15 | unknown | 2026-10-22T22:56:45+00:00 | bench-pipeline | campaign_phi_4_14b_pipeline_20261022_024509 |
@@ -1113,7 +1134,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3-coder-next:80b-a3b | bbh_flexible | 0.7185185185185186 | 71.85185185185186 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-22T09:44:50+00:00 | bench-reasoning | qwen3-coder-next_80b-a3b_w_p45_think |
 | qwen3-coder-next:80b-a3b | custom_ambiguity_handling | 0.46153846153846156 | 46.15384615384615 | score | smoke | 13 | unknown | 2026-10-22T06:47:13+00:00 | bench-pipeline | qwen3-coder-next_80b-a3b_w_smoke_v1 |
 | qwen3-coder-next:80b-a3b | custom_command_safety | 0.4166666666666667 | 41.66666666666667 | score | smoke | 12 | unknown | 2026-10-22T06:46:57+00:00 | bench-pipeline | qwen3-coder-next_80b-a3b_w_smoke_v1 |
-| qwen3-coder-next:80b-a3b | custom_json_schema_strict | 0.3076923076923077 | 30.76923076923077 | score | smoke | 13 | unknown | 2026-10-22T06:46:27+00:00 | bench-pipeline | qwen3-coder-next_80b-a3b_w_smoke_v1 |
+| qwen3-coder-next:80b-a3b | custom_json_schema_strict | 0.9230769230769231 | 92.3076923076923 | score | smoke | 13 | unknown | 2026-10-22T06:46:27+00:00 | bench-pipeline | qwen3-coder-next_80b-a3b_w_smoke_v1 |
 | qwen3-coder-next:80b-a3b | custom_long_context_extract | 1.0 | 100.0 | score | smoke | 14 | unknown | 2026-10-22T06:48:11+00:00 | bench-pipeline | qwen3-coder-next_80b-a3b_w_smoke_v1 |
 | qwen3-coder-next:80b-a3b | custom_orchestration_tradeoff | 0.75 | 75.0 | score | smoke | 12 | unknown | 2026-10-22T06:47:48+00:00 | bench-pipeline | qwen3-coder-next_80b-a3b_w_smoke_v1 |
 | qwen3-coder-next:80b-a3b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-10-22T06:47:28+00:00 | bench-pipeline | qwen3-coder-next_80b-a3b_w_smoke_v1 |
@@ -1139,7 +1160,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3-coder:30b-a3b | bbh_flexible | 0.8385185185185186 | 83.85185185185186 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-22T10:19:22+00:00 | bench-reasoning | campaign_qwen3_coder_30b_a3b_reasoning_l50_20261022_024509 |
 | qwen3-coder:30b-a3b | custom_ambiguity_handling | 0.3076923076923077 | 30.76923076923077 | score | validated | 13 | unknown | 2026-10-22T10:49:26+00:00 | bench-pipeline | campaign_qwen3_coder_30b_a3b_pipeline_20261022_024509 |
 | qwen3-coder:30b-a3b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | validated | 12 | unknown | 2026-10-22T10:49:24+00:00 | bench-pipeline | campaign_qwen3_coder_30b_a3b_pipeline_20261022_024509 |
-| qwen3-coder:30b-a3b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-22T10:49:17+00:00 | bench-pipeline | campaign_qwen3_coder_30b_a3b_pipeline_20261022_024509 |
+| qwen3-coder:30b-a3b | custom_json_schema_strict | 0.8461538461538461 | 84.61538461538461 | score | validated | 13 | unknown | 2026-10-22T10:49:17+00:00 | bench-pipeline | campaign_qwen3_coder_30b_a3b_pipeline_20261022_024509 |
 | qwen3-coder:30b-a3b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-22T10:49:35+00:00 | bench-pipeline | campaign_qwen3_coder_30b_a3b_pipeline_20261022_024509 |
 | qwen3-coder:30b-a3b | custom_orchestration_tradeoff | 0.9166666666666666 | 91.66666666666666 | score | validated | 12 | unknown | 2026-10-22T10:49:32+00:00 | bench-pipeline | campaign_qwen3_coder_30b_a3b_pipeline_20261022_024509 |
 | qwen3-coder:30b-a3b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-22T10:49:29+00:00 | bench-pipeline | campaign_qwen3_coder_30b_a3b_pipeline_20261022_024509 |
@@ -1224,7 +1245,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3.5:27b | bbh | 0.8592592592592593 | 85.92592592592592 | exact_match,get-answer | smoke | 135 | unknown | 2026-08-14T05:55:00.426193+00:00 | bench-reasoning | campaign_qwen35_27b_reasoning_20260813_limit5_all |
 | qwen3.5:27b | custom_ambiguity_handling | 0.46153846153846156 | 46.15384615384615 | score | smoke | 13 | unknown | 2026-08-14T00:58:33+00:00 | bench-pipeline | campaign_qwen35_27b_pipeline_20260813_limit5_all |
 | qwen3.5:27b | custom_command_safety | 1.0 | 100.0 | score | smoke | 12 | unknown | 2026-08-14T00:58:23+00:00 | bench-pipeline | campaign_qwen35_27b_pipeline_20260813_limit5_all |
-| qwen3.5:27b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-08-14T00:57:59+00:00 | bench-pipeline | campaign_qwen35_27b_pipeline_20260813_limit5_all |
+| qwen3.5:27b | custom_json_schema_strict | 1.0 | 100.0 | score | smoke | 13 | unknown | 2026-08-14T00:57:59+00:00 | bench-pipeline | campaign_qwen35_27b_pipeline_20260813_limit5_all |
 | qwen3.5:27b | custom_long_context_extract | 1.0 | 100.0 | score | smoke | 14 | unknown | 2026-08-14T00:59:08+00:00 | bench-pipeline | campaign_qwen35_27b_pipeline_20260813_limit5_all |
 | qwen3.5:27b | custom_orchestration_tradeoff | 0.9166666666666666 | 91.66666666666666 | score | smoke | 12 | unknown | 2026-08-14T00:58:56+00:00 | bench-pipeline | campaign_qwen35_27b_pipeline_20260813_limit5_all |
 | qwen3.5:27b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | smoke | 15 | unknown | 2026-08-14T00:58:44+00:00 | bench-pipeline | campaign_qwen35_27b_pipeline_20260813_limit5_all |
@@ -1372,7 +1393,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3.6:27b | bbh_flexible | 0.9155555555555556 | 91.55555555555556 | exact_match,flexible-extract | validated | 1350 | compatible | 2026-10-22T15:34:37+00:00 | bench-reasoning | campaign_qwen3_6_27b_reasoning_l50_20261022_024509 |
 | qwen3.6:27b | custom_ambiguity_handling | 0.46153846153846156 | 46.15384615384615 | score | validated | 13 | unknown | 2026-10-22T17:14:10+00:00 | bench-pipeline | campaign_qwen3_6_27b_pipeline_20261022_024509 |
 | qwen3.6:27b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | validated | 12 | unknown | 2026-10-22T17:14:00+00:00 | bench-pipeline | campaign_qwen3_6_27b_pipeline_20261022_024509 |
-| qwen3.6:27b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-22T17:13:36+00:00 | bench-pipeline | campaign_qwen3_6_27b_pipeline_20261022_024509 |
+| qwen3.6:27b | custom_json_schema_strict | 0.7692307692307693 | 76.92307692307693 | score | validated | 13 | unknown | 2026-10-22T17:13:36+00:00 | bench-pipeline | campaign_qwen3_6_27b_pipeline_20261022_024509 |
 | qwen3.6:27b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-22T17:14:39+00:00 | bench-pipeline | campaign_qwen3_6_27b_pipeline_20261022_024509 |
 | qwen3.6:27b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-22T17:14:30+00:00 | bench-pipeline | campaign_qwen3_6_27b_pipeline_20261022_024509 |
 | qwen3.6:27b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-22T17:14:18+00:00 | bench-pipeline | campaign_qwen3_6_27b_pipeline_20261022_024509 |
@@ -1409,7 +1430,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3.6:35b-a3b | bbh_flexible | 0.9133333333333333 | 91.33333333333333 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-18T00:25:21+00:00 | bench-reasoning | campaign_qwen36moe_reasoning_l50_20261017_164139 |
 | qwen3.6:35b-a3b | custom_ambiguity_handling | 0.5384615384615384 | 53.84615384615385 | score | validated | 13 | unknown | 2026-10-18T00:48:27+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
 | qwen3.6:35b-a3b | custom_command_safety | 1.0 | 100.0 | score | validated | 12 | unknown | 2026-10-18T00:48:23+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
-| qwen3.6:35b-a3b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | validated | 13 | unknown | 2026-10-18T00:48:13+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
+| qwen3.6:35b-a3b | custom_json_schema_strict | 1.0 | 100.0 | score | validated | 13 | unknown | 2026-10-18T00:48:13+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
 | qwen3.6:35b-a3b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-18T00:48:42+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
 | qwen3.6:35b-a3b | custom_orchestration_tradeoff | 0.75 | 75.0 | score | validated | 12 | unknown | 2026-10-18T00:48:37+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
 | qwen3.6:35b-a3b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-18T00:48:32+00:00 | bench-pipeline | campaign_qwen36moe_pipeline_20261017_164139 |
@@ -1441,7 +1462,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3.8:27b | bbh_flexible | 0.9103703703703704 | 91.03703703703704 | exact_match,flexible-extract | validated | 1350 | degraded | 2026-10-17T17:03:50+00:00 | bench-reasoning | campaign_qwen38_reasoning_l50_20261017_011528 |
 | qwen3.8:27b | custom_ambiguity_handling | 0.9230769230769231 | 92.3076923076923 | score | validated | 13 | unknown | 2026-10-17T19:45:19+00:00 | bench-pipeline | campaign_qwen38_pipeline_20261017_011528 |
 | qwen3.8:27b | custom_command_safety | 1.0 | 100.0 | score | validated | 12 | unknown | 2026-10-17T19:44:36+00:00 | bench-pipeline | campaign_qwen38_pipeline_20261017_011528 |
-| qwen3.8:27b | custom_json_schema_strict | 0.38461538461538464 | 38.46153846153847 | score | validated | 13 | unknown | 2026-10-17T19:43:06+00:00 | bench-pipeline | campaign_qwen38_pipeline_20261017_011528 |
+| qwen3.8:27b | custom_json_schema_strict | 1.0 | 100.0 | score | validated | 13 | unknown | 2026-10-17T19:43:06+00:00 | bench-pipeline | campaign_qwen38_pipeline_20261017_011528 |
 | qwen3.8:27b | custom_long_context_extract | 1.0 | 100.0 | score | validated | 14 | unknown | 2026-10-17T19:48:20+00:00 | bench-pipeline | campaign_qwen38_pipeline_20261017_011528 |
 | qwen3.8:27b | custom_orchestration_tradeoff | 0.8333333333333334 | 83.33333333333334 | score | validated | 12 | unknown | 2026-10-17T19:47:27+00:00 | bench-pipeline | campaign_qwen38_pipeline_20261017_011528 |
 | qwen3.8:27b | custom_tool_plan_sequence | 0.9333333333333333 | 93.33333333333333 | score | validated | 15 | unknown | 2026-10-17T19:46:06+00:00 | bench-pipeline | campaign_qwen38_pipeline_20261017_011528 |
@@ -1622,6 +1643,28 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-10-23T21:49:43+00:00 | nemotron-3.5-bolt:74b-a9b | ifeval_inst_level_loose_acc_none | success | smoke | 10 | 0.8888888888888888 | inst_level_loose_acc,none | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | d792cae5-a111-4181-8f1c-756d2d4f4f44 |
+| 2026-10-23T21:49:43+00:00 | nemotron-3.5-bolt:74b-a9b | ifeval_prompt_level_loose_acc_none | success | smoke | 10 | 0.8 | prompt_level_loose_acc,none | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 644e9889-c31c-4e4d-9af7-a28282a05f39 |
+| 2026-10-23T21:49:42+00:00 | nemotron-3.5-bolt:74b-a9b | ifeval_prompt_level_strict_acc_none | success | smoke | 10 | 0.8 | prompt_level_strict_acc,none | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | e2334de1-4519-4835-9ae9-1e28ede7c0f3 |
+| 2026-10-23T21:49:42+00:00 | nemotron-3.5-bolt:74b-a9b | ifeval_inst_level_strict_acc_none | success | smoke | 10 | 0.8888888888888888 | inst_level_strict_acc,none | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 65db734f-ad9a-49bc-a654-d1c91d5d34d7 |
+| 2026-10-23T21:48:35+00:00 | nemotron-3.5-bolt:74b-a9b | mmlu_pro_exact_match_custom-extract | success | smoke | 140 | 0.65 | exact_match,custom-extract | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 524dde59-9f2c-481d-9df0-30d693f61c08 |
+| 2026-10-23T21:48:34+00:00 | nemotron-3.5-bolt:74b-a9b | mmlu_pro_flexible | success | smoke | 140 | 0.6571428571428571 | exact_match,flexible-extract | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 0a245b34-2bc2-4a9a-ad7c-e216d7b578cd |
+| 2026-10-23T21:31:33+00:00 | nemotron-3.5-bolt:74b-a9b | drop_flexible | success | smoke | 10 | 0.9 | answer_contained | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | cb357b9b-ff74-4eb8-91f8-78c4c5066efe |
+| 2026-10-23T21:31:32+00:00 | nemotron-3.5-bolt:74b-a9b | drop_f1 | success | smoke | 10 | 0.779 | f1,none | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | acc6cf19-c42c-497f-ae41-f8ba24685487 |
+| 2026-10-23T21:31:32+00:00 | nemotron-3.5-bolt:74b-a9b | drop_em | success | smoke | 10 | 0.7 | em,none | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 55950d49-7e97-488d-bf40-b72191d849a0 |
+| 2026-10-23T21:31:01+00:00 | nemotron-3.5-bolt:74b-a9b | bbh | success | smoke | 270 | 0.8666666666666667 | exact_match,get-answer | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 6ded3d49-e742-4669-b283-030afb33e0de |
+| 2026-10-23T21:31:01+00:00 | nemotron-3.5-bolt:74b-a9b | bbh_flexible | success | smoke | 270 | 0.8666666666666667 | exact_match,flexible-extract | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 623c39f8-c00d-40b6-aa1d-29a42ee466d3 |
+| 2026-10-23T20:47:25+00:00 | nemotron-3.5-bolt:74b-a9b | gsm8k_flexible | success | smoke | 10 | 0.9 | exact_match,flexible-extract | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 9f36108f-c9ad-4e09-b9fa-816ef005acfe |
+| 2026-10-23T20:47:25+00:00 | nemotron-3.5-bolt:74b-a9b | gsm8k_strict | success | smoke | 10 | 0.9 | exact_match,strict-match | bench-reasoning | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 441bf577-5149-40bb-9f98-26599569ab57 |
+| 2026-10-23T20:45:16+00:00 | nemotron-3.5-bolt:74b-a9b | humaneval_plus | success | smoke | 50 | 0.96 | pass@1_plus | bench-code | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | db9491db-8eab-484b-92db-3ea5e7e33dc2 |
+| 2026-10-23T20:45:15+00:00 | nemotron-3.5-bolt:74b-a9b | humaneval_base | success | smoke | 50 | 0.98 | pass@1_base | bench-code | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | f3ec74d1-1527-4da7-9347-f04efe77d473 |
+| 2026-10-23T20:37:26+00:00 | nemotron-3.5-bolt:74b-a9b | custom_long_context_extract | success | smoke | 14 | 1.0 | score | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | cc30f1ee-41d8-42e5-bc46-f01c92e58391 |
+| 2026-10-23T20:37:02+00:00 | nemotron-3.5-bolt:74b-a9b | custom_orchestration_tradeoff | success | smoke | 12 | 0.9166666666666666 | score | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 31a59b88-ddb2-41fb-b6ec-addb7cf57944 |
+| 2026-10-23T20:36:41+00:00 | nemotron-3.5-bolt:74b-a9b | custom_tool_plan_sequence | success | smoke | 15 | 0.9333333333333333 | score | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 69c9a7fe-fa39-4ca1-a79d-73c7cd3768f9 |
+| 2026-10-23T20:36:20+00:00 | nemotron-3.5-bolt:74b-a9b | custom_ambiguity_handling | success | smoke | 13 | 0.3076923076923077 | score | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | b9ed7b7b-027c-480b-ba29-ae20f5a23443 |
+| 2026-10-23T20:36:00+00:00 | nemotron-3.5-bolt:74b-a9b | custom_command_safety | success | smoke | 12 | 0.5833333333333334 | score | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 5c2f12b8-1b6b-401c-a949-61988eb56bb4 |
+| 2026-10-23T20:35:37+00:00 | nemotron-3.5-bolt:74b-a9b | custom_json_schema_strict | success | smoke | 13 | 0.15384615384615385 | score | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | dd3ff741-566d-48f6-921f-b802a4ca5253 |
+| 2026-10-23T20:35:37+00:00 | nemotron-3.5-bolt:74b-a9b | custom_json_schema_strict | success | smoke | 13 | 0.9230769230769231 | score | bench-pipeline | nemotron-3_5-bolt_74b-a9b_w_smoke_v1 | 3c513423-7277-46ab-affd-42bd2c192c88 |
 | 2026-10-23T04:36:52.499900+00:00 | mellum2.1:12b-a2.5b | runtime_context_reliability | success | validated | 2 | 1.0 | request_success_rate | bench-runtime | campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509 | 59a7732a-c53d-4301-86d8-1330fc6cdd27 |
 | 2026-10-23T04:36:46.233521+00:00 | mellum2.1:12b-a2.5b | runtime_throughput | success | validated | 1 | 1.0 | request_success_rate | bench-runtime | campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509 | e80f701d-5f30-47d9-9de9-b06fce323f38 |
 | 2026-10-23T04:36:43.263617+00:00 | mellum2.1:12b-a2.5b | runtime_ttft | success | validated | 3 | 1.0 | request_success_rate | bench-runtime | campaign_mellum2_1_12b_a2_5b_runtime_20261022_024509 | 7e8e1c76-3616-4c81-86fb-d0804ab2f83f |
@@ -1631,6 +1674,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-10-23T04:36:10+00:00 | mellum2.1:12b-a2.5b | custom_tool_plan_sequence | success | validated | 15 | 0.9333333333333333 | score | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 | b41d71d9-233f-4713-8cd7-b0aaddda6120 |
 | 2026-10-23T04:36:02+00:00 | mellum2.1:12b-a2.5b | custom_ambiguity_handling | success | validated | 13 | 0.23076923076923078 | score | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 | 40989283-d1f9-4e3e-8778-eacac75b718a |
 | 2026-10-23T04:35:46+00:00 | mellum2.1:12b-a2.5b | custom_command_safety | success | validated | 12 | 0.25 | score | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 | 48e1de75-4c1f-4e85-b866-380f2f1eef21 |
+| 2026-10-23T04:35:28+00:00 | mellum2.1:12b-a2.5b | custom_json_schema_strict | success | validated | 13 | 0.6923076923076923 | score | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 | fd89d369-9fd6-45d6-ab1f-c5f91151c2ba |
 | 2026-10-23T04:35:28+00:00 | mellum2.1:12b-a2.5b | custom_json_schema_strict | success | validated | 13 | 0.15384615384615385 | score | bench-pipeline | campaign_mellum2_1_12b_a2_5b_pipeline_20261022_024509 | 077cef4d-cfc6-4b41-8908-8f523b33e015 |
 | 2026-10-23T04:35:12.455226 | mellum2.1:12b-a2.5b | geoimport_prep_handoff_ready_v2 | success | validated | 1 | 0.8095 | prep_handoff | bench-geoimport | campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509 | f52d6c9d-fe39-487f-96d6-7ed938eb83ed |
 | 2026-10-23T04:35:07.630903 | mellum2.1:12b-a2.5b | geoimport_prep_handoff_local_check_failure_v2 | success | validated | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509 | 0746c938-e3a8-4112-972f-5c36e3209ba9 |
@@ -1639,26 +1683,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-10-23T04:34:51.229039 | mellum2.1:12b-a2.5b | geoimport_prep_classify_australia_asgs_v2 | success | validated | 1 | 0.9474 | classification | bench-geoimport | campaign_mellum2_1_12b_a2_5b_geoimport_20261022_024509 | 02d7c31b-d530-4c7d-92b8-ad390f4b048a |
 | 2026-10-23T04:34:42+00:00 | mellum2.1:12b-a2.5b | mbpp_plus | success | full | 378 | 0.7248677248677249 | pass@1_plus | bench-code | campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509 | 217ea73b-5317-466c-90c4-094b303713a4 |
 | 2026-10-23T04:34:41+00:00 | mellum2.1:12b-a2.5b | mbpp_base | success | full | 378 | 0.8518518518518519 | pass@1_base | bench-code | campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509 | ea63f122-5873-4cfb-80f2-2a0c989b48d4 |
-| 2026-10-23T04:01:22+00:00 | mellum2.1:12b-a2.5b | humaneval_base | success | full | 164 | 0.8841463414634146 | pass@1_base | bench-code | campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509 | 0cac64be-daee-49ac-868e-87fa0268863d |
-| 2026-10-23T04:01:22+00:00 | mellum2.1:12b-a2.5b | humaneval_plus | success | full | 164 | 0.8353658536585366 | pass@1_plus | bench-code | campaign_mellum2_1_12b_a2_5b_code_full_20261022_024509 | 0523184b-c51e-4eaa-a156-ac657df72663 |
-| 2026-10-23T03:39:06+00:00 | mellum2.1:12b-a2.5b | mmlu_pro_exact_match_custom-extract | success | validated | 280 | 0.42857142857142855 | exact_match,custom-extract | bench-reasoning | campaign_mellum2_1_12b_a2_5b_mmlu_pro_l20_20261022_024509 | 46174011-ef8f-4da8-82d9-f7e12fbf3b44 |
-| 2026-10-23T03:39:05+00:00 | mellum2.1:12b-a2.5b | mmlu_pro_flexible | success | validated | 280 | 0.4928571428571429 | exact_match,flexible-extract | bench-reasoning | campaign_mellum2_1_12b_a2_5b_mmlu_pro_l20_20261022_024509 | bbbe77cc-ae2a-445d-91fc-ea2afa86fc8b |
-| 2026-10-23T02:42:03.386028+00:00 | gemma-4:12b | runtime_context_reliability | success | validated | 2 | 1.0 | request_success_rate | bench-runtime | campaign_gemma_4_12b_runtime_20261022_024509 | 8e5d10d0-dd65-414a-a3ca-f7bfd2d2d39d |
-| 2026-10-23T02:41:41.252322+00:00 | gemma-4:12b | runtime_throughput | success | validated | 1 | 1.0 | request_success_rate | bench-runtime | campaign_gemma_4_12b_runtime_20261022_024509 | 5f619326-d0fa-4d7f-b174-cde9d3e20500 |
-| 2026-10-23T02:41:30.327967+00:00 | gemma-4:12b | runtime_ttft | success | validated | 3 | 1.0 | request_success_rate | bench-runtime | campaign_gemma_4_12b_runtime_20261022_024509 | 6cc9a518-8828-4d8a-aff2-4db4999d5fec |
-| 2026-10-23T02:41:29.087703+00:00 | gemma-4:12b | runtime_stability | success | validated | 5 | 1.0 | request_success_rate | bench-runtime | campaign_gemma_4_12b_runtime_20261022_024509 | e40f72e4-e6fd-4272-b91a-d21ad7745c76 |
-| 2026-10-23T02:41:22+00:00 | gemma-4:12b | custom_long_context_extract | success | validated | 14 | 1.0 | score | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 | 982e3c3e-6d2c-4991-a6ef-45ed73809aa9 |
-| 2026-10-23T02:40:56+00:00 | gemma-4:12b | custom_orchestration_tradeoff | success | validated | 12 | 0.8333333333333334 | score | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 | 9e956b53-44a5-42a6-8aa8-fe55f3c62747 |
-| 2026-10-23T02:40:29+00:00 | gemma-4:12b | custom_tool_plan_sequence | success | validated | 15 | 0.9333333333333333 | score | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 | 79c4c3d0-d6ff-4d45-bc50-ed405e700741 |
-| 2026-10-23T02:40:06+00:00 | gemma-4:12b | custom_ambiguity_handling | success | validated | 13 | 0.6153846153846154 | score | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 | 81258acc-4230-41c6-b1fa-d6652d78f88d |
-| 2026-10-23T02:39:41+00:00 | gemma-4:12b | custom_command_safety | success | validated | 12 | 0.75 | score | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 | 044d2ec5-9f01-4b0c-8637-7368df77fb7f |
-| 2026-10-23T02:38:49+00:00 | gemma-4:12b | custom_json_schema_strict | success | validated | 13 | 0.23076923076923078 | score | bench-pipeline | campaign_gemma_4_12b_pipeline_20261022_024509 | c5b5b787-dc04-4a94-b616-708c0cd61b27 |
-| 2026-10-23T02:38:13.924721 | gemma-4:12b | geoimport_prep_handoff_ready_v2 | success | validated | 1 | 0.9524 | prep_handoff | bench-geoimport | campaign_gemma_4_12b_geoimport_20261022_024509 | ff2e0d65-5240-4e3a-9348-53d17b486c2b |
-| 2026-10-23T02:37:56.690762 | gemma-4:12b | geoimport_prep_handoff_local_check_failure_v2 | success | validated | 1 | 0.9474 | prep_handoff | bench-geoimport | campaign_gemma_4_12b_geoimport_20261022_024509 | 56a37c2a-4521-4559-b3b0-f8d285ba1b62 |
-| 2026-10-23T02:37:43.413972 | gemma-4:12b | geoimport_prep_plan_brazil_spine_v2 | success | validated | 1 | 0.697 | prep_plan | bench-geoimport | campaign_gemma_4_12b_geoimport_20261022_024509 | 83f5ac81-b19d-4ee3-8278-ca74f0fd0ca8 |
-| 2026-10-23T02:37:19.223669 | gemma-4:12b | geoimport_prep_classify_brazil_ibge_v2 | success | validated | 1 | 1.0 | classification | bench-geoimport | campaign_gemma_4_12b_geoimport_20261022_024509 | 40fbb1b8-df24-43c8-81d1-378652f156f1 |
-| 2026-10-23T02:37:06.259566 | gemma-4:12b | geoimport_prep_classify_australia_asgs_v2 | success | validated | 1 | 0.8947 | classification | bench-geoimport | campaign_gemma_4_12b_geoimport_20261022_024509 | 1feb9a01-7269-4984-8134-4087fa920a1a |
-| 2026-10-23T02:36:48+00:00 | gemma-4:12b | mbpp_plus | success | full | 378 | 0.716931216931217 | pass@1_plus | bench-code | campaign_gemma_4_12b_code_full_20261022_024509 | f2254fb4-352e-4a7a-8e33-2bfe795a5a85 |
-| 2026-10-23T02:36:47+00:00 | gemma-4:12b | mbpp_base | success | full | 378 | 0.8492063492063492 | pass@1_base | bench-code | campaign_gemma_4_12b_code_full_20261022_024509 | b665f9bb-7fc4-4ee2-acd2-c9c3f08caab6 |
-| 2026-10-23T01:58:53+00:00 | mellum2.1:12b-a2.5b | ifeval_prompt_level_loose_acc_none | success | validated | 50 | 0.62 | prompt_level_loose_acc,none | bench-reasoning | campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509 | f4f2eb0e-cdc2-4ce3-b1a7-800a08baadec |
-| 2026-10-23T01:58:53+00:00 | mellum2.1:12b-a2.5b | ifeval_inst_level_loose_acc_none | success | validated | 50 | 0.6710526315789473 | inst_level_loose_acc,none | bench-reasoning | campaign_mellum2_1_12b_a2_5b_reasoning_l50_20261022_024509 | 8f1bba1f-7113-46c3-97c3-6c94335c2d7d |
