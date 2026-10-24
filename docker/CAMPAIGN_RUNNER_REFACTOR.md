@@ -1,8 +1,9 @@
-# Campaign runner refactor: let the manager place and load models
+# Campaign runner refactor: isolated rig modes, the manager places and loads models
 
-Status: planned 2026-10-22, not started. Owner files: `llm_orchestration/shared/scripts/benchmarks/run_campaign.py`
-(the runner), `tests/test_campaign_runner.py`, this folder's `CAMPAIGN_RUNNER.md`, and the rig manager in
-`llm-gateway` (`src/llm_gateway/manager/`, `docs/MANAGER.md`).
+Status: planned 2026-10-22, revised 2026-10-23 for isolated modes (operator), in progress. Owner files:
+`llm_orchestration/shared/scripts/benchmarks/run_campaign.py` (the runner), `tests/test_campaign_runner.py`,
+this folder's `CAMPAIGN_RUNNER.md`, the rig mode selector `llm_orchestration/shared/scripts/rig/rig.py`, and the
+rig manager in `llm-gateway` (`src/llm_gateway/manager/`, `docs/MANAGER.md`).
 
 ## Why
 
@@ -12,45 +13,68 @@ its own `run_runtime.sh` command line and its own lease and reservation calls th
 That is a second, weaker copy of what the rig manager already does:
 
 - The manager's harness (`manager/fit.py`) chooses how many cards a model needs and which free ones, plans
-  the largest context that fits and a per-card layer split from the GGUF header, and refuses a load that
-  will not fit before anything is leased. It placed Qwen3-Coder-Next across all six cards on 2026-10-21
-  (split 24,5,5,5,5,5, ctx 162304) without any slot table.
+  the context and a per-card layer split from the GGUF header, and refuses a load that will not fit before
+  anything is leased. It placed Qwen3-Coder-Next across all six cards on 2026-10-21 (split 24,5,5,5,5,5) and
+  Nemotron 3.5 Bolt on GPUs 0-3 on 2026-10-23 without any slot table.
 - The rig confirms each load from llama.cpp's own log and refuses one that is not fully on the GPUs.
-- Leases, claims with TTLs, reservations for multi-card waits and the operator overrides are all the
-  manager's (MANAGER.md, "Model loads" and "Reservations").
+- Leases, claims with TTLs, multi-card waits and the operator overrides are all the manager's.
 - Benchmark lanes already load this way (`scripts/integration/worker_lane.sh`: `rigctl load-model`).
 
-A slot table cannot scale with the rig either. Five 1060s give 10 pairs; seven 1070s would give 21 pairs,
-35 triples and so on, and the runner would still not know that a model needs three cards.
+The slot table cannot place a model that spans the 3090 and 1060s at all: Bolt's Phase 5 (GPUs 0-3) and
+Qwen3-Coder-Next's (all six) cannot be written as campaign blocks today.
 
-So this is a cleanup: take the rig model out of the runner and let the manager do its job.
+## Isolated modes (operator, 2026-10-23)
+
+The rig is in one mode at a time, as `workspace/implement/rig_boot_modes.md` decided on 2026-10-06 ("one mode
+at a time, explicit start/stop, no automatic swapping or cross-mode coordination"). Each mode owns every card
+while it is active and has its own rules; nothing arbitrates between modes. Crossovers come later if usage
+needs them.
+
+| Mode | Entered by | Owns | Context | Placement |
+|---|---|---|---|---|
+| `bench` | a manager load with use `benchmark` (lane, campaign, `rigctl load-model --use benchmark`) | every card | exactly the registry profile's `ctx_size` unless the request names one | fewest cards that hold the model at that context; several benchmark models side by side on whatever is free, first come first served |
+| `remote` | a manager load with use `chat` or `worker` (gateway, harness, `rigctl load-model`) | every card | the largest that fits (capped at the trained context or the request) | as today: the smallest card class that holds it, then the fewest cards |
+| `orchestration` | `rig start orchestration` | every card | the brain's own rules | the brain's own logic (`agents/brain_resources.py`) |
+
+Rules:
+- A load whose mode differs from the active one is refused as busy (`busy: <mode>`), unless forced, which
+  stops the active mode first. Idle accepts any.
+- The mode ends when its last profile is unloaded (the rig goes back to idle), as `remote` does today.
+- The old `bench` stack (`llm-bench.service`, `startup.py --config config.benchmark.json`) is retired:
+  nothing current starts it (lanes and campaigns load their own models), and `bench` now means manager
+  loads for benchmarking.
+
+What this removes from the plan: gap 2 (demand-aware placement across callers, orchestration's demand window
+in the manager, campaigns declaring later blocks). Inside one mode there is no other caller to defend cards
+against, so first come first served is enough.
 
 ## Target
 
-Placement in a block is one of:
+Placement in a block:
 
 | Placement | Meaning | Manager request |
 | --- | --- | --- |
-| `brain` | the RTX 3090 Ti | `gpu_ids: [0]` |
-| `workers` | the harness picks one card or the fewest that hold it, from what the queue can spare | no cards named (see gaps 1 and 2) |
-| `gpus: [1, 3]` | exactly these cards, for runs that must not move | `gpu_ids: [1, 3]` |
+| omitted | the manager picks the cards (fewest that hold the model at the profile's context) | no cards named |
+| `gpus: [0, 1, 2, 3]` | exactly these cards, for runs that must not move | `gpu_ids: [0, 1, 2, 3]` |
+| `brain` | shorthand for `gpus: [0]` (kept so existing manifests read the same) | `gpu_ids: [0]` |
 
 There is no single vs split distinction in a manifest: one card or several is the harness's answer to how
-big the model is and what context the block asks for.
+big the model is.
 
 For each runtime group (the blocks that share one loaded model) the runner:
 
 1. asks the manager to load: `POST /v1/manager/models/load` with `model`, the placement's cards (or none),
-   `ctx` from the block, `use: benchmark` (registry profile, no prompt cache), `extra_args` from the block,
-   and `wait_s` (the block's wait limit, 2 h by default);
+   `use: benchmark`, `ctx` only when the block overrides the profile, `extra_args` from the block, `owner` (the
+   campaign run id) and `wait_s` (the block's wait limit, 2 h by default);
 2. takes `profile`, `port`, `gpus` and `ctx` from the answer and runs the group's suites against that port,
    handing the runtime from block to block as now;
-3. unloads the profile (`POST /v1/manager/profiles/<id>/unload`) when the group ends or fails, and when
-   the campaign ends or is stopped asks the manager to cancel everything its run owns (gap 3).
+3. unloads the profile (`POST /v1/manager/profiles/<id>/unload`) when the group ends or fails, and when the
+   campaign ends or is stopped asks the manager to cancel everything its run owns (`cancel-owner`).
 
 The runner keeps everything that is about suites: manifest parsing and validation, dependencies, runtime
 groups and hand-off, the served-model identity check (against the port the manager returned), suite
-commands, status and checkpoints, `--max-active-models`.
+commands, status and checkpoints, `--max-active-models`. A group that cannot start because the cards are
+busy waits in the manager (`wait_s`); the runner starts the next group that can.
 
 ## What goes away
 
@@ -70,79 +94,43 @@ In `run_campaign.py`:
 
 Elsewhere:
 
+- `rig.py`: the `bench` stack unit (`STACK_UNITS["bench"]`); `llm-bench.service`; orchestration's
+  `scripts/benchmarks/start_benchmark_mode.py` (starts that stack)
 - `scripts/active/build_runtime_matrix_campaign.py` and `campaigns/*` that are still run: placements become
-  `brain` / `workers` / `gpus`
+  omitted / `gpus` / `brain`
 - `harness_lease.sh`: check whether anything but the runner uses `acquire`/`reserve`; delete what is unused
-- `CAMPAIGN_RUNNER.md` (Scheduling, placement field), MANAGER.md Reservations rule 5 (campaign blocks),
-  NEW_MODEL_INTEGRATION.md Phase 5 wording if it names slots
+- `CAMPAIGN_RUNNER.md` (Scheduling, placement field), MANAGER.md (Reservations rule 5, model loads, modes),
+  NEW_MODEL_INTEGRATION.md Phase 5 wording, `rig_boot_modes.md` (bench is manager loads)
 - tests: the slot, refusal and lease tests go; new tests drive the runner against a fake manager
 
-## Gaps in the manager to close first
+## Manager gaps (2026-10-22), status
 
-Decisions recorded 2026-10-22 (operator).
-
-1. **A load that names no cards must collect cards as they free.** Built 2026-10-22 (MANAGER.md,
-   Reservations rule 4a: one claim extended card by card, no time limit with `wait_s` -1, cancelled by
-   removing the claim). Today `load_model` with no cards and
-   `wait_s` polls `fit_model` until a plan fits (`core.py`, the `elif wait_s > 0` branch) and holds nothing
-   meanwhile, so single work keeps taking each card as it frees and a multi-card load starves. Fix: the
-   waiting load claims single cards one at a time as they finish (a claim it grows), so it always has
-   something to load into, and loads once the cards it holds make a plan that fits. It plans for the
-   cards it holds plus what it still needs, and gives back any card the final plan does not use.
-2. **Card choice depends on the queue, not a fixed rule.** Built in part 2026-10-22 (MANAGER.md, "Runs,
-   cancel by owner, and demand"): a load that names no cards will not spill onto a bigger card while a wait
-   or a run's declared `needs` wants that size. Still to do: reading orchestration's demand window, and a
-   campaign declaring its later blocks. The 3090 may take small models; whether it
-   should depends on what is waiting for it next. Orchestration already does this for plans: the brain
-   watches a window of upcoming tasks and inserts model load and unload tasks
-   (`agents/brain_resources.py`: `_collect_llm_demand_window_snapshot`, `_update_llm_demand_timers`,
-   `_choose_single_model_for_demand`, `_make_resource_decisions`). The manager should take the same
-   approach for every caller: a request carries enough about the work behind it (its queue, or what the
-   caller has waiting), and placement looks at pending demand before putting a small model on a big card.
-   Start by reading that orchestration logic and moving the reusable part into the manager rather than
-   writing a second version. Until then a campaign's `workers` placement can name the worker cards
-   explicitly through rig config.
-3. **The manager must be able to cancel a run and reclaim its cards.** Built 2026-10-22: `rigctl
-   cancel-owner WHO` and `POST /v1/manager/owners/WHO/cancel`; loads carry `owner` (`requested_by` on the lease). No timeouts on loads. Instead every
-   load, claim and reservation carries the owner that asked for it (a campaign run id, a lane, the
-   gateway), and the manager gets one operation that cancels an owner: stop its queued loads, unload its
-   profiles, release its leases, drop its claims and reservations, and log what it cleaned up. The
-   campaign runner calls it on a normal finish and from its signal handler; an operator calls it with
-   `rigctl` for a run that died. Leases and claims already record an owner, so this is mostly one
-   endpoint and a `rigctl cancel-owner` command next to `rigctl kill` (which cleans up by card, not by
-   owner).
-
-4. **Campaigns and lanes must be in the report, so a crash and an outage are told apart.** Built
-   2026-10-22: runs (`job` plan items, `rigctl run-start / runs / recover / run-stop / dismiss`, dashboard
-   Resume / Stop / Dismiss), and waits that ride out an unreachable rig. The report
-   and its two copies already do this for model loads (MANAGER.md rule 1c: the rig keeps the plan with a
-   version and its boot id, the controller keeps a copy; after a reboot the rig marks the running item
-   `interrupted` and holds the plan; a lost network is not a hold and the rig finishes its work). The gap
-   is written there too: jobs are not plan items, so after a reboot they do not come back and the manager
-   does not know they existed. Decisions (operator, 2026-10-22):
-   - A campaign run and a lane become a plan item kind (`job`) the rig runs as a detached unit, like loads
-     (`hw_jobs.py`), with its run id, owner and resume command (for a campaign: the same command with its
-     `--run-id`, which resumes from `campaign_state.json`).
-   - Rig rebooted with a job that was running: the manager does not restart it on its own. It reports the
-     job as interrupted (which blocks finished, which were lost mid-run) and offers "resume from
-     checkpoint?" on the dashboard and as `rigctl recover <run>` / `rigctl dismiss <run>` (dismiss is the
-     cancel-by-owner cleanup of gap 3). A job may opt in to resuming automatically.
-   - Rig unreachable without a reboot: wait. The rig keeps working; the manager answers from its copy,
-     keeps every wait it is running alive (collecting waits and named-card waits today fail on the first
-     unreachable observation), and acts when the rig comes back or the operator says otherwise.
+1. **A load that names no cards collects cards as they free.** Built (MANAGER.md, Reservations rule 4a).
+2. **Demand-aware placement across callers.** Dropped 2026-10-23: one mode at a time (see above). The part
+   already built (a load will not spill onto a bigger card while one of the manager's own waits wants it)
+   stays; it is harmless inside a mode.
+3. **Cancel a run and reclaim its cards.** Built: `rigctl cancel-owner WHO`, `POST /v1/manager/owners/WHO/cancel`.
+4. **Campaigns and lanes in the report, crash vs outage.** Built: runs (`rigctl run-start / runs / recover /
+   run-stop / dismiss`), waits that ride out an unreachable rig.
 
 ## Order of work
 
-1. Manager gaps 1-3, with tests in `llm-gateway/tests` (fake rig already covers claims and plan items).
+1. Modes: `rig.py` takes the mode from the load's use (`benchmark` -> `bench`, otherwise `remote`), refuses a
+   load for another mode, and retires the bench stack. The manager plans benchmark loads at the registry
+   profile's context. Tests for both; deploy (rig checkout pull, restart `rig-plan.service`; restart the
+   gateway on the Pi).
 2. Runner: replace the load/lease layer with manager calls; keep suites, groups, status. Run its tests
-   against a fake manager, then a dry run, then a one-model real campaign on `workers` and one on `brain`.
+   against a fake manager, then a dry run, then a real one-model campaign: Nemotron 3.5 Bolt's Phase 5 with
+   placement omitted.
 3. Delete the dead code and update the generator, docs and the campaigns still in use.
-4. Re-run a small mixed campaign (one brain model, two worker models that each need two cards, one that
-   fits on one card) and check: no card idle while a block waits, multi-card blocks are not starved by
-   singles, every profile is unloaded at the end and after `kill -TERM` of the runner.
+4. Re-run a small mixed campaign (one model on the 3090, two that each need two cards, one that fits on one
+   card) and check: no card idle while a group waits, every profile is unloaded at the end and after
+   `kill -TERM` of the runner, the rig is back to idle.
 
 ## Not in scope
 
-- Lanes (`worker_lane.sh`) already use the manager; their card groups stay the operator's choice.
+- Lanes (`worker_lane.sh`) already use the manager; their card groups stay the operator's choice. A lane is
+  close to a one-group campaign plus litmus, the runtime record and the Phase 4 pause; `phase4.sh` and the
+  runner build the same suite commands. Merge them later, once the runner is on the manager.
 - Orchestration's split reservations (`agents/gpu_split.py`) are a separate path; review after this.
-- Phase 4.5 as a general "try other settings" phase (2026-10-21 note): separate change.
+- Crossovers between modes (a chat model beside a benchmark): later, if usage needs it.
