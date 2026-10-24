@@ -10,6 +10,31 @@ This file holds the full history so we can track how prompt and config changes a
 Each row is one scored run. The system prompt column records the exact prompt used
 so you can correlate prompt changes with score changes across runs.
 
+## 2026-10-23 JSON Schema Grading v2 (methodology 2.1.0)
+
+Rows from this point carry methodology `bench-pipeline/local-custom` version 2.1.0, comparison group
+`pipeline-local-custom-v2`. Only `custom_json_schema_strict` grading changed; the other five tests grade as
+before, but share the suite's methodology version.
+
+- The `priority` value is no longer graded, only its type (an integer). The prompts give the schema as
+  `"priority": integer` and never say what priority means, while every case expected the GPU number from
+  the input (or 1 when none was named). Models that read it as urgency failed nearly every case: on the
+  latest runs gemma-4:31b scored 0.154, qwen3.6:27b 0.231 and qwen3-coder-next 0.308, almost all
+  "priority mismatch". The test is meant to measure strict JSON with the required keys and types.
+- `action_contains` matches across spaces, hyphens and underscores ("fall back" counts for "fallback").
+- The `priority` values were removed from the cases' `expected` blocks in `custom_tasks/cases.json`.
+- Past runs were re-graded from the responses saved in each `result.json` by
+  `scripts/active/rescore_pipeline_json_records.py` (56 runs, every model in the ledger). The new rows keep
+  the original run time, suite and run class, have `rescored_from_responses` in their config, and replace the
+  rows they re-grade in the scoreboard (`benchmark_records.selection_key` prefers the newer methodology on a
+  tie). Examples, old -> new: nemotron-3.5-bolt 0.154 -> 0.923, gemma-4:31b 0.154 -> 0.769,
+  qwen3-coder-next 0.308 -> 0.923, qwen3.8:27b 0.385 -> 1.000.
+- Still graded and still failing, open questions: the `safe` flag (expected `true` in all 13 cases and not
+  defined in the prompt either; 147 case failures across the saved runs, for example llama3.3:70b answers
+  `false` for "restart gpu") and a few arbitrary action keywords ("request" for "stop run and request
+  corrected path", "index" for "verify DC batch status then build _index.json"). Fenced or non-JSON answers
+  remain failures by design.
+
 ## Results
 
 ### Repeat consistency baseline (2026-03-10, no prompt tuning)

@@ -61,6 +61,12 @@ class BenchmarkRecordTests(unittest.TestCase):
         large = record(run_id="large", run_class="validated", sample_count=100, score=0.8, run_at="2026-01-01T00:00:00Z")
         self.assertEqual(best_by_model_test([small, large]), [large])
 
+    def test_regraded_row_replaces_same_run(self) -> None:
+        old = dict(record(run_id="b-old", run_class="smoke", sample_count=13, score=0.15, run_at="2026-01-01T00:00:00Z"),
+                   methodology={"id": "m", "version": "2.0.0", "comparison_group": "g"})
+        new = dict(old, run_id="a-new", score=0.9, methodology={"id": "m", "version": "2.1.0", "comparison_group": "g"})
+        self.assertEqual(best_by_model_test([old, new]), [new])
+
     def test_failure_is_retained_but_not_selected(self) -> None:
         success = record(run_id="success", run_class="smoke", sample_count=5, score=0.5, run_at="2026-01-01T00:00:00Z")
         failure = dict(success, run_id="failure", status="failure", score=None, metric="", failure={"kind": "oom", "message": "killed"})

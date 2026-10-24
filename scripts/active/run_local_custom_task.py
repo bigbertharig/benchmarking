@@ -336,11 +336,12 @@ def grade_json_schema(case: dict[str, Any], response: str) -> tuple[bool, str]:
         if expected_type == "boolean" and not isinstance(value, bool):
             return False, f"key {key} is not boolean"
     expected = case.get("expected", {})
-    action_contains = str(expected.get("action_contains", "")).strip().lower()
-    if action_contains and action_contains not in str(parsed.get("action", "")).lower():
+    # Keywords match across spaces and hyphens ("fall back" counts for "fallback"). The priority value is
+    # not graded: the prompts never define it, only its type (methodology 2.1.0, 2026-10-23).
+    squash = lambda s: re.sub(r"[\s_-]+", "", s.lower())
+    action_contains = squash(str(expected.get("action_contains", "")))
+    if action_contains and action_contains not in squash(str(parsed.get("action", ""))):
         return False, "action content mismatch"
-    if "priority" in expected and parsed.get("priority") != expected.get("priority"):
-        return False, "priority mismatch"
     if "safe" in expected and parsed.get("safe") is not expected.get("safe"):
         return False, "safe flag mismatch"
     return True, "strict schema case passed"

@@ -68,8 +68,8 @@
     },
     {
       "id": "bench-pipeline/local-custom",
-      "version": "2.0.0",
-      "comparison_group": "pipeline-local-custom-v1",
+      "version": "2.1.0",
+      "comparison_group": "pipeline-local-custom-v2",
       "suite": "bench-pipeline",
       "status": "active"
     },

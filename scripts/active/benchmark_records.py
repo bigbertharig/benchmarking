@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -189,10 +190,16 @@ def load_records(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def selection_key(record: dict[str, Any]) -> tuple[int, int, int, str, str]:
-    """Prefer evidence quality and sample size before recency."""
+def _version(record: dict[str, Any]) -> tuple[int, ...]:
+    version = str((record.get("methodology") or {}).get("version", ""))
+    return tuple(int(part) for part in re.findall(r"\d+", version))
+
+
+def selection_key(record: dict[str, Any]) -> tuple[int, int, int, tuple[int, ...], str, str]:
+    """Prefer evidence quality and sample size, then the newer methodology (a regraded row replaces the
+    row it regrades, which has the same run time), then recency."""
     if record.get("status") != "success":
-        return (-1, -1, -1, "", "")
+        return (-1, -1, -1, (), "", "")
     run_class = str(record.get("run_class", "legacy"))
     sample_count = _optional_int(record.get("sample_count"), "sample_count")
     compatibility = str(record.get("format_compatibility", "unknown"))
@@ -200,6 +207,7 @@ def selection_key(record: dict[str, Any]) -> tuple[int, int, int, str, str]:
         RUN_CLASS_RANK.get(run_class, -1),
         sample_count if sample_count is not None else -1,
         FORMAT_RANK.get(compatibility, -1),
+        _version(record),
         str(record.get("run_at", "")),
         str(record.get("run_id", "")),
     )
