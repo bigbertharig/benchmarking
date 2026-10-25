@@ -57,22 +57,45 @@ The 3090 Ti stayed on GPU 0, CPU x16, with its 350 W cap; the five 1060s stayed 
 Gen 2 x1 with 100 W caps. We used the existing managed `capacity_run.py` short probe
 at fixed context, then changed only the CPU root port 00:01.0 target between Gen 2
 and Gen 3 with `setpci` and retrained the link. Each cold pass dropped the rig's
-Linux page cache before loading the GGUF from the Pi's NFS share. Order was
-Gen 3, Gen 2, Gen 2, Gen 3. The BIOS setting stayed Gen 3 and the root target
-was restored to Gen 3 afterward. The endpoint 01:00.0 target remained Gen 3
-throughout the temporary downshifts, so this is **not equivalent to a native
-BIOS Gen 2 boot**.
+Linux page cache. The manager's load spec contains the logical archive path,
+but the rig's `resolve_hotset_gguf` selects a local copy under
+`/data/model-hotset` when present. The 35B GGUF was **already on the rig NVMe**
+for these runs; the 4B GGUF was absent then, so its first series used the Pi's
+NFS archive. Order was Gen 3, Gen 2, Gen 2, Gen 3. The BIOS setting stayed
+Gen 3 and the root target was restored to Gen 3 afterward. The endpoint
+01:00.0 target remained Gen 3 throughout the temporary downshifts, so this
+is **not equivalent to a native BIOS Gen 2 boot**.
 
 | Solo model and fixed context | Temporary Gen 2 cold loads | Gen 3 cold loads | Short chat decode, temporary Gen 2 / Gen 3 |
 |---|---:|---:|---:|
 | qwen3.6:35b-a3b, 131,072, batch 128 | 94.6 / 88.6 s (mean 91.6) | 84.5 / 84.6 s (mean 84.6; 7.7% less) | 136.5 / 133.6 versus 147.1 / 146.8 tok/s |
 | qwen3.5:4b, 32,768, batch 64 | 44.9 / 44.9 s (mean 44.9) | 48.0 / 38.2 s (mean 43.1; variable) | 108.2 / 108.0 versus 173.8 / 174.1 tok/s |
 
-The 35B cold load shows a modest Gen 3 gain in this two-pass software
-comparison. The 4B load times vary enough that there is no clear gain.
-NFS server caching was not cleared, so these are rig page-cache cold starts,
-not guaranteed storage cold starts. These timings describe **model load to
-ready**, not prefill or time to first token for a long prompt.
+The 35B NVMe cold load shows a modest Gen 3 gain in this two-pass software
+comparison. The 4B NFS load times vary enough that there is no clear gain.
+The NVMe result cleared the rig's page cache, which covers its local model.
+The NFS server cache was not cleared for the original 4B series. These
+timings describe **model load to ready**, not prefill or time to first token
+for a long prompt.
+
+After staging the 4B GGUF on `/data/model-hotset`, a second four-pass series
+used the same contexts, batch, order, cache clearing, and error checks. A
+live `docker inspect` showed the container bound
+`/data/model-hotset/qwen3.5-4b` and passed that GGUF to `llama-server`:
+
+| 4B source | Temporary Gen 2 cold loads | Gen 3 cold loads | Short decode, temporary Gen 2 / Gen 3 |
+|---|---:|---:|---:|
+| Original NFS fallback | 44.9 / 44.9 s | 48.0 / 38.2 s | 108.2 / 108.0 versus 173.8 / 174.1 tok/s |
+| Rig NVMe hotset | 25.0 / 21.7 s | 21.7 / 21.6 s | 108.0 / 108.8 versus 174.0 / 173.3 tok/s |
+
+For the relevant production Gen 3 setting, putting this 2.74 GB model on
+NVMe reduced measured cold load from 38-48 seconds to about 22 seconds.
+Decode stayed the same for each link setting. The temporary Gen 2 versus
+Gen 3 decode comparison retains the caveat below. The NVMe receipt is
+`results/runtime_experiments/pcie_x16_gen2_gen3_nvme_qwen4b_20261025.txt`
+with individual `x16-gen{2,3}-nvme-cold{1,2}` JSON records. All four
+passes exited 0, all six replay counters stayed 0/0, and the kernel error
+check was empty.
 
 **Do not use the temporary Gen 2 decode values as a BIOS Gen 2 baseline.**
 A prior native BIOS Gen 2 x16 run of the same 4B model at 32,768 decoded at

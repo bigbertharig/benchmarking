@@ -1,0 +1,25 @@
+Start 2026-10-25T16:48:43-07:00; GPU0 root 00:01.0; original target Gen3; NVMe hotset model storage
+replays_start GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Target Gen3 at 2026-10-25T16:48:46-07:00
+Begin Gen3 cold1 2026-10-25T16:48:53-07:00 cache_kib_before=6178196 after=550092
+replays_before_gen3_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen3 cold1 exit=0 max_observed_gen=3 samples=146 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen3-nvme-cold1_20261025.json 2026-10-25T16:49:25-07:00
+replays_after_gen3_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Target Gen2 at 2026-10-25T16:49:27-07:00
+Begin Gen2 cold1 2026-10-25T16:49:28-07:00 cache_kib_before=3437540 after=550048
+replays_before_gen2_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen2 cold1 exit=0 max_observed_gen=2 samples=171 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen2-nvme-cold1_20261025.json 2026-10-25T16:50:04-07:00
+replays_after_gen2_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Begin Gen2 cold2 2026-10-25T16:50:05-07:00 cache_kib_before=3440188 after=550152
+replays_before_gen2_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen2 cold2 exit=0 max_observed_gen=2 samples=154 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen2-nvme-cold2_20261025.json 2026-10-25T16:50:38-07:00
+replays_after_gen2_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Target Gen3 at 2026-10-25T16:50:41-07:00
+Begin Gen3 cold2 2026-10-25T16:50:41-07:00 cache_kib_before=3440344 after=550180
+replays_before_gen3_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen3 cold2 exit=0 max_observed_gen=3 samples=146 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen3-nvme-cold2_20261025.json 2026-10-25T16:51:13-07:00
+replays_after_gen3_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Done 2026-10-25T16:51:13-07:00
+replays_end GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Kernel GPU/PCIe errors since 2026-10-25T16:48:43-07:00:
+Target Gen3 at 2026-10-25T16:51:16-07:00
