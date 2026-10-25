@@ -51,6 +51,55 @@ the rig config's brain card, `brain` placements and pinned `gpus: [0]` assume th
 | How much does micro-batch lift long-context prefill? | a capacity run with `-ub 512` against the profile's batch | not started |
 | Five 1060s against the 3090 at the same depths | `capacity_run.py qwen3.6:35b-a3b --gpus 1,2,3,4,5 --depth-of 131072` | done 2026-10-25: the five 1060s hold ctx 89,344; at 13K / 34K / 68K tokens the 3090 alone is 5.5-7.3x faster at prefill and 6.3-7.5x at decode |
 
+## Planned hardware swaps (from 2026-10-25)
+
+Two swaps, one at a time, so each change is measured on its own. Capacity runs are started from the Pi as runs:
+`rigctl run-start --run <name> -- python3 /mnt/shared/plans/shoulders/benchmarking/scripts/integration/capacity_run.py ...`
+(the record lands in `results/runtime_experiments/` and `results/RUNTIME_REFERENCE.md` is rebuilt).
+
+After every physical change, before any run:
+1. `ssh <rig> nvidia-smi --query-gpu=index,name,pci.bus_id,pci.sub_device_id,pcie.link.gen.max,pcie.link.width.current --format=csv`:
+   note which index each card has now (3090 by name; EVGA 1060s sub device 0x61633842, ASUS overclocked 0x85AC1043, ASUS Dual 0x85B61043) and its link.
+2. If the 3090 is no longer GPU 0, the rig config (llm_orchestration `shared/agents/config.json`: `brain.gpus`,
+   `gpus[].id`), the registry's `gpu-0` split groups and `brain` / `gpus: [0]` placements are wrong until updated;
+   fix the rig config first, then `rigctl status` and `rigctl fit qwen3.5:4b --gpus <3090 index>`.
+3. `rig-power.service` caps by card model, so the 350 W / 100 W caps follow the cards; confirm with
+   `nvidia-smi --query-gpu=index,name,power.limit --format=csv`.
+
+### Step 1: new riser for GPU 3 (EVGA 1060, link trains at gen 1)
+
+Check: GPU 3's `pcie.link.gen.max` reads 2. Runs (about 5 min each):
+
+| Run | Baseline record (2026-10-25) | Baseline | Prediction if the per-token output copy is the cost |
+|---|---|---|---|
+| `qwen3.5:4b --gpus 3 --ctx 32768` | `qwen3_5_4b_capacity_g3_ctx32768_20261025.json` | 24.0 tok/s decode, 437 prefill, load 53 s | about 28 tok/s, like GPU 1; load near 21 s |
+| `qwen3.5:4b --gpus 1 --ctx 32768` (control) | `qwen3_5_4b_capacity_g1_ctx32768_20261025.json` | 28.0 tok/s, 488 prefill, load 21 s | unchanged |
+
+If GPU 3 stays near 24, the gap is the card, not the link.
+
+### Step 2: the 3090 onto an x1 riser, GPU 1's EVGA 1060 onto the x16 slot
+
+Move the 3090 into GPU 1's slot and riser (gen 2 x1, known good) and that EVGA 1060 into the 3090's x16 slot. Then
+run, with the indices as they read after the move (`<3090>`, `<evga>` for the moved 1060, `<1060s>` for the rest):
+
+| Run | Baseline record (3090 on x16, 1060 on x1) | Baseline | Prediction |
+|---|---|---|---|
+| `qwen3.5:4b --gpus <3090> --ctx 32768` | `qwen3_5_4b_capacity_g0_ctx32768_20261024.json` | 172.6 tok/s decode, 3976 prefill, load 43 s | decode down (output copy over x1, about 2 ms of a 5.8 ms token), prefill about the same, load longer |
+| `qwen3.5:4b --gpus <evga> --ctx 32768` | `qwen3_5_4b_capacity_g1_ctx32768_20261025.json` | 28.0 tok/s, 488 prefill | about 30 tok/s (no x1 copy cost) |
+| `qwen3.5:4b --gpus <3090>,<evga> --ctx 32768` | `qwen3_5_4b_capacity_g0-1_ctx32768_20261024.json` | 79.2 tok/s (output layer on the 1060) | faster than 79 if the last card's x1 link was the cost (the 1060 is now on x16) |
+| `qwen3.6:35b-a3b --gpus <3090> --ctx 131072` | `qwen3_6_35b-a3b_capacity_g0_ctx131072_20261024.json` | 152.2 tok/s, prefill 1631 / 1313 | decode toward about 115 tok/s; prefill about the same |
+| `qwen3.6:35b-a3b --gpus <3090>` (largest) | `qwen3_6_35b-a3b_capacity_g0_ctx174336_20261024.json` | ctx 174,336, 152.2 tok/s, load 21 s | same context; load longer |
+| `qwen3.6:35b-a3b --gpus <3090>,<evga> --ctx 131072` | `qwen3_6_35b-a3b_capacity_g0-1_ctx131072_20261024.json` | 65.2 tok/s, prefill 1134 / 494 | faster than 65 if the last card's link was the cost |
+| `qwen3.6:35b-a3b --gpus <all six> --ctx 131072` | `qwen3_6_35b-a3b_capacity_g0-1-2-3-4-5_ctx131072_20261024.json` | 39.7 tok/s, prefill 554 / 256 | about the same (the last card is still a 1060 on x1) |
+
+Card order matters: the manager splits layers in GPU index order and puts the output layer on the last card, so
+note which card is last in each split after the renumbering.
+
+### Step 3: decide
+
+Put the 3090 back on x16 unless the results say otherwise, record the findings above (the table under "What is
+known"), and update the hardware table at the top.
+
 ## Which tool answers which question
 
 | Question | Tool | Output |
