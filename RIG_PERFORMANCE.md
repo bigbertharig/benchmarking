@@ -15,11 +15,11 @@ and rig-local `brain/hw/gpu_layout.json` (index, UUID, board, PCI bus per card, 
 index follows PCI bus order and changes whenever cards move, so a record names a card by UUID and link, not by
 index alone.
 
-The cards (by UUID prefix), and the layout from 2026-10-25 10:36:
+The cards (by UUID prefix), with the 2026-10-25 layout and the x16 speed updated after the BIOS change:
 
 | Card | Board (power default), UUID | Cap (rig-power.service) | Index, root port, link |
 |---|---|---|---|
-| RTX 3090 Ti 24 GB | `409c0fe8` | 350 W | 0, CPU x16, gen 2 x16 |
+| RTX 3090 Ti 24 GB | `409c0fe8` | 350 W | 0, CPU x16, gen 3 x16 |
 | GTX 1060 6 GB | EVGA (120 W), `fd82a1a6` (GPU 1 before 2026-10-25) | 100 W | 1, 1b.5, gen 2 x1 |
 | GTX 1060 6 GB | EVGA (120 W), `d24dca6a` (GPU 3 before 2026-10-25) | 100 W | 2, 1b.7, gen 2 x1 |
 | GTX 1060 6 GB | ASUS Dual (120 W), `ac5b4fea` | 100 W | 3, 1c.7, gen 2 x1 |
@@ -39,8 +39,15 @@ ports renumber when slots fill (Intel root port swapping), so a moved card or th
 port number; read `lspci -tv` for which cards sit under 1b.6.
 
 `nvidia-smi --query-gpu=index,uuid,pci.bus_id,pci.sub_device_id,pcie.link.gen.max,pcie.link.width.current --format=csv`
-shows the links (vendor in the sub device id: 3842 EVGA, 1043 ASUS). The BIOS stays at gen 2: gen 3 logged link
-replays on every 1060 riser. The rig config's brain card, `brain` placements and pinned `gpus: [0]` assume the
+shows the links (vendor in the sub device id: 3842 EVGA, 1043 ASUS). The PCH PCIe Speed setting stays
+at gen 2 for the x1 risers, where gen 3 logged link replays. The separate PEG Port Configuration >
+PCIEX16_1 Link Speed setting is now gen 3 for the CPU x16 slot. At boot the x16 root port reported
+`LnkCap` and `LnkCtl2` at 8 GT/s; a short qwen3.5:4b run sampled its negotiated speed 271 times
+and observed gen 3 under work. The run completed with 174.02 decode tok/s at ctx 4096 and no AER or Xid
+messages; this is a link check, not a matched gen 2/gen 3 speed comparison. Its record is
+`results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx4096_gen3-x16_20261025.json`. All five
+1060s remained at gen 2 x1, and the 350 W / 100 W power caps held. The rig config's brain card,
+`brain` placements and pinned `gpus: [0]` assume the
 3090 is GPU 0; the rig itself works with whatever cards the scan finds (llm_orchestration
 `shared/scripts/rig/README.md`, "The cards are whatever the scan finds").
 
