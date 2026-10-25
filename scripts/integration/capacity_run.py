@@ -97,6 +97,29 @@ def all_gpus() -> list[int]:
     return [int(x) for x in out.split()]
 
 
+BOARD_VENDORS = {"3842": "EVGA", "1043": "ASUS", "10de": "NVIDIA", "1462": "MSI", "19da": "Zotac", "1458": "Gigabyte"}
+
+
+def card_details(gpus: list[int]) -> list[dict]:
+    """Which physical card each index is on this run, and its link: indices follow PCI bus order and change when
+    cards move, so a record names its cards by UUID. link_gen is the trained maximum (the current gen drops at
+    idle); a card behind the board's gen 1 switch reads 1 here."""
+    out = subprocess.run(["nvidia-smi", "--query-gpu=index,uuid,name,pci.sub_device_id,pci.bus_id,"
+                          "pcie.link.gen.max,pcie.link.width.current", "--format=csv,noheader"],
+                         capture_output=True, text=True).stdout
+    found = {}
+    for line in out.splitlines():
+        p = [x.strip() for x in line.split(",")]
+        if len(p) != 7 or not p[0].isdigit():
+            continue
+        sub = p[3].lower().removeprefix("0x")
+        found[int(p[0])] = {"gpu": int(p[0]), "uuid": p[1], "name": p[2], "sub_device_id": p[3],
+                            "board": BOARD_VENDORS.get(sub[-4:], sub[-4:]), "bus": p[4].removeprefix("00000000:"),
+                            "link_gen": int(p[5]) if p[5].isdigit() else None,
+                            "link_width": int(p[6]) if p[6].isdigit() else None}
+    return [found[g] for g in gpus if g in found]
+
+
 def post(port: int, path: str, body: dict, timeout: float) -> dict:
     req = urllib.request.Request(f"http://127.0.0.1:{port}{path}", json.dumps(body).encode(),
                                  {"Content-Type": "application/json"})
@@ -214,7 +237,12 @@ def main() -> int:
     gpus = [int(g) for g in a.gpus.split(",")] if a.gpus else (None if a.cards else all_gpus())
     rc, plan = rigctl(*fit_args(a.model, gpus, a.cards, a.margin_mb, a.ctx))
     if rc != 0 or not plan.get("fits"):
-        print(f"won't fit: {(plan.get('error') or {}).get('message') or plan.get('reason')}", file=sys.stderr)
+        reason = str((plan.get("error") or {}).get("message") or plan.get("reason") or "").removeprefix("won't fit: ")
+        print(f"won't fit: {reason}", file=sys.stderr)
+        # A planner answer (not a failed call): a "won't fit" is a result worth keeping.
+        if gpus and (plan.get("fits") is False or "needs about" in reason):
+            write_record({**base_record(a, gpus, plan), "fits": False, "reason": reason, "ctx_requested": a.ctx},
+                         a, gpus, a.ctx or plan.get("ctx"))
         return 4
     gpus, ctx = plan["gpus"], int(plan["ctx"])
     print(f"plan: {a.model} on GPU {gpus} at ctx {ctx} ({plan.get('ctx_limit')}), split {plan.get('tensor_split')}",
@@ -238,21 +266,7 @@ def main() -> int:
     print(f"loaded {profile} on :{port} in {load_s}s, ctx {loaded.get('ctx')}", flush=True)
 
     record = {
-        "schema_version": 1,
-        "kind": "capacity",
-        "quality_ledger": False,
-        "recorded_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
-        "methodology": {"id": "llama-server/capacity", "version": "1.0.0", "sampling_interval_seconds": 1,
-                        "plan": ("rigctl fit --use chat --profile default "
-                                 + (f"--ctx {a.ctx} (fixed)" if a.ctx else "(largest that fits)")),
-                        "depth_fractions": [float(f) for f in a.fractions.split(",")],
-                        "depth_of_ctx": a.depth_of,
-                        "decode_tokens_per_depth_probe": DECODE_TOKENS, "cache_prompt": False},
-        "model": a.model,
-        "cards": gpus,
-        "plan": {k: plan.get(k) for k in ("ctx", "ctx_limit", "tensor_split", "margin_mb", "weights_mb", "n_ctx_train",
-                                          "cards")},
+        **base_record(a, gpus, plan),
         "load": {"seconds": load_s, "profile": profile, "port": port, "ctx_allocated": loaded.get("ctx"),
                  "measured": loaded.get("measured")},
     }
@@ -282,15 +296,42 @@ def main() -> int:
     finally:
         rigctl("unload", profile, timeout=900)
 
+    write_record(record, a, gpus, loaded.get("ctx") or ctx)
+    return 1 if "error" in record else 0
+
+
+def base_record(a, gpus: list[int], plan: dict) -> dict:
+    return {
+        "schema_version": 1,
+        "kind": "capacity",
+        "quality_ledger": False,
+        "recorded_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+        "methodology": {"id": "llama-server/capacity", "version": "1.0.0", "sampling_interval_seconds": 1,
+                        "plan": ("rigctl fit --use chat --profile default "
+                                 + (f"--ctx {a.ctx} (fixed)" if a.ctx else "(largest that fits)")),
+                        "depth_fractions": [float(f) for f in a.fractions.split(",")],
+                        "depth_of_ctx": a.depth_of,
+                        "decode_tokens_per_depth_probe": DECODE_TOKENS, "cache_prompt": False},
+        "model": a.model,
+        "cards": gpus,
+        "card_details": card_details(gpus),
+        "plan": {k: plan.get(k) for k in ("ctx", "ctx_limit", "tensor_split", "margin_mb", "weights_mb", "n_ctx_train",
+                                          "cards")},
+    }
+
+
+def write_record(record: dict, a, gpus: list[int], ctx) -> Path:
     stamp = datetime.now().strftime("%Y%m%d")
     out = Path(a.out) if a.out else RX / (f"{slug(a.model)}_capacity_g{'-'.join(str(g) for g in gpus)}"
-                                          f"_ctx{loaded.get('ctx') or ctx}_{stamp}.json")
+                                          f"_ctx{ctx or 'max'}{'_nofit' if record.get('fits') is False else ''}"
+                                          f"_{stamp}.json")
     record["experiment_id"] = out.stem
     out.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(f"record: {out}")
     # Keep the generated runtime reference current (results/RUNTIME_REFERENCE.md).
     subprocess.run([sys.executable, str(ROOT / "scripts" / "active" / "build_runtime_reference.py")], check=False)
-    return 1 if "error" in record else 0
+    return out
 
 
 if __name__ == "__main__":

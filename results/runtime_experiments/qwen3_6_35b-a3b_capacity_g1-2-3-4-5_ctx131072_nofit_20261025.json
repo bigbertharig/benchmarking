@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T11:15:47-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false
+  },
+  "model": "qwen3.6:35b-a3b",
+  "cards": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 4,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85B61043",
+      "board": "ASUS",
+      "bus": "11:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 5,
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "12:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": null,
+    "ctx_limit": null,
+    "tensor_split": null,
+    "margin_mb": null,
+    "weights_mb": null,
+    "n_ctx_train": null,
+    "cards": null
+  },
+  "fits": false,
+  "reason": "qwen3.6:35b-a3b needs about 22006 MiB on the cards at ctx 131072 (weights 20583 + KV/state 1423); 5 card(s) [1, 2, 3, 4, 5] give 21950 MiB after margins. Fits on: 6 card(s) GPU [0, 1, 2, 3, 4, 5]: ctx 131072; 1 card GPU 0 (24564 MB): ctx 131072",
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g1-2-3-4-5_ctx131072_nofit_20261025"
+}

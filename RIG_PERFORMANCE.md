@@ -83,12 +83,14 @@ on direct gen 2 root ports (table at the top); runs on that layout:
 |---|---|---|---|
 | `qwen3.5:4b --gpus 0 --ctx 32768` (3090) | `qwen3_5_4b_capacity_3090-x16-restored_ctx32768_20261025.json` | 172.6 tok/s | 172.0 tok/s, prefill 3965 at 3K, load 48 s: back to the x16 baseline |
 | `qwen3.5:4b --gpus 2 --ctx 32768` (old GPU 3 EVGA, now direct gen 2) | `qwen3_5_4b_capacity_evga3-direct-x1_ctx32768_20261025.json` | 24.0 tok/s (gen 1) | 27.8 tok/s, prefill 484 at 3K, load 22 s: the same as the other EVGA on gen 2 x1 (28.0) |
-| `qwen3.6:35b-a3b --gpus 0,1,2,3,4,5 --ctx 131072` | `qwen3_6_35b-a3b_capacity_g0-1-2-3-4-5-allgen2_ctx131072_20261025.json` | 39.7 tok/s, prefill 554 / 256 | incomplete: loaded in 104 s, short probe 38.75 tok/s (no gain over the layout with a gen 1 card), then the ASUS Dual (`ac5b4fea`) fell off the bus (Xid 79) in the first depth probe; no record written |
+| `qwen3.6:35b-a3b --gpus 0,1,2,3,4,5 --ctx 131072` | `qwen3_6_35b-a3b_capacity_g0-1-2-3-4-5-allgen2_ctx131072_20261025.json` | 39.7 tok/s, prefill 554 / 256, decode 35.7 / 16.1, first token at 90% 8.1 min | 38.7 tok/s, prefill 561 / 269, decode 36.0 / 16.2, first token 7.7 min, recall ok: the same within run-to-run variation, so the one gen 1 card in the old layout cost the split nothing measurable (second attempt, after rewiring the ASUS Dual; the first lost that card in the first depth probe) |
+| `qwen3.6:35b-a3b --gpus 1,2,3,4,5 --ctx 131072` | `qwen3_6_35b-a3b_capacity_g1-2-3-4-5_ctx131072_nofit_20261025.json` | won't fit (2026-10-24, not recorded then) | won't fit: 56 MiB short (22,006 MiB needed, 21,950 after margins); the five 1060s hold 89,344 |
 
 **The ASUS Dual (`ac5b4fea`) falls off the bus.** Twice on 2026-10-25: idle in a C17/C18 switch slot (10:09),
 and under the six-card load on direct root port 1c.7 (10:47). It follows the card (or the riser, cable and
 power that moved with it), not the slot. Its fan goes to 100% when it drops; the rig reports `FAULT` and holds
-loads until a power cycle.
+loads until a power cycle. Rewired after the second drop. **If it keeps dropping, it is the first card to
+replace when the new GTX 1070s arrive** (the white two-fan board).
 
 ## Which tool answers which question
 

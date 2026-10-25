@@ -208,5 +208,18 @@
       "recall_in": "reasoning"
     }
   ],
-  "experiment_id": "qwen3_5_4b_capacity_evga1-x1_ctx32768_20261025"
+  "experiment_id": "qwen3_5_4b_capacity_evga1-x1_ctx32768_20261025",
+  "card_details": [
+    {
+      "gpu": 2,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "card_details_source": "backfilled 2026-10-25 from the rig layout at the 09:15 boot (3 cards: EVGA d24d on x16, 3090 on 1b.0, EVGA fd82 on 1b.5)"
 }

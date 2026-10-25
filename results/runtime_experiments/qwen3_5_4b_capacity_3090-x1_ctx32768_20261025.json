@@ -208,5 +208,18 @@
       "recall_in": "reasoning"
     }
   ],
-  "experiment_id": "qwen3_5_4b_capacity_3090-x1_ctx32768_20261025"
+  "experiment_id": "qwen3_5_4b_capacity_3090-x1_ctx32768_20261025",
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "02:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "card_details_source": "backfilled 2026-10-25 from the rig layout at the 09:15 boot (3 cards: EVGA d24d on x16, 3090 on 1b.0, EVGA fd82 on 1b.5)"
 }
