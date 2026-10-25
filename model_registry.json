@@ -551,8 +551,8 @@
     "llama3.3:70b": {
       "gguf": "llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/unsloth/Llama-3.3-70B-Instruct-GGUF/resolve/main/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
-      "status": "candidate",
-      "status_note": "Capacity candidate (all 6 GPUs); reasoning/code smoke pending",
+      "status": "archived",
+      "status_note": "Superseded: a December 2024 dense 70B, about 4 tok/s across all six cards; newer MoE models of this size run faster and score higher. Kept for history; its records stay in the ledger.",
       "schedule": {
         "tier": 3,
         "placement": "split_gpu",
