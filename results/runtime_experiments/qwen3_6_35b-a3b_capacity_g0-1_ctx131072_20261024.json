@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-24T15:13:42-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false
+  },
+  "model": "qwen3.6:35b-a3b",
+  "cards": [
+    0,
+    1
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": "35,6",
+    "margin_mb": 512,
+    "weights_mb": 20583,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24545,
+        "layers": 35,
+        "weights_mb": 17612,
+        "kv_mb": 1145,
+        "compute_mb": 1088,
+        "projected_mb": 19995,
+        "headroom_mb": 4550
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 2971,
+        "kv_mb": 278,
+        "compute_mb": 1088,
+        "projected_mb": 4487,
+        "headroom_mb": 1653
+      }
+    ]
+  },
+  "load": {
+    "seconds": 24.1,
+    "profile": "qwen3.6-35b-a3b-g0-1",
+    "port": 11434,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 17612,
+          "kv_mb": 1088,
+          "compute_mb": 411,
+          "total_mb": 19112
+        },
+        {
+          "gpu": 1,
+          "model_mb": 2971,
+          "kv_mb": 272,
+          "compute_mb": 401,
+          "total_mb": 3645
+        }
+      ],
+      "host_mb": 654,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 3654,
+          "free_mb": 2333
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 222.78,
+    "generation_tokens_per_second": 65.19,
+    "time_to_first_token_seconds": 0.3,
+    "wall_seconds": 8.1,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 8,
+        "avg_power_w": 146.2,
+        "peak_power_w": 147.26,
+        "peak_temperature_c": 52.0,
+        "peak_memory_mb": 19527.0
+      },
+      {
+        "gpu": 1,
+        "samples": 8,
+        "avg_power_w": 84.5,
+        "peak_power_w": 100.65,
+        "peak_temperature_c": 57.0,
+        "peak_memory_mb": 3746.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 13235,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1134.28,
+      "generation_tokens_per_second": 59.28,
+      "time_to_first_token_seconds": 11.7,
+      "wall_seconds": 14.4,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 14,
+          "avg_power_w": 252.2,
+          "peak_power_w": 296.33,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 19545.0
+        },
+        {
+          "gpu": 1,
+          "samples": 14,
+          "avg_power_w": 73.6,
+          "peak_power_w": 109.75,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 3752.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "ZGDT3399",
+      "answer": "ZGDT3399.00000000000000000000000000000000000000000000000000000000000000000000000",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 33804,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 908.8,
+      "generation_tokens_per_second": 51.56,
+      "time_to_first_token_seconds": 37.2,
+      "wall_seconds": 40.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 38,
+          "avg_power_w": 250.0,
+          "peak_power_w": 295.99,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 19545.0
+        },
+        {
+          "gpu": 1,
+          "samples": 38,
+          "avg_power_w": 77.7,
+          "peak_power_w": 132.3,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 3752.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "WNAE7538",
+      "answer": "WNAE7538.\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 68145,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 686.43,
+      "generation_tokens_per_second": 40.31,
+      "time_to_first_token_seconds": 99.3,
+      "wall_seconds": 103.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 97,
+          "avg_power_w": 233.3,
+          "peak_power_w": 294.01,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 19545.0
+        },
+        {
+          "gpu": 1,
+          "samples": 97,
+          "avg_power_w": 76.6,
+          "peak_power_w": 133.71,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 3752.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "JMRA2025",
+      "answer": "JMRA2025.\nThe code given at the very start of this document is: **JMRA2025**.\n\n*",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 103473,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 551.67,
+      "generation_tokens_per_second": 33.75,
+      "time_to_first_token_seconds": 187.6,
+      "wall_seconds": 192.4,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 180,
+          "avg_power_w": 218.9,
+          "peak_power_w": 299.2,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 19545.0
+        },
+        {
+          "gpu": 1,
+          "samples": 180,
+          "avg_power_w": 78.5,
+          "peak_power_w": 125.96,
+          "peak_temperature_c": 67.0,
+          "peak_memory_mb": 3752.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "OKIK4551",
+      "answer": "OKIK4551\nThe rig log records routine status for each card: fan speed, temperatur",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 124657,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 494.23,
+      "generation_tokens_per_second": 30.02,
+      "time_to_first_token_seconds": 252.2,
+      "wall_seconds": 257.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 241,
+          "avg_power_w": 213.2,
+          "peak_power_w": 304.18,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 19545.0
+        },
+        {
+          "gpu": 1,
+          "samples": 241,
+          "avg_power_w": 78.7,
+          "peak_power_w": 126.69,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 3752.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "ZPDB6537",
+      "answer": "ZPDB6537.\nThe code given at the very start of this document is ZPDB6537.\nThe cod",
+      "recall_ok": true
+    }
+  ],
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g0-1_ctx131072_20261024"
+}

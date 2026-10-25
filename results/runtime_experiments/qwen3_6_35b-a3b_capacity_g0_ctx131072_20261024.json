@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-24T15:08:53-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false
+  },
+  "model": "qwen3.6:35b-a3b",
+  "cards": [
+    0
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 20583,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24545,
+        "layers": 40,
+        "weights_mb": 20583,
+        "kv_mb": 1423,
+        "compute_mb": 1088,
+        "projected_mb": 23244,
+        "headroom_mb": 1301
+      }
+    ]
+  },
+  "load": {
+    "seconds": 33.7,
+    "profile": "qwen3.6-35b-a3b-g0",
+    "port": 11434,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 20583,
+          "kv_mb": 1360,
+          "compute_mb": 302,
+          "total_mb": 22246
+        }
+      ],
+      "host_mb": 552,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 353.85,
+    "generation_tokens_per_second": 152.24,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 3.5,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 4,
+        "avg_power_w": 311.5,
+        "peak_power_w": 324.32,
+        "peak_temperature_c": 56.0,
+        "peak_memory_mb": 22669.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 13235,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1630.81,
+      "generation_tokens_per_second": 138.14,
+      "time_to_first_token_seconds": 8.1,
+      "wall_seconds": 9.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 9,
+          "avg_power_w": 344.4,
+          "peak_power_w": 349.81,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "KSSC1019",
+      "answer": "KSSC1019.\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n</s>\n",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 33803,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1551.88,
+      "generation_tokens_per_second": 119.96,
+      "time_to_first_token_seconds": 21.8,
+      "wall_seconds": 23.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 22,
+          "avg_power_w": 347.4,
+          "peak_power_w": 349.62,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "ELWB7596",
+      "answer": "ELWB7596.\n</thinking>\n\nELWB7596.\n\nELWB7596.\n\nELWB7596.\n\nELWB7596.\n\nELWB7596.\n\nEL",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 68145,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1451.93,
+      "generation_tokens_per_second": 97.74,
+      "time_to_first_token_seconds": 46.9,
+      "wall_seconds": 48.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 46,
+          "avg_power_w": 347.5,
+          "peak_power_w": 349.38,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "XKAY1854",
+      "answer": "XKAY1854.\nThe code given at the very start of this document is XKAY1854.\nThe cod",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 103473,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1360.3,
+      "generation_tokens_per_second": 81.38,
+      "time_to_first_token_seconds": 76.1,
+      "wall_seconds": 78.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 74,
+          "avg_power_w": 348.0,
+          "peak_power_w": 349.81,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "VHNP9585",
+      "answer": "VHNP9585.\nThe code given at the very start of this document is VHNP9585.\nThe cod",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 124656,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1312.65,
+      "generation_tokens_per_second": 73.88,
+      "time_to_first_token_seconds": 95.0,
+      "wall_seconds": 97.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 92,
+          "avg_power_w": 347.9,
+          "peak_power_w": 350.53,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "QLHT6792",
+      "answer": "QLHT6792.\n</think>\n\nQLHT6792.\nQLHT6792.\nQLHT6792.\nQLHT6792.\nQLHT6792.\nQLHT6792.\n",
+      "recall_ok": true
+    }
+  ],
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g0_ctx131072_20261024"
+}

@@ -1,0 +1,426 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-24T15:24:43-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false
+  },
+  "model": "qwen3.6:35b-a3b",
+  "cards": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": "27,5,5,4",
+    "margin_mb": 512,
+    "weights_mb": 20583,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24545,
+        "layers": 27,
+        "weights_mb": 13562,
+        "kv_mb": 860,
+        "compute_mb": 1088,
+        "projected_mb": 15660,
+        "headroom_mb": 8885
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 2505,
+        "kv_mb": 278,
+        "compute_mb": 1088,
+        "projected_mb": 4021,
+        "headroom_mb": 2119
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 2546,
+        "kv_mb": 144,
+        "compute_mb": 1088,
+        "projected_mb": 3929,
+        "headroom_mb": 2211
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 1970,
+        "kv_mb": 140,
+        "compute_mb": 1088,
+        "projected_mb": 3349,
+        "headroom_mb": 2791
+      }
+    ]
+  },
+  "load": {
+    "seconds": 40.1,
+    "profile": "qwen3.6-35b-a3b-g0-1-2-3",
+    "port": 11434,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 13562,
+          "kv_mb": 816,
+          "compute_mb": 411,
+          "total_mb": 14789
+        },
+        {
+          "gpu": 1,
+          "model_mb": 2505,
+          "kv_mb": 272,
+          "compute_mb": 401,
+          "total_mb": 3179
+        },
+        {
+          "gpu": 2,
+          "model_mb": 2546,
+          "kv_mb": 136,
+          "compute_mb": 402,
+          "total_mb": 3085
+        },
+        {
+          "gpu": 3,
+          "model_mb": 1970,
+          "kv_mb": 136,
+          "compute_mb": 401,
+          "total_mb": 2508
+        }
+      ],
+      "host_mb": 654,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 3188,
+          "free_mb": 2798
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 3097,
+          "free_mb": 2888
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 2516,
+          "free_mb": 3473
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 143.56,
+    "generation_tokens_per_second": 42.66,
+    "time_to_first_token_seconds": 0.4,
+    "wall_seconds": 12.4,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 12,
+        "avg_power_w": 123.1,
+        "peak_power_w": 123.99,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 15187.0
+      },
+      {
+        "gpu": 1,
+        "samples": 12,
+        "avg_power_w": 34.4,
+        "peak_power_w": 41.86,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 3280.0
+      },
+      {
+        "gpu": 2,
+        "samples": 12,
+        "avg_power_w": 31.4,
+        "peak_power_w": 34.72,
+        "peak_temperature_c": 45.0,
+        "peak_memory_mb": 3190.0
+      },
+      {
+        "gpu": 3,
+        "samples": 12,
+        "avg_power_w": 64.4,
+        "peak_power_w": 81.27,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 2608.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 13235,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 675.8,
+      "generation_tokens_per_second": 38.9,
+      "time_to_first_token_seconds": 19.6,
+      "wall_seconds": 23.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 23,
+          "avg_power_w": 174.5,
+          "peak_power_w": 210.14,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 15201.0
+        },
+        {
+          "gpu": 1,
+          "samples": 23,
+          "avg_power_w": 50.2,
+          "peak_power_w": 101.39,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 3286.0
+        },
+        {
+          "gpu": 2,
+          "samples": 23,
+          "avg_power_w": 60.5,
+          "peak_power_w": 107.5,
+          "peak_temperature_c": 50.0,
+          "peak_memory_mb": 3196.0
+        },
+        {
+          "gpu": 3,
+          "samples": 23,
+          "avg_power_w": 48.6,
+          "peak_power_w": 89.91,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 2614.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "VWJH5114",
+      "answer": "VWJH5114.\n</s>\nVWJH5114.\n</s>\nVWJH5114.\n</s>\nVWJH5114.\n</s>\nVWJH5114.\n</s>\nVWJH5",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 33804,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 557.3,
+      "generation_tokens_per_second": 33.22,
+      "time_to_first_token_seconds": 60.7,
+      "wall_seconds": 65.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 61,
+          "avg_power_w": 180.5,
+          "peak_power_w": 219.76,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 15201.0
+        },
+        {
+          "gpu": 1,
+          "samples": 61,
+          "avg_power_w": 64.5,
+          "peak_power_w": 122.63,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 3286.0
+        },
+        {
+          "gpu": 2,
+          "samples": 61,
+          "avg_power_w": 64.6,
+          "peak_power_w": 122.04,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 3196.0
+        },
+        {
+          "gpu": 3,
+          "samples": 61,
+          "avg_power_w": 44.8,
+          "peak_power_w": 108.88,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 2614.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "QMNC7283",
+      "answer": "QMNC7283.\n</think>\n\nQMNC7283.\n</think>\n\nQMNC7283.\n</think>\n\nQMNC7283.\n</think>\n\n",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 68145,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 433.18,
+      "generation_tokens_per_second": 25.58,
+      "time_to_first_token_seconds": 157.3,
+      "wall_seconds": 163.6,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 152,
+          "avg_power_w": 169.4,
+          "peak_power_w": 212.87,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 15201.0
+        },
+        {
+          "gpu": 1,
+          "samples": 152,
+          "avg_power_w": 66.5,
+          "peak_power_w": 147.74,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 3286.0
+        },
+        {
+          "gpu": 2,
+          "samples": 152,
+          "avg_power_w": 53.5,
+          "peak_power_w": 128.87,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 3196.0
+        },
+        {
+          "gpu": 3,
+          "samples": 152,
+          "avg_power_w": 49.7,
+          "peak_power_w": 138.97,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 2614.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "SEXI8700",
+      "answer": "SEXI8700.\n</think>\n\nSEXI8700.\n</think>\n\nSEXI8700.\n</think>\n\nSEXI8700.\n</think>\n\n",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 103474,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 353.22,
+      "generation_tokens_per_second": 21.55,
+      "time_to_first_token_seconds": 292.9,
+      "wall_seconds": 300.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 280,
+          "avg_power_w": 159.0,
+          "peak_power_w": 211.14,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 15201.0
+        },
+        {
+          "gpu": 1,
+          "samples": 280,
+          "avg_power_w": 65.7,
+          "peak_power_w": 126.68,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 3286.0
+        },
+        {
+          "gpu": 2,
+          "samples": 280,
+          "avg_power_w": 58.8,
+          "peak_power_w": 125.54,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 3196.0
+        },
+        {
+          "gpu": 3,
+          "samples": 280,
+          "avg_power_w": 50.0,
+          "peak_power_w": 138.99,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 2614.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "IKNK9097",
+      "answer": "IKNK9097.\nIKNK9097.\nIKNK9097.\nIKNK9097.\nIKNK9097.\nIKNK9097.\nIKNK9097.\nIKNK9097.\n",
+      "recall_ok": true
+    },
+    {
+      "prompt_tokens": 124656,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 317.87,
+      "generation_tokens_per_second": 19.18,
+      "time_to_first_token_seconds": 392.2,
+      "wall_seconds": 400.6,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 373,
+          "avg_power_w": 153.6,
+          "peak_power_w": 204.9,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 15201.0
+        },
+        {
+          "gpu": 1,
+          "samples": 373,
+          "avg_power_w": 65.4,
+          "peak_power_w": 124.28,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 3288.0
+        },
+        {
+          "gpu": 2,
+          "samples": 373,
+          "avg_power_w": 55.1,
+          "peak_power_w": 128.66,
+          "peak_temperature_c": 55.0,
+          "peak_memory_mb": 3198.0
+        },
+        {
+          "gpu": 3,
+          "samples": 373,
+          "avg_power_w": 54.5,
+          "peak_power_w": 142.24,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 2616.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "WLON1336",
+      "answer": "WLON1336.\n</think>\n\nWLON1336.\n</think>\n\nWLON1336.\n</think>\n\nWLON1336.\n</think>\n\n",
+      "recall_ok": true
+    }
+  ],
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g0-1-2-3_ctx131072_20261024"
+}

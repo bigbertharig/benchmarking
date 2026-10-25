@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-24T18:05:11-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 32768 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false
+  },
+  "model": "qwen3.5:4b",
+  "cards": [
+    0,
+    1
+  ],
+  "plan": {
+    "ctx": 32768,
+    "ctx_limit": "requested",
+    "tensor_split": "32,1",
+    "margin_mb": 512,
+    "weights_mb": 2604,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24545,
+        "layers": 32,
+        "weights_mb": 2106,
+        "kv_mb": 594,
+        "compute_mb": 192,
+        "projected_mb": 3042,
+        "headroom_mb": 21503
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 0,
+        "weights_mb": 497,
+        "kv_mb": 0,
+        "compute_mb": 192,
+        "projected_mb": 839,
+        "headroom_mb": 5301
+      }
+    ]
+  },
+  "load": {
+    "seconds": 14.4,
+    "profile": "qwen3.5-4b-g0-1",
+    "port": 11434,
+    "ctx_allocated": 32768,
+    "measured": {
+      "n_ctx": 32768,
+      "offloaded": 33,
+      "layers": 33,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 2106,
+          "kv_mb": 544,
+          "compute_mb": 159,
+          "total_mb": 2810
+        },
+        {
+          "gpu": 1,
+          "model_mb": 497,
+          "kv_mb": 0,
+          "compute_mb": 1,
+          "total_mb": 498
+        }
+      ],
+      "host_mb": 521,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 498,
+          "free_mb": 5497
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 61,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 715.66,
+    "generation_tokens_per_second": 79.24,
+    "time_to_first_token_seconds": 0.1,
+    "wall_seconds": 6.5,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 7,
+        "avg_power_w": 176.9,
+        "peak_power_w": 177.81,
+        "peak_temperature_c": 58.0,
+        "peak_memory_mb": 3201.0
+      },
+      {
+        "gpu": 1,
+        "samples": 7,
+        "avg_power_w": 81.4,
+        "peak_power_w": 88.85,
+        "peak_temperature_c": 62.0,
+        "peak_memory_mb": 578.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 3023,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 3919.26,
+      "generation_tokens_per_second": 79.76,
+      "time_to_first_token_seconds": 0.8,
+      "wall_seconds": 2.8,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 3,
+          "avg_power_w": 235.5,
+          "peak_power_w": 294.09,
+          "peak_temperature_c": 60.0,
+          "peak_memory_mb": 3213.0
+        },
+        {
+          "gpu": 1,
+          "samples": 3,
+          "avg_power_w": 66.1,
+          "peak_power_w": 82.62,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 578.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "UFFH7589",
+      "answer": "",
+      "recall_ok": false
+    },
+    {
+      "prompt_tokens": 8074,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 4093.45,
+      "generation_tokens_per_second": 78.49,
+      "time_to_first_token_seconds": 2.0,
+      "wall_seconds": 4.0,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 4,
+          "avg_power_w": 283.1,
+          "peak_power_w": 332.46,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 3213.0
+        },
+        {
+          "gpu": 1,
+          "samples": 4,
+          "avg_power_w": 70.7,
+          "peak_power_w": 92.15,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 578.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "SXZJ9499",
+      "answer": "",
+      "recall_ok": false
+    },
+    {
+      "prompt_tokens": 16650,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 3988.02,
+      "generation_tokens_per_second": 76.55,
+      "time_to_first_token_seconds": 4.2,
+      "wall_seconds": 6.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 6,
+          "avg_power_w": 307.4,
+          "peak_power_w": 347.27,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 3213.0
+        },
+        {
+          "gpu": 1,
+          "samples": 6,
+          "avg_power_w": 66.9,
+          "peak_power_w": 97.63,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 578.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "OIXB3282",
+      "answer": "",
+      "recall_ok": false
+    },
+    {
+      "prompt_tokens": 25225,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 3833.13,
+      "generation_tokens_per_second": 74.48,
+      "time_to_first_token_seconds": 6.6,
+      "wall_seconds": 8.8,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 9,
+          "avg_power_w": 316.7,
+          "peak_power_w": 349.11,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 3213.0
+        },
+        {
+          "gpu": 1,
+          "samples": 9,
+          "avg_power_w": 69.0,
+          "peak_power_w": 87.42,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 578.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "PVPE4971",
+      "answer": "",
+      "recall_ok": false
+    },
+    {
+      "prompt_tokens": 30384,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 3744.41,
+      "generation_tokens_per_second": 73.1,
+      "time_to_first_token_seconds": 8.1,
+      "wall_seconds": 10.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 10,
+          "avg_power_w": 326.9,
+          "peak_power_w": 348.66,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 3213.0
+        },
+        {
+          "gpu": 1,
+          "samples": 10,
+          "avg_power_w": 59.7,
+          "peak_power_w": 75.75,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 578.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "IRTR3457",
+      "answer": "",
+      "recall_ok": false
+    }
+  ],
+  "experiment_id": "qwen3_5_4b_capacity_g0-1_ctx32768_20261024"
+}
