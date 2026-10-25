@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T11:54:25-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default (largest that fits)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false
+  },
+  "model": "gemma-4:31b",
+  "cards": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 4,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85B61043",
+      "board": "ASUS",
+      "bus": "11:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 5,
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "12:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 78336,
+    "ctx_limit": "card memory",
+    "tensor_split": "13,13,13,13,9",
+    "margin_mb": 512,
+    "weights_mb": 17806,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 13,
+        "weights_mb": 3694,
+        "kv_mb": 837,
+        "compute_mb": 944,
+        "projected_mb": 5625,
+        "headroom_mb": 515
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 13,
+        "weights_mb": 3535,
+        "kv_mb": 837,
+        "compute_mb": 944,
+        "projected_mb": 5467,
+        "headroom_mb": 673
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 13,
+        "weights_mb": 3535,
+        "kv_mb": 837,
+        "compute_mb": 944,
+        "projected_mb": 5467,
+        "headroom_mb": 673
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 13,
+        "weights_mb": 3564,
+        "kv_mb": 837,
+        "compute_mb": 944,
+        "projected_mb": 5495,
+        "headroom_mb": 645
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 3478,
+        "kv_mb": 752,
+        "compute_mb": 944,
+        "projected_mb": 5324,
+        "headroom_mb": 816
+      }
+    ]
+  },
+  "load": {
+    "seconds": 61.4,
+    "profile": "gemma-4-31b-g1-2-3-4-5",
+    "port": 11435,
+    "ctx_allocated": 78336,
+    "measured": {
+      "n_ctx": 78336,
+      "offloaded": 61,
+      "layers": 61,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 3694,
+          "kv_mb": 767,
+          "compute_mb": 750,
+          "total_mb": 5211
+        },
+        {
+          "gpu": 2,
+          "model_mb": 3536,
+          "kv_mb": 767,
+          "compute_mb": 727,
+          "total_mb": 5029
+        },
+        {
+          "gpu": 3,
+          "model_mb": 3536,
+          "kv_mb": 767,
+          "compute_mb": 727,
+          "total_mb": 5029
+        },
+        {
+          "gpu": 4,
+          "model_mb": 3564,
+          "kv_mb": 767,
+          "compute_mb": 727,
+          "total_mb": 5058
+        },
+        {
+          "gpu": 5,
+          "model_mb": 3478,
+          "kv_mb": 714,
+          "compute_mb": 727,
+          "total_mb": 4918
+        }
+      ],
+      "host_mb": 1212,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 5211,
+          "free_mb": 784
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 5039,
+          "free_mb": 956
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 5039,
+          "free_mb": 956
+        },
+        {
+          "gpu": 4,
+          "total_mb": 6065,
+          "projected_mb": 5068,
+          "free_mb": 927
+        },
+        {
+          "gpu": 5,
+          "total_mb": 6065,
+          "projected_mb": 4928,
+          "free_mb": 1067
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 65,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 49.8,
+    "generation_tokens_per_second": 5.4,
+    "time_to_first_token_seconds": 1.3,
+    "wall_seconds": 95.9,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 89,
+        "avg_power_w": 39.1,
+        "peak_power_w": 84.52,
+        "peak_temperature_c": 57.0,
+        "peak_memory_mb": 5300.0
+      },
+      {
+        "gpu": 2,
+        "samples": 89,
+        "avg_power_w": 38.1,
+        "peak_power_w": 121.54,
+        "peak_temperature_c": 58.0,
+        "peak_memory_mb": 5118.0
+      },
+      {
+        "gpu": 3,
+        "samples": 89,
+        "avg_power_w": 37.3,
+        "peak_power_w": 87.59,
+        "peak_temperature_c": 52.0,
+        "peak_memory_mb": 5118.0
+      },
+      {
+        "gpu": 4,
+        "samples": 89,
+        "avg_power_w": 36.7,
+        "peak_power_w": 83.6,
+        "peak_temperature_c": 55.0,
+        "peak_memory_mb": 5146.0
+      },
+      {
+        "gpu": 5,
+        "samples": 89,
+        "avg_power_w": 36.5,
+        "peak_power_w": 78.58,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 5006.0
+      }
+    ]
+  },
+  "experiment_id": "gemma-4_31b_capacity_g1-2-3-4-5_ctx78336_20261025"
+}
