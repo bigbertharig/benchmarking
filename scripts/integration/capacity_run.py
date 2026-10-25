@@ -13,7 +13,9 @@ Run on the rig (it talks to the runtime port and reads nvidia-smi), as a run so 
     /mnt/shared/plans/shoulders/benchmarking/scripts/integration/capacity_run.py MODEL [--gpus 0,1,2] [--cards N]
 Cards: --gpus pins them, --cards N lets the manager pick N (smallest first), neither uses every card.
 Context: the largest that fits (capped at the model's trained context), or exactly --ctx N, so runs on
-different card sets compare at the same context (a bottleneck matrix: one card vs splits).
+different card sets compare at the same context (a bottleneck matrix: one card vs splits). --depth-of N
+probes at the fractions of N instead of the loaded context: the same token counts as runs loaded at N, for a
+card set that cannot hold N itself (probes that would not fit the loaded context are skipped).
 """
 
 from __future__ import annotations
@@ -169,7 +171,7 @@ def depth_probe(port: int, ctx: int, fraction: float, gpus: list[int]) -> dict:
     chunk = FILLER.format(n=1, m=100, k=50)
     chunk_tokens = len(post(port, "/tokenize", {"content": chunk}, 60)["tokens"])
     head_tokens = len(post(port, "/tokenize", {"content": head + question}, 60)["tokens"])
-    target = int(ctx * fraction) - QUESTION_TOKENS
+    target = int(ctx * fraction) - QUESTION_TOKENS  # ctx: the loaded context, or --depth-of's reference
     n = repeats_for(target, chunk_tokens, head_tokens)
     body = "".join(FILLER.format(n=i, m=100 + i % 200, k=40 + i % 40) for i in range(n))
     prompt = head + body + question
@@ -186,6 +188,11 @@ def depth_probe(port: int, ctx: int, fraction: float, gpus: list[int]) -> dict:
     return result
 
 
+def fits_depth(depth_ctx: int, fraction: float, loaded_ctx: int) -> bool:
+    """A probe at fraction of depth_ctx fits a runtime loaded at loaded_ctx (with room for the answer)."""
+    return int(depth_ctx * fraction) + DECODE_TOKENS <= loaded_ctx
+
+
 def slug(model: str) -> str:
     return re.sub(r"[^A-Za-z0-9_-]+", "_", model.replace(":", "_").replace(".", "_"))
 
@@ -197,6 +204,7 @@ def main() -> int:
     cards.add_argument("--gpus", help="pin these cards, e.g. 0,1,2,3")
     cards.add_argument("--cards", type=int, help="let the manager pick this many cards")
     ap.add_argument("--ctx", type=int, help="load at exactly this context instead of the largest that fits")
+    ap.add_argument("--depth-of", type=int, help="probe at fractions of this context (match runs loaded at it)")
     ap.add_argument("--fractions", default=FRACTIONS, help="depth probes as shares of the context, comma separated")
     ap.add_argument("--margin-mb", type=int, help="headroom per card for the fit (manager default when omitted)")
     ap.add_argument("--skip-depth", action="store_true", help="only the load and the short probe")
@@ -239,6 +247,7 @@ def main() -> int:
                         "plan": ("rigctl fit --use chat --profile default "
                                  + (f"--ctx {a.ctx} (fixed)" if a.ctx else "(largest that fits)")),
                         "depth_fractions": [float(f) for f in a.fractions.split(",")],
+                        "depth_of_ctx": a.depth_of,
                         "decode_tokens_per_depth_probe": DECODE_TOKENS, "cache_prompt": False},
         "model": a.model,
         "cards": gpus,
@@ -254,8 +263,14 @@ def main() -> int:
         print(f"short: decode {record['short_probe']['generation_tokens_per_second']} tok/s", flush=True)
         if not a.skip_depth:
             record["depth_probes"] = []
+            loaded_ctx = int(loaded.get("ctx") or ctx)
+            depth_ctx = a.depth_of or loaded_ctx
             for fraction in sorted(float(f) for f in a.fractions.split(",")):
-                lp = depth_probe(port, int(loaded.get("ctx") or ctx), fraction, gpus)
+                if not fits_depth(depth_ctx, fraction, loaded_ctx):
+                    print(f"depth {fraction:.2f} of {depth_ctx}: skipped, more than the loaded ctx {loaded_ctx}",
+                          flush=True)
+                    continue
+                lp = depth_probe(port, depth_ctx, fraction, gpus)
                 record["depth_probes"].append(lp)
                 print(f"depth {fraction:.2f}: {lp['prompt_tokens']} prompt tokens, prefill "
                       f"{lp['prompt_tokens_per_second']} tok/s, first token {lp['time_to_first_token_seconds']} s, "
