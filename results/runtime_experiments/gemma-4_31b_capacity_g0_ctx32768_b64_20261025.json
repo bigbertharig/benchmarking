@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T12:58:52-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 32768 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": 64
+  },
+  "model": "gemma-4:31b",
+  "ubatch": 64,
+  "cards": [
+    0
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 2,
+      "link_width": 16
+    }
+  ],
+  "plan": {
+    "ctx": 32768,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 17806,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 60,
+        "weights_mb": 17806,
+        "kv_mb": 2210,
+        "compute_mb": 320,
+        "projected_mb": 20960,
+        "headroom_mb": 3589
+      }
+    ]
+  },
+  "load": {
+    "seconds": 177.1,
+    "profile": "gemma-4-31b-g0",
+    "port": 11434,
+    "ctx_allocated": 32768,
+    "measured": {
+      "n_ctx": 32768,
+      "offloaded": 61,
+      "layers": 61,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 17806,
+          "kv_mb": 1891,
+          "compute_mb": 275,
+          "total_mb": 19972
+        }
+      ],
+      "host_mb": 1113,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 65,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 364.38,
+    "generation_tokens_per_second": 38.23,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 13.6,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 13,
+        "avg_power_w": 330.0,
+        "peak_power_w": 349.98,
+        "peak_temperature_c": 63.0,
+        "peak_memory_mb": 20317.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 3026,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 834.07,
+      "generation_tokens_per_second": 36.52,
+      "time_to_first_token_seconds": 3.6,
+      "wall_seconds": 8.0,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 8,
+          "avg_power_w": 340.4,
+          "peak_power_w": 351.09,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 20331.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "WPCR5371",
+      "answer": "WPCR5371</p>\n```json\n{\n  \"code\": \"WPCR5371\"\n}\n```\nWait, the prompt asked for *on",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 8078,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 881.47,
+      "generation_tokens_per_second": 35.08,
+      "time_to_first_token_seconds": 9.2,
+      "wall_seconds": 13.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 13,
+          "avg_power_w": 343.2,
+          "peak_power_w": 352.49,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 20333.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "FJKD7690",
+      "answer": "FJKD7690of course! Here is the code: FJKD7690. Let me know if you need anything ",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 16653,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 863.69,
+      "generation_tokens_per_second": 33.01,
+      "time_to_first_token_seconds": 19.3,
+      "wall_seconds": 24.1,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 23,
+          "avg_power_w": 345.2,
+          "peak_power_w": 349.96,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 20333.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "RFHT3750",
+      "answer": "RFHT3750</p>\n```\nRFHT3750\n```\n(Wait, the prompt asked for *only* the code).\n\nRFH",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 25229,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 826.9,
+      "generation_tokens_per_second": 31.0,
+      "time_to_first_token_seconds": 30.5,
+      "wall_seconds": 35.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 34,
+          "avg_power_w": 346.6,
+          "peak_power_w": 352.22,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 20333.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "DUBE9831",
+      "answer": "DUBE9831</p>\n```json\n{\n  \"code\": \"DUBE9831\"\n}\n```\nWait, the prompt asked for *on",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 30388,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 805.94,
+      "generation_tokens_per_second": 29.94,
+      "time_to_first_token_seconds": 37.7,
+      "wall_seconds": 43.1,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 41,
+          "avg_power_w": 347.0,
+          "peak_power_w": 351.16,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 20333.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "RLUC1510",
+      "answer": "RLUC1510</p>\n```json\n{\n  \"code\": \"RLUC1510\"\n}\n```\nWait, the prompt asked for *on",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "gemma-4_31b_capacity_g0_ctx32768_b64_20261025"
+}

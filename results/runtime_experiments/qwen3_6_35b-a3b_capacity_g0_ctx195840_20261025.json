@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T13:09:21-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default (largest that fits)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "qwen3.6:35b-a3b",
+  "ubatch": 128,
+  "cards": [
+    0
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 2,
+      "link_width": 16
+    }
+  ],
+  "plan": {
+    "ctx": 195840,
+    "ctx_limit": "card memory",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 20583,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 40,
+        "weights_mb": 20583,
+        "kv_mb": 2095,
+        "compute_mb": 733,
+        "projected_mb": 24035,
+        "headroom_mb": 514
+      }
+    ]
+  },
+  "load": {
+    "seconds": 64.6,
+    "profile": "qwen3.6-35b-a3b-g0",
+    "port": 11434,
+    "ctx_allocated": 195840,
+    "measured": {
+      "n_ctx": 195840,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 20583,
+          "kv_mb": 2032,
+          "compute_mb": 445,
+          "total_mb": 23060
+        }
+      ],
+      "host_mb": 567,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 208.71,
+    "generation_tokens_per_second": 151.13,
+    "time_to_first_token_seconds": 0.3,
+    "wall_seconds": 3.7,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 4,
+        "avg_power_w": 299.2,
+        "peak_power_w": 326.16,
+        "peak_temperature_c": 56.0,
+        "peak_memory_mb": 23481.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 20002,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1604.44,
+      "generation_tokens_per_second": 132.33,
+      "time_to_first_token_seconds": 12.5,
+      "wall_seconds": 13.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 13,
+          "avg_power_w": 345.5,
+          "peak_power_w": 349.52,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 23499.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "UHEO8878",
+      "answer": "UHEO8878.00000000000000000000000000000000000000000000000000000000000000000000000",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 50755,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1506.76,
+      "generation_tokens_per_second": 108.1,
+      "time_to_first_token_seconds": 33.7,
+      "wall_seconds": 35.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 34,
+          "avg_power_w": 347.5,
+          "peak_power_w": 349.46,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 23499.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "BJKV9220",
+      "answer": "BJKV9220.\nThe code given at the very start of this document is BJKV9220.\nThe cod",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 103059,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1367.43,
+      "generation_tokens_per_second": 81.41,
+      "time_to_first_token_seconds": 75.4,
+      "wall_seconds": 77.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 73,
+          "avg_power_w": 347.3,
+          "peak_power_w": 351.3,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 23499.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "AOSS2884",
+      "answer": "AOSS2884.\nThe rig log records routine status for each card: fan speed, temperatu",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 155844,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1254.94,
+      "generation_tokens_per_second": 65.18,
+      "time_to_first_token_seconds": 124.2,
+      "wall_seconds": 126.9,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 120,
+          "avg_power_w": 347.7,
+          "peak_power_w": 351.25,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 23499.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "RBQQ3771",
+      "answer": "RBQQ3771\n</think>\n\nRBQQ3771\nRBQQ3771\nRBQQ3771\nRBQQ3771\nRBQQ3771\nRBQQ3771\nRBQQ377",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 187516,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1196.21,
+      "generation_tokens_per_second": 58.39,
+      "time_to_first_token_seconds": 156.8,
+      "wall_seconds": 159.8,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 151,
+          "avg_power_w": 347.7,
+          "peak_power_w": 351.37,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 23499.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "YSXA6199",
+      "answer": "YSXA6199.\n</think>\n\nYSXA6199.\n</think>\n\nYSXA6199.\n</think>\n\nYSXA6199.\n</think>\n\n",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g0_ctx195840_20261025"
+}

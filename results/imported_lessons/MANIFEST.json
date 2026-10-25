@@ -1,0 +1,20 @@
+{
+  "collected_at": "2026-10-25T20:59:54+00:00",
+  "sources": {
+    "llm-gateway": {
+      "from": "/home/bryan/llm-gateway/lessons",
+      "commit": "19c582f",
+      "files": [
+        "README.md",
+        "load_observations.jsonl"
+      ]
+    },
+    "llm-harness": {
+      "from": "/home/bryan/llm-harness/lessons",
+      "commit": "1f8e009",
+      "files": [
+        "README.md"
+      ]
+    }
+  }
+}

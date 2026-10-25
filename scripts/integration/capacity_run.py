@@ -16,6 +16,9 @@ Context: the largest that fits (capped at the model's trained context), or exact
 different card sets compare at the same context (a bottleneck matrix: one card vs splits). --depth-of N
 probes at the fractions of N instead of the loaded context: the same token counts as runs loaded at N, for a
 card set that cannot hold N itself (probes that would not fit the loaded context are skipped).
+--batch-size B overrides the profile's batch (the micro-batch, up to 512) for a sweep; the record name gets _bB.
+--margin-mb M changes the manager's headroom per card (0: the true limit; a load that does not fit fails).
+The record names its cards by UUID and link (card_details), and a won't-fit is a record too (_nofit).
 """
 
 from __future__ import annotations

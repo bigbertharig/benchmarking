@@ -1,0 +1,565 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T12:49:07-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 32768 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": 256
+  },
+  "model": "qwen3.6:35b-a3b",
+  "ubatch": 256,
+  "cards": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 4,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85B61043",
+      "board": "ASUS",
+      "bus": "11:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 5,
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "12:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 32768,
+    "ctx_limit": "requested",
+    "tensor_split": "8,8,8,8,9",
+    "margin_mb": 512,
+    "weights_mb": 20583,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 81,
+        "compute_mb": 183,
+        "projected_mb": 4494,
+        "headroom_mb": 1646
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 81,
+        "compute_mb": 183,
+        "projected_mb": 4494,
+        "headroom_mb": 1646
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 81,
+        "compute_mb": 183,
+        "projected_mb": 4494,
+        "headroom_mb": 1646
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 81,
+        "compute_mb": 183,
+        "projected_mb": 4494,
+        "headroom_mb": 1646
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4517,
+        "kv_mb": 81,
+        "compute_mb": 183,
+        "projected_mb": 4994,
+        "headroom_mb": 1146
+      }
+    ]
+  },
+  "load": {
+    "seconds": 67.9,
+    "profile": "qwen3.6-35b-a3b-g1-2-3-4-5",
+    "port": 11435,
+    "ctx_allocated": 32768,
+    "measured": {
+      "n_ctx": 32768,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 4017,
+          "kv_mb": 68,
+          "compute_mb": 182,
+          "total_mb": 4267
+        },
+        {
+          "gpu": 2,
+          "model_mb": 4017,
+          "kv_mb": 68,
+          "compute_mb": 164,
+          "total_mb": 4249
+        },
+        {
+          "gpu": 3,
+          "model_mb": 4017,
+          "kv_mb": 68,
+          "compute_mb": 164,
+          "total_mb": 4249
+        },
+        {
+          "gpu": 4,
+          "model_mb": 4017,
+          "kv_mb": 68,
+          "compute_mb": 164,
+          "total_mb": 4249
+        },
+        {
+          "gpu": 5,
+          "model_mb": 4517,
+          "kv_mb": 68,
+          "compute_mb": 164,
+          "total_mb": 4748
+        }
+      ],
+      "host_mb": 600,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4279,
+          "free_mb": 1702
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 4269,
+          "free_mb": 1712
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 4269,
+          "free_mb": 1712
+        },
+        {
+          "gpu": 4,
+          "total_mb": 6065,
+          "projected_mb": 4269,
+          "free_mb": 1712
+        },
+        {
+          "gpu": 5,
+          "total_mb": 6065,
+          "projected_mb": 4768,
+          "free_mb": 1212
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 88.46,
+    "generation_tokens_per_second": 26.81,
+    "time_to_first_token_seconds": 0.7,
+    "wall_seconds": 19.8,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 19,
+        "avg_power_w": 30.9,
+        "peak_power_w": 57.77,
+        "peak_temperature_c": 52.0,
+        "peak_memory_mb": 4374.0
+      },
+      {
+        "gpu": 2,
+        "samples": 19,
+        "avg_power_w": 35.3,
+        "peak_power_w": 46.13,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 4356.0
+      },
+      {
+        "gpu": 3,
+        "samples": 19,
+        "avg_power_w": 41.8,
+        "peak_power_w": 51.77,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 4356.0
+      },
+      {
+        "gpu": 4,
+        "samples": 19,
+        "avg_power_w": 36.9,
+        "peak_power_w": 48.22,
+        "peak_temperature_c": 52.0,
+        "peak_memory_mb": 4356.0
+      },
+      {
+        "gpu": 5,
+        "samples": 19,
+        "avg_power_w": 48.8,
+        "peak_power_w": 63.96,
+        "peak_temperature_c": 56.0,
+        "peak_memory_mb": 4856.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 3024,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 669.01,
+      "generation_tokens_per_second": 25.82,
+      "time_to_first_token_seconds": 4.5,
+      "wall_seconds": 10.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 10,
+          "avg_power_w": 52.3,
+          "peak_power_w": 113.82,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 4382.0
+        },
+        {
+          "gpu": 2,
+          "samples": 10,
+          "avg_power_w": 42.2,
+          "peak_power_w": 96.51,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 3,
+          "samples": 10,
+          "avg_power_w": 53.7,
+          "peak_power_w": 98.78,
+          "peak_temperature_c": 55.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 4,
+          "samples": 10,
+          "avg_power_w": 41.0,
+          "peak_power_w": 98.39,
+          "peak_temperature_c": 53.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 5,
+          "samples": 10,
+          "avg_power_w": 50.8,
+          "peak_power_w": 104.07,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4864.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "QCXT3486",
+      "answer": "QCXT3486.00000000000000000000000000000000000000000000000000000000000000000000000",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 8076,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 799.29,
+      "generation_tokens_per_second": 24.35,
+      "time_to_first_token_seconds": 10.1,
+      "wall_seconds": 16.6,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 16,
+          "avg_power_w": 48.5,
+          "peak_power_w": 108.43,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 4382.0
+        },
+        {
+          "gpu": 2,
+          "samples": 16,
+          "avg_power_w": 59.1,
+          "peak_power_w": 120.11,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 3,
+          "samples": 16,
+          "avg_power_w": 63.3,
+          "peak_power_w": 104.39,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 4,
+          "samples": 16,
+          "avg_power_w": 47.4,
+          "peak_power_w": 100.67,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 5,
+          "samples": 16,
+          "avg_power_w": 59.9,
+          "peak_power_w": 110.4,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4864.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "RYUE7568",
+      "answer": "RYUE7568.00000000000000000000000000000000000000000000000000000000000000000000000",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 16652,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 774.23,
+      "generation_tokens_per_second": 22.26,
+      "time_to_first_token_seconds": 21.5,
+      "wall_seconds": 28.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 27,
+          "avg_power_w": 55.8,
+          "peak_power_w": 124.83,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 4382.0
+        },
+        {
+          "gpu": 2,
+          "samples": 27,
+          "avg_power_w": 65.5,
+          "peak_power_w": 130.95,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 3,
+          "samples": 27,
+          "avg_power_w": 67.9,
+          "peak_power_w": 117.55,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 4,
+          "samples": 27,
+          "avg_power_w": 56.5,
+          "peak_power_w": 113.73,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 5,
+          "samples": 27,
+          "avg_power_w": 73.0,
+          "peak_power_w": 126.7,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 4864.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "EXLW5223",
+      "answer": "EXLW5223.00000000000000000000000000000000000000000000000000000000000000000000000",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 25227,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 727.3,
+      "generation_tokens_per_second": 20.46,
+      "time_to_first_token_seconds": 34.7,
+      "wall_seconds": 42.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 39,
+          "avg_power_w": 70.4,
+          "peak_power_w": 137.83,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 4382.0
+        },
+        {
+          "gpu": 2,
+          "samples": 39,
+          "avg_power_w": 70.5,
+          "peak_power_w": 132.95,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 3,
+          "samples": 39,
+          "avg_power_w": 60.1,
+          "peak_power_w": 122.11,
+          "peak_temperature_c": 54.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 4,
+          "samples": 39,
+          "avg_power_w": 68.8,
+          "peak_power_w": 114.75,
+          "peak_temperature_c": 60.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 5,
+          "samples": 39,
+          "avg_power_w": 70.8,
+          "peak_power_w": 116.89,
+          "peak_temperature_c": 54.0,
+          "peak_memory_mb": 4864.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "ZUNS3888",
+      "answer": "ZUNS3888.\n</think>\n\nZUNS3888.\n</think>\n\nZUNS3888.\n</think>\n\nZUNS3888.\n</think>\n\n",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 30386,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 697.72,
+      "generation_tokens_per_second": 18.73,
+      "time_to_first_token_seconds": 43.6,
+      "wall_seconds": 52.1,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 48,
+          "avg_power_w": 67.2,
+          "peak_power_w": 132.92,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 4382.0
+        },
+        {
+          "gpu": 2,
+          "samples": 48,
+          "avg_power_w": 59.2,
+          "peak_power_w": 134.42,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 3,
+          "samples": 48,
+          "avg_power_w": 73.8,
+          "peak_power_w": 120.1,
+          "peak_temperature_c": 55.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 4,
+          "samples": 48,
+          "avg_power_w": 63.2,
+          "peak_power_w": 104.49,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 4364.0
+        },
+        {
+          "gpu": 5,
+          "samples": 48,
+          "avg_power_w": 60.1,
+          "peak_power_w": 126.82,
+          "peak_temperature_c": 54.0,
+          "peak_memory_mb": 4864.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "IFPI1250",
+      "answer": "IFPI1250.\nThe code given at the very start of this document is IFPI1250.\nThe cod",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g1-2-3-4-5_ctx32768_b256_20261025"
+}

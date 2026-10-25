@@ -53,10 +53,10 @@ replays on every 1060 riser. The rig config's brain card, `brain` placements and
 | **Fewest cards wins.** For a given model and context every added card was slower; a split buys capacity, not speed. | qwen3.6:35b-a3b at 131K: 152 / 65 / 43 / 40 tok/s decode on 1 / 2 / 4 / 6 cards; at 262K, 2 cards beat 4 and 6 |
 | **A 3090 + 1060 split loses more decode than the 1060's share of layers.** One of 33 layers on a 1060 took decode from 173 to 79 tok/s while prefill did not move. Suspected: the output layer goes on the last card in the order, the 1060, and it runs for every generated token but once per prompt. Not yet tested. | qwen3.5:4b, 2026-10-24 |
 | **Speed falls as the context fills.** From 10% to 90% of the context, decode about halves and prefill drops a quarter to two thirds (more on more cards). At 217K tokens the first token took 23 min on six cards. | capacity depth probes, 2026-10-24 |
-| **Micro-batch is the prefill lever.** `-b 2048 -ub 512` gave 2.4x prefill on a five-1060 split with no decode cost (2048 fell back). Profiles default to batch 64, so capacity prefill numbers describe the profile's batch. | split_sweep, 2026-10-19 |
+| **Micro-batch is the prefill lever, and costs no decode.** Batch 128 (the ~30B profiles) to 512 at 32K: qwen3.6:35b-a3b prefill 2.3x on the 3090 (1669 to 3881 tok/s at 3K tokens) and 2.1-3.2x on five 1060s (322 to 689; 258 to 817 at 29K); gemma-4:31b (dense) 1.2-1.3x on the 3090. Decode moved under 1%. The cost is the compute buffer per card: 86 to 152 MiB on the 3090, 123 to 299 MiB on a 1060, for qwen3.6 at 32K. An earlier split_sweep (`-b 2048 -ub 512`) gave 2.4x on five 1060s. Capacity prefill numbers describe the profile's batch. | `*_capacity_*_ctx32768_b{64,128,256,512}_20261025.json`; split_sweep 2026-10-19 |
 | **PCIe gen 3 helps loads only.** A cold five-card load went from 132 to 90 s; inference did not change, and the risers logged replays, so the BIOS stays at gen 2. | split_sweep and pcie_split_test, 2026-10-19 |
 | **An x1 link costs a fixed ~3 ms per generated token on gen 2 and ~9 ms on gen 1, on any card.** qwen3.5:4b alone at 32K: the 3090 goes from 172.6 tok/s on x16 to 114.3 on gen 2 x1 (5.79 to 8.75 ms per token, +3.0 ms); the same EVGA 1060 runs 30.5 on x16, 28.0 on gen 2 x1 (the other EVGA, matched on two different slots within 0.04 tok/s) and 24.0 on gen 1 x1 behind the C17/C18 switch (32.8 / 35.7 / 41.7 ms: +2.9 and +8.9 ms). Fits the per-token copy of the full output scores to the CPU (about 1 MB for a 248K vocabulary), sized larger than the 2 ms estimate. Prefill also drops on x1, which the copy does not explain: 3090 at 3K tokens 3976 to 2372 tok/s (-40%), the 1060 523 to 488 (-7%); loads take longer (3090 43 to 108 s). So a large-vocabulary model on any x1 card pays a fixed cost per token, and so does a split whose last card is on x1. The 24 vs 28 tok/s gap between the two EVGA 1060s was the gen 1 slot, not the card (it was repasted before the baseline) or the riser. | qwen3.5:4b capacity runs 2026-10-25: `*_g1_*`, `*_g3_*`, `*_3090-x1_*`, `*_evga3-x16_*`, `*_evga1-x1_*` |
-| **Context capacity is set by the trained context or by card memory.** The ~30B hybrid MoEs (qwen35moe) stop at their trained 262,144 on two cards; qwen3.6:35b-a3b holds 174K on the 3090 alone; memory would allow about 500K on six, which needs rope scaling (not used). Dense or full-attention models run out of card memory first. | capacity runs and the manager's planner, 2026-10-24 |
+| **Context capacity is set by the trained context or by card memory, and the manager's old estimate set it lower.** The ~30B hybrid MoEs (qwen35moe) stop at their trained 262,144 on two cards; memory would allow about 500K on six, which needs rope scaling (not used). Dense or full-attention models run out of card memory first. The planner's compute-buffer formula was 2.7x what llama.cpp allocates (qwen3.6:35b-a3b: 762 planned vs 280 MiB per card at 89K), so its limits were low; calibrated from measured loads (llm-gateway `docs/MANAGER.md`, "Learning from loads") qwen3.6:35b-a3b loads at 230,144 on the 3090 alone (was 174,336) and 158,976 on five 1060s (was 89,344; 131K was refused by 56 MiB). | capacity runs 2026-10-24; fit calibration matrix 2026-10-25 (table under "Fit calibration") |
 | **The first card of a 1060 split carries a fixed extra** (about 1.3 GB for nex-n2.5:mini), so an equal split overfills it near capacity; the manager's planner balances headroom per card. | 2026-10-17 |
 | **Pascal and Ampere kernels give different greedy outputs**, so a model's scores on 1060s can differ slightly from the 3090. | nex-n2.5:mini GSM8K, 2026-10-17 |
 | **Row split** (tensor parallel) is not available for the hybrid recurrent architectures in llama.cpp b11669. | 2026-10-17 |
@@ -92,6 +92,52 @@ power that moved with it), not the slot. Its fan goes to 100% when it drops; the
 loads until a power cycle. Rewired after the second drop. **If it keeps dropping, it is the first card to
 replace when the new GTX 1070s arrive** (the white two-fan board).
 
+## Fit calibration 2026-10-25
+
+Each model loaded at the largest context the manager planned, twice per card set: pass 1 planned from the old
+formula (or the first measured load), pass 2 from what pass 1 measured (`capacity-calibrate-20261025`,
+`--skip-depth`: load and short probe; the context is allocated at load, so a load that serves holds it).
+
+| Model | Cards | Pass 1 ctx | Pass 2 ctx | Decode, short prompt |
+|---|---|---|---|---|
+| qwen3.6:35b-a3b | 3090 | 230,144 (already calibrated) | - | 152.0 |
+| qwen3.6:35b-a3b | five 1060s | 158,976 (already calibrated) | - | 26.3 |
+| gemma-4:31b | 3090 | 90,368 | 101,888 | 38.2 |
+| gemma-4:31b | five 1060s | 87,296 | 78,336 | 5.4 |
+| qwen3-coder:30b-a3b | 3090 | 96,256 | 120,064: out of memory (CUDA graphs, 3090) | 190.8 |
+| qwen3-coder:30b-a3b | five 1060s | 143,872 | 135,680 | 33.9 |
+| gemma-4:26b-a4b | 3090 | 262,144 (trained) | 262,144 | 139.6 |
+| gemma-4:26b-a4b | five 1060s | 262,144 (trained) | 261,888 | 24.3 |
+| qwen3.6:27b | 3090 | 185,344 | 219,648 | 44.2 |
+| qwen3.6:27b | five 1060s | 190,208 | 168,704 | 6.3 |
+| gpt-oss:20b | 3090 | 131,072 (trained) | 131,072 | 194.2 |
+| gpt-oss:20b | five 1060s | 131,072 (trained) | 131,072 | 31.8 |
+
+- The calibration moves both ways: a measured buffer larger than the formula's lowers the plan (gemma-4:31b and
+  qwen3.6:27b on five 1060s, sliding-window and dense models), a smaller one raises it.
+- The one failure set two lessons the manager now keeps: llama.cpp's own totals leave out CUDA graph memory, up to
+  about 509 MiB on the 3090 (overhead learned per card size from memory in use), and a context that ran out of
+  memory caps later plans on cards of those sizes (`fit.failed_ceiling`); qwen3-coder:30b-a3b on the 3090 now
+  plans 110,080. The overhead from capacity records comes from peak memory during probes, so plans are a little
+  conservative, and the 512 MiB margin per card is still added on top.
+- **Memory does not grow with the context in use; it is all allocated at load.** Full-depth runs at the
+  calibrated limits held to 90% with recall ok, and peak memory over five depth probes rose 18 MiB on the 3090
+  (qwen3.6:35b-a3b at 195,840, probes to 187K tokens: in use 23,481 once serving, peak 23,499) and 8 MiB per card on
+  five 1060s (145,152, probes to 138K). Real overhead beyond llama.cpp's totals: about 420 MiB on the 3090, 109 on a
+  1060. The 230,144 load from the matrix used 23,909 of 24,564 MiB (655 free), yet the calibrated planner now
+  refuses it even with `--margin-mb 0` (`*_g0_ctx230144_nofit_*`): it adds the 512 MiB margin for growth that
+  barely happens, pads the overhead to 624, and fits one compute line through single-card and split loads
+  (splits allocate more: 411 vs 302 MiB per card at 131K). Next: margin from measured growth, compute per card
+  count (llm-gateway `docs/MANAGER.md`, still fixed).
+
+| qwen3.6:35b-a3b, full depth | ctx | Prefill 10% / 90% | Decode 10% / 90% | First token at 90% | Record |
+|---|---|---|---|---|---|
+| 3090 | 195,840 | 1604 / 1196 | 132.3 / 58.4 | 2.6 min | `*_g0_ctx195840_20261025.json` |
+| five 1060s | 145,152 | 300 / 140 | 22.0 / 8.6 | 16.5 min | `*_g1-2-3-4-5_ctx145152_20261025.json` |
+- The 3090 against five 1060s, decode on the same model: 5.7x (qwen3.6:35b-a3b, gemma-4:26b-a4b), 5.6x
+  (qwen3-coder), 6.1x (gpt-oss), 7.0-7.1x on the dense models (gemma-4:31b, qwen3.6:27b): the ballpark 6x holds,
+  and dense models lose more.
+
 ## Which tool answers which question
 
 | Question | Tool | Output |
@@ -103,7 +149,10 @@ replace when the new GTX 1070s arrive** (the white two-fan board).
 | Power and heat at full load, per card by UUID | llm-gateway `tools/rig_stress.py` | `~/rig_stress/run_*.log` and its `--compare` summary |
 | Speed and energy across power caps for one card | llm-gateway `tools/power_cap_sweep.py` | `results/runtime_experiments/*_power_cap_sweep_*.json` |
 | Both rigs at once | llm-gateway `tools/multi_rig_tests.py`, `tools/dual_rig_bench.sh` | llm-gateway `docs/multi_rig_tests.md` |
-| Will it fit, at what context and split (no load) | `rigctl fit MODEL [--gpus ..] [--use chat]` | the answer |
+| Will it fit, at what context and split (no load) | `rigctl fit MODEL [--gpus ..] [--use chat] [--batch-size B]` | the answer, with what it planned from (`compute_basis`, `overhead_mb`, `failed_ceiling`) |
+| What the manager has learned from loads (measured buffers, overhead, failed loads) | `rigctl observations [--kind load_failed] [--model M]` | llm-gateway `lessons/load_observations.jsonl`; copied here by `scripts/active/collect_lessons.py` into `results/imported_lessons/` |
+| Prefill and memory by micro-batch | `capacity_run.py ... --ctx N --batch-size B` | `*_capacity_*_b<B>_*.json` |
+| Which slot and link each card is on now | `ssh rig rig status` (notes on slow links), rig-local `brain/hw/gpu_layout.json` | the scan |
 
 `context_window_benchmark.py` predates the manager (it probes orchestration's configured workers) and is kept
 for that path only. Raw tool output on the Pi (`~/rig_stress`) is outside the repos: a result that answers a
