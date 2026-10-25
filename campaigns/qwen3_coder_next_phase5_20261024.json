@@ -1,0 +1,65 @@
+{
+  "name": "qwen3_coder_next_phase5_20261024",
+  "description": "NEW_MODEL_INTEGRATION Phase 5 for qwen3-coder-next:80b-a3b (limit 50 reasoning, MMLU-Pro 20, full EvalPlus code, geoimport, pipeline, runtime) with its registry default profile (a non-thinking template: Phase 4.5's thinking A/B loaded the same prompt both ways). No placement: the rig manager picks the cards at the profile's context.",
+  "defaults": {
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "qwen3_coder_next_reasoning_l50",
+      "model": "qwen3-coder-next:80b-a3b",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen3_coder_next_phase5",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop,ifeval"
+      ]
+    },
+    {
+      "id": "qwen3_coder_next_mmlu_pro_l20",
+      "model": "qwen3-coder-next:80b-a3b",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen3_coder_next_phase5",
+      "limit": 20,
+      "suite_args": [
+        "--tasks",
+        "mmlu_pro"
+      ]
+    },
+    {
+      "id": "qwen3_coder_next_code_full",
+      "model": "qwen3-coder-next:80b-a3b",
+      "suite": "bench-code",
+      "runtime_group": "qwen3_coder_next_phase5",
+      "run_class": "full",
+      "suite_args": [
+        "--tasks",
+        "humaneval,mbpp"
+      ]
+    },
+    {
+      "id": "qwen3_coder_next_geoimport",
+      "model": "qwen3-coder-next:80b-a3b",
+      "suite": "bench-geoimport",
+      "runtime_group": "qwen3_coder_next_phase5",
+      "limit": 5,
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff"
+      ]
+    },
+    {
+      "id": "qwen3_coder_next_pipeline",
+      "model": "qwen3-coder-next:80b-a3b",
+      "suite": "bench-pipeline",
+      "runtime_group": "qwen3_coder_next_phase5"
+    },
+    {
+      "id": "qwen3_coder_next_runtime",
+      "model": "qwen3-coder-next:80b-a3b",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen3_coder_next_phase5"
+    }
+  ]
+}
