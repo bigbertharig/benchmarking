@@ -75,4 +75,7 @@ record = {
     "decode_energy_wh": round(combined_avg * wall / 3600, 3),
 }
 open(out, "w").write(json.dumps(record, indent=2) + "\n")
+# Keep the generated runtime reference current (results/RUNTIME_REFERENCE.md).
+import pathlib
+subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parents[1] / "active" / "build_runtime_reference.py")], check=False)
 print(json.dumps({k: record[k] for k in ("first_load", "decode", "gpu_envelope", "combined_avg_gpu_power_w", "decode_energy_wh")}, indent=1))

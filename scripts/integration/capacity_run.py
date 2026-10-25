@@ -288,6 +288,8 @@ def main() -> int:
     record["experiment_id"] = out.stem
     out.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(f"record: {out}")
+    # Keep the generated runtime reference current (results/RUNTIME_REFERENCE.md).
+    subprocess.run([sys.executable, str(ROOT / "scripts" / "active" / "build_runtime_reference.py")], check=False)
     return 1 if "error" in record else 0
 
 
