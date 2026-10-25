@@ -1,0 +1,13 @@
+Start 2026-10-25T15:46:43-07:00; GPU0 CPU x16 root 00:01.0; original target Gen3
+Target Gen2 at 2026-10-25T15:46:45-07:00
+Begin Gen2 pass1 2026-10-25T15:46:45-07:00
+End Gen2 pass1 exit=0 max_observed_gen=2 samples=133 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_6_35b-a3b_capacity_g0_ctx131072_b128_x16-gen2-pass1_20261025.json 2026-10-25T15:47:13-07:00
+Begin Gen2 pass2 2026-10-25T15:47:13-07:00
+End Gen2 pass2 exit=0 max_observed_gen=2 samples=311 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_6_35b-a3b_capacity_g0_ctx131072_b128_x16-gen2-pass2_20261025.json 2026-10-25T15:48:18-07:00
+Target Gen3 at 2026-10-25T15:48:20-07:00
+Begin Gen3 pass1 2026-10-25T15:48:20-07:00
+End Gen3 pass1 exit=0 max_observed_gen=3 samples=115 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_6_35b-a3b_capacity_g0_ctx131072_b128_x16-gen3-pass1_20261025.json 2026-10-25T15:48:44-07:00
+Begin Gen3 pass2 2026-10-25T15:48:44-07:00
+End Gen3 pass2 exit=0 max_observed_gen=3 samples=115 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_6_35b-a3b_capacity_g0_ctx131072_b128_x16-gen3-pass2_20261025.json 2026-10-25T15:49:08-07:00
+Done 2026-10-25T15:49:08-07:00
+Target Gen3 at 2026-10-25T15:49:10-07:00

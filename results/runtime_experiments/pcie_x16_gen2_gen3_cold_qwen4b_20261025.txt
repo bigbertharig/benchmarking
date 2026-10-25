@@ -1,0 +1,25 @@
+Start 2026-10-25T15:58:51-07:00; GPU0 root 00:01.0; original target Gen3; NFS model storage
+replays_start GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Target Gen3 at 2026-10-25T15:58:54-07:00
+Begin Gen3 cold1 2026-10-25T15:58:54-07:00 cache_kib_before=21223548 after=523112
+replays_before_gen3_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen3 cold1 exit=0 max_observed_gen=3 samples=272 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen3-cold1_20261025.json 2026-10-25T15:59:52-07:00
+replays_after_gen3_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Target Gen2 at 2026-10-25T15:59:55-07:00
+Begin Gen2 cold1 2026-10-25T15:59:55-07:00 cache_kib_before=3413492 after=523880
+replays_before_gen2_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen2 cold1 exit=0 max_observed_gen=2 samples=265 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen2-cold1_20261025.json 2026-10-25T16:00:51-07:00
+replays_after_gen2_cold1 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Begin Gen2 cold2 2026-10-25T16:00:52-07:00 cache_kib_before=3414508 after=524044
+replays_before_gen2_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen2 cold2 exit=0 max_observed_gen=2 samples=265 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen2-cold2_20261025.json 2026-10-25T16:01:49-07:00
+replays_after_gen2_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Target Gen3 at 2026-10-25T16:01:51-07:00
+Begin Gen3 cold2 2026-10-25T16:01:52-07:00 cache_kib_before=3414580 after=531580
+replays_before_gen3_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+End Gen3 cold2 exit=0 max_observed_gen=3 samples=224 record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_5_4b_capacity_g0_ctx32768_b64_x16-gen3-cold2_20261025.json 2026-10-25T16:02:39-07:00
+replays_after_gen3_cold2 GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Done 2026-10-25T16:02:40-07:00
+replays_end GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Kernel GPU/PCIe errors since 2026-10-25T15:58:51-07:00:
+Target Gen3 at 2026-10-25T16:02:43-07:00

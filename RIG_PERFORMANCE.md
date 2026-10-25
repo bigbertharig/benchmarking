@@ -51,6 +51,53 @@ messages; this is a link check, not a matched gen 2/gen 3 speed comparison. Its 
 3090 is GPU 0; the rig itself works with whatever cards the scan finds (llm_orchestration
 `shared/scripts/rig/README.md`, "The cards are whatever the scan finds").
 
+## CPU x16 Gen 2 / Gen 3 solo tests, 2026-10-25
+
+The 3090 Ti stayed on GPU 0, CPU x16, with its 350 W cap; the five 1060s stayed at
+Gen 2 x1 with 100 W caps. We used the existing managed `capacity_run.py` short probe
+at fixed context, then changed only the CPU root port 00:01.0 target between Gen 2
+and Gen 3 with `setpci` and retrained the link. Each cold pass dropped the rig's
+Linux page cache before loading the GGUF from the Pi's NFS share. Order was
+Gen 3, Gen 2, Gen 2, Gen 3. The BIOS setting stayed Gen 3 and the root target
+was restored to Gen 3 afterward. The endpoint 01:00.0 target remained Gen 3
+throughout the temporary downshifts, so this is **not equivalent to a native
+BIOS Gen 2 boot**.
+
+| Solo model and fixed context | Temporary Gen 2 cold loads | Gen 3 cold loads | Short chat decode, temporary Gen 2 / Gen 3 |
+|---|---:|---:|---:|
+| qwen3.6:35b-a3b, 131,072, batch 128 | 94.6 / 88.6 s (mean 91.6) | 84.5 / 84.6 s (mean 84.6; 7.7% less) | 136.5 / 133.6 versus 147.1 / 146.8 tok/s |
+| qwen3.5:4b, 32,768, batch 64 | 44.9 / 44.9 s (mean 44.9) | 48.0 / 38.2 s (mean 43.1; variable) | 108.2 / 108.0 versus 173.8 / 174.1 tok/s |
+
+The 35B cold load shows a modest Gen 3 gain in this two-pass software
+comparison. The 4B load times vary enough that there is no clear gain.
+NFS server caching was not cleared, so these are rig page-cache cold starts,
+not guaranteed storage cold starts. These timings describe **model load to
+ready**, not prefill or time to first token for a long prompt.
+
+**Do not use the temporary Gen 2 decode values as a BIOS Gen 2 baseline.**
+A prior native BIOS Gen 2 x16 run of the same 4B model at 32,768 decoded at
+172.0 tok/s; its original baseline was 172.6. A prior BIOS Gen 2 35B batch
+128 short probe decoded at 152.3 tok/s. Gen 3 4B short decode here was about
+174 tok/s, only about 1% above the prior native Gen 2 result. The temporary
+downshift reproducibly lowered 4B decode to 106-108 tok/s in a focused repeat.
+Live sampling confirmed Gen 2 **x16** during that run and Gen 3 **x16** after
+restoration, with the same observed maximum SM (2070 MHz) and memory
+(10,501 MHz) clocks and P0/P2 states. The temporary Gen 2 run drew less power
+(roughly 275-289 W versus 333-357 W). Why a root-port-only downshift behaves
+differently from native Gen 2 is unresolved; a BIOS-to-BIOS matched run would
+be needed to attribute decode changes to generation.
+
+The previous Gen testing's error checks were reused: before and after each
+cold pass, all six cards' `Replays Since Reset` and `Replay Number Rollovers`
+remained 0/0; no AER, Xid, NVRM error, or fallen-off-bus message appeared in
+the kernel log for either cold series. Every managed run exited 0. Receipts:
+`results/runtime_experiments/pcie_x16_gen2_gen3_cold_20261025.txt`,
+`pcie_x16_gen2_gen3_cold_qwen4b_20261025.txt`, and
+`pcie_x16_live_clocks_20261025.txt`; individual JSON records with
+`x16-gen{2,3}-cold{1,2}` and `-clockdiag` in their names. The earlier
+warm-cache A/B receipt is `pcie_x16_gen2_gen3_ab_20261025.txt`; its load
+times are not cold-load evidence.
+
 ## What is known
 
 | Finding | Evidence |
