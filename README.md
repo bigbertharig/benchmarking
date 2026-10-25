@@ -83,6 +83,16 @@ however it is written; unreadable answers are counted separately), see
   characterizations)
 - Raw run outputs (samples, logs): `/mnt/shared/logs/benchmarks/` on the drive, not in git
 - `scripts/active/rescore_reasoning_records.py`: re-score past runs from their samples after a scoring change
+- `results/imported_lessons/<repo>/`: the other repos' lessons folders, copied by
+  `scripts/active/collect_lessons.py` (with `MANIFEST.json`: from where, which commit, when)
+
+## Sharing with the other repos
+
+Each of the four repos runs without the others. Benchmarking's lessons go out through the model library:
+every other repo has its own importer that reads `model_registry.json` and `model_roles.json` and writes its
+own copy (llm-gateway `tools/generate_profiles.py`; llm_orchestration and llm-harness to build). Their lessons
+come back through their `lessons/` folders, which `collect_lessons.py` copies here when wanted. Nothing here
+writes into another repo, and no other repo reads this one at runtime.
 
 ## Layout
 
