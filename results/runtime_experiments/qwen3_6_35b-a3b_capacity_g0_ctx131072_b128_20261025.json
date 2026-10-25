@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T14:56:45-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": 128
+  },
+  "model": "qwen3.6:35b-a3b",
+  "ubatch": 128,
+  "cards": [
+    0
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 2,
+      "link_width": 16
+    }
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 20583,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24545,
+        "layers": 40,
+        "weights_mb": 20583,
+        "kv_mb": 1423,
+        "compute_mb": 541,
+        "projected_mb": 23171,
+        "headroom_mb": 1374
+      }
+    ]
+  },
+  "load": {
+    "seconds": 21.8,
+    "profile": "qwen3.6-35b-a3b-g0",
+    "port": 11434,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 20583,
+          "kv_mb": 1360,
+          "compute_mb": 302,
+          "total_mb": 22246
+        }
+      ],
+      "host_mb": 552,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 354.18,
+    "generation_tokens_per_second": 152.31,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 3.5,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 4,
+        "avg_power_w": 255.1,
+        "peak_power_w": 322.68,
+        "peak_temperature_c": 53.0,
+        "peak_memory_mb": 22669.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 13235,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1639.58,
+      "generation_tokens_per_second": 138.3,
+      "time_to_first_token_seconds": 8.1,
+      "wall_seconds": 9.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 9,
+          "avg_power_w": 344.9,
+          "peak_power_w": 350.53,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "PNOF3931",
+      "answer": "PNOF3931.00000000000000000000000000000000000000000000000000000000000000000000000",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 33803,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1559.57,
+      "generation_tokens_per_second": 120.34,
+      "time_to_first_token_seconds": 21.7,
+      "wall_seconds": 23.1,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 22,
+          "avg_power_w": 347.4,
+          "peak_power_w": 349.77,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "SYBO7808",
+      "answer": "SYBO7808.\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 68145,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1458.01,
+      "generation_tokens_per_second": 98.02,
+      "time_to_first_token_seconds": 46.7,
+      "wall_seconds": 48.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 46,
+          "avg_power_w": 347.4,
+          "peak_power_w": 349.75,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "NZVS9426",
+      "answer": "NZVS9426.\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br>\n</br",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 103473,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1366.9,
+      "generation_tokens_per_second": 81.66,
+      "time_to_first_token_seconds": 75.7,
+      "wall_seconds": 77.8,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 74,
+          "avg_power_w": 348.0,
+          "peak_power_w": 350.33,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.75,
+      "recall_code": "RPCC5714",
+      "answer": "RPCC5714.00000000000000000000000000000000000000000000000000000000000000000000000",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 124657,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1319.12,
+      "generation_tokens_per_second": 74.06,
+      "time_to_first_token_seconds": 94.5,
+      "wall_seconds": 96.8,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 91,
+          "avg_power_w": 347.9,
+          "peak_power_w": 352.36,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 22687.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "CJKC2660",
+      "answer": "CJKC2660\n</think>\n\nCJKC2660. You will be asked for it at the end.\n\nSection 0. Th",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g0_ctx131072_b128_20261025"
+}

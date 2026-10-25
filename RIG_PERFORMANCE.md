@@ -68,8 +68,23 @@ replays on every 1060 riser. The rig config's brain card, `brain` placements and
 | Why does x1 cost prefill as well as decode? | the 3090 on gen 2 x1 lost 40% prefill at 3K tokens; a prefill sweep by prompt length and micro-batch on x1 vs x16 | open; the riser and x1 questions above it were answered 2026-10-25 (finding "An x1 link costs...") |
 | Can C17/C18 run gen 2? | `setpci` the 1b.6 target link speed to 5 GT/s and retrain with a card on the switch; or a BIOS option for the switch uplink | not tried; the cards are kept out of C17/C18 instead |
 | Is the 3090 + 1060 decode drop the output layer on the 1060? | the same model with the 3090 last in the card order | needs the manager to place cards in a chosen order |
-| How much does micro-batch lift long-context prefill? | a capacity run with `-ub 512` against the profile's batch | not started |
+| How much does micro-batch lift long-context prefill? | matched 128/512 capacity runs at 131,072 on the 3090 | done 2026-10-25: 1.87-2.32x prefill through 125K tokens, decode unchanged; details below |
 | Five 1060s against the 3090 at the same depths | `capacity_run.py qwen3.6:35b-a3b --gpus 1,2,3,4,5 --depth-of 131072` | done 2026-10-25: the five 1060s hold ctx 89,344; at 13K / 34K / 68K tokens the 3090 alone is 5.5-7.3x faster at prefill and 6.3-7.5x at decode |
+
+## Micro-batch at working context, 2026-10-25
+
+Matched managed capacity runs on the 3090 used the standing 350 W cap, the same model, cards, context, and five recall probes. Load time is not a batch comparison: the first load was cold (qwen3.6:35b-a3b 87.7 s at 512, then 21.8 s at 128; qwen3.6:27b 51.3 s at 512, then 15.0 s at 64). Every recall probe passed.
+
+| Model, context | Batch | Prefill at 10% / 50% / 90% (tok/s) | First token at 90% | Decode at 90% (tok/s) | llama.cpp compute on GPU0 |
+|---|---:|---:|---:|---:|---:|
+| qwen3.6:35b-a3b, 131,072 | 128 | 1,640 / 1,458 / 1,319 | 94.5 s | 74.06 | 302 MiB |
+| qwen3.6:35b-a3b, 131,072 | 512 | 3,797 / 3,007 / 2,468 | 50.5 s | 74.15 | 440 MiB |
+| qwen3.6:27b, 16,384 (brain) | 64 | 977 / 1,067 / 1,049 | 14.2 s | 40.58 | 79 MiB |
+| qwen3.6:27b, 16,384 (brain) | 512 | 1,426 / 1,527 / 1,483 | 10.1 s | 40.37 | 180 MiB |
+
+For qwen3.6:35b-a3b, batch 512 lifts prefill 2.32x at 13K prompt tokens and 1.87x at 125K; depth decode matches within 1%. For the current qwen3.6:27b brain, the 64-to-512 change lifts prefill 1.41-1.46x through 15K; depth decode again matches. The extra compute allocation is 138 MiB and 101 MiB respectively. Measured peak GPU memory differs by 124 MiB and 88 MiB. The records are `qwen3_6_35b-a3b_capacity_g0_ctx131072_b{128,512}_20261025.json` and `qwen3_6_27b_capacity_g0_ctx16384_b{64,512}_20261025.json` in `results/runtime_experiments/`.
+
+The model registry now sets batch 512 for the tested qwen3.6:35b-a3b and gemma-4:31b interactive and orchestration profiles, and for qwen3.6:27b orchestration. The benchmark default profiles keep their former batches so campaign comparisons remain on the same settings. The 32K Gemma sweep supports its smaller 1.2-1.3x prefill gain; a matched long-context Gemma run has not been done. The manager's fit still caps context using its conservative margin and pooled compute estimates.
 
 ## Hardware swaps 2026-10-25 (done)
 

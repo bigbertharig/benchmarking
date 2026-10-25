@@ -1,6 +1,6 @@
 {
   "schema": "model-registry/1",
-  "updated": "2026-10-24",
+  "updated": "2026-10-25",
   "about": "Every model the rig has tested, with its archive GGUF, status, scheduling placement, and named profiles. The only place model settings are edited. models.catalog.json, model_tuning_profiles.json and custom_tasks/model_prompt_profiles.json are generated from this file by scripts/active/model_library.py.",
   "archive_root": "/mnt/shared/models",
   "runtime_image": "llama-runtime:b11669",
@@ -375,6 +375,19 @@
             "benchmark_suite": "agent_reliability"
           },
           "notes": "Brain-tier (3090). Gemma 4 31B dense. 19.5GB VRAM, comfortable fit. Has reasoning_content field active. BENCHMARK: use --reasoning-budget 0 (confirmed: thinking mode destroys BBH extraction across all Gemma 4 sizes). llama.cpp b11669: --reasoning-budget 0 no longer suppresses Gemma 4 thinking (answer leaked reasoning); --reasoning off does (2026-10-15)."
+        },
+        "interactive": {
+          "runtime": {
+            "batch_size": 512
+          },
+          "notes": "Measured 2026-10-25: faster prefill at the same context and decode speed; benchmark default remains 128."
+        },
+        "orchestration": {
+          "runtime": {
+            "batch_size": 512,
+            "ctx_size": 16384
+          },
+          "notes": "Measured 2026-10-25: faster prefill at the same context and decode speed; benchmark default remains 128."
         }
       }
     },
@@ -1642,7 +1655,7 @@
         "orchestration": {
           "runtime": {
             "ctx_size": 16384,
-            "batch_size": 64,
+            "batch_size": 512,
             "parallel": 1,
             "n_gpu_layers": 999
           },
@@ -1690,6 +1703,19 @@
             "benchmark_suite": "phase4_5_settings"
           },
           "notes": "Brain-tier (3090). Qwen 3.6 35B MoE, ~3B active. 21GB VRAM - tight on 3090, ~3GB headroom. Same prompt family as Qwen3.5. Re-integrated 2026-10-17 on b11669: the profile had no reasoning flag, so thinking was on by default. Phase 4.5 (limit 10): thinking off GSM8K 1.00, BBH flexible 0.911 (7:53), DROP 0.80, IFEval 0.80 / 0.889; thinking on was worse at both budgets (4096: BBH 0.800 with 47/270 empty, IFEval 0.70 / 0.611, 49:43; 8192: BBH 0.852 with 29 empty, 65:30) because it thinks past the budget. Thinking off. max_tokens 512 and 1024 score the same on geoimport (plan 0.879)."
+        },
+        "interactive": {
+          "runtime": {
+            "batch_size": 512
+          },
+          "notes": "Measured 2026-10-25: faster prefill at the same context and decode speed; benchmark default remains 128."
+        },
+        "orchestration": {
+          "runtime": {
+            "batch_size": 512,
+            "ctx_size": 16384
+          },
+          "notes": "Measured 2026-10-25: faster prefill at the same context and decode speed; benchmark default remains 128."
         }
       }
     },
