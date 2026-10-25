@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T00:25:10-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default (largest that fits)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": 131072,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false
+  },
+  "model": "qwen3.6:35b-a3b",
+  "cards": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "plan": {
+    "ctx": 89344,
+    "ctx_limit": "card memory",
+    "tensor_split": "8,8,8,8,9",
+    "margin_mb": 512,
+    "weights_mb": 20583,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 198,
+        "compute_mb": 762,
+        "projected_mb": 5127,
+        "headroom_mb": 1013
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 198,
+        "compute_mb": 762,
+        "projected_mb": 5127,
+        "headroom_mb": 1013
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 198,
+        "compute_mb": 762,
+        "projected_mb": 5127,
+        "headroom_mb": 1013
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4017,
+        "kv_mb": 198,
+        "compute_mb": 762,
+        "projected_mb": 5127,
+        "headroom_mb": 1013
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 4517,
+        "kv_mb": 198,
+        "compute_mb": 762,
+        "projected_mb": 5627,
+        "headroom_mb": 513
+      }
+    ]
+  },
+  "load": {
+    "seconds": 127.6,
+    "profile": "qwen3.6-35b-a3b-g1-2-3-4-5",
+    "port": 11435,
+    "ctx_allocated": 89344,
+    "measured": {
+      "n_ctx": 89344,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 4017,
+          "kv_mb": 185,
+          "compute_mb": 289,
+          "total_mb": 4491
+        },
+        {
+          "gpu": 2,
+          "model_mb": 4017,
+          "kv_mb": 185,
+          "compute_mb": 280,
+          "total_mb": 4482
+        },
+        {
+          "gpu": 3,
+          "model_mb": 4017,
+          "kv_mb": 185,
+          "compute_mb": 280,
+          "total_mb": 4482
+        },
+        {
+          "gpu": 4,
+          "model_mb": 4017,
+          "kv_mb": 185,
+          "compute_mb": 280,
+          "total_mb": 4482
+        },
+        {
+          "gpu": 5,
+          "model_mb": 4517,
+          "kv_mb": 185,
+          "compute_mb": 280,
+          "total_mb": 4982
+        }
+      ],
+      "host_mb": 614,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4503,
+          "free_mb": 1477
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 4498,
+          "free_mb": 1482
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 4498,
+          "free_mb": 1482
+        },
+        {
+          "gpu": 4,
+          "total_mb": 6065,
+          "projected_mb": 4498,
+          "free_mb": 1482
+        },
+        {
+          "gpu": 5,
+          "total_mb": 6065,
+          "projected_mb": 4998,
+          "free_mb": 983
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 72.77,
+    "generation_tokens_per_second": 25.34,
+    "time_to_first_token_seconds": 0.9,
+    "wall_seconds": 21.0,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 20,
+        "avg_power_w": 31.0,
+        "peak_power_w": 38.96,
+        "peak_temperature_c": 51.0,
+        "peak_memory_mb": 4600.0
+      },
+      {
+        "gpu": 2,
+        "samples": 20,
+        "avg_power_w": 37.7,
+        "peak_power_w": 46.93,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 4592.0
+      },
+      {
+        "gpu": 3,
+        "samples": 20,
+        "avg_power_w": 43.4,
+        "peak_power_w": 57.59,
+        "peak_temperature_c": 56.0,
+        "peak_memory_mb": 4592.0
+      },
+      {
+        "gpu": 4,
+        "samples": 20,
+        "avg_power_w": 35.0,
+        "peak_power_w": 42.64,
+        "peak_temperature_c": 52.0,
+        "peak_memory_mb": 4592.0
+      },
+      {
+        "gpu": 5,
+        "samples": 20,
+        "avg_power_w": 38.6,
+        "peak_power_w": 55.61,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 5092.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 13234,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 296.62,
+      "generation_tokens_per_second": 21.95,
+      "time_to_first_token_seconds": 44.6,
+      "wall_seconds": 51.9,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 48,
+          "avg_power_w": 55.1,
+          "peak_power_w": 123.64,
+          "peak_temperature_c": 60.0,
+          "peak_memory_mb": 4606.0
+        },
+        {
+          "gpu": 2,
+          "samples": 48,
+          "avg_power_w": 54.7,
+          "peak_power_w": 103.21,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 3,
+          "samples": 48,
+          "avg_power_w": 49.8,
+          "peak_power_w": 116.64,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 4,
+          "samples": 48,
+          "avg_power_w": 42.1,
+          "peak_power_w": 106.36,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 5,
+          "samples": 48,
+          "avg_power_w": 52.1,
+          "peak_power_w": 122.2,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 5098.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "MQTD5140",
+      "answer": "MQTD5140.\n</s>\nMQTD5140.\n</s>\nMQTD5140.\n</s>\nMQTD5140.\n</s>\nMQTD5140.\n</s>\nMQTD5",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 33803,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 249.55,
+      "generation_tokens_per_second": 18.27,
+      "time_to_first_token_seconds": 135.5,
+      "wall_seconds": 144.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 133,
+          "avg_power_w": 57.7,
+          "peak_power_w": 151.31,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 4606.0
+        },
+        {
+          "gpu": 2,
+          "samples": 133,
+          "avg_power_w": 55.9,
+          "peak_power_w": 108.17,
+          "peak_temperature_c": 55.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 3,
+          "samples": 133,
+          "avg_power_w": 54.7,
+          "peak_power_w": 122.67,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 4,
+          "samples": 133,
+          "avg_power_w": 54.5,
+          "peak_power_w": 126.85,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 5,
+          "samples": 133,
+          "avg_power_w": 50.1,
+          "peak_power_w": 119.5,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 5098.0
+        }
+      ],
+      "target_fraction": 0.25,
+      "recall_code": "GNUU8812",
+      "answer": "GNUU8812.\nThe code given at the very start of this document is: GNUU8812.\nThe co",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 68146,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 197.89,
+      "generation_tokens_per_second": 13.04,
+      "time_to_first_token_seconds": 344.4,
+      "wall_seconds": 356.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 329,
+          "avg_power_w": 64.7,
+          "peak_power_w": 129.2,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 4606.0
+        },
+        {
+          "gpu": 2,
+          "samples": 329,
+          "avg_power_w": 61.4,
+          "peak_power_w": 124.68,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 3,
+          "samples": 329,
+          "avg_power_w": 57.9,
+          "peak_power_w": 152.03,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 4,
+          "samples": 329,
+          "avg_power_w": 54.1,
+          "peak_power_w": 109.5,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4598.0
+        },
+        {
+          "gpu": 5,
+          "samples": 329,
+          "avg_power_w": 49.8,
+          "peak_power_w": 120.07,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 5098.0
+        }
+      ],
+      "target_fraction": 0.5,
+      "recall_code": "NCEI7354",
+      "answer": "NCEI7354.\nThe rig log records routine status for each card: fan speed, temperatu",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "qwen3_6_35b-a3b_capacity_g1-2-3-4-5_ctx89344_20261025"
+}

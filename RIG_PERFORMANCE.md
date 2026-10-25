@@ -35,7 +35,7 @@ the rig config's brain card, `brain` placements and pinned `gpus: [0]` assume th
 | **Speed falls as the context fills.** From 10% to 90% of the context, decode about halves and prefill drops a quarter to two thirds (more on more cards). At 217K tokens the first token took 23 min on six cards. | capacity depth probes, 2026-10-24 |
 | **Micro-batch is the prefill lever.** `-b 2048 -ub 512` gave 2.4x prefill on a five-1060 split with no decode cost (2048 fell back). Profiles default to batch 64, so capacity prefill numbers describe the profile's batch. | split_sweep, 2026-10-19 |
 | **PCIe gen 3 helps loads only.** A cold five-card load went from 132 to 90 s; inference did not change, and the risers logged replays, so the BIOS stays at gen 2. | split_sweep and pcie_split_test, 2026-10-19 |
-| **GPU 3's gen 1 link costs a few percent, not yet separated from the board.** GPUs 1+3 ran about 3 ms per token slower than 1+2, but GPU 2 is a different board. GPUs 1 and 3 are the same EVGA board, which makes them the clean comparison. | 2026-10-19, 2026-10-24 |
+| **GPU 3 alone is 14% slower at decode than GPU 1 alone, the same EVGA board.** 24.0 vs 28.0 tok/s, prefill 10% slower, load 53 vs 21 s; same clocks, similar temperatures, less power (89 vs 95 W), so it waits rather than runs slower. Suspected: the per-token copy of the full output scores (about 1 MB for a 248K vocabulary) to the CPU, about 2 ms on gen 2 x1 and 4 ms on gen 1 x1, against a measured 6 ms gap. If so, a large-vocabulary model on any x1 card pays a fixed cost per token, and so does a split whose last card is on x1. | qwen3.5:4b at 32K on GPUs 3 and 1, 2026-10-25 |
 | **Context capacity is set by the trained context or by card memory.** The ~30B hybrid MoEs (qwen35moe) stop at their trained 262,144 on two cards; qwen3.6:35b-a3b holds 174K on the 3090 alone; memory would allow about 500K on six, which needs rope scaling (not used). Dense or full-attention models run out of card memory first. | capacity runs and the manager's planner, 2026-10-24 |
 | **The first card of a 1060 split carries a fixed extra** (about 1.3 GB for nex-n2.5:mini), so an equal split overfills it near capacity; the manager's planner balances headroom per card. | 2026-10-17 |
 | **Pascal and Ampere kernels give different greedy outputs**, so a model's scores on 1060s can differ slightly from the 3090. | nex-n2.5:mini GSM8K, 2026-10-17 |
@@ -45,11 +45,11 @@ the rig config's brain card, `brain` placements and pinned `gpus: [0]` assume th
 
 | Question | Test | State |
 |---|---|---|
-| Does GPU 3's riser cost speed? | qwen3.5:4b at 32K on GPU 3 alone and GPU 1 alone (same board), before and after swapping the riser | before: queued (`capacity-queue7-20261024`); riser swap planned |
-| Does the 3090 slow down on an x1 link? | swap the 3090 with a gen 2 1060 (GPU 1); rerun the 3090 alone, 3090 + 1060 and six-card capacity runs | baseline: the 2026-10-24 capacity runs; check GPU numbering after the move |
+| Does GPU 3's riser cost speed? | qwen3.5:4b at 32K on GPU 3 alone and GPU 1 alone (same board), before and after swapping the riser | before: done 2026-10-25 (GPU 3 24.0, GPU 1 28.0 tok/s); prediction if it is the link: GPU 3 reaches about 28 after the swap |
+| Does the 3090 slow down on an x1 link? | swap the 3090 with a gen 2 1060 (GPU 1); rerun the 3090 alone, 3090 + 1060 and six-card capacity runs | baseline: the 2026-10-24 capacity runs; check GPU numbering after the move. If the per-token output copy is the cost, qwen3.6 on the 3090 alone drops from 152 toward roughly 115 tok/s on x1 |
 | Is the 3090 + 1060 decode drop the output layer on the 1060? | the same model with the 3090 last in the card order | needs the manager to place cards in a chosen order |
 | How much does micro-batch lift long-context prefill? | a capacity run with `-ub 512` against the profile's batch | not started |
-| Five 1060s against the 3090 at the same depths | `capacity_run.py qwen3.6:35b-a3b --gpus 1,2,3,4,5 --depth-of 131072` | queued (`capacity-queue6-20261024`) |
+| Five 1060s against the 3090 at the same depths | `capacity_run.py qwen3.6:35b-a3b --gpus 1,2,3,4,5 --depth-of 131072` | done 2026-10-25: the five 1060s hold ctx 89,344; at 13K / 34K / 68K tokens the 3090 alone is 5.5-7.3x faster at prefill and 6.3-7.5x at decode |
 
 ## Which tool answers which question
 

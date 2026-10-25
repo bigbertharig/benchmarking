@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T19:27:14.648376+00:00",
+  "generated_at": "2026-10-25T07:22:07.230312+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -773,12 +773,18 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-22T09:44:50+00:00",
+      "last_run_at": "2026-10-25T07:22:06.754626+00:00",
       "model": "qwen3-coder-next:80b-a3b",
-      "records": 30,
-      "selected_tests": 21,
-      "successes": 30,
+      "records": 62,
+      "selected_tests": 32,
+      "successes": 62,
       "suites": [
+        "campaign_qwen3_coder_next_code_full_qwen3-coder-next-phase5",
+        "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5",
+        "campaign_qwen3_coder_next_mmlu_pro_l20_qwen3-coder-next-phase5",
+        "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
+        "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
+        "campaign_qwen3_coder_next_runtime_qwen3-coder-next-phase5",
         "qwen3-coder-next_80b-a3b_w_p45_off",
         "qwen3-coder-next_80b-a3b_w_p45_think",
         "qwen3-coder-next_80b-a3b_w_smoke_v1"
@@ -3596,9 +3602,9 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 3316,
+  "record_count": 3348,
   "schema_version": 3,
-  "selected_count": 1548,
+  "selected_count": 1559,
   "selected_per_model_test": [
     {
       "efficiency": {},
@@ -56110,12 +56116,12 @@
       },
       "metric": "exact_match,get-answer",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.2222222222222222,
+      "normalized_answer_score": 0.23037037037037036,
       "notes": "",
-      "raw_harness_score": 0.2222222222222222,
-      "run_at": "2026-10-22T09:44:50+00:00",
-      "run_class": "smoke",
-      "run_id": "44f0fc36-524d-4eb0-8dc8-47846df986da",
+      "raw_harness_score": 0.23037037037037036,
+      "run_at": "2026-10-25T04:28:55+00:00",
+      "run_class": "validated",
+      "run_id": "771217d4-91dc-4681-b751-75cef3fe5473",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56135,12 +56141,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 270,
+      "sample_count": 1350,
       "schema_version": 3,
-      "score": 0.2222222222222222,
-      "score_pct": 22.22222222222222,
+      "score": 0.23037037037037036,
+      "score_pct": 23.037037037037038,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_p45_think",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "bbh"
     },
     {
@@ -56156,7 +56162,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 1,
+      "extractor_failure_count": 19,
       "failure": {
         "kind": "",
         "message": ""
@@ -56170,12 +56176,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.7185185185185186,
-      "notes": "rescued 134; unreadable 1",
-      "raw_harness_score": 0.2222222222222222,
-      "run_at": "2026-10-22T09:44:50+00:00",
-      "run_class": "smoke",
-      "run_id": "c1aca90e-12a8-49c0-ac39-2df541a2a3b8",
+      "normalized_answer_score": 0.7118518518518518,
+      "notes": "rescued 650; unreadable 19",
+      "raw_harness_score": 0.23037037037037036,
+      "run_at": "2026-10-25T04:28:55+00:00",
+      "run_class": "validated",
+      "run_id": "387da3c8-f2d4-43e5-91c0-7d890decb04c",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56195,12 +56201,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 270,
+      "sample_count": 1350,
       "schema_version": 3,
-      "score": 0.7185185185185186,
-      "score_pct": 71.85185185185186,
+      "score": 0.7118518518518518,
+      "score_pct": 71.18518518518519,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_p45_think",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "bbh_flexible"
     },
     {
@@ -56224,18 +56230,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=6; total=13; result_path=/results/custom_ambiguity_handling_qwen3-coder-next_80b-a3b_20261022_064657_982623/result.json",
+      "notes": "passes=6; total=13; result_path=/results/custom_ambiguity_handling_qwen3-coder-next_80b-a3b_20261025_072033_142857/result.json",
       "raw_harness_score": 0.46153846153846156,
-      "run_at": "2026-10-22T06:47:13+00:00",
-      "run_class": "smoke",
-      "run_id": "8a21c5eb-9f06-42de-a0af-57786c2dc9ad",
+      "run_at": "2026-10-25T07:20:48+00:00",
+      "run_class": "validated",
+      "run_id": "4de24493-01db-4f1d-84c8-dac5036b66d5",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -56249,7 +56255,7 @@
       "score": 0.46153846153846156,
       "score_pct": 46.15384615384615,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
       "test_id": "custom_ambiguity_handling"
     },
     {
@@ -56273,18 +56279,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=5; total=12; result_path=/results/custom_command_safety_qwen3-coder-next_80b-a3b_20261022_064628_782806/result.json",
+      "notes": "passes=5; total=12; result_path=/results/custom_command_safety_qwen3-coder-next_80b-a3b_20261025_072003_024322/result.json",
       "raw_harness_score": 0.4166666666666667,
-      "run_at": "2026-10-22T06:46:57+00:00",
-      "run_class": "smoke",
-      "run_id": "ac9c6c70-cc5e-4810-bcae-e694cbfaf537",
+      "run_at": "2026-10-25T07:20:32+00:00",
+      "run_class": "validated",
+      "run_id": "e279b1b0-5e42-4f97-862e-4e61559c04b8",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -56298,7 +56304,7 @@
       "score": 0.4166666666666667,
       "score_pct": 41.66666666666667,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
       "test_id": "custom_command_safety"
     },
     {
@@ -56329,17 +56335,14 @@
       "metric": "score",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=12; total=13; result_path=/results/custom_json_schema_strict_qwen3-coder-next_80b-a3b_20261022_064610_331809/result.json; regraded from responses",
+      "notes": "passes=12; total=13; result_path=/results/custom_json_schema_strict_qwen3-coder-next_80b-a3b_20261025_071944_709549/result.json",
       "raw_harness_score": 0.9230769230769231,
-      "run_at": "2026-10-22T06:46:27+00:00",
-      "run_class": "smoke",
-      "run_id": "743be4e0-10f5-4b68-afe1-7906bea9571c",
+      "run_at": "2026-10-25T07:20:02+00:00",
+      "run_class": "validated",
+      "run_id": "c2c72f78-6bc9-40d3-a7df-8dbefd627426",
       "runtime": {
-        "config": {
-          "grading": "json-schema-v2",
-          "rescored_from_responses": true
-        },
-        "config_hash": "bbd803f3d9ac1768807c9d5755d2fd83caf3e11f11a2163605614b87706f4c64",
+        "config": {},
+        "config_hash": "",
         "config_id": "",
         "hardware_id": "",
         "image": "",
@@ -56350,7 +56353,7 @@
       "score": 0.9230769230769231,
       "score_pct": 92.3076923076923,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -56374,18 +56377,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_qwen3-coder-next_80b-a3b_20261022_064749_096547/result.json",
+      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_qwen3-coder-next_80b-a3b_20261025_072124_069802/result.json",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-22T06:48:11+00:00",
-      "run_class": "smoke",
-      "run_id": "2e1f9e65-96f0-49d3-81b0-00debb4927de",
+      "run_at": "2026-10-25T07:21:46+00:00",
+      "run_class": "validated",
+      "run_id": "108d3076-dcf1-4286-8be3-f9e3ada128c1",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -56399,7 +56402,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
       "test_id": "custom_long_context_extract"
     },
     {
@@ -56423,18 +56426,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=9; total=12; result_path=/results/custom_orchestration_tradeoff_qwen3-coder-next_80b-a3b_20261022_064729_615875/result.json",
-      "raw_harness_score": 0.75,
-      "run_at": "2026-10-22T06:47:48+00:00",
-      "run_class": "smoke",
-      "run_id": "9e8c0d61-65fa-46aa-b2af-6c5c795b7fec",
+      "notes": "passes=10; total=12; result_path=/results/custom_orchestration_tradeoff_qwen3-coder-next_80b-a3b_20261025_072105_238216/result.json",
+      "raw_harness_score": 0.8333333333333334,
+      "run_at": "2026-10-25T07:21:23+00:00",
+      "run_class": "validated",
+      "run_id": "a7b8a038-a874-4dc2-80d5-9e109f51a853",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -56445,10 +56448,10 @@
       },
       "sample_count": 12,
       "schema_version": 3,
-      "score": 0.75,
-      "score_pct": 75.0,
+      "score": 0.8333333333333334,
+      "score_pct": 83.33333333333334,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
       "test_id": "custom_orchestration_tradeoff"
     },
     {
@@ -56472,18 +56475,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_qwen3-coder-next_80b-a3b_20261022_064713_985979/result.json",
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_qwen3-coder-next_80b-a3b_20261025_072049_448702/result.json",
       "raw_harness_score": 0.9333333333333333,
-      "run_at": "2026-10-22T06:47:28+00:00",
-      "run_class": "smoke",
-      "run_id": "37a1a337-767d-4789-b8ef-cfcc070c00dc",
+      "run_at": "2026-10-25T07:21:04+00:00",
+      "run_class": "validated",
+      "run_id": "64e9a07f-a8d4-4a32-b107-f2f711769cb7",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -56497,7 +56500,7 @@
       "score": 0.9333333333333333,
       "score_pct": 93.33333333333333,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
       "test_id": "custom_tool_plan_sequence"
     },
     {
@@ -56527,12 +56530,12 @@
       },
       "metric": "em,none",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.2,
+      "normalized_answer_score": 0.38,
       "notes": "",
-      "raw_harness_score": 0.2,
-      "run_at": "2026-10-22T07:32:58+00:00",
-      "run_class": "smoke",
-      "run_id": "bd7ed517-1a3b-41ff-994e-c025ecc30421",
+      "raw_harness_score": 0.38,
+      "run_at": "2026-10-25T04:30:08+00:00",
+      "run_class": "validated",
+      "run_id": "27613957-bcb9-4f5b-a5c1-cee6ab114289",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56552,12 +56555,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.2,
-      "score_pct": 20.0,
+      "score": 0.38,
+      "score_pct": 38.0,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "drop_em"
     },
     {
@@ -56587,12 +56590,12 @@
       },
       "metric": "f1,none",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.34199999999999997,
+      "normalized_answer_score": 0.44959999999999994,
       "notes": "",
-      "raw_harness_score": 0.34199999999999997,
-      "run_at": "2026-10-22T07:32:58+00:00",
-      "run_class": "smoke",
-      "run_id": "d8b12f78-7bd9-4d3b-beec-e5d9f954dfba",
+      "raw_harness_score": 0.44959999999999994,
+      "run_at": "2026-10-25T04:30:08+00:00",
+      "run_class": "validated",
+      "run_id": "7fbee5b6-f976-4c35-9839-4aa57f630feb",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56612,12 +56615,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.34199999999999997,
-      "score_pct": 34.199999999999996,
+      "score": 0.44959999999999994,
+      "score_pct": 44.959999999999994,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "drop_f1"
     },
     {
@@ -56647,12 +56650,12 @@
       },
       "metric": "answer_contained",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.6,
-      "notes": "rescued 4; unreadable 0",
-      "raw_harness_score": 0.2,
-      "run_at": "2026-10-22T07:32:59+00:00",
-      "run_class": "smoke",
-      "run_id": "1afbee63-2e5b-48ad-b37a-d107f6a4f226",
+      "normalized_answer_score": 0.58,
+      "notes": "rescued 10; unreadable 0",
+      "raw_harness_score": 0.38,
+      "run_at": "2026-10-25T04:30:09+00:00",
+      "run_class": "validated",
+      "run_id": "c7b333d0-03aa-4b21-aed4-1a48da16b78e",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56672,12 +56675,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6,
-      "score_pct": 60.0,
+      "score": 0.58,
+      "score_pct": 57.99999999999999,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "drop_flexible"
     },
     {
@@ -56698,7 +56701,322 @@
         "kind": "",
         "message": ""
       },
-      "format_compatibility": "compatible",
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-25T07:19:14.408843",
+      "run_class": "validated",
+      "run_id": "2c1fac6d-d468-40f8-8c8c-7bee8b39e7a3",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "46ee9dda8305089a9aba11c6c490583952530ff93ac643d216810911c273cfb6",
+        "config_id": "geoimport-v2:qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-25T07:19:22.120852",
+      "run_class": "validated",
+      "run_id": "46e2cd75-8e19-43aa-9a73-2e18633a07c8",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "46ee9dda8305089a9aba11c6c490583952530ff93ac643d216810911c273cfb6",
+        "config_id": "geoimport-v2:qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5",
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-25T07:19:35.903029",
+      "run_class": "validated",
+      "run_id": "f15f5ba7-ecef-4d46-9070-2be428431403",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "46ee9dda8305089a9aba11c6c490583952530ff93ac643d216810911c273cfb6",
+        "config_id": "geoimport-v2:qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5",
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8571,
+      "run_at": "2026-10-25T07:19:41.785456",
+      "run_class": "validated",
+      "run_id": "1a6e94d6-d318-44f6-be16-1236860da7d0",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "46ee9dda8305089a9aba11c6c490583952530ff93ac643d216810911c273cfb6",
+        "config_id": "geoimport-v2:qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.8571,
+      "score_pct": 85.71,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5",
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_plan",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7273,
+      "run_at": "2026-10-25T07:19:30.464608",
+      "run_class": "validated",
+      "run_id": "5b58703e-4112-4764-b4cb-5c6fbaac1aed",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "46ee9dda8305089a9aba11c6c490583952530ff93ac643d216810911c273cfb6",
+        "config_id": "geoimport-v2:qwen3-coder-next:80b-a3b->Qwen3-Coder-Next-Q4_K_S.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.7273,
+      "score_pct": 72.72999999999999,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5",
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
       "harness": "bench-reasoning",
       "methodology": {
         "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
@@ -56707,12 +57025,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 1.0,
-      "notes": "rescued 0; unreadable 0",
-      "raw_harness_score": 1.0,
-      "run_at": "2026-10-22T09:04:58+00:00",
-      "run_class": "smoke",
-      "run_id": "cceb64a3-9ad7-4f35-8592-4168a4206853",
+      "normalized_answer_score": 0.9,
+      "notes": "rescued 1; unreadable 0",
+      "raw_harness_score": 0.88,
+      "run_at": "2026-10-25T01:20:41+00:00",
+      "run_class": "validated",
+      "run_id": "41165d86-ca84-4b08-a20f-c0f52e58d2b1",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56732,12 +57050,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 1.0,
-      "score_pct": 100.0,
+      "score": 0.9,
+      "score_pct": 90.0,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_p45_think",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "gsm8k_flexible"
     },
     {
@@ -56758,7 +57076,7 @@
         "kind": "",
         "message": ""
       },
-      "format_compatibility": "compatible",
+      "format_compatibility": "degraded",
       "harness": "bench-reasoning",
       "methodology": {
         "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
@@ -56767,12 +57085,12 @@
       },
       "metric": "exact_match,strict-match",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 1.0,
+      "normalized_answer_score": 0.9,
       "notes": "",
-      "raw_harness_score": 1.0,
-      "run_at": "2026-10-22T09:04:57+00:00",
-      "run_class": "smoke",
-      "run_id": "376fbe15-92b3-4cd6-a249-2a6dda89f4b9",
+      "raw_harness_score": 0.88,
+      "run_at": "2026-10-25T01:20:40+00:00",
+      "run_class": "validated",
+      "run_id": "13d6cd74-9b52-4ed9-9bc8-ef853b21572f",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56792,12 +57110,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 1.0,
-      "score_pct": 100.0,
+      "score": 0.88,
+      "score_pct": 88.0,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_p45_think",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "gsm8k_strict"
     },
     {
@@ -56828,11 +57146,11 @@
       "metric": "pass@1_base",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "limit 50: first 50 problems",
-      "raw_harness_score": 0.98,
-      "run_at": "2026-10-22T06:53:49+00:00",
-      "run_class": "smoke",
-      "run_id": "c35248e4-74bf-4fde-8f54-36094fa019cb",
+      "notes": "",
+      "raw_harness_score": 0.9146341463414634,
+      "run_at": "2026-10-25T06:25:17+00:00",
+      "run_class": "full",
+      "run_id": "411197c3-4de4-4421-ac98-bec856642fc1",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -56844,12 +57162,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 50,
+      "sample_count": 164,
       "schema_version": 3,
-      "score": 0.98,
-      "score_pct": 98.0,
+      "score": 0.9146341463414634,
+      "score_pct": 91.46341463414635,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_code_full_qwen3-coder-next-phase5",
       "test_id": "humaneval_base"
     },
     {
@@ -56880,11 +57198,11 @@
       "metric": "pass@1_plus",
       "model": "qwen3-coder-next:80b-a3b",
       "normalized_answer_score": null,
-      "notes": "limit 50: first 50 problems",
-      "raw_harness_score": 0.96,
-      "run_at": "2026-10-22T06:53:50+00:00",
-      "run_class": "smoke",
-      "run_id": "dc2b6512-49ba-44c6-8722-e52564f2149b",
+      "notes": "",
+      "raw_harness_score": 0.8902439024390244,
+      "run_at": "2026-10-25T06:25:18+00:00",
+      "run_class": "full",
+      "run_id": "f63bad29-4443-4d4c-9125-bb80deea7933",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -56896,12 +57214,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 50,
+      "sample_count": 164,
       "schema_version": 3,
-      "score": 0.96,
-      "score_pct": 96.0,
+      "score": 0.8902439024390244,
+      "score_pct": 89.02439024390245,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_code_full_qwen3-coder-next-phase5",
       "test_id": "humaneval_plus"
     },
     {
@@ -56931,12 +57249,12 @@
       },
       "metric": "inst_level_loose_acc,none",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.8888888888888888,
+      "normalized_answer_score": 0.8289473684210527,
       "notes": "",
-      "raw_harness_score": 0.8888888888888888,
-      "run_at": "2026-10-22T08:16:27+00:00",
-      "run_class": "smoke",
-      "run_id": "0747dfc6-eeb8-483f-a6a2-ef6abc8b0ea3",
+      "raw_harness_score": 0.8289473684210527,
+      "run_at": "2026-10-25T04:37:45+00:00",
+      "run_class": "validated",
+      "run_id": "8f024fbe-728b-4dfb-9113-9c2f8ae4070e",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -56956,12 +57274,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.8888888888888888,
-      "score_pct": 88.88888888888889,
+      "score": 0.8289473684210527,
+      "score_pct": 82.89473684210526,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "ifeval_inst_level_loose_acc_none"
     },
     {
@@ -56991,12 +57309,12 @@
       },
       "metric": "inst_level_strict_acc,none",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.8888888888888888,
+      "normalized_answer_score": 0.8157894736842105,
       "notes": "",
-      "raw_harness_score": 0.8888888888888888,
-      "run_at": "2026-10-22T08:16:26+00:00",
-      "run_class": "smoke",
-      "run_id": "ff412956-f42a-4dd3-b044-fd545c458bed",
+      "raw_harness_score": 0.8157894736842105,
+      "run_at": "2026-10-25T04:37:44+00:00",
+      "run_class": "validated",
+      "run_id": "1dc5b9bf-34fe-4cb3-bd86-abf02bd78808",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -57016,12 +57334,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.8888888888888888,
-      "score_pct": 88.88888888888889,
+      "score": 0.8157894736842105,
+      "score_pct": 81.57894736842105,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "ifeval_inst_level_strict_acc_none"
     },
     {
@@ -57051,12 +57369,12 @@
       },
       "metric": "prompt_level_loose_acc,none",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.8,
+      "normalized_answer_score": 0.74,
       "notes": "",
-      "raw_harness_score": 0.8,
-      "run_at": "2026-10-22T08:16:27+00:00",
-      "run_class": "smoke",
-      "run_id": "47cee56d-62bc-4dee-8fd6-e11e715326ff",
+      "raw_harness_score": 0.74,
+      "run_at": "2026-10-25T04:37:45+00:00",
+      "run_class": "validated",
+      "run_id": "08b7880a-a6e0-4c1a-9834-c0e0066a6cf0",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -57076,12 +57394,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.8,
-      "score_pct": 80.0,
+      "score": 0.74,
+      "score_pct": 74.0,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "ifeval_prompt_level_loose_acc_none"
     },
     {
@@ -57111,12 +57429,12 @@
       },
       "metric": "prompt_level_strict_acc,none",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.8,
+      "normalized_answer_score": 0.72,
       "notes": "",
-      "raw_harness_score": 0.8,
-      "run_at": "2026-10-22T08:16:26+00:00",
-      "run_class": "smoke",
-      "run_id": "87a22e8a-bb1c-4a55-9775-bb32ba273a80",
+      "raw_harness_score": 0.72,
+      "run_at": "2026-10-25T04:37:44+00:00",
+      "run_class": "validated",
+      "run_id": "e89cc6e4-7654-4cbd-8cee-988f1878451a",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -57136,13 +57454,117 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.8,
-      "score_pct": 80.0,
+      "score": 0.72,
+      "score_pct": 72.0,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
       "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9074074074074074,
+      "run_at": "2026-10-25T07:19:01+00:00",
+      "run_class": "full",
+      "run_id": "eb22e0be-47c4-4cd1-a42d-09afbdae4b63",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.9074074074074074,
+      "score_pct": 90.74074074074075,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_code_full_qwen3-coder-next-phase5",
+      "test_id": "mbpp_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.753968253968254,
+      "run_at": "2026-10-25T07:19:02+00:00",
+      "run_class": "full",
+      "run_id": "501dcf40-cb93-4976-bf65-681029fa6bf0",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.753968253968254,
+      "score_pct": 75.39682539682539,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_code_full_qwen3-coder-next-phase5",
+      "test_id": "mbpp_plus"
     },
     {
       "efficiency": {
@@ -57171,12 +57593,12 @@
       },
       "metric": "exact_match,custom-extract",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.7857142857142857,
+      "normalized_answer_score": 0.7285714285714285,
       "notes": "",
-      "raw_harness_score": 0.7857142857142857,
-      "run_at": "2026-10-22T08:14:45+00:00",
-      "run_class": "smoke",
-      "run_id": "bd93620e-fb40-4a2f-8d0e-a795acdf0286",
+      "raw_harness_score": 0.7285714285714285,
+      "run_at": "2026-10-25T06:03:30+00:00",
+      "run_class": "validated",
+      "run_id": "dd34ccc3-e3da-487c-88fc-b42ea1382de0",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -57196,12 +57618,12 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 140,
+      "sample_count": 280,
       "schema_version": 3,
-      "score": 0.7857142857142857,
-      "score_pct": 78.57142857142857,
+      "score": 0.7285714285714285,
+      "score_pct": 72.85714285714285,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_mmlu_pro_l20_qwen3-coder-next-phase5",
       "test_id": "mmlu_pro_exact_match_custom-extract"
     },
     {
@@ -57217,7 +57639,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 5,
+      "extractor_failure_count": 13,
       "failure": {
         "kind": "",
         "message": ""
@@ -57231,12 +57653,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "qwen3-coder-next:80b-a3b",
-      "normalized_answer_score": 0.8,
-      "notes": "rescued 2; unreadable 5",
-      "raw_harness_score": 0.7857142857142857,
-      "run_at": "2026-10-22T08:14:44+00:00",
-      "run_class": "smoke",
-      "run_id": "039565a1-d5b9-47c8-8b6a-c49dd62e3601",
+      "normalized_answer_score": 0.7357142857142858,
+      "notes": "rescued 2; unreadable 13",
+      "raw_harness_score": 0.7285714285714285,
+      "run_at": "2026-10-25T06:03:30+00:00",
+      "run_class": "validated",
+      "run_id": "8e59975a-b184-4326-aaa3-258a00c62fb0",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -57256,13 +57678,285 @@
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 140,
+      "sample_count": 280,
       "schema_version": 3,
-      "score": 0.8,
-      "score_pct": 80.0,
+      "score": 0.7357142857142858,
+      "score_pct": 73.57142857142858,
       "status": "success",
-      "suite": "qwen3-coder-next_80b-a3b_w_smoke_v1",
+      "suite": "campaign_qwen3_coder_next_mmlu_pro_l20_qwen3-coder-next-phase5",
       "test_id": "mmlu_pro_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 1.0292263870388512,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 64.48925276400405,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 44707.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 10.748208794000675
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 1.0292263870388512, \"failed_request_count\": 0, \"gpu_seconds\": 64.48925276400405, \"max_success_prompt_tokens\": 3538, \"peak_vram_mb\": 44707.0, \"results\": [{\"error\": \"\", \"prompt_tokens\": 898, \"success\": true, \"target_words\": 800, \"wall_seconds\": 2.8701917189973756}, {\"error\": \"\", \"prompt_tokens\": 3538, \"success\": true, \"target_words\": 3200, \"wall_seconds\": 7.877805887997965}], \"sample_count\": 2, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 10.748208794000675}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-25T07:22:06.754626+00:00",
+      "run_class": "validated",
+      "run_id": "bf08ad22-3898-477c-9c7b-bc3697139668",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "d769f05d392a010ddec9faf5eb840198589304db139773f0d8fc0337a65827f4",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 2,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_runtime_qwen3-coder-next-phase5",
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.12073491135859853,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 9.442235939990496,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 44707.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 1.573705989998416
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.12073491135859853, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 9.442235939990496, \"peak_vram_mb\": 44707.0, \"request_wall_seconds\": 1.5734371800062945, \"sample_count\": 5, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 1.573705989998416}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-25T07:21:50.299733+00:00",
+      "run_class": "validated",
+      "run_id": "1b67f875-d075-4c8d-908b-90b73076a312",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "d769f05d392a010ddec9faf5eb840198589304db139773f0d8fc0337a65827f4",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 5,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_runtime_qwen3-coder-next-phase5",
+      "test_id": "runtime_stability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.2864542917456054,
+        "failed_request_count": 0,
+        "generation_tps": 37.28474299509221,
+        "gpu_seconds": 22.12322064602631,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 44707.0,
+        "prompt_tps": 71.57120261091747,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 3.6872034410043852
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"completion_tokens\": 128, \"energy_wh\": 0.2864542917456054, \"failed_request_count\": 0, \"generation_tps\": 37.28474299509221, \"gpu_seconds\": 22.12322064602631, \"peak_vram_mb\": 44707.0, \"prompt_tokens\": 20, \"prompt_tps\": 71.57120261091747, \"request_wall_seconds\": 3.6871397769937175, \"sample_count\": 1, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 3.6872034410043852}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-25T07:21:55.681016+00:00",
+      "run_class": "validated",
+      "run_id": "841d774e-81d4-484a-a2f7-6a312c9d6e20",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "d769f05d392a010ddec9faf5eb840198589304db139773f0d8fc0337a65827f4",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_runtime_qwen3-coder-next-phase5",
+      "test_id": "runtime_throughput"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.07807108765199092,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 6.200715648024925,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 44707.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": 0.3143311566673219,
+        "wall_time_seconds": 1.0334526080041542
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3-coder-next:80b-a3b",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.07807108765199092, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 6.200715648024925, \"peak_vram_mb\": 44707.0, \"sample_count\": 3, \"score\": 1.0, \"timeout_count\": 0, \"ttft_seconds\": 0.3143311566673219, \"values\": [0.2633568800010835, 0.3393799469995429, 0.3402566430013394], \"wall_time_seconds\": 1.0334526080041542}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-10-25T07:21:51.672144+00:00",
+      "run_class": "validated",
+      "run_id": "bcada061-5d48-420a-bcfe-c0910bf2d610",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "d769f05d392a010ddec9faf5eb840198589304db139773f0d8fc0337a65827f4",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-gpu_0_1_2_3_4_5-gpu0-1-2-3-4-5",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 3,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen3_coder_next_runtime_qwen3-coder-next-phase5",
+      "test_id": "runtime_ttft"
     },
     {
       "efficiency": {
@@ -77504,8 +78198,8 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "source_models_catalog_path": "/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/models.catalog.json",
-  "source_records_path": "/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl",
+  "source_models_catalog_path": "/benchmark-scripts/models.catalog.json",
+  "source_records_path": "/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl",
   "suite_rollup": [
     {
       "failures": 0,
@@ -81292,6 +81986,72 @@
       "records": 1,
       "successes": 1,
       "suite": "sanity_runner_patch"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code"
+      ],
+      "last_run_at": "2026-10-25T07:19:02+00:00",
+      "model": "qwen3-coder-next:80b-a3b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_qwen3_coder_next_code_full_qwen3-coder-next-phase5"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-10-25T07:19:41.785456",
+      "model": "qwen3-coder-next:80b-a3b",
+      "records": 5,
+      "successes": 5,
+      "suite": "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-25T06:03:30+00:00",
+      "model": "qwen3-coder-next:80b-a3b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_qwen3_coder_next_mmlu_pro_l20_qwen3-coder-next-phase5"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-pipeline"
+      ],
+      "last_run_at": "2026-10-25T07:21:46+00:00",
+      "model": "qwen3-coder-next:80b-a3b",
+      "records": 6,
+      "successes": 6,
+      "suite": "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-25T04:37:45+00:00",
+      "model": "qwen3-coder-next:80b-a3b",
+      "records": 11,
+      "successes": 11,
+      "suite": "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-runtime"
+      ],
+      "last_run_at": "2026-10-25T07:22:06.754626+00:00",
+      "model": "qwen3-coder-next:80b-a3b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_qwen3_coder_next_runtime_qwen3-coder-next-phase5"
     },
     {
       "failures": 0,
