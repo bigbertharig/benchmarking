@@ -62,12 +62,14 @@ def rigctl(*args: str, timeout: float = 7200) -> tuple[int, dict]:
 
 
 def fit_args(model: str, gpus: list[int] | None, cards: int | None, margin_mb: int | None,
-             ctx: int | None = None) -> list[str]:
-    """`rigctl fit` for the largest context on the chosen cards (the default profile's batch and args), or for
-    exactly ctx."""
+             ctx: int | None = None, batch_size: int | None = None) -> list[str]:
+    """`rigctl fit` for the largest context on the chosen cards (the default profile's batch and args, or
+    batch_size), or for exactly ctx."""
     args = ["fit", model, "--use", "chat", "--profile", "default", "--json"]
     if ctx:
         args += ["--ctx", str(ctx)]
+    if batch_size:
+        args += ["--batch-size", str(batch_size)]
     if gpus:
         args += ["--gpus", ",".join(str(g) for g in gpus)]
     elif cards:
@@ -77,12 +79,15 @@ def fit_args(model: str, gpus: list[int] | None, cards: int | None, margin_mb: i
     return args
 
 
-def load_args(model: str, gpus: list[int], ctx: int, owner: str, margin_mb: int | None) -> list[str]:
+def load_args(model: str, gpus: list[int], ctx: int, owner: str, margin_mb: int | None,
+              batch_size: int | None = None) -> list[str]:
     """Load exactly what the fit planned, as a benchmark load (bench mode, no prompt cache)."""
     args = ["load-model", model, "--gpus", ",".join(str(g) for g in gpus), "--ctx", str(ctx), "--use", "benchmark",
             "--profile", "default", "--json", "--owner", owner]
     if margin_mb is not None:
         args += ["--margin-mb", str(margin_mb)]
+    if batch_size:
+        args += ["--batch-size", str(batch_size)]
     return args
 
 
@@ -230,12 +235,13 @@ def main() -> int:
     ap.add_argument("--depth-of", type=int, help="probe at fractions of this context (match runs loaded at it)")
     ap.add_argument("--fractions", default=FRACTIONS, help="depth probes as shares of the context, comma separated")
     ap.add_argument("--margin-mb", type=int, help="headroom per card for the fit (manager default when omitted)")
+    ap.add_argument("--batch-size", type=int, help="override the profile's batch (the micro-batch, up to 512): a sweep")
     ap.add_argument("--skip-depth", action="store_true", help="only the load and the short probe")
     ap.add_argument("--out", help="record path (default results/runtime_experiments/...)")
     a = ap.parse_args()
 
     gpus = [int(g) for g in a.gpus.split(",")] if a.gpus else (None if a.cards else all_gpus())
-    rc, plan = rigctl(*fit_args(a.model, gpus, a.cards, a.margin_mb, a.ctx))
+    rc, plan = rigctl(*fit_args(a.model, gpus, a.cards, a.margin_mb, a.ctx, a.batch_size))
     if rc != 0 or not plan.get("fits"):
         reason = str((plan.get("error") or {}).get("message") or plan.get("reason") or "").removeprefix("won't fit: ")
         print(f"won't fit: {reason}", file=sys.stderr)
@@ -253,7 +259,7 @@ def main() -> int:
     signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(SystemExit(143)))
     t0 = time.time()
     try:
-        rc, loaded = rigctl(*load_args(a.model, gpus, ctx, owner, a.margin_mb))
+        rc, loaded = rigctl(*load_args(a.model, gpus, ctx, owner, a.margin_mb, a.batch_size))
     except BaseException:
         rigctl("cancel-owner", owner, "--reason", "capacity run stopped while loading", timeout=900)
         raise
@@ -312,8 +318,10 @@ def base_record(a, gpus: list[int], plan: dict) -> dict:
                                  + (f"--ctx {a.ctx} (fixed)" if a.ctx else "(largest that fits)")),
                         "depth_fractions": [float(f) for f in a.fractions.split(",")],
                         "depth_of_ctx": a.depth_of,
-                        "decode_tokens_per_depth_probe": DECODE_TOKENS, "cache_prompt": False},
+                        "decode_tokens_per_depth_probe": DECODE_TOKENS, "cache_prompt": False,
+                        "batch_size_override": a.batch_size},
         "model": a.model,
+        "ubatch": plan.get("ubatch"),  # the micro-batch the manager planned (the profile's, or the override)
         "cards": gpus,
         "card_details": card_details(gpus),
         "plan": {k: plan.get(k) for k in ("ctx", "ctx_limit", "tensor_split", "margin_mb", "weights_mb", "n_ctx_train",
@@ -324,7 +332,8 @@ def base_record(a, gpus: list[int], plan: dict) -> dict:
 def write_record(record: dict, a, gpus: list[int], ctx) -> Path:
     stamp = datetime.now().strftime("%Y%m%d")
     out = Path(a.out) if a.out else RX / (f"{slug(a.model)}_capacity_g{'-'.join(str(g) for g in gpus)}"
-                                          f"_ctx{ctx or 'max'}{'_nofit' if record.get('fits') is False else ''}"
+                                          f"_ctx{ctx or 'max'}{f'_b{a.batch_size}' if a.batch_size else ''}"
+                                          f"{'_nofit' if record.get('fits') is False else ''}"
                                           f"_{stamp}.json")
     record["experiment_id"] = out.stem
     out.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
