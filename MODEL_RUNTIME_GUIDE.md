@@ -1,5 +1,7 @@
 # Model Runtime Guide
 
+Per-model runtime notes. How fast models run on which cards, and why, is in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md); the measurements are in [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md).
+
 > **Superseded 2026-10-15** by [model_roles.json](model_roles.json) (which model and settings to use per lane and job) and [model_registry.json](model_registry.json) (every tested model with its profiles), resolved by [scripts/active/model_library.py](scripts/active/model_library.py). Model choices, statuses, and settings in this document are history and are no longer updated; `models.catalog.json` and `model_tuning_profiles.json` are now generated from the registry.
 
 Per-model runtime requirements, best practices, memory limits, and compatibility info.
@@ -165,7 +167,7 @@ Operational note:
 - `--reasoning-budget 0` alone is NOT sufficient for benchmarks
 - Memory: 27B ~16GB, 35B-A3B 21.3GB (tight on 3090 — do NOT increase ctx beyond 16384)
 - 35B-A3B has recurrent state (`llama_memory_recurrent`)
-- Tensor split bug #22058 documented but **27B works in practice** on 3090+1060 with b8884-candidate. Tested up to 262k ctx (3090+2×1060, `--tensor-split 4,1,1`). See BENCHMARK_LESSONS_LEARNED.md "Split-Load Reference" for full results.
+- Tensor split bug #22058 documented but **27B works in practice** on 3090+1060 with b8884-candidate. Tested up to 262k ctx (3090+2×1060, `--tensor-split 4,1,1`). Full results: archive/docs/split_load_reference_pre_2026-10-24.md; current split findings in RIG_PERFORMANCE.md.
 
 ### gpt-oss:20b
 

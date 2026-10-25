@@ -18,6 +18,8 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 | [docker/README.md](docker/README.md) | the suites; each `docker/bench-*/` has its README and run history |
 | [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | campaigns (Phase 5 at scale); [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md) is the planned move onto the rig manager |
 | [scripts/integration/README.md](scripts/integration/README.md) | the lane tools for Phases 3-4.5 |
+| [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) | how fast the rig runs models and why: card vs bus, splits, context capacity, PCIe; open questions; which tool measures what |
+| [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md) | every speed, capacity and power measurement (generated from `results/runtime_experiments/`) |
 | [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md), [MODEL_SELECTION_GUIDE.md](MODEL_SELECTION_GUIDE.md), [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) | background |
 
 ## The four repos

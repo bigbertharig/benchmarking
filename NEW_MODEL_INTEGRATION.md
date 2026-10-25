@@ -309,6 +309,8 @@ fill 10, 25, 50, 75 and 90% of the context (`--fractions`) with a code planted a
 back: at each depth, prefill speed, time to first token, decode speed (160 tokens) and whether recall still
 works. Prompt caching is off, so prefill is measured over the whole prompt. The record is
 `results/runtime_experiments/<slug>_capacity_g<cards>_ctx<context>_<date>.json`; the model is unloaded at the end.
+The run rebuilds [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md); what the numbers mean, and the
+other speed and PCIe tools, are in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md).
 
 ## Phase 6: Finalize
 
