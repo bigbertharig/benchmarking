@@ -40,6 +40,7 @@ Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/..
 | 4.5 | Settings experiments (optional) | operator's choice after reading Phase 4: the lane's thinking A/B (`LANE_START_AT=4.5`), experiments by hand | each Phase 4 problem tried against the options that could fix it |
 | 5 | Full run (limit 50 + full code) | a campaign | all blocks complete |
 | 6 | Finalize | registry status and notes, integration log | the model is discoverable with its settings |
+| - | Capacity run (any time after Phase 1) | `capacity_run.py` on chosen cards | a `results/runtime_experiments/` capacity record |
 
 Phases 2-4 are one command (a lane), which stops after the smoke; Phase 4.5 is a separate, deliberate step; Phase 5 is one campaign. The manager does placement: say which cards
 a lane uses, and it checks the fit and picks context and split.
@@ -290,6 +291,24 @@ Time to expect (2026-10-22, at the standing power caps): mixture-of-experts mode
 dense 24-31B on the 3090 2.5-4.5 h; 12-14B models on a 1060 pair 5.5 h (MoE) to 17 h (dense).
 
 **Gate**: all blocks complete (`rigctl runs`, the campaign status), scores recorded.
+
+## Capacity run
+
+Bench mode loads the bare minimum (the fewest cards at the profile's context). The capacity run answers the
+other question: the most the model can do on a given set of cards, for chat and harness settings.
+
+```bash
+rigctl run-start --run capacity-<slug> -- python3 \
+  /mnt/shared/plans/shoulders/benchmarking/scripts/integration/capacity_run.py <short-id> [--gpus 0,1,2,3,4,5 | --cards N]
+```
+
+`--gpus` pins the cards, `--cards N` lets the manager pick N, neither uses every card. The manager plans the
+largest context that fits on them (its largest-that-fits rule, the default profile's batch and args); the
+model is loaded at exactly that context; a short probe measures decode speed and power, and depth probes
+fill 10, 25, 50, 75 and 90% of the context (`--fractions`) with a code planted at the start and ask for it
+back: at each depth, prefill speed, time to first token, decode speed (160 tokens) and whether recall still
+works. Prompt caching is off, so prefill is measured over the whole prompt. The record is
+`results/runtime_experiments/<slug>_capacity_g<cards>_ctx<context>_<date>.json`; the model is unloaded at the end.
 
 ## Phase 6: Finalize
 
