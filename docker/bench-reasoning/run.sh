@@ -95,6 +95,21 @@ case "$RUN_CLASS" in
     *) echo "ERROR: --run-class must be smoke, provisional, validated, or full"; exit 1 ;;
 esac
 
+CONFIG_ID="lm-eval-0.4.11-reasoning-extract-v5"
+CONFIG_JSON='{"lm_eval":"0.4.11","extraction":"reasoning-v5","bbh_stop":"newline Q:","bbh_max_gen_toks":1024,"flexible_rows":["bbh_flexible","drop_flexible","mmlu_pro_flexible","gsm8k_flexible"]}'
+if [ -n "$GEN_KWARGS" ]; then
+    # Keep A/B generation overrides separate from the default benchmark configuration.
+    CONFIG_ID="$CONFIG_ID-gen-kwargs"
+    CONFIG_JSON="$(python3 - "$CONFIG_JSON" "$GEN_KWARGS" <<'PY_CONFIG'
+import json
+import sys
+config = json.loads(sys.argv[1])
+config["gen_kwargs_override"] = sys.argv[2]
+print(json.dumps(config, separators=(",", ":")))
+PY_CONFIG
+)"
+fi
+
 if [ -z "$PROMPT_PROFILES" ]; then
     PROMPT_PROFILES="${SCRIPTS_DIR}/custom_tasks/model_prompt_profiles.json"
 fi
@@ -169,8 +184,8 @@ record_result_row() {
         --records "$RECORDS_PATH" \
         --reference-output "$REFERENCE_OUTPUT" \
         --scoreboard-output "$SCOREBOARD_OUTPUT" \
-        --config-id "lm-eval-0.4.11-reasoning-extract-v5" \
-        --config-json '{"lm_eval":"0.4.11","extraction":"reasoning-v5","bbh_stop":"newline Q:","bbh_max_gen_toks":1024,"flexible_rows":["bbh_flexible","drop_flexible","mmlu_pro_flexible","gsm8k_flexible"]}' \
+        --config-id "$CONFIG_ID" \
+        --config-json "$CONFIG_JSON" \
         --run-at "$(date -Iseconds)" \
         --notes "$notes" >/dev/null
 }

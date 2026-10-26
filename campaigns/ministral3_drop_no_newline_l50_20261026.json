@@ -1,0 +1,21 @@
+{
+  "name": "ministral3_drop_no_newline_l50_20261026",
+  "description": "Validated 50-sample Ministral 3B DROP rerun after matched l10 A/B removed 5/5 fence truncations and improved flexible score 4/10 to 9/10. Uses sentinel stop and 512 generation token cap; separate config metadata.",
+  "defaults": {
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "ministral3_3b_drop_no_newline_l50",
+      "model": "ministral-3:3b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "drop",
+        "--gen-kwargs",
+        "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512"
+      ]
+    }
+  ]
+}
