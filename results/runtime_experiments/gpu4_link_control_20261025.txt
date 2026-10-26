@@ -1,0 +1,6 @@
+BEGIN gpu=4 replays=14 at=2026-10-25T18:40:21-07:00
+RESULT gpu=4 load=25.0s decode=38.44tok/s replay_delta=1
+BEGIN gpu=3 replays=0 at=2026-10-25T18:41:06-07:00
+RESULT gpu=3 load=18.4s decode=39.85tok/s replay_delta=0
+Kernel GPU/PCIe errors since 2026-10-25T18:40:21-07:00:
+DONE 2026-10-25T18:41:43-07:00

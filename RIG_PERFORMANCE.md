@@ -51,6 +51,26 @@ messages; this is a link check, not a matched gen 2/gen 3 speed comparison. Its 
 3090 is GPU 0; the rig itself works with whatever cards the scan finds (llm_orchestration
 `shared/scripts/rig/README.md`, "The cards are whatever the scan finds").
 
+## GPU4 link control and manager speed, 2026-10-25
+
+GPU4 (ASUS 1060, bus 11:00.0, root port 00:1d.2) was the only card with PCIe replays
+after the six-card runs. A matched `ministral-3:3b` solo load and short response added
+one replay on GPU4 (14 to 15) and zero on GPU3. GPU4 loaded in 25.0 s and decoded at
+38.44 tok/s; GPU3 loaded in 18.4 s and decoded at 39.85 tok/s. Neither run logged
+AER, Xid, NVRM, or fallen-off-bus errors. This isolates the replay to GPU4's path
+under this small workload; a card versus riser or cable diagnosis requires a physical
+swap or inspection. Leave the x1 Gen2 BIOS setting and power caps in place. Evidence:
+`results/runtime_experiments/gpu4_link_control_20261025.txt` and the two
+`ministral_3_3b_gpu{4,3}_pcie_control_20261025.json` records.
+
+For manager placement, matched `ministral-3:8b` runs at 16,384 context and batch 64
+measured GPU0 at 25.2 s load, 2,616.16 tok/s prefill and 121.82 tok/s decode; GPUs
+1,3 at 34.9 s, 474.7 tok/s and 20.24 tok/s. The 3090 was 5.51 times faster at
+prefill and 6.02 times faster at decode. The manager now uses comparable measurements
+for available fitting card sets; the working worker context is 8,192. Evidence:
+`results/runtime_experiments/ministral_3_8b_capacity_g0_ctx16384_b64_20261025.json`
+and the prior matched two-1060 capacity record.
+
 ## Dense 70B versus 74B MoE on NVMe, 2026-10-25
 
 Llama-3.3-70B-Instruct-Q4_K_M (dense; 42.52 GB/39.6 GiB) was copied
@@ -263,7 +283,7 @@ Matched managed capacity runs on the 3090 used the standing 350 W cap, the same 
 
 For qwen3.6:35b-a3b, batch 512 lifts prefill 2.32x at 13K prompt tokens and 1.87x at 125K; depth decode matches within 1%. For the current qwen3.6:27b brain, the 64-to-512 change lifts prefill 1.41-1.46x through 15K; depth decode again matches. The extra compute allocation is 138 MiB and 101 MiB respectively. Measured peak GPU memory differs by 124 MiB and 88 MiB. The records are `qwen3_6_35b-a3b_capacity_g0_ctx131072_b{128,512}_20261025.json` and `qwen3_6_27b_capacity_g0_ctx16384_b{64,512}_20261025.json` in `results/runtime_experiments/`.
 
-The model registry now sets batch 512 for the tested qwen3.6:35b-a3b and gemma-4:31b interactive and orchestration profiles, and for qwen3.6:27b orchestration. The benchmark default profiles keep their former batches so campaign comparisons remain on the same settings. The 32K Gemma sweep supports its smaller 1.2-1.3x prefill gain; a matched long-context Gemma run has not been done. The manager's fit still caps context using its conservative margin and pooled compute estimates.
+The model registry now sets batch 512 for the tested qwen3.6:35b-a3b and gemma-4:31b interactive and orchestration profiles, and for qwen3.6:27b orchestration. The benchmark default profiles keep their former batches so campaign comparisons remain on the same settings. The 32K Gemma sweep supports its smaller 1.2-1.3x prefill gain; a matched long-context Gemma run has not been done. The manager now calibrates compute per card count and full-depth growth margin for matching layouts.
 
 ## Hardware swaps 2026-10-25 (done)
 
@@ -309,20 +329,18 @@ formula (or the first measured load), pass 2 from what pass 1 measured (`capacit
 
 - The calibration moves both ways: a measured buffer larger than the formula's lowers the plan (gemma-4:31b and
   qwen3.6:27b on five 1060s, sliding-window and dense models), a smaller one raises it.
-- The one failure set two lessons the manager now keeps: llama.cpp's own totals leave out CUDA graph memory, up to
-  about 509 MiB on the 3090 (overhead learned per card size from memory in use), and a context that ran out of
-  memory caps later plans on cards of those sizes (`fit.failed_ceiling`); qwen3-coder:30b-a3b on the 3090 now
-  plans 110,080. The overhead from capacity records comes from peak memory during probes, so plans are a little
-  conservative, and the 512 MiB margin per card is still added on top.
-- **Memory does not grow with the context in use; it is all allocated at load.** Full-depth runs at the
-  calibrated limits held to 90% with recall ok, and peak memory over five depth probes rose 18 MiB on the 3090
-  (qwen3.6:35b-a3b at 195,840, probes to 187K tokens: in use 23,481 once serving, peak 23,499) and 8 MiB per card on
-  five 1060s (145,152, probes to 138K). Real overhead beyond llama.cpp's totals: about 420 MiB on the 3090, 109 on a
-  1060. The 230,144 load from the matrix used 23,909 of 24,564 MiB (655 free), yet the calibrated planner now
-  refuses it even with `--margin-mb 0` (`*_g0_ctx230144_nofit_*`): it adds the 512 MiB margin for growth that
-  barely happens, pads the overhead to 624, and fits one compute line through single-card and split loads
-  (splits allocate more: 411 vs 302 MiB per card at 131K). Next: margin from measured growth, compute per card
-  count (llm-gateway `docs/MANAGER.md`, still fixed).
+- The qwen3-coder:30b-a3b 120K OOM still sets a ceiling for that GGUF and card-size
+  layout. The manager now rejects explicit requests at or above that boundary too.
+- **Memory is almost entirely allocated at load.** Full-depth runs at the calibrated limits held to
+  90% with recall okay. Peak memory rose 18 MiB on the 3090 at 195,840 context and 8 MiB per
+  1060 at 145,152. The manager uses four times measured growth with a 128 MiB floor only
+  for the matching GGUF and card-size layout; unmeasured layouts keep 512 MiB. It calibrates
+  compute separately by card count and pads the highest observed serving overhead by 64 MiB.
+  This replaced the previous pooled compute and 624 MiB padded 3090 overhead. The previously
+  refused qwen3.6:35b-a3b 230,144 GPU0 fit now passes. A real managed load reached ready
+  in 84.5 s and decoded at 148.34 tok/s, then unloaded successfully. Evidence:
+  `results/runtime_experiments/qwen3_6_35b_a3b_fit_calibrated_20261025.txt` and
+  `qwen3_6_35b_a3b_capacity_g0_ctx230144_fit_calibrated_20261025.json`.
 
 | qwen3.6:35b-a3b, full depth | ctx | Prefill 10% / 90% | Decode 10% / 90% | First token at 90% | Record |
 |---|---|---|---|---|---|

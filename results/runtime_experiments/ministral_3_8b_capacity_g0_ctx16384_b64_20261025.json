@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T18:46:42-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 16384 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": 64
+  },
+  "model": "ministral-3:8b",
+  "ubatch": 64,
+  "cards": [
+    0
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    }
+  ],
+  "plan": {
+    "ctx": 16384,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 4662,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 34,
+        "weights_mb": 4662,
+        "kv_mb": 1156,
+        "compute_mb": 162,
+        "projected_mb": 6604,
+        "headroom_mb": 17945
+      }
+    ]
+  },
+  "load": {
+    "seconds": 25.2,
+    "profile": "ministral-3-8b-g0",
+    "port": 11434,
+    "ctx_allocated": 16384,
+    "measured": {
+      "n_ctx": 16384,
+      "offloaded": 35,
+      "layers": 35,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 4662,
+          "kv_mb": 1156,
+          "compute_mb": 71,
+          "total_mb": 5889
+        }
+      ],
+      "host_mb": 294,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 587,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 2616.16,
+    "generation_tokens_per_second": 121.82,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 4.4,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 5,
+        "avg_power_w": 348.0,
+        "peak_power_w": 349.11,
+        "peak_temperature_c": 61.0,
+        "peak_memory_mb": 6231.0
+      }
+    ]
+  },
+  "experiment_id": "ministral_3_8b_capacity_g0_ctx16384_b64_20261025"
+}

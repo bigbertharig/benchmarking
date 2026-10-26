@@ -1,0 +1,4 @@
+BEGIN 2026-10-25T18:51:25-07:00; GPU0 350W; ctx230144; batch128
+RESULT load=84.5s decode=148.34tok/s ctx=230144 cards=[0] plan_margin=128
+Kernel GPU/PCIe errors since 2026-10-25T18:51:25-07:00:
+DONE 2026-10-25T18:52:59-07:00
