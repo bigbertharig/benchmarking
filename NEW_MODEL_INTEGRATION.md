@@ -876,9 +876,9 @@ Models: `qwen3.5:27b`, `qwen3-coder:30b-a3b`, `devstral-small:24b`,
 
 | Model | Download/register/load | Broad smoke | Full code | Validated reasoning | Final state |
 | --- | --- | --- | --- | --- | --- |
-| `qwen3.5:27b` | complete | complete | complete | retry invalidated; brain-only l50 rerun running 2026-10-25 | provisional brain default |
-| `qwen3-coder:30b-a3b` | complete | complete | complete | retry invalidated; brain-only l50 rerun running 2026-10-25 | code-focused brain alternative |
-| `devstral-small:24b` | complete | complete | complete | retry invalidated; brain-only l50 rerun running 2026-10-25 | brain runner-up |
+| `qwen3.5:27b` | complete | complete | complete | retry invalidated; brain-only l50 rerun prepared | provisional brain default |
+| `qwen3-coder:30b-a3b` | complete | complete | complete | retry invalidated; brain-only l50 rerun prepared | code-focused brain alternative |
+| `devstral-small:24b` | complete | complete | complete | retry invalidated; brain-only l50 rerun prepared | brain runner-up |
 | `ministral-3:14b` | complete | complete | complete | l50 reasoning/runtime complete | split-quality default |
 | `ministral-3:8b` | complete | complete | complete | l50 reasoning/runtime complete | split-speed default |
 | `ministral-3:3b` | complete | partial with retained failed attempts | full rerun complete | smoke reasoning and runtime complete | tested compact alternative |
@@ -916,13 +916,13 @@ retry approached 90C and was stopped. Sequential retry
 The retry's three brain lanes are invalid despite their successful exit codes.
 Port 11434 remained owned by a `qwen3.6:27b` container, and process snapshots
 showed that same GGUF during the Qwen3.5, Qwen Coder, and Devstral suites. Their
-misattributed rows were removed from the canonical ledger. The brain-only rerun started 2026-10-25 as rig run
-`modern-brain-revalidate-20261025` using
-`campaigns/modern_brain_reasoning_revalidation_20261025.json`. The current
-campaign runner loads through the manager, checks `/v1/models` identity before
-scoring, and uses `--max-active-models 1`; keep the 95C thermal guard.
-Its checkpoint is under
-`/mnt/shared/logs/benchmarks/campaigns/history/modern_brain_reasoning_revalidation_20261025/modern-brain-revalidate-20261025/`.
+misattributed rows were removed from the canonical ledger. A brain-only rerun was prepared as `modern-brain-revalidate-20261025`
+using `campaigns/modern_brain_reasoning_revalidation_20261025.json`,
+then stopped before the first suite when the user prioritized Nemotron and
+Mellum runtime smokes. It remains resumable after those checks. The current
+campaign runner loads through the manager, verifies `/v1/models` identity,
+and can run one active model with the 95C thermal guard. Its checkpoint is
+under `/mnt/shared/logs/benchmarks/campaigns/history/modern_brain_reasoning_revalidation_20261025/modern-brain-revalidate-20261025/`.
 Do not promote the three scores until the identity fields and suites complete.
 
 ## Integration: Gemma 4 12B (2026-06-05)
