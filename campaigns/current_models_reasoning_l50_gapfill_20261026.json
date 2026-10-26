@@ -1,0 +1,71 @@
+{
+  "name": "current_models_reasoning_l50_gapfill_20261026",
+  "description": "Validated limit-50 GSM8K, DROP, and IFEval gap fill for current role models and recent candidates lacking comparable receipts. Old unassigned active entries and archived models excluded.",
+  "defaults": {
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "gemma4_e2b_q8_reasoning_l50",
+      "model": "gemma-4:e2b-q8",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ]
+    },
+    {
+      "id": "gemma4_e4b_reasoning_l50",
+      "model": "gemma-4:e4b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ],
+      "depends_on": [
+        "gemma4_e2b_q8_reasoning_l50"
+      ]
+    },
+    {
+      "id": "minicpm5_2b_reasoning_l50",
+      "model": "minicpm5:2b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ],
+      "depends_on": [
+        "gemma4_e4b_reasoning_l50"
+      ]
+    },
+    {
+      "id": "ministral3_3b_reasoning_l50",
+      "model": "ministral-3:3b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ],
+      "depends_on": [
+        "minicpm5_2b_reasoning_l50"
+      ]
+    },
+    {
+      "id": "qwen25_coder_7b_reasoning_l50",
+      "model": "qwen2.5-coder:7b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ],
+      "depends_on": [
+        "ministral3_3b_reasoning_l50"
+      ]
+    }
+  ]
+}
