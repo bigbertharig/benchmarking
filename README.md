@@ -106,7 +106,8 @@ comparisons, not a full six-suite Phase 5 run.
 The five-model gap-fill campaign `current-models-l50-gapfill-20261026`
 completed 5/5 on the rig. All five produced validated 50-sample
 GSM8K, DROP and IFEval records with verified served-model identity.
-Selected flexible/loose scores are percentages:
+Selected flexible/loose scores from that initial campaign are percentages
+(the corrected Ministral DROP result follows):
 
 | Model | GSM8K | DROP | IFEval |
 | --- | ---: | ---: | ---: |
@@ -120,11 +121,13 @@ The follow-up `ministral-split-drop-l50-20261026` completed the
 missing DROP rows for Ministral 14B (EM 56%, flexible 60%) and 8B
 (EM/flexible 24%). All 24 scoped current role/recent candidate models
 now have the three limit-50 metric rows. The Ministral DROP scores
-need a stop-setting check before a clean comparison: the task's newline
-stop cut generations at the opening code fence in 32/50 3B, 29/50 8B,
-and 6/50 14B samples. See
+were affected by the task's newline stop. The corrected validated
+limit-50 reruns used a 512-token cap and a nonoccurring stop sentinel.
+Flexible DROP rose from 24% to 74% for 3B, 24% to 76% for 8B, and
+60% to 72% for 14B; all three had zero unreadable outputs. These
+reruns have a separate config ID/hash. See
 [docker/bench-reasoning/BENCH_REASONING_HISTORY.md](docker/bench-reasoning/BENCH_REASONING_HISTORY.md).
- The scope excludes four older unassigned active entries
+The scope excludes four older unassigned active entries
 (Llama 3.2 3B, Phi-4 Mini Reasoning, Qwen2.5 Coder 14B, SmolLM3 3B)
 and archived/invalid models.
 

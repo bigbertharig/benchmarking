@@ -1,3 +1,10 @@
+# bench-reasoning Run History
+
+Historical results for the lm-eval reasoning-focused suite.
+
+The main MODEL_LIBRARY.md holds only the latest score per model/test.
+This file holds the full history so we can track how prompt and config changes affect scores.
+
 ## 2026-10-26 Ministral DROP newline truncation
 
 The current DROP task patch uses a newline stop. In validated 50-sample
@@ -8,17 +15,33 @@ answers or a scorer regex miss. The flexible scorer counts them as
 unreadable. Results: 3B DROP EM 18%, flexible 24%; 8B EM/flexible 24%;
 14B EM 56%, flexible 60%. Older limit-10 A/B runs already showed
 format sensitivity for Ministral 3B, but did not identify the newline
-stop interaction. Keep these DROP scores flagged as truncated evidence;
-an A/B with a bounded output-token limit and no newline stop is needed
-before ranking the Ministral sizes on DROP. Preserve both configurations
-as separate receipts.
+stop interaction. Keep the newline-stop scores flagged as truncated
+evidence and preserve both configurations as separate receipts.
 
-# bench-reasoning Run History
+A matched 3B limit-10 probe with the newline stop replaced by a
+nonoccurring sentinel and a 512-token output cap changed fence-only
+responses from 5/10 to 0/10 and flexible DROP from 4/10 to 9/10.
+The full 3B limit-50 rerun completed at 74% flexible (37/50) with
+zero unreadable answers, versus 24% (12/50) and 32 unreadable under
+the newline stop. Strict EM remained 18%; it does not accept JSON
+answers. The corrected full run records a separate
+`lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs` config ID and hash.
+The corrected 8B/14B campaign
+`ministral-split-drop-no-newline-l50-20261026` completed both blocks.
+At limit 50, all three sizes had zero fence-only and zero unreadable
+outputs under the bounded no-newline-stop override:
 
-Historical results for the lm-eval reasoning-focused suite.
+| Model | Newline-stop DROP flexible | Corrected flexible | Corrected strict EM |
+| --- | ---: | ---: | ---: |
+| Ministral 3B | 24% (32 unreadable) | 74% | 18% |
+| Ministral 8B | 24% (29 unreadable) | 76% | 24% |
+| Ministral 14B | 60% (6 unreadable) | 72% | 56% |
 
-The main MODEL_LIBRARY.md holds only the latest score per model/test.
-This file holds the full history so we can track how prompt and config changes affect scores.
+The initial 3B limit-10 smoke was recorded before the generation
+override metadata fix. Use the three validated limit-50 reruns, which
+have a distinct config ID/hash, for comparisons. The strict EM values
+remain low when complete JSON answers are returned; flexible scoring
+accepts a gold span inside the complete answer.
 
 ## How to read this table
 

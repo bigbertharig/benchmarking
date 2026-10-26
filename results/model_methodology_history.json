@@ -10388,7 +10388,7 @@
       "test_id": "dataimport_schema_wide_to_long"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 5,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -10396,15 +10396,32 @@
         "2.0.0"
       ],
       "model": "ministral-3:14b",
-      "selected_run_at": "2026-10-26T20:14:12+00:00",
+      "selected_run_at": "2026-10-26T20:48:23+00:00",
       "selected_run_class": "validated",
-      "selected_run_id": "84f3d4b3-c1ee-4c25-a187-ceb0a8241293",
+      "selected_run_id": "4ac193d4-503c-48b1-a033-65a5705f21b2",
       "selected_sample_count": 50,
       "selected_score": 0.56,
-      "success_count": 4,
+      "success_count": 5,
       "test_id": "drop_em"
     },
     {
+      "attempt_count": 5,
+      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-reasoning/lm-eval-normalized",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "ministral-3:14b",
+      "selected_run_at": "2026-10-26T20:48:24+00:00",
+      "selected_run_class": "validated",
+      "selected_run_id": "e3405c51-5303-4c4e-98be-537327af1bba",
+      "selected_sample_count": 50,
+      "selected_score": 0.6175999999999999,
+      "success_count": 5,
+      "test_id": "drop_f1"
+    },
+    {
       "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
@@ -10413,29 +10430,12 @@
         "2.0.0"
       ],
       "model": "ministral-3:14b",
-      "selected_run_at": "2026-10-26T20:14:13+00:00",
+      "selected_run_at": "2026-10-26T20:48:24+00:00",
       "selected_run_class": "validated",
-      "selected_run_id": "59a0b2c3-bcfd-46a7-b478-f3d920e5b659",
+      "selected_run_id": "d49afb44-acc8-468d-b8b6-c16860e7cdcd",
       "selected_sample_count": 50,
-      "selected_score": 0.578,
+      "selected_score": 0.72,
       "success_count": 4,
-      "test_id": "drop_f1"
-    },
-    {
-      "attempt_count": 3,
-      "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
-      "failure_count": 0,
-      "methodology_id": "bench-reasoning/lm-eval-normalized",
-      "methodology_versions": [
-        "2.0.0"
-      ],
-      "model": "ministral-3:14b",
-      "selected_run_at": "2026-10-26T20:14:14+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "dd5959bb-7bb1-4f1f-9992-98a985287d97",
-      "selected_sample_count": 50,
-      "selected_score": 0.6,
-      "success_count": 3,
       "test_id": "drop_flexible"
     },
     {
@@ -11816,7 +11816,7 @@
       "test_id": "drop"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 8,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -11824,16 +11824,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-26T09:03:11+00:00",
+      "selected_run_at": "2026-10-26T20:43:41+00:00",
       "selected_run_class": "validated",
-      "selected_run_id": "32a9fc5e-6309-4861-89f8-d7166f815cf6",
+      "selected_run_id": "077d7356-6680-46f1-893f-285c6d2e66f3",
       "selected_sample_count": 50,
       "selected_score": 0.18,
-      "success_count": 6,
+      "success_count": 8,
       "test_id": "drop_em"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 8,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -11841,16 +11841,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-26T09:03:12+00:00",
+      "selected_run_at": "2026-10-26T20:43:42+00:00",
       "selected_run_class": "validated",
-      "selected_run_id": "fe86bbe2-92d4-43ff-9dc5-4e59435f1d9e",
+      "selected_run_id": "a39e7b55-3b8e-4e65-b805-f65893e2df16",
       "selected_sample_count": 50,
-      "selected_score": 0.2182,
-      "success_count": 6,
+      "selected_score": 0.43559999999999993,
+      "success_count": 8,
       "test_id": "drop_f1"
     },
     {
-      "attempt_count": 9,
+      "attempt_count": 11,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -11858,12 +11858,12 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-26T09:03:13+00:00",
+      "selected_run_at": "2026-10-26T20:43:42+00:00",
       "selected_run_class": "validated",
-      "selected_run_id": "08b1cf02-70c5-41ce-832b-869a074b3ac7",
+      "selected_run_id": "499b8217-ea1a-47c6-96af-cc52b8af751b",
       "selected_sample_count": 50,
-      "selected_score": 0.24,
-      "success_count": 9,
+      "selected_score": 0.74,
+      "success_count": 11,
       "test_id": "drop_flexible"
     },
     {
@@ -13312,7 +13312,7 @@
       "test_id": "dataimport_schema_wide_to_long"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 5,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -13320,16 +13320,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-10-26T20:15:27+00:00",
+      "selected_run_at": "2026-10-26T20:46:33+00:00",
       "selected_run_class": "validated",
-      "selected_run_id": "ef02d0a9-11d8-49cd-b84d-87436fbd6833",
+      "selected_run_id": "8fb2abe4-92db-4085-a469-d508c34a4f94",
       "selected_sample_count": 50,
       "selected_score": 0.24,
-      "success_count": 4,
+      "success_count": 5,
       "test_id": "drop_em"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 5,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -13337,16 +13337,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-10-26T20:15:27+00:00",
+      "selected_run_at": "2026-10-26T20:46:33+00:00",
       "selected_run_class": "validated",
-      "selected_run_id": "eb47cc69-f4dc-4858-b8fa-73da64005f45",
+      "selected_run_id": "45a304a8-e051-4976-a7e0-8567f95fdd6c",
       "selected_sample_count": 50,
-      "selected_score": 0.24,
-      "success_count": 4,
+      "selected_score": 0.4579999999999999,
+      "success_count": 5,
       "test_id": "drop_f1"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 4,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -13359,7 +13359,7 @@
       "selected_run_id": "646f2124-5629-4e09-8087-c0a16597a950",
       "selected_sample_count": 50,
       "selected_score": 0.24,
-      "success_count": 3,
+      "success_count": 4,
       "test_id": "drop_flexible"
     },
     {
@@ -28442,13 +28442,13 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "generated_at": "2026-10-26T20:15:28.989928+00:00",
+  "generated_at": "2026-10-26T20:48:25.377747+00:00",
   "group_count": 1673,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 3438,
+  "record_count": 3450,
   "schema_version": 1
 }

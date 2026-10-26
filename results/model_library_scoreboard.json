@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T20:15:28.757776+00:00",
+  "generated_at": "2026-10-26T20:48:25.142179+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -450,17 +450,18 @@
     },
     {
       "failures": 2,
-      "last_run_at": "2026-10-26T20:14:14+00:00",
+      "last_run_at": "2026-10-26T20:48:24+00:00",
       "model": "ministral-3:14b",
-      "records": 139,
+      "records": 142,
       "selected_tests": 83,
-      "successes": 137,
+      "successes": 140,
       "suites": [
         "campaign_ministral3_14b_agent_20260813_limit5_all",
         "campaign_ministral3_14b_daedalmap_20260813_limit5_all",
         "campaign_ministral3_14b_dataimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_14b_dataimport_20260813_limit5_all",
         "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
+        "campaign_ministral3_14b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026",
         "campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1",
         "campaign_ministral3_14b_geoimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_14b_geoimport_20260813_limit5_all",
@@ -476,11 +477,11 @@
     },
     {
       "failures": 30,
-      "last_run_at": "2026-10-26T09:11:59+00:00",
+      "last_run_at": "2026-10-26T20:43:42+00:00",
       "model": "ministral-3:3b",
-      "records": 211,
+      "records": 217,
       "selected_tests": 82,
-      "successes": 181,
+      "successes": 187,
       "suites": [
         "campaign_agent_20260813_contract_v1",
         "campaign_daedalmap_20260813_contract_v1",
@@ -492,6 +493,8 @@
         "campaign_ministral3_3b_daedalmap_20260813_limit5_all",
         "campaign_ministral3_3b_dataimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_3b_dataimport_20260813_limit5_all",
+        "campaign_ministral3_3b_drop_no_newline_l10_ministral3-drop-stop-ab-20261026",
+        "campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026",
         "campaign_ministral3_3b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1",
         "campaign_ministral3_3b_geoimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_3b_geoimport_20260813_limit5_all",
@@ -514,17 +517,18 @@
     },
     {
       "failures": 2,
-      "last_run_at": "2026-10-26T20:15:28+00:00",
+      "last_run_at": "2026-10-26T20:46:34+00:00",
       "model": "ministral-3:8b",
-      "records": 140,
+      "records": 143,
       "selected_tests": 84,
-      "successes": 138,
+      "successes": 141,
       "suites": [
         "campaign_ministral3_8b_agent_20260813_limit5_all",
         "campaign_ministral3_8b_daedalmap_20260813_limit5_all",
         "campaign_ministral3_8b_dataimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_8b_dataimport_20260813_limit5_all",
         "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026",
+        "campaign_ministral3_8b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026",
         "campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1",
         "campaign_ministral3_8b_geoimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_8b_geoimport_20260813_limit5_all",
@@ -3615,7 +3619,7 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 3438,
+  "record_count": 3450,
   "schema_version": 3,
   "selected_count": 1564,
   "selected_per_model_test": [
@@ -30597,9 +30601,9 @@
       "normalized_answer_score": 0.56,
       "notes": "",
       "raw_harness_score": 0.56,
-      "run_at": "2026-10-26T20:14:12+00:00",
+      "run_at": "2026-10-26T20:48:23+00:00",
       "run_class": "validated",
-      "run_id": "84f3d4b3-c1ee-4c25-a187-ceb0a8241293",
+      "run_id": "4ac193d4-503c-48b1-a033-65a5705f21b2",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -30611,10 +30615,11 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -30624,7 +30629,7 @@
       "score": 0.56,
       "score_pct": 56.00000000000001,
       "status": "success",
-      "suite": "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
+      "suite": "campaign_ministral3_14b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026",
       "test_id": "drop_em"
     },
     {
@@ -30654,12 +30659,12 @@
       },
       "metric": "f1,none",
       "model": "ministral-3:14b",
-      "normalized_answer_score": 0.578,
+      "normalized_answer_score": 0.6175999999999999,
       "notes": "",
-      "raw_harness_score": 0.578,
-      "run_at": "2026-10-26T20:14:13+00:00",
+      "raw_harness_score": 0.6175999999999999,
+      "run_at": "2026-10-26T20:48:24+00:00",
       "run_class": "validated",
-      "run_id": "59a0b2c3-bcfd-46a7-b478-f3d920e5b659",
+      "run_id": "e3405c51-5303-4c4e-98be-537327af1bba",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -30671,20 +30676,21 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
       "sample_count": 50,
       "schema_version": 3,
-      "score": 0.578,
-      "score_pct": 57.8,
+      "score": 0.6175999999999999,
+      "score_pct": 61.75999999999999,
       "status": "success",
-      "suite": "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
+      "suite": "campaign_ministral3_14b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026",
       "test_id": "drop_f1"
     },
     {
@@ -30700,7 +30706,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 6,
+      "extractor_failure_count": 0,
       "failure": {
         "kind": "",
         "message": ""
@@ -30714,12 +30720,12 @@
       },
       "metric": "answer_contained",
       "model": "ministral-3:14b",
-      "normalized_answer_score": 0.6,
-      "notes": "rescued 2; unreadable 6",
+      "normalized_answer_score": 0.72,
+      "notes": "rescued 8; unreadable 0",
       "raw_harness_score": 0.56,
-      "run_at": "2026-10-26T20:14:14+00:00",
+      "run_at": "2026-10-26T20:48:24+00:00",
       "run_class": "validated",
-      "run_id": "dd5959bb-7bb1-4f1f-9992-98a985287d97",
+      "run_id": "d49afb44-acc8-468d-b8b6-c16860e7cdcd",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -30731,20 +30737,21 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
       "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6,
-      "score_pct": 60.0,
+      "score": 0.72,
+      "score_pct": 72.0,
       "status": "success",
-      "suite": "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
+      "suite": "campaign_ministral3_14b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026",
       "test_id": "drop_flexible"
     },
     {
@@ -34969,9 +34976,9 @@
       "normalized_answer_score": 0.18,
       "notes": "",
       "raw_harness_score": 0.18,
-      "run_at": "2026-10-26T09:03:11+00:00",
+      "run_at": "2026-10-26T20:43:41+00:00",
       "run_class": "validated",
-      "run_id": "32a9fc5e-6309-4861-89f8-d7166f815cf6",
+      "run_id": "077d7356-6680-46f1-893f-285c6d2e66f3",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -34983,10 +34990,11 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -34996,7 +35004,7 @@
       "score": 0.18,
       "score_pct": 18.0,
       "status": "success",
-      "suite": "campaign_ministral3_3b_reasoning_l50_current-models-l50-gapfill-20261026",
+      "suite": "campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026",
       "test_id": "drop_em"
     },
     {
@@ -35026,12 +35034,12 @@
       },
       "metric": "f1,none",
       "model": "ministral-3:3b",
-      "normalized_answer_score": 0.2182,
+      "normalized_answer_score": 0.43559999999999993,
       "notes": "",
-      "raw_harness_score": 0.2182,
-      "run_at": "2026-10-26T09:03:12+00:00",
+      "raw_harness_score": 0.43559999999999993,
+      "run_at": "2026-10-26T20:43:42+00:00",
       "run_class": "validated",
-      "run_id": "fe86bbe2-92d4-43ff-9dc5-4e59435f1d9e",
+      "run_id": "a39e7b55-3b8e-4e65-b805-f65893e2df16",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -35043,20 +35051,21 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
       "sample_count": 50,
       "schema_version": 3,
-      "score": 0.2182,
-      "score_pct": 21.82,
+      "score": 0.43559999999999993,
+      "score_pct": 43.559999999999995,
       "status": "success",
-      "suite": "campaign_ministral3_3b_reasoning_l50_current-models-l50-gapfill-20261026",
+      "suite": "campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026",
       "test_id": "drop_f1"
     },
     {
@@ -35072,7 +35081,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 32,
+      "extractor_failure_count": 0,
       "failure": {
         "kind": "",
         "message": ""
@@ -35086,12 +35095,12 @@
       },
       "metric": "answer_contained",
       "model": "ministral-3:3b",
-      "normalized_answer_score": 0.24,
-      "notes": "rescued 3; unreadable 32",
+      "normalized_answer_score": 0.74,
+      "notes": "rescued 28; unreadable 0",
       "raw_harness_score": 0.18,
-      "run_at": "2026-10-26T09:03:13+00:00",
+      "run_at": "2026-10-26T20:43:42+00:00",
       "run_class": "validated",
-      "run_id": "08b1cf02-70c5-41ce-832b-869a074b3ac7",
+      "run_id": "499b8217-ea1a-47c6-96af-cc52b8af751b",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -35103,20 +35112,21 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
       "sample_count": 50,
       "schema_version": 3,
-      "score": 0.24,
-      "score_pct": 24.0,
+      "score": 0.74,
+      "score_pct": 74.0,
       "status": "success",
-      "suite": "campaign_ministral3_3b_reasoning_l50_current-models-l50-gapfill-20261026",
+      "suite": "campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026",
       "test_id": "drop_flexible"
     },
     {
@@ -39597,9 +39607,9 @@
       "normalized_answer_score": 0.24,
       "notes": "",
       "raw_harness_score": 0.24,
-      "run_at": "2026-10-26T20:15:27+00:00",
+      "run_at": "2026-10-26T20:46:33+00:00",
       "run_class": "validated",
-      "run_id": "ef02d0a9-11d8-49cd-b84d-87436fbd6833",
+      "run_id": "8fb2abe4-92db-4085-a469-d508c34a4f94",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -39611,10 +39621,11 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -39624,7 +39635,7 @@
       "score": 0.24,
       "score_pct": 24.0,
       "status": "success",
-      "suite": "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026",
+      "suite": "campaign_ministral3_8b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026",
       "test_id": "drop_em"
     },
     {
@@ -39654,12 +39665,12 @@
       },
       "metric": "f1,none",
       "model": "ministral-3:8b",
-      "normalized_answer_score": 0.24,
+      "normalized_answer_score": 0.4579999999999999,
       "notes": "",
-      "raw_harness_score": 0.24,
-      "run_at": "2026-10-26T20:15:27+00:00",
+      "raw_harness_score": 0.4579999999999999,
+      "run_at": "2026-10-26T20:46:33+00:00",
       "run_class": "validated",
-      "run_id": "eb47cc69-f4dc-4858-b8fa-73da64005f45",
+      "run_id": "45a304a8-e051-4976-a7e0-8567f95fdd6c",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -39671,20 +39682,21 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
+          "gen_kwargs_override": "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512",
           "lm_eval": "0.4.11"
         },
-        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "config_hash": "8bab940b21e58aa94899a77a460304a7309a93a01a66d34ff2a1a9357028278f",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5-gen-kwargs",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
       "sample_count": 50,
       "schema_version": 3,
-      "score": 0.24,
-      "score_pct": 24.0,
+      "score": 0.4579999999999999,
+      "score_pct": 45.79999999999999,
       "status": "success",
-      "suite": "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026",
+      "suite": "campaign_ministral3_8b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026",
       "test_id": "drop_f1"
     },
     {
@@ -80943,6 +80955,17 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-26T20:48:24+00:00",
+      "model": "ministral-3:14b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_ministral3_14b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-geoimport"
       ],
       "last_run_at": "2026-08-12T22:40:12.972258",
@@ -81172,6 +81195,28 @@
       "records": 10,
       "successes": 10,
       "suite": "campaign_ministral3_3b_dataimport_20260813_limit5_all"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-26T20:39:49+00:00",
+      "model": "ministral-3:3b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_ministral3_3b_drop_no_newline_l10_ministral3-drop-stop-ab-20261026"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-26T20:43:42+00:00",
+      "model": "ministral-3:3b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026"
     },
     {
       "failures": 0,
@@ -81427,6 +81472,17 @@
       "records": 3,
       "successes": 3,
       "suite": "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-26T20:46:34+00:00",
+      "model": "ministral-3:8b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_ministral3_8b_drop_no_newline_l50_ministral-split-drop-no-newline-l50-20261026"
     },
     {
       "failures": 0,
