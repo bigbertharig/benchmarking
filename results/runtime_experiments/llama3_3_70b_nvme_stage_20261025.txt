@@ -1,0 +1,2 @@
+Start 2026-10-25T17:35:03-07:00; source=/mnt/shared/models/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf destination=/data/model-hotset/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf
+Done 2026-10-25T17:55:08-07:00 bytes=42520398816 source_and_destination_identical=yes

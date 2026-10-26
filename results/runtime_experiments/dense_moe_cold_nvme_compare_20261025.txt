@@ -1,0 +1,15 @@
+BEGIN llama3_3_70b model=llama3.3:70b at=2026-10-25T17:55:18-07:00 expected=/data/model-hotset/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf
+llama3_3_70b_replays_start GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=6/0 GPU5=0/0
+llama3_3_70b_cache_kib_before=30313344 after=535844
+END llama3_3_70b at=2026-10-25T18:01:05-07:00 exit=0 actual_path=/data/model-hotset/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/llama3_3_70b_capacity_g0-1-2-3-4-5_nvme_cold_ctx2048_b32_20261025.json
+llama3_3_70b_replays_end GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=13/0 GPU5=0/0
+Kernel GPU/PCIe errors for llama3_3_70b since 2026-10-25T17:55:18-07:00:
+RESULT model=llama3.3:70b load_seconds=226.1 decode_tok_s=4.57 cards=[0, 1, 2, 3, 4, 5] ctx=2048 ubatch=32
+BEGIN nemotron_3_5_bolt_74b_a9b model=nemotron-3.5-bolt:74b-a9b at=2026-10-25T18:01:06-07:00 expected=/data/model-hotset/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf
+nemotron_3_5_bolt_74b_a9b_replays_start GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=13/0 GPU5=0/0
+nemotron_3_5_bolt_74b_a9b_cache_kib_before=21280508 after=537784
+END nemotron_3_5_bolt_74b_a9b at=2026-10-25T18:05:07-07:00 exit=0 actual_path=/data/model-hotset/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/nemotron_3_5_bolt_74b_a9b_capacity_g0-1-2-3-4-5_nvme_cold_ctx2048_b32_20261025.json
+nemotron_3_5_bolt_74b_a9b_replays_end GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=14/0 GPU5=0/0
+Kernel GPU/PCIe errors for nemotron_3_5_bolt_74b_a9b since 2026-10-25T18:01:06-07:00:
+RESULT model=nemotron-3.5-bolt:74b-a9b load_seconds=203.6 decode_tok_s=19.16 cards=[0, 1, 2, 3, 4, 5] ctx=2048 ubatch=32
+DONE 2026-10-25T18:05:08-07:00

@@ -51,6 +51,43 @@ messages; this is a link check, not a matched gen 2/gen 3 speed comparison. Its 
 3090 is GPU 0; the rig itself works with whatever cards the scan finds (llm_orchestration
 `shared/scripts/rig/README.md`, "The cards are whatever the scan finds").
 
+## Dense 70B versus 74B MoE on NVMe, 2026-10-25
+
+Llama-3.3-70B-Instruct-Q4_K_M (dense; 42.52 GB/39.6 GiB) was copied
+from the archive to the rig NVMe hotset with a full byte-for-byte
+comparison before atomic promotion. The existing Nemotron-3.5-Bolt
+74B-A9B-UD-Q3_K_XL (74B total, 9B active MoE; 39.03 GB/36.3 GiB)
+was already local. Both managed runs used GPUs 0-5, 2,048 context,
+micro-batch 32, a cleared page cache, and the unchanged 350/100 W
+power caps. The live container path confirmed each GGUF under
+`/data/model-hotset`. The manager chose each model's layer split.
+
+| Model | Load to ready | 512-token decode | Probe wall time | GPU4 replay delta |
+|---|---:|---:|---:|---:|
+| Llama 3.3 70B dense | 226.1 s (3m46s) | 4.57 tok/s | 113.2 s | +7 |
+| Nemotron 3.5 Bolt 74B-A9B MoE | 203.6 s (3m24s) | 19.16 tok/s | 30.5 s | +1 |
+
+Nemotron's decode rate was 4.19 times Llama's in this one matched
+placement/context/batch test; its load was 22.5 s faster. The GGUF
+sizes and quantizations differ, so this is a comparison of these
+two deployable artifacts, not an isolated architecture experiment.
+Their prompt token counts also differ (86 versus 68), so prefill and
+time-to-first-token are not directly matched. The dense model's
+128K-context fit was refused by the manager because full-attention KV
+needs more memory; Nemotron's prior 226,816-context run cannot be
+used as the same-context dense comparison.
+
+Both runs exited 0 and unloaded. GPU4 gained 7 and then 1 PCIe
+replays; the other five counters did not change, and the kernel
+reported no AER, Xid, NVRM error, or fallen-off-bus message. This
+continues the GPU4 link/riser concern noted below. Llama remains
+`archived` in the model catalog; NVMe staging does not promote it.
+The older 19m44s shared-storage first load used an earlier runtime
+and is historical context, not a controlled NVMe/NFS speedup ratio.
+Evidence: `results/runtime_experiments/llama3_3_70b_nvme_stage_20261025.txt`,
+`dense_moe_cold_nvme_compare_20261025.txt`, and the two
+`*_capacity_g0-1-2-3-4-5_nvme_cold_ctx2048_b32_20261025.json` records.
+
 ## Six-card 74B NVMe cold load, 2026-10-25
 
 Nemotron-3.5-Bolt 74B-A9B is a 74B-total, 9B-active MoE, in a 37 GiB
