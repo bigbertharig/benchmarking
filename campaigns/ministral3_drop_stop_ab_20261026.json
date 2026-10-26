@@ -1,0 +1,21 @@
+{
+  "name": "ministral3_drop_stop_ab_20261026",
+  "description": "Smoke A/B for Ministral 3B DROP: override newline stop with nonoccurring sentinel, keep 512 token cap and existing model profile; compare first ten samples with validated l50 baseline.",
+  "defaults": {
+    "run_class": "smoke"
+  },
+  "blocks": [
+    {
+      "id": "ministral3_3b_drop_no_newline_l10",
+      "model": "ministral-3:3b",
+      "suite": "bench-reasoning",
+      "limit": 10,
+      "suite_args": [
+        "--tasks",
+        "drop",
+        "--gen-kwargs",
+        "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512"
+      ]
+    }
+  ]
+}
