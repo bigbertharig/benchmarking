@@ -2,9 +2,9 @@
 
 Read-only planner projection using the current gateway catalog, all cards idle, and the existing load observations. GPU0 is a 24,564 MiB 3090; GPUs1–5 are 6,144 MiB 1060s. The maximum column is a GGUF trained-context ceiling, not a verified quality or full-depth result. A projected fit still requires a real load to confirm memory. Card choice and micro-batch also affect the projected result.
 
-The default mode keeps the selected profile working context; `min` uses its lower bound; `max` searches the highest context that fits on the named cards. All values below are context tokens. Profiles with a different chat or worker working context show that value in parentheses.
+The default mode keeps the selected profile working context; today's `min` uses a provisional planning floor, and `max` searches the highest projected context on named cards. The intended compact baseline is different: the highest *validated* context on the smallest preferred homogeneous card group. No row below establishes that baseline yet. All values below are context tokens. Profiles with a different chat or worker working context show that value in parentheses.
 
-| Model | Status | Default working | Min | GGUF max | 1×1060 at min | 2×1060 max fit | 3090 max fit |
+| Model | Status | Default working | Planning floor | GGUF ceiling | 1×1060 at floor | 2×1060 projected max | 3090 projected max |
 |---|---|---:|---:|---:|:---:|---:|---:|
 | `devstral-small:24b` | active | 4.0K (chat 32.0K) | 4.0K | 384.0K | no | — | 114.0K |
 | `gemma-4:12b` | active | 4.0K | 4.0K | 256.0K | no | 202.0K | 256.0K |
@@ -37,4 +37,6 @@ The default mode keeps the selected profile working context; `min` uses its lowe
 
 For example, `ministral-3:8b` defaults to 16K, fits one 1060 at its 8K minimum, and projects up to about 73.3K on two 1060s or 243.8K on the 3090 with its default micro-batch. These larger contexts are capacity projections, not benchmark recommendations.
 
-Models with a 4K minimum use that because the default working profile is already 4K. Models with a larger default working context have an 8K minimum, including the Ministral 8B case. Devstral interactive also has an 8K minimum. These are policy bounds, not independently validated quality thresholds.
+Models with a 4K floor use that because the default working profile is already 4K. Models with a larger default working context have an 8K floor, including Ministral 8B. Devstral interactive also has an 8K floor. These are admission thresholds, not compact baseline settings or independently validated quality thresholds. See the gateway's `docs/MANAGER.md` for the worker/brain pool and fast/slow placement policy.
+
+Measured follow-up: [CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md](CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md).

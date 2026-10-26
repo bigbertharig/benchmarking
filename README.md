@@ -20,6 +20,7 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 | [scripts/integration/README.md](scripts/integration/README.md) | the lane tools for Phases 3-4.5 |
 | [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) | how fast the rig runs models and why: card vs bus, splits, context capacity, PCIe; open questions; which tool measures what |
 | [CONTEXT_PROFILE_AUDIT_2026-10-26.md](CONTEXT_PROFILE_AUDIT_2026-10-26.md) | active and candidate model context bounds, working defaults, and read-only card-fit projections |
+| [CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md](CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md) | compact baseline and trained-ceiling test matrix and receipts |
 | [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md) | every speed, capacity and power measurement (generated from `results/runtime_experiments/`) |
 | [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md), [MODEL_SELECTION_GUIDE.md](MODEL_SELECTION_GUIDE.md), [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) | background |
 
@@ -46,10 +47,13 @@ Edit only these two, then run `scripts/active/model_library.py export` (and `che
 - `model_roles.json`: which model and profile per rig lane and job (what other repos read)
 
 The model's GGUF and runtime options are load requirements. Each current model's
-default profile also records `context_bounds.min` and `context_bounds.max`; the maximum
-comes from the GGUF trained limit and does not imply validated quality at that depth.
-`runtime.ctx_size` remains the working default, while the gateway manager can explicitly
-plan at the minimum or find the maximum that fits selected cards. Context is a
+default profile also records `context_bounds.min` (a provisional planning floor)
+and `context_bounds.max` (the GGUF trained ceiling). Neither is a measured
+compact baseline or proof of quality at full depth. `runtime.ctx_size`
+remains the working default. The manager can currently plan at the floor
+or project the maximum that fits selected cards; the intended compact
+baseline is the highest validated context on the smallest preferred
+homogeneous GPU group. See the context audit and gateway MANAGER.md. Context is a
 request or profile target; the manager derives memory and chooses cards and
 `tensor_split` at load time. It does not read the registry's legacy
 `schedule.placement` label for fit. That label still feeds the generated

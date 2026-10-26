@@ -71,6 +71,8 @@ def fit_args(model: str, gpus: list[int] | None, cards: int | None, margin_mb: i
     args = ["fit", model, "--use", "chat", "--profile", "default", "--json"]
     if ctx:
         args += ["--ctx", str(ctx)]
+    else:
+        args += ["--context-mode", "max"]
     if batch_size:
         args += ["--batch-size", str(batch_size)]
     if gpus:
@@ -318,7 +320,7 @@ def base_record(a, gpus: list[int], plan: dict) -> dict:
         "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
         "methodology": {"id": "llama-server/capacity", "version": "1.0.0", "sampling_interval_seconds": 1,
                         "plan": ("rigctl fit --use chat --profile default "
-                                 + (f"--ctx {a.ctx} (fixed)" if a.ctx else "(largest that fits)")),
+                                 + (f"--ctx {a.ctx} (fixed)" if a.ctx else "--context-mode max (largest that fits)")),
                         "depth_fractions": [float(f) for f in a.fractions.split(",")],
                         "depth_of_ctx": a.depth_of,
                         "decode_tokens_per_depth_probe": DECODE_TOKENS, "cache_prompt": False,
