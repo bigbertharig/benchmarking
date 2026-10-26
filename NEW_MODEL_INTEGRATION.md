@@ -876,9 +876,9 @@ Models: `qwen3.5:27b`, `qwen3-coder:30b-a3b`, `devstral-small:24b`,
 
 | Model | Download/register/load | Broad smoke | Full code | Validated reasoning | Final state |
 | --- | --- | --- | --- | --- | --- |
-| `qwen3.5:27b` | complete | complete | complete | retry invalidated; ranked brain-only l50 rerun running | provisional brain default |
-| `qwen3-coder:30b-a3b` | complete | complete | complete | retry invalidated; ranked brain-only l50 rerun running | code-focused brain alternative |
-| `devstral-small:24b` | complete | complete | complete | retry invalidated; ranked brain-only l50 rerun running | brain runner-up |
+| `qwen3.5:27b` | complete | complete | complete | retry invalidated; ranked brain-only l50 rerun paused for smoke coverage | provisional brain default |
+| `qwen3-coder:30b-a3b` | complete | complete | complete | retry invalidated; ranked brain-only l50 rerun paused for smoke coverage | code-focused brain alternative |
+| `devstral-small:24b` | complete | complete | complete | retry invalidated; ranked brain-only l50 rerun paused for smoke coverage | brain runner-up |
 | `ministral-3:14b` | complete | complete | complete | l50 reasoning/runtime complete | split-quality default |
 | `ministral-3:8b` | complete | complete | complete | l50 reasoning/runtime complete | split-speed default |
 | `ministral-3:3b` | complete | partial with retained failed attempts | full rerun complete | smoke reasoning and runtime complete | tested compact alternative |
@@ -918,11 +918,13 @@ Port 11434 remained owned by a `qwen3.6:27b` container, and process snapshots
 showed that same GGUF during the Qwen3.5, Qwen Coder, and Devstral suites. Their
 misattributed rows were removed from the canonical ledger. The first brain-only attempt `modern-brain-revalidate-20261025` stopped
 before its first suite while the user prioritized Nemotron and Mellum runtime
-smokes. Both passed on b11669. The ranked sequential rerun is now running as
+smokes. Both passed on b11669. The ranked sequential rerun started as
 `modern-brain-revalidate-20261025-r2` using
 `campaigns/modern_brain_reasoning_revalidation_20261025.json`: Qwen3.5
 27B first (provisional brain), Qwen Coder 30B next (code alternative), then
-Devstral 24B (runner-up). The current
+Devstral 24B (runner-up). It was paused in its first reasoning suite
+after a receipt audit found ten missing b11669 runtime promotion smokes.
+`runtime-smoke-b11669-missing10-20261025` is running those before Phase 5 resumes. The current
 campaign runner loads through the manager, verifies `/v1/models` identity,
 and can run one active model with the 95C thermal guard. Its checkpoint is
 under `/mnt/shared/logs/benchmarks/campaigns/history/modern_brain_reasoning_revalidation_20261025/modern-brain-revalidate-20261025-r2/`.
