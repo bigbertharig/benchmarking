@@ -926,7 +926,10 @@ Devstral 24B (runner-up). The current
 campaign runner loads through the manager, verifies `/v1/models` identity,
 and can run one active model with the 95C thermal guard. Its checkpoint is
 under `/mnt/shared/logs/benchmarks/campaigns/history/modern_brain_reasoning_revalidation_20261025/modern-brain-revalidate-20261025-r2/`.
-Do not promote the three scores until the identity fields and suites complete.
+The first Qwen3.5 27B load reached ready on GPU0 at context 16,384; the runner
+verified the served GGUF `Qwen3.5-27B-Q4_K_M.gguf` before starting its
+reasoning suite. Do not promote the three scores until the identity fields
+and suites complete.
 
 ## Integration: Gemma 4 12B (2026-06-05)
 
