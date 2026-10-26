@@ -1,0 +1,84 @@
+{
+  "name": "modern_brain_reasoning_revalidation_20261025",
+  "defaults": {
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "qwen35_27b_reasoning_l50",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen35_27b_validation",
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ]
+    },
+    {
+      "id": "qwen35_27b_runtime",
+      "model": "qwen3.5:27b",
+      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen35_27b_validation",
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen3coder_30b_reasoning_l50",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen3coder_30b_validation",
+      "depends_on": [
+        "qwen35_27b_runtime"
+      ],
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ]
+    },
+    {
+      "id": "qwen3coder_30b_runtime",
+      "model": "qwen3-coder:30b-a3b",
+      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen3coder_30b_validation",
+      "ctx_size": 16384
+    },
+    {
+      "id": "devstral_24b_reasoning_l50",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "devstral_24b_validation",
+      "depends_on": [
+        "qwen3coder_30b_runtime"
+      ],
+      "ctx_size": 8192,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop,ifeval"
+      ]
+    },
+    {
+      "id": "devstral_24b_runtime",
+      "model": "devstral-small:24b",
+      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "devstral_24b_validation",
+      "ctx_size": 8192
+    }
+  ],
+  "description": "Sequential clean rerun of the three August brain lanes invalidated by stale port 11434 ownership. The campaign runner loads each through the manager and verifies served /v1/models identity before scoring. Keep 95C guard and one active model."
+}
