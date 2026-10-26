@@ -1,0 +1,29 @@
+{
+  "name": "ministral_split_drop_l50_gapfill_20261026",
+  "description": "Complete the current-model limit-50 matrix: validated DROP flexible receipts missing from older Ministral 14B and 8B split-worker runs.",
+  "defaults": {
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "ministral3_14b_drop_l50",
+      "model": "ministral-3:14b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "drop"
+      ]
+    },
+    {
+      "id": "ministral3_8b_drop_l50",
+      "model": "ministral-3:8b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "drop"
+      ]
+    }
+  ]
+}

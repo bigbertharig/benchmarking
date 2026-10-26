@@ -96,6 +96,37 @@ however it is written; unreadable answers are counted separately), see
 - `results/imported_lessons/<repo>/`: the other repos' lessons folders, copied by
   `scripts/active/collect_lessons.py` (with `MANIFEST.json`: from where, which commit, when)
 
+## Current-model limit-50 coverage (2026-10-26)
+
+The identity-verified rerun `modern-brain-revalidate-20261025-r3`
+completed GSM8K, DROP, IFEval and runtime for Qwen3.5 27B,
+Qwen Coder 30B and Devstral 24B. It repaired those reasoning
+comparisons, not a full six-suite Phase 5 run.
+
+The five-model gap-fill campaign `current-models-l50-gapfill-20261026`
+completed 5/5 on the rig. All five produced validated 50-sample
+GSM8K, DROP and IFEval records with verified served-model identity.
+Selected flexible/loose scores are percentages:
+
+| Model | GSM8K | DROP | IFEval |
+| --- | ---: | ---: | ---: |
+| Gemma 4 E2B Q8 | 68 | 56 | 76 |
+| Gemma 4 E4B | 80 | 80 | 92 |
+| MiniCPM5 2B | 78 | 46 | 86 |
+| Ministral 3B | 72 | 24 | 52 |
+| Qwen2.5 Coder 7B | 68 | 72 | 66 |
+
+Ministral 3B's DROP extraction failed on 32 of 50 samples; review raw
+outputs before treating its 24% score as a clean capability estimate.
+An exact metric audit found that earlier Ministral 14B and 8B l50
+runs lack `drop_flexible`. The follow-up manifest
+`campaigns/ministral_split_drop_l50_gapfill_20261026.json`
+runs DROP at limit 50 for both. Until it completes, 22 of the 24
+scoped current role/recent candidate models have all three comparable
+metrics. The scope excludes four older unassigned active entries
+(Llama 3.2 3B, Phi-4 Mini Reasoning, Qwen2.5 Coder 14B, SmolLM3 3B)
+and archived/invalid models.
+
 ## Sharing with the other repos
 
 Each of the four repos runs without the others. Benchmarking's lessons go out through the model library:
