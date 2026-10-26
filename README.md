@@ -116,14 +116,15 @@ Selected flexible/loose scores are percentages:
 | Ministral 3B | 72 | 24 | 52 |
 | Qwen2.5 Coder 7B | 68 | 72 | 66 |
 
-Ministral 3B's DROP extraction failed on 32 of 50 samples; review raw
-outputs before treating its 24% score as a clean capability estimate.
-An exact metric audit found that earlier Ministral 14B and 8B l50
-runs lack `drop_flexible`. The follow-up manifest
-`campaigns/ministral_split_drop_l50_gapfill_20261026.json`
-runs DROP at limit 50 for both. Until it completes, 22 of the 24
-scoped current role/recent candidate models have all three comparable
-metrics. The scope excludes four older unassigned active entries
+The follow-up `ministral-split-drop-l50-20261026` completed the
+missing DROP rows for Ministral 14B (EM 56%, flexible 60%) and 8B
+(EM/flexible 24%). All 24 scoped current role/recent candidate models
+now have the three limit-50 metric rows. The Ministral DROP scores
+need a stop-setting check before a clean comparison: the task's newline
+stop cut generations at the opening code fence in 32/50 3B, 29/50 8B,
+and 6/50 14B samples. See
+[docker/bench-reasoning/BENCH_REASONING_HISTORY.md](docker/bench-reasoning/BENCH_REASONING_HISTORY.md).
+ The scope excludes four older unassigned active entries
 (Llama 3.2 3B, Phi-4 Mini Reasoning, Qwen2.5 Coder 14B, SmolLM3 3B)
 and archived/invalid models.
 

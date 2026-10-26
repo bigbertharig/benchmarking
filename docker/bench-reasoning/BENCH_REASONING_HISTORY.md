@@ -1,3 +1,18 @@
+## 2026-10-26 Ministral DROP newline truncation
+
+The current DROP task patch uses a newline stop. In validated 50-sample
+runs, Ministral 3B returned only a three-backtick `json` fence opener
+on 32 responses, 8B on 29, and 14B on 6. Raw sample `resps` contain
+that fence alone; these are cut-off generations, not ordinary incorrect
+answers or a scorer regex miss. The flexible scorer counts them as
+unreadable. Results: 3B DROP EM 18%, flexible 24%; 8B EM/flexible 24%;
+14B EM 56%, flexible 60%. Older limit-10 A/B runs already showed
+format sensitivity for Ministral 3B, but did not identify the newline
+stop interaction. Keep these DROP scores flagged as truncated evidence;
+an A/B with a bounded output-token limit and no newline stop is needed
+before ranking the Ministral sizes on DROP. Preserve both configurations
+as separate receipts.
+
 # bench-reasoning Run History
 
 Historical results for the lm-eval reasoning-focused suite.

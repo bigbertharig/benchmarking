@@ -1,9 +1,9 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-10-26T09:28:22.276750+00:00`
+- Generated at: `2026-10-26T20:15:28.627258+00:00`
 - Canonical records: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/benchmark-scripts/benchmark_status.json`
-- Total records: `3432`
+- Total records: `3438`
 - Selected model/test results: `1564`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
@@ -624,9 +624,9 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:14b | dataimport_schema_loc_id | 1.0 | 100.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T04:44:10+00:00 | bench-dataimport | campaign_ministral3_14b_dataimport_20260813_limit5_all |
 | ministral-3:14b | dataimport_schema_type_coercion | 0.2 | 20.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T04:46:28+00:00 | bench-dataimport | campaign_ministral3_14b_dataimport_20260813_limit5_all |
 | ministral-3:14b | dataimport_schema_wide_to_long | 0.8 | 80.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T04:45:40+00:00 | bench-dataimport | campaign_ministral3_14b_dataimport_20260813_limit5_all |
-| ministral-3:14b | drop_em | 0.6 | 60.0 | em,none | validated | 50 | unknown | 2026-08-21T04:43:21+00:00 | bench-reasoning | campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3 |
-| ministral-3:14b | drop_f1 | 0.6252 | 62.519999999999996 | f1,none | validated | 50 | unknown | 2026-08-21T04:43:21+00:00 | bench-reasoning | campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3 |
-| ministral-3:14b | drop_flexible | 0.8 | 80.0 | answer_contained | smoke | 10 | degraded | 2026-10-20T21:11:59+00:00 | bench-reasoning | ministral-3_14b_w_smoke_v1 |
+| ministral-3:14b | drop_em | 0.56 | 56.00000000000001 | em,none | validated | 50 | unknown | 2026-10-26T20:14:12+00:00 | bench-reasoning | campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026 |
+| ministral-3:14b | drop_f1 | 0.578 | 57.8 | f1,none | validated | 50 | unknown | 2026-10-26T20:14:13+00:00 | bench-reasoning | campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026 |
+| ministral-3:14b | drop_flexible | 0.6 | 60.0 | answer_contained | validated | 50 | degraded | 2026-10-26T20:14:14+00:00 | bench-reasoning | campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026 |
 | ministral-3:14b | geoimport_prep_classify_australia_asgs_v2 | 0.9474 | 94.74000000000001 | classification | smoke | 1 | unknown | 2026-08-14T04:46:50.866492 | bench-geoimport | campaign_ministral3_14b_geoimport_20260813_limit5_all |
 | ministral-3:14b | geoimport_prep_classify_brazil_ibge_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-14T04:47:02.619959 | bench-geoimport | campaign_ministral3_14b_geoimport_20260813_limit5_all |
 | ministral-3:14b | geoimport_prep_handoff_local_check_failure_v2 | 0.9474 | 94.74000000000001 | prep_handoff | smoke | 1 | unknown | 2026-08-14T04:48:02.238157 | bench-geoimport | campaign_ministral3_14b_geoimport_20260813_limit5_all |
@@ -788,9 +788,9 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:8b | dataimport_schema_loc_id | 1.0 | 100.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T03:06:13+00:00 | bench-dataimport | campaign_ministral3_8b_dataimport_20260813_limit5_all |
 | ministral-3:8b | dataimport_schema_type_coercion | 0.2 | 20.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T03:08:04+00:00 | bench-dataimport | campaign_ministral3_8b_dataimport_20260813_limit5_all |
 | ministral-3:8b | dataimport_schema_wide_to_long | 0.6 | 60.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T03:07:34+00:00 | bench-dataimport | campaign_ministral3_8b_dataimport_20260813_limit5_all |
-| ministral-3:8b | drop_em | 0.24 | 24.0 | em,none | validated | 50 | unknown | 2026-08-21T05:20:19+00:00 | bench-reasoning | campaign_ministral3_8b_reasoning_l50_20260820_modern_validation_l50_retry3 |
-| ministral-3:8b | drop_f1 | 0.24 | 24.0 | f1,none | validated | 50 | unknown | 2026-08-21T05:20:19+00:00 | bench-reasoning | campaign_ministral3_8b_reasoning_l50_20260820_modern_validation_l50_retry3 |
-| ministral-3:8b | drop_flexible | 0.4 | 40.0 | answer_contained | smoke | 10 | compatible | 2026-10-18T09:36:23+00:00 | bench-reasoning | ministral-3_8b_w_smoke_v1 |
+| ministral-3:8b | drop_em | 0.24 | 24.0 | em,none | validated | 50 | unknown | 2026-10-26T20:15:27+00:00 | bench-reasoning | campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026 |
+| ministral-3:8b | drop_f1 | 0.24 | 24.0 | f1,none | validated | 50 | unknown | 2026-10-26T20:15:27+00:00 | bench-reasoning | campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026 |
+| ministral-3:8b | drop_flexible | 0.24 | 24.0 | answer_contained | validated | 50 | compatible | 2026-10-26T20:15:28+00:00 | bench-reasoning | campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026 |
 | ministral-3:8b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-14T03:08:16.808150 | bench-geoimport | campaign_ministral3_8b_geoimport_20260813_limit5_all |
 | ministral-3:8b | geoimport_prep_classify_brazil_ibge_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-14T03:08:23.452524 | bench-geoimport | campaign_ministral3_8b_geoimport_20260813_limit5_all |
 | ministral-3:8b | geoimport_prep_handoff_local_check_failure_v2 | 0.9474 | 94.74000000000001 | prep_handoff | smoke | 1 | unknown | 2026-08-14T03:09:05.683363 | bench-geoimport | campaign_ministral3_8b_geoimport_20260813_limit5_all |
@@ -1670,6 +1670,12 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-10-26T20:15:28+00:00 | ministral-3:8b | drop_flexible | success | validated | 50 | 0.24 | answer_contained | bench-reasoning | campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026 | 646f2124-5629-4e09-8087-c0a16597a950 |
+| 2026-10-26T20:15:27+00:00 | ministral-3:8b | drop_em | success | validated | 50 | 0.24 | em,none | bench-reasoning | campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026 | ef02d0a9-11d8-49cd-b84d-87436fbd6833 |
+| 2026-10-26T20:15:27+00:00 | ministral-3:8b | drop_f1 | success | validated | 50 | 0.24 | f1,none | bench-reasoning | campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026 | eb47cc69-f4dc-4858-b8fa-73da64005f45 |
+| 2026-10-26T20:14:14+00:00 | ministral-3:14b | drop_flexible | success | validated | 50 | 0.6 | answer_contained | bench-reasoning | campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026 | dd5959bb-7bb1-4f1f-9992-98a985287d97 |
+| 2026-10-26T20:14:13+00:00 | ministral-3:14b | drop_f1 | success | validated | 50 | 0.578 | f1,none | bench-reasoning | campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026 | 59a0b2c3-bcfd-46a7-b478-f3d920e5b659 |
+| 2026-10-26T20:14:12+00:00 | ministral-3:14b | drop_em | success | validated | 50 | 0.56 | em,none | bench-reasoning | campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026 | 84f3d4b3-c1ee-4c25-a187-ceb0a8241293 |
 | 2026-10-26T09:28:22+00:00 | qwen2.5-coder:7b | ifeval_inst_level_loose_acc_none | success | validated | 50 | 0.6973684210526315 | inst_level_loose_acc,none | bench-reasoning | campaign_qwen25_coder_7b_reasoning_l50_current-models-l50-gapfill-20261026 | 7bdbb369-dc92-4cd9-9aea-66ba62da29fd |
 | 2026-10-26T09:28:21+00:00 | qwen2.5-coder:7b | ifeval_prompt_level_loose_acc_none | success | validated | 50 | 0.66 | prompt_level_loose_acc,none | bench-reasoning | campaign_qwen25_coder_7b_reasoning_l50_current-models-l50-gapfill-20261026 | a27c45e5-2cde-4114-948a-df520c8e4d63 |
 | 2026-10-26T09:28:20+00:00 | qwen2.5-coder:7b | ifeval_prompt_level_strict_acc_none | success | validated | 50 | 0.6 | prompt_level_strict_acc,none | bench-reasoning | campaign_qwen25_coder_7b_reasoning_l50_current-models-l50-gapfill-20261026 | af16b6f2-ea42-442c-b06b-14e12397aab0 |
@@ -1704,9 +1710,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-10-26T08:40:14+00:00 | gemma-4:e4b | drop_flexible | success | validated | 50 | 0.8 | answer_contained | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 | aace754b-d14f-4456-9951-c5e51962e460 |
 | 2026-10-26T08:40:13+00:00 | gemma-4:e4b | drop_f1 | success | validated | 50 | 0.7834 | f1,none | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 | ddb3f460-8dd3-4a57-ac0e-53b4601cd1cd |
 | 2026-10-26T08:40:13+00:00 | gemma-4:e4b | drop_em | success | validated | 50 | 0.76 | em,none | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 | 74f66666-b4f4-4421-b5d2-cb9f2f118585 |
-| 2026-10-26T08:39:37+00:00 | gemma-4:e4b | gsm8k_strict | success | validated | 50 | 0.78 | exact_match,strict-match | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 | ce68534e-499d-4e7a-858b-f6da1c189850 |
-| 2026-10-26T08:39:37+00:00 | gemma-4:e4b | gsm8k_flexible | success | validated | 50 | 0.8 | exact_match,flexible-extract | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 | 241be5ae-1878-44ec-95d9-20b6cc99dad4 |
-| 2026-10-26T08:31:07+00:00 | gemma-4:e2b-q8 | ifeval_inst_level_loose_acc_none | success | validated | 50 | 0.8289473684210527 | inst_level_loose_acc,none | bench-reasoning | campaign_gemma4_e2b_q8_reasoning_l50_current-models-l50-gapfill-20261026 | 2ef7a5c9-9063-469a-84f7-c2a374820fca |
-| 2026-10-26T08:31:06+00:00 | gemma-4:e2b-q8 | ifeval_prompt_level_loose_acc_none | success | validated | 50 | 0.76 | prompt_level_loose_acc,none | bench-reasoning | campaign_gemma4_e2b_q8_reasoning_l50_current-models-l50-gapfill-20261026 | cc4b19f2-5108-4f62-b398-403d075ddc7a |
-| 2026-10-26T08:31:06+00:00 | gemma-4:e2b-q8 | ifeval_inst_level_strict_acc_none | success | validated | 50 | 0.8421052631578947 | inst_level_strict_acc,none | bench-reasoning | campaign_gemma4_e2b_q8_reasoning_l50_current-models-l50-gapfill-20261026 | 7a24dcaa-e59b-40d9-98c3-9af025d17699 |
-| 2026-10-26T08:31:05+00:00 | gemma-4:e2b-q8 | ifeval_prompt_level_strict_acc_none | success | validated | 50 | 0.78 | prompt_level_strict_acc,none | bench-reasoning | campaign_gemma4_e2b_q8_reasoning_l50_current-models-l50-gapfill-20261026 | 758401d8-7ad8-4702-8d66-07918359c09a |

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T09:28:22.405299+00:00",
+  "generated_at": "2026-10-26T20:15:28.757776+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -450,16 +450,17 @@
     },
     {
       "failures": 2,
-      "last_run_at": "2026-10-20T21:45:17+00:00",
+      "last_run_at": "2026-10-26T20:14:14+00:00",
       "model": "ministral-3:14b",
-      "records": 136,
+      "records": 139,
       "selected_tests": 83,
-      "successes": 134,
+      "successes": 137,
       "suites": [
         "campaign_ministral3_14b_agent_20260813_limit5_all",
         "campaign_ministral3_14b_daedalmap_20260813_limit5_all",
         "campaign_ministral3_14b_dataimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_14b_dataimport_20260813_limit5_all",
+        "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
         "campaign_ministral3_14b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1",
         "campaign_ministral3_14b_geoimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_14b_geoimport_20260813_limit5_all",
@@ -513,16 +514,17 @@
     },
     {
       "failures": 2,
-      "last_run_at": "2026-10-18T09:55:14+00:00",
+      "last_run_at": "2026-10-26T20:15:28+00:00",
       "model": "ministral-3:8b",
-      "records": 137,
+      "records": 140,
       "selected_tests": 84,
-      "successes": 135,
+      "successes": 138,
       "suites": [
         "campaign_ministral3_8b_agent_20260813_limit5_all",
         "campaign_ministral3_8b_daedalmap_20260813_limit5_all",
         "campaign_ministral3_8b_dataimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_8b_dataimport_20260813_limit5_all",
+        "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026",
         "campaign_ministral3_8b_geoimport_20260812_modern_import_models_remaining_geo_smoke_r1",
         "campaign_ministral3_8b_geoimport_20260812_modern_models_limit5_r2",
         "campaign_ministral3_8b_geoimport_20260813_limit5_all",
@@ -3613,7 +3615,7 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 3432,
+  "record_count": 3438,
   "schema_version": 3,
   "selected_count": 1564,
   "selected_per_model_test": [
@@ -30592,29 +30594,37 @@
       },
       "metric": "em,none",
       "model": "ministral-3:14b",
-      "normalized_answer_score": 0.6,
+      "normalized_answer_score": 0.56,
       "notes": "",
-      "raw_harness_score": 0.6,
-      "run_at": "2026-08-21T04:43:21+00:00",
+      "raw_harness_score": 0.56,
+      "run_at": "2026-10-26T20:14:12+00:00",
       "run_class": "validated",
-      "run_id": "d153a1b2-f580-44f5-a83d-cd4fc783b339",
+      "run_id": "84f3d4b3-c1ee-4c25-a187-ceb0a8241293",
       "runtime": {
         "config": {
-          "extraction": "reasoning-v2",
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "f332c63fa6af1e07dce33331c8160b7996e3cca530774849c2e700b2114f3317",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v2",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
       "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6,
-      "score_pct": 60.0,
+      "score": 0.56,
+      "score_pct": 56.00000000000001,
       "status": "success",
-      "suite": "campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3",
+      "suite": "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
       "test_id": "drop_em"
     },
     {
@@ -30644,29 +30654,37 @@
       },
       "metric": "f1,none",
       "model": "ministral-3:14b",
-      "normalized_answer_score": 0.6252,
+      "normalized_answer_score": 0.578,
       "notes": "",
-      "raw_harness_score": 0.6252,
-      "run_at": "2026-08-21T04:43:21+00:00",
+      "raw_harness_score": 0.578,
+      "run_at": "2026-10-26T20:14:13+00:00",
       "run_class": "validated",
-      "run_id": "46d69519-9c6d-4777-bb89-e6ae9763e0d6",
+      "run_id": "59a0b2c3-bcfd-46a7-b478-f3d920e5b659",
       "runtime": {
         "config": {
-          "extraction": "reasoning-v2",
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "f332c63fa6af1e07dce33331c8160b7996e3cca530774849c2e700b2114f3317",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v2",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
       "sample_count": 50,
       "schema_version": 3,
-      "score": 0.6252,
-      "score_pct": 62.519999999999996,
+      "score": 0.578,
+      "score_pct": 57.8,
       "status": "success",
-      "suite": "campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3",
+      "suite": "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
       "test_id": "drop_f1"
     },
     {
@@ -30682,7 +30700,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 1,
+      "extractor_failure_count": 6,
       "failure": {
         "kind": "",
         "message": ""
@@ -30696,35 +30714,37 @@
       },
       "metric": "answer_contained",
       "model": "ministral-3:14b",
-      "normalized_answer_score": 0.8,
-      "notes": "",
-      "raw_harness_score": 0.7,
-      "run_at": "2026-10-20T21:11:59+00:00",
-      "run_class": "smoke",
-      "run_id": "844e01ec-da59-44ee-96dd-81d586c2b02b",
+      "normalized_answer_score": 0.6,
+      "notes": "rescued 2; unreadable 6",
+      "raw_harness_score": 0.56,
+      "run_at": "2026-10-26T20:14:14+00:00",
+      "run_class": "validated",
+      "run_id": "dd5959bb-7bb1-4f1f-9992-98a985287d97",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.8,
-      "score_pct": 80.0,
+      "score": 0.6,
+      "score_pct": 60.0,
       "status": "success",
-      "suite": "ministral-3_14b_w_smoke_v1",
+      "suite": "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026",
       "test_id": "drop_flexible"
     },
     {
@@ -39577,16 +39597,24 @@
       "normalized_answer_score": 0.24,
       "notes": "",
       "raw_harness_score": 0.24,
-      "run_at": "2026-08-21T05:20:19+00:00",
+      "run_at": "2026-10-26T20:15:27+00:00",
       "run_class": "validated",
-      "run_id": "38edf093-cb5d-488c-ac35-3f0b43c25d58",
+      "run_id": "ef02d0a9-11d8-49cd-b84d-87436fbd6833",
       "runtime": {
         "config": {
-          "extraction": "reasoning-v2",
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "f332c63fa6af1e07dce33331c8160b7996e3cca530774849c2e700b2114f3317",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v2",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -39596,7 +39624,7 @@
       "score": 0.24,
       "score_pct": 24.0,
       "status": "success",
-      "suite": "campaign_ministral3_8b_reasoning_l50_20260820_modern_validation_l50_retry3",
+      "suite": "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026",
       "test_id": "drop_em"
     },
     {
@@ -39629,16 +39657,24 @@
       "normalized_answer_score": 0.24,
       "notes": "",
       "raw_harness_score": 0.24,
-      "run_at": "2026-08-21T05:20:19+00:00",
+      "run_at": "2026-10-26T20:15:27+00:00",
       "run_class": "validated",
-      "run_id": "d7991c80-6eda-4867-9483-9254a321e512",
+      "run_id": "eb47cc69-f4dc-4858-b8fa-73da64005f45",
       "runtime": {
         "config": {
-          "extraction": "reasoning-v2",
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "f332c63fa6af1e07dce33331c8160b7996e3cca530774849c2e700b2114f3317",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v2",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -39648,7 +39684,7 @@
       "score": 0.24,
       "score_pct": 24.0,
       "status": "success",
-      "suite": "campaign_ministral3_8b_reasoning_l50_20260820_modern_validation_l50_retry3",
+      "suite": "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026",
       "test_id": "drop_f1"
     },
     {
@@ -39664,7 +39700,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 0,
+      "extractor_failure_count": 29,
       "failure": {
         "kind": "",
         "message": ""
@@ -39678,35 +39714,37 @@
       },
       "metric": "answer_contained",
       "model": "ministral-3:8b",
-      "normalized_answer_score": 0.4,
-      "notes": "",
-      "raw_harness_score": 0.4,
-      "run_at": "2026-10-18T09:36:23+00:00",
-      "run_class": "smoke",
-      "run_id": "1b3c48e0-647e-416f-bbc6-42e112b11b31",
+      "normalized_answer_score": 0.24,
+      "notes": "rescued 0; unreadable 29",
+      "raw_harness_score": 0.24,
+      "run_at": "2026-10-26T20:15:28+00:00",
+      "run_class": "validated",
+      "run_id": "646f2124-5629-4e09-8087-c0a16597a950",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 10,
+      "sample_count": 50,
       "schema_version": 3,
-      "score": 0.4,
-      "score_pct": 40.0,
+      "score": 0.24,
+      "score_pct": 24.0,
       "status": "success",
-      "suite": "ministral-3_8b_w_smoke_v1",
+      "suite": "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026",
       "test_id": "drop_flexible"
     },
     {
@@ -80894,6 +80932,17 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-26T20:14:14+00:00",
+      "model": "ministral-3:14b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_ministral3_14b_drop_l50_ministral-split-drop-l50-20261026"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-geoimport"
       ],
       "last_run_at": "2026-08-12T22:40:12.972258",
@@ -81367,6 +81416,17 @@
       "records": 10,
       "successes": 10,
       "suite": "campaign_ministral3_8b_dataimport_20260813_limit5_all"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-26T20:15:28+00:00",
+      "model": "ministral-3:8b",
+      "records": 3,
+      "successes": 3,
+      "suite": "campaign_ministral3_8b_drop_l50_ministral-split-drop-l50-20261026"
     },
     {
       "failures": 0,
