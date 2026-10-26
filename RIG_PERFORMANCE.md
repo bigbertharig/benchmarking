@@ -60,7 +60,9 @@ even though neither is in an active role or gateway offer. On the current
 request. Nemotron fully offloaded 89/89 layers across GPUs 0-5 from NVMe
 and loaded in 201.8 s. Mellum loaded on GPUs 1,3 from the shared archive
 in 98.6 s and decoded 128 tokens at 49.62 tok/s. Both were unloaded;
-the rig returned to idle. The Mellum throughput is a matched baseline
+the rig returned to idle. PCIe replay counts stayed at 0 on GPUs 0-3 and 5,
+and 15 on GPU4; no AER, Xid, NVRM error, or fallen-off-bus kernel message
+appeared during the test. The Mellum throughput is a matched baseline
 for any new candidate image, with a 70% minimum speed gate in
 `scripts/llama_runtime/smoke_runtime.py`. Receipt:
 `/mnt/shared/logs/runtime_upgrades/b11669_20261025_192107.json`.
