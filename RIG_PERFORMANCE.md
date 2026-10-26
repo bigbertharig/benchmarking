@@ -51,6 +51,71 @@ messages; this is a link check, not a matched gen 2/gen 3 speed comparison. Its 
 3090 is GPU 0; the rig itself works with whatever cards the scan finds (llm_orchestration
 `shared/scripts/rig/README.md`, "The cards are whatever the scan finds").
 
+## Six-card 74B NVMe cold load, 2026-10-25
+
+Nemotron-3.5-Bolt 74B-A9B is a 74B-total, 9B-active MoE, in a 37 GiB
+Q3_K_XL GGUF on the rig NVMe. Two managed `capacity_run.py --skip-depth`
+runs at 226,816 context used GPU 0 (3090 Ti) and GPUs 1-5 (1060s).
+The manager chose split `47,8,12,9,7,6`. The page cache was cleared
+before each run and the live container's `--model` path was verified at
+`/data/model-hotset/nemotron-3.5-bolt-74b-a9b/`. Power caps remained
+350 W on GPU 0 and 100 W on each 1060.
+
+| Cold run | Load to ready | Short decode | GPU4 PCIe replay delta |
+|---|---:|---:|---:|
+| First | 206.3 s (3m26s) | 20.37 tok/s | +4 |
+| Repeat | 206.2 s (3m26s) | 20.58 tok/s | +2 |
+
+Both runs exited 0 and unloaded; the other five cards' replay counts
+did not change. Neither run logged a kernel AER, Xid, NVRM error, or
+fallen-off-bus message. GPU4's recurring replay increase warrants
+checking its link/riser before calling this a clean hardware pass; the
+x1 BIOS settings were left unchanged. The earlier six-card result was
+185.6 s at the same context, but its cache state was not recorded, so
+it is not a controlled NVMe-cold comparison. These figures describe
+this quantized MoE, not a dense 70B. Receipts and JSON records:
+`results/runtime_experiments/nemotron_3_5_bolt_74b_a9b_nvme_cold_20261025.txt`
+and `nemotron_3_5_bolt_74b_a9b_nvme_cold_repeat_20261025.txt`,
+with the corresponding `*_capacity_g0-1-2-3-4-5_nvme_cold*_20261025.json`.
+
+## NVMe cold loads for the assigned models, 2026-10-25
+
+One managed `capacity_run.py --skip-depth` load per current role, at its
+`default` profile context and batch, after clearing the rig's page cache.
+The selected GPU set matches that role's lane; the manager calculated the
+layer split. Each live container's `--model` argument was observed under
+`/data/model-hotset`. Load seconds measure the manager's request through
+**model ready**, including container and GPU setup, not just GGUF read time.
+The short probe also confirms the model answered; its decode rate is shown
+for context, not used to rank these different models.
+
+| Role | Model | Context | GPUs | Cold load | Short decode |
+|---|---|---:|---|---:|---:|
+| `single_1060_compact` | ministral-3:3b | 16,384 | 1 | 25.1 s | 38.47 tok/s |
+| `text_extraction` | gemma-4:e2b-q8 | 4,096 | 1 | 34.9 s | 31.51 tok/s |
+| `single_1060_code` | qwen2.5-coder:7b | 16,384 | 1 | 34.9 s | 22.44 tok/s |
+| `single_1060` | ornith-1.5:9b | 8,192 | 1 | 41.5 s | 18.52 tok/s |
+| `split_speed` | ministral-3:8b | 16,384 | 1,3 | 34.9 s | 20.24 tok/s |
+| `split_quality` | ministral-3:14b | 8,192 | 1,3 | 51.4 s | 13.59 tok/s |
+| `safe_tool_use` | phi-4:14b | 8,192 | 1,3 | 58.0 s | 12.33 tok/s |
+| `brain_code` | qwen3-coder:30b-a3b | 16,384 | 0 | 58.0 s | 193.81 tok/s |
+| `brain` | qwen3.6:27b | 16,384 | 0 | 54.8 s | 44.41 tok/s |
+
+These are **single samples**, not averages. All nine exited 0 and unloaded.
+All six cards' replay and rollover counters remained 0/0 across the runs,
+with no AER, Xid, NVRM error, or fallen-off-bus kernel message. Receipts:
+`results/runtime_experiments/nvme_role_cold_loads_20261025.txt` (first
+model) and `nvme_role_cold_loads_remaining_20261025.txt` (other eight);
+the nine `*_role_*_nvme_ctx*_20261025.json` records supply exact model,
+context, card identity, buffer measurements, and decode.
+
+A fit check for `ministral-3:8b` at 16,384 refused one 1060 but fit two.
+Its role says `2x1060` while the older registry `schedule.placement`
+still says `single_gpu`. The manager did not use that label; it calculated
+a 18/16-layer split on GPUs 1 and 3 and the model loaded. The label remains
+a legacy orchestration/catalog inconsistency to remove when that placement
+metadata is moved out of the model requirements.
+
 ## CPU x16 Gen 2 / Gen 3 solo tests, 2026-10-25
 
 The 3090 Ti stayed on GPU 0, CPU x16, with its 350 W cap; the five 1060s stayed at

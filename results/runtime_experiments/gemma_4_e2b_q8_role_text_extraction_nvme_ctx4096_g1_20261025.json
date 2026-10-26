@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-25T17:09:17-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 4096 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": 64
+  },
+  "model": "gemma-4:e2b-q8",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 2316,
+    "n_ctx_train": 131072,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 35,
+        "weights_mb": 2316,
+        "kv_mb": 45,
+        "compute_mb": 72,
+        "projected_mb": 2646,
+        "headroom_mb": 3494
+      }
+    ]
+  },
+  "load": {
+    "seconds": 34.9,
+    "profile": "gemma-4-e2b-q8-g1",
+    "port": 11435,
+    "ctx_allocated": 4096,
+    "measured": {
+      "n_ctx": 4096,
+      "offloaded": 36,
+      "layers": 36,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 2342,
+          "kv_mb": 18,
+          "compute_mb": 17,
+          "total_mb": 2377
+        }
+      ],
+      "host_mb": 2794,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 61,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 279.99,
+    "generation_tokens_per_second": 31.51,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 16.4,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 16,
+        "avg_power_w": 86.3,
+        "peak_power_w": 101.31,
+        "peak_temperature_c": 60.0,
+        "peak_memory_mb": 2526.0
+      }
+    ]
+  },
+  "experiment_id": "gemma_4_e2b_q8_role_text_extraction_nvme_ctx4096_g1_20261025"
+}

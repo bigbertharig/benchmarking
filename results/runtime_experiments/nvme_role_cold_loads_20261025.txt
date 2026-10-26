@@ -1,0 +1,8 @@
+Start 2026-10-25T17:06:56-07:00; NVMe role loads; CPU x16 Gen3; x1 Gen2; caps 350/100 W
+replays_start GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+BEGIN role=single_1060_compact model=ministral-3:3b gpus=1 ctx=16384 batch=64 cache_kib_before=30113656 after=537352 2026-10-25T17:06:57-07:00
+END role=single_1060_compact exit=0 actual_path=/data/model-hotset/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/ministral_3_3b_role_single_1060_compact_nvme_ctx16384_g1_20261025.json 2026-10-25T17:07:43-07:00
+RESULT load_seconds=25.1 decode_tok_s=38.47 cards=[1] ctx=16384 ubatch=64
+DONE 2026-10-25T17:07:43-07:00
+replays_end GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Kernel GPU/PCIe errors since 2026-10-25T17:06:56-07:00:

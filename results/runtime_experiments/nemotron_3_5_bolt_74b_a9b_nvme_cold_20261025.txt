@@ -1,0 +1,7 @@
+Start 2026-10-25T17:22:03-07:00; cold NVMe; ctx 226816; cards 0-5; power caps unchanged
+replays_start GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+cache_kib_before=17225524 after=545692
+End 2026-10-25T17:26:03-07:00 exit=0 actual_path=/data/model-hotset/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/nemotron_3_5_bolt_74b_a9b_capacity_g0-1-2-3-4-5_nvme_cold_20261025.json
+RESULT load_seconds=206.3 decode_tok_s=20.37 cards=[0, 1, 2, 3, 4, 5] ctx=226816 ubatch=64
+replays_end GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=4/0 GPU5=0/0
+Kernel GPU/PCIe errors since 2026-10-25T17:22:03-07:00:

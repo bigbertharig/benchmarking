@@ -1,0 +1,29 @@
+Start 2026-10-25T17:08:41-07:00; NVMe role loads; CPU x16 Gen3; x1 Gen2; caps 350/100 W
+replays_start GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+BEGIN role=text_extraction model=gemma-4:e2b-q8 gpus=1 ctx=4096 batch=64 cache_kib_before=2869496 after=537444 2026-10-25T17:08:42-07:00
+END role=text_extraction exit=0 actual_path=/data/model-hotset/gemma-4-e2b/gemma-4-e2b-it-Q8_0.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/gemma_4_e2b_q8_role_text_extraction_nvme_ctx4096_g1_20261025.json 2026-10-25T17:09:39-07:00
+RESULT load_seconds=34.9 decode_tok_s=31.51 cards=[1] ctx=4096 ubatch=64
+BEGIN role=single_1060_code model=qwen2.5-coder:7b gpus=1 ctx=16384 batch=64 cache_kib_before=5603240 after=537728 2026-10-25T17:09:39-07:00
+END role=single_1060_code exit=0 actual_path=/data/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen2_5_coder_7b_role_single_1060_code_nvme_ctx16384_g1_20261025.json 2026-10-25T17:10:43-07:00
+RESULT load_seconds=34.9 decode_tok_s=22.44 cards=[1] ctx=16384 ubatch=64
+BEGIN role=single_1060 model=ornith-1.5:9b gpus=1 ctx=8192 batch=64 cache_kib_before=5320676 after=537736 2026-10-25T17:10:43-07:00
+END role=single_1060 exit=0 actual_path=/data/model-hotset/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/ornith_1_5_9b_role_single_1060_nvme_ctx8192_g1_20261025.json 2026-10-25T17:11:59-07:00
+RESULT load_seconds=41.5 decode_tok_s=18.52 cards=[1] ctx=8192 ubatch=64
+BEGIN role=split_speed model=ministral-3:8b gpus=1,3 ctx=16384 batch=64 cache_kib_before=6394164 after=537924 2026-10-25T17:11:59-07:00
+END role=split_speed exit=0 actual_path=/data/model-hotset/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/ministral_3_8b_role_split_speed_nvme_ctx16384_g13_20261025.json 2026-10-25T17:13:07-07:00
+RESULT load_seconds=34.9 decode_tok_s=20.24 cards=[1, 3] ctx=16384 ubatch=64
+BEGIN role=split_quality model=ministral-3:14b gpus=1,3 ctx=8192 batch=64 cache_kib_before=5824892 after=538088 2026-10-25T17:13:07-07:00
+END role=split_quality exit=0 actual_path=/data/model-hotset/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/ministral_3_14b_role_split_quality_nvme_ctx8192_g13_20261025.json 2026-10-25T17:14:44-07:00
+RESULT load_seconds=51.4 decode_tok_s=13.59 cards=[1, 3] ctx=8192 ubatch=64
+BEGIN role=safe_tool_use model=phi-4:14b gpus=1,3 ctx=8192 batch=64 cache_kib_before=8794036 after=542936 2026-10-25T17:14:44-07:00
+END role=safe_tool_use exit=0 actual_path=/data/model-hotset/phi-4-14b/phi-4-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/phi_4_14b_role_safe_tool_use_nvme_ctx8192_g13_20261025.json 2026-10-25T17:16:30-07:00
+RESULT load_seconds=58.0 decode_tok_s=12.33 cards=[1, 3] ctx=8192 ubatch=64
+BEGIN role=brain_code model=qwen3-coder:30b-a3b gpus=0 ctx=16384 batch=128 cache_kib_before=9588272 after=538268 2026-10-25T17:16:30-07:00
+END role=brain_code exit=0 actual_path=/data/model-hotset/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_coder_30b_a3b_role_brain_code_nvme_ctx16384_g0_20261025.json 2026-10-25T17:17:37-07:00
+RESULT load_seconds=58.0 decode_tok_s=193.81 cards=[0] ctx=16384 ubatch=128
+BEGIN role=brain model=qwen3.6:27b gpus=0 ctx=16384 batch=128 cache_kib_before=18884244 after=538020 2026-10-25T17:17:37-07:00
+END role=brain exit=0 actual_path=/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf record=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen3_6_27b_role_brain_nvme_ctx16384_g0_20261025.json 2026-10-25T17:18:50-07:00
+RESULT load_seconds=54.8 decode_tok_s=44.41 cards=[0] ctx=16384 ubatch=128
+DONE 2026-10-25T17:18:50-07:00
+replays_end GPU0=0/0 GPU1=0/0 GPU2=0/0 GPU3=0/0 GPU4=0/0 GPU5=0/0
+Kernel GPU/PCIe errors since 2026-10-25T17:08:41-07:00:

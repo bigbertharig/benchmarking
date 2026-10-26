@@ -44,6 +44,16 @@ Edit only these two, then run `scripts/active/model_library.py export` (and `che
   as `thinking`)
 - `model_roles.json`: which model and profile per rig lane and job (what other repos read)
 
+The model's GGUF and runtime options are load requirements. Context is a
+request or profile target; the manager derives memory and chooses cards and
+`tensor_split` at load time. It does not read the registry's legacy
+`schedule.placement` label for fit. That label still feeds the generated
+orchestration catalog and dashboard until their placement path is untangled.
+Keep measured load time and memory observations in
+[RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) and
+[results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md), with the JSON
+receipts behind them, rather than fixed card-count recipes in the registry.
+
 Generated from the registry (do not edit): `models.catalog.json`, `model_tuning_profiles.json`,
 `custom_tasks/model_prompt_profiles.json`.
 
