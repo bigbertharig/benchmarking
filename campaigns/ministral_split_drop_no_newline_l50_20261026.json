@@ -1,0 +1,36 @@
+{
+  "name": "ministral_split_drop_no_newline_l50_20261026",
+  "description": "Validated 50-sample DROP reruns for Ministral 8B and 14B after 3B matched A/B confirms newline stop truncation; one model at a time, generation bounded at 512 tokens.",
+  "defaults": {
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "ministral3_8b_drop_no_newline_l50",
+      "model": "ministral-3:8b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "drop",
+        "--gen-kwargs",
+        "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512"
+      ]
+    },
+    {
+      "id": "ministral3_14b_drop_no_newline_l50",
+      "model": "ministral-3:14b",
+      "suite": "bench-reasoning",
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "drop",
+        "--gen-kwargs",
+        "until=__BENCHMARK_DROP_NO_NEWLINE_20261026__,max_gen_toks=512"
+      ],
+      "depends_on": [
+        "ministral3_8b_drop_no_newline_l50"
+      ]
+    }
+  ]
+}
