@@ -229,6 +229,16 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
         for pname, prof in entry.get("profiles", {}).items():
             if "image" in prof:
                 errors.append(f"{mid}: profile {pname} sets image; all models use the registry runtime_image")
+            if entry.get("status") in {"active", "candidate"}:
+                merged = resolve(mid, pname, registry)
+                bounds = merged.get("context_bounds") or {}
+                working = int(merged.get("runtime", {}).get("ctx_size") or 0)
+                lo, hi = int(bounds.get("min") or 0), int(bounds.get("max") or 0)
+                if not (4096 <= lo <= working <= hi) or lo % 256 or hi % 256:
+                    errors.append(f"{mid}/{pname}: context_bounds.min <= runtime.ctx_size <= "
+                                  "context_bounds.max, with 256-token alignment, is required")
+                if bounds.get("max_basis") != "gguf_train":
+                    errors.append(f"{mid}/{pname}: context_bounds.max_basis must be gguf_train")
         orch = entry.get("profiles", {}).get("orchestration")
         if orch is not None and "ctx_size" not in orch.get("runtime", {}):
             errors.append(f"{mid}: orchestration profile has no runtime.ctx_size")
