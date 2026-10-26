@@ -127,6 +127,26 @@ def main() -> int:
     args = ap.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     output = args.output
+    # The maximum-load job already schedules this command. Defer its depth probes
+    # until the separate minimum-load pass has completed successfully.
+    if manifest["id"] == "context-capacity-validated-20261026":
+        min_terminal = ROOT / "results/context_capacity_min_sizing_20261026/terminal.json"
+        if not min_terminal.exists():
+            import capacity_run as capacity
+            min_runner = ROOT / "scripts/integration/run_context_capacity_min_sizing.py"
+            rc, launched = capacity.rigctl(
+                "run-start", "--run", "context-capacity-min-sizing-20261026",
+                "--auto-resume", "--cwd", str(ROOT),
+                "--note", "Minimum-context loads after maximum sizing; depth held", "--",
+                sys.executable, str(min_runner))
+            atomic_json(output / "deferred_to_min.json",
+                        {"at": now(), "min_run_started": rc == 0, "response": launched})
+            print("depth deferred: starting minimum-context load pass", flush=True)
+            return 0 if rc == 0 else 1
+        min_result = json.loads(min_terminal.read_text(encoding="utf-8"))
+        if min_result.get("failed") or min_result.get("passed") != min_result.get("cases"):
+            print("depth held: minimum-context loads did not all pass", flush=True)
+            return 1
     (output / "logs").mkdir(parents=True, exist_ok=True)
     (output / "receipts").mkdir(parents=True, exist_ok=True)
     state_path = output / "checkpoint.json"
