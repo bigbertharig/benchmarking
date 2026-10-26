@@ -51,6 +51,22 @@ messages; this is a link check, not a matched gen 2/gen 3 speed comparison. Its 
 3090 is GPU 0; the rig itself works with whatever cards the scan finds (llm_orchestration
 `shared/scripts/rig/README.md`, "The cards are whatever the scan finds").
 
+## Runtime upgrade smoke baseline, 2026-10-25
+
+The image-promotion smoke list now includes six-card
+`nemotron-3.5-bolt:74b-a9b` and split `mellum2.1:12b-a2.5b`,
+even though neither is in an active role or gateway offer. On the current
+`llama-runtime:b11669`, both passed the clean 555 litmus and completions
+request. Nemotron fully offloaded 89/89 layers across GPUs 0-5 from NVMe
+and loaded in 201.8 s. Mellum loaded on GPUs 1,3 from the shared archive
+in 98.6 s and decoded 128 tokens at 49.62 tok/s. Both were unloaded;
+the rig returned to idle. The Mellum throughput is a matched baseline
+for any new candidate image, with a 70% minimum speed gate in
+`scripts/llama_runtime/smoke_runtime.py`. Receipt:
+`/mnt/shared/logs/runtime_upgrades/b11669_20261025_192107.json`.
+The official release lookup from the rig failed DNS resolution, so no
+new candidate image was built or promoted.
+
 ## GPU4 link control and manager speed, 2026-10-25
 
 GPU4 (ASUS 1060, bus 11:00.0, root port 00:1d.2) was the only card with PCIe replays
