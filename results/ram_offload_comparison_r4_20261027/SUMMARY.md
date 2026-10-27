@@ -1,4 +1,4 @@
-# Qwen3.5 4B placement speed experiment
+# Qwen3.5 4B speed test across Pi, CPU RAM, and GPUs
 
 Runs `ram-offload-qwen35-r4-20261027` and the strict CPU-only follow-up
 `ram-offload-qwen35-cpu-only-20261027` on 2026-10-27, `llama-runtime:b11669`,
@@ -10,11 +10,31 @@ separately for each placement with `--load-mode none`. All power caps stayed at
 
 | Placement | Model layers on GPU | Load s | Prefill tok/s | Decode tok/s | GPU memory after load |
 |---|---:|---:|---:|---:|---:|
-| Strict CPU/RAM, no CUDA device visible | 0/33 | 14.60 | 47.4 | 7.44 | unchanged (GPU0 15 MiB) |
-| Weights in system RAM; CUDA compute buffer | 0/33 | 6.37 | 243.8 | 7.52 | GPU0 443 MiB |
-| 20 layers on one 1060; rest in RAM | 20/33 | 8.33 | 25.1 | 14.21 | GPU1 2,644 MiB |
-| Fully on one 1060 | 33/33 | 10.37 | 482.4 | 28.40 | GPU1 3,774 MiB |
-| Fully on the 3090 Ti | 33/33 | 2.31 | 3,884.7 | 177.42 | GPU0 4,021 MiB |
+| Raspberry Pi 5, CPU/RAM | 0/33 | 54.05 | 18.57 | 2.83 | none |
+| Rig, strict CPU/RAM, no CUDA device visible | 0/33 | 14.60 | 47.4 | 7.44 | unchanged (GPU0 15 MiB) |
+| Rig, weights in system RAM; CUDA compute buffer | 0/33 | 6.37 | 243.8 | 7.52 | GPU0 443 MiB |
+| Rig, 20 layers on one 1060; rest in RAM | 20/33 | 8.33 | 25.1 | 14.21 | GPU1 2,644 MiB |
+| Rig, fully on one 1060 | 33/33 | 10.37 | 482.4 | 28.40 | GPU1 3,774 MiB |
+| Rig, fully on the 3090 Ti | 33/33 | 2.31 | 3,884.7 | 177.42 | GPU0 4,021 MiB |
+
+The Pi row is a separate run on the 8 GB Raspberry Pi 5, using its existing
+CPU-only `llama.cpp` build `665abc6`. Its 2,740,937,888-byte GGUF was read from
+the Pi's shared USB hard drive. It used the same 32,768 context, batch and
+micro-batch 64, four threads, prompt (1,432 evaluated tokens), 128 generated
+tokens, and two requests; the table reports the second request. The Pi server
+ran at lower process priority while the K2 smoke test ran independently on the
+rig. At load completion, the Pi reported 3.75 GiB memory available and about
+233 MiB more swap in use than before the run. Its request timings were stable:
+first request 18.46 prefill / 2.80 decode tok/s; second 18.57 / 2.83.
+The Pi terminal receipt is `pi_terminal.json` and its server log is
+`pi_server.log`; originals remain in
+`/home/bryan/pi_qwen35_4b_probe_20261027/` on the Pi.
+
+The Pi and rig rows are practical placement comparisons, not isolated hardware
+benchmarks. The Pi used an older llama.cpp build and USB hard-drive storage;
+the rig used `llama-runtime:b11669` and local NVMe. Load times had uncontrolled
+filesystem cache state. The Pi's ~54-second load is therefore not a measured
+cold-load advantage or disadvantage of its RAM type.
 
 The first zero-layer case still allocated a 149 MiB CUDA compute buffer on the
 3090. It is a weights-in-RAM result, not a strict no-GPU result. The follow-up

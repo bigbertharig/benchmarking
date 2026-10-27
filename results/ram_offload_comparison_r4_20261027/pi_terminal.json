@@ -1,0 +1,98 @@
+{
+  "started_at": "2026-10-27T23:11:02+00:00",
+  "model": "/media/bryan/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+  "model_bytes": 2740937888,
+  "runtime": "",
+  "host": "Raspberry Pi 5 Model B Rev 1.1",
+  "context": 32768,
+  "batch": 64,
+  "ubatch": 64,
+  "threads": 4,
+  "gpu_layers": 0,
+  "memory_before": {
+    "MemAvailable_kib": 7448960,
+    "SwapFree_kib": 2092016
+  },
+  "status": "passed",
+  "command": [
+    "nice",
+    "-n",
+    "10",
+    "/home/bryan/llama.cpp/build/bin/llama-server",
+    "--model",
+    "/media/bryan/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "18124",
+    "--ctx-size",
+    "32768",
+    "--batch-size",
+    "64",
+    "--ubatch-size",
+    "64",
+    "--parallel",
+    "1",
+    "--threads",
+    "4",
+    "--threads-batch",
+    "4",
+    "--gpu-layers",
+    "0",
+    "--slot-prompt-similarity",
+    "0"
+  ],
+  "pid": 214578,
+  "load_seconds": 54.05,
+  "memory_after_load": {
+    "MemAvailable_kib": 3930016,
+    "SwapFree_kib": 1852400
+  },
+  "repeat_1": {
+    "wall_seconds": 123.23,
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 1432,
+      "prompt_ms": 77560.798,
+      "prompt_per_token_ms": 54.16256843575419,
+      "prompt_per_second": 18.462935360721794,
+      "predicted_n": 128,
+      "predicted_ms": 45643.227,
+      "predicted_per_token_ms": 356.5877109375,
+      "predicted_per_second": 2.804359122110275
+    },
+    "tokens_predicted": 128,
+    "tokens_evaluated": 1432,
+    "stopped_limit": null,
+    "memory_after": {
+      "MemAvailable_kib": 3801584,
+      "SwapFree_kib": 1870832
+    }
+  },
+  "repeat_2": {
+    "wall_seconds": 122.34,
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 1432,
+      "prompt_ms": 77116.97,
+      "prompt_per_token_ms": 53.852632681564245,
+      "prompt_per_second": 18.569194303147544,
+      "predicted_n": 128,
+      "predicted_ms": 45156.212,
+      "predicted_per_token_ms": 352.78290625,
+      "predicted_per_second": 2.834604461507976
+    },
+    "tokens_predicted": 128,
+    "tokens_evaluated": 1432,
+    "stopped_limit": null,
+    "memory_after": {
+      "MemAvailable_kib": 3672528,
+      "SwapFree_kib": 1870832
+    }
+  },
+  "finished_at": "2026-10-27T23:16:03+00:00",
+  "memory_final": {
+    "MemAvailable_kib": 7636240,
+    "SwapFree_kib": 1922032
+  }
+}
