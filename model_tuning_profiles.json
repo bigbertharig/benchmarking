@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-25",
+  "version": "2026-10-27",
   "notes": "Generated from model_registry.json by scripts/active/model_library.py export. Do not edit.",
   "models": {
     "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf": {
@@ -958,6 +958,31 @@
     },
     "qwen3-coder-next:80b-a3b": {
       "_alias_of": "Qwen3-Coder-Next-Q4_K_S.gguf"
+    },
+    "k2v2-Q4_K_M.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "agent_reliability",
+      "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 2048
+      },
+      "runtime": {
+        "ctx_size": 8192,
+        "batch_size": 64,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "extra_args": [
+        "--chat-template-kwargs",
+        "{\"reasoning_effort\":\"low\"}"
+      ],
+      "notes": "K2-V2-Instruct 70B dense Q4_K_M (43,904,518,656 bytes), Apache 2.0. Upstream post-training sequence length 524,288; actual rig context frontier still unmeasured. Default starts at 8K and low reasoning effort to bound smoke-test latency. Source GGUF SHA-256 da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02."
+    },
+    "k2-v2-instruct:70b": {
+      "_alias_of": "k2v2-Q4_K_M.gguf"
     },
     "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf": {
       "status": "untuned",

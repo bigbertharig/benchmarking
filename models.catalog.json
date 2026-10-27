@@ -516,6 +516,32 @@
       ]
     },
     {
+      "id": "k2-v2-instruct:70b",
+      "tier": 3,
+      "placement": "split_gpu",
+      "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+      "split_groups": [
+        {
+          "id": "all_gpus_capacity",
+          "members": [
+            "gpu-0",
+            "gpu-1",
+            "gpu-2",
+            "gpu-3",
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11445
+        }
+      ],
+      "tags": [
+        "capacity_candidate",
+        "dense",
+        "multi_gpu",
+        "reasoning"
+      ]
+    },
+    {
       "id": "nemotron-3.5-bolt:74b-a9b",
       "tier": 3,
       "placement": "split_gpu",

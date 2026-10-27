@@ -1,6 +1,6 @@
 {
   "schema": "model-registry/1",
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "about": "Every model the rig has tested, with its archive GGUF, status, scheduling placement, and named profiles. The only place model settings are edited. models.catalog.json, model_tuning_profiles.json and custom_tasks/model_prompt_profiles.json are generated from this file by scripts/active/model_library.py.",
   "archive_root": "/mnt/shared/models",
   "runtime_image": "llama-runtime:b11669",
@@ -610,7 +610,7 @@
       "gguf": "llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/unsloth/Llama-3.3-70B-Instruct-GGUF/resolve/main/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
       "status": "archived",
-      "status_note": "Superseded: a December 2024 dense 70B, about 4 tok/s across all six cards; newer MoE models of this size run faster and score higher. Kept for history; its records stay in the ledger.",
+      "status_note": "Superseded: a December 2024 dense 70B, about 4 tok/s across all six cards; newer MoE models of this size run faster and score higher. Archive GGUF retained on Pi storage (SHA-256 32df3baccb556f9840059b2528b2dee4d3d516b24afdfb9d0c56ff5f63e3a664); rig NVMe hotset copy removed 2026-10-27. Historical records stay in the ledger.",
       "schedule": {
         "tier": 3,
         "placement": "split_gpu",
@@ -2060,7 +2060,7 @@
       "gguf": "qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
       "source_url": "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_S.gguf",
       "status": "candidate",
-      "status_note": "Smoke run on all six cards (2026-10-21); Phase 5 pending.",
+      "status_note": "Six-card smoke and Phase 5 completed 2026-10-21/24; 162,304-context capacity depth passed, but the later 185,600-context manager placement failed. Candidate pending placement correction.",
       "schedule": {
         "tier": 3,
         "placement": "split_gpu",
@@ -2110,6 +2110,35 @@
             "max": 262144,
             "max_basis": "gguf_train"
           }
+        }
+      }
+    },
+    "k2-v2-instruct:70b": {
+      "gguf": "k2-v2-instruct/k2v2-Q4_K_M.gguf",
+      "source_url": "https://huggingface.co/cturan/K2-V2-Instruct-GGUF/resolve/main/k2v2-Q4_K_M.gguf",
+      "status": "candidate",
+      "status_note": "Downloaded and SHA-256 verified on rig NVMe and Pi archive 2026-10-27; new-model integration in progress.",
+      "schedule": {
+        "tier": 3,
+        "placement": "split_gpu",
+        "split_groups": [
+          {
+            "id": "all_gpus_capacity",
+            "members": ["gpu-0", "gpu-1", "gpu-2", "gpu-3", "gpu-4", "gpu-5"],
+            "port": 11445
+          }
+        ],
+        "tags": ["capacity_candidate", "dense", "multi_gpu", "reasoning"]
+      },
+      "profiles": {
+        "default": {
+          "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only with no markdown or extra text.",
+          "inference": {"temperature": 0.0, "top_p": 1.0, "max_tokens": 2048},
+          "runtime": {"ctx_size": 8192, "batch_size": 64, "parallel": 1, "n_gpu_layers": 999},
+          "extra_args": ["--chat-template-kwargs", "{\"reasoning_effort\":\"low\"}"],
+          "tuning": {"status": "untuned", "last_tuned_at": null, "benchmark_suite": "agent_reliability"},
+          "notes": "K2-V2-Instruct 70B dense Q4_K_M (43,904,518,656 bytes), Apache 2.0. Upstream post-training sequence length 524,288; actual rig context frontier still unmeasured. Default starts at 8K and low reasoning effort to bound smoke-test latency. Source GGUF SHA-256 da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02.",
+          "context_bounds": {"min": 8192, "max": 524288, "max_basis": "gguf_train"}
         }
       }
     },

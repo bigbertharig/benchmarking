@@ -33,17 +33,19 @@ Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/..
 |-------|------|-----|------|
 | 0 | Download | on the rig, to the NVMe hotset, then the shared library | download: size and SHA-256 match the source; library copy: size |
 | 1 | Register | registry entry, `model_library.py export`, `rigctl fit` | `check` ok, `fit` says it fits |
+| 1.5 | Context bounds | `run_model_context_bounds.py` on compact and ceiling GPU groups | manager min/max fits and real loads pass, full GPU offload, both contexts recorded |
 | 2 | First load | the lane (`rigctl load-model` through the manager) | the model serves, every layer on the GPUs |
 | 3 | Litmus | the lane (`litmus.py`) | the 3 checks pass, or each failure is documented |
 | 3.5 | Runtime characterization | the lane (`runtime_char.py`) | a `results/runtime_experiments/` record |
 | 4 | Smoke (limit 10) | the lane (`phase4.sh`) | every suite scores; raw answers read |
 | 4.5 | Settings experiments (optional) | operator's choice after reading Phase 4: the lane's thinking A/B (`LANE_START_AT=4.5`), experiments by hand | each Phase 4 problem tried against the options that could fix it |
+| 4.7 | Depth check | `capacity_run.py` at the validated compact and ceiling contexts | 10%/90% final-answer recall and speed recorded; deep-context claims only after a passing result |
 | 5 | Full run (limit 50 + full code) | a campaign | all blocks complete |
 | 6 | Finalize | registry status and notes, integration log | the model is discoverable with its settings |
-| - | Capacity run (any time after Phase 1) | `capacity_run.py` on chosen cards | a `results/runtime_experiments/` capacity record |
 
-Phases 2-4 are one command (a lane), which stops after the smoke; Phase 4.5 is a separate, deliberate step; Phase 5 is one campaign. The manager does placement: say which cards
-a lane uses, and it checks the fit and picks context and split.
+Phases 2-4 are one command (a lane), which stops after the smoke; Phase 1.5 sizes context before that lane,
+Phase 4.5 is a separate settings decision, Phase 4.7 checks depth, and Phase 5 is one campaign. The manager
+does placement: say which cards a lane uses, and it checks the fit and picks context and split.
 
 ### Philosophy: model settings, not suite changes
 
@@ -157,6 +159,39 @@ rigctl fit <short-id> --gpus 1,2       # or for the cards a lane will use
 **Gate**: `check` reports ok; `model <short-id>` resolves the expected GGUF and settings; `fit` says it
 fits on the cards you intend to use, with headroom on every card.
 
+## Phase 1.5: Context bounds before smoke
+
+The **minimum deployment setting** uses the fewest cards that can fully load the model, at the **largest
+context that fits on those cards**. This is distinct from the manager's minimum context floor: the floor
+is a load-safety probe, not the context we normally offer. The **maximum deployment setting** uses the
+largest allowed card group, at the largest context that fits there, capped by the model's trained context.
+Choose the smallest fitting placement (`compact-gpus`) and the larger group allowed for its longest
+practical context (`ceiling-gpus`). Keep worker-only and brain-only placements separate when they fit;
+use a mixed group only when necessary. If weights require every available card, both settings use the
+same group and collapse to one deployment setting: the largest context that actually fits on all cards.
+That rig ceiling can be far below the trained context limit. Record both numbers; do not label the trained
+limit as a runnable setting. Verify the smallest group with fit and a real load rather than inferring it
+from model size. The runner checks the manager's context floor and ceiling on each distinct group, then
+loads and unloads both contexts with full GPU offload and the standing 350 W / 100 W power caps. It writes
+checkpointed receipts, a summary, and a terminal status; it does not run a long prompt or promote a profile.
+
+```bash
+rigctl run-start --run bounds-<slug> -- python3 \
+  /mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_model_context_bounds.py <short-id> \
+  --compact-gpus <indices> --ceiling-gpus <indices> --run-id bounds-<slug> \
+  --output /mnt/shared/plans/shoulders/benchmarking/results/model_context_bounds_<slug>
+```
+
+The **compact maximum** is the minimum deployment setting; the **ceiling maximum** is the maximum deployment
+setting. These are measured rig limits, distinct from the model's trained context ceiling. For a model
+that needs every card, compact maximum and ceiling maximum are the same setting. The manager's minimum
+context load separately checks the profile floor. If a fit or load fails, correct the profile
+or GPU group and rerun the failed group before smoke. Never infer a working maximum from fit alone.
+
+**Gate**: the terminal receipt passes every distinct group, with min and max loads fully offloaded and
+unloaded. Record the observed bounds in the model's registry notes; keep the trained ceiling in
+`context_bounds.max` even when this rig cannot reach it.
+
 ## Phases 2-4: the lane
 
 One command runs Phases 2 to 4 for a model on a card group, as a run in the rig's report (a reboot shows
@@ -264,6 +299,20 @@ Rules:
 **Gate**: every setting changed from the Phase 4 configuration has an A/B result behind it, and each Phase 4
 problem was either fixed or recorded as a known limit. A model with no Phase 4 problems passes with no
 experiments.
+
+## Phase 4.7: Depth at the validated context bounds
+
+After the smoke has shown usable output, run `capacity_run.py` at the Phase 1.5 compact maximum and ceiling
+maximum (one run when both groups are the same). Use `--ctx` and `--gpus` from the sizing receipts and
+`--fractions 0.1,0.9`. For realistic recall, use `--allow-eos` and a documented `--decode-tokens` cap large
+enough for the model's normal answer; a thinking model also needs the final answer checked, not merely a
+code echoed inside its reasoning. Keep prompt changes such as `--concise-instruction` explicit in the
+receipt. A failed 10% probe is corrected before spending time on 90%; a 90% failure stays a known limit.
+
+The fit/load bounds and the 10%/90% quality checks answer different questions. Passing Phase 1.5 says the
+model fits in memory; passing Phase 4.7 says it can use that context for retrieval. Record both in the
+registry notes. Phase 5 can still run at the default context while a deep-context issue is investigated,
+but do not publish a maximum usable context without a passing depth check.
 
 ## Phase 5: Full Run
 
