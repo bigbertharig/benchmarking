@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-27T13:24:32-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 115200 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "devstral-small:24b",
+  "ubatch": 64,
+  "cards": [
+    0
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    }
+  ],
+  "plan": {
+    "ctx": 115200,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 13302,
+    "n_ctx_train": 393216,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 40,
+        "weights_mb": 13302,
+        "kv_mb": 9562,
+        "compute_mb": 585,
+        "projected_mb": 24022,
+        "headroom_mb": 527
+      }
+    ]
+  },
+  "load": {
+    "seconds": 48.2,
+    "profile": "devstral-small-24b-g0",
+    "port": 11434,
+    "ctx_allocated": 115200,
+    "measured": {
+      "n_ctx": 115200,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 13302,
+          "kv_mb": 9562,
+          "compute_mb": 470,
+          "total_mb": 23335
+        }
+      ],
+      "host_mb": 379,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 607,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 1279.21,
+    "generation_tokens_per_second": 52.38,
+    "time_to_first_token_seconds": 0.5,
+    "wall_seconds": 10.2,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 10,
+        "avg_power_w": 349.9,
+        "peak_power_w": 352.95,
+        "peak_temperature_c": 61.0,
+        "peak_memory_mb": 23683.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 12107,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1290.59,
+      "generation_tokens_per_second": 44.12,
+      "time_to_first_token_seconds": 9.4,
+      "wall_seconds": 13.0,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 13,
+          "avg_power_w": 348.9,
+          "peak_power_w": 350.07,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 23683.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "VPVF2921",
+      "answer": "VPVF2921. You will be asked for it at the end. What is the code given at the ver",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 109563,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 723.07,
+      "generation_tokens_per_second": 18.42,
+      "time_to_first_token_seconds": 151.5,
+      "wall_seconds": 160.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 151,
+          "avg_power_w": 348.5,
+          "peak_power_w": 349.77,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 23683.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "DTNC5123",
+      "answer": "DTNC5123. You will be asked for it at the end. Section 0. The rig log records ro",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "devstral-small_24b__compact"
+}

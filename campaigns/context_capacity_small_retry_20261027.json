@@ -1,0 +1,194 @@
+{
+  "schema": "context-capacity-matrix/1",
+  "id": "context-capacity-small-retry-20261027",
+  "created_at": "2026-10-27T19:31:08.3454766+00:00",
+  "runtime_image": "llama-runtime:b11669",
+  "source_catalog": "llm-gateway/model_catalog.json",
+  "method": "Targeted rerun of three 2026-10-26 compact fit failures at contexts newly suggested by the manager; K2 and Qwen3-Coder-Next excluded; Phi-4 Mini Reasoning requires a separate output-format probe.",
+  "pool_rule": "schedule.tier <=2 worker 1060; tier>=3 brain 3090. This campaign rule is provisional until the manager owns a preferred-pool field.",
+  "hardware": {
+    "brain": [
+      0
+    ],
+    "worker": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "power_caps_w": {
+      "0": 350,
+      "1": 100,
+      "2": 100,
+      "3": 100,
+      "4": 100,
+      "5": 100
+    }
+  },
+  "models": [
+    {
+      "model": "devstral-small:24b",
+      "status": "active",
+      "tier": 3,
+      "preferred_pool": "brain",
+      "floor_ctx": 4096,
+      "working_ctx": 4096,
+      "trained_ctx": 393216,
+      "ubatch": 64,
+      "compact": {
+        "pool": "brain",
+        "gpus": [
+          0
+        ],
+        "ctx": 115200,
+        "tensor_split": null,
+        "headroom_mb": [
+          527
+        ]
+      },
+      "ceiling": {
+        "pool": "mixed",
+        "gpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "ctx": 259072,
+        "tensor_split": "25,3,3,3,3,4",
+        "headroom_mb": [
+          525,
+          1302,
+          1302,
+          1302,
+          1217,
+          692
+        ]
+      },
+      "trained_reachable_projected": false
+    },
+    {
+      "model": "ministral-3:3b",
+      "status": "active",
+      "tier": 1,
+      "preferred_pool": "worker",
+      "floor_ctx": 8192,
+      "working_ctx": 16384,
+      "trained_ctx": 262144,
+      "ubatch": 64,
+      "compact": {
+        "pool": "worker",
+        "gpus": [
+          1
+        ],
+        "ctx": 56832,
+        "tensor_split": null,
+        "headroom_mb": [
+          513
+        ]
+      },
+      "ceiling": {
+        "pool": "brain",
+        "gpus": [
+          0
+        ],
+        "ctx": 262144,
+        "tensor_split": null,
+        "headroom_mb": [
+          6869
+        ]
+      },
+      "trained_reachable_projected": true
+    },
+    {
+      "model": "ornith-1.5:9b",
+      "status": "active",
+      "tier": 1,
+      "preferred_pool": "worker",
+      "floor_ctx": 8192,
+      "working_ctx": 8192,
+      "trained_ctx": 262144,
+      "ubatch": 64,
+      "compact": {
+        "pool": "worker",
+        "gpus": [
+          1
+        ],
+        "ctx": 24064,
+        "tensor_split": null,
+        "headroom_mb": [
+          520
+        ]
+      },
+      "ceiling": {
+        "pool": "worker",
+        "gpus": [
+          1,
+          2,
+          3
+        ],
+        "ctx": 262144,
+        "tensor_split": "12,12,10",
+        "headroom_mb": [
+          1691,
+          1733,
+          1918
+        ]
+      },
+      "trained_reachable_projected": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "ornith-1_5_9b__compact",
+      "model": "ornith-1.5:9b",
+      "target": "compact",
+      "gpus": [
+        1
+      ],
+      "ctx": 24064,
+      "trained_ctx": 262144,
+      "preferred_pool": "worker",
+      "actual_pool": "worker",
+      "ubatch": 64,
+      "projected_headroom_mb": [
+        520
+      ]
+    },
+    {
+      "id": "ministral-3_3b__compact",
+      "model": "ministral-3:3b",
+      "target": "compact",
+      "gpus": [
+        1
+      ],
+      "ctx": 56832,
+      "trained_ctx": 262144,
+      "preferred_pool": "worker",
+      "actual_pool": "worker",
+      "ubatch": 64,
+      "projected_headroom_mb": [
+        513
+      ]
+    },
+    {
+      "id": "devstral-small_24b__compact",
+      "model": "devstral-small:24b",
+      "target": "compact",
+      "gpus": [
+        0
+      ],
+      "ctx": 115200,
+      "trained_ctx": 393216,
+      "preferred_pool": "brain",
+      "actual_pool": "brain",
+      "ubatch": 64,
+      "projected_headroom_mb": [
+        527
+      ]
+    }
+  ]
+}

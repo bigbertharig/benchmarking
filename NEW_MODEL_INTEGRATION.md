@@ -306,8 +306,14 @@ rigctl run-start --run capacity-<slug> -- python3 \
 largest context that fits on them (its largest-that-fits rule, the default profile's batch and args); the
 model is loaded at exactly that context; a short probe measures decode speed and power, and depth probes
 fill 10, 25, 50, 75 and 90% of the context (`--fractions`) with a code planted at the start and ask for it
-back: at each depth, prefill speed, time to first token, decode speed (160 tokens) and whether recall still
-works. Prompt caching is off, so prefill is measured over the whole prompt. The record is
+back: at each depth, prefill speed, time to first token, decode speed (160 generated tokens by default) and
+whether recall still works. `--decode-tokens N` raises the generated-token cap for models that spend the
+default budget thinking before answering; keep the depth and cap in the receipt when comparing results.
+`--allow-eos` lets a depth probe stop naturally, for a realistic answer check; the default forces the full
+decode budget for comparable speed measurements.
+`--concise-instruction` adds a system instruction requesting only the code and no visible reasoning; it
+changes the prompt, so compare it only with runs using the same instruction.
+Prompt caching is off, so prefill is measured over the whole prompt. The record is
 `results/runtime_experiments/<slug>_capacity_g<cards>_ctx<context>_<date>.json`; the model is unloaded at the end.
 The run rebuilds [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md); what the numbers mean, and the
 other speed and PCIe tools, are in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md).

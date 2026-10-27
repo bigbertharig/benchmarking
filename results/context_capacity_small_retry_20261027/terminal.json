@@ -1,0 +1,10 @@
+{
+  "run": "context-capacity-small-retry-20261027",
+  "status": "passed",
+  "finished_at": "2026-10-27T20:27:40+00:00",
+  "passed": 3,
+  "failed": 0,
+  "cases": 3,
+  "summary": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/SUMMARY.md",
+  "checkpoint": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/checkpoint.json"
+}

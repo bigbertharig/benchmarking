@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-27T13:44:36-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 2048,
+    "allow_eos": true,
+    "concise_instruction": true,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "phi-4-mini-reasoning:3.8b",
+  "ubatch": 64,
+  "cards": [
+    1,
+    2,
+    3
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": "11,11,11",
+    "margin_mb": 512,
+    "weights_mb": 2369,
+    "n_ctx_train": 131072,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 11,
+        "weights_mb": 652,
+        "kv_mb": 2992,
+        "compute_mb": 713,
+        "projected_mb": 4557,
+        "headroom_mb": 1583
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 11,
+        "weights_mb": 640,
+        "kv_mb": 2992,
+        "compute_mb": 713,
+        "projected_mb": 4545,
+        "headroom_mb": 1595
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 1077,
+        "kv_mb": 2720,
+        "compute_mb": 713,
+        "projected_mb": 4710,
+        "headroom_mb": 1430
+      }
+    ]
+  },
+  "load": {
+    "seconds": 18.4,
+    "profile": "phi-4-mini-reasoning-3.8b-g1-2-3",
+    "port": 11435,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 33,
+      "layers": 33,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 652,
+          "kv_mb": 2992,
+          "compute_mb": 590,
+          "total_mb": 4234
+        },
+        {
+          "gpu": 2,
+          "model_mb": 640,
+          "kv_mb": 2992,
+          "compute_mb": 584,
+          "total_mb": 4215
+        },
+        {
+          "gpu": 3,
+          "model_mb": 1077,
+          "kv_mb": 2720,
+          "compute_mb": 584,
+          "total_mb": 4380
+        }
+      ],
+      "host_mb": 553,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4234,
+          "free_mb": 1761
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 4218,
+          "free_mb": 1777
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 4383,
+          "free_mb": 1612
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 69,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 451.98,
+    "generation_tokens_per_second": 34.46,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 15.0,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 14,
+        "avg_power_w": 51.3,
+        "peak_power_w": 123.93,
+        "peak_temperature_c": 57.0,
+        "peak_memory_mb": 4316.0
+      },
+      {
+        "gpu": 2,
+        "samples": 14,
+        "avg_power_w": 57.4,
+        "peak_power_w": 76.62,
+        "peak_temperature_c": 57.0,
+        "peak_memory_mb": 4294.0
+      },
+      {
+        "gpu": 3,
+        "samples": 14,
+        "avg_power_w": 71.1,
+        "peak_power_w": 96.37,
+        "peak_temperature_c": 52.0,
+        "peak_memory_mb": 4460.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 12681,
+      "completion_tokens": 250,
+      "prompt_tokens_per_second": 387.96,
+      "generation_tokens_per_second": 24.21,
+      "time_to_first_token_seconds": 32.7,
+      "wall_seconds": 43.0,
+      "finish_reason": "stop",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 40,
+          "avg_power_w": 58.8,
+          "peak_power_w": 128.5,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 4316.0
+        },
+        {
+          "gpu": 2,
+          "samples": 40,
+          "avg_power_w": 68.6,
+          "peak_power_w": 129.39,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 4294.0
+        },
+        {
+          "gpu": 3,
+          "samples": 40,
+          "avg_power_w": 50.4,
+          "peak_power_w": 106.29,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 4460.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "ZHAX8737",
+      "answer": "<think>\n\nOkay, let's try to figure out the code here. The user provided a long d",
+      "answer_tail": "s ZHAX8737. So the answer should be that code.\n\n</think>\n\nThe code given at the very start of the document is:\n\n```\nZHAX8737\n```\n\n**Answer:**  \n\\boxed{ZHAX8737}",
+      "raw_think_closed": true,
+      "final_answer": "The code given at the very start of the document is:\n\n```\nZHAX8737\n```\n\n**Answer:**  \n\\boxed{ZHAX8737}",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "phi-mini-10pct-2048-concise-r2-20261027"
+}

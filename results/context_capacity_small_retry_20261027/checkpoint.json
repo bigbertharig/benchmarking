@@ -1,0 +1,109 @@
+{
+  "run": "context-capacity-small-retry-20261027",
+  "started_at": "2026-10-27T20:11:42+00:00",
+  "cases": {
+    "ornith-1_5_9b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T20:11:42+00:00",
+      "finished_at": "2026-10-27T20:14:52+00:00",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_9b__compact",
+          "model": "ornith-1.5:9b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 24064,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            520
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/logs/ornith-1_5_9b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/receipts/ornith-1_5_9b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 38.6,
+        "error": null,
+        "observed_ctx": 24064,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ministral-3_3b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T20:14:52+00:00",
+      "finished_at": "2026-10-27T20:23:43+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_3b__compact",
+          "model": "ministral-3:3b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 56832,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            513
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/logs/ministral-3_3b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/receipts/ministral-3_3b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 25.1,
+        "error": null,
+        "observed_ctx": 56832,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "devstral-small_24b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T20:23:43+00:00",
+      "finished_at": "2026-10-27T20:27:40+00:00",
+      "result": {
+        "case": {
+          "id": "devstral-small_24b__compact",
+          "model": "devstral-small:24b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 115200,
+          "trained_ctx": 393216,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            527
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/logs/devstral-small_24b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_small_retry_20261027/receipts/devstral-small_24b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 48.2,
+        "error": null,
+        "observed_ctx": 115200,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    }
+  },
+  "finished_at": "2026-10-27T20:27:40+00:00"
+}

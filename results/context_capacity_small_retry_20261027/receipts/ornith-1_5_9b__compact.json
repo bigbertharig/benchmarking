@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-27T13:12:21-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 24064 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "ornith-1.5:9b",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 24064,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 4812,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 33,
+        "weights_mb": 4812,
+        "kv_mb": 450,
+        "compute_mb": 158,
+        "projected_mb": 5620,
+        "headroom_mb": 520
+      }
+    ]
+  },
+  "load": {
+    "seconds": 38.6,
+    "profile": "ornith-1.5-9b-g1",
+    "port": 11435,
+    "ctx_allocated": 24064,
+    "measured": {
+      "n_ctx": 24064,
+      "offloaded": 34,
+      "layers": 34,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 4812,
+          "kv_mb": 400,
+          "compute_mb": 105,
+          "total_mb": 5317
+        }
+      ],
+      "host_mb": 553,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 139.76,
+    "generation_tokens_per_second": 18.62,
+    "time_to_first_token_seconds": 0.5,
+    "wall_seconds": 27.9,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 26,
+        "avg_power_w": 97.9,
+        "peak_power_w": 105.13,
+        "peak_temperature_c": 58.0,
+        "peak_memory_mb": 5452.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 2114,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 298.05,
+      "generation_tokens_per_second": 18.15,
+      "time_to_first_token_seconds": 7.1,
+      "wall_seconds": 15.9,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 15,
+          "avg_power_w": 98.8,
+          "peak_power_w": 105.52,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 5452.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "KVZY6789",
+      "answer": "KVZY6789.\n\nNote: The sections are filler and don't change the task, as they stat",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 22145,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 240.09,
+      "generation_tokens_per_second": 16.11,
+      "time_to_first_token_seconds": 92.2,
+      "wall_seconds": 102.1,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 95,
+          "avg_power_w": 96.8,
+          "peak_power_w": 108.93,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 5452.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "ERRX2567",
+      "answer": "ERRX2567.\n\nThe rig log sections are all filler and don't change the task. The co",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "ornith-1_5_9b__compact"
+}

@@ -174,10 +174,12 @@ class Sampler:
         return out
 
 
-def chat(port: int, prompt: str, max_tokens: int, timeout: float, force: bool = False) -> tuple[dict, float]:
+def chat(port: int, prompt: str, max_tokens: int, timeout: float, force: bool = False,
+         system: str | None = None) -> tuple[dict, float]:
     """One completion with prompt caching off, so prefill is measured over the whole prompt; force keeps
     generating past the end of the answer, for a steady decode rate."""
-    body = {"messages": [{"role": "user", "content": prompt}], "temperature": 0, "max_tokens": max_tokens,
+    messages = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": prompt}]
+    body = {"messages": messages, "temperature": 0, "max_tokens": max_tokens,
             "cache_prompt": False}
     if force:
         body["ignore_eos"] = True
@@ -196,7 +198,8 @@ def probe_result(resp: dict, wall: float, sampler: Sampler) -> dict:
             "gpu_envelope": sampler.summary()}
 
 
-def depth_probe(port: int, ctx: int, fraction: float, gpus: list[int]) -> dict:
+def depth_probe(port: int, ctx: int, fraction: float, gpus: list[int], decode_tokens: int,
+                allow_eos: bool = False, concise_instruction: bool = False) -> dict:
     """A prompt of about fraction * ctx tokens with a code at its start; the model must repeat the code."""
     code = "".join(random.choice(string.ascii_uppercase) for _ in range(4)) + str(random.randint(1000, 9999))
     head = f"Remember this code: {code}. You will be asked for it at the end.\n\n"
@@ -208,22 +211,30 @@ def depth_probe(port: int, ctx: int, fraction: float, gpus: list[int]) -> dict:
     n = repeats_for(target, chunk_tokens, head_tokens)
     body = "".join(FILLER.format(n=i, m=100 + i % 200, k=40 + i % 40) for i in range(n))
     prompt = head + body + question
+    system = ("You are a retrieval assistant. Reply with only the requested code. "
+              "Do not show reasoning or <think> tags.") if concise_instruction else None
     with Sampler(gpus) as s:
-        resp, wall = chat(port, prompt, DECODE_TOKENS, timeout=4 * 3600, force=True)
+        resp, wall = chat(port, prompt, decode_tokens, timeout=4 * 3600,
+                          force=not allow_eos, system=system)
     message = resp["choices"][0]["message"]
     answer = (message.get("content") or "").strip()
     # A thinking model can spend the forced tokens in its reasoning; the code counts as recalled there too.
     reasoning = (message.get("reasoning_content") or "").strip()
+    raw_think_closed = "</think>" in answer
+    final_answer = (answer.rsplit("</think>", 1)[-1].strip() if raw_think_closed else
+                    "" if "<think>" in answer else answer)
     result = probe_result(resp, wall, s)
     result.update(target_fraction=fraction, recall_code=code, answer=answer[:80],
+                  answer_tail=answer[-160:], raw_think_closed=raw_think_closed,
+                  final_answer=final_answer[:160], final_recall_ok=code in final_answer,
                   recall_ok=code in answer or code in reasoning,
                   recall_in="answer" if code in answer else ("reasoning" if code in reasoning else None))
     return result
 
 
-def fits_depth(depth_ctx: int, fraction: float, loaded_ctx: int) -> bool:
+def fits_depth(depth_ctx: int, fraction: float, loaded_ctx: int, decode_tokens: int) -> bool:
     """A probe at fraction of depth_ctx fits a runtime loaded at loaded_ctx (with room for the answer)."""
-    return int(depth_ctx * fraction) + DECODE_TOKENS <= loaded_ctx
+    return int(depth_ctx * fraction) + decode_tokens <= loaded_ctx
 
 
 def slug(model: str) -> str:
@@ -239,11 +250,19 @@ def main() -> int:
     ap.add_argument("--ctx", type=int, help="load at exactly this context instead of the largest that fits")
     ap.add_argument("--depth-of", type=int, help="probe at fractions of this context (match runs loaded at it)")
     ap.add_argument("--fractions", default=FRACTIONS, help="depth probes as shares of the context, comma separated")
+    ap.add_argument("--decode-tokens", type=int, default=DECODE_TOKENS,
+                    help="maximum generated tokens per depth probe (default: 160)")
+    ap.add_argument("--allow-eos", action="store_true",
+                    help="let depth probes stop at EOS for realistic answers (default forces full decode budget)")
+    ap.add_argument("--concise-instruction", action="store_true",
+                    help="ask depth probes for only the code, with no visible reasoning (changes the prompt)")
     ap.add_argument("--margin-mb", type=int, help="headroom per card for the fit (manager default when omitted)")
     ap.add_argument("--batch-size", type=int, help="override the profile's batch (the micro-batch, up to 512): a sweep")
     ap.add_argument("--skip-depth", action="store_true", help="only the load and the short probe")
     ap.add_argument("--out", help="record path (default results/runtime_experiments/...)")
     a = ap.parse_args()
+    if a.decode_tokens < 1:
+        ap.error("--decode-tokens must be positive")
 
     gpus = [int(g) for g in a.gpus.split(",")] if a.gpus else (None if a.cards else all_gpus())
     rc, plan = rigctl(*fit_args(a.model, gpus, a.cards, a.margin_mb, a.ctx, a.batch_size))
@@ -291,11 +310,12 @@ def main() -> int:
             loaded_ctx = int(loaded.get("ctx") or ctx)
             depth_ctx = a.depth_of or loaded_ctx
             for fraction in sorted(float(f) for f in a.fractions.split(",")):
-                if not fits_depth(depth_ctx, fraction, loaded_ctx):
+                if not fits_depth(depth_ctx, fraction, loaded_ctx, a.decode_tokens):
                     print(f"depth {fraction:.2f} of {depth_ctx}: skipped, more than the loaded ctx {loaded_ctx}",
                           flush=True)
                     continue
-                lp = depth_probe(port, depth_ctx, fraction, gpus)
+                lp = depth_probe(port, depth_ctx, fraction, gpus, a.decode_tokens,
+                                 a.allow_eos, a.concise_instruction)
                 record["depth_probes"].append(lp)
                 print(f"depth {fraction:.2f}: {lp['prompt_tokens']} prompt tokens, prefill "
                       f"{lp['prompt_tokens_per_second']} tok/s, first token {lp['time_to_first_token_seconds']} s, "
@@ -318,12 +338,14 @@ def base_record(a, gpus: list[int], plan: dict) -> dict:
         "quality_ledger": False,
         "recorded_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
-        "methodology": {"id": "llama-server/capacity", "version": "1.0.0", "sampling_interval_seconds": 1,
+        "methodology": {"id": "llama-server/capacity", "version": "1.1.0", "sampling_interval_seconds": 1,
                         "plan": ("rigctl fit --use chat --profile default "
                                  + (f"--ctx {a.ctx} (fixed)" if a.ctx else "--context-mode max (largest that fits)")),
                         "depth_fractions": [float(f) for f in a.fractions.split(",")],
                         "depth_of_ctx": a.depth_of,
-                        "decode_tokens_per_depth_probe": DECODE_TOKENS, "cache_prompt": False,
+                        "decode_tokens_per_depth_probe": a.decode_tokens, "allow_eos": a.allow_eos,
+                        "concise_instruction": a.concise_instruction,
+                        "cache_prompt": False,
                         "batch_size_override": a.batch_size},
         "model": a.model,
         "ubatch": plan.get("ubatch"),  # the micro-batch the manager planned (the profile's, or the override)

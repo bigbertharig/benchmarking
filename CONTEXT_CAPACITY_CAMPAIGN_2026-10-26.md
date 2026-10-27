@@ -54,3 +54,22 @@ The original combined depth run started at 2026-10-26 14:51 PDT and was stopped 
 
 Examples of projections needing validation: Ministral 3B reaches 57,600 on one 1060 but needs the 3090 for 262,144; Ministral 14B reaches 34,304 on two 1060s and needs a mixed group for 262,144; Qwen Coder Next 80B has a six-card frontier below its trained ceiling.
 
+## 2026-10-27 compact retry and Phi output follow-up
+
+The validated-depth campaign completed with 42/47 cases passing. Four compact cases hit the manager's fit limit and Phi-4 Mini Reasoning reached 90% depth but spent its 160 generated tokens inside raw `<think>` text. Qwen3-Coder-Next remains a separate six-card placement issue and is deferred by operator request.
+
+The targeted retry `campaigns/context_capacity_small_retry_20261027.json` ran from 13:11 to 13:27 PDT. All three revised compact placements loaded and passed both 10% and 90% recall:
+
+| Model | GPUs | Observed ctx | Load | Result |
+|---|---|---:|---:|---|
+| Ornith 1.5 9B | 1 | 24,064 | 38.6 s | pass |
+| Ministral 3 3B | 1 | 56,832 | 25.1 s | pass |
+| Devstral Small 24B | 0 | 115,200 | 48.2 s | pass |
+
+Receipts, logs, checkpoint, and terminal status: `results/context_capacity_small_retry_20261027/`. These results validate the reduced compact contexts; they do not automatically promote profile defaults.
+
+Phi-4 Mini Reasoning at 131,072 loaded context on GPUs 1,2,3 recalled the planted code at 10% depth with 512, 1,024, and 2,048 generated-token limits. All three forced-decode runs exhausted the limit inside raw `<think>` text, so their `recall_ok` does not establish a usable final answer. A 2,048-token normal-EOS run without prompt changes did the same. The 2,048-token receipts record `final_recall_ok=false` and `raw_think_closed=false`.
+
+Two 10% runs with normal EOS and a concise system instruction produced final answers containing the planted code. The first stopped after 857 tokens and returned only the code; the second stopped after 250 tokens and included the code with extra formatting. Both have `final_recall_ok=true`, `raw_think_closed=true`, and `finish_reason=stop`. This prompt variant is distinct from the earlier capacity methodology. Receipts are under `results/runtime_experiments/phi-mini-10pct-*-20261027.json`.
+
+The 90% follow-up with the same settings (`phi-mini-90pct-2048-concise-20261027`) ran from 13:46 to 14:19 PDT and did not pass. At 117,678 prompt tokens, time to first token was 1,566.5 s, prefill was 75.12 tok/s, and decode was 5.31 tok/s. It exhausted all 2,048 generated tokens in an unclosed raw `<think>` response, with no final answer and no planted-code recall (`recall_ok=false`, `final_recall_ok=false`). Its load took 18.4 s at 131,072 allocated context. This establishes a usable 10% prompt variant but no usable 90% result. Do not promote deep-context Phi behavior or infer that a larger answer budget would fix recall. Defer another deep probe until a distinct output/recall fix has passed shorter trials.
