@@ -1,0 +1,8 @@
+{
+  "run": "bounds-k2-v2-20261027",
+  "model": "k2-v2-instruct:70b",
+  "finished_at": "2026-10-27T22:08:21+00:00",
+  "groups": 2,
+  "passed": 2,
+  "failed": []
+}

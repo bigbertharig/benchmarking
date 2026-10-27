@@ -2117,7 +2117,7 @@
       "gguf": "k2-v2-instruct/k2v2-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/cturan/K2-V2-Instruct-GGUF/resolve/main/k2v2-Q4_K_M.gguf",
       "status": "candidate",
-      "status_note": "Downloaded and SHA-256 verified on rig NVMe and Pi archive 2026-10-27; new-model integration in progress.",
+      "status_note": "SHA-256 verified on rig NVMe and Pi archive. Context load gate passed 2026-10-27: five-card compact setting 13,312 tokens and six-card ceiling 30,464 tokens, both fully offloaded; smoke pending.",
       "schedule": {
         "tier": 3,
         "placement": "split_gpu",
@@ -2137,7 +2137,7 @@
           "runtime": {"ctx_size": 8192, "batch_size": 64, "parallel": 1, "n_gpu_layers": 999},
           "extra_args": ["--chat-template-kwargs", "{\"reasoning_effort\":\"low\"}"],
           "tuning": {"status": "untuned", "last_tuned_at": null, "benchmark_suite": "agent_reliability"},
-          "notes": "K2-V2-Instruct 70B dense Q4_K_M (43,904,518,656 bytes), Apache 2.0. Upstream post-training sequence length 524,288; actual rig context frontier still unmeasured. Default starts at 8K and low reasoning effort to bound smoke-test latency. Source GGUF SHA-256 da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02.",
+          "notes": "K2-V2-Instruct 70B dense Q4_K_M (43,904,518,656 bytes), Apache 2.0. Upstream post-training sequence length 524,288. Manager fit plus real full-offload loads passed 2026-10-27: minimum deployment setting is 13,312 context on 3090+four 1060s (216.1 s load); maximum deployment setting is 30,464 on all six (213.2 s load). The 8,192 context planning floor also loaded on both groups. These are memory limits, not yet depth/recall validated. Default remains 8K and low reasoning effort for smoke. Source GGUF SHA-256 da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02.",
           "context_bounds": {"min": 8192, "max": 524288, "max_basis": "gguf_train"}
         }
       }

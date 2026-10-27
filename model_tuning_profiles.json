@@ -979,7 +979,7 @@
         "--chat-template-kwargs",
         "{\"reasoning_effort\":\"low\"}"
       ],
-      "notes": "K2-V2-Instruct 70B dense Q4_K_M (43,904,518,656 bytes), Apache 2.0. Upstream post-training sequence length 524,288; actual rig context frontier still unmeasured. Default starts at 8K and low reasoning effort to bound smoke-test latency. Source GGUF SHA-256 da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02."
+      "notes": "K2-V2-Instruct 70B dense Q4_K_M (43,904,518,656 bytes), Apache 2.0. Upstream post-training sequence length 524,288. Manager fit plus real full-offload loads passed 2026-10-27: minimum deployment setting is 13,312 context on 3090+four 1060s (216.1 s load); maximum deployment setting is 30,464 on all six (213.2 s load). The 8,192 context planning floor also loaded on both groups. These are memory limits, not yet depth/recall validated. Default remains 8K and low reasoning effort for smoke. Source GGUF SHA-256 da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02."
     },
     "k2-v2-instruct:70b": {
       "_alias_of": "k2v2-Q4_K_M.gguf"

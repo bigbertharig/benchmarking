@@ -1,0 +1,2039 @@
+{
+  "run": "bounds-k2-v2-20261027",
+  "model": "k2-v2-instruct:70b",
+  "started_at": "2026-10-27T21:53:20+00:00",
+  "groups": {
+    "compact": {
+      "status": "passed",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "started_at": "2026-10-27T21:53:20+00:00",
+      "min_fit": {
+        "model": "k2-v2-instruct:70b",
+        "arch": "llama",
+        "gpus": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "n_ctx_train": 524288,
+        "weights_mb": 40760,
+        "host_mb": 1099,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          573,
+          200,
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": "45,10,10,9,7",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 45,
+            "weights_mb": 21938,
+            "kv_mb": 765,
+            "compute_mb": 192,
+            "projected_mb": 23468,
+            "headroom_mb": 1081
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 4836,
+            "kv_mb": 170,
+            "compute_mb": 192,
+            "projected_mb": 5398,
+            "headroom_mb": 742
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 4777,
+            "kv_mb": 170,
+            "compute_mb": 192,
+            "projected_mb": 5339,
+            "headroom_mb": 801
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4493,
+            "kv_mb": 153,
+            "compute_mb": 192,
+            "projected_mb": 5038,
+            "headroom_mb": 1102
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 6,
+            "weights_mb": 4716,
+            "kv_mb": 102,
+            "compute_mb": 192,
+            "projected_mb": 5210,
+            "headroom_mb": 930
+          }
+        ],
+        "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "chat",
+        "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "min",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 524288,
+          "max_basis": "gguf_train"
+        }
+      },
+      "max_fit": {
+        "model": "k2-v2-instruct:70b",
+        "arch": "llama",
+        "gpus": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "n_ctx_train": 524288,
+        "weights_mb": 40760,
+        "host_mb": 1099,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          573,
+          200,
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 13312,
+        "ctx_limit": "card memory",
+        "per_slot_ctx": 13312,
+        "tensor_split": "45,10,10,9,7",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 45,
+            "weights_mb": 21938,
+            "kv_mb": 1243,
+            "compute_mb": 272,
+            "projected_mb": 24026,
+            "headroom_mb": 523
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 4836,
+            "kv_mb": 276,
+            "compute_mb": 272,
+            "projected_mb": 5584,
+            "headroom_mb": 556
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 4777,
+            "kv_mb": 276,
+            "compute_mb": 272,
+            "projected_mb": 5525,
+            "headroom_mb": 615
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4493,
+            "kv_mb": 249,
+            "compute_mb": 272,
+            "projected_mb": 5214,
+            "headroom_mb": 926
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 6,
+            "weights_mb": 4716,
+            "kv_mb": 166,
+            "compute_mb": 272,
+            "projected_mb": 5354,
+            "headroom_mb": 786
+          }
+        ],
+        "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4] at ctx 13312 (limited by card memory)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "chat",
+        "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "max",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 524288,
+          "max_basis": "gguf_train"
+        }
+      },
+      "min_ctx": 8192,
+      "max_ctx": 13312,
+      "trained_ctx": 524288,
+      "min_load": {
+        "case": {
+          "id": "bounds-k2-v2-20261027__compact",
+          "model": "k2-v2-instruct:70b",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "ctx": 13312,
+          "trained_ctx": 524288,
+          "target": "compact"
+        },
+        "max_validated_ctx": 13312,
+        "started_at": "2026-10-27T21:53:21+00:00",
+        "min_fit": {
+          "model": "k2-v2-instruct:70b",
+          "arch": "llama",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "n_ctx_train": 524288,
+          "weights_mb": 40760,
+          "host_mb": 1099,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "formula (no matched card-count load yet)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "45,10,10,9,7",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 45,
+              "weights_mb": 21938,
+              "kv_mb": 765,
+              "compute_mb": 192,
+              "projected_mb": 23468,
+              "headroom_mb": 1081
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 10,
+              "weights_mb": 4836,
+              "kv_mb": 170,
+              "compute_mb": 192,
+              "projected_mb": 5398,
+              "headroom_mb": 742
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 10,
+              "weights_mb": 4777,
+              "kv_mb": 170,
+              "compute_mb": 192,
+              "projected_mb": 5339,
+              "headroom_mb": 801
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4493,
+              "kv_mb": 153,
+              "compute_mb": 192,
+              "projected_mb": 5038,
+              "headroom_mb": 1102
+            },
+            {
+              "gpu": 4,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 6,
+              "weights_mb": 4716,
+              "kv_mb": 102,
+              "compute_mb": 192,
+              "projected_mb": 5210,
+              "headroom_mb": 930
+            }
+          ],
+          "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 524288,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 229.8,
+          "response": {
+            "profile": "k2-v2-instruct-70b-g0-1-2-3-4",
+            "model": "k2-v2-instruct:70b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "lease": "benchmarks-08dfe10bb09c421e9db7ae3089a35660",
+            "ctx": 8192,
+            "tensor_split": "45,10,10,9,7",
+            "estimate": {
+              "model": "k2-v2-instruct:70b",
+              "arch": "llama",
+              "gpus": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "n_ctx_train": 524288,
+              "weights_mb": 40760,
+              "host_mb": 1099,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "formula (no matched card-count load yet)",
+              "overhead_mb": [
+                573,
+                200,
+                200,
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "45,10,10,9,7",
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 45,
+                  "weights_mb": 21938,
+                  "kv_mb": 765,
+                  "compute_mb": 192,
+                  "projected_mb": 23468,
+                  "headroom_mb": 1081
+                },
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 10,
+                  "weights_mb": 4836,
+                  "kv_mb": 170,
+                  "compute_mb": 192,
+                  "projected_mb": 5398,
+                  "headroom_mb": 742
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 10,
+                  "weights_mb": 4777,
+                  "kv_mb": 170,
+                  "compute_mb": 192,
+                  "projected_mb": 5339,
+                  "headroom_mb": 801
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4493,
+                  "kv_mb": 153,
+                  "compute_mb": 192,
+                  "projected_mb": 5038,
+                  "headroom_mb": 1102
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 6,
+                  "weights_mb": 4716,
+                  "kv_mb": 102,
+                  "compute_mb": 192,
+                  "projected_mb": 5210,
+                  "headroom_mb": 930
+                }
+              ],
+              "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 524288,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 81,
+              "layers": 81,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 21938,
+                  "kv_mb": 765,
+                  "compute_mb": 70,
+                  "total_mb": 22773
+                },
+                {
+                  "gpu": 1,
+                  "model_mb": 4836,
+                  "kv_mb": 170,
+                  "compute_mb": 52,
+                  "total_mb": 5058
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4777,
+                  "kv_mb": 170,
+                  "compute_mb": 52,
+                  "total_mb": 4999
+                },
+                {
+                  "gpu": 3,
+                  "model_mb": 4493,
+                  "kv_mb": 153,
+                  "compute_mb": 52,
+                  "total_mb": 4699
+                },
+                {
+                  "gpu": 4,
+                  "model_mb": 4716,
+                  "kv_mb": 102,
+                  "compute_mb": 52,
+                  "total_mb": 4870
+                }
+              ],
+              "host_mb": 1123,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 5066,
+                  "free_mb": 929
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 5007,
+                  "free_mb": 988
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6065,
+                  "projected_mb": 4706,
+                  "free_mb": 1289
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6065,
+                  "projected_mb": 4878,
+                  "free_mb": 1117
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "k2-v2-instruct-70b-g0-1-2-3-4",
+            "item": "unload-442f7fe16f78",
+            "state": "done",
+            "released": "benchmarks-08dfe10bb09c421e9db7ae3089a35660"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T21:57:16+00:00"
+      },
+      "max_load": {
+        "case": {
+          "id": "bounds-k2-v2-20261027__compact",
+          "model": "k2-v2-instruct:70b",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "ctx": 13312,
+          "trained_ctx": 524288,
+          "target": "compact"
+        },
+        "started_at": "2026-10-27T21:57:17+00:00",
+        "min_fit": {
+          "model": "k2-v2-instruct:70b",
+          "arch": "llama",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "n_ctx_train": 524288,
+          "weights_mb": 40760,
+          "host_mb": 1099,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (1 load, 5 cards)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "44,10,10,10,7",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 44,
+              "weights_mb": 21478,
+              "kv_mb": 748,
+              "compute_mb": 141,
+              "projected_mb": 22940,
+              "headroom_mb": 1609
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 10,
+              "weights_mb": 4777,
+              "kv_mb": 170,
+              "compute_mb": 141,
+              "projected_mb": 5288,
+              "headroom_mb": 852
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 10,
+              "weights_mb": 4836,
+              "kv_mb": 170,
+              "compute_mb": 141,
+              "projected_mb": 5347,
+              "headroom_mb": 793
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 10,
+              "weights_mb": 4954,
+              "kv_mb": 170,
+              "compute_mb": 141,
+              "projected_mb": 5464,
+              "headroom_mb": 676
+            },
+            {
+              "gpu": 4,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 6,
+              "weights_mb": 4716,
+              "kv_mb": 102,
+              "compute_mb": 141,
+              "projected_mb": 5159,
+              "headroom_mb": 981
+            }
+          ],
+          "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 524288,
+            "max_basis": "gguf_train"
+          }
+        },
+        "max_fit": {
+          "model": "k2-v2-instruct:70b",
+          "arch": "llama",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "n_ctx_train": 524288,
+          "weights_mb": 40760,
+          "host_mb": 1099,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (1 load, 5 cards)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 14336,
+          "ctx_limit": "card memory",
+          "per_slot_ctx": 14336,
+          "tensor_split": "45,10,10,9,7",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 45,
+              "weights_mb": 21938,
+              "kv_mb": 1339,
+              "compute_mb": 180,
+              "projected_mb": 24029,
+              "headroom_mb": 520
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 10,
+              "weights_mb": 4836,
+              "kv_mb": 298,
+              "compute_mb": 180,
+              "projected_mb": 5513,
+              "headroom_mb": 627
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 10,
+              "weights_mb": 4777,
+              "kv_mb": 298,
+              "compute_mb": 180,
+              "projected_mb": 5454,
+              "headroom_mb": 686
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4493,
+              "kv_mb": 268,
+              "compute_mb": 180,
+              "projected_mb": 5141,
+              "headroom_mb": 999
+            },
+            {
+              "gpu": 4,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 6,
+              "weights_mb": 4716,
+              "kv_mb": 178,
+              "compute_mb": 180,
+              "projected_mb": 5274,
+              "headroom_mb": 866
+            }
+          ],
+          "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4] at ctx 14336 (limited by card memory)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "max",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 524288,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 216.1,
+          "response": {
+            "profile": "k2-v2-instruct-70b-g0-1-2-3-4",
+            "model": "k2-v2-instruct:70b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "lease": "benchmarks-5b91980b98944373bee1df5685878978",
+            "ctx": 14336,
+            "tensor_split": "45,10,10,9,7",
+            "estimate": {
+              "model": "k2-v2-instruct:70b",
+              "arch": "llama",
+              "gpus": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
+              "n_ctx_train": 524288,
+              "weights_mb": 40760,
+              "host_mb": 1099,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (1 load, 5 cards)",
+              "overhead_mb": [
+                573,
+                200,
+                200,
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 14336,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 14336,
+              "tensor_split": "45,10,10,9,7",
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 45,
+                  "weights_mb": 21938,
+                  "kv_mb": 1339,
+                  "compute_mb": 180,
+                  "projected_mb": 24029,
+                  "headroom_mb": 520
+                },
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 10,
+                  "weights_mb": 4836,
+                  "kv_mb": 298,
+                  "compute_mb": 180,
+                  "projected_mb": 5513,
+                  "headroom_mb": 627
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 10,
+                  "weights_mb": 4777,
+                  "kv_mb": 298,
+                  "compute_mb": 180,
+                  "projected_mb": 5454,
+                  "headroom_mb": 686
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4493,
+                  "kv_mb": 268,
+                  "compute_mb": 180,
+                  "projected_mb": 5141,
+                  "headroom_mb": 999
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 6,
+                  "weights_mb": 4716,
+                  "kv_mb": 178,
+                  "compute_mb": 180,
+                  "projected_mb": 5274,
+                  "headroom_mb": 866
+                }
+              ],
+              "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4] at ctx 14336 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 524288,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 14336,
+              "offloaded": 81,
+              "layers": 81,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 21938,
+                  "kv_mb": 1339,
+                  "compute_mb": 97,
+                  "total_mb": 23374
+                },
+                {
+                  "gpu": 1,
+                  "model_mb": 4836,
+                  "kv_mb": 298,
+                  "compute_mb": 79,
+                  "total_mb": 5213
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4777,
+                  "kv_mb": 298,
+                  "compute_mb": 79,
+                  "total_mb": 5154
+                },
+                {
+                  "gpu": 3,
+                  "model_mb": 4493,
+                  "kv_mb": 268,
+                  "compute_mb": 79,
+                  "total_mb": 4841
+                },
+                {
+                  "gpu": 4,
+                  "model_mb": 4716,
+                  "kv_mb": 178,
+                  "compute_mb": 79,
+                  "total_mb": 4974
+                }
+              ],
+              "host_mb": 1126,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 5220,
+                  "free_mb": 775
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 5161,
+                  "free_mb": 833
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6065,
+                  "projected_mb": 4848,
+                  "free_mb": 1147
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6065,
+                  "projected_mb": 4981,
+                  "free_mb": 1013
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "k2-v2-instruct-70b-g0-1-2-3-4",
+            "item": "unload-5393377782f7",
+            "state": "done",
+            "released": "benchmarks-5b91980b98944373bee1df5685878978"
+          }
+        },
+        "error": null,
+        "suggested_ctx": 14336,
+        "planned_ctx": 13312,
+        "plan_delta": 1024,
+        "reaches_trained": false,
+        "finished_at": "2026-10-27T22:00:58+00:00"
+      },
+      "finished_at": "2026-10-27T22:00:58+00:00"
+    },
+    "ceiling": {
+      "status": "passed",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_at": "2026-10-27T22:00:58+00:00",
+      "min_fit": {
+        "model": "k2-v2-instruct:70b",
+        "arch": "llama",
+        "gpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "n_ctx_train": 524288,
+        "weights_mb": 40760,
+        "host_mb": 1099,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          573,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": "40,9,9,9,8,6",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 40,
+            "weights_mb": 19579,
+            "kv_mb": 680,
+            "compute_mb": 192,
+            "projected_mb": 21024,
+            "headroom_mb": 3525
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4317,
+            "kv_mb": 153,
+            "compute_mb": 192,
+            "projected_mb": 4862,
+            "headroom_mb": 1278
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4317,
+            "kv_mb": 153,
+            "compute_mb": 192,
+            "projected_mb": 4862,
+            "headroom_mb": 1278
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4317,
+            "kv_mb": 153,
+            "compute_mb": 192,
+            "projected_mb": 4862,
+            "headroom_mb": 1278
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 8,
+            "weights_mb": 4033,
+            "kv_mb": 136,
+            "compute_mb": 192,
+            "projected_mb": 4561,
+            "headroom_mb": 1579
+          },
+          {
+            "gpu": 5,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 5,
+            "weights_mb": 4197,
+            "kv_mb": 85,
+            "compute_mb": 192,
+            "projected_mb": 4674,
+            "headroom_mb": 1466
+          }
+        ],
+        "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4, 5] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "chat",
+        "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "min",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 524288,
+          "max_basis": "gguf_train"
+        }
+      },
+      "max_fit": {
+        "model": "k2-v2-instruct:70b",
+        "arch": "llama",
+        "gpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "n_ctx_train": 524288,
+        "weights_mb": 40760,
+        "host_mb": 1099,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          573,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 30464,
+        "ctx_limit": "card memory",
+        "per_slot_ctx": 30464,
+        "tensor_split": "41,9,9,9,8,5",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 41,
+            "weights_mb": 20039,
+            "kv_mb": 2592,
+            "compute_mb": 540,
+            "projected_mb": 23744,
+            "headroom_mb": 805
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4317,
+            "kv_mb": 569,
+            "compute_mb": 540,
+            "projected_mb": 5626,
+            "headroom_mb": 514
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4317,
+            "kv_mb": 569,
+            "compute_mb": 540,
+            "projected_mb": 5626,
+            "headroom_mb": 514
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4317,
+            "kv_mb": 569,
+            "compute_mb": 540,
+            "projected_mb": 5626,
+            "headroom_mb": 514
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 8,
+            "weights_mb": 4092,
+            "kv_mb": 506,
+            "compute_mb": 540,
+            "projected_mb": 5338,
+            "headroom_mb": 802
+          },
+          {
+            "gpu": 5,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 4,
+            "weights_mb": 3678,
+            "kv_mb": 253,
+            "compute_mb": 540,
+            "projected_mb": 4671,
+            "headroom_mb": 1469
+          }
+        ],
+        "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4, 5] at ctx 30464 (limited by card memory)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "chat",
+        "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "max",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 524288,
+          "max_basis": "gguf_train"
+        }
+      },
+      "min_ctx": 8192,
+      "max_ctx": 30464,
+      "trained_ctx": 524288,
+      "min_load": {
+        "case": {
+          "id": "bounds-k2-v2-20261027__ceiling",
+          "model": "k2-v2-instruct:70b",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "ctx": 30464,
+          "trained_ctx": 524288,
+          "target": "ceiling"
+        },
+        "max_validated_ctx": 30464,
+        "started_at": "2026-10-27T22:01:00+00:00",
+        "min_fit": {
+          "model": "k2-v2-instruct:70b",
+          "arch": "llama",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "n_ctx_train": 524288,
+          "weights_mb": 40760,
+          "host_mb": 1099,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "formula (no matched card-count load yet)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "40,9,9,9,8,6",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 40,
+              "weights_mb": 19579,
+              "kv_mb": 680,
+              "compute_mb": 192,
+              "projected_mb": 21024,
+              "headroom_mb": 3525
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 153,
+              "compute_mb": 192,
+              "projected_mb": 4862,
+              "headroom_mb": 1278
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 153,
+              "compute_mb": 192,
+              "projected_mb": 4862,
+              "headroom_mb": 1278
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 153,
+              "compute_mb": 192,
+              "projected_mb": 4862,
+              "headroom_mb": 1278
+            },
+            {
+              "gpu": 4,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 8,
+              "weights_mb": 4033,
+              "kv_mb": 136,
+              "compute_mb": 192,
+              "projected_mb": 4561,
+              "headroom_mb": 1579
+            },
+            {
+              "gpu": 5,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4197,
+              "kv_mb": 85,
+              "compute_mb": 192,
+              "projected_mb": 4674,
+              "headroom_mb": 1466
+            }
+          ],
+          "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4, 5] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 524288,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 216.6,
+          "response": {
+            "profile": "k2-v2-instruct-70b-g0-1-2-3-4-5",
+            "model": "k2-v2-instruct:70b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "lease": "benchmarks-de0ef40ce42847da8b849dfb9342c87e",
+            "ctx": 8192,
+            "tensor_split": "40,9,9,9,8,6",
+            "estimate": {
+              "model": "k2-v2-instruct:70b",
+              "arch": "llama",
+              "gpus": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "n_ctx_train": 524288,
+              "weights_mb": 40760,
+              "host_mb": 1099,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "formula (no matched card-count load yet)",
+              "overhead_mb": [
+                573,
+                200,
+                200,
+                200,
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "40,9,9,9,8,6",
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 40,
+                  "weights_mb": 19579,
+                  "kv_mb": 680,
+                  "compute_mb": 192,
+                  "projected_mb": 21024,
+                  "headroom_mb": 3525
+                },
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4317,
+                  "kv_mb": 153,
+                  "compute_mb": 192,
+                  "projected_mb": 4862,
+                  "headroom_mb": 1278
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4317,
+                  "kv_mb": 153,
+                  "compute_mb": 192,
+                  "projected_mb": 4862,
+                  "headroom_mb": 1278
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4317,
+                  "kv_mb": 153,
+                  "compute_mb": 192,
+                  "projected_mb": 4862,
+                  "headroom_mb": 1278
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 8,
+                  "weights_mb": 4033,
+                  "kv_mb": 136,
+                  "compute_mb": 192,
+                  "projected_mb": 4561,
+                  "headroom_mb": 1579
+                },
+                {
+                  "gpu": 5,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 5,
+                  "weights_mb": 4197,
+                  "kv_mb": 85,
+                  "compute_mb": 192,
+                  "projected_mb": 4674,
+                  "headroom_mb": 1466
+                }
+              ],
+              "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4, 5] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 524288,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 81,
+              "layers": 81,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 19579,
+                  "kv_mb": 680,
+                  "compute_mb": 70,
+                  "total_mb": 20329
+                },
+                {
+                  "gpu": 1,
+                  "model_mb": 4317,
+                  "kv_mb": 153,
+                  "compute_mb": 52,
+                  "total_mb": 4522
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4317,
+                  "kv_mb": 153,
+                  "compute_mb": 52,
+                  "total_mb": 4522
+                },
+                {
+                  "gpu": 3,
+                  "model_mb": 4317,
+                  "kv_mb": 153,
+                  "compute_mb": 52,
+                  "total_mb": 4522
+                },
+                {
+                  "gpu": 4,
+                  "model_mb": 4033,
+                  "kv_mb": 136,
+                  "compute_mb": 52,
+                  "total_mb": 4222
+                },
+                {
+                  "gpu": 5,
+                  "model_mb": 4197,
+                  "kv_mb": 85,
+                  "compute_mb": 52,
+                  "total_mb": 4335
+                }
+              ],
+              "host_mb": 1123,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 4530,
+                  "free_mb": 1465
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 4530,
+                  "free_mb": 1465
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6065,
+                  "projected_mb": 4530,
+                  "free_mb": 1465
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6065,
+                  "projected_mb": 4229,
+                  "free_mb": 1766
+                },
+                {
+                  "gpu": 5,
+                  "total_mb": 6065,
+                  "projected_mb": 4342,
+                  "free_mb": 1653
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "k2-v2-instruct-70b-g0-1-2-3-4-5",
+            "item": "unload-036554d8810c",
+            "state": "done",
+            "released": "benchmarks-de0ef40ce42847da8b849dfb9342c87e"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T22:04:41+00:00"
+      },
+      "max_load": {
+        "case": {
+          "id": "bounds-k2-v2-20261027__ceiling",
+          "model": "k2-v2-instruct:70b",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "ctx": 30464,
+          "trained_ctx": 524288,
+          "target": "ceiling"
+        },
+        "started_at": "2026-10-27T22:04:42+00:00",
+        "min_fit": {
+          "model": "k2-v2-instruct:70b",
+          "arch": "llama",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "n_ctx_train": 524288,
+          "weights_mb": 40760,
+          "host_mb": 1099,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (1 load, 6 cards)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "40,9,9,9,8,6",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 40,
+              "weights_mb": 19579,
+              "kv_mb": 680,
+              "compute_mb": 141,
+              "projected_mb": 20973,
+              "headroom_mb": 3576
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 153,
+              "compute_mb": 141,
+              "projected_mb": 4811,
+              "headroom_mb": 1329
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 153,
+              "compute_mb": 141,
+              "projected_mb": 4811,
+              "headroom_mb": 1329
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 153,
+              "compute_mb": 141,
+              "projected_mb": 4811,
+              "headroom_mb": 1329
+            },
+            {
+              "gpu": 4,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 8,
+              "weights_mb": 4033,
+              "kv_mb": 136,
+              "compute_mb": 141,
+              "projected_mb": 4510,
+              "headroom_mb": 1630
+            },
+            {
+              "gpu": 5,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4197,
+              "kv_mb": 85,
+              "compute_mb": 141,
+              "projected_mb": 4623,
+              "headroom_mb": 1517
+            }
+          ],
+          "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4, 5] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 524288,
+            "max_basis": "gguf_train"
+          }
+        },
+        "max_fit": {
+          "model": "k2-v2-instruct:70b",
+          "arch": "llama",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "n_ctx_train": 524288,
+          "weights_mb": 40760,
+          "host_mb": 1099,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (1 load, 6 cards)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 40704,
+          "ctx_limit": "card memory",
+          "per_slot_ctx": 40704,
+          "tensor_split": "40,9,9,9,8,6",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 40,
+              "weights_mb": 19579,
+              "kv_mb": 3379,
+              "compute_mb": 345,
+              "projected_mb": 23875,
+              "headroom_mb": 674
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 760,
+              "compute_mb": 345,
+              "projected_mb": 5622,
+              "headroom_mb": 518
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 760,
+              "compute_mb": 345,
+              "projected_mb": 5622,
+              "headroom_mb": 518
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4317,
+              "kv_mb": 760,
+              "compute_mb": 345,
+              "projected_mb": 5622,
+              "headroom_mb": 518
+            },
+            {
+              "gpu": 4,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 8,
+              "weights_mb": 4033,
+              "kv_mb": 676,
+              "compute_mb": 345,
+              "projected_mb": 5254,
+              "headroom_mb": 886
+            },
+            {
+              "gpu": 5,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4197,
+              "kv_mb": 422,
+              "compute_mb": 345,
+              "projected_mb": 5164,
+              "headroom_mb": 976
+            }
+          ],
+          "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4, 5] at ctx 40704 (limited by card memory)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "max",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 524288,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 213.2,
+          "response": {
+            "profile": "k2-v2-instruct-70b-g0-1-2-3-4-5",
+            "model": "k2-v2-instruct:70b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "lease": "benchmarks-70e14a63aeda4c02a08defe160284b77",
+            "ctx": 40704,
+            "tensor_split": "40,9,9,9,8,6",
+            "estimate": {
+              "model": "k2-v2-instruct:70b",
+              "arch": "llama",
+              "gpus": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "n_ctx_train": 524288,
+              "weights_mb": 40760,
+              "host_mb": 1099,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (1 load, 6 cards)",
+              "overhead_mb": [
+                573,
+                200,
+                200,
+                200,
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 40704,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 40704,
+              "tensor_split": "40,9,9,9,8,6",
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 40,
+                  "weights_mb": 19579,
+                  "kv_mb": 3379,
+                  "compute_mb": 345,
+                  "projected_mb": 23875,
+                  "headroom_mb": 674
+                },
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4317,
+                  "kv_mb": 760,
+                  "compute_mb": 345,
+                  "projected_mb": 5622,
+                  "headroom_mb": 518
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4317,
+                  "kv_mb": 760,
+                  "compute_mb": 345,
+                  "projected_mb": 5622,
+                  "headroom_mb": 518
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4317,
+                  "kv_mb": 760,
+                  "compute_mb": 345,
+                  "projected_mb": 5622,
+                  "headroom_mb": 518
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 8,
+                  "weights_mb": 4033,
+                  "kv_mb": 676,
+                  "compute_mb": 345,
+                  "projected_mb": 5254,
+                  "headroom_mb": 886
+                },
+                {
+                  "gpu": 5,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 5,
+                  "weights_mb": 4197,
+                  "kv_mb": 422,
+                  "compute_mb": 345,
+                  "projected_mb": 5164,
+                  "headroom_mb": 976
+                }
+              ],
+              "reason": "fits: k2-v2-instruct:70b on GPU [0, 1, 2, 3, 4, 5] at ctx 40704 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 524288,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 40704,
+              "offloaded": 81,
+              "layers": 81,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 19579,
+                  "kv_mb": 3379,
+                  "compute_mb": 213,
+                  "total_mb": 23171
+                },
+                {
+                  "gpu": 1,
+                  "model_mb": 4317,
+                  "kv_mb": 760,
+                  "compute_mb": 195,
+                  "total_mb": 5272
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4317,
+                  "kv_mb": 760,
+                  "compute_mb": 195,
+                  "total_mb": 5272
+                },
+                {
+                  "gpu": 3,
+                  "model_mb": 4317,
+                  "kv_mb": 760,
+                  "compute_mb": 195,
+                  "total_mb": 5272
+                },
+                {
+                  "gpu": 4,
+                  "model_mb": 4033,
+                  "kv_mb": 676,
+                  "compute_mb": 195,
+                  "total_mb": 4904
+                },
+                {
+                  "gpu": 5,
+                  "model_mb": 4197,
+                  "kv_mb": 422,
+                  "compute_mb": 195,
+                  "total_mb": 4815
+                }
+              ],
+              "host_mb": 1139,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 5280,
+                  "free_mb": 715
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 5280,
+                  "free_mb": 715
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6065,
+                  "projected_mb": 5280,
+                  "free_mb": 715
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6065,
+                  "projected_mb": 4912,
+                  "free_mb": 1083
+                },
+                {
+                  "gpu": 5,
+                  "total_mb": 6065,
+                  "projected_mb": 4822,
+                  "free_mb": 1172
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "k2-v2-instruct-70b-g0-1-2-3-4-5",
+            "item": "unload-ce564b61f16c",
+            "state": "done",
+            "released": "benchmarks-70e14a63aeda4c02a08defe160284b77"
+          }
+        },
+        "error": null,
+        "suggested_ctx": 40704,
+        "planned_ctx": 30464,
+        "plan_delta": 10240,
+        "reaches_trained": false,
+        "finished_at": "2026-10-27T22:08:21+00:00"
+      },
+      "finished_at": "2026-10-27T22:08:21+00:00"
+    }
+  }
+}
