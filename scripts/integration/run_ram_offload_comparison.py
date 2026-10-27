@@ -21,7 +21,7 @@ MODEL = Path("/data/model-hotset/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf")
 PORT = 18123
 NAME = "ram-offload-comparison"
 MODES = (
-    ("cpu_ram", "0", "0"),
+    ("cpu_ram", "-1", "0"),
     ("1060_partial_20", "1", "20"),
     ("1060_full", "1", "all"),
     ("3090_full", "0", "all"),
@@ -42,6 +42,11 @@ def write(path: Path, obj: dict) -> None:
     os.replace(tmp, path)
 
 
+def gpu_memory_mib() -> list[int]:
+    output = run("nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits").stdout
+    return [int(line.strip()) for line in output.splitlines()]
+
+
 def request(path: str, body: dict | None = None, timeout: float = 30) -> dict:
     payload = None if body is None else json.dumps(body).encode()
     req = urllib.request.Request(f"http://127.0.0.1:{PORT}{path}", data=payload,
@@ -54,7 +59,8 @@ def ready(timeout: float = 240) -> None:
     end = time.monotonic() + timeout
     while time.monotonic() < end:
         if run("docker", "inspect", "-f", "{{.State.Running}}", NAME, check=False).stdout.strip() != "true":
-            raise RuntimeError("llama-server exited before ready")
+            log_tail = run("docker", "logs", NAME, check=False).stderr[-1200:]
+            raise RuntimeError(f"llama-server exited before ready: {log_tail}")
         try:
             if request("/health", timeout=2).get("status") == "ok":
                 return
@@ -67,7 +73,10 @@ def ready(timeout: float = 240) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--only-mode", choices=[mode for mode, _, _ in MODES],
+                    help="run only one placement, for a targeted repeat")
     args = ap.parse_args()
+    modes = tuple(mode for mode in MODES if not args.only_mode or mode[0] == args.only_mode)
     args.output.mkdir(parents=True, exist_ok=True)
     if not MODEL.is_file():
         raise FileNotFoundError(MODEL)
@@ -79,32 +88,33 @@ def main() -> int:
         raise RuntimeError(f"unexpected power caps {actual}")
     state: dict = {"model": str(MODEL), "image": IMAGE, "started_at": stamp(),
                    "context": 32768, "batch": 64, "threads": 4,
-                   "power_caps_w": actual, "modes": {}}
+                   "power_caps_w": actual, "baseline_gpu_memory_mib": gpu_memory_mib(), "modes": {}}
     write(args.output / "checkpoint.json", state)
     prompt = ("Explain how a B-tree index serves searches, inserts, and deletes in a database. "
               "Include what happens during node splits and merges. " * 55)
     body = {"prompt": prompt, "n_predict": 128, "temperature": 0,
             "cache_prompt": False, "ignore_eos": True, "stream": False}
-    for mode, visible, layers in MODES:
+    for mode, visible, layers in modes:
         row: dict = {"started_at": stamp(), "gpu_visible": visible,
                      "gpu_layers_requested": layers, "status": "running"}
         state["modes"][mode] = row
         write(args.output / "checkpoint.json", state)
         run("docker", "rm", "-f", NAME, check=False)
-        cmd = ["docker", "run", "--rm", "--detach", "--gpus", "all", "--network", "host",
+        cmd = ["docker", "run", "--detach", "--gpus", "all", "--network", "host",
                "--name", NAME, "--env", f"CUDA_VISIBLE_DEVICES={visible}",
                "--volume", f"{MODEL.parent}:/models:ro", "--entrypoint", "/opt/llama/bin/llama-server",
                IMAGE, "--model", f"/models/{MODEL.name}", "--host", "127.0.0.1",
                "--port", str(PORT), "--ctx-size", "32768", "--batch-size", "64",
                "--ubatch-size", "64", "--parallel", "1", "--threads", "4",
-               "--threads-batch", "4", "--no-mmap", "--gpu-layers", layers,
-               "--slot-prompt-similarity", "0"]
+               "--threads-batch", "4", "--load-mode", "none", "--gpu-layers", layers,
+               "--slot-prompt-similarity", "0", "--log-verbosity", "4"]
         try:
             t0 = time.monotonic()
             launched = run(*cmd)
             row["container_id"] = launched.stdout.strip()[:12]
             ready()
             row["load_seconds"] = round(time.monotonic() - t0, 2)
+            row["gpu_memory_after_load_mib"] = gpu_memory_mib()
             row["server_log"] = str(args.output / f"{mode}.log")
             for repeat in (1, 2):
                 t1 = time.monotonic()
@@ -132,7 +142,7 @@ def main() -> int:
             if row["status"] != "passed":
                 break
     state["finished_at"] = stamp()
-    state["status"] = ("passed" if len(state["modes"]) == len(MODES) and
+    state["status"] = ("passed" if len(state["modes"]) == len(modes) and
                        all(row["status"] == "passed" for row in state["modes"].values()) else "failed")
     write(args.output / "terminal.json", state)
     return 0 if state["status"] == "passed" else 1
