@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One lane: a card group (one GPU like 1, or several like 1+3) that takes models from a shared queue
-# file and runs Phases 2-4 for each, until the queue is empty. Several lanes share one queue, so each
+# file and runs Phases 3-6 for each, until the queue is empty. Several lanes share one queue, so each
 # group picks up the next model as soon as it frees up.
 # Loads go through the harness (llm-gateway rig manager, `rigctl load-model` over ssh): it checks the
 # model fits the group and picks the context and tensor split, the rig loads it and confirms every layer
@@ -10,14 +10,15 @@
 # that the lane renews while it runs, so a killed lane frees its cards on its own (llm-gateway
 # MANAGER.md, "Reservations"). A card still busy when a load starts (another holder finishing) is
 # waited for, reserved by the claim, up to LANE_LOAD_WAIT_S (default 3600 s).
-# LANE_STOP_AFTER=3 stops each model after Phase 3 (load, litmus, decode record): a quick check.
+# LANE_STOP_AFTER=5 stops each model after Phase 5 (load, litmus, decode record): a quick check.
 # LANE_RUN_SUFFIX (e.g. _r2) is appended to every run name, so a re-run after a settings fix starts fresh
 # instead of resuming the old run's checkpoints.
-# After the Phase 4 smoke the lane prints Phase 4.5 suggestions from the model's own results
+# After the Phase 6 smoke the lane prints Phase 7 suggestions from the model's own results
 # (suggest_p45.py: unreadable answers, their shape, the profile, failed litmus checks) and pauses: the
 # model stays loaded and the lane ends there, with the rest of the queue left in place. What comes next
-# (Phase 4.5, unload, the next model) is a separate decision (NEW_MODEL_INTEGRATION.md, Phase 4.5).
-# LANE_START_AT=4.5 runs the thinking A/B, for a model whose Phases 2-4 already ran.
+# (Phase 7, unload, the next model) is a separate decision (NEW_MODEL_INTEGRATION.md, Phase 7).
+# LANE_START_AT=7 runs the thinking A/B, for a model whose Phases 3-6 already ran.
+# Legacy selector values 4.5 and 3 remain accepted for old automation.
 # usage: worker_lane.sh <gpu-group> <queue-file>     e.g. worker_lane.sh 1+3 queue.txt
 set -uo pipefail
 GROUP=$1; QUEUE=$2
@@ -28,6 +29,7 @@ PORT=$((11434 + FIRST))            # the manager's port rule: 11434 + the lowest
 CLAIM="lane-$TAG"
 CLAIM_TTL=900                      # renewed every 300 s while the lane runs
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export LANE_PHASE_SCHEME=whole
 RX=/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments
 L=/mnt/shared/logs/benchmarks
 STAMP=$(date +%Y%m%d)
@@ -110,35 +112,36 @@ trap 'exit 143' TERM INT   # stop_all / operator: still run finish (model unload
 while MODEL=$(next_model) && [ -n "$MODEL" ]; do
   slug=$(echo "$MODEL" | tr ':.' '__' | tr -cd 'A-Za-z0-9_-')
   eval "$(python3 "$HERE/resolve_model.py" "$MODEL")"   # EXTRA, BASE_EXTRA (registry args); THINK_TOKS below
-  if [ "${LANE_START_AT:-2}" = "4.5" ]; then
-    say "== $MODEL: Phase 4.5 only (LANE_START_AT=4.5)"
+  if [ "${LANE_START_AT:-3}" = "7" ] || [ "${LANE_START_AT:-3}" = "4.5" ]; then
+    say "== $MODEL: Phase 7 only (LANE_START_AT=${LANE_START_AT})"
     if ! load "--reasoning off"; then say "LOAD FAILED $MODEL: $LOAD_ERR"; continue; fi
     THINK_TOKS=$(( CTX - 2048 < 4096 ? (CTX - 2048 < 1024 ? 1024 : CTX - 2048) : 4096 ))
     thinking_capable=$(thinking_template)
   else
-  say "== $MODEL: Phase 2 (registry args: ${EXTRA:-none})"
+  say "== $MODEL: Phase 3 (registry args: ${EXTRA:-none})"
   if ! load ""; then say "LOAD FAILED $MODEL: $LOAD_ERR"; continue; fi
   THINK_TOKS=$(( CTX - 2048 < 4096 ? (CTX - 2048 < 1024 ? 1024 : CTX - 2048) : 4096 ))
   say "loaded $PROFILE in ${LOAD_S}s: ctx $CTX split $SPLIT; vram $(nvidia-smi --query-gpu=memory.used --format=csv,noheader -i "$GPUS" | tr '\n' ' '); prompt tail $(prompt_tail)"
   thinking_capable=$(thinking_template)
   SMOKE_RUN="${slug}_w_smoke_v1${LANE_RUN_SUFFIX:-}"
   LITMUS="$L/phase3_${SMOKE_RUN}_litmus.txt"
-  say "Phase 3 litmus"; python3 "$HERE/litmus.py" "$PORT" | tee "$LITMUS" | sed "s/^/    /"
+  say "Phase 4 litmus"; python3 "$HERE/litmus.py" "$PORT" | tee "$LITMUS" | sed "s/^/    /"
+  say "Phase 5 runtime characterization"
   python3 "$HERE/runtime_char.py" "$MODEL" "$PORT" "$GPUS" "$LOAD_S" "harness load ($PROFILE), lane GPU $GPUS" \
     "$RX/${slug}_runtime_characterization_${STAMP}.json" image=llama-runtime:b11669 ctx_size="$CTX" \
     tensor_split="$SPLIT" extra_args="${EXTRA:-none}" | grep -E "generation_tokens_per_second|avg_power_w" | sed "s/^/    /"
-  if [ "${LANE_STOP_AFTER:-}" = "3" ]; then
+  if [ "${LANE_STOP_AFTER:-}" = "5" ] || [ "${LANE_STOP_AFTER:-}" = "3" ]; then
     unload
-    say "== $MODEL done (LANE_STOP_AFTER=3)"
+    say "== $MODEL done (LANE_STOP_AFTER=${LANE_STOP_AFTER})"
     continue
   fi
-  say "Phase 4 smoke"
+  say "Phase 6 smoke"
   "$HERE/phase4.sh" "$MODEL" "$SMOKE_RUN" "$PORT" | sed "s/^/    /"
-  say "Phase 4.5 suggestions (from this model's Phase 4)"
+  say "Phase 7 suggestions (from this model's Phase 6)"
   python3 "$HERE/suggest_p45.py" "$MODEL" "$SMOKE_RUN" --litmus "$LITMUS" \
     --thinking-template "$thinking_capable" 2>&1 | sed "s/^/    /"
-  # Breakpoint after Phase 4: leave the model loaded and end the lane; the next step is chosen separately.
-  say "== $MODEL PAUSED after Phase 4: $PROFILE stays loaded on GPU $GPUS (port $PORT)"
+  # Breakpoint after Phase 6: leave the model loaded and end the lane; the next step is chosen separately.
+  say "== $MODEL PAUSED after Phase 6: $PROFILE stays loaded on GPU $GPUS (port $PORT)"
   PROFILE=""
   break
   fi
@@ -146,7 +149,7 @@ while MODEL=$(next_model) && [ -n "$MODEL" ]; do
     for variant in off on; do
       # The registry's own reasoning flag is replaced: the harness appends this after the registry args.
       if ! load "--reasoning $variant"; then say "LOAD FAILED ($variant): $LOAD_ERR"; continue; fi
-      say "Phase 4.5 thinking $variant: $PROFILE loaded in ${LOAD_S}s, ctx $CTX, prompt tail $(prompt_tail)"
+      say "Phase 7 thinking $variant: $PROFILE loaded in ${LOAD_S}s, ctx $CTX, prompt tail $(prompt_tail)"
       if [ "$variant" = "on" ]; then
         reasoning "${slug}_w_p45_think${LANE_RUN_SUFFIX:-}" --tasks gsm8k,bbh --gen-kwargs "max_gen_toks=${THINK_TOKS},until=</s>"
       else
@@ -154,7 +157,7 @@ while MODEL=$(next_model) && [ -n "$MODEL" ]; do
       fi
     done
   else
-    say "Phase 4.5 thinking A/B skipped: template has no thinking control"
+    say "Phase 7 thinking A/B skipped: template has no thinking control"
   fi
   unload
   say "== $MODEL done"

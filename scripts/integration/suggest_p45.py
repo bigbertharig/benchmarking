@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""Suggest Phase 4.5 experiments from a model's own Phase 4 results (NEW_MODEL_INTEGRATION.md, Phase 4.5).
+"""Suggest Phase 7 experiments from a model's Phase 6 smoke results (NEW_MODEL_INTEGRATION.md).
 
 usage: suggest_p45.py MODEL RUN_NAME [--litmus FILE] [--thinking-template yes|no] [--records FILE] [--history DIR]
 
-Phase 4.5 is an optional menu: a model tries only the options that bear on what its Phase 4 showed. This
+Phase 7 is an optional menu: a model tries only the options that bear on what its Phase 6 showed. This
 reads that evidence and prints one line per suggested experiment, with the evidence behind it:
   - the unreadable counts of the run's flexible reasoning rows (extract v5 and later),
   - what the answers of a task with many unreadable ones look like (empty, opening with JSON or a code
     fence, thinking tags, very long), from the run's logged samples,
   - the model's registry profile (a system prompt about output formats, thinking on by default),
-  - the Phase 3 litmus checks that failed (the lane's litmus output file).
+  - the Phase 4 litmus checks that failed (the lane's litmus output file).
 It suggests only; nothing is run. The lane itself runs the thinking on/off A/B when the template has a
-thinking control. Prints `NOTHING TO FIX` when Phase 4 showed no problem these checks can see.
+thinking control. Prints `NOTHING TO FIX` when the smoke showed no problem these checks can see.
+Historical lanes without LANE_PHASE_SCHEME=whole retain their original labels in output.
 """
 
 from __future__ import annotations
@@ -19,6 +20,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -166,8 +168,10 @@ def suggest(model: str, run: str, rows: dict, answers: dict[str, list[str]], pro
         out.append("NOTE thinking is on by default in the registry profile; the lane's thinking A/B measures "
                    "off against on (time per run matters as much as the score).")
     if not [line for line in out if line.startswith("SUGGEST")]:
-        out.insert(0, f"NOTHING TO FIX: Phase 4 of {run} shows no unreadable task and no failed litmus check; "
-                      f"Phase 4.5 is optional for {model}.")
+        smoke_phase, settings_phase = (("6", "7") if os.environ.get("LANE_PHASE_SCHEME") == "whole"
+                                       else ("4", "4.5"))
+        out.insert(0, f"NOTHING TO FIX: Phase {smoke_phase} of {run} shows no unreadable task and no failed litmus check; "
+                      f"Phase {settings_phase} is optional for {model}.")
     return out
 
 
