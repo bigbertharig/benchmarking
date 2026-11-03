@@ -17,6 +17,7 @@ Companion docs:
 - [MODEL_LIBRARY.md](MODEL_LIBRARY.md): picking a model, prompt methodology
 - [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md): per-model runtime notes
 - [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md): debugging narratives
+- [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md): measured host RAM planning limit and split-placement evidence; use its live headroom gate for experimental RAM offload
 - [docker/README.md](docker/README.md): the suites; [scripts/integration/README.md](scripts/integration/README.md): the lane tools
 - llm-gateway `docs/MANAGER.md`: model loads, fit, waits, runs (`rigctl`)
 

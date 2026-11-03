@@ -8,6 +8,19 @@ model quality scores are in [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL
 Addresses and host details: llm_orchestration `shared/workspace/local/inventory.md`; the rig hardware layer
 (guard, power caps, loads): llm_orchestration `shared/scripts/rig/README.md`.
 
+## Host RAM planning limit, 2026-11-03
+
+The rig has 31,476,852 KiB physical RAM (about 30.0 GiB, marketed as 32 GB). Its `earlyoom -m 10` guard acts when available memory falls to roughly 10% of total, so installed RAM is not an allocation budget. In an otherwise idle rig, the managed, GPU-free `probe_host_ram_budget.py` touched and retained anonymous pages at the following targets; swap-free space did not change:
+
+| Allocation target | Actual allocation | Lowest `MemAvailable` | Result |
+|---|---:|---:|---|
+| **26 GB decimal** | 24.21 GiB | **4.38 GiB** | Reached target, then released cleanly |
+| 26 GiB (27.92 GB decimal) | 26.00 GiB | 2.56 GiB | Briefly reached target, but crossed the 10% guard threshold; unsafe for a sustained load |
+
+**Plan at most 26 GB decimal (about 24.2 GiB) of new host-resident data on an idle rig**, then require at least **4 GiB `MemAvailable` after load and during work**, with no material swap growth. Leave more headroom when other services or jobs are active. This is a planning ceiling and a live admission check, not a promise that every model with a 26 GB file will fit: runtime buffers, pinned host allocations, KV state and file mappings also consume memory. A 25 GiB or 26 GiB allocation is a different, tighter target and should not be described as “25/26 GB” without units. Receipts: `results/runtime_experiments/host_ram_budget_26gb_decimal_20261103/` and `host_ram_budget_26g_20261103/`.
+
+The nominal capacity arithmetic is 54 GB across the 3090 Ti and five 1060s plus a 26 GB host-RAM planning budget, or **80 GB across distinct tiers**. It is not a single addressable 80 GB VRAM pool; placement and per-device buffers decide whether a model fits. Qwen3.8 Q2_0's 26.8 GiB ngram lookup alone exceeds the safe host-resident budget, so the tested lazy NVMe-backed placement remains necessary for that file.
+
 ## Strata GPU/RAM/SATA/NVMe placement, 2026-11-03
 
 On the 3090 Ti alone, the verified 66.4 GB Qwen3.8 Flash-Next Q2_0 pack loaded in both llama.cpp and Strata at 8K context. The basic llama.cpp partial-offload smoke put 24/49 layers on GPU 0, used 18,111 MiB VRAM, and decoded two 128-token outputs at 8.36/8.46 tok/s. It did not measure physical SSD reads. Strata 0.2.10/engine 0.1.56 used about 23,500 MiB VRAM in every setting below, with MTP/drafting off and one request slot. These are exploratory placements and different API request paths; the llama.cpp and Strata speeds are not a controlled engine A/B.
