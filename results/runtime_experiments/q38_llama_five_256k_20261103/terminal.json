@@ -1,0 +1,132 @@
+{
+    "model":  "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+    "image":  "llama-runtime:b11669",
+    "started_at":  "2026-11-03T19:33:45+00:00",
+    "context":  262144,
+    "batch":  64,
+    "threads":  4,
+    "kv_type":  "q8_0",
+    "depth_fractions":  "0.1,0.9",
+    "power_caps_w":  [
+                         350,
+                         100,
+                         100,
+                         100,
+                         100,
+                         100
+                     ],
+    "baseline_gpu_memory_mib":  [
+                                    19,
+                                    4,
+                                    4,
+                                    4,
+                                    4,
+                                    4
+                                ],
+    "host_before":  {
+                        "MemAvailable_kib":  29982276,
+                        "Cached_kib":  26879780,
+                        "SwapTotal_kib":  24127028,
+                        "SwapFree_kib":  23752936
+                    },
+    "nvme_read_bytes_before":  829076820992,
+    "modes":  {
+                  "five_gpus":  {
+                                    "started_at":  "2026-11-03T19:33:45+00:00",
+                                    "gpu_visible":  "0,1,2,3,4",
+                                    "gpu_layers_requested":  "all",
+                                    "status":  "partial",
+                                    "container_id":  "a4ec96b2fec3",
+                                    "load_seconds":  90.87,
+                                    "gpu_memory_after_load_mib":  [
+                                                                      21531,
+                                                                      5622,
+                                                                      5972,
+                                                                      5634,
+                                                                      5678,
+                                                                      4
+                                                                  ],
+                                    "host_after_load":  {
+                                                            "MemAvailable_kib":  28420108,
+                                                            "Cached_kib":  26977612,
+                                                            "SwapTotal_kib":  24127028,
+                                                            "SwapFree_kib":  23752972
+                                                        },
+                                    "nvme_read_bytes_after_load":  854691542016,
+                                    "server_log":  "results/runtime_experiments/q38_llama_five_256k_20261103/five_gpus.log",
+                                    "depth_probes":  [
+                                                         {
+                                                             "prompt_tokens":  26966,
+                                                             "completion_tokens":  71,
+                                                             "prompt_tokens_per_second":  96.86,
+                                                             "generation_tokens_per_second":  16.08,
+                                                             "time_to_first_token_seconds":  278.4,
+                                                             "wall_seconds":  282.8,
+                                                             "finish_reason":  "stop",
+                                                             "gpu_envelope":  [
+                                                                                  {
+                                                                                      "gpu":  0,
+                                                                                      "samples":  265,
+                                                                                      "avg_power_w":  138.7,
+                                                                                      "peak_power_w":  161.5,
+                                                                                      "peak_temperature_c":  58.0,
+                                                                                      "peak_memory_mb":  21579.0
+                                                                                  },
+                                                                                  {
+                                                                                      "gpu":  1,
+                                                                                      "samples":  265,
+                                                                                      "avg_power_w":  60.6,
+                                                                                      "peak_power_w":  114.11,
+                                                                                      "peak_temperature_c":  64.0,
+                                                                                      "peak_memory_mb":  5642.0
+                                                                                  },
+                                                                                  {
+                                                                                      "gpu":  2,
+                                                                                      "samples":  265,
+                                                                                      "avg_power_w":  54.9,
+                                                                                      "peak_power_w":  130.6,
+                                                                                      "peak_temperature_c":  65.0,
+                                                                                      "peak_memory_mb":  5992.0
+                                                                                  },
+                                                                                  {
+                                                                                      "gpu":  3,
+                                                                                      "samples":  265,
+                                                                                      "avg_power_w":  51.0,
+                                                                                      "peak_power_w":  115.15,
+                                                                                      "peak_temperature_c":  57.0,
+                                                                                      "peak_memory_mb":  5654.0
+                                                                                  },
+                                                                                  {
+                                                                                      "gpu":  4,
+                                                                                      "samples":  265,
+                                                                                      "avg_power_w":  51.7,
+                                                                                      "peak_power_w":  108.09,
+                                                                                      "peak_temperature_c":  58.0,
+                                                                                      "peak_memory_mb":  5698.0
+                                                                                  }
+                                                                              ],
+                                                             "target_fraction":  0.1,
+                                                             "recall_code":  "CUXI9470",
+                                                             "answer":  "CUXI9470",
+                                                             "answer_tail":  "CUXI9470",
+                                                             "raw_think_closed":  false,
+                                                             "final_answer":  "CUXI9470",
+                                                             "final_recall_ok":  true,
+                                                             "recall_ok":  true,
+                                                             "recall_in":  "answer",
+                                                             "nvme_read_bytes":  45195264,
+                                                             "host":  {
+                                                                          "MemAvailable_kib":  27636888,
+                                                                          "Cached_kib":  27061780,
+                                                                          "SwapTotal_kib":  24127028,
+                                                                          "SwapFree_kib":  23753140
+                                                                      }
+                                                         }
+                                                     ],
+                                    "second_depth_probe":  "stopped before completion to prioritize SSD/NVMe placement comparison"
+                                }
+              },
+    "status":  "partial",
+    "stop_reason":  "managed run-stop after first completed 10% marker probe; 90% request did not finish",
+    "finished_at":  "2026-11-03T19:40:26+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "chatcmpl-7a0b501f4a11404cac97b33d",
+  "object": "chat.completion",
+  "created": 1793735798,
+  "model": "qwen3.8-flash-next-q2_0",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": null,
+        "reasoning_content": "We need answer user's request. They repeated same prompt many times. Need explain B-tree index searches inserts deletes, node splits and merges. Need likely concise but thorough. Need final answer. Need maybe note repetition? Just answer once. Need ensure accurate: B-tree vs B+tree? Database indexes often B+tree. User says B-tree. We can explain B-tree (keys in internal nodes) and mention B+tree common. Need cover searches: descend root to leaf using key comparisons, O(log n). Inserts: search leaf, insert key; if full split node, promote median to parent, recursively split parent if full;"
+      },
+      "finish_reason": "length"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1483,
+    "completion_tokens": 128,
+    "total_tokens": 1611,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 1483,
+    "prompt_ms": 9741.6,
+    "prompt_per_token_ms": 6.569,
+    "prompt_per_second": 152.2,
+    "predicted_n": 128,
+    "predicted_ms": 1895.9,
+    "predicted_per_token_ms": 14.812,
+    "predicted_per_second": 67.5,
+    "draft_n": 9,
+    "draft_n_accepted": 2
+  }
+}

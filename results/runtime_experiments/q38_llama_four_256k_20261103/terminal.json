@@ -1,0 +1,46 @@
+{
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-11-03T19:30:15+00:00",
+  "context": 262144,
+  "batch": 64,
+  "threads": 4,
+  "kv_type": "q8_0",
+  "depth_fractions": "0.1,0.9",
+  "power_caps_w": [
+    350,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "baseline_gpu_memory_mib": [
+    19,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "host_before": {
+    "MemAvailable_kib": 29981980,
+    "Cached_kib": 25977760,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23752796
+  },
+  "nvme_read_bytes_before": 793426969600,
+  "modes": {
+    "four_gpus": {
+      "started_at": "2026-11-03T19:30:15+00:00",
+      "gpu_visible": "0,1,2,3",
+      "gpu_layers_requested": "all",
+      "status": "failed",
+      "container_id": "cdfa2e06769b",
+      "error": "RuntimeError: llama-server exited before ready: mory\n1.28.312.692 E ggml_gallocr_reserve_n_impl: failed to allocate CUDA1 buffer of size 826912896\n1.28.312.693 E graph_reserve: failed to allocate compute buffers\n1.28.312.706 W sched_reserve: compute buffer allocation failed, retrying without pipeline parallelism\n1.28.335.727 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 563.07 MiB on device 1: cudaMalloc failed: out of memory\n1.28.335.732 E ggml_gallocr_reserve_n_impl: failed to allocate CUDA1 buffer of size 590419840\n1.28.335.734 E graph_reserve: failed to allocate compute buffers\n1.28.353.272 E llama_init_from_model: failed to initialize the context: failed to allocate compute pp buffers\n1.28.353.277 E cmn  common_init_: failed to create context with model '/models/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf'\n1.28.353.278 E cmn  common_init_: failed to create context with model '/models/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf'\n1.28.353.279 E srv    load_model: failed to create_context with model '/models/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf'\n1.28.353.282 I srv    operator(): operator(): cleaning up before exit...\n1.28.353.648 E srv  llama_server: exiting due to model loading error\n",
+      "finished_at": "2026-11-03T19:31:46+00:00"
+    }
+  },
+  "finished_at": "2026-11-03T19:31:46+00:00",
+  "status": "failed"
+}

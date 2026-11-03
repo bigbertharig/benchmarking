@@ -1,6 +1,6 @@
 # Memory-tier experiments and Strata comparisons
 
-Status: Qwen3.6 UD-Q4_K_XL placement sweep and Qwen3.8 Flash-Next Q2_0 download, llama.cpp smoke, and Strata GPU/RAM/NVMe placement tests completed on 2026-11-03 UTC. Both model files were SHA-256 verified on rig NVMe. The Strata 0.2.10 control and signed CUDA13 engine 0.1.56 were used. GPU 0 was leased per run and released after each engine stopped. These are inference-engine experiments, not harness tests.
+Status: Qwen3.6 UD-Q4_K_XL placement sweep; Qwen3.8 Flash-Next Q2_0 download, 256K Strata recall, llama.cpp GPU splits, and matched SATA SSD/NVMe expert-file comparisons completed on 2026-11-03 UTC. Both model files were SHA-256 verified on rig NVMe; the temporary SATA pack copy was separately verified. The Strata 0.2.10 control and signed CUDA13 engine 0.1.56 were used. GPUs were leased per run and released after each engine stopped. These are inference-engine experiments, not harness tests.
 
 ## Existing evidence and the comparison trap
 
@@ -68,6 +68,31 @@ The engine logs confirm the requested 12/8/4/0.1 GiB pinned expert copies and in
 
 The clear measured tradeoff is **host RAM released versus cold-request SSD cost**. Warm requests were buffered substantially by GPU expert cache, OS page cache, and prompt reuse; the 512-token result does not imply that SSD-only experts stay fast across diverse conversations or concurrent work. A follow-up could use distinct prompts, longer outputs, cache-state controls, and no competing 1060 load for a production performance claim. Do not compare Qwen3.8 output quality or speed directly to Qwen3.6 on this evidence.
 
+### Qwen3.8 long context and GPU splitting, 2026-11-03 UTC
+
+The managed 3090-only Strata `strata-q38-ctx256k-g0-20261103` load used an 8 GiB resident expert budget, int8 KV, one slot and 262,144 configured context. It reached ready in 79.99 s, used 23,527 MiB GPU memory, left about 17.8 GiB host `MemAvailable`, and stopped cleanly. The follow-up `strata-q38-depth10-90-g0-20261103` reused the established marker/filler depth probe: the final answer contained the marker at 26,943 and 251,864 prompt tokens. The latter is about 96% of configured context because filler tokenization overshot the nominal 90% target. Wall time was 40.01 and 115.47 s; physical NVMe read deltas were 12.60 and 0.54 GB. The first request warmed the file cache before the second, and the two lengths use different prefill behavior, so the elapsed times are not a clean marginal cost per context token. Receipts: `results/runtime_experiments/strata_q38_ctx256k_g0_20261103/` and `strata_q38_depth10_90_g0_20261103/`.
+
+The same Q2_0 GGUF under llama.cpp, 8K context, all 49 main layers on GPU, produced 128-token decode rates of 23.14/23.33 tok/s on GPU 0+1+2+3; 20.81/21.41 on GPU 0+1+2+3+4; and 19.77/19.68 on all six cards. The larger splits were slower in this short-prompt test. Each run still CPU-mapped the 27,465.95 MiB ngram lookup from the NVMe GGUF, so full GPU layer offload is not proof of zero NVMe dependence. The warm request's physical NVMe reads were negligible. Receipts: `results/runtime_experiments/q38_llama_four_8k_20261103/`, `q38_llama_five_8k_20261103/`, and `q38_llama_all_8k_20261103/`. The four-GPU 262,144-context, q8_0 KV attempt failed during llama.cpp CUDA compute-buffer allocation on GPU 1; that failure is preserved in `q38_llama_four_256k_20261103/terminal.json` and is a capacity result, not a zero-speed measurement.
+
+The SATA SSD versus NVMe comparison should keep the 3090, model GGUF, context, resident RAM budget, prompt, output cap and Strata engine fixed. Copy only the prepared `experts.bin` to the rig's SATA root filesystem in a separate Strata data directory, with the remaining pack files linked to the original NVMe copy. The GGUF and ngram table stay on NVMe in both arms. Record `/sys/block/sda/stat` and `/sys/block/nvme0n1/stat` separately and verify the engine opens the chosen pack path. Call the result an **expert-file storage comparison**, since it does not move all model data. Preserve the original pack and delete the temporary SATA copy after receipts are validated; ensure root filesystem headroom before copying.
+
+The five-GPU 262,144-context llama.cpp attempt did load all 49 main layers with q8_0 KV. Its completed 10% probe recalled the marker at 26,966 prompt tokens; wall time was 282.8 s, prompt processing 96.86 tok/s, and generation 16.08 tok/s for 71 tokens. The 90% request was stopped while incomplete, so its partial receipt does **not** establish near-full-context recall on this placement. See `results/runtime_experiments/q38_llama_five_256k_20261103/terminal.json`. Its model-layer GPU buffers were 18,291 MiB on the 3090 and 4,114–4,407 MiB on each 1060; loaded `nvidia-smi` usage was 21,531/5,622/5,972/5,634/5,678 MiB across the five cards. The ngram lookup remained CPU mapped from NVMe.
+
+### Matched SATA SSD versus NVMe expert-file comparison
+
+The 33,973,862,400-byte `experts.bin` copy on `/dev/sda2` passed SHA-256 against the NVMe source (`3cf34bc125ef2a2e3e04ef47e5ad9d760b4109f19c4f36b56b19df6bfde715bd`). `strata_q38_sata_pack_copy_20261103.json` records the copy, and each Strata terminal receipt records the resolved expert path and its filesystem device. The model GGUF, ngram lookup, other linked pack files and engine stayed on NVMe in both arms. The SATA copy was removed after both test receipts passed; root free space returned from 6.9 GB to 39 GB. This tests the **expert file** storage tier, not moving the entire model.
+
+Each managed run used GPU 0 only, 8,192 context, int8 KV, one slot, MTP/drafting off, the same three chat requests (128, 128, 512 output caps), and targeted `POSIX_FADV_DONTNEED` on the chosen expert file before launch. The first request in each process is the most storage-sensitive. `/sys/block/nvme0n1/stat` and `/sys/block/sda/stat` were sampled per request; the target drive carried the large read delta in every cold request, while the other drive read at most 0.01 GB. No other GPU workload was running. The table reports one run per setting, so it is evidence for this rig and prompt, not a population estimate.
+
+| Resident expert RAM | Expert file | First 128-token wall | Physical target-drive read | Warm 128-token wall | 512-token wall |
+|---|---|---:|---:|---:|---:|
+| 8 GiB | NVMe | 11.641 s | 4.03 GB | 1.386 s | 6.209 s |
+| 8 GiB | SATA SSD | 15.245 s | 4.04 GB | 1.459 s | 5.471 s |
+| 0.1 GiB | NVMe | 22.160 s | 8.71 GB | 1.798 s | 7.225 s |
+| 0.1 GiB | SATA SSD | 30.310 s | 8.63 GB | 1.932 s | 6.531 s |
+
+The cold SATA arm was 31% slower at 8 GiB and 37% slower at 0.1 GiB than the matched NVMe arm. The warm 512-token requests do not preserve that order because both GPU and OS caches reduce physical reads, and this was a sequential one-run comparison. There is no measured benefit to using SATA for this model on the present rig; NVMe is faster when experts actually miss cache. Raw receipts and logs: `results/runtime_experiments/strata_q38_nvme8_matched_20261103/`, `strata_q38_sata8_matched_20261103/`, `strata_q38_nvme0p1_matched_20261103/`, `strata_q38_sata0p1_matched_20261103/`.
+
 | Setting | Primary paired run | Exploratory extension |
 |---|---|---|
 | GPU | 3090 Ti only, same UUID, link and power cap | Multi-card only in a separate campaign |
@@ -99,4 +124,4 @@ Run this as a benchmarking-repo integration experiment, using the same `rigctl r
 
 At the supervised start, confirm the Qwen XL download and launch-plan receipts, then inspect the manager run/lease state and rig runtime state again. The interactive `coder-30b` lease and container were unloaded before 06:32 UTC on 2026-11-03; the 3090 was then free at 19 MiB and 0% utilization, with no active leases or containers and control policy neutral. The operator can start the single benchmark run through the usual manager interface and watch its first load and receipts. Keep the Nemotron one-card stress test as a separate run ID after the paired Qwen comparison; its different model answers a different question. Do not auto-start from a clock or force-release a lease.
 
-Stop the paired run if the 3090 lease is occupied, power/link state differs, the GGUF hashes differ, either engine swaps heavily or the OS nears memory pressure, or the sampler cannot identify the target process/device. Fix the preflight or change the question explicitly before proceeding. Keep the new quant in a separate NVMe directory with a durable source/hash receipt. No Strata model loading or benchmark execution is authorized by this design document alone while harness testing owns the 3090.
+Stop the paired run if the 3090 lease is occupied, power/link state differs, the GGUF hashes differ, either engine swaps heavily or the OS nears memory pressure, or the sampler cannot identify the target process/device. Fix the preflight or change the question explicitly before proceeding. Keep the new quant in a separate NVMe directory with a durable source/hash receipt. The initial harness-workload hold was cleared by the operator before the supervised 2026-11-03 runs documented above.

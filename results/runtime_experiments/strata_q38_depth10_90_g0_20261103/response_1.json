@@ -1,0 +1,38 @@
+{
+  "id": "chatcmpl-5db7edb255d94afcbfb1b14b",
+  "object": "chat.completion",
+  "created": 1793733539,
+  "model": "qwen3.8-flash-next-q2_0",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "EYPY9911",
+        "reasoning_content": "We need answer user's request. User says: \"Remember this code: EYPY9911. You will be asked for it at the end. ... What is the code given at the very start of this document? Reply with only the code.\" Need output only code. Need final only EYPY9911. Ensure no extra.\n"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 26943,
+    "completion_tokens": 84,
+    "total_tokens": 27027,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 26943,
+    "prompt_ms": 38827.2,
+    "prompt_per_token_ms": 1.441,
+    "prompt_per_second": 693.9,
+    "predicted_n": 84,
+    "predicted_ms": 1154.8,
+    "predicted_per_token_ms": 13.748,
+    "predicted_per_second": 72.7,
+    "draft_n": 44,
+    "draft_n_accepted": 35
+  }
+}

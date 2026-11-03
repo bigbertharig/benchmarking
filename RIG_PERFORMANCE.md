@@ -8,7 +8,7 @@ model quality scores are in [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL
 Addresses and host details: llm_orchestration `shared/workspace/local/inventory.md`; the rig hardware layer
 (guard, power caps, loads): llm_orchestration `shared/scripts/rig/README.md`.
 
-## Strata GPU/RAM/NVMe placement, 2026-11-03
+## Strata GPU/RAM/SATA/NVMe placement, 2026-11-03
 
 On the 3090 Ti alone, the verified 66.4 GB Qwen3.8 Flash-Next Q2_0 pack loaded in both llama.cpp and Strata at 8K context. The basic llama.cpp partial-offload smoke put 24/49 layers on GPU 0, used 18,111 MiB VRAM, and decoded two 128-token outputs at 8.36/8.46 tok/s. It did not measure physical SSD reads. Strata 0.2.10/engine 0.1.56 used about 23,500 MiB VRAM in every setting below, with MTP/drafting off and one request slot. These are exploratory placements and different API request paths; the llama.cpp and Strata speeds are not a controlled engine A/B.
 
@@ -21,6 +21,23 @@ On the 3090 Ti alone, the verified 66.4 GB Qwen3.8 Flash-Next Q2_0 pack loaded i
 | 0.1 GiB | 25.1 GiB | 22.29 s / 8.73 GB | 6.85 s / 879 MB |
 
 The engine logged zero expert file reads during default requests and increasing file reads as resident RAM fell. A literal 0 GiB budget was rejected (`N > 0`); 0.1 GiB is the near-mapped test. The first Strata launch took 325 s because it built an additional ~34 GB expert pack on NVMe. Warm requests reused 1,478 prompt tokens and benefited from GPU and OS caches, so the large cold-read penalty is the more useful warning for varied or concurrent work. The 1060s hosted a separate GPT-OSS service, though request NVMe block-counter changes matched Strata engine-process I/O. Inputs, settings, failed case and raw receipts: [STRATA_MEMORY_TEST_PLAN.md](STRATA_MEMORY_TEST_PLAN.md), `results/runtime_experiments/strata_q38_q2_*_20261103/`.
+
+At 262,144 configured context, Strata on the 3090 alone loaded with an 8 GiB resident expert budget and 23,527 MiB GPU use. The existing marker-depth test recalled the code in the final answer at 26,943 and 251,864 prompt tokens. Wall times were 40.01 and 115.47 s; physical NVMe reads were 12.60 and 0.54 GB, respectively. The second probe benefited from warmed file cache, and the nominal 90% filler expanded to about 96% of the context, so these numbers do not isolate a context-size effect. Receipts: `results/runtime_experiments/strata_q38_ctx256k_g0_20261103/` and `strata_q38_depth10_90_g0_20261103/`.
+
+With the same GGUF at 8K in llama.cpp, placing all 49 main layers on the 3090 plus three, four, or five 1060s decoded 128 tokens at 23.14/23.33, 20.81/21.41, and 19.77/19.68 tok/s, respectively. More cards cost speed here despite the extra VRAM. The 27,465.95 MiB ngram lookup remained CPU mapped from the NVMe-backed GGUF in every split, though warm requests had negligible physical NVMe reads. These are short-prompt llama.cpp comparisons; they should not be ranked directly against Strata's chat timings. Receipts: `results/runtime_experiments/q38_llama_four_8k_20261103/`, `q38_llama_five_8k_20261103/`, and `q38_llama_all_8k_20261103/`.
+
+At 256K context with q8_0 KV, four GPUs could not allocate the CUDA compute buffers. Five GPUs loaded, and the 10% depth probe recalled the marker at 26,966 prompt tokens: 282.8 s wall time, 96.86 prompt tok/s, and 16.08 generation tok/s over 71 output tokens. Its 90% probe was stopped after the completed 10% result to leave time for the SATA comparison; no five-GPU near-full-context speed or recall is established. Receipts: `results/runtime_experiments/q38_llama_four_256k_20261103/terminal.json` and `q38_llama_five_256k_20261103/terminal.json`.
+
+The matched Strata expert-file storage test kept the Qwen3.8 GGUF and ngram lookup on NVMe, while placing only the verified 33.97 GB `experts.bin` on NVMe or the rig's SATA SSD. The same 3090, 8K context, int8 KV, one slot, prompts and output limits were used. Each run requested targeted eviction of that expert file's cached pages before launch; the physical block counters show which drive supplied request reads.
+
+| Expert RAM | Expert file | Cold 128-token request / physical read | Warm 128-token request | 512-token request |
+|---|---|---:|---:|---:|
+| 8 GiB | NVMe | 11.64 s / 4.03 GB NVMe | 1.39 s | 6.21 s |
+| 8 GiB | SATA SSD | 15.25 s / 4.04 GB SATA | 1.46 s | 5.47 s |
+| 0.1 GiB | NVMe | 22.16 s / 8.71 GB NVMe | 1.80 s | 7.23 s |
+| 0.1 GiB | SATA SSD | 30.31 s / 8.63 GB SATA | 1.93 s | 6.53 s |
+
+The cold SATA requests were 31% and 37% slower than their NVMe partners. Warm timings do not preserve that order because GPU and OS caches absorb many expert reads. These are one-run measurements on this particular SATA drive, not general SSD/NVMe throughput claims. The SATA copy passed SHA-256 comparison, was removed after the tests, and root filesystem free space returned to 39 GB. Receipts: `results/runtime_experiments/strata_q38_{nvme,sata}{8,0p1}_matched_20261103/` and `strata_q38_sata_pack_copy_20261103.json`.
 
 ## The cards and links
 

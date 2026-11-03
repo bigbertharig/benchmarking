@@ -1,0 +1,12 @@
+{
+  "started_at": "2026-11-03T19:41:49.377552+00:00",
+  "source": "/data/bench-staging/strata-v0.2.10/data/packs/q2_0",
+  "target": "/var/tmp/strata-q38-sata/packs/q2_0",
+  "expert_size_bytes": 33973862400,
+  "free_before_bytes": 41370431488,
+  "status": "passed",
+  "source_sha256": "3cf34bc125ef2a2e3e04ef47e5ad9d760b4109f19c4f36b56b19df6bfde715bd",
+  "target_sha256": "3cf34bc125ef2a2e3e04ef47e5ad9d760b4109f19c4f36b56b19df6bfde715bd",
+  "free_after_bytes": 7396478976,
+  "finished_at": "2026-11-03T19:54:44.139655+00:00"
+}
