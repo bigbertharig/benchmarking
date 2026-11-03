@@ -73,21 +73,30 @@ def ready(timeout: float = 240) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--model", type=Path, default=MODEL,
+                    help="GGUF file to test (default: Qwen3.5 4B)")
+    ap.add_argument("--ctx", type=int, default=32768,
+                    help="llama.cpp context size (default: 32768)")
     ap.add_argument("--only-mode", choices=[mode for mode, _, _ in MODES],
                     help="run only one placement, for a targeted repeat")
     args = ap.parse_args()
+    if args.ctx < 512:
+        ap.error("--ctx must be at least 512")
     modes = tuple(mode for mode in MODES if not args.only_mode or mode[0] == args.only_mode)
     args.output.mkdir(parents=True, exist_ok=True)
-    if not MODEL.is_file():
-        raise FileNotFoundError(MODEL)
-    if run("docker", "ps", "--format", "{{.Names}}").stdout.strip():
-        raise RuntimeError("another container is running; wait for an idle rig")
+    if not args.model.is_file():
+        raise FileNotFoundError(args.model)
+    containers = run("docker", "ps", "--format", "{{.Names}}").stdout.splitlines()
+    if NAME in containers:
+        raise RuntimeError(f"benchmark container {NAME} is already running")
+    if gpu_memory_mib()[0] > 1024:
+        raise RuntimeError("GPU 0 is in use; wait for a free 3090")
     power = run("nvidia-smi", "--query-gpu=index,power.limit", "--format=csv,noheader,nounits").stdout
     actual = [round(float(line.split(",")[1])) for line in power.splitlines()]
     if actual != [350, 100, 100, 100, 100, 100]:
         raise RuntimeError(f"unexpected power caps {actual}")
-    state: dict = {"model": str(MODEL), "image": IMAGE, "started_at": stamp(),
-                   "context": 32768, "batch": 64, "threads": 4,
+    state: dict = {"model": str(args.model), "image": IMAGE, "started_at": stamp(),
+                   "context": args.ctx, "batch": 64, "threads": 4,
                    "power_caps_w": actual, "baseline_gpu_memory_mib": gpu_memory_mib(), "modes": {}}
     write(args.output / "checkpoint.json", state)
     prompt = ("Explain how a B-tree index serves searches, inserts, and deletes in a database. "
@@ -102,9 +111,9 @@ def main() -> int:
         run("docker", "rm", "-f", NAME, check=False)
         cmd = ["docker", "run", "--detach", "--gpus", "all", "--network", "host",
                "--name", NAME, "--env", f"CUDA_VISIBLE_DEVICES={visible}",
-               "--volume", f"{MODEL.parent}:/models:ro", "--entrypoint", "/opt/llama/bin/llama-server",
-               IMAGE, "--model", f"/models/{MODEL.name}", "--host", "127.0.0.1",
-               "--port", str(PORT), "--ctx-size", "32768", "--batch-size", "64",
+               "--volume", f"{args.model.parent}:/models:ro", "--entrypoint", "/opt/llama/bin/llama-server",
+               IMAGE, "--model", f"/models/{args.model.name}", "--host", "127.0.0.1",
+               "--port", str(PORT), "--ctx-size", str(args.ctx), "--batch-size", "64",
                "--ubatch-size", "64", "--parallel", "1", "--threads", "4",
                "--threads-batch", "4", "--load-mode", "none", "--gpu-layers", layers,
                "--slot-prompt-similarity", "0", "--log-verbosity", "4"]

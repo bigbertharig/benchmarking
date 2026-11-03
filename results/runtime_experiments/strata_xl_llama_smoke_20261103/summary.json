@@ -1,0 +1,32 @@
+{
+  "run_id": "strata-xl-llama-smoke-20261103",
+  "purpose": "Same-GGUF llama.cpp compatibility smoke before Strata comparison",
+  "status": "passed",
+  "model_path": "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+  "model_sha256": "55983c5a75a1ab969824077b3bb3de4146e82a9234072b48ad4e8f92ad3fe9f1",
+  "model_hash_source": "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/download_terminal.json",
+  "engine": "llama.cpp",
+  "image": "llama-runtime:b11669",
+  "image_id": "sha256:bb981c45437a7b9b3d82526278f79db0876e20ffe05dffa0d1039a0ee63efeb6",
+  "gpu": "GPU 0, NVIDIA GeForce RTX 3090 Ti",
+  "context_tokens": 8192,
+  "batch_tokens": 64,
+  "parallel": 1,
+  "gpu_layers": "42/42 offloaded",
+  "load_seconds": 54.66,
+  "gpu_memory_idle_mib": 19,
+  "gpu_memory_loaded_mib": 21339,
+  "cuda_model_buffer_mib": 20764.8,
+  "cuda_host_model_buffer_mib": 515.31,
+  "cuda_kv_buffer_mib": 160.0,
+  "cuda_recurrent_state_buffer_mib": 62.81,
+  "cuda_compute_buffer_mib": 14.5,
+  "requests": [
+    {"prompt_tokens": 1432, "generated_tokens": 128, "prompt_tokens_per_second": 1406.94, "decode_tokens_per_second": 151.71},
+    {"prompt_tokens": 1432, "generated_tokens": 128, "prompt_tokens_per_second": 1659.44, "decode_tokens_per_second": 153.69}
+  ],
+  "concurrent_runtime": "rig-remote-gpt-oss-20b on GPUs 1-4",
+  "limitations": "Short smoke only; concurrent 1060 workload, no host PSS/SSD I/O or long-context measurement. Do not treat as a precise paired Strata performance result.",
+  "raw_receipt": "terminal.json",
+  "server_log": "3090_full.log"
+}
