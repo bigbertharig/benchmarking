@@ -1,0 +1,52 @@
+# Strata versus llama.cpp: 3090 Ti memory and speed test
+
+Status: design, 2026-11-02. No GPU run or model download has been performed for this plan. The 3090 Ti is reserved for harness testing; wait for a free benchmark lease before any load. This is an inference-engine test, not a harness test.
+
+## Existing evidence and the comparison trap
+
+- The closest measured 3090 Ti run is `qwen3.6:35b-a3b` at 131,072 context in `results/runtime_experiments/qwen3_6_35b-a3b_capacity_g0_ctx131072_b128_20261025.json`: UD-Q4_K_M GGUF, 152.31 decode tok/s on its short probe, 20,583 MiB model buffer, 1,360 MiB KV, 302 MiB compute, 22,246 MiB reported GPU allocation, and 552 MiB host allocation. These are one run and backend-reported allocations, not a sampled whole-system memory profile. Later Gen 3 cold-load runs of the same model measured about 147 tok/s on short probes; link state and run settings must be recorded, not pooled.
+- `scripts/integration/run_ram_offload_comparison.py` already compares CPU-only, partial 1060, full 1060, and full 3090 for **Qwen3.5 4B**. It records `nvidia-smi` memory before/after load and llama timings, but neither process RAM/PSS nor page cache, swap, per-process I/O, or a time series. Reuse its checkpoint/terminal receipt pattern; do not use its 4B results as a Strata speed baseline.
+- Strata's documented Qwen3.6 path is Unsloth **UD-Q4_K_XL**, UD-Q6_K_XL, or Q8_0 with its MTP layer. Our existing UD-Q4_K_M is a different file/quant. A direct engine claim requires the **same GGUF bytes and SHA-256** in both engines. Confirm both launch plans before downloading or changing the model registry. Strata's Qwen path and sizing: https://github.com/Niko1221/Strata/blob/main/docs/QWEN36.md and https://github.com/Niko1221/Strata/blob/main/docs/MODELS.md .
+- The 74B-total/9B-active Nemotron 3.5 Bolt UD-Q3_K_XL GGUF is already on the rig NVMe at `/data/model-hotset/nemotron-3.5-bolt-74b-a9b/`. It is 39.03 GB (36.3 GiB). The 2026-10-25 six-card, 2,048-context run decoded at 19.16 tok/s in `results/runtime_experiments/nemotron_3_5_bolt_74b_a9b_capacity_g0-1-2-3-4-5_nvme_cold_ctx2048_b32_20261025.json`. Its 3090-only/host-RAM placement has not been measured. The rig has about 30 GiB physical RAM, 24 GiB 3090 VRAM, a 476.9 GB NVMe mounted at `/data`, a 111.8 GB SATA SSD holding `/`, and 15 GB zram swap; capture this again at run time.
+
+## Question and primary endpoint
+
+For the same Qwen3.6-35B-A3B UD-Q4_K_XL GGUF, 3090 Ti, context, prompt, output cap, and one concurrent request: does Strata deliver better latency or throughput per unit of **combined VRAM, host RAM, and SSD activity** than llama.cpp? Report a Pareto comparison, not a single score. A RAM saving that substantially increases SSD faults or lowers decode rate is a tradeoff, not an unconditional win.
+
+## Phase A: instrument the existing 3090 baseline
+
+1. Read `NEW_MODEL_INTEGRATION.md`, `RIG_PERFORMANCE.md`, the existing capacity record above, and `scripts/integration/capacity_run.py` before the run. Save `git rev-parse HEAD`, image digest/build, GGUF path and SHA-256, `nvidia-smi` GPU UUID/link/power cap, CPU and RAM total, storage mount/device, and `rig status --json`/lease state. Do not modify published profiles or stop harness workloads.
+2. When the 3090 is free, use the manager's benchmark load/lease path documented in `NEW_MODEL_INTEGRATION.md`. Repeat the existing UD-Q4_K_M 131,072-context, batch-128, parallel-1 short and depth probes with the same prompt and output settings. Keep this as a **historical-baseline refresh**, separate from the matched-quant comparison. Three warm repetitions; retain raw per-run values and median. If the prior prompt cannot be reproduced exactly, label it a new baseline.
+3. Add a sidecar time series rather than changing the capacity result format: sample every 0.5–1 second during load, idle, prefill, and decode. Record UTC and monotonic time, phase/event marker, GPU used/total MiB by UUID, GPU process memory and power, `MemAvailable`, `Cached`, `SReclaimable`, swap used, benchmark process/container `VmRSS` and cgroup `memory.current`/`memory.stat` (anon/file), plus cumulative `/proc/<pid>/io` read/write bytes. Take `smaps_rollup` PSS/anonymous/private values at phase boundaries, not every sample. Identify the actual rig NVMe device and sample its block read/write counters to distinguish physical I/O from process reads served by cache. Preserve sampler overhead and missing fields in the receipt. Do not clear global page cache while other work is running.
+4. Put the sidecar and summary under a new `results/runtime_experiments/` run directory. Link the new receipt from `RIG_PERFORMANCE.md` after results exist; do not change the old record.
+
+## Phase B: same-file engine comparison
+
+Preflight: on an idle rig, pin a Strata release/commit and llama.cpp image digest, inspect `strata launch --plan --family qwen36 --model ud-q4_k_xl`, confirm model source, exact file hash, required disk/RAM, supported CUDA path, context, and output protocol. Keep model download and install explicit. The 22.9 GB Strata GGUF plus KV, buffers, and OS headroom may force a hybrid placement on 24 GB VRAM; record the actual placement. Use the same local NVMe GGUF path for both engines if Strata accepts it. If it repacks the GGUF, record input and derived hashes and label the comparison accordingly. Never substitute the existing UD-Q4_K_M result for this matched test.
+
+| Setting | Primary paired run | Exploratory extension |
+|---|---|---|
+| GPU | 3090 Ti only, same UUID, link and power cap | Multi-card only in a separate campaign |
+| Model | identical UD-Q4_K_XL GGUF bytes | none |
+| Context | 8,192 and 32,768; one slot | 131,072 only if both load cleanly |
+| Prompts | same stored short (~1K) and long (~8K) token texts, count with each engine's tokenizer | 24K prompt at 32K context |
+| Output | 128 and 512 generated tokens, deterministic temperature 0, identical stop/EOS policy | none |
+| Drafting | Strata MTP off for primary engine comparison | Strata default MTP on as a separate optimized result |
+| Cache | prompt cache disabled or reset before timed requests; log if impossible | cached-chat test separately |
+| Repeats | one warmup plus 3 measured requests per case, alternating engine order across complete runs | 2 simultaneous requests in a separate concurrency test |
+
+Capture load-to-ready, first-token latency, prefill tok/s, decode tok/s, end-to-end wall time, generated tokens and finish reason, exact output or checksum, error/oom, plus the Phase A memory and I/O sidecar. Compare peak and steady VRAM, process PSS, host `MemAvailable` delta, swap, physical NVMe bytes/token, and power/energy. Keep cold load and warm inference in separate tables. Record whether llama.cpp fully offloads, partially offloads, or refuses the file; a refusal is a capacity result, not zero speed. Mark any inference made from host-wide counters when other jobs prevent isolation.
+
+## Phase C: 74B Nemotron capacity stress test (separate question)
+
+This tests whether one 3090 Ti plus host RAM can run the existing large MoE with acceptable latency. It does **not** compare llama.cpp with Strata: as of this design Strata lists Qwen3.8-Flash-Next, Qwen3.6-35B-A3B and DeepSeek V4.1-Flash, not Nemotron's `nemotron_h_moe` architecture. Do not label two different models an engine A/B.
+
+Use the existing Nemotron GGUF and `/data` NVMe hotset. On a free rig, make an experimental 3090-only llama.cpp fit/load plan without changing the registry's six-card production placement. Start at context 2,048, batch 32, one slot and 512 generated tokens so it can be compared with the six-card receipt. Select a partial GPU layer count that leaves measured VRAM headroom and keeps host memory below pressure; capture the actual GPU/CPU layer and expert placement from server logs. If the current build supports CPU expert offload for this architecture, test that as a distinct placement, not as a silent default. If 2K works, try 8K and 16K after separate fit checks. Record prompt/decode throughput, first-token latency, GPU/host allocations, physical NVMe read bytes during load and decode, page faults, swap/zram activity, and the sidecar above. The 39 GB file can fit in combined 24 GiB VRAM plus 30 GiB RAM in principle, but buffers, OS headroom and placement constraints decide whether it actually fits.
+
+Use **NVMe** for the model source. The rig's `/data` mount is NVMe, and the model is already staged there; the root SATA SSD is slower and has less spare space. A mapped GGUF on NVMe is not automatically an SSD expert-cache engine: ideally its needed CPU weights remain in RAM after loading. Sustained decode reads from NVMe or growing swap indicate pressure and must be reported with the speed. Do not use zram or disk swap as an unrecorded capacity extension. Keep the six-card result as a historical placement comparator, and report the one-card speed separately from the matched Qwen engine test.
+
+## Receipt and gate
+
+One run directory per engine/configuration, with `manifest.json` (immutable inputs, version/hash, topology, effective engine flags), `events.jsonl` (phase timestamps), `memory.csv` (raw samples), `requests.jsonl` (per-request timings and outputs), `terminal.json` (success/failure and finish time), and a small `summary.json` (median and range, memory peaks, I/O). Keep raw logs out of `MODEL_BENCHMARK_REFERENCE.md`; update `RIG_PERFORMANCE.md` with the interpreted finding and links. A failed fit or unsupported endpoint gets a terminal receipt and a clear reason, not a silent skip.
+
+Stop the paired run if the 3090 lease is occupied, power/link state differs, the GGUF hashes differ, either engine swaps heavily or the OS nears memory pressure, or the sampler cannot identify the target process/device. Fix the preflight or change the question explicitly before proceeding. No Strata installation, model loading, or benchmark execution is authorized by this design document alone while harness testing owns the 3090.
