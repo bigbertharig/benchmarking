@@ -1,0 +1,65 @@
+{
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-11-03T20:54:04+00:00",
+  "context": 8192,
+  "batch": 64,
+  "threads": 4,
+  "kv_type": "f16",
+  "depth_fractions": null,
+  "resident_ngram": true,
+  "memory_limit_gib": 28.0,
+  "power_caps_w": [
+    350,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "baseline_gpu_memory_mib": [
+    19,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "host_before": {
+    "MemAvailable_kib": 29869332,
+    "Cached_kib": 812452,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23757168
+  },
+  "nvme_read_bytes_before": 1049095500800,
+  "modes": {
+    "five_gpus": {
+      "started_at": "2026-11-03T20:54:04+00:00",
+      "gpu_visible": "0,1,2,3,4",
+      "gpu_layers_requested": "all",
+      "status": "failed",
+      "container_id": "87a0316e0730",
+      "error": "RuntimeError: llama-server exited before ready: thub.com/ggml-org/llama.cpp/pull/16391\n2.44.948.797 I srv    load_model: context checkpoints enabled, max = 32, min spacing = 8192\n2.44.948.818 I srv          init: idle slots will be saved to prompt cache upon starting a new task\n2.44.963.310 I srv          init: init: chat template, example_format: '<|im_start|>system\nReasoning effort is set to xhigh. Please think carefully through the task, validate key assumptions, consider plausible alternatives, and prioritize correctness, consistency, and clarity in the final answer.\n\nYou are a helpful assistant<|im_end|>\n<|im_start|>user\nHello<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nHi there<|im_end|>\n<|im_start|>user\nHow are you?<|im_end|>\n<|im_start|>assistant\n<think>\n'\n2.44.964.200 I srv          init: init: chat template, thinking = 1\n2.44.964.208 I srv          init: preserve_reasoning kwarg: true\n2.44.964.209 W srv          init: chat template supports preserving reasoning, it is enabled by default (may use more tokens, disable via --no-reasoning-preserve)\n2.44.964.238 I srv  llama_server: model loaded\n2.44.964.241 I srv  llama_server: listening on http://127.0.0.1:18123\n2.44.964.356 I srv  update_slots: all slots are idle\n",
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-11-03T20:54:04.459077619Z",
+        "FinishedAt": "2026-11-03T20:56:51.634563411Z"
+      },
+      "host_after": {
+        "MemAvailable_kib": 30005780,
+        "Cached_kib": 522436,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 23753168
+      },
+      "finished_at": "2026-11-03T20:56:51+00:00"
+    }
+  }
+}

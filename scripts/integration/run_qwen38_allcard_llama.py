@@ -101,7 +101,13 @@ def main() -> int:
                     help="seconds to wait for server readiness (default: 240)")
     ap.add_argument("--depth-fractions", help="Run the existing capacity_run 10%/90% marker probes")
     ap.add_argument("--kv-type", choices=("f16", "q8_0", "q4_0"), default="f16")
+    ap.add_argument("--resident-ngram", action="store_true",
+                    help="load per_layer_token_embd into CPU RAM instead of lazy file reads")
+    ap.add_argument("--memory-limit-gib", type=float,
+                    help="Docker RAM and RAM+swap ceiling; required for --resident-ngram")
     args = ap.parse_args()
+    if args.resident_ngram and not args.memory_limit_gib:
+        ap.error("--resident-ngram requires --memory-limit-gib")
     if args.ctx < 512:
         ap.error("--ctx must be at least 512")
     modes = tuple(mode for mode in MODES if not args.only_mode or mode[0] == args.only_mode)
@@ -126,6 +132,8 @@ def main() -> int:
     state: dict = {"model": str(args.model), "image": IMAGE, "started_at": stamp(),
                    "context": args.ctx, "batch": 64, "threads": 4,
                    "kv_type": args.kv_type, "depth_fractions": args.depth_fractions,
+                   "resident_ngram": args.resident_ngram,
+                   "memory_limit_gib": args.memory_limit_gib,
                    "power_caps_w": actual, "baseline_gpu_memory_mib": gpu_memory_mib(),
                    "host_before": memory(), "nvme_read_bytes_before": nvme_read_bytes(), "modes": {}}
     write(args.output / "checkpoint.json", state)
@@ -147,6 +155,12 @@ def main() -> int:
                "--ubatch-size", "64", "--parallel", "1", "--threads", "4",
                "--threads-batch", "4", "--load-mode", "none", "--gpu-layers", layers,
                "--slot-prompt-similarity", "0", "--log-verbosity", "4"]
+        if args.memory_limit_gib:
+            limit = f"{int(args.memory_limit_gib * 1024)}m"
+            cmd[2:2] = ["--memory", limit, "--memory-swap", limit]
+        if args.resident_ngram:
+            cmd += ["--lazy-mode", "off", "--override-tensor",
+                    "per_layer_token_embd=CPU"]
         if args.kv_type != "f16":
             cmd += ["--cache-type-k", args.kv_type, "--cache-type-v", args.kv_type,
                     "--flash-attn", "on"]
@@ -193,9 +207,17 @@ def main() -> int:
             row["error"] = f"{type(exc).__name__}: {exc}"
             print(f"{mode}: {row['error']}", flush=True)
         finally:
+            inspection = run("docker", "inspect", "-f", "{{json .State}}", NAME,
+                             check=False).stdout.strip()
+            if inspection:
+                try:
+                    row["container_state"] = json.loads(inspection)
+                except ValueError:
+                    row["container_state_raw"] = inspection[:500]
             (args.output / f"{mode}.log").write_text(
                 run("docker", "logs", NAME, check=False).stderr, encoding="utf-8")
             run("docker", "rm", "-f", NAME, check=False)
+            row["host_after"] = memory()
             row["finished_at"] = stamp()
             write(args.output / "checkpoint.json", state)
             if row["status"] != "passed":

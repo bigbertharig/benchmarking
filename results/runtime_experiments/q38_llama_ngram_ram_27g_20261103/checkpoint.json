@@ -1,0 +1,65 @@
+{
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-11-03T20:50:21+00:00",
+  "context": 8192,
+  "batch": 64,
+  "threads": 4,
+  "kv_type": "f16",
+  "depth_fractions": null,
+  "resident_ngram": true,
+  "memory_limit_gib": 27.0,
+  "power_caps_w": [
+    350,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "baseline_gpu_memory_mib": [
+    19,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "host_before": {
+    "MemAvailable_kib": 29999796,
+    "Cached_kib": 10917964,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23756472
+  },
+  "nvme_read_bytes_before": 983503483904,
+  "modes": {
+    "five_gpus": {
+      "started_at": "2026-11-03T20:50:21+00:00",
+      "gpu_visible": "0,1,2,3,4",
+      "gpu_layers_requested": "all",
+      "status": "failed",
+      "container_id": "dedf6fba5d7f",
+      "error": "RuntimeError: llama-server exited before ready:  EOG token             = 248044 '<|endoftext|>'\n0.01.659.530 I print_info: EOG token             = 248046 '<|im_end|>'\n0.01.659.530 I print_info: EOG token             = 248063 '<|fim_pad|>'\n0.01.659.531 I print_info: EOG token             = 248064 '<|repo_name|>'\n0.01.659.531 I print_info: EOG token             = 248065 '<|file_sep|>'\n0.01.659.532 I print_info: max token length      = 256\n0.01.659.533 I load_tensors: loading model tensors, this can take a while... (load_mode = none)\n0.01.794.300 I load_tensors: offloading output layer to GPU\n0.01.794.304 I load_tensors: offloading 47 repeating layers to GPU\n0.01.794.304 I load_tensors: offloaded 49/49 layers to GPU\n0.01.794.309 I load_tensors:          CPU model buffer size = 27465.95 MiB\n0.01.794.311 I load_tensors:        CUDA0 model buffer size = 18290.83 MiB\n0.01.794.312 I load_tensors:        CUDA1 model buffer size =  4395.25 MiB\n0.01.794.313 I load_tensors:        CUDA2 model buffer size =  4402.75 MiB\n0.01.794.314 I load_tensors:        CUDA3 model buffer size =  4407.05 MiB\n0.01.794.315 I load_tensors:        CUDA4 model buffer size =  4113.93 MiB\n0.01.794.316 I load_tensors:    CUDA_Host model buffer size =   260.50 MiB\n",
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": true,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 137,
+        "Error": "",
+        "StartedAt": "2026-11-03T20:50:21.858987335Z",
+        "FinishedAt": "2026-11-03T20:53:06.736650194Z"
+      },
+      "host_after": {
+        "MemAvailable_kib": 29878068,
+        "Cached_kib": 812516,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 23757136
+      },
+      "finished_at": "2026-11-03T20:53:07+00:00"
+    }
+  }
+}

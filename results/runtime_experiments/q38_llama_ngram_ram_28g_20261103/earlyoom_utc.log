@@ -1,0 +1,29 @@
+Nov 03 20:54:04 bryan-GPU-Rig earlyoom[1668]: mem avail: 29031 of 29296 MiB (99.10%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:54:14 bryan-GPU-Rig earlyoom[1668]: mem avail: 28084 of 28494 MiB (98.56%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:54:24 bryan-GPU-Rig earlyoom[1668]: mem avail: 28111 of 28521 MiB (98.56%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:54:34 bryan-GPU-Rig earlyoom[1668]: mem avail: 28104 of 28521 MiB (98.54%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:54:44 bryan-GPU-Rig earlyoom[1668]: mem avail: 28127 of 28537 MiB (98.57%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:54:54 bryan-GPU-Rig earlyoom[1668]: mem avail: 28155 of 28565 MiB (98.57%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:55:04 bryan-GPU-Rig earlyoom[1668]: mem avail: 28142 of 28551 MiB (98.56%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:55:14 bryan-GPU-Rig earlyoom[1668]: mem avail: 28199 of 28608 MiB (98.57%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:55:24 bryan-GPU-Rig earlyoom[1668]: mem avail: 28172 of 28582 MiB (98.57%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:55:34 bryan-GPU-Rig earlyoom[1668]: mem avail: 28195 of 28605 MiB (98.57%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:55:44 bryan-GPU-Rig earlyoom[1668]: mem avail: 25494 of 28564 MiB (89.25%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:55:54 bryan-GPU-Rig earlyoom[1668]: mem avail: 21583 of 28555 MiB (75.58%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:56:04 bryan-GPU-Rig earlyoom[1668]: mem avail: 17668 of 28552 MiB (61.88%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:56:14 bryan-GPU-Rig earlyoom[1668]: mem avail: 13764 of 28548 MiB (48.21%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:56:24 bryan-GPU-Rig earlyoom[1668]: mem avail:  9842 of 28522 MiB (34.51%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:56:35 bryan-GPU-Rig earlyoom[1668]: mem avail:  5778 of 28535 MiB (20.25%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:56:42 bryan-GPU-Rig earlyoom[1668]: mem avail:  2831 of 28521 MiB ( 9.93%), swap free: 23200 of 23561 MiB (98.47%)
+Nov 03 20:56:42 bryan-GPU-Rig earlyoom[1668]: low memory! at or below SIGTERM limits: mem 10.00%, swap 100.00%
+Nov 03 20:56:42 bryan-GPU-Rig earlyoom[1668]: sending SIGTERM to process 208778 uid 0 "llama-server": oom_score 1290, VmRSS 26342 MiB, cmdline "/opt/llama/bin/llama-server --model /models/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --host 127.0.0.1 --port 18123 --ctx-size 8192 --batch-size 64 --ubatch-size 64 --parallel 1 --threads 4 --threads-batch 4 --load-mode none --gpu-layers all --"
+Nov 03 20:56:42 bryan-GPU-Rig earlyoom[1668]: kill_release: pid=208778: process_mrelease pidfd=4 failed: Invalid argument
+Nov 03 20:56:51 bryan-GPU-Rig earlyoom[1668]: process 208778 exited after 8.817 seconds
+Nov 03 20:56:51 bryan-GPU-Rig earlyoom[210352]: Failed to open connection to "system" message bus: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+Nov 03 20:56:54 bryan-GPU-Rig earlyoom[1668]: mem avail: 29296 of 29443 MiB (99.50%), swap free: 23196 of 23561 MiB (98.45%)
+Nov 03 20:57:04 bryan-GPU-Rig earlyoom[1668]: mem avail: 29286 of 29433 MiB (99.50%), swap free: 23196 of 23561 MiB (98.45%)
+Nov 03 20:57:14 bryan-GPU-Rig earlyoom[1668]: mem avail: 29326 of 29474 MiB (99.50%), swap free: 23196 of 23561 MiB (98.45%)
+Nov 03 20:57:24 bryan-GPU-Rig earlyoom[1668]: mem avail: 29330 of 29477 MiB (99.50%), swap free: 23196 of 23561 MiB (98.45%)
+Nov 03 20:54:04 bryan-GPU-Rig systemd[1]: Started docker-87a0316e0730d97c327de3e38ddbdef7c0ac6347c2803d57c13d494c5df01159.scope - libcontainer container 87a0316e0730d97c327de3e38ddbdef7c0ac6347c2803d57c13d494c5df01159.
+Nov 03 20:56:51 bryan-GPU-Rig systemd[1]: docker-87a0316e0730d97c327de3e38ddbdef7c0ac6347c2803d57c13d494c5df01159.scope: Deactivated successfully.
+Nov 03 20:56:51 bryan-GPU-Rig systemd[1]: docker-87a0316e0730d97c327de3e38ddbdef7c0ac6347c2803d57c13d494c5df01159.scope: Consumed 24.436s CPU time, 27.8G memory peak, 61.8G read from disk.
