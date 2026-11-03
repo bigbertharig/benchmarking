@@ -1,0 +1,82 @@
+{
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-11-03T09:07:14+00:00",
+  "context": 8192,
+  "batch": 64,
+  "threads": 4,
+  "power_caps_w": [
+    350,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "baseline_gpu_memory_mib": [
+    19,
+    3496,
+    3558,
+    3490,
+    2282,
+    4
+  ],
+  "modes": {
+    "3090_partial_24": {
+      "started_at": "2026-11-03T09:07:14+00:00",
+      "gpu_visible": "0",
+      "gpu_layers_requested": "24",
+      "status": "passed",
+      "container_id": "a0aaa26a2a79",
+      "load_seconds": 99.41,
+      "gpu_memory_after_load_mib": [
+        18111,
+        3496,
+        3558,
+        3490,
+        2282,
+        4
+      ],
+      "server_log": "results/runtime_experiments/strata_q38_q2_llama_smoke_20261103/3090_partial_24.log",
+      "repeat_1": {
+        "wall_seconds": 29.89,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 14677.713,
+          "prompt_per_token_ms": 10.249799581005586,
+          "prompt_per_second": 97.56288326389814,
+          "predicted_n": 128,
+          "predicted_ms": 15196.774,
+          "predicted_per_token_ms": 119.65963779527559,
+          "predicted_per_second": 8.35703682900068
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "repeat_2": {
+        "wall_seconds": 29.49,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 14297.365,
+          "prompt_per_token_ms": 9.98419343575419,
+          "prompt_per_second": 100.1583158854796,
+          "predicted_n": 128,
+          "predicted_ms": 15009.924,
+          "predicted_per_token_ms": 118.18837795275591,
+          "predicted_per_second": 8.461068823533017
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "finished_at": "2026-11-03T09:09:56+00:00"
+    }
+  },
+  "finished_at": "2026-11-03T09:09:56+00:00",
+  "status": "passed"
+}

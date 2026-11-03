@@ -8,6 +8,7 @@ import json
 import os
 import shutil
 import subprocess
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -69,6 +70,18 @@ def main() -> int:
                    "started_at": stamp(), "status": "running"}
             state["files"].append(row)
             write(state, receipt_path)
+            if args.shard is None and name == FILES[1][0]:
+                sidecar = TARGET / "shard_2_terminal.json"
+                deadline = time.monotonic() + 3 * 3600
+                while sidecar.is_file():
+                    status = json.loads(sidecar.read_text(encoding="utf-8")).get("status")
+                    if status == "passed":
+                        break
+                    if status != "running":
+                        raise RuntimeError(f"parallel shard 2 ended with {status}")
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError("parallel shard 2 did not finish within three hours")
+                    time.sleep(60)
             if target.is_file() and target.stat().st_size == size and digest(target) == expected_hash:
                 row["status"] = "verified_existing"
             else:

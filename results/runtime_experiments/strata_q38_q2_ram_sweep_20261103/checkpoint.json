@@ -1,0 +1,93 @@
+{
+  "started_at": "2026-11-03T09:19:04+00:00",
+  "status": "running",
+  "cases": [
+    {
+      "resident_budget_gib": 12,
+      "exit_code": 0,
+      "terminal": "results/runtime_experiments/strata_q38_q2_ram_sweep_20261103/resident_budget_12gib/terminal.json",
+      "status": "passed",
+      "error": null,
+      "gpu_loaded_mib": 23535,
+      "mem_available_kib": 13484012,
+      "swap_free_drop_kib": 2260,
+      "request_wall_seconds": [
+        6.209,
+        1.472,
+        5.179
+      ],
+      "nvme_request_read_bytes": [
+        1624707072,
+        25993216,
+        67784704
+      ],
+      "engine_request_read_bytes": [
+        1624707072,
+        25993216,
+        67784704
+      ]
+    },
+    {
+      "resident_budget_gib": 8,
+      "exit_code": 0,
+      "terminal": "results/runtime_experiments/strata_q38_q2_ram_sweep_20261103/resident_budget_8gib/terminal.json",
+      "status": "passed",
+      "error": null,
+      "gpu_loaded_mib": 23527,
+      "mem_available_kib": 17848180,
+      "swap_free_drop_kib": 496,
+      "request_wall_seconds": [
+        11.892,
+        1.463,
+        5.724
+      ],
+      "nvme_request_read_bytes": [
+        4078792704,
+        33431552,
+        247832576
+      ],
+      "engine_request_read_bytes": [
+        4078792704,
+        33431552,
+        247832576
+      ]
+    },
+    {
+      "resident_budget_gib": 4,
+      "exit_code": 0,
+      "terminal": "results/runtime_experiments/strata_q38_q2_ram_sweep_20261103/resident_budget_4gib/terminal.json",
+      "status": "passed",
+      "error": null,
+      "gpu_loaded_mib": 23519,
+      "mem_available_kib": 22179696,
+      "swap_free_drop_kib": 424,
+      "request_wall_seconds": [
+        17.11,
+        1.531,
+        5.858
+      ],
+      "nvme_request_read_bytes": [
+        6475698176,
+        59056128,
+        336318464
+      ],
+      "engine_request_read_bytes": [
+        6475698176,
+        59056128,
+        336318464
+      ]
+    },
+    {
+      "resident_budget_gib": 0,
+      "exit_code": 1,
+      "terminal": "results/runtime_experiments/strata_q38_q2_ram_sweep_20261103/resident_budget_0gib/terminal.json",
+      "status": "failed",
+      "error": "RuntimeError: Strata launch exited 6",
+      "gpu_loaded_mib": null,
+      "mem_available_kib": null,
+      "request_wall_seconds": [],
+      "nvme_request_read_bytes": [],
+      "engine_request_read_bytes": []
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "started_at": "2026-11-03T09:24:27+00:00",
+  "status": "running",
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0",
+  "gpu": 0,
+  "context": 8192,
+  "parallel": 1,
+  "drafting": "off",
+  "mtp": "off",
+  "resident_budget_gib": 0.0,
+  "nvme_counter": "/sys/block/nvme0n1/stat",
+  "nvme_counter_scope": "host-wide"
+}

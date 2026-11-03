@@ -8,6 +8,20 @@ model quality scores are in [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL
 Addresses and host details: llm_orchestration `shared/workspace/local/inventory.md`; the rig hardware layer
 (guard, power caps, loads): llm_orchestration `shared/scripts/rig/README.md`.
 
+## Strata GPU/RAM/NVMe placement, 2026-11-03
+
+On the 3090 Ti alone, the verified 66.4 GB Qwen3.8 Flash-Next Q2_0 pack loaded in both llama.cpp and Strata at 8K context. The basic llama.cpp partial-offload smoke put 24/49 layers on GPU 0, used 18,111 MiB VRAM, and decoded two 128-token outputs at 8.36/8.46 tok/s. It did not measure physical SSD reads. Strata 0.2.10/engine 0.1.56 used about 23,500 MiB VRAM in every setting below, with MTP/drafting off and one request slot. These are exploratory placements and different API request paths; the llama.cpp and Strata speeds are not a controlled engine A/B.
+
+| Strata expert RAM | Available host RAM after load | Cold 128-token request / NVMe read | Warm 512-token request / NVMe read |
+|---|---:|---:|---:|
+| Default: 16.31 GiB pinned | 8.7 GiB | 2.92 s / 24 MB | 5.00 s / 23 MB |
+| 12 GiB | 12.9 GiB | 6.21 s / 1.62 GB | 5.18 s / 68 MB |
+| 8 GiB | 17.0 GiB | 11.89 s / 4.08 GB | 5.72 s / 248 MB |
+| 4 GiB | 21.2 GiB | 17.11 s / 6.48 GB | 5.86 s / 336 MB |
+| 0.1 GiB | 25.1 GiB | 22.29 s / 8.73 GB | 6.85 s / 879 MB |
+
+The engine logged zero expert file reads during default requests and increasing file reads as resident RAM fell. A literal 0 GiB budget was rejected (`N > 0`); 0.1 GiB is the near-mapped test. The first Strata launch took 325 s because it built an additional ~34 GB expert pack on NVMe. Warm requests reused 1,478 prompt tokens and benefited from GPU and OS caches, so the large cold-read penalty is the more useful warning for varied or concurrent work. The 1060s hosted a separate GPT-OSS service, though request NVMe block-counter changes matched Strata engine-process I/O. Inputs, settings, failed case and raw receipts: [STRATA_MEMORY_TEST_PLAN.md](STRATA_MEMORY_TEST_PLAN.md), `results/runtime_experiments/strata_q38_q2_*_20261103/`.
+
 ## The cards and links
 
 The live list is the rig's scan, not this file: `ssh rig rig status` (cards, and what moved since the last boot)

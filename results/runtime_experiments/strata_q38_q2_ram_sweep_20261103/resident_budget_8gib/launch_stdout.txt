@@ -1,0 +1,1 @@
+{"schema_version": 1, "ok": true, "name": "Q2_0 8K", "profile": "launch-q2_0-8k", "urls": ["http://127.0.0.1:18131"], "reused": false, "api_key": null, "tuned": null, "notices": ["The engine for NVIDIA cards is used, now and next time. `strata launch --backend auto` goes back to the PC's own choice."]}

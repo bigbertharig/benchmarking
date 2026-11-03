@@ -14,6 +14,7 @@ from pathlib import Path
 
 CONTROL = Path("/data/bench-staging/strata-v0.2.10/control/bin/strata")
 COMPONENTS = "/data/bench-staging/strata-v0.2.10/components"
+DATA = "/data/bench-staging/strata-v0.2.10/data"
 MODEL = Path("/data/model-hotset/qwen3.8-flash-next-q2_0")
 RECEIPT = MODEL / "download_terminal.json"
 PORT = 18131
@@ -99,6 +100,7 @@ def main() -> int:
                CUDA_VISIBLE_DEVICES="0", CUDA_DEVICE_ORDER="PCI_BUS_ID")
     base = [str(CONTROL), "launch"]
     launch = base + ["--family", "qwen", "--model", "q2_0", "--model-path", str(MODEL),
+                     "--data-dir", DATA,
                      "--gpu", "0", "--backend", "nvidia", "--vision", "off",
                      "--context", "8192", "--parallel", "1", "--drafting", "off",
                      "--mtp", "off", "--port", str(PORT), "--access", "local",
@@ -140,16 +142,17 @@ def main() -> int:
         if state["host_loaded"]["MemAvailable_kib"] < 5 * 1024 * 1024:
             raise RuntimeError("less than 5 GiB MemAvailable after launch")
         state["requests"] = []
-        for repeat in (1, 2):
+        for repeat, limit in ((1, 128), (2, 128), (3, 512)):
             disk_before = nvme_bytes()
             io_before = engine_io()
             t1 = time.monotonic()
             response = request("/v1/chat/completions", {"model": "strata", "messages": [
-                {"role": "user", "content": PROMPT}], "max_tokens": 128,
+                {"role": "user", "content": PROMPT}], "max_tokens": limit,
                 "temperature": 0}, timeout=600)
             wall = round(time.monotonic() - t1, 3)
             save(args.output / f"response_{repeat}.json", response)
-            state["requests"].append({"repeat": repeat, "wall_seconds": wall,
+            state["requests"].append({"repeat": repeat, "max_tokens": limit,
+                                      "wall_seconds": wall,
                                       "usage": response.get("usage"),
                                       "finish_reason": (response.get("choices") or [{}])[0].get("finish_reason"),
                                       "gpu_mib": gpu_mib(), "host": memory(),
