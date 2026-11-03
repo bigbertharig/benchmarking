@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "kind": "strata_model_import_preflight",
+  "date": "2026-11-02",
+  "host": "rig",
+  "strata_version": "0.2.10",
+  "control_build": "0.1.56",
+  "model_path": "/data/model-hotset/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+  "command": "STRATA_HOME=/data/bench-staging/strata-v0.2.10/home /data/bench-staging/strata-v0.2.10/control/bin/strata models import /data/model-hotset/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf --plan",
+  "exit_code": 1,
+  "status": "unsupported_model_type_or_size",
+  "output": "These files cannot be used as they are: Qwen3.6-35B-A3B-UD-Q4_K_M.gguf: this model type is not supported by the Strata engine (add it as a Custom model API with llama-server instead); this is not a model size Strata knows.",
+  "gpu_load_started": false,
+  "model_download_started": false,
+  "note": "Read-only control-package import plan. A custom llama-server API would bypass Strata's inference engine."
+}
