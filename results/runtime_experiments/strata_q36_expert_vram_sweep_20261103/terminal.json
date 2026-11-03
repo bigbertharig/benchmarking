@@ -1,0 +1,58 @@
+{
+  "started_at": "2026-11-03T07:17:41+00:00",
+  "status": "passed",
+  "cases": [
+    {
+      "expert_vram_gib": 16,
+      "exit_code": 0,
+      "terminal": "results/runtime_experiments/strata_q36_expert_vram_sweep_20261103/expert_vram_16gib/terminal.json",
+      "status": "passed",
+      "gpu_loaded_mib": 23763,
+      "mem_available_kib": 8444048,
+      "swap_free_drop_kib": 1622980,
+      "request_wall_seconds": [
+        2.033,
+        1.609
+      ],
+      "nvme_request_read_bytes": [
+        401408,
+        122880
+      ]
+    },
+    {
+      "expert_vram_gib": 8,
+      "exit_code": 0,
+      "terminal": "results/runtime_experiments/strata_q36_expert_vram_sweep_20261103/expert_vram_8gib/terminal.json",
+      "status": "passed",
+      "gpu_loaded_mib": 15903,
+      "mem_available_kib": 8454440,
+      "swap_free_drop_kib": 1595372,
+      "request_wall_seconds": [
+        4.544,
+        4.008
+      ],
+      "nvme_request_read_bytes": [
+        405504,
+        0
+      ]
+    },
+    {
+      "expert_vram_gib": 0,
+      "exit_code": 0,
+      "terminal": "results/runtime_experiments/strata_q36_expert_vram_sweep_20261103/expert_vram_0gib/terminal.json",
+      "status": "passed",
+      "gpu_loaded_mib": 8791,
+      "mem_available_kib": 8479752,
+      "swap_free_drop_kib": 1601328,
+      "request_wall_seconds": [
+        6.161,
+        6.042
+      ],
+      "nvme_request_read_bytes": [
+        389120,
+        0
+      ]
+    }
+  ],
+  "finished_at": "2026-11-03T07:23:21+00:00"
+}

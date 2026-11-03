@@ -1,0 +1,38 @@
+{
+  "id": "chatcmpl-f75f094c8d354326921b2fe7",
+  "object": "chat.completion",
+  "created": 1793690365,
+  "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": null,
+        "reasoning_content": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - The user is asking for an explanation of how a B-tree index serves searches, inserts, and deletes in a database.\n   - They specifically want to know what happens during node splits and merges.\n   - The prompt is heavily repeated (the exact same sentence appears ~30 times). This is likely a copy-paste error or an attempt to force attention, but the core request is clear and singular.\n   - I need to provide a comprehensive, accurate, and well-structured explanation covering:\n     - B-tree structure basics"
+      },
+      "finish_reason": "length"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1441,
+    "completion_tokens": 128,
+    "total_tokens": 1569,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "timings": {
+    "cache_n": 0,
+    "prompt_n": 1441,
+    "prompt_ms": 589.9,
+    "prompt_per_token_ms": 0.409,
+    "prompt_per_second": 2442.8,
+    "predicted_n": 128,
+    "predicted_ms": 1014.5,
+    "predicted_per_token_ms": 7.926,
+    "predicted_per_second": 126.2,
+    "draft_n": 0,
+    "draft_n_accepted": 0
+  }
+}

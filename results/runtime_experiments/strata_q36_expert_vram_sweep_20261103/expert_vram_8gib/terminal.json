@@ -1,0 +1,151 @@
+{
+  "started_at": "2026-11-03T07:19:31+00:00",
+  "status": "passed",
+  "model": "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+  "gpu": 0,
+  "context": 8192,
+  "parallel": 1,
+  "mtp": "off",
+  "requested_expert_vram_gib": 8.0,
+  "port": 18130,
+  "nvme_counter": "/sys/block/nvme0n1/stat",
+  "nvme_counter_scope": "host-wide",
+  "launch_args": [
+    "--family",
+    "qwen36",
+    "--model",
+    "ud-q4_k_xl",
+    "--model-path",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "--gpu",
+    "0",
+    "--backend",
+    "nvidia",
+    "--vision",
+    "off",
+    "--context",
+    "8192",
+    "--parallel",
+    "1",
+    "--mtp",
+    "off",
+    "--port",
+    "18130",
+    "--access",
+    "local",
+    "--no-api-key",
+    "--tune",
+    "skip",
+    "--no-tui",
+    "--yes",
+    "--output",
+    "json",
+    "--set",
+    "expert-vram=8"
+  ],
+  "gpu_idle_mib": 19,
+  "host_before": {
+    "MemAvailable_kib": 29072928,
+    "Cached_kib": 8361896,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23196136
+  },
+  "nvme_before": {
+    "read_bytes": 217122432000,
+    "written_bytes": 26523062272
+  },
+  "launch_exit": 0,
+  "launch_seconds": 100.51,
+  "health": {
+    "status": "ok",
+    "max_context": 8192,
+    "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+    "images": false,
+    "api_key": false,
+    "image_generation": false,
+    "loaded": true,
+    "service": "strata"
+  },
+  "gpu_loaded_mib": 15903,
+  "host_loaded": {
+    "MemAvailable_kib": 8454440,
+    "Cached_kib": 28232868,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 21600764
+  },
+  "nvme_loaded": {
+    "read_bytes": 240630715392,
+    "written_bytes": 26523119616
+  },
+  "requests": [
+    {
+      "repeat": 1,
+      "wall_seconds": 4.544,
+      "usage": {
+        "prompt_tokens": 1441,
+        "completion_tokens": 128,
+        "total_tokens": 1569,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finish_reason": "length",
+      "gpu_mib": 15903,
+      "host": {
+        "MemAvailable_kib": 8438820,
+        "Cached_kib": 28240544,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 21603916
+      },
+      "nvme_before": {
+        "read_bytes": 240630715392,
+        "written_bytes": 26523119616
+      },
+      "nvme_after": {
+        "read_bytes": 240631120896,
+        "written_bytes": 26523119616
+      }
+    },
+    {
+      "repeat": 2,
+      "wall_seconds": 4.008,
+      "usage": {
+        "prompt_tokens": 1441,
+        "completion_tokens": 128,
+        "total_tokens": 1569,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finish_reason": "length",
+      "gpu_mib": 15903,
+      "host": {
+        "MemAvailable_kib": 8430212,
+        "Cached_kib": 28240856,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 21604124
+      },
+      "nvme_before": {
+        "read_bytes": 240631120896,
+        "written_bytes": 26523119616
+      },
+      "nvme_after": {
+        "read_bytes": 240631120896,
+        "written_bytes": 26523119616
+      }
+    }
+  ],
+  "stop_exit": 0,
+  "gpu_after_mib": 19,
+  "host_after": {
+    "MemAvailable_kib": 29170236,
+    "Cached_kib": 8504224,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23166712
+  },
+  "nvme_after": {
+    "read_bytes": 240710689792,
+    "written_bytes": 26523119616
+  },
+  "finished_at": "2026-11-03T07:21:24+00:00"
+}

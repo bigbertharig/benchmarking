@@ -1,0 +1,45 @@
+[strata] 2026-11-03 00:02:11 engine started: /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/strata --serve --native /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf --max-context 8192 --prefill auto
+strata-q36: /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf: 753 tensors (layout checked), 4.40 GiB on the GPU in 1.7 s (the routed experts are placed after the engine's buffers)
+strata: K-quant prompt kernels from /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/libstrata_kq.so (STRATA_MMQ_KQ=1)
+strata-q36: prompt experts on MMQ (int8)
+strata-q36: context 8192 cells, prompt chunk 512, MTP block loaded, 16.96 GiB of VRAM free
+strata-q36: the packed Q8_0 decode copies (1.78 GiB) given back so that every routed expert fits in VRAM (STRATA_Q36_KEEP_PACKED=1 keeps them and runs the hybrid mode)
+strata-q36: the experts nearly fit: the attention scores buffer at 64 MB and the VRAM reserve at 256 MiB (instead of 768) so that every main layer's experts fit; a driver or another program needing more VRAM later can make it fail - --expert-vram GiB sets the experts' budget instead
+strata-q36: every routed expert in VRAM (18.75 GiB) in 44.6 s
+strata-q36: warmed up in 0.2 s (one prompt chunk, a decode step)
+strata serve: session 0: prompt 11 tokens = 0 reused + 11 read in 21 ms (523.5 tok/s), 1 generated in 1 ms (1201.8 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 343 ms (4203.5 tok/s), 128 generated in 867 ms (147.7 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 344 ms (4185.9 tok/s), 128 generated in 867 ms (147.6 tok/s), drafts accepted 0 of 0 (length)
+[strata] 2026-11-03 00:06:16 engine started: /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/strata --serve --native /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf --max-context 8192 --prefill auto --expert-vram 12
+strata-q36: /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf: 753 tensors (layout checked), 4.40 GiB on the GPU in 6.0 s (the routed experts are placed after the engine's buffers)
+strata: K-quant prompt kernels from /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/libstrata_kq.so (STRATA_MMQ_KQ=1)
+strata-q36: prompt experts on MMQ (int8)
+strata-q36: context 8192 cells, prompt chunk 2048, MTP block loaded, 16.24 GiB of VRAM free
+strata-q36: hybrid experts: 148 of 256 per layer in VRAM (10.84 GiB), all 18.75 GiB in pinned host memory, the rest of a batch of <= 128 rows on 4 CPU threads, bigger prompt chunks streamed (1.10 GiB staging); 80.3 s
+strata-q36: warmed up in 0.9 s (one prompt chunk, a decode step)
+strata serve: session 0: prompt 11 tokens = 0 reused + 11 read in 221 ms (49.9 tok/s), 1 generated in 1 ms (1959.9 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 1090 ms (1321.7 tok/s), 128 generated in 1839 ms (69.6 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 908 ms (1586.2 tok/s), 128 generated in 1371 ms (93.4 tok/s), drafts accepted 0 of 0 (length)
+strata-q36: hybrid experts: 67789 of 84800 batch entries on the GPU (79.9%), 17011 on the CPU pool in 1523 ms, 3380 slot replacements
+[strata] 2026-11-03 00:17:52 engine started: /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/strata --serve --native /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf --max-context 8192 --prefill auto --expert-vram 16
+strata-q36: /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf: 753 tensors (layout checked), 4.40 GiB on the GPU in 8.1 s (the routed experts are placed after the engine's buffers)
+strata: K-quant prompt kernels from /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/libstrata_kq.so (STRATA_MMQ_KQ=1)
+strata-q36: prompt experts on MMQ (int8)
+strata-q36: context 8192 cells, prompt chunk 2048, MTP block loaded, 16.24 GiB of VRAM free
+strata-q36: hybrid experts: 199 of 256 per layer in VRAM (14.57 GiB), all 18.75 GiB in pinned host memory, the rest of a batch of <= 128 rows on 4 CPU threads, bigger prompt chunks streamed (1.10 GiB staging); 80.8 s
+strata-q36: warmed up in 0.6 s (one prompt chunk, a decode step)
+strata serve: session 0: prompt 11 tokens = 0 reused + 11 read in 126 ms (87.0 tok/s), 1 generated in 1 ms (1922.5 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 721 ms (1999.0 tok/s), 128 generated in 1300 ms (98.4 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 590 ms (2443.0 tok/s), 128 generated in 1014 ms (126.2 tok/s), drafts accepted 0 of 0 (length)
+strata-q36: hybrid experts: 79636 of 84800 batch entries on the GPU (93.9%), 5164 on the CPU pool in 462 ms, 2527 slot replacements
+[strata] 2026-11-03 00:19:42 engine started: /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/strata --serve --native /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf --max-context 8192 --prefill auto --expert-vram 8
+strata-q36: /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf: 753 tensors (layout checked), 4.40 GiB on the GPU in 8.1 s (the routed experts are placed after the engine's buffers)
+strata: K-quant prompt kernels from /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/libstrata_kq.so (STRATA_MMQ_KQ=1)
+strata-q36: prompt experts on MMQ (int8)
+strata-q36: context 8192 cells, prompt chunk 2048, MTP block loaded, 16.24 GiB of VRAM free
+strata-q36: hybrid experts: 94 of 256 per layer in VRAM (6.88 GiB), all 18.75 GiB in pinned host memory, the rest of a batch of <= 128 rows on 4 CPU threads, bigger prompt chunks streamed (1.10 GiB staging); 78.0 s
+strata-q36: warmed up in 1.8 s (one prompt chunk, a decode step)
+strata serve: session 0: prompt 11 tokens = 0 reused + 11 read in 307 ms (35.8 tok/s), 1 generated in 1 ms (1914.9 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 1891 ms (762.1 tok/s), 128 generated in 2641 ms (48.5 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 1627 ms (885.8 tok/s), 128 generated in 2376 ms (53.9 tok/s), drafts accepted 0 of 0 (length)
+strata-q36: hybrid experts: 45764 of 84800 batch entries on the GPU (54.0%), 39036 on the CPU pool in 3446 ms, 3414 slot replacements

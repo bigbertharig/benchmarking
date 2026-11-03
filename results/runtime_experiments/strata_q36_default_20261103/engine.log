@@ -1,0 +1,12 @@
+[strata] 2026-11-03 00:02:11 engine started: /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/strata --serve --native /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf --max-context 8192 --prefill auto
+strata-q36: /data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf: 753 tensors (layout checked), 4.40 GiB on the GPU in 1.7 s (the routed experts are placed after the engine's buffers)
+strata: K-quant prompt kernels from /data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/libstrata_kq.so (STRATA_MMQ_KQ=1)
+strata-q36: prompt experts on MMQ (int8)
+strata-q36: context 8192 cells, prompt chunk 512, MTP block loaded, 16.96 GiB of VRAM free
+strata-q36: the packed Q8_0 decode copies (1.78 GiB) given back so that every routed expert fits in VRAM (STRATA_Q36_KEEP_PACKED=1 keeps them and runs the hybrid mode)
+strata-q36: the experts nearly fit: the attention scores buffer at 64 MB and the VRAM reserve at 256 MiB (instead of 768) so that every main layer's experts fit; a driver or another program needing more VRAM later can make it fail - --expert-vram GiB sets the experts' budget instead
+strata-q36: every routed expert in VRAM (18.75 GiB) in 44.6 s
+strata-q36: warmed up in 0.2 s (one prompt chunk, a decode step)
+strata serve: session 0: prompt 11 tokens = 0 reused + 11 read in 21 ms (523.5 tok/s), 1 generated in 1 ms (1201.8 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 343 ms (4203.5 tok/s), 128 generated in 867 ms (147.7 tok/s), drafts accepted 0 of 0 (length)
+strata serve: session 0: prompt 1441 tokens = 0 reused + 1441 read in 344 ms (4185.9 tok/s), 128 generated in 867 ms (147.6 tok/s), drafts accepted 0 of 0 (length)

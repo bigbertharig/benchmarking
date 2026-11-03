@@ -79,10 +79,18 @@ def main() -> int:
                     help="llama.cpp context size (default: 32768)")
     ap.add_argument("--only-mode", choices=[mode for mode, _, _ in MODES],
                     help="run only one placement, for a targeted repeat")
+    ap.add_argument("--gpu-layers", type=int,
+                    help="override GPU layer count for --only-mode 3090_full; records a partial placement")
+    ap.add_argument("--load-timeout", type=float, default=240,
+                    help="seconds to wait for server readiness (default: 240)")
     args = ap.parse_args()
     if args.ctx < 512:
         ap.error("--ctx must be at least 512")
     modes = tuple(mode for mode in MODES if not args.only_mode or mode[0] == args.only_mode)
+    if args.gpu_layers is not None:
+        if args.only_mode != "3090_full" or args.gpu_layers < 0:
+            ap.error("--gpu-layers requires --only-mode 3090_full and a nonnegative count")
+        modes = ((f"3090_partial_{args.gpu_layers}", "0", str(args.gpu_layers)),)
     args.output.mkdir(parents=True, exist_ok=True)
     if not args.model.is_file():
         raise FileNotFoundError(args.model)
@@ -121,7 +129,7 @@ def main() -> int:
             t0 = time.monotonic()
             launched = run(*cmd)
             row["container_id"] = launched.stdout.strip()[:12]
-            ready()
+            ready(timeout=args.load_timeout)
             row["load_seconds"] = round(time.monotonic() - t0, 2)
             row["gpu_memory_after_load_mib"] = gpu_memory_mib()
             row["server_log"] = str(args.output / f"{mode}.log")

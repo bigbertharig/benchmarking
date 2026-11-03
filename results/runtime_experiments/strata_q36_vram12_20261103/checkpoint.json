@@ -1,0 +1,112 @@
+{
+  "started_at": "2026-11-03T07:06:07+00:00",
+  "status": "running",
+  "model": "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+  "gpu": 0,
+  "context": 8192,
+  "parallel": 1,
+  "mtp": "off",
+  "requested_expert_vram_gib": 12.0,
+  "port": 18130,
+  "launch_args": [
+    "--family",
+    "qwen36",
+    "--model",
+    "ud-q4_k_xl",
+    "--model-path",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "--gpu",
+    "0",
+    "--backend",
+    "nvidia",
+    "--vision",
+    "off",
+    "--context",
+    "8192",
+    "--parallel",
+    "1",
+    "--mtp",
+    "off",
+    "--port",
+    "18130",
+    "--access",
+    "local",
+    "--no-api-key",
+    "--tune",
+    "skip",
+    "--no-tui",
+    "--yes",
+    "--output",
+    "json",
+    "--set",
+    "expert-vram=12"
+  ],
+  "gpu_idle_mib": 19,
+  "host_before": {
+    "MemAvailable_kib": 28730304,
+    "Cached_kib": 27140736,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23967824
+  },
+  "launch_exit": 0,
+  "launch_seconds": 97.83,
+  "health": {
+    "status": "ok",
+    "max_context": 8192,
+    "model": "qwen3.6-35b-a3b-ud-q4_k_xl",
+    "images": false,
+    "api_key": false,
+    "image_generation": false,
+    "loaded": true,
+    "service": "strata"
+  },
+  "gpu_loaded_mib": 19959,
+  "host_loaded": {
+    "MemAvailable_kib": 8417592,
+    "Cached_kib": 28146808,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 21668316
+  },
+  "requests": [
+    {
+      "repeat": 1,
+      "wall_seconds": 2.94,
+      "usage": {
+        "prompt_tokens": 1441,
+        "completion_tokens": 128,
+        "total_tokens": 1569,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finish_reason": "length",
+      "gpu_mib": 19959,
+      "host": {
+        "MemAvailable_kib": 8402424,
+        "Cached_kib": 28147740,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 21671576
+      }
+    },
+    {
+      "repeat": 2,
+      "wall_seconds": 2.284,
+      "usage": {
+        "prompt_tokens": 1441,
+        "completion_tokens": 128,
+        "total_tokens": 1569,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finish_reason": "length",
+      "gpu_mib": 19959,
+      "host": {
+        "MemAvailable_kib": 8355996,
+        "Cached_kib": 28170172,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 21672032
+      }
+    }
+  ]
+}
