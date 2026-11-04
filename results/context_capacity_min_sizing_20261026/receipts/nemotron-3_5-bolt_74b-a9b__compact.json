@@ -1,0 +1,288 @@
+{
+  "case": {
+    "id": "nemotron-3_5-bolt_74b-a9b__compact",
+    "model": "nemotron-3.5-bolt:74b-a9b",
+    "target": "compact",
+    "gpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "ctx": 96256,
+    "trained_ctx": 262144,
+    "preferred_pool": "brain",
+    "actual_pool": "mixed",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      513,
+      561,
+      635,
+      1573
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nemotron-3_5-bolt_74b-a9b__compact.json"
+  },
+  "max_validated_ctx": 96256,
+  "started_at": "2026-10-26T23:43:13+00:00",
+  "min_fit": {
+    "model": "nemotron-3.5-bolt:74b-a9b",
+    "arch": "nemotron_h_moe",
+    "gpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 36668,
+    "host_mb": 544,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (2 loads, 4 cards)",
+    "overhead_mb": [
+      573,
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "56,16,9,8",
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 56,
+        "weights_mb": 21940,
+        "kv_mb": 231,
+        "compute_mb": 97,
+        "projected_mb": 22841,
+        "headroom_mb": 1708
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 16,
+        "weights_mb": 4882,
+        "kv_mb": 66,
+        "compute_mb": 97,
+        "projected_mb": 5245,
+        "headroom_mb": 895
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 9,
+        "weights_mb": 4657,
+        "kv_mb": 37,
+        "compute_mb": 97,
+        "projected_mb": 4991,
+        "headroom_mb": 1149
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 7,
+        "weights_mb": 5188,
+        "kv_mb": 29,
+        "compute_mb": 97,
+        "projected_mb": 5513,
+        "headroom_mb": 627
+      }
+    ],
+    "reason": "fits: nemotron-3.5-bolt:74b-a9b on GPU [0, 1, 2, 3] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 196.7,
+    "response": {
+      "profile": "nemotron-3.5-bolt-74b-a9b-g0-1-2-3",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "lease": "benchmarks-630c439dce064954b7f25a638230c209",
+      "ctx": 8192,
+      "tensor_split": "56,16,9,8",
+      "estimate": {
+        "model": "nemotron-3.5-bolt:74b-a9b",
+        "arch": "nemotron_h_moe",
+        "gpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 36668,
+        "host_mb": 544,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (2 loads, 4 cards)",
+        "overhead_mb": [
+          573,
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": "56,16,9,8",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 56,
+            "weights_mb": 21940,
+            "kv_mb": 231,
+            "compute_mb": 97,
+            "projected_mb": 22841,
+            "headroom_mb": 1708
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 16,
+            "weights_mb": 4882,
+            "kv_mb": 66,
+            "compute_mb": 97,
+            "projected_mb": 5245,
+            "headroom_mb": 895
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 4657,
+            "kv_mb": 37,
+            "compute_mb": 97,
+            "projected_mb": 4991,
+            "headroom_mb": 1149
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 7,
+            "weights_mb": 5188,
+            "kv_mb": 29,
+            "compute_mb": 97,
+            "projected_mb": 5513,
+            "headroom_mb": 627
+          }
+        ],
+        "reason": "fits: nemotron-3.5-bolt:74b-a9b on GPU [0, 1, 2, 3] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 16384,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 8192,
+        "offloaded": 89,
+        "layers": 89,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 21940,
+            "kv_mb": 21,
+            "compute_mb": 36,
+            "total_mb": 21998
+          },
+          {
+            "gpu": 1,
+            "model_mb": 4882,
+            "kv_mb": 8,
+            "compute_mb": 27,
+            "total_mb": 4918
+          },
+          {
+            "gpu": 2,
+            "model_mb": 4657,
+            "kv_mb": 4,
+            "compute_mb": 27,
+            "total_mb": 4688
+          },
+          {
+            "gpu": 3,
+            "model_mb": 5188,
+            "kv_mb": 0,
+            "compute_mb": 23,
+            "total_mb": 5210
+          }
+        ],
+        "host_mb": 558,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 4950,
+            "free_mb": 1015
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 4708,
+            "free_mb": 1268
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6065,
+            "projected_mb": 5226,
+            "free_mb": 755
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "nemotron-3.5-bolt-74b-a9b-g0-1-2-3",
+      "item": "unload-0121ed97484f",
+      "state": "done",
+      "released": "benchmarks-630c439dce064954b7f25a638230c209"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 8192,
+  "finished_at": "2026-10-26T23:46:35+00:00"
+}

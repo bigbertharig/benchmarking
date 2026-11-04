@@ -1,0 +1,97 @@
+{
+  "model": "/data/model-hotset/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-11-04T02:31:23+00:00",
+  "context": 32768,
+  "batch": 64,
+  "threads": 4,
+  "power_caps_w": [
+    350,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "baseline_gpu_memory_mib": [
+    19,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "modes": {
+    "3090_partial_48": {
+      "started_at": "2026-11-04T02:31:23+00:00",
+      "gpu_visible": "0",
+      "gpu_layers_requested": "48",
+      "status": "passed",
+      "host_memory_before": {
+        "MemAvailable_mib": 29187,
+        "SwapTotal_mib": 23561,
+        "SwapFree_mib": 23098
+      },
+      "container_id": "327379e58bdc",
+      "load_seconds": 100.98,
+      "gpu_memory_after_load_mib": [
+        22683,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "host_memory_after_load": {
+        "MemAvailable_mib": 12723,
+        "SwapTotal_mib": 23561,
+        "SwapFree_mib": 23047
+      },
+      "server_log": "/mnt/shared/plans/shoulders/benchmarking/results/ram_offload_comparison_nemotron32k_gpu0ram_20261104/3090_partial_48.log",
+      "repeat_1": {
+        "wall_seconds": 41.81,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1542,
+          "prompt_ms": 21621.414,
+          "prompt_per_token_ms": 14.02166926070039,
+          "prompt_per_second": 71.31818483286986,
+          "predicted_n": 128,
+          "predicted_ms": 20170.84,
+          "predicted_per_token_ms": 158.82551181102363,
+          "predicted_per_second": 6.296217708335399
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1542,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "repeat_2": {
+        "wall_seconds": 41.88,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1542,
+          "prompt_ms": 21352.906,
+          "prompt_per_token_ms": 13.847539559014267,
+          "prompt_per_second": 72.21499499880719,
+          "predicted_n": 128,
+          "predicted_ms": 20290.649,
+          "predicted_per_token_ms": 159.76888976377953,
+          "predicted_per_second": 6.2590408024898565
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1542,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "host_memory_after_requests": {
+        "MemAvailable_mib": 11672,
+        "SwapTotal_mib": 23561,
+        "SwapFree_mib": 23050
+      },
+      "finished_at": "2026-11-04T02:34:30+00:00"
+    }
+  },
+  "finished_at": "2026-11-04T02:34:30+00:00",
+  "status": "passed"
+}

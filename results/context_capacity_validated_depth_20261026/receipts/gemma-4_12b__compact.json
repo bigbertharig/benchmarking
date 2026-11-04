@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T20:05:47-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 207616 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "gemma-4:12b",
+  "ubatch": 64,
+  "cards": [
+    1,
+    2
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 207616,
+    "ctx_limit": "requested",
+    "tensor_split": "27,22",
+    "margin_mb": 512,
+    "weights_mb": 7024,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 27,
+        "weights_mb": 3496,
+        "kv_mb": 1057,
+        "compute_mb": 648,
+        "projected_mb": 5401,
+        "headroom_mb": 739
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 21,
+        "weights_mb": 3529,
+        "kv_mb": 1006,
+        "compute_mb": 648,
+        "projected_mb": 5383,
+        "headroom_mb": 757
+      }
+    ]
+  },
+  "load": {
+    "seconds": 130.8,
+    "profile": "gemma-4-12b-g1-2",
+    "port": 11435,
+    "ctx_allocated": 207616,
+    "measured": {
+      "n_ctx": 207616,
+      "offloaded": 49,
+      "layers": 49,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 3496,
+          "kv_mb": 984,
+          "compute_mb": 531,
+          "total_mb": 5010
+        },
+        {
+          "gpu": 2,
+          "model_mb": 3529,
+          "kv_mb": 952,
+          "compute_mb": 522,
+          "total_mb": 5003
+        }
+      ],
+      "host_mb": 904,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 5010,
+          "free_mb": 985
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 5006,
+          "free_mb": 989
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 65,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 112.96,
+    "generation_tokens_per_second": 12.85,
+    "time_to_first_token_seconds": 0.6,
+    "wall_seconds": 40.4,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 38,
+        "avg_power_w": 68.7,
+        "peak_power_w": 130.19,
+        "peak_temperature_c": 60.0,
+        "peak_memory_mb": 5094.0
+      },
+      {
+        "gpu": 2,
+        "samples": 38,
+        "avg_power_w": 69.6,
+        "peak_power_w": 124.17,
+        "peak_temperature_c": 58.0,
+        "peak_memory_mb": 5088.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 21209,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 139.19,
+      "generation_tokens_per_second": 10.44,
+      "time_to_first_token_seconds": 152.4,
+      "wall_seconds": 167.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 156,
+          "avg_power_w": 61.9,
+          "peak_power_w": 134.36,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 5098.0
+        },
+        {
+          "gpu": 2,
+          "samples": 156,
+          "avg_power_w": 64.1,
+          "peak_power_w": 142.42,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 5092.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "TYEN6941",
+      "answer": "TYEN6941_\nTYEN6941_\nTYEN6941_\nTYEN6941_\nTYEN6941_\nTYEN6941_\nTYEN6941_\nTYEN6941_\n",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 198903,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 34.93,
+      "generation_tokens_per_second": 4.73,
+      "time_to_first_token_seconds": 5694.5,
+      "wall_seconds": 5728.9,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 5329,
+          "avg_power_w": 77.4,
+          "peak_power_w": 151.59,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 5098.0
+        },
+        {
+          "gpu": 2,
+          "samples": 5329,
+          "avg_power_w": 73.9,
+          "peak_power_w": 153.46,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 5092.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "VNOF5560",
+      "answer": "VNOF5560_\nVNOF5560_\nVNOF5560_\nVNOF5560_\nVNOF5560_\nVNOF5560_\nVNOF5560_\nVNOF5560_\n",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "gemma-4_12b__compact"
+}

@@ -158,17 +158,16 @@ Operational note:
 
 ### qwen3.6 family (27B, 35B-A3B)
 
-- GGUFs: `Qwen3.6-27B-Q4_K_M.gguf`, `Qwen3.6-35B-A3B-UD-Q4_K_M.gguf`
+- Active GGUFs: `Qwen3.6-27B-Q4_K_M.gguf`, `Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf` (Strata-compatible). The Q4_K_M 35B quant is archived; its historical receipts remain.
 - Tier: brain (GPU 0, 3090)
 - Gated Delta Networks architecture (hybrid linear attention)
-- Requires `llama-runtime:b8884-candidate` (llama.cpp >= b8884)
+- Current managed runtime: `llama-runtime:b11669` (the earlier b8884 candidate is historical).
 - **Runtime: `--reasoning-budget 0` REQUIRED**
 - **Benchmark: `--patch-think-tag-strip` REQUIRED** (BBH + DROP)
 - `--reasoning-budget 0` alone is NOT sufficient for benchmarks
-- Memory: 27B ~16GB, 35B-A3B 21.3GB (tight on 3090 — do NOT increase ctx beyond 16384)
+- Memory: 27B ~16GB. The 35B-A3B XL quant has a 20,765 MiB model buffer; its normal manager fit reaches 201,984 context on the 3090 alone, and a managed 262,144-context load plus short probe passed on the 3090 and one 1060 with the standard margin. The 262K two-card run also passed 10% and 90% final-answer recall; use the recorded fit rather than a fixed 16K prohibition.
 - 35B-A3B has recurrent state (`llama_memory_recurrent`)
 - Tensor split bug #22058 documented but **27B works in practice** on 3090+1060 with b8884-candidate. Tested up to 262k ctx (3090+2×1060, `--tensor-split 4,1,1`). Full results: archive/docs/split_load_reference_pre_2026-10-24.md; current split findings in RIG_PERFORMANCE.md.
-
 ### gpt-oss:20b
 
 - GGUF: `gpt-oss-20b-mxfp4.gguf` (12.1GB, MXFP4 native quant)

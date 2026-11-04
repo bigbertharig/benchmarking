@@ -1,0 +1,210 @@
+{
+  "case": {
+    "id": "gpt-oss_20b__compact",
+    "model": "gpt-oss:20b",
+    "target": "compact",
+    "gpus": [
+      0
+    ],
+    "ctx": 131072,
+    "trained_ctx": 131072,
+    "preferred_pool": "brain",
+    "actual_pool": "brain",
+    "ubatch": 128,
+    "projected_headroom_mb": [
+      9371
+    ]
+  },
+  "started_at": "2026-10-26T22:47:46+00:00",
+  "min_fit": {
+    "model": "gpt-oss:20b",
+    "arch": "gpt-oss",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 10949,
+    "host_mb": 587,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 24,
+        "weights_mb": 10949,
+        "kv_mb": 204,
+        "compute_mb": 89,
+        "projected_mb": 11816,
+        "headroom_mb": 12733
+      }
+    ],
+    "reason": "fits: gpt-oss:20b on GPU [0] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
+    "ubatch": 128,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "gpt-oss:20b",
+    "arch": "gpt-oss",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 10949,
+    "host_mb": 587,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 131072,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 131072,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 24,
+        "weights_mb": 10949,
+        "kv_mb": 3264,
+        "compute_mb": 392,
+        "projected_mb": 15178,
+        "headroom_mb": 9371
+      }
+    ],
+    "reason": "fits: gpt-oss:20b on GPU [0] at ctx 131072 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
+    "ubatch": 128,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 41.5,
+    "response": {
+      "profile": "gpt-oss-20b-g0",
+      "model": "gpt-oss:20b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0
+      ],
+      "lease": "benchmarks-57f4a07fc02542868b65daa8d04c0f79",
+      "ctx": 131072,
+      "tensor_split": null,
+      "estimate": {
+        "model": "gpt-oss:20b",
+        "arch": "gpt-oss",
+        "gpus": [
+          0
+        ],
+        "n_ctx_train": 131072,
+        "weights_mb": 10949,
+        "host_mb": 587,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (1 load, 1 card)",
+        "overhead_mb": [
+          573
+        ],
+        "fits": true,
+        "ctx": 131072,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 131072,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 24,
+            "weights_mb": 10949,
+            "kv_mb": 3264,
+            "compute_mb": 392,
+            "projected_mb": 15178,
+            "headroom_mb": 9371
+          }
+        ],
+        "reason": "fits: gpt-oss:20b on GPU [0] at ctx 131072 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
+        "ubatch": 128,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 16384,
+          "max": 131072,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 131072,
+        "offloaded": 25,
+        "layers": 25,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 10949,
+            "kv_mb": 1635,
+            "compute_mb": 298,
+            "total_mb": 12882
+          }
+        ],
+        "host_mb": 625,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "gpt-oss-20b-g0",
+      "item": "unload-037dfd4cdd99",
+      "state": "done",
+      "released": "benchmarks-57f4a07fc02542868b65daa8d04c0f79"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 131072,
+  "planned_ctx": 131072,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T22:48:34+00:00"
+}

@@ -1,0 +1,486 @@
+{
+  "case": {
+    "id": "devstral-small_24b__frontier",
+    "model": "devstral-small:24b",
+    "target": "frontier",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ctx": 259072,
+    "trained_ctx": 393216,
+    "preferred_pool": "brain",
+    "actual_pool": "mixed",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      525,
+      1302,
+      1302,
+      1302,
+      1217,
+      692
+    ]
+  },
+  "started_at": "2026-10-26T23:13:04+00:00",
+  "min_fit": {
+    "model": "devstral-small:24b",
+    "arch": "mistral3",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "n_ctx_train": 393216,
+    "weights_mb": 13302,
+    "host_mb": 360,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      573,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": "21,4,4,4,4,4",
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 21,
+        "weights_mb": 6687,
+        "kv_mb": 178,
+        "compute_mb": 96,
+        "projected_mb": 7534,
+        "headroom_mb": 17015
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 4,
+        "weights_mb": 1235,
+        "kv_mb": 34,
+        "compute_mb": 96,
+        "projected_mb": 1565,
+        "headroom_mb": 4575
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 4,
+        "weights_mb": 1278,
+        "kv_mb": 34,
+        "compute_mb": 96,
+        "projected_mb": 1608,
+        "headroom_mb": 4532
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 4,
+        "weights_mb": 1235,
+        "kv_mb": 34,
+        "compute_mb": 96,
+        "projected_mb": 1565,
+        "headroom_mb": 4575
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 4,
+        "weights_mb": 1320,
+        "kv_mb": 34,
+        "compute_mb": 96,
+        "projected_mb": 1650,
+        "headroom_mb": 4490
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 1547,
+        "kv_mb": 26,
+        "compute_mb": 96,
+        "projected_mb": 1869,
+        "headroom_mb": 4271
+      }
+    ],
+    "reason": "fits: devstral-small:24b on GPU [0, 1, 2, 3, 4, 5] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 393216,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "devstral-small:24b",
+    "arch": "mistral3",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "n_ctx_train": 393216,
+    "weights_mb": 13302,
+    "host_mb": 360,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      573,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 259072,
+    "ctx_limit": "card memory",
+    "per_slot_ctx": 259072,
+    "tensor_split": "25,3,3,3,3,4",
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 25,
+        "weights_mb": 7922,
+        "kv_mb": 13441,
+        "compute_mb": 2088,
+        "projected_mb": 24024,
+        "headroom_mb": 525
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 937,
+        "kv_mb": 1613,
+        "compute_mb": 2088,
+        "projected_mb": 4838,
+        "headroom_mb": 1302
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 937,
+        "kv_mb": 1613,
+        "compute_mb": 2088,
+        "projected_mb": 4838,
+        "headroom_mb": 1302
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 937,
+        "kv_mb": 1613,
+        "compute_mb": 2088,
+        "projected_mb": 4838,
+        "headroom_mb": 1302
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 1022,
+        "kv_mb": 1613,
+        "compute_mb": 2088,
+        "projected_mb": 4923,
+        "headroom_mb": 1217
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 1547,
+        "kv_mb": 1613,
+        "compute_mb": 2088,
+        "projected_mb": 5448,
+        "headroom_mb": 692
+      }
+    ],
+    "reason": "fits: devstral-small:24b on GPU [0, 1, 2, 3, 4, 5] at ctx 259072 (limited by card memory)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 393216,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 61.3,
+    "response": {
+      "profile": "devstral-small-24b-g0-1-2-3-4-5",
+      "model": "devstral-small:24b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "lease": "benchmarks-5f6747f575c14eff94d5106c0298340c",
+      "ctx": 259072,
+      "tensor_split": "25,3,3,3,3,4",
+      "estimate": {
+        "model": "devstral-small:24b",
+        "arch": "mistral3",
+        "gpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "n_ctx_train": 393216,
+        "weights_mb": 13302,
+        "host_mb": 360,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          573,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 259072,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 259072,
+        "tensor_split": "25,3,3,3,3,4",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 25,
+            "weights_mb": 7922,
+            "kv_mb": 13441,
+            "compute_mb": 2088,
+            "projected_mb": 24024,
+            "headroom_mb": 525
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 3,
+            "weights_mb": 937,
+            "kv_mb": 1613,
+            "compute_mb": 2088,
+            "projected_mb": 4838,
+            "headroom_mb": 1302
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 3,
+            "weights_mb": 937,
+            "kv_mb": 1613,
+            "compute_mb": 2088,
+            "projected_mb": 4838,
+            "headroom_mb": 1302
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 3,
+            "weights_mb": 937,
+            "kv_mb": 1613,
+            "compute_mb": 2088,
+            "projected_mb": 4838,
+            "headroom_mb": 1302
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 3,
+            "weights_mb": 1022,
+            "kv_mb": 1613,
+            "compute_mb": 2088,
+            "projected_mb": 4923,
+            "headroom_mb": 1217
+          },
+          {
+            "gpu": 5,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 3,
+            "weights_mb": 1547,
+            "kv_mb": 1613,
+            "compute_mb": 2088,
+            "projected_mb": 5448,
+            "headroom_mb": 692
+          }
+        ],
+        "reason": "fits: devstral-small:24b on GPU [0, 1, 2, 3, 4, 5] at ctx 259072 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 393216,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 259072,
+        "offloaded": 41,
+        "layers": 41,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 7922,
+            "kv_mb": 13441,
+            "compute_mb": 1160,
+            "total_mb": 22522
+          },
+          {
+            "gpu": 1,
+            "model_mb": 937,
+            "kv_mb": 1613,
+            "compute_mb": 1148,
+            "total_mb": 3698
+          },
+          {
+            "gpu": 2,
+            "model_mb": 937,
+            "kv_mb": 1613,
+            "compute_mb": 1148,
+            "total_mb": 3698
+          },
+          {
+            "gpu": 3,
+            "model_mb": 937,
+            "kv_mb": 1613,
+            "compute_mb": 1148,
+            "total_mb": 3698
+          },
+          {
+            "gpu": 4,
+            "model_mb": 1022,
+            "kv_mb": 1613,
+            "compute_mb": 1148,
+            "total_mb": 3783
+          },
+          {
+            "gpu": 5,
+            "model_mb": 1547,
+            "kv_mb": 1613,
+            "compute_mb": 1148,
+            "total_mb": 4308
+          }
+        ],
+        "host_mb": 499,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 3703,
+            "free_mb": 2292
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 3703,
+            "free_mb": 2292
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6065,
+            "projected_mb": 3703,
+            "free_mb": 2292
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6065,
+            "projected_mb": 3788,
+            "free_mb": 2207
+          },
+          {
+            "gpu": 5,
+            "total_mb": 6065,
+            "projected_mb": 4313,
+            "free_mb": 1682
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "devstral-small-24b-g0-1-2-3-4-5",
+      "item": "unload-096bc57d301f",
+      "state": "done",
+      "released": "benchmarks-5f6747f575c14eff94d5106c0298340c"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 259072,
+  "planned_ctx": 259072,
+  "plan_delta": 0,
+  "reaches_trained": false,
+  "finished_at": "2026-10-26T23:14:12+00:00"
+}

@@ -1,0 +1,210 @@
+{
+  "case": {
+    "id": "ministral-3_14b__compact",
+    "model": "ministral-3:14b",
+    "target": "compact",
+    "gpus": [
+      1,
+      2
+    ],
+    "ctx": 33792,
+    "trained_ctx": 262144,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      573,
+      517
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_14b__compact.json"
+  },
+  "max_validated_ctx": 33792,
+  "started_at": "2026-10-26T23:42:16+00:00",
+  "min_fit": {
+    "model": "ministral-3:14b",
+    "arch": "mistral3",
+    "gpus": [
+      1,
+      2
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 7490,
+    "host_mb": 360,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (4 loads, 2 cards)",
+    "overhead_mb": [
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "21,20",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 21,
+        "weights_mb": 3646,
+        "kv_mb": 357,
+        "compute_mb": 127,
+        "projected_mb": 4329,
+        "headroom_mb": 1811
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 19,
+        "weights_mb": 3844,
+        "kv_mb": 323,
+        "compute_mb": 127,
+        "projected_mb": 4494,
+        "headroom_mb": 1646
+      }
+    ],
+    "reason": "fits: ministral-3:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 51.5,
+    "response": {
+      "profile": "ministral-3-14b-g1-2",
+      "model": "ministral-3:14b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1,
+        2
+      ],
+      "lease": "benchmarks-2a7a5813be7f459e9f04844abe8fc088",
+      "ctx": 8192,
+      "tensor_split": "21,20",
+      "estimate": {
+        "model": "ministral-3:14b",
+        "arch": "mistral3",
+        "gpus": [
+          1,
+          2
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 7490,
+        "host_mb": 360,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (4 loads, 2 cards)",
+        "overhead_mb": [
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": "21,20",
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 21,
+            "weights_mb": 3646,
+            "kv_mb": 357,
+            "compute_mb": 127,
+            "projected_mb": 4329,
+            "headroom_mb": 1811
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 19,
+            "weights_mb": 3844,
+            "kv_mb": 323,
+            "compute_mb": 127,
+            "projected_mb": 4494,
+            "headroom_mb": 1646
+          }
+        ],
+        "reason": "fits: ministral-3:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 8192,
+        "offloaded": 41,
+        "layers": 41,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 3646,
+            "kv_mb": 357,
+            "compute_mb": 57,
+            "total_mb": 4060
+          },
+          {
+            "gpu": 2,
+            "model_mb": 3844,
+            "kv_mb": 323,
+            "compute_mb": 46,
+            "total_mb": 4213
+          }
+        ],
+        "host_mb": 377,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 4059,
+            "free_mb": 1936
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 4218,
+            "free_mb": 1777
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "ministral-3-14b-g1-2",
+      "item": "unload-948140699d88",
+      "state": "done",
+      "released": "benchmarks-2a7a5813be7f459e9f04844abe8fc088"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 8192,
+  "finished_at": "2026-10-26T23:43:13+00:00"
+}

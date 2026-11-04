@@ -169,17 +169,9 @@ fits on the cards you intend to use, with headroom on every card.
 
 ## Phase 2: Context bounds before smoke
 
-The **minimum deployment setting** uses the fewest cards that can fully load the model, at the **largest
-context that fits on those cards**. This is distinct from the manager's minimum context floor: the floor
-is a load-safety probe, not the context we normally offer. The **maximum deployment setting** uses the
-largest allowed card group, at the largest context that fits there, capped by the model's trained context.
-Choose the smallest fitting placement (`compact-gpus`) and the larger group allowed for its longest
-practical context (`ceiling-gpus`). Keep worker-only and brain-only placements separate when they fit;
-use a mixed group only when necessary. If weights require every available card, both settings use the
-same group and collapse to one deployment setting: the largest context that actually fits on all cards.
-That rig ceiling can be far below the trained context limit. Record both numbers; do not label the trained
-limit as a runnable setting. Verify the smallest group with fit and a real load rather than inferring it
-from model size. The runner checks the manager's context floor and ceiling on each distinct group, then
+The intended **minimum deployment profile** uses the fewest cards that fully load the model at a deliberately chosen compact working context. Use provisional minimum-useful targets of 8K for small models, 16K for roughly 30B-class models, and 32K for roughly 70B+ models. These are workload-facing targets, not hard GGUF limits; choose an exception from the task and measured context behavior. Parameter count alone is not a memory-sizing formula. The intended **maximum deployment profile** uses the fewest allowed cards that load and pass deep recall at the model's trained context ceiling. Do not add cards after the ceiling is reached merely to call the placement a maximum. If the rig cannot reach the trained ceiling, leave the maximum profile unvalidated or unavailable and separately report the highest context that did load and pass recall. A giant model can therefore have only a validated minimum profile even when all available cards are needed for its weights.
+
+The registry's `context_bounds.min` and `context_bounds.max` are a planning floor and a GGUF trained limit, **not** these measured deployment profiles or saved layer splits. The current `run_model_context_bounds.py` measures capacity bounds on two selected groups (`compact-gpus` and `ceiling-gpus`); its compact/ceiling maxima are evidence for profile selection, not the deployment profiles themselves. Choose the smallest fitting groups with manager plans, then verify real loads; a fit projection alone is insufficient. Keep worker-only and brain-only choices distinct when both are useful, and use a mixed group when needed to reach the requested ceiling. The runner checks the manager's context floor and ceiling on each distinct group, then
 loads and unloads both contexts with full GPU offload and the standing 350 W / 100 W power caps. It writes
 checkpointed receipts, a summary, and a terminal status; it does not run a long prompt or promote a profile.
 
@@ -190,11 +182,11 @@ rigctl run-start --run bounds-<slug> -- python3 \
   --output /mnt/shared/plans/shoulders/benchmarking/results/model_context_bounds_<slug>
 ```
 
-The **compact maximum** is the minimum deployment setting; the **ceiling maximum** is the maximum deployment
-setting. These are measured rig limits, distinct from the model's trained context ceiling. For a model
-that needs every card, compact maximum and ceiling maximum are the same setting. The manager's minimum
-context load separately checks the profile floor. If a fit or load fails, correct the profile
-or GPU group and rerun the failed group before smoke. Never infer a working maximum from fit alone.
+The **compact maximum** and **ceiling maximum** from this runner are measured fit/load limits on the supplied
+card groups, distinct from the proposed minimum/maximum deployment profiles and the GGUF trained ceiling.
+The manager's minimum-context load separately checks the profile floor. If a fit or load fails, correct
+the profile or GPU group and rerun the failed group before smoke. Never infer a working maximum from fit
+alone; a claimed deployment maximum also requires deep-context recall evidence.
 
 **Gate**: the terminal receipt passes every distinct group, with min and max loads fully offloaded and
 unloaded. Record the observed bounds in the model's registry notes; keep the trained ceiling in
@@ -338,6 +330,15 @@ rigctl run-start --run <name> \
   /mnt/shared/plans/shoulders/benchmarking/campaigns/<name>.json --run-id <name> --max-active-models 3
 ```
 
+For a long campaign, attach one completion wait after `run-start` instead of checking `rigctl runs` repeatedly:
+
+```bash
+python3 scripts/integration/wait_for_campaign_completion.py \
+  /mnt/shared/logs/benchmarks/campaigns/history/<manifest-name>/<run-id>/status.json
+```
+
+The wait reacts to the campaign's atomic status update and prints a `CAMPAIGN_COMPLETION_ALERT` with block counts and receipt path. It exits nonzero on failure; filesystems that do not forward inotify events get a 30-minute fallback read. Keep the waiting tool cell active to deliver the alert to the agent.
+
 Placement: omit it and the rig manager picks the cards (the fewest that hold the model at its profile's
 context, across the 3090 and the 1060s alike), or pin them with `gpus: [0, 1, 2, 3]` (`brain` is GPU 0).
 The campaign puts the rig in bench mode; busy cards are waited for. `--max-active-models` caps how many
@@ -372,6 +373,15 @@ decode budget for comparable speed measurements.
 changes the prompt, so compare it only with runs using the same instruction.
 Prompt caching is off, so prefill is measured over the whole prompt. The record is
 `results/runtime_experiments/<slug>_capacity_g<cards>_ctx<context>_<date>.json`; the model is unloaded at the end.
+For a long capacity run, wait on its receipt instead of repeatedly checking the rig:
+
+```bash
+python3 scripts/integration/wait_for_campaign_completion.py --kind capacity \
+  results/runtime_experiments/<capacity-receipt>.json
+```
+
+This prints a `CAPACITY_COMPLETION_ALERT` as soon as the terminal receipt is written, exits nonzero on failure, and falls back to one read every 30 minutes if filesystem events are unavailable. Keep the waiting tool cell active until it returns.
+
 The run rebuilds [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md); what the numbers mean, and the
 other speed and PCIe tools, are in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md).
 

@@ -1,0 +1,161 @@
+{
+  "case": {
+    "id": "qwen2_5-coder_7b__compact",
+    "model": "qwen2.5-coder:7b",
+    "target": "compact",
+    "gpus": [
+      1
+    ],
+    "ctx": 32768,
+    "trained_ctx": 32768,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      688
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen2_5-coder_7b__compact.json"
+  },
+  "max_validated_ctx": 32768,
+  "started_at": "2026-10-26T23:41:39+00:00",
+  "min_fit": {
+    "model": "qwen2.5-coder:7b",
+    "arch": "qwen2",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 32768,
+    "weights_mb": 4168,
+    "host_mb": 292,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (2 loads, 1 card)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 28,
+        "weights_mb": 4168,
+        "kv_mb": 238,
+        "compute_mb": 87,
+        "projected_mb": 4693,
+        "headroom_mb": 1447
+      }
+    ],
+    "reason": "fits: qwen2.5-coder:7b on GPU [1] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 32768,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 31.7,
+    "response": {
+      "profile": "qwen2.5-coder-7b-g1",
+      "model": "qwen2.5-coder:7b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1
+      ],
+      "lease": "benchmarks-18640391a855421c93de2069b6b178e9",
+      "ctx": 8192,
+      "tensor_split": null,
+      "estimate": {
+        "model": "qwen2.5-coder:7b",
+        "arch": "qwen2",
+        "gpus": [
+          1
+        ],
+        "n_ctx_train": 32768,
+        "weights_mb": 4168,
+        "host_mb": 292,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (2 loads, 1 card)",
+        "overhead_mb": [
+          200
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 28,
+            "weights_mb": 4168,
+            "kv_mb": 238,
+            "compute_mb": 87,
+            "projected_mb": 4693,
+            "headroom_mb": 1447
+          }
+        ],
+        "reason": "fits: qwen2.5-coder:7b on GPU [1] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 16384,
+          "max": 32768,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 8192,
+        "offloaded": 29,
+        "layers": 29,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 4168,
+            "kv_mb": 238,
+            "compute_mb": 21,
+            "total_mb": 4428
+          }
+        ],
+        "host_mb": 297,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "qwen2.5-coder-7b-g1",
+      "item": "unload-1304753037d7",
+      "state": "done",
+      "released": "benchmarks-18640391a855421c93de2069b6b178e9"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 8192,
+  "finished_at": "2026-10-26T23:42:16+00:00"
+}

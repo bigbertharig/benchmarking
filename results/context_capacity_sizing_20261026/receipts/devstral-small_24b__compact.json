@@ -1,0 +1,210 @@
+{
+  "case": {
+    "id": "devstral-small_24b__compact",
+    "model": "devstral-small:24b",
+    "target": "compact",
+    "gpus": [
+      0
+    ],
+    "ctx": 117504,
+    "trained_ctx": 393216,
+    "preferred_pool": "brain",
+    "actual_pool": "brain",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      527
+    ]
+  },
+  "started_at": "2026-10-26T22:43:05+00:00",
+  "min_fit": {
+    "model": "devstral-small:24b",
+    "arch": "mistral3",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 393216,
+    "weights_mb": 13302,
+    "host_mb": 360,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 40,
+        "weights_mb": 13302,
+        "kv_mb": 340,
+        "compute_mb": 96,
+        "projected_mb": 14311,
+        "headroom_mb": 10238
+      }
+    ],
+    "reason": "fits: devstral-small:24b on GPU [0] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 393216,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "devstral-small:24b",
+    "arch": "mistral3",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 393216,
+    "weights_mb": 13302,
+    "host_mb": 360,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 117504,
+    "ctx_limit": "card memory",
+    "per_slot_ctx": 117504,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 40,
+        "weights_mb": 13302,
+        "kv_mb": 9754,
+        "compute_mb": 393,
+        "projected_mb": 24022,
+        "headroom_mb": 527
+      }
+    ],
+    "reason": "fits: devstral-small:24b on GPU [0] at ctx 117504 (limited by card memory)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 393216,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 48.1,
+    "response": {
+      "profile": "devstral-small-24b-g0",
+      "model": "devstral-small:24b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0
+      ],
+      "lease": "benchmarks-6f597a43abe747e38934fcc421b80312",
+      "ctx": 117504,
+      "tensor_split": null,
+      "estimate": {
+        "model": "devstral-small:24b",
+        "arch": "mistral3",
+        "gpus": [
+          0
+        ],
+        "n_ctx_train": 393216,
+        "weights_mb": 13302,
+        "host_mb": 360,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (1 load, 1 card)",
+        "overhead_mb": [
+          573
+        ],
+        "fits": true,
+        "ctx": 117504,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 117504,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 40,
+            "weights_mb": 13302,
+            "kv_mb": 9754,
+            "compute_mb": 393,
+            "projected_mb": 24022,
+            "headroom_mb": 527
+          }
+        ],
+        "reason": "fits: devstral-small:24b on GPU [0] at ctx 117504 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 393216,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 117504,
+        "offloaded": 41,
+        "layers": 41,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 13302,
+            "kv_mb": 9754,
+            "compute_mb": 479,
+            "total_mb": 23536
+          }
+        ],
+        "host_mb": 379,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "devstral-small-24b-g0",
+      "item": "unload-6be03a3bf169",
+      "state": "done",
+      "released": "benchmarks-6f597a43abe747e38934fcc421b80312"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 117504,
+  "planned_ctx": 117504,
+  "plan_delta": 0,
+  "reaches_trained": false,
+  "finished_at": "2026-10-26T22:43:59+00:00"
+}

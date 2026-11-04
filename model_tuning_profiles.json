@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-27",
+  "version": "2026-11-04",
   "notes": "Generated from model_registry.json by scripts/active/model_library.py export. Do not edit.",
   "models": {
     "DeepSeek-R1-Distill-Qwen-14B-Q4_K_M.gguf": {
@@ -81,7 +81,7 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Brain-tier candidate. Corrupt archive artifact replaced and SHA-256 verified on 2026-08-12; geo-import smoke completed successfully."
+      "notes": "Brain-tier candidate. Corrupt archive artifact replaced and SHA-256 verified on 2026-08-12; geo-import smoke completed successfully. 2026-11-04: 16K load and short probe passed on GPU 0; realistic multi-file coding validation is still needed before deciding whether to archive."
     },
     "devstral-small:24b": {
       "_alias_of": "Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf"
@@ -148,7 +148,7 @@
         "--reasoning",
         "off"
       ],
-      "notes": "Split-load (2x 1060). Gemma 4 12B dense Q4_K_M. Requires -fit off and --tensor-split 1,1 (2 visible GPUs). Do NOT use --n-gpu-layers 999 (auto-fitter aborts). CPU mapped ~924 MiB. VRAM: 3.1+3.8 GB across GPUs. Requires llama-runtime:b8884-candidate. BENCHMARK: use --reasoning-budget 0 (A/B tested: budget=0 scored BBH 0.82, budget=1024 scored 0.24 \u2014 thinking tokens consume generation budget)."
+      "notes": "Split-load (2x 1060). Gemma 4 12B dense Q4_K_M. Requires -fit off and --tensor-split 1,1 (2 visible GPUs). Do NOT use --n-gpu-layers 999 (auto-fitter aborts). CPU mapped ~924 MiB. VRAM: 3.1+3.8 GB across GPUs. Requires llama-runtime:b8884-candidate. BENCHMARK: use --reasoning-budget 0 (A/B tested: budget=0 scored BBH 0.82, budget=1024 scored 0.24 \u2014 thinking tokens consume generation budget). 2026-11-04: 8K load and short probe passed on GTX 1060 GPUs 1 and 3; deep recall pending."
     },
     "gemma-4:12b": {
       "_alias_of": "gemma-4-12B-it-Q4_K_M.gguf"
@@ -954,7 +954,7 @@
         "parallel": 1,
         "n_gpu_layers": 999
       },
-      "notes": "Qwen3-Next architecture coder: 80B total, about 3B active per token (hybrid linear/full attention MoE). Q4_K_S (45.5 GB) chosen over Q4_K_M (48.5 GB) to leave room for six cards' compute buffers and context in 54 GB. Downloaded 2026-10-21 straight to the rig NVMe hotset."
+      "notes": "Qwen3-Next architecture coder: 80B total, about 3B active per token (hybrid linear/full attention MoE). Q4_K_S (45.5 GB) chosen over Q4_K_M (48.5 GB) to leave room for six cards' compute buffers and context in 54 GB. Downloaded 2026-10-21 straight to the rig NVMe hotset. 2026-11-04: 32K load and short probe passed on all six cards. Five-card manager fit refused at 32K because layers/output would not divide within per-card memory; deep recall pending."
     },
     "qwen3-coder-next:80b-a3b": {
       "_alias_of": "Qwen3-Coder-Next-Q4_K_S.gguf"
@@ -1004,10 +1004,35 @@
         "--reasoning",
         "off"
       ],
-      "notes": "NVIDIA Nemotron 3.5 Bolt: 74B total, about 9B active, Mamba-2/Transformer hybrid MoE (GGUF arch nemotron_h_moe, llama-runtime:b11669), OpenMDW-1.1, used text only (no mmproj). UD-Q3_K_XL (39.0 GB) for headroom in 54 GB. Bench placement: GPUs 0-3 at ctx 16384 (split 57,16,10,6); all six cards hold ctx 226816. Decode 24.1 tok/s (3090 about 142 W, 1060s about 42 W each). The template thinks by default; --reasoning off kept: Phase 4 showed nothing to fix, thinking A/B not run. Known limit: asks for clarification less than peers (pipeline ambiguity and command safety)."
+      "notes": "NVIDIA Nemotron 3.5 Bolt: 74B total, about 9B active, Mamba-2/Transformer hybrid MoE (GGUF arch nemotron_h_moe, llama-runtime:b11669), OpenMDW-1.1, used text only (no mmproj). UD-Q3_K_XL (39.0 GB) for headroom in 54 GB. Bench placement: GPUs 0-3 at ctx 16384 (split 57,16,10,6); all six cards hold ctx 226816. Decode 24.1 tok/s (3090 about 142 W, 1060s about 42 W each). The template thinks by default; --reasoning off kept: Phase 4 showed nothing to fix, thinking A/B not run. Known limit: asks for clarification less than peers (pipeline ambiguity and command safety). 2026-11-04: 32K load and short probe passed on GPUs 0-3; 10%/90% recall at 32K is pending. Matched 32K 89/89 GPU-layer placement decoded 24.63 tok/s versus 6.26 tok/s with 48/89 layers on GPU 0 and the rest in host RAM."
     },
     "nemotron-3.5-bolt:74b-a9b": {
       "_alias_of": "NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf"
+    },
+    "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf": {
+      "status": "untuned",
+      "last_tuned_at": null,
+      "benchmark_suite": "phase4",
+      "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+      "inference": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "max_tokens": 512
+      },
+      "runtime": {
+        "ctx_size": 16384,
+        "batch_size": 128,
+        "parallel": 1,
+        "n_gpu_layers": 999
+      },
+      "extra_args": [
+        "--reasoning",
+        "off"
+      ],
+      "notes": "Strata-compatible UD-Q4_K_XL candidate. Matched quant comparison against qwen3.6:35b-a3b UD-Q4_K_M; same system prompt, inference settings and runtime settings. SHA-256 verified on rig; see STRATA_MEMORY_TEST_PLAN.md. 2026-11-04: 262K final-answer recall passed at 10% and 90% on the 3090 plus one 1060; that is the fewest validated cards for the trained ceiling (see RIG_PERFORMANCE.md)."
+    },
+    "qwen3.6:35b-a3b-xl": {
+      "_alias_of": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf"
     }
   }
 }

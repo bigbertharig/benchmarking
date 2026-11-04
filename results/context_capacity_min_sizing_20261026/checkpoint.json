@@ -1,0 +1,5300 @@
+{
+  "run": "context-capacity-min-sizing-20261026",
+  "started_at": "2026-10-26T23:37:09+00:00",
+  "cases": {
+    "ministral-3_8b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "ministral-3_8b__compact",
+          "model": "ministral-3:8b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 9216,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            517
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_8b__compact.json"
+        },
+        "max_validated_ctx": 9216,
+        "started_at": "2026-10-26T23:37:09+00:00",
+        "min_fit": {
+          "model": "ministral-3:8b",
+          "arch": "mistral3",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 4662,
+          "host_mb": 288,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (3 loads, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 34,
+              "weights_mb": 4662,
+              "kv_mb": 578,
+              "compute_mb": 106,
+              "projected_mb": 5546,
+              "headroom_mb": 594
+            }
+          ],
+          "reason": "fits: ministral-3:8b on GPU [1] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 38.2,
+          "response": {
+            "profile": "ministral-3-8b-g1",
+            "model": "ministral-3:8b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-b92fc231f7d443aa87d10e5cf76b7f44",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "ministral-3:8b",
+              "arch": "mistral3",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 4662,
+              "host_mb": 288,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (3 loads, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 34,
+                  "weights_mb": 4662,
+                  "kv_mb": 578,
+                  "compute_mb": 106,
+                  "projected_mb": 5546,
+                  "headroom_mb": 594
+                }
+              ],
+              "reason": "fits: ministral-3:8b on GPU [1] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 35,
+              "layers": 35,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 4662,
+                  "kv_mb": 578,
+                  "compute_mb": 38,
+                  "total_mb": 5278
+                }
+              ],
+              "host_mb": 293,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "ministral-3-8b-g1",
+            "item": "unload-0fcda27520a3",
+            "state": "done",
+            "released": "benchmarks-b92fc231f7d443aa87d10e5cf76b7f44"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:37:53+00:00"
+      },
+      "finished_at": "2026-10-26T23:37:53+00:00"
+    },
+    "phi-4_14b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "phi-4_14b__compact",
+          "model": "phi-4:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 16384,
+          "trained_ctx": 16384,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            705,
+            763
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/phi-4_14b__compact.json"
+        },
+        "max_validated_ctx": 16384,
+        "started_at": "2026-10-26T23:37:53+00:00",
+        "min_fit": {
+          "model": "phi-4:14b",
+          "arch": "phi3",
+          "gpus": [
+            1,
+            2
+          ],
+          "n_ctx_train": 16384,
+          "weights_mb": 8355,
+          "host_mb": 276,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (2 loads, 2 cards)",
+          "overhead_mb": [
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "21,20",
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 21,
+              "weights_mb": 4164,
+              "kv_mb": 446,
+              "compute_mb": 138,
+              "projected_mb": 4948,
+              "headroom_mb": 1192
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 19,
+              "weights_mb": 4191,
+              "kv_mb": 404,
+              "compute_mb": 138,
+              "projected_mb": 4932,
+              "headroom_mb": 1208
+            }
+          ],
+          "reason": "fits: phi-4:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 16384,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 54.8,
+          "response": {
+            "profile": "phi-4-14b-g1-2",
+            "model": "phi-4:14b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1,
+              2
+            ],
+            "lease": "benchmarks-2548e153344e45159ae019ff9504e195",
+            "ctx": 8192,
+            "tensor_split": "21,20",
+            "estimate": {
+              "model": "phi-4:14b",
+              "arch": "phi3",
+              "gpus": [
+                1,
+                2
+              ],
+              "n_ctx_train": 16384,
+              "weights_mb": 8355,
+              "host_mb": 276,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (2 loads, 2 cards)",
+              "overhead_mb": [
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "21,20",
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 21,
+                  "weights_mb": 4164,
+                  "kv_mb": 446,
+                  "compute_mb": 138,
+                  "projected_mb": 4948,
+                  "headroom_mb": 1192
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 19,
+                  "weights_mb": 4191,
+                  "kv_mb": 404,
+                  "compute_mb": 138,
+                  "projected_mb": 4932,
+                  "headroom_mb": 1208
+                }
+              ],
+              "reason": "fits: phi-4:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 16384,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 41,
+              "layers": 41,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 4164,
+                  "kv_mb": 446,
+                  "compute_mb": 67,
+                  "total_mb": 4678
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4191,
+                  "kv_mb": 404,
+                  "compute_mb": 56,
+                  "total_mb": 4651
+                }
+              ],
+              "host_mb": 292,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 4677,
+                  "free_mb": 1318
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 4655,
+                  "free_mb": 1340
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "phi-4-14b-g1-2",
+            "item": "unload-aa73fb4ca9f3",
+            "state": "done",
+            "released": "benchmarks-2548e153344e45159ae019ff9504e195"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:38:53+00:00"
+      },
+      "finished_at": "2026-10-26T23:38:53+00:00"
+    },
+    "qwen2_5-coder_14b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen2_5-coder_14b__compact",
+          "model": "qwen2.5-coder:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 21504,
+          "trained_ctx": 32768,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            522,
+            672
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen2_5-coder_14b__compact.json"
+        },
+        "max_validated_ctx": 21504,
+        "started_at": "2026-10-26T23:38:53+00:00",
+        "min_fit": {
+          "model": "qwen2.5-coder:14b",
+          "arch": "qwen2",
+          "gpus": [
+            1,
+            2
+          ],
+          "n_ctx_train": 32768,
+          "weights_mb": 8148,
+          "host_mb": 418,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (2 loads, 2 cards)",
+          "overhead_mb": [
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "26,23",
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 26,
+              "weights_mb": 4065,
+              "kv_mb": 442,
+              "compute_mb": 123,
+              "projected_mb": 4830,
+              "headroom_mb": 1310
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 22,
+              "weights_mb": 4083,
+              "kv_mb": 374,
+              "compute_mb": 123,
+              "projected_mb": 4780,
+              "headroom_mb": 1360
+            }
+          ],
+          "reason": "fits: qwen2.5-coder:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 32768,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 117.6,
+          "response": {
+            "profile": "qwen2.5-coder-14b-g1-2",
+            "model": "qwen2.5-coder:14b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1,
+              2
+            ],
+            "lease": "benchmarks-594e6487660343f082bc36cd15aa0957",
+            "ctx": 8192,
+            "tensor_split": "26,23",
+            "estimate": {
+              "model": "qwen2.5-coder:14b",
+              "arch": "qwen2",
+              "gpus": [
+                1,
+                2
+              ],
+              "n_ctx_train": 32768,
+              "weights_mb": 8148,
+              "host_mb": 418,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (2 loads, 2 cards)",
+              "overhead_mb": [
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "26,23",
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 26,
+                  "weights_mb": 4065,
+                  "kv_mb": 442,
+                  "compute_mb": 123,
+                  "projected_mb": 4830,
+                  "headroom_mb": 1310
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 22,
+                  "weights_mb": 4083,
+                  "kv_mb": 374,
+                  "compute_mb": 123,
+                  "projected_mb": 4780,
+                  "headroom_mb": 1360
+                }
+              ],
+              "reason": "fits: qwen2.5-coder:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 32768,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 49,
+              "layers": 49,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 4065,
+                  "kv_mb": 442,
+                  "compute_mb": 58,
+                  "total_mb": 4565
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4083,
+                  "kv_mb": 374,
+                  "compute_mb": 46,
+                  "total_mb": 4504
+                }
+              ],
+              "host_mb": 434,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 4564,
+                  "free_mb": 1431
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 4508,
+                  "free_mb": 1487
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen2.5-coder-14b-g1-2",
+            "item": "unload-1dbe6873732f",
+            "state": "done",
+            "released": "benchmarks-594e6487660343f082bc36cd15aa0957"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:40:56+00:00"
+      },
+      "finished_at": "2026-10-26T23:40:56+00:00"
+    },
+    "ornith-1_5_9b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_9b__compact",
+          "model": "ornith-1.5:9b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 24320,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            516
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ornith-1_5_9b__compact.json"
+        },
+        "max_validated_ctx": 24320,
+        "started_at": "2026-10-26T23:40:56+00:00",
+        "min_fit": {
+          "model": "ornith-1.5:9b",
+          "arch": "qwen35",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 4812,
+          "host_mb": 546,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "1 next-token-prediction layer(s) not loaded",
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (3 loads, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 33,
+              "weights_mb": 4812,
+              "kv_mb": 186,
+              "compute_mb": 105,
+              "projected_mb": 5304,
+              "headroom_mb": 836
+            }
+          ],
+          "reason": "fits: ornith-1.5:9b on GPU [1] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 38.3,
+          "response": {
+            "profile": "ornith-1.5-9b-g1",
+            "model": "ornith-1.5:9b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-982ae1e5d92d4a07a15551a6a677db20",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "ornith-1.5:9b",
+              "arch": "qwen35",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 4812,
+              "host_mb": 546,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "1 next-token-prediction layer(s) not loaded",
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (3 loads, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 33,
+                  "weights_mb": 4812,
+                  "kv_mb": 186,
+                  "compute_mb": 105,
+                  "projected_mb": 5304,
+                  "headroom_mb": 836
+                }
+              ],
+              "reason": "fits: ornith-1.5:9b on GPU [1] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 34,
+              "layers": 34,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 4812,
+                  "kv_mb": 136,
+                  "compute_mb": 41,
+                  "total_mb": 4990
+                }
+              ],
+              "host_mb": 551,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "ornith-1.5-9b-g1",
+            "item": "unload-970d2bdc3039",
+            "state": "done",
+            "released": "benchmarks-982ae1e5d92d4a07a15551a6a677db20"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:41:39+00:00"
+      },
+      "finished_at": "2026-10-26T23:41:39+00:00"
+    },
+    "qwen2_5-coder_7b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen2_5-coder_7b__compact",
+          "model": "qwen2.5-coder:7b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 32768,
+          "trained_ctx": 32768,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            688
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen2_5-coder_7b__compact.json"
+        },
+        "max_validated_ctx": 32768,
+        "started_at": "2026-10-26T23:41:39+00:00",
+        "min_fit": {
+          "model": "qwen2.5-coder:7b",
+          "arch": "qwen2",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 32768,
+          "weights_mb": 4168,
+          "host_mb": 292,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (2 loads, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 28,
+              "weights_mb": 4168,
+              "kv_mb": 238,
+              "compute_mb": 87,
+              "projected_mb": 4693,
+              "headroom_mb": 1447
+            }
+          ],
+          "reason": "fits: qwen2.5-coder:7b on GPU [1] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 32768,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 31.7,
+          "response": {
+            "profile": "qwen2.5-coder-7b-g1",
+            "model": "qwen2.5-coder:7b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-18640391a855421c93de2069b6b178e9",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "qwen2.5-coder:7b",
+              "arch": "qwen2",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 32768,
+              "weights_mb": 4168,
+              "host_mb": 292,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (2 loads, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 28,
+                  "weights_mb": 4168,
+                  "kv_mb": 238,
+                  "compute_mb": 87,
+                  "projected_mb": 4693,
+                  "headroom_mb": 1447
+                }
+              ],
+              "reason": "fits: qwen2.5-coder:7b on GPU [1] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 32768,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 29,
+              "layers": 29,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 4168,
+                  "kv_mb": 238,
+                  "compute_mb": 21,
+                  "total_mb": 4428
+                }
+              ],
+              "host_mb": 297,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen2.5-coder-7b-g1",
+            "item": "unload-1304753037d7",
+            "state": "done",
+            "released": "benchmarks-18640391a855421c93de2069b6b178e9"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:42:16+00:00"
+      },
+      "finished_at": "2026-10-26T23:42:16+00:00"
+    },
+    "ministral-3_14b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "ministral-3_14b__compact",
+          "model": "ministral-3:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 33792,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            573,
+            517
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_14b__compact.json"
+        },
+        "max_validated_ctx": 33792,
+        "started_at": "2026-10-26T23:42:16+00:00",
+        "min_fit": {
+          "model": "ministral-3:14b",
+          "arch": "mistral3",
+          "gpus": [
+            1,
+            2
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 7490,
+          "host_mb": 360,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (4 loads, 2 cards)",
+          "overhead_mb": [
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "21,20",
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 21,
+              "weights_mb": 3646,
+              "kv_mb": 357,
+              "compute_mb": 127,
+              "projected_mb": 4329,
+              "headroom_mb": 1811
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 19,
+              "weights_mb": 3844,
+              "kv_mb": 323,
+              "compute_mb": 127,
+              "projected_mb": 4494,
+              "headroom_mb": 1646
+            }
+          ],
+          "reason": "fits: ministral-3:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 51.5,
+          "response": {
+            "profile": "ministral-3-14b-g1-2",
+            "model": "ministral-3:14b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1,
+              2
+            ],
+            "lease": "benchmarks-2a7a5813be7f459e9f04844abe8fc088",
+            "ctx": 8192,
+            "tensor_split": "21,20",
+            "estimate": {
+              "model": "ministral-3:14b",
+              "arch": "mistral3",
+              "gpus": [
+                1,
+                2
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 7490,
+              "host_mb": 360,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (4 loads, 2 cards)",
+              "overhead_mb": [
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "21,20",
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 21,
+                  "weights_mb": 3646,
+                  "kv_mb": 357,
+                  "compute_mb": 127,
+                  "projected_mb": 4329,
+                  "headroom_mb": 1811
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 19,
+                  "weights_mb": 3844,
+                  "kv_mb": 323,
+                  "compute_mb": 127,
+                  "projected_mb": 4494,
+                  "headroom_mb": 1646
+                }
+              ],
+              "reason": "fits: ministral-3:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 41,
+              "layers": 41,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 3646,
+                  "kv_mb": 357,
+                  "compute_mb": 57,
+                  "total_mb": 4060
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 3844,
+                  "kv_mb": 323,
+                  "compute_mb": 46,
+                  "total_mb": 4213
+                }
+              ],
+              "host_mb": 377,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 4059,
+                  "free_mb": 1936
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 4218,
+                  "free_mb": 1777
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "ministral-3-14b-g1-2",
+            "item": "unload-948140699d88",
+            "state": "done",
+            "released": "benchmarks-2a7a5813be7f459e9f04844abe8fc088"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:43:13+00:00"
+      },
+      "finished_at": "2026-10-26T23:43:13+00:00"
+    },
+    "nemotron-3_5-bolt_74b-a9b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "nemotron-3_5-bolt_74b-a9b__compact",
+          "model": "nemotron-3.5-bolt:74b-a9b",
+          "target": "compact",
+          "gpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "ctx": 96256,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            513,
+            561,
+            635,
+            1573
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nemotron-3_5-bolt_74b-a9b__compact.json"
+        },
+        "max_validated_ctx": 96256,
+        "started_at": "2026-10-26T23:43:13+00:00",
+        "min_fit": {
+          "model": "nemotron-3.5-bolt:74b-a9b",
+          "arch": "nemotron_h_moe",
+          "gpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 36668,
+          "host_mb": 544,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (2 loads, 4 cards)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "56,16,9,8",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 56,
+              "weights_mb": 21940,
+              "kv_mb": 231,
+              "compute_mb": 97,
+              "projected_mb": 22841,
+              "headroom_mb": 1708
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 16,
+              "weights_mb": 4882,
+              "kv_mb": 66,
+              "compute_mb": 97,
+              "projected_mb": 5245,
+              "headroom_mb": 895
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 9,
+              "weights_mb": 4657,
+              "kv_mb": 37,
+              "compute_mb": 97,
+              "projected_mb": 4991,
+              "headroom_mb": 1149
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 7,
+              "weights_mb": 5188,
+              "kv_mb": 29,
+              "compute_mb": 97,
+              "projected_mb": 5513,
+              "headroom_mb": 627
+            }
+          ],
+          "reason": "fits: nemotron-3.5-bolt:74b-a9b on GPU [0, 1, 2, 3] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 196.7,
+          "response": {
+            "profile": "nemotron-3.5-bolt-74b-a9b-g0-1-2-3",
+            "model": "nemotron-3.5-bolt:74b-a9b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "lease": "benchmarks-630c439dce064954b7f25a638230c209",
+            "ctx": 8192,
+            "tensor_split": "56,16,9,8",
+            "estimate": {
+              "model": "nemotron-3.5-bolt:74b-a9b",
+              "arch": "nemotron_h_moe",
+              "gpus": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 36668,
+              "host_mb": 544,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (2 loads, 4 cards)",
+              "overhead_mb": [
+                573,
+                200,
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "56,16,9,8",
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 56,
+                  "weights_mb": 21940,
+                  "kv_mb": 231,
+                  "compute_mb": 97,
+                  "projected_mb": 22841,
+                  "headroom_mb": 1708
+                },
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 16,
+                  "weights_mb": 4882,
+                  "kv_mb": 66,
+                  "compute_mb": 97,
+                  "projected_mb": 5245,
+                  "headroom_mb": 895
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 9,
+                  "weights_mb": 4657,
+                  "kv_mb": 37,
+                  "compute_mb": 97,
+                  "projected_mb": 4991,
+                  "headroom_mb": 1149
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 7,
+                  "weights_mb": 5188,
+                  "kv_mb": 29,
+                  "compute_mb": 97,
+                  "projected_mb": 5513,
+                  "headroom_mb": 627
+                }
+              ],
+              "reason": "fits: nemotron-3.5-bolt:74b-a9b on GPU [0, 1, 2, 3] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 89,
+              "layers": 89,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 21940,
+                  "kv_mb": 21,
+                  "compute_mb": 36,
+                  "total_mb": 21998
+                },
+                {
+                  "gpu": 1,
+                  "model_mb": 4882,
+                  "kv_mb": 8,
+                  "compute_mb": 27,
+                  "total_mb": 4918
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4657,
+                  "kv_mb": 4,
+                  "compute_mb": 27,
+                  "total_mb": 4688
+                },
+                {
+                  "gpu": 3,
+                  "model_mb": 5188,
+                  "kv_mb": 0,
+                  "compute_mb": 23,
+                  "total_mb": 5210
+                }
+              ],
+              "host_mb": 558,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 4950,
+                  "free_mb": 1015
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 4708,
+                  "free_mb": 1268
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6065,
+                  "projected_mb": 5226,
+                  "free_mb": 755
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "nemotron-3.5-bolt-74b-a9b-g0-1-2-3",
+            "item": "unload-0121ed97484f",
+            "state": "done",
+            "released": "benchmarks-630c439dce064954b7f25a638230c209"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:46:35+00:00"
+      },
+      "finished_at": "2026-10-26T23:46:35+00:00"
+    },
+    "phi-4-mini-reasoning_3_8b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "phi-4-mini-reasoning_3_8b__compact",
+          "model": "phi-4-mini-reasoning:3.8b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 41216,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            529
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/phi-4-mini-reasoning_3_8b__compact.json"
+        },
+        "max_validated_ctx": 41216,
+        "started_at": "2026-10-26T23:46:35+00:00",
+        "min_fit": {
+          "model": "phi-4-mini-reasoning:3.8b",
+          "arch": "phi3",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 131072,
+          "weights_mb": 2369,
+          "host_mb": 481,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 32,
+              "weights_mb": 2369,
+              "kv_mb": 272,
+              "compute_mb": 88,
+              "projected_mb": 2929,
+              "headroom_mb": 3211
+            }
+          ],
+          "reason": "fits: phi-4-mini-reasoning:3.8b on GPU [1] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 131072,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 41.7,
+          "response": {
+            "profile": "phi-4-mini-reasoning-3.8b-g1",
+            "model": "phi-4-mini-reasoning:3.8b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-1ea6efaa4d4a49a5b4724e8939cdd19c",
+            "ctx": 4096,
+            "tensor_split": null,
+            "estimate": {
+              "model": "phi-4-mini-reasoning:3.8b",
+              "arch": "phi3",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 131072,
+              "weights_mb": 2369,
+              "host_mb": 481,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 32,
+                  "weights_mb": 2369,
+                  "kv_mb": 272,
+                  "compute_mb": 88,
+                  "projected_mb": 2929,
+                  "headroom_mb": 3211
+                }
+              ],
+              "reason": "fits: phi-4-mini-reasoning:3.8b on GPU [1] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 131072,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 33,
+              "layers": 33,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 2369,
+                  "kv_mb": 272,
+                  "compute_mb": 20,
+                  "total_mb": 2661
+                }
+              ],
+              "host_mb": 484,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "phi-4-mini-reasoning-3.8b-g1",
+            "item": "unload-741af17e7ca1",
+            "state": "done",
+            "released": "benchmarks-1ea6efaa4d4a49a5b4724e8939cdd19c"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-26T23:47:22+00:00"
+      },
+      "finished_at": "2026-10-26T23:47:22+00:00"
+    },
+    "llama3_2_3b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "llama3_2_3b__compact",
+          "model": "llama3.2:3b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 53760,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            519
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/llama3_2_3b__compact.json"
+        },
+        "max_validated_ctx": 53760,
+        "started_at": "2026-10-26T23:47:22+00:00",
+        "min_fit": {
+          "model": "llama3.2:3b",
+          "arch": "llama",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 131072,
+          "weights_mb": 1918,
+          "host_mb": 308,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 28,
+              "weights_mb": 1918,
+              "kv_mb": 238,
+              "compute_mb": 88,
+              "projected_mb": 2444,
+              "headroom_mb": 3696
+            }
+          ],
+          "reason": "fits: llama3.2:3b on GPU [1] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 131072,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 41.9,
+          "response": {
+            "profile": "llama3.2-3b-g1",
+            "model": "llama3.2:3b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-c93d6e3c0b5d4c709b703663249bf581",
+            "ctx": 4096,
+            "tensor_split": null,
+            "estimate": {
+              "model": "llama3.2:3b",
+              "arch": "llama",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 131072,
+              "weights_mb": 1918,
+              "host_mb": 308,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 28,
+                  "weights_mb": 1918,
+                  "kv_mb": 238,
+                  "compute_mb": 88,
+                  "projected_mb": 2444,
+                  "headroom_mb": 3696
+                }
+              ],
+              "reason": "fits: llama3.2:3b on GPU [1] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 131072,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 29,
+              "layers": 29,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 1918,
+                  "kv_mb": 238,
+                  "compute_mb": 20,
+                  "total_mb": 2177
+                }
+              ],
+              "host_mb": 312,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "llama3.2-3b-g1",
+            "item": "unload-2f9eb69840c8",
+            "state": "done",
+            "released": "benchmarks-c93d6e3c0b5d4c709b703663249bf581"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-26T23:48:09+00:00"
+      },
+      "finished_at": "2026-10-26T23:48:09+00:00"
+    },
+    "ministral-3_3b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "ministral-3_3b__compact",
+          "model": "ministral-3:3b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 57600,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            520
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_3b__compact.json"
+        },
+        "max_validated_ctx": 57600,
+        "started_at": "2026-10-26T23:48:09+00:00",
+        "min_fit": {
+          "model": "ministral-3:3b",
+          "arch": "mistral3",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 2040,
+          "host_mb": 315,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (5 loads, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 26,
+              "weights_mb": 2040,
+              "kv_mb": 442,
+              "compute_mb": 106,
+              "projected_mb": 2787,
+              "headroom_mb": 3353
+            }
+          ],
+          "reason": "fits: ministral-3:3b on GPU [1] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 21.8,
+          "response": {
+            "profile": "ministral-3-3b-g1",
+            "model": "ministral-3:3b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-545d060f37d64e1785281ca5478bbbac",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "ministral-3:3b",
+              "arch": "mistral3",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 2040,
+              "host_mb": 315,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (5 loads, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 26,
+                  "weights_mb": 2040,
+                  "kv_mb": 442,
+                  "compute_mb": 106,
+                  "projected_mb": 2787,
+                  "headroom_mb": 3353
+                }
+              ],
+              "reason": "fits: ministral-3:3b on GPU [1] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 27,
+              "layers": 27,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 2040,
+                  "kv_mb": 442,
+                  "compute_mb": 38,
+                  "total_mb": 2520
+                }
+              ],
+              "host_mb": 319,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "ministral-3-3b-g1",
+            "item": "unload-685e11fe9221",
+            "state": "done",
+            "released": "benchmarks-545d060f37d64e1785281ca5478bbbac"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:48:36+00:00"
+      },
+      "finished_at": "2026-10-26T23:48:36+00:00"
+    },
+    "smollm3_3b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "smollm3_3b__compact",
+          "model": "smollm3:3b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 65536,
+          "trained_ctx": 65536,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1353
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/smollm3_3b__compact.json"
+        },
+        "max_validated_ctx": 65536,
+        "started_at": "2026-10-26T23:48:36+00:00",
+        "min_fit": {
+          "model": "smollm3:3b",
+          "arch": "smollm3",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 65536,
+          "weights_mb": 1819,
+          "host_mb": 205,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 36,
+              "weights_mb": 1819,
+              "kv_mb": 153,
+              "compute_mb": 80,
+              "projected_mb": 2252,
+              "headroom_mb": 3888
+            }
+          ],
+          "reason": "fits: smollm3:3b on GPU [1] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 65536,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 35.0,
+          "response": {
+            "profile": "smollm3-3b-g1",
+            "model": "smollm3:3b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-0e0a488e6bd8435ebc82da96fdaaf5f8",
+            "ctx": 4096,
+            "tensor_split": null,
+            "estimate": {
+              "model": "smollm3:3b",
+              "arch": "smollm3",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 65536,
+              "weights_mb": 1819,
+              "host_mb": 205,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 36,
+                  "weights_mb": 1819,
+                  "kv_mb": 153,
+                  "compute_mb": 80,
+                  "projected_mb": 2252,
+                  "headroom_mb": 3888
+                }
+              ],
+              "reason": "fits: smollm3:3b on GPU [1] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 65536,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 37,
+              "layers": 37,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 1819,
+                  "kv_mb": 153,
+                  "compute_mb": 12,
+                  "total_mb": 1984
+                }
+              ],
+              "host_mb": 208,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "smollm3-3b-g1",
+            "item": "unload-563ccbd416d5",
+            "state": "done",
+            "released": "benchmarks-0e0a488e6bd8435ebc82da96fdaaf5f8"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-26T23:49:16+00:00"
+      },
+      "finished_at": "2026-10-26T23:49:16+00:00"
+    },
+    "gemma-4_31b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "gemma-4_31b__compact",
+          "model": "gemma-4:31b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 93440,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            519
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_31b__compact.json"
+        },
+        "max_validated_ctx": 93440,
+        "started_at": "2026-10-26T23:49:16+00:00",
+        "min_fit": {
+          "model": "gemma-4:31b",
+          "arch": "gemma4",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 17806,
+          "host_mb": 1102,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "sliding window 1024 on 50 layers",
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (5 loads, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 60,
+              "weights_mb": 17806,
+              "kv_mb": 1190,
+              "compute_mb": 167,
+              "projected_mb": 19737,
+              "headroom_mb": 4812
+            }
+          ],
+          "reason": "fits: gemma-4:31b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 177.9,
+          "response": {
+            "profile": "gemma-4-31b-g0",
+            "model": "gemma-4:31b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-76c68c98780c4ed1b86ca2c0aeae3f8c",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "gemma-4:31b",
+              "arch": "gemma4",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 17806,
+              "host_mb": 1102,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "sliding window 1024 on 50 layers",
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (5 loads, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 60,
+                  "weights_mb": 17806,
+                  "kv_mb": 1190,
+                  "compute_mb": 167,
+                  "projected_mb": 19737,
+                  "headroom_mb": 4812
+                }
+              ],
+              "reason": "fits: gemma-4:31b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 61,
+              "layers": 61,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 17806,
+                  "kv_mb": 871,
+                  "compute_mb": 94,
+                  "total_mb": 18772
+                }
+              ],
+              "host_mb": 1117,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "gemma-4-31b-g0",
+            "item": "unload-94c3b7259836",
+            "state": "done",
+            "released": "benchmarks-76c68c98780c4ed1b86ca2c0aeae3f8c"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:52:20+00:00"
+      },
+      "finished_at": "2026-10-26T23:52:20+00:00"
+    },
+    "qwen3-coder_30b-a3b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen3-coder_30b-a3b__compact",
+          "model": "qwen3-coder:30b-a3b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 112128,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            515
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3-coder_30b-a3b__compact.json"
+        },
+        "max_validated_ctx": 112128,
+        "started_at": "2026-10-26T23:52:20+00:00",
+        "min_fit": {
+          "model": "qwen3-coder:30b-a3b",
+          "arch": "qwen3moe",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 17524,
+          "host_mb": 167,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (3 loads, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "failed_ceiling": 120064,
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 48,
+              "weights_mb": 17524,
+              "kv_mb": 408,
+              "compute_mb": 101,
+              "projected_mb": 18606,
+              "headroom_mb": 5943
+            }
+          ],
+          "reason": "fits: qwen3-coder:30b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 58.1,
+          "response": {
+            "profile": "qwen3-coder-30b-a3b-g0",
+            "model": "qwen3-coder:30b-a3b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-fc5afab56a4b4083b49ada3390546dcf",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "qwen3-coder:30b-a3b",
+              "arch": "qwen3moe",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 17524,
+              "host_mb": 167,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (3 loads, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "failed_ceiling": 120064,
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 48,
+                  "weights_mb": 17524,
+                  "kv_mb": 408,
+                  "compute_mb": 101,
+                  "projected_mb": 18606,
+                  "headroom_mb": 5943
+                }
+              ],
+              "reason": "fits: qwen3-coder:30b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 49,
+              "layers": 49,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 17524,
+                  "kv_mb": 408,
+                  "compute_mb": 33,
+                  "total_mb": 17966
+                }
+              ],
+              "host_mb": 173,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen3-coder-30b-a3b-g0",
+            "item": "unload-d48ee9040f39",
+            "state": "done",
+            "released": "benchmarks-fc5afab56a4b4083b49ada3390546dcf"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:53:23+00:00"
+      },
+      "finished_at": "2026-10-26T23:53:23+00:00"
+    },
+    "devstral-small_24b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "devstral-small_24b__compact",
+          "model": "devstral-small:24b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 117504,
+          "trained_ctx": 393216,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            527
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/devstral-small_24b__compact.json"
+        },
+        "max_validated_ctx": 117504,
+        "started_at": "2026-10-26T23:53:23+00:00",
+        "min_fit": {
+          "model": "devstral-small:24b",
+          "arch": "mistral3",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 393216,
+          "weights_mb": 13302,
+          "host_mb": 360,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (2 loads, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 40,
+              "weights_mb": 13302,
+              "kv_mb": 340,
+              "compute_mb": 89,
+              "projected_mb": 14304,
+              "headroom_mb": 10245
+            }
+          ],
+          "reason": "fits: devstral-small:24b on GPU [0] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 393216,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 48.3,
+          "response": {
+            "profile": "devstral-small-24b-g0",
+            "model": "devstral-small:24b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-94cd44a62f3a4c15a35674e220676719",
+            "ctx": 4096,
+            "tensor_split": null,
+            "estimate": {
+              "model": "devstral-small:24b",
+              "arch": "mistral3",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 393216,
+              "weights_mb": 13302,
+              "host_mb": 360,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (2 loads, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 40,
+                  "weights_mb": 13302,
+                  "kv_mb": 340,
+                  "compute_mb": 89,
+                  "projected_mb": 14304,
+                  "headroom_mb": 10245
+                }
+              ],
+              "reason": "fits: devstral-small:24b on GPU [0] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 393216,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 41,
+              "layers": 41,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 13302,
+                  "kv_mb": 340,
+                  "compute_mb": 30,
+                  "total_mb": 13672
+                }
+              ],
+              "host_mb": 366,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "devstral-small-24b-g0",
+            "item": "unload-794396a4e31f",
+            "state": "done",
+            "released": "benchmarks-94cd44a62f3a4c15a35674e220676719"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-26T23:54:17+00:00"
+      },
+      "finished_at": "2026-10-26T23:54:17+00:00"
+    },
+    "mellum2_1_12b-a2_5b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "mellum2_1_12b-a2_5b__compact",
+          "model": "mellum2.1:12b-a2.5b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 129280,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            513,
+            685
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/mellum2_1_12b-a2_5b__compact.json"
+        },
+        "max_validated_ctx": 129280,
+        "started_at": "2026-10-26T23:54:17+00:00",
+        "min_fit": {
+          "model": "mellum2.1:12b-a2.5b",
+          "arch": "mellum",
+          "gpus": [
+            1,
+            2
+          ],
+          "n_ctx_train": 131072,
+          "weights_mb": 7572,
+          "host_mb": 122,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "sliding window 1024 on 21 layers"
+          ],
+          "compute_basis": "measured (1 load, 2 cards)",
+          "overhead_mb": [
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "14,15",
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 14,
+              "weights_mb": 3650,
+              "kv_mb": 37,
+              "compute_mb": 107,
+              "projected_mb": 3994,
+              "headroom_mb": 2146
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 14,
+              "weights_mb": 3922,
+              "kv_mb": 45,
+              "compute_mb": 107,
+              "projected_mb": 4274,
+              "headroom_mb": 1866
+            }
+          ],
+          "reason": "fits: mellum2.1:12b-a2.5b on GPU [1, 2] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 131072,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 104.3,
+          "response": {
+            "profile": "mellum2.1-12b-a2.5b-g1-2",
+            "model": "mellum2.1:12b-a2.5b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1,
+              2
+            ],
+            "lease": "benchmarks-f5ba2ec6459d41768f1e65fedeb56c01",
+            "ctx": 8192,
+            "tensor_split": "14,15",
+            "estimate": {
+              "model": "mellum2.1:12b-a2.5b",
+              "arch": "mellum",
+              "gpus": [
+                1,
+                2
+              ],
+              "n_ctx_train": 131072,
+              "weights_mb": 7572,
+              "host_mb": 122,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "sliding window 1024 on 21 layers"
+              ],
+              "compute_basis": "measured (1 load, 2 cards)",
+              "overhead_mb": [
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "14,15",
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 14,
+                  "weights_mb": 3650,
+                  "kv_mb": 37,
+                  "compute_mb": 107,
+                  "projected_mb": 3994,
+                  "headroom_mb": 2146
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 14,
+                  "weights_mb": 3922,
+                  "kv_mb": 45,
+                  "compute_mb": 107,
+                  "projected_mb": 4274,
+                  "headroom_mb": 1866
+                }
+              ],
+              "reason": "fits: mellum2.1:12b-a2.5b on GPU [1, 2] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 131072,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 29,
+              "layers": 29,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 3650,
+                  "kv_mb": 40,
+                  "compute_mb": 32,
+                  "total_mb": 3722
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 3922,
+                  "kv_mb": 47,
+                  "compute_mb": 27,
+                  "total_mb": 3996
+                }
+              ],
+              "host_mb": 132,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 3721,
+                  "free_mb": 2273
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 3998,
+                  "free_mb": 1997
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "mellum2.1-12b-a2.5b-g1-2",
+            "item": "unload-e646ee6bf0d4",
+            "state": "done",
+            "released": "benchmarks-f5ba2ec6459d41768f1e65fedeb56c01"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:56:06+00:00"
+      },
+      "finished_at": "2026-10-26T23:56:06+00:00"
+    },
+    "gemma-4_e2b-q8__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "gemma-4_e2b-q8__compact",
+          "model": "gemma-4:e2b-q8",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            2510
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_e2b-q8__compact.json"
+        },
+        "max_validated_ctx": 131072,
+        "started_at": "2026-10-26T23:56:06+00:00",
+        "min_fit": {
+          "model": "gemma-4:e2b-q8",
+          "arch": "gemma4",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 131072,
+          "weights_mb": 2316,
+          "host_mb": 408,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "sliding window 512 on 28 layers",
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (2 loads, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 35,
+              "weights_mb": 2316,
+              "kv_mb": 45,
+              "compute_mb": 81,
+              "projected_mb": 2642,
+              "headroom_mb": 3498
+            }
+          ],
+          "reason": "fits: gemma-4:e2b-q8 on GPU [1] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/gemma-4-e2b/gemma-4-e2b-it-Q8_0.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 131072,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 31.7,
+          "response": {
+            "profile": "gemma-4-e2b-q8-g1",
+            "model": "gemma-4:e2b-q8",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-055915808b244206a4debb09f22f1160",
+            "ctx": 4096,
+            "tensor_split": null,
+            "estimate": {
+              "model": "gemma-4:e2b-q8",
+              "arch": "gemma4",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 131072,
+              "weights_mb": 2316,
+              "host_mb": 408,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "sliding window 512 on 28 layers",
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (2 loads, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 35,
+                  "weights_mb": 2316,
+                  "kv_mb": 45,
+                  "compute_mb": 81,
+                  "projected_mb": 2642,
+                  "headroom_mb": 3498
+                }
+              ],
+              "reason": "fits: gemma-4:e2b-q8 on GPU [1] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/gemma-4-e2b/gemma-4-e2b-it-Q8_0.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 131072,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 36,
+              "layers": 36,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 2342,
+                  "kv_mb": 18,
+                  "compute_mb": 17,
+                  "total_mb": 2377
+                }
+              ],
+              "host_mb": 2794,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "gemma-4-e2b-q8-g1",
+            "item": "unload-e1c98d7ba310",
+            "state": "done",
+            "released": "benchmarks-055915808b244206a4debb09f22f1160"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-26T23:56:43+00:00"
+      },
+      "finished_at": "2026-10-26T23:56:43+00:00"
+    },
+    "gemma-4_e4b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "gemma-4_e4b__compact",
+          "model": "gemma-4:e4b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            987
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_e4b__compact.json"
+        },
+        "max_validated_ctx": 131072,
+        "started_at": "2026-10-26T23:56:43+00:00",
+        "min_fit": {
+          "model": "gemma-4:e4b",
+          "arch": "gemma4",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 131072,
+          "weights_mb": 2816,
+          "host_mb": 525,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "sliding window 512 on 35 layers",
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (2 loads, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 42,
+              "weights_mb": 2816,
+              "kv_mb": 97,
+              "compute_mb": 91,
+              "projected_mb": 3203,
+              "headroom_mb": 2937
+            }
+          ],
+          "reason": "fits: gemma-4:e4b on GPU [1] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/gemma-4-e4b/gemma-4-e4b-it-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 131072,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 71.6,
+          "response": {
+            "profile": "gemma-4-e4b-g1",
+            "model": "gemma-4:e4b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-f26dc5c6aece42788b1773411fe78e9f",
+            "ctx": 4096,
+            "tensor_split": null,
+            "estimate": {
+              "model": "gemma-4:e4b",
+              "arch": "gemma4",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 131072,
+              "weights_mb": 2816,
+              "host_mb": 525,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "sliding window 512 on 35 layers",
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (2 loads, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 42,
+                  "weights_mb": 2816,
+                  "kv_mb": 97,
+                  "compute_mb": 91,
+                  "projected_mb": 3203,
+                  "headroom_mb": 2937
+                }
+              ],
+              "reason": "fits: gemma-4:e4b on GPU [1] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/gemma-4-e4b/gemma-4-e4b-it-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 131072,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 43,
+              "layers": 43,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 2868,
+                  "kv_mb": 50,
+                  "compute_mb": 27,
+                  "total_mb": 2945
+                }
+              ],
+              "host_mb": 2737,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "gemma-4-e4b-g1",
+            "item": "unload-6610ac197b43",
+            "state": "done",
+            "released": "benchmarks-f26dc5c6aece42788b1773411fe78e9f"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-26T23:58:00+00:00"
+      },
+      "finished_at": "2026-10-26T23:58:00+00:00"
+    },
+    "gpt-oss_20b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "gpt-oss_20b__compact",
+          "model": "gpt-oss:20b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            9371
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gpt-oss_20b__compact.json"
+        },
+        "max_validated_ctx": 131072,
+        "started_at": "2026-10-26T23:58:00+00:00",
+        "min_fit": {
+          "model": "gpt-oss:20b",
+          "arch": "gpt-oss",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 131072,
+          "weights_mb": 10949,
+          "host_mb": 587,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 24,
+              "weights_mb": 10949,
+              "kv_mb": 204,
+              "compute_mb": 89,
+              "projected_mb": 11816,
+              "headroom_mb": 12733
+            }
+          ],
+          "reason": "fits: gpt-oss:20b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 131072,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 41.6,
+          "response": {
+            "profile": "gpt-oss-20b-g0",
+            "model": "gpt-oss:20b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-c1aff7ffb89d4e9d8a5c8d08d0fb85be",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "gpt-oss:20b",
+              "arch": "gpt-oss",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 131072,
+              "weights_mb": 10949,
+              "host_mb": 587,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 24,
+                  "weights_mb": 10949,
+                  "kv_mb": 204,
+                  "compute_mb": 89,
+                  "projected_mb": 11816,
+                  "headroom_mb": 12733
+                }
+              ],
+              "reason": "fits: gpt-oss:20b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 131072,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 25,
+              "layers": 25,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 10949,
+                  "kv_mb": 105,
+                  "compute_mb": 28,
+                  "total_mb": 11082
+                }
+              ],
+              "host_mb": 595,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "gpt-oss-20b-g0",
+            "item": "unload-7f92a1e86bdd",
+            "state": "done",
+            "released": "benchmarks-c1aff7ffb89d4e9d8a5c8d08d0fb85be"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-26T23:58:47+00:00"
+      },
+      "finished_at": "2026-10-26T23:58:47+00:00"
+    },
+    "minicpm5_2b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "minicpm5_2b__compact",
+          "model": "minicpm5:2b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1624
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/minicpm5_2b__compact.json"
+        },
+        "max_validated_ctx": 131072,
+        "started_at": "2026-10-26T23:58:47+00:00",
+        "min_fit": {
+          "model": "minicpm5:2b",
+          "arch": "llama",
+          "gpus": [
+            1
+          ],
+          "n_ctx_train": 131072,
+          "weights_mb": 1341,
+          "host_mb": 143,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [],
+          "compute_basis": "measured (2 loads, 1 card)",
+          "overhead_mb": [
+            200
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 42,
+              "weights_mb": 1341,
+              "kv_mb": 89,
+              "compute_mb": 72,
+              "projected_mb": 1702,
+              "headroom_mb": 4438
+            }
+          ],
+          "reason": "fits: minicpm5:2b on GPU [1] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 131072,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 38.3,
+          "response": {
+            "profile": "minicpm5-2b-g1",
+            "model": "minicpm5:2b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1
+            ],
+            "lease": "benchmarks-81ef33f574c348f5aa211094d93fe542",
+            "ctx": 4096,
+            "tensor_split": null,
+            "estimate": {
+              "model": "minicpm5:2b",
+              "arch": "llama",
+              "gpus": [
+                1
+              ],
+              "n_ctx_train": 131072,
+              "weights_mb": 1341,
+              "host_mb": 143,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [],
+              "compute_basis": "measured (2 loads, 1 card)",
+              "overhead_mb": [
+                200
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 42,
+                  "weights_mb": 1341,
+                  "kv_mb": 89,
+                  "compute_mb": 72,
+                  "projected_mb": 1702,
+                  "headroom_mb": 4438
+                }
+              ],
+              "reason": "fits: minicpm5:2b on GPU [1] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 131072,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 43,
+              "layers": 43,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 1341,
+                  "kv_mb": 89,
+                  "compute_mb": 7,
+                  "total_mb": 1437
+                }
+              ],
+              "host_mb": 146,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "minicpm5-2b-g1",
+            "item": "unload-812ad5f242b7",
+            "state": "done",
+            "released": "benchmarks-81ef33f574c348f5aa211094d93fe542"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-26T23:59:31+00:00"
+      },
+      "finished_at": "2026-10-26T23:59:31+00:00"
+    },
+    "nex-n2_5_mini__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "nex-n2_5_mini__compact",
+          "model": "nex-n2.5:mini",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 141568,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            515
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nex-n2_5_mini__compact.json"
+        },
+        "max_validated_ctx": 141568,
+        "started_at": "2026-10-26T23:59:31+00:00",
+        "min_fit": {
+          "model": "nex-n2.5:mini",
+          "arch": "qwen35moe",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 20759,
+          "host_mb": 515,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 40,
+              "weights_mb": 20759,
+              "kv_mb": 148,
+              "compute_mb": 103,
+              "projected_mb": 21583,
+              "headroom_mb": 2966
+            }
+          ],
+          "reason": "fits: nex-n2.5:mini on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 77.9,
+          "response": {
+            "profile": "nex-n2.5-mini-g0",
+            "model": "nex-n2.5:mini",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-5cd8d397fabf4a3299d83596723137b1",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "nex-n2.5:mini",
+              "arch": "qwen35moe",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 20759,
+              "host_mb": 515,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 40,
+                  "weights_mb": 20759,
+                  "kv_mb": 148,
+                  "compute_mb": 103,
+                  "projected_mb": 21583,
+                  "headroom_mb": 2966
+                }
+              ],
+              "reason": "fits: nex-n2.5:mini on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 41,
+              "layers": 41,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 20759,
+                  "kv_mb": 85,
+                  "compute_mb": 32,
+                  "total_mb": 20876
+                }
+              ],
+              "host_mb": 522,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "nex-n2.5-mini-g0",
+            "item": "unload-05ade1107788",
+            "state": "done",
+            "released": "benchmarks-5cd8d397fabf4a3299d83596723137b1"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:00:54+00:00"
+      },
+      "finished_at": "2026-10-27T00:00:54+00:00"
+    },
+    "qwen3-coder-next_80b-a3b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen3-coder-next_80b-a3b__compact",
+          "model": "qwen3-coder-next:80b-a3b",
+          "target": "compact",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "ctx": 185600,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            512,
+            723,
+            723,
+            723,
+            537,
+            1371
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3-coder-next_80b-a3b__compact.json"
+        },
+        "max_validated_ctx": 185600,
+        "started_at": "2026-10-27T00:00:54+00:00",
+        "min_fit": {
+          "model": "qwen3-coder-next:80b-a3b",
+          "arch": "qwen3next",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 43250,
+          "host_mb": 167,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (2 loads, 6 cards)",
+          "overhead_mb": [
+            573,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": "23,5,5,5,5,6",
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 23,
+              "weights_mb": 20811,
+              "kv_mb": 80,
+              "compute_mb": 96,
+              "projected_mb": 21560,
+              "headroom_mb": 2989
+            },
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4436,
+              "kv_mb": 23,
+              "compute_mb": 96,
+              "projected_mb": 4756,
+              "headroom_mb": 1384
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4441,
+              "kv_mb": 17,
+              "compute_mb": 96,
+              "projected_mb": 4754,
+              "headroom_mb": 1386
+            },
+            {
+              "gpu": 3,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4441,
+              "kv_mb": 17,
+              "compute_mb": 96,
+              "projected_mb": 4754,
+              "headroom_mb": 1386
+            },
+            {
+              "gpu": 4,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4441,
+              "kv_mb": 17,
+              "compute_mb": 96,
+              "projected_mb": 4754,
+              "headroom_mb": 1386
+            },
+            {
+              "gpu": 5,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 5,
+              "weights_mb": 4680,
+              "kv_mb": 23,
+              "compute_mb": 96,
+              "projected_mb": 4999,
+              "headroom_mb": 1141
+            }
+          ],
+          "reason": "fits: qwen3-coder-next:80b-a3b on GPU [0, 1, 2, 3, 4, 5] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 240.5,
+          "response": {
+            "profile": "qwen3-coder-next-80b-a3b-g0-1-2-3-4-5",
+            "model": "qwen3-coder-next:80b-a3b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "lease": "benchmarks-3a8a98957dcf421ea89cc2b567dbec64",
+            "ctx": 8192,
+            "tensor_split": "23,5,5,5,5,6",
+            "estimate": {
+              "model": "qwen3-coder-next:80b-a3b",
+              "arch": "qwen3next",
+              "gpus": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 43250,
+              "host_mb": 167,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (2 loads, 6 cards)",
+              "overhead_mb": [
+                573,
+                200,
+                200,
+                200,
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": "23,5,5,5,5,6",
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 23,
+                  "weights_mb": 20811,
+                  "kv_mb": 80,
+                  "compute_mb": 96,
+                  "projected_mb": 21560,
+                  "headroom_mb": 2989
+                },
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 5,
+                  "weights_mb": 4436,
+                  "kv_mb": 23,
+                  "compute_mb": 96,
+                  "projected_mb": 4756,
+                  "headroom_mb": 1384
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 5,
+                  "weights_mb": 4441,
+                  "kv_mb": 17,
+                  "compute_mb": 96,
+                  "projected_mb": 4754,
+                  "headroom_mb": 1386
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 5,
+                  "weights_mb": 4441,
+                  "kv_mb": 17,
+                  "compute_mb": 96,
+                  "projected_mb": 4754,
+                  "headroom_mb": 1386
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 5,
+                  "weights_mb": 4441,
+                  "kv_mb": 17,
+                  "compute_mb": 96,
+                  "projected_mb": 4754,
+                  "headroom_mb": 1386
+                },
+                {
+                  "gpu": 5,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 5,
+                  "weights_mb": 4680,
+                  "kv_mb": 23,
+                  "compute_mb": 96,
+                  "projected_mb": 4999,
+                  "headroom_mb": 1141
+                }
+              ],
+              "reason": "fits: qwen3-coder-next:80b-a3b on GPU [0, 1, 2, 3, 4, 5] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 49,
+              "layers": 49,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 20811,
+                  "kv_mb": 42,
+                  "compute_mb": 34,
+                  "total_mb": 20888
+                },
+                {
+                  "gpu": 1,
+                  "model_mb": 4436,
+                  "kv_mb": 17,
+                  "compute_mb": 29,
+                  "total_mb": 4483
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 4441,
+                  "kv_mb": 8,
+                  "compute_mb": 30,
+                  "total_mb": 4479
+                },
+                {
+                  "gpu": 3,
+                  "model_mb": 4441,
+                  "kv_mb": 8,
+                  "compute_mb": 29,
+                  "total_mb": 4479
+                },
+                {
+                  "gpu": 4,
+                  "model_mb": 4441,
+                  "kv_mb": 8,
+                  "compute_mb": 30,
+                  "total_mb": 4479
+                },
+                {
+                  "gpu": 5,
+                  "model_mb": 4680,
+                  "kv_mb": 17,
+                  "compute_mb": 29,
+                  "total_mb": 4726
+                }
+              ],
+              "host_mb": 177,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 4491,
+                  "free_mb": 1496
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 4489,
+                  "free_mb": 1496
+                },
+                {
+                  "gpu": 3,
+                  "total_mb": 6065,
+                  "projected_mb": 4489,
+                  "free_mb": 1496
+                },
+                {
+                  "gpu": 4,
+                  "total_mb": 6065,
+                  "projected_mb": 4489,
+                  "free_mb": 1496
+                },
+                {
+                  "gpu": 5,
+                  "total_mb": 6065,
+                  "projected_mb": 4734,
+                  "free_mb": 1253
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen3-coder-next-80b-a3b-g0-1-2-3-4-5",
+            "item": "unload-9b0bf62ab2bf",
+            "state": "done",
+            "released": "benchmarks-3a8a98957dcf421ea89cc2b567dbec64"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:04:59+00:00"
+      },
+      "finished_at": "2026-10-27T00:04:59+00:00"
+    },
+    "ornith-1_5_35b-a3b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_35b-a3b__compact",
+          "model": "ornith-1.5:35b-a3b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 188672,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            515
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ornith-1_5_35b-a3b__compact.json"
+        },
+        "max_validated_ctx": 188672,
+        "started_at": "2026-10-27T00:04:59+00:00",
+        "min_fit": {
+          "model": "ornith-1.5:35b-a3b",
+          "arch": "qwen35moe",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 19903,
+          "host_mb": 273,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "1 next-token-prediction layer(s) not loaded",
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 41,
+              "weights_mb": 19903,
+              "kv_mb": 148,
+              "compute_mb": 103,
+              "projected_mb": 20727,
+              "headroom_mb": 3822
+            }
+          ],
+          "reason": "fits: ornith-1.5:35b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 8192,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 68.2,
+          "response": {
+            "profile": "ornith-1.5-35b-a3b-g0",
+            "model": "ornith-1.5:35b-a3b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-c4d8159612d24dbcaaf34fc7e5cc273e",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "ornith-1.5:35b-a3b",
+              "arch": "qwen35moe",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 19903,
+              "host_mb": 273,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "1 next-token-prediction layer(s) not loaded",
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 41,
+                  "weights_mb": 19903,
+                  "kv_mb": 148,
+                  "compute_mb": 103,
+                  "projected_mb": 20727,
+                  "headroom_mb": 3822
+                }
+              ],
+              "reason": "fits: ornith-1.5:35b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 8192,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 42,
+              "layers": 42,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 19903,
+                  "kv_mb": 85,
+                  "compute_mb": 32,
+                  "total_mb": 20020
+                }
+              ],
+              "host_mb": 279,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "ornith-1.5-35b-a3b-g0",
+            "item": "unload-4acb7168bda4",
+            "state": "done",
+            "released": "benchmarks-c4d8159612d24dbcaaf34fc7e5cc273e"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:06:13+00:00"
+      },
+      "finished_at": "2026-10-27T00:06:13+00:00"
+    },
+    "qwen3_8_27b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen3_8_27b__compact",
+          "model": "qwen3.8:27b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 190720,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            520
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_8_27b__compact.json"
+        },
+        "max_validated_ctx": 190720,
+        "started_at": "2026-10-27T00:06:13+00:00",
+        "min_fit": {
+          "model": "qwen3.8:27b",
+          "arch": "qwen35",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 14674,
+          "host_mb": 682,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "1 next-token-prediction layer(s) not loaded",
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 65,
+              "weights_mb": 14674,
+              "kv_mb": 422,
+              "compute_mb": 127,
+              "projected_mb": 15796,
+              "headroom_mb": 8753
+            }
+          ],
+          "reason": "fits: qwen3.8:27b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "candidate",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 54.8,
+          "response": {
+            "profile": "qwen3.8-27b-g0",
+            "model": "qwen3.8:27b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-790715f04ac84e508ed7850c9ca4d45b",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "qwen3.8:27b",
+              "arch": "qwen35",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 14674,
+              "host_mb": 682,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "1 next-token-prediction layer(s) not loaded",
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 65,
+                  "weights_mb": 14674,
+                  "kv_mb": 422,
+                  "compute_mb": 127,
+                  "projected_mb": 15796,
+                  "headroom_mb": 8753
+                }
+              ],
+              "reason": "fits: qwen3.8:27b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "candidate",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 66,
+              "layers": 66,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 14674,
+                  "kv_mb": 272,
+                  "compute_mb": 59,
+                  "total_mb": 15006
+                }
+              ],
+              "host_mb": 694,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen3.8-27b-g0",
+            "item": "unload-0d9876569f6b",
+            "state": "done",
+            "released": "benchmarks-790715f04ac84e508ed7850c9ca4d45b"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:07:13+00:00"
+      },
+      "finished_at": "2026-10-27T00:07:13+00:00"
+    },
+    "gemma-4_12b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "gemma-4_12b__compact",
+          "model": "gemma-4:12b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 207616,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            512,
+            530
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_12b__compact.json"
+        },
+        "max_validated_ctx": 207616,
+        "started_at": "2026-10-27T00:07:13+00:00",
+        "min_fit": {
+          "model": "gemma-4:12b",
+          "arch": "gemma4",
+          "gpus": [
+            1,
+            2
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 7024,
+          "host_mb": 788,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "sliding window 1024 on 40 layers",
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (1 load, 2 cards)",
+          "overhead_mb": [
+            200,
+            200
+          ],
+          "fits": true,
+          "ctx": 4096,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 4096,
+          "tensor_split": "27,22",
+          "cards": [
+            {
+              "gpu": 1,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 27,
+              "weights_mb": 3496,
+              "kv_mb": 212,
+              "compute_mb": 80,
+              "projected_mb": 3988,
+              "headroom_mb": 2152
+            },
+            {
+              "gpu": 2,
+              "total_mb": 6144,
+              "free_mb": 6140,
+              "layers": 21,
+              "weights_mb": 3529,
+              "kv_mb": 162,
+              "compute_mb": 80,
+              "projected_mb": 3970,
+              "headroom_mb": 2170
+            }
+          ],
+          "reason": "fits: gemma-4:12b on GPU [1, 2] at ctx 4096 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
+          "ubatch": 64,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 4096,
+            "working": 4096,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 127.6,
+          "response": {
+            "profile": "gemma-4-12b-g1-2",
+            "model": "gemma-4:12b",
+            "state": "ready",
+            "port": 11435,
+            "gpus": [
+              1,
+              2
+            ],
+            "lease": "benchmarks-67f45823c03d452c88485a754f2a822b",
+            "ctx": 4096,
+            "tensor_split": "27,22",
+            "estimate": {
+              "model": "gemma-4:12b",
+              "arch": "gemma4",
+              "gpus": [
+                1,
+                2
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 7024,
+              "host_mb": 788,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "sliding window 1024 on 40 layers",
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (1 load, 2 cards)",
+              "overhead_mb": [
+                200,
+                200
+              ],
+              "fits": true,
+              "ctx": 4096,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 4096,
+              "tensor_split": "27,22",
+              "cards": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 27,
+                  "weights_mb": 3496,
+                  "kv_mb": 212,
+                  "compute_mb": 80,
+                  "projected_mb": 3988,
+                  "headroom_mb": 2152
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6144,
+                  "free_mb": 6140,
+                  "layers": 21,
+                  "weights_mb": 3529,
+                  "kv_mb": 162,
+                  "compute_mb": 80,
+                  "projected_mb": 3970,
+                  "headroom_mb": 2170
+                }
+              ],
+              "reason": "fits: gemma-4:12b on GPU [1, 2] at ctx 4096 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
+              "ubatch": 64,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 4096,
+                "working": 4096,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 4096,
+              "offloaded": 49,
+              "layers": 49,
+              "cards": [
+                {
+                  "gpu": 1,
+                  "model_mb": 3496,
+                  "kv_mb": 139,
+                  "compute_mb": 35,
+                  "total_mb": 3670
+                },
+                {
+                  "gpu": 2,
+                  "model_mb": 3529,
+                  "kv_mb": 107,
+                  "compute_mb": 27,
+                  "total_mb": 3663
+                }
+              ],
+              "host_mb": 805,
+              "projection": [
+                {
+                  "gpu": 1,
+                  "total_mb": 6065,
+                  "projected_mb": 3670,
+                  "free_mb": 2325
+                },
+                {
+                  "gpu": 2,
+                  "total_mb": 6065,
+                  "projected_mb": 3666,
+                  "free_mb": 2329
+                }
+              ]
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "gemma-4-12b-g1-2",
+            "item": "unload-c09f151dfedf",
+            "state": "done",
+            "released": "benchmarks-67f45823c03d452c88485a754f2a822b"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 4096,
+        "finished_at": "2026-10-27T00:09:26+00:00"
+      },
+      "finished_at": "2026-10-27T00:09:26+00:00"
+    },
+    "qwen3_6_27b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen3_6_27b__compact",
+          "model": "qwen3.6:27b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 208384,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            518
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_6_27b__compact.json"
+        },
+        "max_validated_ctx": 208384,
+        "started_at": "2026-10-27T00:09:26+00:00",
+        "min_fit": {
+          "model": "qwen3.6:27b",
+          "arch": "qwen35",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 15346,
+          "host_mb": 682,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (4 loads, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 64,
+              "weights_mb": 15346,
+              "kv_mb": 422,
+              "compute_mb": 129,
+              "projected_mb": 16470,
+              "headroom_mb": 8079
+            }
+          ],
+          "reason": "fits: qwen3.6:27b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 54.8,
+          "response": {
+            "profile": "qwen3.6-27b-g0",
+            "model": "qwen3.6:27b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-c311646d53ce4689804cea8ce19edc09",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "qwen3.6:27b",
+              "arch": "qwen35",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 15346,
+              "host_mb": 682,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (4 loads, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 64,
+                  "weights_mb": 15346,
+                  "kv_mb": 422,
+                  "compute_mb": 129,
+                  "projected_mb": 16470,
+                  "headroom_mb": 8079
+                }
+              ],
+              "reason": "fits: qwen3.6:27b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 65,
+              "layers": 65,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 15346,
+                  "kv_mb": 272,
+                  "compute_mb": 59,
+                  "total_mb": 15677
+                }
+              ],
+              "host_mb": 694,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen3.6-27b-g0",
+            "item": "unload-998cb9a3277b",
+            "state": "done",
+            "released": "benchmarks-c311646d53ce4689804cea8ce19edc09"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:10:26+00:00"
+      },
+      "finished_at": "2026-10-27T00:10:26+00:00"
+    },
+    "qwen3_5_27b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen3_5_27b__compact",
+          "model": "qwen3.5:27b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 209664,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            521
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_5_27b__compact.json"
+        },
+        "max_validated_ctx": 209664,
+        "started_at": "2026-10-27T00:10:26+00:00",
+        "min_fit": {
+          "model": "qwen3.5:27b",
+          "arch": "qwen35",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 15273,
+          "host_mb": 682,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (2 loads, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 64,
+              "weights_mb": 15273,
+              "kv_mb": 422,
+              "compute_mb": 129,
+              "projected_mb": 16396,
+              "headroom_mb": 8153
+            }
+          ],
+          "reason": "fits: qwen3.5:27b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 193.5,
+          "response": {
+            "profile": "qwen3.5-27b-g0",
+            "model": "qwen3.5:27b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-61e84fe4e6fc4f3193e16fc1621b3864",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "qwen3.5:27b",
+              "arch": "qwen35",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 15273,
+              "host_mb": 682,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (2 loads, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 64,
+                  "weights_mb": 15273,
+                  "kv_mb": 422,
+                  "compute_mb": 129,
+                  "projected_mb": 16396,
+                  "headroom_mb": 8153
+                }
+              ],
+              "reason": "fits: qwen3.5:27b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 65,
+              "layers": 65,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 15273,
+                  "kv_mb": 272,
+                  "compute_mb": 59,
+                  "total_mb": 15604
+                }
+              ],
+              "host_mb": 694,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen3.5-27b-g0",
+            "item": "unload-e27bcb43b4c7",
+            "state": "done",
+            "released": "benchmarks-61e84fe4e6fc4f3193e16fc1621b3864"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:13:45+00:00"
+      },
+      "finished_at": "2026-10-27T00:13:45+00:00"
+    },
+    "qwen3_6_35b-a3b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "qwen3_6_35b-a3b__compact",
+          "model": "qwen3.6:35b-a3b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 243968,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            128
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_6_35b-a3b__compact.json"
+        },
+        "max_validated_ctx": 243968,
+        "started_at": "2026-10-27T00:13:45+00:00",
+        "min_fit": {
+          "model": "qwen3.6:35b-a3b",
+          "arch": "qwen35moe",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 20583,
+          "host_mb": 515,
+          "margin_mb": 128,
+          "parallel": 1,
+          "notes": [
+            "hybrid: full attention every 4 layers"
+          ],
+          "compute_basis": "measured (6 loads, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 40,
+              "weights_mb": 20583,
+              "kv_mb": 148,
+              "compute_mb": 100,
+              "projected_mb": 21404,
+              "headroom_mb": 3145
+            }
+          ],
+          "reason": "fits: qwen3.6:35b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 77.8,
+          "response": {
+            "profile": "qwen3.6-35b-a3b-g0",
+            "model": "qwen3.6:35b-a3b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-08742186ef8f402dbf3a796a53acc014",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "qwen3.6:35b-a3b",
+              "arch": "qwen35moe",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 20583,
+              "host_mb": 515,
+              "margin_mb": 128,
+              "parallel": 1,
+              "notes": [
+                "hybrid: full attention every 4 layers"
+              ],
+              "compute_basis": "measured (6 loads, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 40,
+                  "weights_mb": 20583,
+                  "kv_mb": 148,
+                  "compute_mb": 100,
+                  "projected_mb": 21404,
+                  "headroom_mb": 3145
+                }
+              ],
+              "reason": "fits: qwen3.6:35b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 41,
+              "layers": 41,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 20583,
+                  "kv_mb": 85,
+                  "compute_mb": 32,
+                  "total_mb": 20701
+                }
+              ],
+              "host_mb": 522,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "qwen3.6-35b-a3b-g0",
+            "item": "unload-b45951d4478c",
+            "state": "done",
+            "released": "benchmarks-08742186ef8f402dbf3a796a53acc014"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:15:08+00:00"
+      },
+      "finished_at": "2026-10-27T00:15:08+00:00"
+    },
+    "gemma-4_26b-a4b__compact": {
+      "status": "passed",
+      "result": {
+        "case": {
+          "id": "gemma-4_26b-a4b__compact",
+          "model": "gemma-4:26b-a4b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            3760
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_26b-a4b__compact.json"
+        },
+        "max_validated_ctx": 262144,
+        "started_at": "2026-10-27T00:15:08+00:00",
+        "min_fit": {
+          "model": "gemma-4:26b-a4b",
+          "arch": "gemma4",
+          "gpus": [
+            0
+          ],
+          "n_ctx_train": 262144,
+          "weights_mb": 16003,
+          "host_mb": 578,
+          "margin_mb": 512,
+          "parallel": 1,
+          "notes": [
+            "sliding window 1024 on 25 layers",
+            "tied embeddings: output layer reuses token_embd"
+          ],
+          "compute_basis": "measured (1 load, 1 card)",
+          "overhead_mb": [
+            573
+          ],
+          "fits": true,
+          "ctx": 8192,
+          "ctx_limit": "requested",
+          "per_slot_ctx": 8192,
+          "tensor_split": null,
+          "cards": [
+            {
+              "gpu": 0,
+              "total_mb": 24564,
+              "free_mb": 24549,
+              "layers": 30,
+              "weights_mb": 16003,
+              "kv_mb": 298,
+              "compute_mb": 128,
+              "projected_mb": 17001,
+              "headroom_mb": 7548
+            }
+          ],
+          "reason": "fits: gemma-4:26b-a4b on GPU [0] at ctx 8192 (limited by requested)",
+          "registry_profile": "default",
+          "status": "active",
+          "use": "chat",
+          "gguf_path": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
+          "ubatch": 128,
+          "context_mode": "min",
+          "context_bounds": {
+            "min": 8192,
+            "working": 16384,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
+        },
+        "load": {
+          "returncode": 0,
+          "seconds": 164.1,
+          "response": {
+            "profile": "gemma-4-26b-a4b-g0",
+            "model": "gemma-4:26b-a4b",
+            "state": "ready",
+            "port": 11434,
+            "gpus": [
+              0
+            ],
+            "lease": "benchmarks-9370bcb7f1874e1c87e2c6d5a7ac426d",
+            "ctx": 8192,
+            "tensor_split": null,
+            "estimate": {
+              "model": "gemma-4:26b-a4b",
+              "arch": "gemma4",
+              "gpus": [
+                0
+              ],
+              "n_ctx_train": 262144,
+              "weights_mb": 16003,
+              "host_mb": 578,
+              "margin_mb": 512,
+              "parallel": 1,
+              "notes": [
+                "sliding window 1024 on 25 layers",
+                "tied embeddings: output layer reuses token_embd"
+              ],
+              "compute_basis": "measured (1 load, 1 card)",
+              "overhead_mb": [
+                573
+              ],
+              "fits": true,
+              "ctx": 8192,
+              "ctx_limit": "requested",
+              "per_slot_ctx": 8192,
+              "tensor_split": null,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "total_mb": 24564,
+                  "free_mb": 24549,
+                  "layers": 30,
+                  "weights_mb": 16003,
+                  "kv_mb": 298,
+                  "compute_mb": 128,
+                  "projected_mb": 17001,
+                  "headroom_mb": 7548
+                }
+              ],
+              "reason": "fits: gemma-4:26b-a4b on GPU [0] at ctx 8192 (limited by requested)",
+              "registry_profile": "default",
+              "status": "active",
+              "use": "benchmark",
+              "gguf_path": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
+              "ubatch": 128,
+              "context_mode": "working",
+              "context_bounds": {
+                "min": 8192,
+                "working": 16384,
+                "max": 262144,
+                "max_basis": "gguf_train"
+              }
+            },
+            "measured": {
+              "n_ctx": 8192,
+              "offloaded": 31,
+              "layers": 31,
+              "cards": [
+                {
+                  "gpu": 0,
+                  "model_mb": 16003,
+                  "kv_mb": 218,
+                  "compute_mb": 52,
+                  "total_mb": 16272
+                }
+              ],
+              "host_mb": 587,
+              "projection": []
+            }
+          }
+        },
+        "unload": {
+          "returncode": 0,
+          "response": {
+            "unloaded": "gemma-4-26b-a4b-g0",
+            "item": "unload-8d2c68043657",
+            "state": "done",
+            "released": "benchmarks-9370bcb7f1874e1c87e2c6d5a7ac426d"
+          }
+        },
+        "error": null,
+        "suggested_min_ctx": 8192,
+        "finished_at": "2026-10-27T00:17:57+00:00"
+      },
+      "finished_at": "2026-10-27T00:17:57+00:00"
+    }
+  },
+  "finished_at": "2026-10-27T00:17:57+00:00"
+}

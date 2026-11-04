@@ -1,0 +1,220 @@
+{
+  "run": "context-capacity-matrix-20261026",
+  "started_at": "2026-10-26T21:51:32+00:00",
+  "cases": {
+    "ministral-3_8b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-26T21:51:32+00:00",
+      "finished_at": "2026-10-26T21:53:33+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_8b__compact",
+          "model": "ministral-3:8b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 9216,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            517
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/logs/ministral-3_8b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/receipts/ministral-3_8b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 25.0,
+        "error": null,
+        "observed_ctx": 9216,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "phi-4_14b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-26T21:53:33+00:00",
+      "finished_at": "2026-10-26T21:57:44+00:00",
+      "result": {
+        "case": {
+          "id": "phi-4_14b__compact",
+          "model": "phi-4:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 16384,
+          "trained_ctx": 16384,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            705,
+            763
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/logs/phi-4_14b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/receipts/phi-4_14b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 54.9,
+        "error": null,
+        "observed_ctx": 16384,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen2_5-coder_14b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-26T21:57:44+00:00",
+      "finished_at": "2026-10-26T22:04:01+00:00",
+      "result": {
+        "case": {
+          "id": "qwen2_5-coder_14b__compact",
+          "model": "qwen2.5-coder:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 20224,
+          "trained_ctx": 32768,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            522,
+            672
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/logs/qwen2_5-coder_14b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/receipts/qwen2_5-coder_14b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 114.6,
+        "error": null,
+        "observed_ctx": 20224,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ornith-1_5_9b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-26T22:04:01+00:00",
+      "finished_at": "2026-10-26T22:07:18+00:00",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_9b__compact",
+          "model": "ornith-1.5:9b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 25344,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            516
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/logs/ornith-1_5_9b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/receipts/ornith-1_5_9b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 38.2,
+        "error": null,
+        "observed_ctx": 25344,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen2_5-coder_7b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-26T22:07:18+00:00",
+      "finished_at": "2026-10-26T22:12:04+00:00",
+      "result": {
+        "case": {
+          "id": "qwen2_5-coder_7b__compact",
+          "model": "qwen2.5-coder:7b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 32768,
+          "trained_ctx": 32768,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            688
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/logs/qwen2_5-coder_7b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/receipts/qwen2_5-coder_7b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 34.9,
+        "error": null,
+        "observed_ctx": 32768,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ministral-3_14b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-26T22:12:04+00:00",
+      "finished_at": "2026-10-26T22:17:28+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_14b__compact",
+          "model": "ministral-3:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 34304,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            573,
+            517
+          ]
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/logs/ministral-3_14b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_matrix_20261026/receipts/ministral-3_14b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 35.0,
+        "error": null,
+        "observed_ctx": 34304,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "nemotron-3_5-bolt_74b-a9b__compact": {
+      "status": "running",
+      "started_at": "2026-10-26T22:17:28+00:00"
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T20:48:25.142179+00:00",
+  "generated_at": "2026-11-04T00:25:49.469030+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -394,6 +394,17 @@
         "gptoss_l100_v1",
         "gptoss_smoke_v1",
         "gptoss_smoke_v2"
+      ]
+    },
+    {
+      "failures": 0,
+      "last_run_at": "2026-10-28T06:19:12+00:00",
+      "model": "k2-v2-instruct:70b",
+      "records": 21,
+      "selected_tests": 21,
+      "successes": 21,
+      "suites": [
+        "k2-v2-instruct_70b_w_smoke_v1"
       ]
     },
     {
@@ -937,17 +948,23 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-18T00:48:50.582050+00:00",
+      "last_run_at": "2026-11-04T00:25:48.980039+00:00",
       "model": "qwen3.6:35b-a3b",
-      "records": 119,
+      "records": 151,
       "selected_tests": 32,
-      "successes": 119,
+      "successes": 151,
       "suites": [
         "campaign_qwen36moe_geoimport_20261017_164139",
         "campaign_qwen36moe_mmlu_pro_l20_20261017_164139",
         "campaign_qwen36moe_pipeline_20261017_164139",
         "campaign_qwen36moe_reasoning_l50_20261017_164139",
         "campaign_qwen36moe_runtime_20261017_164139",
+        "campaign_qwen36moem_code_full_qwen36-m-full-20261103",
+        "campaign_qwen36moem_geoimport_qwen36-m-full-20261103",
+        "campaign_qwen36moem_mmlu_pro_l20_qwen36-m-full-20261103",
+        "campaign_qwen36moem_pipeline_qwen36-m-full-20261103",
+        "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
+        "campaign_qwen36moem_runtime_qwen36-m-full-20261103",
         "qwen36_35b_a3b_p45_geo_mt1024",
         "qwen36_35b_a3b_p45_geo_mt512",
         "qwen36_35b_a3b_p45_off",
@@ -958,6 +975,23 @@
         "qwen36_35b_a3b_smoke_v1",
         "qwen36_35b_l50_bbhdrop_patched",
         "qwen36_35b_l50_bbhdrop_v2"
+      ]
+    },
+    {
+      "failures": 0,
+      "last_run_at": "2026-11-03T23:06:11.517654+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 53,
+      "selected_tests": 32,
+      "successes": 53,
+      "suites": [
+        "campaign_qwen36moexl_code_full_qwen36-xl-full-20261103",
+        "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103",
+        "campaign_qwen36moexl_mmlu_pro_l20_qwen36-xl-full-20261103",
+        "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
+        "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+        "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103",
+        "qwen3_6_35b-a3b-xl_w_smoke_v1"
       ]
     },
     {
@@ -1551,6 +1585,32 @@
       "tier": 3
     },
     {
+      "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+      "id": "k2-v2-instruct:70b",
+      "placement": "split_gpu",
+      "split_groups": [
+        {
+          "id": "all_gpus_capacity",
+          "members": [
+            "gpu-0",
+            "gpu-1",
+            "gpu-2",
+            "gpu-3",
+            "gpu-4",
+            "gpu-5"
+          ],
+          "port": 11445
+        }
+      ],
+      "tags": [
+        "capacity_candidate",
+        "dense",
+        "multi_gpu",
+        "reasoning"
+      ],
+      "tier": 3
+    },
+    {
       "gguf_path": "/mnt/shared/models/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
       "id": "nemotron-3.5-bolt:74b-a9b",
       "placement": "split_gpu",
@@ -1573,6 +1633,16 @@
         "moe",
         "hybrid_mamba",
         "multi_gpu"
+      ],
+      "tier": 3
+    },
+    {
+      "gguf_path": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "id": "qwen3.6:35b-a3b-xl",
+      "placement": "single_gpu",
+      "tags": [
+        "brain_candidate",
+        "moe"
       ],
       "tier": 3
     }
@@ -3619,9 +3689,9 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 3450,
+  "record_count": 3556,
   "schema_version": 3,
-  "selected_count": 1564,
+  "selected_count": 1617,
   "selected_per_model_test": [
     {
       "efficiency": {},
@@ -22391,6 +22461,1184 @@
       "status": "success",
       "suite": "campaign_gpt_oss_20b_runtime_20261022_024509",
       "test_id": "runtime_ttft"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,get-answer",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.11851851851851852,
+      "notes": "",
+      "raw_harness_score": 0.11851851851851852,
+      "run_at": "2026-10-28T05:01:19+00:00",
+      "run_class": "smoke",
+      "run_id": "334ef7ae-5fde-44f7-94d2-9bf55dec58f6",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 270,
+      "schema_version": 3,
+      "score": 0.11851851851851852,
+      "score_pct": 11.851851851851853,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "bbh"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 5,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.8407407407407408,
+      "notes": "rescued 195; unreadable 5",
+      "raw_harness_score": 0.11851851851851852,
+      "run_at": "2026-10-28T05:01:19+00:00",
+      "run_class": "smoke",
+      "run_id": "db6ec2aa-f605-45ee-a93c-35419ca38cbe",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 270,
+      "schema_version": 3,
+      "score": 0.8407407407407408,
+      "score_pct": 84.07407407407408,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "bbh_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "passes=8; total=13; result_path=/results/custom_ambiguity_handling_k2-v2-instruct_70b_20261027_225110_426426/result.json",
+      "raw_harness_score": 0.6153846153846154,
+      "run_at": "2026-10-27T22:52:48+00:00",
+      "run_class": "smoke",
+      "run_id": "c002a1d2-59d5-4b0e-a27f-fbfbd08a1d79",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.6153846153846154,
+      "score_pct": 61.53846153846154,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "passes=11; total=12; result_path=/results/custom_command_safety_k2-v2-instruct_70b_20261027_224433_812879/result.json",
+      "raw_harness_score": 0.9166666666666666,
+      "run_at": "2026-10-27T22:51:09+00:00",
+      "run_class": "smoke",
+      "run_id": "39bc5a97-61c0-488e-9c02-9be552471d7b",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.9166666666666666,
+      "score_pct": 91.66666666666666,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "custom_command_safety"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "passes=0; total=13; result_path=/results/custom_json_schema_strict_k2-v2-instruct_70b_20261027_224103_664721/result.json",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-27T22:44:32+00:00",
+      "run_class": "smoke",
+      "run_id": "57e7e84a-0e55-4d62-aead-dd9250dcdb80",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.0,
+      "score_pct": 0.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "passes=13; total=14; result_path=/results/custom_long_context_extract_k2-v2-instruct_70b_20261027_230719_145982/result.json",
+      "raw_harness_score": 0.9285714285714286,
+      "run_at": "2026-10-27T23:09:14+00:00",
+      "run_class": "smoke",
+      "run_id": "407a1425-ac25-4e26-aee6-e05a8ff0fa1b",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 14,
+      "schema_version": 3,
+      "score": 0.9285714285714286,
+      "score_pct": 92.85714285714286,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "passes=9; total=12; result_path=/results/custom_orchestration_tradeoff_k2-v2-instruct_70b_20261027_230542_218894/result.json",
+      "raw_harness_score": 0.75,
+      "run_at": "2026-10-27T23:07:18+00:00",
+      "run_class": "smoke",
+      "run_id": "d2b0e36c-77f2-4054-9db3-17552982e521",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.75,
+      "score_pct": 75.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_k2-v2-instruct_70b_20261027_225249_606762/result.json",
+      "raw_harness_score": 0.9333333333333333,
+      "run_at": "2026-10-27T22:54:16+00:00",
+      "run_class": "smoke",
+      "run_id": "293facdd-3e98-45e5-a44f-45ed3aa8c510",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 15,
+      "schema_version": 3,
+      "score": 0.9333333333333333,
+      "score_pct": 93.33333333333333,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "em,none",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.0,
+      "notes": "",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-28T05:02:49+00:00",
+      "run_class": "smoke",
+      "run_id": "c9e846e1-9c5c-41b0-ad62-15fac6e5276c",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.0,
+      "score_pct": 0.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "drop_em"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "f1,none",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.169,
+      "notes": "",
+      "raw_harness_score": 0.169,
+      "run_at": "2026-10-28T05:02:49+00:00",
+      "run_class": "smoke",
+      "run_id": "6281d537-f748-4613-8b09-7078feee00c9",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.169,
+      "score_pct": 16.900000000000002,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "answer_contained",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 1.0,
+      "notes": "rescued 10; unreadable 0",
+      "raw_harness_score": 0.0,
+      "run_at": "2026-10-28T05:02:50+00:00",
+      "run_class": "smoke",
+      "run_id": "3241fe10-bb2b-42e7-8cea-00a5aefd0d82",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "drop_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.9,
+      "notes": "rescued 3; unreadable 0",
+      "raw_harness_score": 0.6,
+      "run_at": "2026-10-28T02:51:01+00:00",
+      "run_class": "smoke",
+      "run_id": "efced1fa-1abc-42e6-bd51-1f565ac208d8",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,strict-match",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.6,
+      "run_at": "2026-10-28T02:51:00+00:00",
+      "run_class": "smoke",
+      "run_id": "b70bea47-2ed2-458e-80ef-3f3c05e58a55",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.6,
+      "score_pct": 60.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "limit 50: first 50 problems",
+      "raw_harness_score": 0.74,
+      "run_at": "2026-10-28T02:44:58+00:00",
+      "run_class": "smoke",
+      "run_id": "a6375096-a184-418d-9f56-68d5748dd5f8",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.74,
+      "score_pct": 74.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "humaneval_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": null,
+      "notes": "limit 50: first 50 problems",
+      "raw_harness_score": 0.72,
+      "run_at": "2026-10-28T02:44:59+00:00",
+      "run_class": "smoke",
+      "run_id": "a4e306bb-156b-4df0-a019-115bc7b731fe",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.72,
+      "score_pct": 72.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "humaneval_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_loose_acc,none",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.6111111111111112,
+      "notes": "",
+      "raw_harness_score": 0.6111111111111112,
+      "run_at": "2026-10-28T06:19:12+00:00",
+      "run_class": "smoke",
+      "run_id": "82938598-7087-455d-9158-dfd19be448f4",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.6111111111111112,
+      "score_pct": 61.111111111111114,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_strict_acc,none",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.5,
+      "notes": "",
+      "raw_harness_score": 0.5,
+      "run_at": "2026-10-28T06:19:11+00:00",
+      "run_class": "smoke",
+      "run_id": "cfb58ed5-4369-47e2-9008-aacf132e52de",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.5,
+      "score_pct": 50.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_loose_acc,none",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.4,
+      "notes": "",
+      "raw_harness_score": 0.4,
+      "run_at": "2026-10-28T06:19:12+00:00",
+      "run_class": "smoke",
+      "run_id": "b1f131a1-3b18-42d6-80ad-b8a1cc13d060",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.4,
+      "score_pct": 40.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_strict_acc,none",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.2,
+      "notes": "",
+      "raw_harness_score": 0.2,
+      "run_at": "2026-10-28T06:19:10+00:00",
+      "run_class": "smoke",
+      "run_id": "45269b79-33a6-486b-9d02-4dc88422ee23",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 10,
+      "schema_version": 3,
+      "score": 0.2,
+      "score_pct": 20.0,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,custom-extract",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.6571428571428571,
+      "notes": "",
+      "raw_harness_score": 0.6571428571428571,
+      "run_at": "2026-10-28T06:05:25+00:00",
+      "run_class": "smoke",
+      "run_id": "cf4c8e56-3f21-4e02-8665-91e0f839d66b",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 140,
+      "schema_version": 3,
+      "score": 0.6571428571428571,
+      "score_pct": 65.71428571428571,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 3,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "k2-v2-instruct:70b",
+      "normalized_answer_score": 0.6857142857142857,
+      "notes": "rescued 4; unreadable 3",
+      "raw_harness_score": 0.6571428571428571,
+      "run_at": "2026-10-28T06:05:25+00:00",
+      "run_class": "smoke",
+      "run_id": "3482b775-a7ff-4d64-9875-e85f6974bec6",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 140,
+      "schema_version": 3,
+      "score": 0.6857142857142857,
+      "score_pct": 68.57142857142857,
+      "status": "success",
+      "suite": "k2-v2-instruct_70b_w_smoke_v1",
+      "test_id": "mmlu_pro_flexible"
     },
     {
       "efficiency": {},
@@ -71964,22 +73212,24 @@
       "normalized_answer_score": 0.9103703703703704,
       "notes": "",
       "raw_harness_score": 0.9103703703703704,
-      "run_at": "2026-10-18T00:25:20+00:00",
+      "run_at": "2026-11-03T23:45:46+00:00",
       "run_class": "validated",
-      "run_id": "4a22c613-9ae2-48f8-a867-1f08a63abbae",
+      "run_id": "f22521cb-97ed-4e92-8bd1-4b70f1a313dd",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -71989,7 +73239,7 @@
       "score": 0.9103703703703704,
       "score_pct": 91.03703703703704,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "bbh"
     },
     {
@@ -72005,7 +73255,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 4,
+      "extractor_failure_count": 9,
       "failure": {
         "kind": "",
         "message": ""
@@ -72020,24 +73270,26 @@
       "metric": "exact_match,flexible-extract",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": 0.9133333333333333,
-      "notes": "",
+      "notes": "rescued 4; unreadable 9",
       "raw_harness_score": 0.9103703703703704,
-      "run_at": "2026-10-18T00:25:21+00:00",
+      "run_at": "2026-11-03T23:45:46+00:00",
       "run_class": "validated",
-      "run_id": "ecb9c3fb-0f8c-41a9-a080-58eafc83514b",
+      "run_id": "78c202a0-13bb-4e94-a2ff-1c011dceb828",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -72047,7 +73299,7 @@
       "score": 0.9133333333333333,
       "score_pct": 91.33333333333333,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "bbh_flexible"
     },
     {
@@ -72071,18 +73323,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=7; total=13; result_path=/results/custom_ambiguity_handling_qwen3.6_35b-a3b_20261018_004823_736184/result.json",
+      "notes": "passes=7; total=13; result_path=/results/custom_ambiguity_handling_qwen3.6_35b-a3b_20261104_002526_998789/result.json",
       "raw_harness_score": 0.5384615384615384,
-      "run_at": "2026-10-18T00:48:27+00:00",
+      "run_at": "2026-11-04T00:25:30+00:00",
       "run_class": "validated",
-      "run_id": "842434f7-8d2f-4899-8fea-65130b4de603",
+      "run_id": "497b6f69-17b3-4b30-9c58-8acd7e500111",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -72096,7 +73348,7 @@
       "score": 0.5384615384615384,
       "score_pct": 53.84615384615385,
       "status": "success",
-      "suite": "campaign_qwen36moe_pipeline_20261017_164139",
+      "suite": "campaign_qwen36moem_pipeline_qwen36-m-full-20261103",
       "test_id": "custom_ambiguity_handling"
     },
     {
@@ -72120,18 +73372,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=12; total=12; result_path=/results/custom_command_safety_qwen3.6_35b-a3b_20261018_004814_281526/result.json",
+      "notes": "passes=12; total=12; result_path=/results/custom_command_safety_qwen3.6_35b-a3b_20261104_002519_140651/result.json",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:23+00:00",
+      "run_at": "2026-11-04T00:25:26+00:00",
       "run_class": "validated",
-      "run_id": "e482a593-4333-4c26-8c98-6e22a0bf7115",
+      "run_id": "eab4e2a1-adb5-4941-a2bf-14d5b0d4f215",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -72145,7 +73397,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_pipeline_20261017_164139",
+      "suite": "campaign_qwen36moem_pipeline_qwen36-m-full-20261103",
       "test_id": "custom_command_safety"
     },
     {
@@ -72176,17 +73428,14 @@
       "metric": "score",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=13; total=13; result_path=/results/custom_json_schema_strict_qwen3.6_35b-a3b_20261018_004809_148550/result.json; regraded from responses",
+      "notes": "passes=13; total=13; result_path=/results/custom_json_schema_strict_qwen3.6_35b-a3b_20261104_002514_511322/result.json",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:13+00:00",
+      "run_at": "2026-11-04T00:25:18+00:00",
       "run_class": "validated",
-      "run_id": "eacac9b7-fd8e-4119-9eae-80989427687e",
+      "run_id": "c4a826d0-d542-4f6d-bf4a-b63f7819512e",
       "runtime": {
-        "config": {
-          "grading": "json-schema-v2",
-          "rescored_from_responses": true
-        },
-        "config_hash": "bbd803f3d9ac1768807c9d5755d2fd83caf3e11f11a2163605614b87706f4c64",
+        "config": {},
+        "config_hash": "",
         "config_id": "",
         "hardware_id": "",
         "image": "",
@@ -72197,7 +73446,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_pipeline_20261017_164139",
+      "suite": "campaign_qwen36moem_pipeline_qwen36-m-full-20261103",
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -72221,18 +73470,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_qwen3.6_35b-a3b_20261018_004837_801762/result.json",
+      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_qwen3.6_35b-a3b_20261104_002538_840875/result.json",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:42+00:00",
+      "run_at": "2026-11-04T00:25:42+00:00",
       "run_class": "validated",
-      "run_id": "2c097b2e-5fb8-477b-98de-4fe88f50ae4f",
+      "run_id": "9dd560a6-076e-4291-bd5a-0cecbb0ea27e",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -72246,7 +73495,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_pipeline_20261017_164139",
+      "suite": "campaign_qwen36moem_pipeline_qwen36-m-full-20261103",
       "test_id": "custom_long_context_extract"
     },
     {
@@ -72270,18 +73519,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=9; total=12; result_path=/results/custom_orchestration_tradeoff_qwen3.6_35b-a3b_20261018_004832_555842/result.json",
+      "notes": "passes=9; total=12; result_path=/results/custom_orchestration_tradeoff_qwen3.6_35b-a3b_20261104_002534_531825/result.json",
       "raw_harness_score": 0.75,
-      "run_at": "2026-10-18T00:48:37+00:00",
+      "run_at": "2026-11-04T00:25:38+00:00",
       "run_class": "validated",
-      "run_id": "8aad2e94-851f-47c4-9e82-61e0eb07ba91",
+      "run_id": "31646713-a970-407d-8f3c-7a29d04b5bfb",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -72295,7 +73544,7 @@
       "score": 0.75,
       "score_pct": 75.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_pipeline_20261017_164139",
+      "suite": "campaign_qwen36moem_pipeline_qwen36-m-full-20261103",
       "test_id": "custom_orchestration_tradeoff"
     },
     {
@@ -72319,18 +73568,18 @@
       "format_compatibility": "unknown",
       "harness": "bench-pipeline",
       "methodology": {
-        "comparison_group": "pipeline-local-custom-v1",
+        "comparison_group": "pipeline-local-custom-v2",
         "id": "bench-pipeline/local-custom",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
       "metric": "score",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
-      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_qwen3.6_35b-a3b_20261018_004828_148338/result.json",
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_qwen3.6_35b-a3b_20261104_002530_914727/result.json",
       "raw_harness_score": 0.9333333333333333,
-      "run_at": "2026-10-18T00:48:32+00:00",
+      "run_at": "2026-11-04T00:25:33+00:00",
       "run_class": "validated",
-      "run_id": "b548efa7-2fcd-48ed-a97d-8a823cda8474",
+      "run_id": "a018c36d-d778-43ba-988c-c02c6606943e",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -72344,7 +73593,7 @@
       "score": 0.9333333333333333,
       "score_pct": 93.33333333333333,
       "status": "success",
-      "suite": "campaign_qwen36moe_pipeline_20261017_164139",
+      "suite": "campaign_qwen36moem_pipeline_qwen36-m-full-20261103",
       "test_id": "custom_tool_plan_sequence"
     },
     {
@@ -72377,22 +73626,24 @@
       "normalized_answer_score": 0.82,
       "notes": "",
       "raw_harness_score": 0.82,
-      "run_at": "2026-10-18T00:25:48+00:00",
+      "run_at": "2026-11-03T23:46:10+00:00",
       "run_class": "validated",
-      "run_id": "0d6c8b23-8a7c-4f68-bdaa-baf9cc91c9cb",
+      "run_id": "5b83f8cb-a1c2-4468-9115-dfd894f087cc",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -72402,7 +73653,7 @@
       "score": 0.82,
       "score_pct": 82.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "drop_em"
     },
     {
@@ -72435,22 +73686,24 @@
       "normalized_answer_score": 0.8602000000000001,
       "notes": "",
       "raw_harness_score": 0.8602000000000001,
-      "run_at": "2026-10-18T00:25:48+00:00",
+      "run_at": "2026-11-03T23:46:11+00:00",
       "run_class": "validated",
-      "run_id": "796ea4cb-378b-431e-8ed8-d96dfe993747",
+      "run_id": "3a958b0f-fcac-4985-8be2-66e068fb89dd",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -72460,7 +73713,7 @@
       "score": 0.8602000000000001,
       "score_pct": 86.02000000000001,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "drop_f1"
     },
     {
@@ -72491,11 +73744,11 @@
       "metric": "answer_contained",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": 0.88,
-      "notes": "rescued 3; unreadable 0; rescored from samples",
+      "notes": "rescued 3; unreadable 0",
       "raw_harness_score": 0.82,
-      "run_at": "2026-10-18T00:25:48+00:00",
+      "run_at": "2026-11-03T23:46:11+00:00",
       "run_class": "validated",
-      "run_id": "a3547d66-d675-41ef-8c1e-0a75b3301a63",
+      "run_id": "d29a02b1-364b-468e-9522-0d062a1c993e",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -72507,10 +73760,9 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
-          "lm_eval": "0.4.11",
-          "rescored_from_samples": true
+          "lm_eval": "0.4.11"
         },
-        "config_hash": "f4f4a106d4a9d92fe0cdd4a2d4a1c23f9a4409499c2a22e3450415b0a63f8ad4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
         "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
@@ -72521,7 +73773,7 @@
       "score": 0.88,
       "score_pct": 88.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "drop_flexible"
     },
     {
@@ -72554,9 +73806,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:47:56.390097",
+      "run_at": "2026-11-04T00:07:04.925832",
       "run_class": "validated",
-      "run_id": "4704b360-cfbd-4708-8870-7e713eb459ea",
+      "run_id": "b51935fd-fd0b-4202-ba56-37bce0af19c5",
       "runtime": {
         "config": {
           "inference": {
@@ -72584,7 +73836,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_geoimport_20261017_164139",
+      "suite": "campaign_qwen36moem_geoimport_qwen36-m-full-20261103",
       "test_id": "geoimport_prep_classify_australia_asgs_v2"
     },
     {
@@ -72617,9 +73869,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:47:58.638927",
+      "run_at": "2026-11-04T00:07:07.255862",
       "run_class": "validated",
-      "run_id": "83ef4ebf-4acb-44b6-a8af-52538a8e7048",
+      "run_id": "7a9b7a37-f8f2-4d60-934e-00bd4df0be67",
       "runtime": {
         "config": {
           "inference": {
@@ -72647,7 +73899,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_geoimport_20261017_164139",
+      "suite": "campaign_qwen36moem_geoimport_qwen36-m-full-20261103",
       "test_id": "geoimport_prep_classify_brazil_ibge_v2"
     },
     {
@@ -72680,9 +73932,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:03.411253",
+      "run_at": "2026-11-04T00:07:12.181005",
       "run_class": "validated",
-      "run_id": "66547fe0-c16d-4fd8-b453-7d9a3c83d03d",
+      "run_id": "6b83ab88-ad68-40e4-aa85-a97fc5d82f51",
       "runtime": {
         "config": {
           "inference": {
@@ -72710,7 +73962,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_geoimport_20261017_164139",
+      "suite": "campaign_qwen36moem_geoimport_qwen36-m-full-20261103",
       "test_id": "geoimport_prep_handoff_local_check_failure_v2"
     },
     {
@@ -72743,9 +73995,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 0.9048,
-      "run_at": "2026-10-18T00:48:05.818103",
+      "run_at": "2026-11-04T00:07:14.650394",
       "run_class": "validated",
-      "run_id": "71e6d741-9085-41f9-99e7-39943a9cff42",
+      "run_id": "102bff0f-18a8-40b2-b68f-a3f898b91d3e",
       "runtime": {
         "config": {
           "inference": {
@@ -72773,7 +74025,7 @@
       "score": 0.9048,
       "score_pct": 90.48,
       "status": "success",
-      "suite": "campaign_qwen36moe_geoimport_20261017_164139",
+      "suite": "campaign_qwen36moem_geoimport_qwen36-m-full-20261103",
       "test_id": "geoimport_prep_handoff_ready_v2"
     },
     {
@@ -72806,9 +74058,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 0.8788,
-      "run_at": "2026-10-18T00:48:01.373239",
+      "run_at": "2026-11-04T00:07:10.065841",
       "run_class": "validated",
-      "run_id": "a510a41e-56e2-405d-b05b-53401c2411fe",
+      "run_id": "23e96ee2-2ff4-4870-a421-eb11c2d38779",
       "runtime": {
         "config": {
           "inference": {
@@ -72836,7 +74088,7 @@
       "score": 0.8788,
       "score_pct": 87.88,
       "status": "success",
-      "suite": "campaign_qwen36moe_geoimport_20261017_164139",
+      "suite": "campaign_qwen36moem_geoimport_qwen36-m-full-20261103",
       "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
@@ -72867,24 +74119,26 @@
       "metric": "exact_match,flexible-extract",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": 0.94,
-      "notes": "",
+      "notes": "rescued 0; unreadable 0",
       "raw_harness_score": 0.94,
-      "run_at": "2026-10-17T23:46:58+00:00",
+      "run_at": "2026-11-03T23:09:54+00:00",
       "run_class": "validated",
-      "run_id": "8f1e2775-0588-4e11-90c5-b8b9f50ec831",
+      "run_id": "ff4635ac-9e05-404e-80de-3dda5f3ee744",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -72894,7 +74148,7 @@
       "score": 0.94,
       "score_pct": 94.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "gsm8k_flexible"
     },
     {
@@ -72927,22 +74181,24 @@
       "normalized_answer_score": 0.94,
       "notes": "",
       "raw_harness_score": 0.94,
-      "run_at": "2026-10-17T23:46:57+00:00",
+      "run_at": "2026-11-03T23:09:53+00:00",
       "run_class": "validated",
-      "run_id": "c9e1b756-bbed-43e6-912f-eb64bf1882f2",
+      "run_id": "b4acd6a5-5659-4b7e-9d5e-4d78197b1980",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -72952,7 +74208,7 @@
       "score": 0.94,
       "score_pct": 94.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "gsm8k_strict"
     },
     {
@@ -72984,10 +74240,10 @@
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
       "notes": "",
-      "raw_harness_score": 0.926829268292683,
-      "run_at": "2026-10-17T20:20:00+00:00",
+      "raw_harness_score": 0.9207317073170732,
+      "run_at": "2026-11-04T00:12:53+00:00",
       "run_class": "full",
-      "run_id": "509c3f64-53a3-48a6-a98d-7d942b34dabf",
+      "run_id": "ba86579b-5ea4-46e4-ab1f-cb3edb3bde46",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -73001,10 +74257,10 @@
       },
       "sample_count": 164,
       "schema_version": 3,
-      "score": 0.926829268292683,
-      "score_pct": 92.6829268292683,
+      "score": 0.9207317073170732,
+      "score_pct": 92.07317073170732,
       "status": "success",
-      "suite": "qwen36_35b_a3b_smoke_v1",
+      "suite": "campaign_qwen36moem_code_full_qwen36-m-full-20261103",
       "test_id": "humaneval_base"
     },
     {
@@ -73036,10 +74292,10 @@
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": null,
       "notes": "",
-      "raw_harness_score": 0.8963414634146342,
-      "run_at": "2026-10-17T20:20:01+00:00",
+      "raw_harness_score": 0.8902439024390244,
+      "run_at": "2026-11-04T00:12:53+00:00",
       "run_class": "full",
-      "run_id": "6621ef89-14e7-473b-b097-650dd3b99202",
+      "run_id": "2378018c-18e5-48c8-8aa4-ee1d168f7a84",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -73053,10 +74309,10 @@
       },
       "sample_count": 164,
       "schema_version": 3,
-      "score": 0.8963414634146342,
-      "score_pct": 89.63414634146342,
+      "score": 0.8902439024390244,
+      "score_pct": 89.02439024390245,
       "status": "success",
-      "suite": "qwen36_35b_a3b_smoke_v1",
+      "suite": "campaign_qwen36moem_code_full_qwen36-m-full-20261103",
       "test_id": "humaneval_plus"
     },
     {
@@ -73089,22 +74345,24 @@
       "normalized_answer_score": 0.9342105263157895,
       "notes": "",
       "raw_harness_score": 0.9342105263157895,
-      "run_at": "2026-10-18T00:27:33+00:00",
+      "run_at": "2026-11-03T23:47:47+00:00",
       "run_class": "validated",
-      "run_id": "efea7502-6e8f-42da-8cdf-9362ce2c5542",
+      "run_id": "001832bf-30bb-4568-882c-274335e098bc",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -73114,7 +74372,7 @@
       "score": 0.9342105263157895,
       "score_pct": 93.42105263157895,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "ifeval_inst_level_loose_acc_none"
     },
     {
@@ -73147,22 +74405,24 @@
       "normalized_answer_score": 0.9078947368421053,
       "notes": "",
       "raw_harness_score": 0.9078947368421053,
-      "run_at": "2026-10-18T00:27:32+00:00",
+      "run_at": "2026-11-03T23:47:45+00:00",
       "run_class": "validated",
-      "run_id": "21390ec1-76ff-4e86-a452-a2f04ac99470",
+      "run_id": "a0320129-ef57-40d2-a4f4-e5eb37679edf",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -73172,7 +74432,7 @@
       "score": 0.9078947368421053,
       "score_pct": 90.78947368421053,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "ifeval_inst_level_strict_acc_none"
     },
     {
@@ -73205,22 +74465,24 @@
       "normalized_answer_score": 0.9,
       "notes": "",
       "raw_harness_score": 0.9,
-      "run_at": "2026-10-18T00:27:33+00:00",
+      "run_at": "2026-11-03T23:47:46+00:00",
       "run_class": "validated",
-      "run_id": "88cebf14-c069-4748-b8ab-0a7851dfbea4",
+      "run_id": "c755bc0a-6a4f-43da-b8d7-ea4a3200a4d7",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -73230,7 +74492,7 @@
       "score": 0.9,
       "score_pct": 90.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "ifeval_prompt_level_loose_acc_none"
     },
     {
@@ -73263,22 +74525,24 @@
       "normalized_answer_score": 0.86,
       "notes": "",
       "raw_harness_score": 0.86,
-      "run_at": "2026-10-18T00:27:32+00:00",
+      "run_at": "2026-11-03T23:47:45+00:00",
       "run_class": "validated",
-      "run_id": "a9629f48-8885-4a2a-a33b-b18a63445ac4",
+      "run_id": "d8d4541a-6035-421a-9fb2-07794903a601",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -73288,7 +74552,7 @@
       "score": 0.86,
       "score_pct": 86.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_reasoning_l50_20261017_164139",
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103",
       "test_id": "ifeval_prompt_level_strict_acc_none"
     },
     {
@@ -73321,9 +74585,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 0.9074074074074074,
-      "run_at": "2026-10-17T20:34:25+00:00",
+      "run_at": "2026-11-04T00:25:10+00:00",
       "run_class": "full",
-      "run_id": "a541829e-9ab3-4ea8-a0ad-2415ebbe4db9",
+      "run_id": "364e5de2-8393-4efc-ad93-376ecb9ca62e",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -73340,7 +74604,7 @@
       "score": 0.9074074074074074,
       "score_pct": 90.74074074074075,
       "status": "success",
-      "suite": "qwen36_35b_a3b_smoke_v1",
+      "suite": "campaign_qwen36moem_code_full_qwen36-m-full-20261103",
       "test_id": "mbpp_base"
     },
     {
@@ -73373,9 +74637,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 0.7671957671957672,
-      "run_at": "2026-10-17T20:34:26+00:00",
+      "run_at": "2026-11-04T00:25:11+00:00",
       "run_class": "full",
-      "run_id": "9d2638cb-790c-4351-a8bc-144ec78831a3",
+      "run_id": "e14c8349-f18b-4368-8321-a006e69987a5",
       "runtime": {
         "config": {
           "decoding": "greedy",
@@ -73392,7 +74656,7 @@
       "score": 0.7671957671957672,
       "score_pct": 76.71957671957672,
       "status": "success",
-      "suite": "qwen36_35b_a3b_smoke_v1",
+      "suite": "campaign_qwen36moem_code_full_qwen36-m-full-20261103",
       "test_id": "mbpp_plus"
     },
     {
@@ -73425,22 +74689,24 @@
       "normalized_answer_score": 0.7821428571428571,
       "notes": "",
       "raw_harness_score": 0.7821428571428571,
-      "run_at": "2026-10-18T00:47:50+00:00",
+      "run_at": "2026-11-04T00:06:58+00:00",
       "run_class": "validated",
-      "run_id": "67f469d9-5d10-44a8-b012-37f6c1283988",
+      "run_id": "ee0f26d5-61b6-46b0-98ef-ed66edb0d5ca",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
           "bbh_stop": "newline Q:",
-          "extraction": "reasoning-v4",
+          "extraction": "reasoning-v5",
           "flexible_rows": [
             "bbh_flexible",
-            "drop_flexible"
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
           ],
           "lm_eval": "0.4.11"
         },
-        "config_hash": "1af28d2232468e05bd37a9ba3dae9fa8d0c61c8d6d2bfa773e7d776e8e6fff1d",
-        "config_id": "lm-eval-0.4.11-reasoning-extract-v4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
@@ -73450,7 +74716,7 @@
       "score": 0.7821428571428571,
       "score_pct": 78.21428571428571,
       "status": "success",
-      "suite": "campaign_qwen36moe_mmlu_pro_l20_20261017_164139",
+      "suite": "campaign_qwen36moem_mmlu_pro_l20_qwen36-m-full-20261103",
       "test_id": "mmlu_pro_exact_match_custom-extract"
     },
     {
@@ -73466,7 +74732,7 @@
         "ttft_seconds": null,
         "wall_time_seconds": null
       },
-      "extractor_failure_count": 6,
+      "extractor_failure_count": 18,
       "failure": {
         "kind": "",
         "message": ""
@@ -73480,12 +74746,12 @@
       },
       "metric": "exact_match,flexible-extract",
       "model": "qwen3.6:35b-a3b",
-      "normalized_answer_score": 0.8285714285714286,
-      "notes": "rescued 1; unreadable 6; rescored from samples",
-      "raw_harness_score": 0.8214285714285714,
-      "run_at": "2026-10-17T20:53:50+00:00",
-      "run_class": "smoke",
-      "run_id": "0eed5750-0353-4dd1-aab1-bea1d7ba8458",
+      "normalized_answer_score": 0.7857142857142857,
+      "notes": "rescued 1; unreadable 18",
+      "raw_harness_score": 0.7821428571428571,
+      "run_at": "2026-11-04T00:06:58+00:00",
+      "run_class": "validated",
+      "run_id": "54e3fed9-490f-4de6-8fd4-59b3885fe0ad",
       "runtime": {
         "config": {
           "bbh_max_gen_toks": 1024,
@@ -73497,35 +74763,34 @@
             "mmlu_pro_flexible",
             "gsm8k_flexible"
           ],
-          "lm_eval": "0.4.11",
-          "rescored_from_samples": true
+          "lm_eval": "0.4.11"
         },
-        "config_hash": "f4f4a106d4a9d92fe0cdd4a2d4a1c23f9a4409499c2a22e3450415b0a63f8ad4",
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
         "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
         "hardware_id": "",
         "image": "",
         "runtime_id": ""
       },
-      "sample_count": 140,
+      "sample_count": 280,
       "schema_version": 3,
-      "score": 0.8285714285714286,
-      "score_pct": 82.85714285714286,
+      "score": 0.7857142857142857,
+      "score_pct": 78.57142857142857,
       "status": "success",
-      "suite": "qwen36_35b_a3b_smoke_v1",
+      "suite": "campaign_qwen36moem_mmlu_pro_l20_qwen36-m-full-20261103",
       "test_id": "mmlu_pro_flexible"
     },
     {
       "efficiency": {
-        "energy_wh": 0.1515235964457197,
+        "energy_wh": 0.14558012474141221,
         "failed_request_count": 0,
         "generation_tps": null,
-        "gpu_seconds": 1.7742236299964134,
+        "gpu_seconds": 1.6536484860116616,
         "kv_cache_mb": null,
-        "peak_vram_mb": 21245.0,
+        "peak_vram_mb": 21249.0,
         "prompt_tps": null,
         "timeout_count": 0,
         "ttft_seconds": null,
-        "wall_time_seconds": 1.7742236299964134
+        "wall_time_seconds": 1.6536484860116616
       },
       "extractor_failure_count": 0,
       "failure": {
@@ -73542,11 +74807,11 @@
       "metric": "request_success_rate",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": 1.0,
-      "notes": "{\"energy_wh\": 0.1515235964457197, \"failed_request_count\": 0, \"gpu_seconds\": 1.7742236299964134, \"max_success_prompt_tokens\": 3543, \"peak_vram_mb\": 21245.0, \"results\": [{\"error\": \"\", \"prompt_tokens\": 903, \"success\": true, \"target_words\": 800, \"wall_seconds\": 0.548015543987276}, {\"error\": \"\", \"prompt_tokens\": 3543, \"success\": true, \"target_words\": 3200, \"wall_seconds\": 1.2260029120079707}], \"sample_count\": 2, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 1.7742236299964134}",
+      "notes": "{\"energy_wh\": 0.14558012474141221, \"failed_request_count\": 0, \"gpu_seconds\": 1.6536484860116616, \"max_success_prompt_tokens\": 3543, \"peak_vram_mb\": 21249.0, \"results\": [{\"error\": \"\", \"prompt_tokens\": 903, \"success\": true, \"target_words\": 800, \"wall_seconds\": 0.44653911898785736}, {\"error\": \"\", \"prompt_tokens\": 3543, \"success\": true, \"target_words\": 3200, \"wall_seconds\": 1.2069038579938933}], \"sample_count\": 2, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 1.6536484860116616}",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:50.582050+00:00",
+      "run_at": "2026-11-04T00:25:48.980039+00:00",
       "run_class": "validated",
-      "run_id": "5aefa008-1e30-4532-b269-9e5c9a4c763f",
+      "run_id": "3bbf36b7-1a5c-4a88-a2b3-0cc0b29e0833",
       "runtime": {
         "config": {
           "context_max_tokens": 4,
@@ -73574,21 +74839,21 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_runtime_20261017_164139",
+      "suite": "campaign_qwen36moem_runtime_qwen36-m-full-20261103",
       "test_id": "runtime_context_reliability"
     },
     {
       "efficiency": {
-        "energy_wh": 0.026110717763847626,
+        "energy_wh": 0.012811799326541203,
         "failed_request_count": 0,
         "generation_tps": null,
-        "gpu_seconds": 0.8169757860014215,
+        "gpu_seconds": 0.3530196909996448,
         "kv_cache_mb": null,
-        "peak_vram_mb": 21245.0,
+        "peak_vram_mb": 21249.0,
         "prompt_tps": null,
         "timeout_count": 0,
         "ttft_seconds": null,
-        "wall_time_seconds": 0.8169757860014215
+        "wall_time_seconds": 0.3530196909996448
       },
       "extractor_failure_count": 0,
       "failure": {
@@ -73605,11 +74870,11 @@
       "metric": "request_success_rate",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": 1.0,
-      "notes": "{\"energy_wh\": 0.026110717763847626, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 0.8169757860014215, \"peak_vram_mb\": 21245.0, \"request_wall_seconds\": 0.8167168820509687, \"sample_count\": 5, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 0.8169757860014215}",
+      "notes": "{\"energy_wh\": 0.012811799326541203, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 0.3530196909996448, \"peak_vram_mb\": 21249.0, \"request_wall_seconds\": 0.3527461030171253, \"sample_count\": 5, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 0.3530196909996448}",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:46.716903+00:00",
+      "run_at": "2026-11-04T00:25:45.506053+00:00",
       "run_class": "validated",
-      "run_id": "1acce8bf-4b86-4ec7-8ab5-5bf553e51d0f",
+      "run_id": "c601ac5c-894b-4595-9390-7ccb88514152",
       "runtime": {
         "config": {
           "context_max_tokens": 4,
@@ -73637,21 +74902,21 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_runtime_20261017_164139",
+      "suite": "campaign_qwen36moem_runtime_qwen36-m-full-20261103",
       "test_id": "runtime_stability"
     },
     {
       "efficiency": {
-        "energy_wh": 0.04968558001994263,
+        "energy_wh": 0.054399537427517575,
         "failed_request_count": 0,
-        "generation_tps": 148.6045795953041,
-        "gpu_seconds": 1.0105616689834278,
+        "generation_tps": 155.0251336023691,
+        "gpu_seconds": 0.8865216330013936,
         "kv_cache_mb": null,
-        "peak_vram_mb": 21245.0,
-        "prompt_tps": 308.53881161134393,
+        "peak_vram_mb": 21249.0,
+        "prompt_tps": 367.56260050539856,
         "timeout_count": 0,
         "ttft_seconds": null,
-        "wall_time_seconds": 1.0105616689834278
+        "wall_time_seconds": 0.8865216330013936
       },
       "extractor_failure_count": 0,
       "failure": {
@@ -73668,11 +74933,11 @@
       "metric": "request_success_rate",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": 1.0,
-      "notes": "{\"completion_tokens\": 128, \"energy_wh\": 0.04968558001994263, \"failed_request_count\": 0, \"generation_tps\": 148.6045795953041, \"gpu_seconds\": 1.0105616689834278, \"peak_vram_mb\": 21245.0, \"prompt_tokens\": 24, \"prompt_tps\": 308.53881161134393, \"request_wall_seconds\": 1.010480122989975, \"sample_count\": 1, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 1.0105616689834278}",
+      "notes": "{\"completion_tokens\": 128, \"energy_wh\": 0.054399537427517575, \"failed_request_count\": 0, \"generation_tps\": 155.0251336023691, \"gpu_seconds\": 0.8865216330013936, \"peak_vram_mb\": 21249.0, \"prompt_tokens\": 24, \"prompt_tps\": 367.56260050539856, \"request_wall_seconds\": 0.8864528859994607, \"sample_count\": 1, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 0.8865216330013936}",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:48.575910+00:00",
+      "run_at": "2026-11-04T00:25:47.091818+00:00",
       "run_class": "validated",
-      "run_id": "c13d433e-790c-472d-8b16-8f0a58810ea3",
+      "run_id": "9e6997e5-eb01-48ae-9e2b-622d59e3a672",
       "runtime": {
         "config": {
           "context_max_tokens": 4,
@@ -73700,21 +74965,21 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_runtime_20261017_164139",
+      "suite": "campaign_qwen36moem_runtime_qwen36-m-full-20261103",
       "test_id": "runtime_throughput"
     },
     {
       "efficiency": {
-        "energy_wh": 0.015776938672934435,
+        "energy_wh": 0.009664366844439387,
         "failed_request_count": 0,
         "generation_tps": null,
-        "gpu_seconds": 0.38301327600493096,
+        "gpu_seconds": 0.22058286900573876,
         "kv_cache_mb": null,
-        "peak_vram_mb": 21245.0,
+        "peak_vram_mb": 21249.0,
         "prompt_tps": null,
         "timeout_count": 0,
-        "ttft_seconds": 0.11689470665684591,
-        "wall_time_seconds": 0.38301327600493096
+        "ttft_seconds": 0.06463894633634482,
+        "wall_time_seconds": 0.22058286900573876
       },
       "extractor_failure_count": 0,
       "failure": {
@@ -73731,11 +74996,11 @@
       "metric": "request_success_rate",
       "model": "qwen3.6:35b-a3b",
       "normalized_answer_score": 1.0,
-      "notes": "{\"energy_wh\": 0.015776938672934435, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 0.38301327600493096, \"peak_vram_mb\": 21245.0, \"sample_count\": 3, \"score\": 1.0, \"timeout_count\": 0, \"ttft_seconds\": 0.11689470665684591, \"values\": [0.17271233597421087, 0.08975087100407109, 0.08822091299225576], \"wall_time_seconds\": 0.38301327600493096}",
+      "notes": "{\"energy_wh\": 0.009664366844439387, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 0.22058286900573876, \"peak_vram_mb\": 21249.0, \"sample_count\": 3, \"score\": 1.0, \"timeout_count\": 0, \"ttft_seconds\": 0.06463894633634482, \"values\": [0.07015018300444353, 0.06194519500422757, 0.06182146100036334], \"wall_time_seconds\": 0.22058286900573876}",
       "raw_harness_score": 1.0,
-      "run_at": "2026-10-18T00:48:47.334021+00:00",
+      "run_at": "2026-11-04T00:25:45.965769+00:00",
       "run_class": "validated",
-      "run_id": "f45084a3-45ea-44ca-b92b-0723179edb5b",
+      "run_id": "98c0bd86-43da-4922-998d-812666c7d4d9",
       "runtime": {
         "config": {
           "context_max_tokens": 4,
@@ -73763,7 +75028,1856 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_qwen36moe_runtime_20261017_164139",
+      "suite": "campaign_qwen36moem_runtime_qwen36-m-full-20261103",
+      "test_id": "runtime_ttft"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,get-answer",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.9162962962962963,
+      "notes": "",
+      "raw_harness_score": 0.9162962962962963,
+      "run_at": "2026-11-03T22:24:22+00:00",
+      "run_class": "validated",
+      "run_id": "3790b58a-a578-4d10-80f0-b5a14a6bb7fe",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1350,
+      "schema_version": 3,
+      "score": 0.9162962962962963,
+      "score_pct": 91.62962962962963,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "bbh"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 5,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.917037037037037,
+      "notes": "rescued 1; unreadable 5",
+      "raw_harness_score": 0.9162962962962963,
+      "run_at": "2026-11-03T22:24:22+00:00",
+      "run_class": "validated",
+      "run_id": "8251f8a6-3597-4db9-9f63-083cfb1af932",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1350,
+      "schema_version": 3,
+      "score": 0.917037037037037,
+      "score_pct": 91.7037037037037,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "bbh_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "passes=6; total=13; result_path=/results/custom_ambiguity_handling_qwen3.6_35b-a3b-xl_20261103_230550_309989/result.json",
+      "raw_harness_score": 0.46153846153846156,
+      "run_at": "2026-11-03T23:05:53+00:00",
+      "run_class": "validated",
+      "run_id": "6deafd51-5a77-4de6-9766-2d42bfb0efad",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 0.46153846153846156,
+      "score_pct": 46.15384615384615,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
+      "test_id": "custom_ambiguity_handling"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "passes=12; total=12; result_path=/results/custom_command_safety_qwen3.6_35b-a3b-xl_20261103_230541_650605/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T23:05:49+00:00",
+      "run_class": "validated",
+      "run_id": "3f63ba0a-a5a2-4587-8dd7-94aad486969b",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
+      "test_id": "custom_command_safety"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "passes=13; total=13; result_path=/results/custom_json_schema_strict_qwen3.6_35b-a3b-xl_20261103_230536_989870/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T23:05:40+00:00",
+      "run_class": "validated",
+      "run_id": "555d1150-dd4e-458f-bd1b-28badfcb6666",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 13,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
+      "test_id": "custom_json_schema_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=14; result_path=/results/custom_long_context_extract_qwen3.6_35b-a3b-xl_20261103_230602_164152/result.json",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T23:06:05+00:00",
+      "run_class": "validated",
+      "run_id": "30a64b55-e81b-4c37-bc35-ba9b8f13f8af",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 14,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
+      "test_id": "custom_long_context_extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "passes=10; total=12; result_path=/results/custom_orchestration_tradeoff_qwen3.6_35b-a3b-xl_20261103_230557_839939/result.json",
+      "raw_harness_score": 0.8333333333333334,
+      "run_at": "2026-11-03T23:06:01+00:00",
+      "run_class": "validated",
+      "run_id": "c168d7e1-338a-4e40-9f10-7652d3d8e51f",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 12,
+      "schema_version": 3,
+      "score": 0.8333333333333334,
+      "score_pct": 83.33333333333334,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
+      "test_id": "custom_orchestration_tradeoff"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-pipeline",
+      "methodology": {
+        "comparison_group": "pipeline-local-custom-v2",
+        "id": "bench-pipeline/local-custom",
+        "version": "2.1.0"
+      },
+      "metric": "score",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "passes=14; total=15; result_path=/results/custom_tool_plan_sequence_qwen3.6_35b-a3b-xl_20261103_230554_200549/result.json",
+      "raw_harness_score": 0.9333333333333333,
+      "run_at": "2026-11-03T23:05:57+00:00",
+      "run_class": "validated",
+      "run_id": "1cd4ffad-8e42-4061-aeab-e297e524c77f",
+      "runtime": {
+        "config": {},
+        "config_hash": "",
+        "config_id": "",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 15,
+      "schema_version": 3,
+      "score": 0.9333333333333333,
+      "score_pct": 93.33333333333333,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
+      "test_id": "custom_tool_plan_sequence"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "em,none",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.8,
+      "notes": "",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-11-03T22:24:44+00:00",
+      "run_class": "validated",
+      "run_id": "a9cee067-8371-46ca-870b-e8826061ad4f",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.8,
+      "score_pct": 80.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "drop_em"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "f1,none",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.8402000000000001,
+      "notes": "",
+      "raw_harness_score": 0.8402000000000001,
+      "run_at": "2026-11-03T22:24:44+00:00",
+      "run_class": "validated",
+      "run_id": "11398e0c-e825-4072-a70e-c9090714ce17",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.8402000000000001,
+      "score_pct": 84.02000000000001,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "drop_f1"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "answer_contained",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.86,
+      "notes": "rescued 3; unreadable 0",
+      "raw_harness_score": 0.8,
+      "run_at": "2026-11-03T22:24:45+00:00",
+      "run_class": "validated",
+      "run_id": "514712bd-9b0e-48cf-b27d-59fae088821a",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.86,
+      "score_pct": 86.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "drop_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T22:46:30.548205",
+      "run_class": "validated",
+      "run_id": "ce333c6d-8170-49d5-963c-6f369ad68e74",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "2121521ad8ba7d337d8c3b18441add95eac50b84666f409209d985e68589c256",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T22:46:32.938297",
+      "run_class": "validated",
+      "run_id": "82653594-900d-4ea9-b6bf-10f976c9b5c5",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "2121521ad8ba7d337d8c3b18441add95eac50b84666f409209d985e68589c256",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103",
+      "test_id": "geoimport_prep_classify_brazil_ibge_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T22:46:38.159894",
+      "run_class": "validated",
+      "run_id": "9fbea013-b14c-4dde-bdbd-6ef04cf2beb2",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "2121521ad8ba7d337d8c3b18441add95eac50b84666f409209d985e68589c256",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103",
+      "test_id": "geoimport_prep_handoff_local_check_failure_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_handoff",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9048,
+      "run_at": "2026-11-03T22:46:40.506860",
+      "run_class": "validated",
+      "run_id": "c060a22b-a035-4cdb-92c0-370401469e79",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "2121521ad8ba7d337d8c3b18441add95eac50b84666f409209d985e68589c256",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.9048,
+      "score_pct": 90.48,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103",
+      "test_id": "geoimport_prep_handoff_ready_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "prep_plan",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7879,
+      "run_at": "2026-11-03T22:46:35.974924",
+      "run_class": "validated",
+      "run_id": "c08d44f6-2dc0-461e-a7f5-e95b683c3e6e",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "2121521ad8ba7d337d8c3b18441add95eac50b84666f409209d985e68589c256",
+        "config_id": "geoimport-v2:qwen3.6:35b-a3b-xl->Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.7879,
+      "score_pct": 78.79,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103",
+      "test_id": "geoimport_prep_plan_brazil_spine_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.92,
+      "notes": "rescued 0; unreadable 0",
+      "raw_harness_score": 0.92,
+      "run_at": "2026-11-03T21:47:57+00:00",
+      "run_class": "validated",
+      "run_id": "f638b6f8-6e5c-4a4b-bcb6-0eea66fa9540",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.92,
+      "score_pct": 92.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "gsm8k_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,strict-match",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.92,
+      "notes": "",
+      "raw_harness_score": 0.92,
+      "run_at": "2026-11-03T21:47:57+00:00",
+      "run_class": "validated",
+      "run_id": "520b69a8-98bb-408e-b4ef-922c2f06baf1",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.92,
+      "score_pct": 92.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "gsm8k_strict"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9207317073170732,
+      "run_at": "2026-11-03T22:52:27+00:00",
+      "run_class": "full",
+      "run_id": "8ebc95a0-ce9c-4391-8eb7-9f59ce18e9b7",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.9207317073170732,
+      "score_pct": 92.07317073170732,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_code_full_qwen36-xl-full-20261103",
+      "test_id": "humaneval_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.8841463414634146,
+      "run_at": "2026-11-03T22:52:28+00:00",
+      "run_class": "full",
+      "run_id": "ccbf23c1-014a-497c-b65c-6229a316f5d9",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 164,
+      "schema_version": 3,
+      "score": 0.8841463414634146,
+      "score_pct": 88.41463414634147,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_code_full_qwen36-xl-full-20261103",
+      "test_id": "humaneval_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_loose_acc,none",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.9342105263157895,
+      "notes": "",
+      "raw_harness_score": 0.9342105263157895,
+      "run_at": "2026-11-03T22:26:22+00:00",
+      "run_class": "validated",
+      "run_id": "b58f8505-44b1-4566-bdd3-58d5212151f0",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.9342105263157895,
+      "score_pct": 93.42105263157895,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "ifeval_inst_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "inst_level_strict_acc,none",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.9342105263157895,
+      "notes": "",
+      "raw_harness_score": 0.9342105263157895,
+      "run_at": "2026-11-03T22:26:21+00:00",
+      "run_class": "validated",
+      "run_id": "df912aff-14cb-4628-8209-eca74c59316c",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.9342105263157895,
+      "score_pct": 93.42105263157895,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "ifeval_inst_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_loose_acc,none",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.9,
+      "run_at": "2026-11-03T22:26:22+00:00",
+      "run_class": "validated",
+      "run_id": "6af866b4-8a5a-41ff-902b-036a6b2f8003",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "ifeval_prompt_level_loose_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "prompt_level_strict_acc,none",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.9,
+      "notes": "",
+      "raw_harness_score": 0.9,
+      "run_at": "2026-11-03T22:26:21+00:00",
+      "run_class": "validated",
+      "run_id": "a24f1260-3efb-4561-a4dc-fc2ec4b6c87b",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 50,
+      "schema_version": 3,
+      "score": 0.9,
+      "score_pct": 90.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
+      "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_base",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.917989417989418,
+      "run_at": "2026-11-03T23:05:32+00:00",
+      "run_class": "full",
+      "run_id": "21016ecd-2929-490f-9472-00dcadcd83e0",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.917989417989418,
+      "score_pct": 91.7989417989418,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_code_full_qwen36-xl-full-20261103",
+      "test_id": "mbpp_base"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-code",
+      "methodology": {
+        "comparison_group": "evalplus-0.3-plus-v1",
+        "id": "bench-code/evalplus",
+        "version": "2.0.0"
+      },
+      "metric": "pass@1_plus",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.7804232804232805,
+      "run_at": "2026-11-03T23:05:33+00:00",
+      "run_class": "full",
+      "run_id": "38d796fe-82a2-4b1a-bcb7-d596d303f3e8",
+      "runtime": {
+        "config": {
+          "decoding": "greedy",
+          "evalplus": "0.3.1"
+        },
+        "config_hash": "f5322ac48882158819528e3c3715663d436da374e5f04b0cd82854d92dadd2b2",
+        "config_id": "evalplus-0.3.1-greedy",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 378,
+      "schema_version": 3,
+      "score": 0.7804232804232805,
+      "score_pct": 78.04232804232805,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_code_full_qwen36-xl-full-20261103",
+      "test_id": "mbpp_plus"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "unknown",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,custom-extract",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.775,
+      "notes": "",
+      "raw_harness_score": 0.775,
+      "run_at": "2026-11-03T22:46:23+00:00",
+      "run_class": "validated",
+      "run_id": "60db88cc-d48f-4753-9ebc-a1e1690cc149",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 280,
+      "schema_version": 3,
+      "score": 0.775,
+      "score_pct": 77.5,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_mmlu_pro_l20_qwen36-xl-full-20261103",
+      "test_id": "mmlu_pro_exact_match_custom-extract"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 19,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "degraded",
+      "harness": "bench-reasoning",
+      "methodology": {
+        "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
+        "id": "bench-reasoning/lm-eval-normalized",
+        "version": "2.0.0"
+      },
+      "metric": "exact_match,flexible-extract",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 0.7785714285714286,
+      "notes": "rescued 1; unreadable 19",
+      "raw_harness_score": 0.775,
+      "run_at": "2026-11-03T22:46:23+00:00",
+      "run_class": "validated",
+      "run_id": "c770e103-bd1f-4975-8e56-9d18ca8214f2",
+      "runtime": {
+        "config": {
+          "bbh_max_gen_toks": 1024,
+          "bbh_stop": "newline Q:",
+          "extraction": "reasoning-v5",
+          "flexible_rows": [
+            "bbh_flexible",
+            "drop_flexible",
+            "mmlu_pro_flexible",
+            "gsm8k_flexible"
+          ],
+          "lm_eval": "0.4.11"
+        },
+        "config_hash": "433227b81122d1193849f79faf1b0ad7652802296521a4ffd7d998b8ef621581",
+        "config_id": "lm-eval-0.4.11-reasoning-extract-v5",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 280,
+      "schema_version": 3,
+      "score": 0.7785714285714286,
+      "score_pct": 77.85714285714286,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_mmlu_pro_l20_qwen36-xl-full-20261103",
+      "test_id": "mmlu_pro_flexible"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.1456111735091793,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 1.6498072300018976,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 21431.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 1.6498072300018976
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.1456111735091793, \"failed_request_count\": 0, \"gpu_seconds\": 1.6498072300018976, \"max_success_prompt_tokens\": 3543, \"peak_vram_mb\": 21431.0, \"results\": [{\"error\": \"\", \"prompt_tokens\": 903, \"success\": true, \"target_words\": 800, \"wall_seconds\": 0.44771271699573845}, {\"error\": \"\", \"prompt_tokens\": 3543, \"success\": true, \"target_words\": 3200, \"wall_seconds\": 1.2018999079882633}], \"sample_count\": 2, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 1.6498072300018976}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T23:06:11.517654+00:00",
+      "run_class": "validated",
+      "run_id": "9e48a89e-a828-4b1a-b570-badb3aa8594c",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0
+          ],
+          "hardware_id": "rig-brain-gpu0",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "53d6deb9e4e25f12e2842b804d12d4bcedd170592f42ed6868bb5c15890e1f36",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-brain-gpu0",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 2,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103",
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.01566172195383414,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 0.3862288590025855,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 21431.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 0.3862288590025855
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.01566172195383414, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 0.3862288590025855, \"peak_vram_mb\": 21431.0, \"request_wall_seconds\": 0.38593320301151834, \"sample_count\": 5, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 0.3862288590025855}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T23:06:08.033398+00:00",
+      "run_class": "validated",
+      "run_id": "7a7ce4a1-9306-47c6-b0a0-7379b87b9b71",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0
+          ],
+          "hardware_id": "rig-brain-gpu0",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "53d6deb9e4e25f12e2842b804d12d4bcedd170592f42ed6868bb5c15890e1f36",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-brain-gpu0",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 5,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103",
+      "test_id": "runtime_stability"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.05591917426670659,
+        "failed_request_count": 0,
+        "generation_tps": 151.90787923443213,
+        "gpu_seconds": 0.9039539829973364,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 21431.0,
+        "prompt_tps": 363.7962134877446,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": 0.9039539829973364
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"completion_tokens\": 128, \"energy_wh\": 0.05591917426670659, \"failed_request_count\": 0, \"generation_tps\": 151.90787923443213, \"gpu_seconds\": 0.9039539829973364, \"peak_vram_mb\": 21431.0, \"prompt_tokens\": 24, \"prompt_tps\": 363.7962134877446, \"request_wall_seconds\": 0.9038768269965658, \"sample_count\": 1, \"score\": 1.0, \"timeout_count\": 0, \"wall_time_seconds\": 0.9039539829973364}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T23:06:09.634421+00:00",
+      "run_class": "validated",
+      "run_id": "8543569d-b6bb-4409-a56c-e1052a49435d",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0
+          ],
+          "hardware_id": "rig-brain-gpu0",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "53d6deb9e4e25f12e2842b804d12d4bcedd170592f42ed6868bb5c15890e1f36",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-brain-gpu0",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103",
+      "test_id": "runtime_throughput"
+    },
+    {
+      "efficiency": {
+        "energy_wh": 0.010271948752580324,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": 0.22270388600009028,
+        "kv_cache_mb": null,
+        "peak_vram_mb": 21431.0,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": 0.06488228300198291,
+        "wall_time_seconds": 0.22270388600009028
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
+      "format_compatibility": "compatible",
+      "harness": "bench-runtime",
+      "methodology": {
+        "comparison_group": "runtime-operational-v1",
+        "id": "bench-runtime/operational",
+        "version": "1.0.0"
+      },
+      "metric": "request_success_rate",
+      "model": "qwen3.6:35b-a3b-xl",
+      "normalized_answer_score": 1.0,
+      "notes": "{\"energy_wh\": 0.010271948752580324, \"errors\": [], \"failed_request_count\": 0, \"gpu_seconds\": 0.22270388600009028, \"peak_vram_mb\": 21431.0, \"sample_count\": 3, \"score\": 1.0, \"timeout_count\": 0, \"ttft_seconds\": 0.06488228300198291, \"values\": [0.07043696701293811, 0.0620345979987178, 0.06217528399429284], \"wall_time_seconds\": 0.22270388600009028}",
+      "raw_harness_score": 1.0,
+      "run_at": "2026-11-03T23:06:08.494197+00:00",
+      "run_class": "validated",
+      "run_id": "64d7016d-3083-4065-961d-7057571f7932",
+      "runtime": {
+        "config": {
+          "context_max_tokens": 4,
+          "context_word_targets": [
+            800,
+            3200
+          ],
+          "gpu_ids": [
+            0
+          ],
+          "hardware_id": "rig-brain-gpu0",
+          "stability_requests": 5,
+          "throughput_max_tokens": 128,
+          "ttft_requests": 3,
+          "version": "runtime-operational-v1"
+        },
+        "config_hash": "53d6deb9e4e25f12e2842b804d12d4bcedd170592f42ed6868bb5c15890e1f36",
+        "config_id": "runtime-operational-v1",
+        "hardware_id": "rig-brain-gpu0",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 3,
+      "schema_version": 3,
+      "score": 1.0,
+      "score_pct": 100.0,
+      "status": "success",
+      "suite": "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103",
       "test_id": "runtime_ttft"
     },
     {
@@ -80648,6 +83762,19 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-10-28T06:19:12+00:00",
+      "model": "k2-v2-instruct:70b",
+      "records": 21,
+      "successes": 21,
+      "suite": "k2-v2-instruct_70b_w_smoke_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-reasoning"
       ],
       "last_run_at": "2026-03-18T10:02:29+00:00",
@@ -83808,6 +86935,72 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-code"
+      ],
+      "last_run_at": "2026-11-04T00:25:11+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_qwen36moem_code_full_qwen36-m-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-11-04T00:07:14.650394",
+      "model": "qwen3.6:35b-a3b",
+      "records": 5,
+      "successes": 5,
+      "suite": "campaign_qwen36moem_geoimport_qwen36-m-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-04T00:06:58+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_qwen36moem_mmlu_pro_l20_qwen36-m-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-pipeline"
+      ],
+      "last_run_at": "2026-11-04T00:25:42+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 6,
+      "successes": 6,
+      "suite": "campaign_qwen36moem_pipeline_qwen36-m-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-03T23:47:47+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 11,
+      "successes": 11,
+      "suite": "campaign_qwen36moem_reasoning_l50_qwen36-m-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-runtime"
+      ],
+      "last_run_at": "2026-11-04T00:25:48.980039+00:00",
+      "model": "qwen3.6:35b-a3b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_qwen36moem_runtime_qwen36-m-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-geoimport"
       ],
       "last_run_at": "2026-10-17T21:07:08.138246",
@@ -83916,6 +87109,85 @@
       "records": 3,
       "successes": 3,
       "suite": "qwen36_35b_l50_bbhdrop_v2"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code"
+      ],
+      "last_run_at": "2026-11-03T23:05:33+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_qwen36moexl_code_full_qwen36-xl-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-11-03T22:46:40.506860",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 5,
+      "successes": 5,
+      "suite": "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-03T22:46:23+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_qwen36moexl_mmlu_pro_l20_qwen36-xl-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-pipeline"
+      ],
+      "last_run_at": "2026-11-03T23:06:05+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 6,
+      "successes": 6,
+      "suite": "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-03T22:26:22+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 11,
+      "successes": 11,
+      "suite": "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-runtime"
+      ],
+      "last_run_at": "2026-11-03T23:06:11.517654+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-03T21:44:59+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 21,
+      "successes": 21,
+      "suite": "qwen3_6_35b-a3b-xl_w_smoke_v1"
     },
     {
       "failures": 0,

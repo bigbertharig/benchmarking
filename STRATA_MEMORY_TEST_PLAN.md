@@ -2,12 +2,33 @@
 
 Status: Qwen3.6 UD-Q4_K_XL placement sweep; Qwen3.8 Flash-Next Q2_0 download, 256K Strata recall, llama.cpp GPU splits, and matched SATA SSD/NVMe expert-file comparisons completed on 2026-11-03 UTC. Both model files were SHA-256 verified on rig NVMe; the temporary SATA pack copy was separately verified. The Strata 0.2.10 control and signed CUDA13 engine 0.1.56 were used. GPUs were leased per run and released after each engine stopped. These are inference-engine experiments, not harness tests.
 
+## Qwen3.6 35B quantization replacement check (2026-11-04 UTC)
+
+The new Strata-compatible UD-Q4_K_XL file was benchmarked against the existing UD-Q4_K_M file with matching six-block campaigns, model settings, llama.cpp image, and 16K context. Both campaigns completed 6/6 blocks. Durable campaign statuses are under `/mnt/shared/logs/benchmarks/campaigns/history/qwen36_35b_a3b_{xl,m}_quant_compare_20261103/`; model result rows are in `results/model_benchmark_records.jsonl`. The fresh M campaign matters because its older reasoning receipts used a different extractor version.
+
+| Measure | UD-Q4_K_M | UD-Q4_K_XL |
+|---|---:|---:|
+| BBH exact, 1,350 items | 91.04% | 91.63% |
+| MMLU-Pro, 280 items | 78.57% | 77.86% |
+| HumanEval+, 164 items | 89.02% | 88.41% |
+| MBPP+, 378 items | 76.72% | 78.04% |
+| IFEval prompt strict, 50 items | 86.00% | 90.00% |
+| Runtime decode, 16K | 155.03 tok/s | 151.91 tok/s |
+| 262K, all six cards, 90% depth decode | 11.71 tok/s | 11.69 tok/s |
+| 262K, all six cards, 90% depth prefill | 183.76 tok/s | 198.13 tok/s |
+
+Both passed planted-code recall at all five 262K depth fractions (10/25/50/75/90%). XL also passed all five 131K depth probes on the 3090 alone. The exact capacity receipts are `results/runtime_experiments/qwen3_6_35b_a3b_xl_capacity_g0_ctx131072_20261104.json`, `qwen3_6_35b_a3b_xl_capacity_g0_ctx230144_margin64_20261104.json`, and `qwen3_6_35b_a3b_xl_capacity_g0-1-2-3-4-5_ctx262144_20261104.json`; corresponding M receipts are dated 2026-10-24/25.
+
+The manager's default 3090-only fit is **243,456 context for M versus 201,984 for XL**. XL loaded at 230,144 with an explicit 64 MiB planning margin and completed its short probe; it missed the same fit by 8 MiB at a 128 MiB margin. This is a planner/placement constraint, not evidence of a 230K inference failure. The XL model buffer is about 182 MiB larger. Single-item geoimport prep-plan scored 87.88% for M versus 78.79% for XL; that one rubric result is too small to establish a general quality gap.
+
+**Disposition (2026-11-04):** XL is now the active quantization; M is archived. The operator accepted the tradeoff of a lower default 3090-only maximum for Strata compatibility. The matched 16K scores and speed are broadly comparable, and a managed 262K load plus 512-token short probe passed on GPU 0 (3090 Ti) + GPU 1 (one 1060) with the normal 512 MiB planning margin. That two-card plan used tensor split `36,6`, had projected headroom 1,246/894 MiB, loaded in 21.9 s, and decoded the short probe at 64.38 tok/s. The six-card short probe was 43.61 tok/s. A subsequent two-card 262K depth run passed final-answer recall at both 10% and 90%; at 90% it prefills 299.56 tok/s and decodes 18.83 tok/s, versus 198.13 and 11.69 on six cards. The two-card placement is therefore the validated maximum-context placement for this quant on the current rig. Receipts: `results/runtime_experiments/qwen3_6_35b_a3b_xl_capacity_g0-1_ctx262144_{short,depth}_20261104.json`. The old GGUF is removed from rig hotset and shared model archive after the registry/gateway export passes checks; its historical score and capacity receipts remain.
+
 ## Existing evidence and the comparison trap
 
 - The closest measured 3090 Ti run is `qwen3.6:35b-a3b` at 131,072 context in `results/runtime_experiments/qwen3_6_35b-a3b_capacity_g0_ctx131072_b128_20261025.json`: UD-Q4_K_M GGUF, 152.31 decode tok/s on its short probe, 20,583 MiB model buffer, 1,360 MiB KV, 302 MiB compute, 22,246 MiB reported GPU allocation, and 552 MiB host allocation. These are one run and backend-reported allocations, not a sampled whole-system memory profile. Later Gen 3 cold-load runs of the same model measured about 147 tok/s on short probes; link state and run settings must be recorded, not pooled.
 - `scripts/integration/run_ram_offload_comparison.py` already compares CPU-only, partial 1060, full 1060, and full 3090 for **Qwen3.5 4B**. It records `nvidia-smi` memory before/after load and llama timings, but neither process RAM/PSS nor page cache, swap, per-process I/O, or a time series. Reuse its checkpoint/terminal receipt pattern; do not use its 4B results as a Strata speed baseline.
 - Our active, tested Qwen3.6-35B-A3B file is Unsloth **UD-Q4_K_M** in the archive and rig NVMe hotset. Strata 0.2.10 control build 0.1.56 rejected it in a generic `models import --plan` on 2026-11-02 (receipt: `results/runtime_experiments/strata_qwen36_q4km_import_plan_20261102.json`). The same generic command also rejected the officially listed XL file, so this is an import-workflow limitation, not proof that the engine cannot run either file. Strata's Qwen3.6 setup lists UD-Q4_K_XL, UD-Q6_K_XL and Q8_0; its `launch --plan --family qwen36 --model ud-q4_k_xl --model-path <file>` accepted our verified **UD-Q4_K_XL**. See `results/runtime_experiments/strata_qwen36_xl_launch_plan_20261103.json`. A direct engine claim requires the **same new GGUF bytes and SHA-256** in both engines; the old Q4_K_M result is historical context, not its paired baseline. Strata's Qwen path and sizing: https://github.com/Niko1221/Strata/blob/main/docs/QWEN36.md and https://github.com/Niko1221/Strata/blob/main/docs/MODELS.md .
-- The 74B-total/9B-active Nemotron 3.5 Bolt UD-Q3_K_XL GGUF is already on the rig NVMe at `/data/model-hotset/nemotron-3.5-bolt-74b-a9b/`. It is 39.03 GB (36.3 GiB). The 2026-10-25 six-card, 2,048-context run decoded at 19.16 tok/s in `results/runtime_experiments/nemotron_3_5_bolt_74b_a9b_capacity_g0-1-2-3-4-5_nvme_cold_ctx2048_b32_20261025.json`. Its 3090-only/host-RAM placement has not been measured. The rig has about 30 GiB physical RAM, 24 GiB 3090 VRAM, a 476.9 GB NVMe mounted at `/data`, a 111.8 GB SATA SSD holding `/`, and 15 GB zram swap; capture this again at run time.
+- The 74B-total/9B-active Nemotron 3.5 Bolt UD-Q3_K_XL GGUF is already on the rig NVMe at `/data/model-hotset/nemotron-3.5-bolt-74b-a9b/`. It is 39.03 GB (36.3 GiB). The 2026-10-25 six-card, 2,048-context run decoded at 19.16 tok/s in `results/runtime_experiments/nemotron_3_5_bolt_74b_a9b_capacity_g0-1-2-3-4-5_nvme_cold_ctx2048_b32_20261025.json`. Its 3090-only/host-RAM placement was measured at 32K on 2026-11-04; see the matched comparison in RIG_PERFORMANCE.md. The rig has about 30 GiB physical RAM, 24 GiB 3090 VRAM, a 476.9 GB NVMe mounted at `/data`, a 111.8 GB SATA SSD holding `/`, and 15 GB zram swap; capture this again at run time.
 
 ## Question and primary endpoint
 
@@ -109,6 +130,9 @@ The cold SATA arm was 31% slower at 8 GiB and 37% slower at 0.1 GiB than the mat
 Capture load-to-ready, first-token latency, prefill tok/s, decode tok/s, end-to-end wall time, generated tokens and finish reason, exact output or checksum, error/oom, plus the Phase A memory and I/O sidecar. Compare peak and steady VRAM, process PSS, host `MemAvailable` delta, swap, physical NVMe bytes/token, and power/energy. Keep cold load and warm inference in separate tables. Record whether llama.cpp fully offloads, partially offloads, or refuses the file; a refusal is a capacity result, not zero speed. Mark any inference made from host-wide counters when other jobs prevent isolation.
 
 ## Phase C: 74B Nemotron capacity stress test (separate question)
+
+The 32K placement comparison is now complete. The managed four-GPU run loaded with 89/89 layers on GPUs 0-3 and decoded the matched 128-token prompt at 24.63 tok/s (second request). The 3090 + host-RAM run loaded 48/89 layers on GPU 0, left 12.7 GiB `MemAvailable`, and decoded at 6.26 tok/s. Both used the same GGUF, prompt, batch, context, output cap, and runtime image. The four-GPU placement was 3.9x faster on decode. See `results/ram_offload_comparison_nemotron32k_{gpu4,gpu0ram}_20261104/terminal.json` and the interpretation in `RIG_PERFORMANCE.md`. This comparison does not measure physical NVMe reads during inference or Strata compatibility.
+
 
 This tests whether one 3090 Ti plus host RAM can run the existing large MoE with acceptable latency. It does **not** compare llama.cpp with Strata: as of this design Strata lists Qwen3.8-Flash-Next, Qwen3.6-35B-A3B and DeepSeek V4.1-Flash, not Nemotron's `nemotron_h_moe` architecture. Do not label two different models an engine A/B.
 

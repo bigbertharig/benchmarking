@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T19:53:30-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 185600 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "qwen3-coder-next:80b-a3b",
+  "ubatch": null,
+  "cards": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    },
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 4,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85B61043",
+      "board": "ASUS",
+      "bus": "11:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 5,
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "12:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": null,
+    "ctx_limit": null,
+    "tensor_split": null,
+    "margin_mb": null,
+    "weights_mb": null,
+    "n_ctx_train": null,
+    "cards": null
+  },
+  "fits": false,
+  "reason": "qwen3-coder-next:80b-a3b needs about 45636 MiB on the cards at ctx 185600 (weights 43250 + KV/state 2386); 6 card(s) [0, 1, 2, 3, 4, 5] give 47131 MiB after margins in total, but the layers do not divide across the cards (a layer or the output is too big). Fits on: same GPU [0, 1, 2, 3, 4, 5] at minimum ctx 8192 (context_mode=min)",
+  "ctx_requested": 185600,
+  "experiment_id": "qwen3-coder-next_80b-a3b__compact"
+}

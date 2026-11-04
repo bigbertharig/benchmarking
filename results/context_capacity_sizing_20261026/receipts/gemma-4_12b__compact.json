@@ -1,0 +1,281 @@
+{
+  "case": {
+    "id": "gemma-4_12b__compact",
+    "model": "gemma-4:12b",
+    "target": "compact",
+    "gpus": [
+      1,
+      2
+    ],
+    "ctx": 207616,
+    "trained_ctx": 262144,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      512,
+      530
+    ]
+  },
+  "started_at": "2026-10-26T22:57:00+00:00",
+  "min_fit": {
+    "model": "gemma-4:12b",
+    "arch": "gemma4",
+    "gpus": [
+      1,
+      2
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 7024,
+    "host_mb": 788,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "sliding window 1024 on 40 layers",
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": "27,22",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 27,
+        "weights_mb": 3496,
+        "kv_mb": 212,
+        "compute_mb": 80,
+        "projected_mb": 3988,
+        "headroom_mb": 2152
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 21,
+        "weights_mb": 3529,
+        "kv_mb": 162,
+        "compute_mb": 80,
+        "projected_mb": 3970,
+        "headroom_mb": 2170
+      }
+    ],
+    "reason": "fits: gemma-4:12b on GPU [1, 2] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "gemma-4:12b",
+    "arch": "gemma4",
+    "gpus": [
+      1,
+      2
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 7024,
+    "host_mb": 788,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "sliding window 1024 on 40 layers",
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 207616,
+    "ctx_limit": "card memory",
+    "per_slot_ctx": 207616,
+    "tensor_split": "27,22",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 27,
+        "weights_mb": 3496,
+        "kv_mb": 1057,
+        "compute_mb": 875,
+        "projected_mb": 5628,
+        "headroom_mb": 512
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 21,
+        "weights_mb": 3529,
+        "kv_mb": 1006,
+        "compute_mb": 875,
+        "projected_mb": 5610,
+        "headroom_mb": 530
+      }
+    ],
+    "reason": "fits: gemma-4:12b on GPU [1, 2] at ctx 207616 (limited by card memory)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 127.4,
+    "response": {
+      "profile": "gemma-4-12b-g1-2",
+      "model": "gemma-4:12b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1,
+        2
+      ],
+      "lease": "benchmarks-9962133de82e44ccba5e0c91bb890d22",
+      "ctx": 207616,
+      "tensor_split": "27,22",
+      "estimate": {
+        "model": "gemma-4:12b",
+        "arch": "gemma4",
+        "gpus": [
+          1,
+          2
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 7024,
+        "host_mb": 788,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "sliding window 1024 on 40 layers",
+          "tied embeddings: output layer reuses token_embd"
+        ],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 207616,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 207616,
+        "tensor_split": "27,22",
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 27,
+            "weights_mb": 3496,
+            "kv_mb": 1057,
+            "compute_mb": 875,
+            "projected_mb": 5628,
+            "headroom_mb": 512
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 21,
+            "weights_mb": 3529,
+            "kv_mb": 1006,
+            "compute_mb": 875,
+            "projected_mb": 5610,
+            "headroom_mb": 530
+          }
+        ],
+        "reason": "fits: gemma-4:12b on GPU [1, 2] at ctx 207616 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 207616,
+        "offloaded": 49,
+        "layers": 49,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 3496,
+            "kv_mb": 984,
+            "compute_mb": 531,
+            "total_mb": 5010
+          },
+          {
+            "gpu": 2,
+            "model_mb": 3529,
+            "kv_mb": 952,
+            "compute_mb": 522,
+            "total_mb": 5003
+          }
+        ],
+        "host_mb": 904,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 5010,
+            "free_mb": 985
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 5006,
+            "free_mb": 989
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "gemma-4-12b-g1-2",
+      "item": "unload-c1672301c646",
+      "state": "done",
+      "released": "benchmarks-9962133de82e44ccba5e0c91bb890d22"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 207616,
+  "planned_ctx": 207616,
+  "plan_delta": 0,
+  "reaches_trained": false,
+  "finished_at": "2026-10-26T22:59:14+00:00"
+}

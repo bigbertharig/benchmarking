@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T19:25:24-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "minicpm5:2b",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 1341,
+    "n_ctx_train": 131072,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 42,
+        "weights_mb": 1341,
+        "kv_mb": 2856,
+        "compute_mb": 226,
+        "projected_mb": 4622,
+        "headroom_mb": 1518
+      }
+    ]
+  },
+  "load": {
+    "seconds": 38.3,
+    "profile": "minicpm5-2b-g1",
+    "port": 11435,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 43,
+      "layers": 43,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 1341,
+          "kv_mb": 2856,
+          "compute_mb": 147,
+          "total_mb": 4343
+        }
+      ],
+      "host_mb": 162,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 64,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 623.79,
+    "generation_tokens_per_second": 50.02,
+    "time_to_first_token_seconds": 0.1,
+    "wall_seconds": 10.3,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 10,
+        "avg_power_w": 91.2,
+        "peak_power_w": 105.04,
+        "peak_temperature_c": 61.0,
+        "peak_memory_mb": 4426.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 12654,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 453.27,
+      "generation_tokens_per_second": 31.41,
+      "time_to_first_token_seconds": 27.9,
+      "wall_seconds": 33.0,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 31,
+          "avg_power_w": 96.9,
+          "peak_power_w": 109.78,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 4426.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "XXTV4485",
+      "answer": "XXTV4485. The rig log records routine status for each card: fan speed, temperatu",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 117652,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 84.13,
+      "generation_tokens_per_second": 6.37,
+      "time_to_first_token_seconds": 1398.5,
+      "wall_seconds": 1423.6,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 1323,
+          "avg_power_w": 97.7,
+          "peak_power_w": 125.39,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 4426.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "BKQB4834",
+      "answer": "BKQB4834. The rig log records routine status for each card: fan speed, temperatu",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "minicpm5_2b__compact"
+}

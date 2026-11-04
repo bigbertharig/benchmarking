@@ -1,0 +1,165 @@
+{
+  "case": {
+    "id": "smollm3_3b__compact",
+    "model": "smollm3:3b",
+    "target": "compact",
+    "gpus": [
+      1
+    ],
+    "ctx": 65536,
+    "trained_ctx": 65536,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      1353
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/smollm3_3b__compact.json"
+  },
+  "max_validated_ctx": 65536,
+  "started_at": "2026-10-26T23:48:36+00:00",
+  "min_fit": {
+    "model": "smollm3:3b",
+    "arch": "smollm3",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 65536,
+    "weights_mb": 1819,
+    "host_mb": 205,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 36,
+        "weights_mb": 1819,
+        "kv_mb": 153,
+        "compute_mb": 80,
+        "projected_mb": 2252,
+        "headroom_mb": 3888
+      }
+    ],
+    "reason": "fits: smollm3:3b on GPU [1] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 65536,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 35.0,
+    "response": {
+      "profile": "smollm3-3b-g1",
+      "model": "smollm3:3b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1
+      ],
+      "lease": "benchmarks-0e0a488e6bd8435ebc82da96fdaaf5f8",
+      "ctx": 4096,
+      "tensor_split": null,
+      "estimate": {
+        "model": "smollm3:3b",
+        "arch": "smollm3",
+        "gpus": [
+          1
+        ],
+        "n_ctx_train": 65536,
+        "weights_mb": 1819,
+        "host_mb": 205,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "tied embeddings: output layer reuses token_embd"
+        ],
+        "compute_basis": "measured (1 load, 1 card)",
+        "overhead_mb": [
+          200
+        ],
+        "fits": true,
+        "ctx": 4096,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 4096,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 36,
+            "weights_mb": 1819,
+            "kv_mb": 153,
+            "compute_mb": 80,
+            "projected_mb": 2252,
+            "headroom_mb": 3888
+          }
+        ],
+        "reason": "fits: smollm3:3b on GPU [1] at ctx 4096 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 65536,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 4096,
+        "offloaded": 37,
+        "layers": 37,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 1819,
+            "kv_mb": 153,
+            "compute_mb": 12,
+            "total_mb": 1984
+          }
+        ],
+        "host_mb": 208,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "smollm3-3b-g1",
+      "item": "unload-563ccbd416d5",
+      "state": "done",
+      "released": "benchmarks-0e0a488e6bd8435ebc82da96fdaaf5f8"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 4096,
+  "finished_at": "2026-10-26T23:49:16+00:00"
+}

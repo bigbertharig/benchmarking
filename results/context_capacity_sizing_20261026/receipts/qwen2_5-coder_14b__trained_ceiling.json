@@ -1,0 +1,327 @@
+{
+  "case": {
+    "id": "qwen2_5-coder_14b__trained_ceiling",
+    "model": "qwen2.5-coder:14b",
+    "target": "trained_ceiling",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "ctx": 32768,
+    "trained_ctx": 32768,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      1720,
+      1777,
+      1759
+    ]
+  },
+  "started_at": "2026-10-26T23:07:42+00:00",
+  "min_fit": {
+    "model": "qwen2.5-coder:14b",
+    "arch": "qwen2",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 32768,
+    "weights_mb": 8148,
+    "host_mb": 418,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "17,18,14",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 17,
+        "weights_mb": 2680,
+        "kv_mb": 289,
+        "compute_mb": 144,
+        "projected_mb": 3313,
+        "headroom_mb": 2827
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 18,
+        "weights_mb": 2771,
+        "kv_mb": 306,
+        "compute_mb": 144,
+        "projected_mb": 3421,
+        "headroom_mb": 2719
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 13,
+        "weights_mb": 2698,
+        "kv_mb": 221,
+        "compute_mb": 144,
+        "projected_mb": 3263,
+        "headroom_mb": 2877
+      }
+    ],
+    "reason": "fits: qwen2.5-coder:14b on GPU [1, 2, 3] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 32768,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "qwen2.5-coder:14b",
+    "arch": "qwen2",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 32768,
+    "weights_mb": 8148,
+    "host_mb": 418,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 32768,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 32768,
+    "tensor_split": "17,17,15",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 17,
+        "weights_mb": 2680,
+        "kv_mb": 1156,
+        "compute_mb": 384,
+        "projected_mb": 4420,
+        "headroom_mb": 1720
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 17,
+        "weights_mb": 2623,
+        "kv_mb": 1156,
+        "compute_mb": 384,
+        "projected_mb": 4363,
+        "headroom_mb": 1777
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 14,
+        "weights_mb": 2845,
+        "kv_mb": 952,
+        "compute_mb": 384,
+        "projected_mb": 4381,
+        "headroom_mb": 1759
+      }
+    ],
+    "reason": "fits: qwen2.5-coder:14b on GPU [1, 2, 3] at ctx 32768 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 32768,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 114.3,
+    "response": {
+      "profile": "qwen2.5-coder-14b-g1-2-3",
+      "model": "qwen2.5-coder:14b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1,
+        2,
+        3
+      ],
+      "lease": "benchmarks-13f29aac25924f2dbc8bccae85293ca0",
+      "ctx": 32768,
+      "tensor_split": "17,17,15",
+      "estimate": {
+        "model": "qwen2.5-coder:14b",
+        "arch": "qwen2",
+        "gpus": [
+          1,
+          2,
+          3
+        ],
+        "n_ctx_train": 32768,
+        "weights_mb": 8148,
+        "host_mb": 418,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 32768,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 32768,
+        "tensor_split": "17,17,15",
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 17,
+            "weights_mb": 2680,
+            "kv_mb": 1156,
+            "compute_mb": 384,
+            "projected_mb": 4420,
+            "headroom_mb": 1720
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 17,
+            "weights_mb": 2623,
+            "kv_mb": 1156,
+            "compute_mb": 384,
+            "projected_mb": 4363,
+            "headroom_mb": 1777
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 14,
+            "weights_mb": 2845,
+            "kv_mb": 952,
+            "compute_mb": 384,
+            "projected_mb": 4381,
+            "headroom_mb": 1759
+          }
+        ],
+        "reason": "fits: qwen2.5-coder:14b on GPU [1, 2, 3] at ctx 32768 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 32768,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 32768,
+        "offloaded": 49,
+        "layers": 49,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 2680,
+            "kv_mb": 1156,
+            "compute_mb": 166,
+            "total_mb": 4001
+          },
+          {
+            "gpu": 2,
+            "model_mb": 2623,
+            "kv_mb": 1156,
+            "compute_mb": 154,
+            "total_mb": 3934
+          },
+          {
+            "gpu": 3,
+            "model_mb": 2845,
+            "kv_mb": 952,
+            "compute_mb": 154,
+            "total_mb": 3952
+          }
+        ],
+        "host_mb": 446,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 4001,
+            "free_mb": 1994
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 3938,
+            "free_mb": 2057
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6065,
+            "projected_mb": 3956,
+            "free_mb": 2039
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "qwen2.5-coder-14b-g1-2-3",
+      "item": "unload-d0d9412ce9e3",
+      "state": "done",
+      "released": "benchmarks-13f29aac25924f2dbc8bccae85293ca0"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 32768,
+  "planned_ctx": 32768,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T23:09:42+00:00"
+}

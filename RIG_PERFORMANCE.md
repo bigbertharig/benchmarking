@@ -8,6 +8,50 @@ model quality scores are in [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL
 Addresses and host details: llm_orchestration `shared/workspace/local/inventory.md`; the rig hardware layer
 (guard, power caps, loads): llm_orchestration `shared/scripts/rig/README.md`.
 
+## Qwen3.6 35B quantization fit check, 2026-11-04
+
+The Strata-compatible UD-Q4_K_XL and existing UD-Q4_K_M completed matching llama.cpp benchmark campaigns. At 16K context, XL decoded 151.91 tok/s versus 155.03 for M. At 262K on all six cards, both passed planted-code recall at 10/25/50/75/90%; at 90%, XL decoded 11.69 tok/s versus 11.71 for M and prefilling was 198.13 versus 183.76 tok/s. The manager's default maximum on GPU 0 alone is 201,984 for XL versus 243,456 for M. XL did load and finish a short probe at 230,144 with a 64 MiB explicit planning margin, but the normal margin did not fit it there. XL is active and M archived after the operator accepted the one-card maximum tradeoff. A managed 262K load on the 3090 plus one 1060 passed with the default 512 MiB margin and a 64.38 tok/s short decode probe. Final-answer recall then passed at 10% and 90% depth on that pair; at 90% it decoded 18.83 tok/s versus 11.69 tok/s on all six cards. The two-card pair is the fewest validated cards for this model's trained ceiling. See [STRATA_MEMORY_TEST_PLAN.md](STRATA_MEMORY_TEST_PLAN.md) for paired quality scores, method, and receipt names.
+
+## Minimum-useful load checks and Nemotron memory placement, 2026-11-04
+
+The provisional workload policy targets 8K for small models, 16K for about 30B, and 32K for 70B+. These are useful-context targets, separate from the registry's 4K/8K planning floor and from the GGUF trained ceiling. Managed load plus short-probe checks passed as follows; they do **not** establish long-context recall for these four placements.
+
+| Model | Context | Cards | Short decode | Receipt |
+|---|---:|---|---:|---|
+| Nemotron 3.5 Bolt 74B-A9B | 32K | 3090 + three 1060s (0-3) | 23.88 tok/s | `results/runtime_experiments/nemotron_3_5_bolt_74b_a9b_min32k_g0-1-2-3_20261104.json` |
+| Qwen3-Coder-Next 80B-A3B | 32K | all six (0-5) | 37.79 tok/s | `results/runtime_experiments/qwen3_coder_next_80b_min32k_g0-1-2-3-4-5_20261104.json` |
+| Gemma 4 12B | 8K | two 1060s (1,3) | 13.03 tok/s | `results/runtime_experiments/gemma_4_12b_min8k_g1-3_20261104.json` |
+| Devstral Small 2 24B | 16K | 3090 (0) | 52.63 tok/s | `results/runtime_experiments/devstral_small_24b_min16k_g0_20261104.json` |
+
+The manager planned Nemotron 32K on four cards with the normal margin. For Qwen Coder Next 80B, five cards were refused at 32K because its layers/output could not divide within per-card memory; six cards fit and loaded. Neither result changes the model's default benchmark profile yet.
+
+For a **matched Nemotron 32K speed comparison**, the same GGUF, llama-runtime:b11669, 1,542-token prompt, 128-token output, batch 64, 4 CPU threads, and two requests per placement were used. A benchmark lease reserved GPUs 0-3 and was released after both managed runs. The four-GPU leg offloaded 89/89 layers; the 3090 + host-RAM leg offloaded 48/89. The latter left 12,723 MiB host `MemAvailable` after load, above the 4 GiB planning guard.
+
+| Placement | Warm prompt processing | Warm decode | End-to-end, second request |
+|---|---:|---:|---:|
+| 3090 + three 1060s, all layers on GPUs | 233.18 tok/s | **24.63 tok/s** | 12.16 s |
+| 3090 + host RAM, 48/89 layers on GPU | 72.21 tok/s | 6.26 tok/s | 41.88 s |
+
+On this matched prompt, the GPU split decoded about **3.9x faster** and prefilling about **3.2x faster**. This is one layer split and two requests, not a sweep of RAM placements; host-RAM speed can change with the number of offloaded layers. Load times were about 97/101 s, but run order and file-cache warmth differ, so they are not a controlled load-time comparison. The runner recorded host available memory and swap, but not physical SSD I/O during decode; these are GPU-vs-resident-RAM results, not a Strata storage benchmark. Receipts: `results/ram_offload_comparison_nemotron32k_{gpu4,gpu0ram}_20261104/terminal.json`, with per-placement llama-server logs alongside.
+
+## Placement preference from current tests, 2026-11-04
+
+The manager's placement question is whether the **desired model fits at
+the desired context** on the cards available now. If the 3090 is free,
+try it alone, then add the fewest 1060s required for a full-GPU fit.
+If the 3090 is occupied, try one 1060, then add the fewest 1060s
+required. A smaller model stops at the first fitting card in either
+branch. If no full-GPU placement fits, consider host-RAM offload and
+then compatible Strata NVMe-backed placement. Those latter paths are
+not yet automatic in the GPU-only manager planner.
+
+This is a measured preference, not a universal throughput ranking across
+different models, contexts or engines. The Nemotron GPU/RAM comparison
+above supports the middle ordering; storage tiers need separate warm/cold
+I/O measurements. Choose the fewest cards that meet the requested context
+rather than filling every free card. The gateway/rig manager owns model
+loads; a harness consumes the ready route and its capacity.
+
 ## Host RAM planning limit, 2026-11-03
 
 The rig has 31,476,852 KiB physical RAM (about 30.0 GiB, marketed as 32 GB). Its `earlyoom -m 10` guard acts when available memory falls to roughly 10% of total, so installed RAM is not an allocation budget. In an otherwise idle rig, the managed, GPU-free `probe_host_ram_budget.py` touched and retained anonymous pages at the following targets; swap-free space did not change:

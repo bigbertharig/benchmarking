@@ -1,0 +1,492 @@
+{
+  "case": {
+    "id": "qwen3-coder-next_80b-a3b__compact",
+    "model": "qwen3-coder-next:80b-a3b",
+    "target": "compact",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ctx": 185600,
+    "trained_ctx": 262144,
+    "preferred_pool": "brain",
+    "actual_pool": "mixed",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      512,
+      723,
+      723,
+      723,
+      537,
+      1371
+    ]
+  },
+  "started_at": "2026-10-26T22:50:39+00:00",
+  "min_fit": {
+    "model": "qwen3-coder-next:80b-a3b",
+    "arch": "qwen3next",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 43250,
+    "host_mb": 167,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "hybrid: full attention every 4 layers"
+    ],
+    "compute_basis": "measured (1 load, 6 cards)",
+    "overhead_mb": [
+      573,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "23,5,5,5,5,6",
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 23,
+        "weights_mb": 20811,
+        "kv_mb": 80,
+        "compute_mb": 96,
+        "projected_mb": 21560,
+        "headroom_mb": 2989
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4436,
+        "kv_mb": 23,
+        "compute_mb": 96,
+        "projected_mb": 4756,
+        "headroom_mb": 1384
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 17,
+        "compute_mb": 96,
+        "projected_mb": 4754,
+        "headroom_mb": 1386
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 17,
+        "compute_mb": 96,
+        "projected_mb": 4754,
+        "headroom_mb": 1386
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 17,
+        "compute_mb": 96,
+        "projected_mb": 4754,
+        "headroom_mb": 1386
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4680,
+        "kv_mb": 23,
+        "compute_mb": 96,
+        "projected_mb": 4999,
+        "headroom_mb": 1141
+      }
+    ],
+    "reason": "fits: qwen3-coder-next:80b-a3b on GPU [0, 1, 2, 3, 4, 5] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "candidate",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "qwen3-coder-next:80b-a3b",
+    "arch": "qwen3next",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 43250,
+    "host_mb": 167,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "hybrid: full attention every 4 layers"
+    ],
+    "compute_basis": "measured (1 load, 6 cards)",
+    "overhead_mb": [
+      573,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 185600,
+    "ctx_limit": "card memory",
+    "per_slot_ctx": 185600,
+    "tensor_split": "24,5,5,5,5,5",
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 24,
+        "weights_mb": 21696,
+        "kv_mb": 1193,
+        "compute_mb": 575,
+        "projected_mb": 24037,
+        "headroom_mb": 512
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 201,
+        "compute_mb": 575,
+        "projected_mb": 5417,
+        "headroom_mb": 723
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 201,
+        "compute_mb": 575,
+        "projected_mb": 5417,
+        "headroom_mb": 723
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 201,
+        "compute_mb": 575,
+        "projected_mb": 5417,
+        "headroom_mb": 723
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4436,
+        "kv_mb": 391,
+        "compute_mb": 575,
+        "projected_mb": 5603,
+        "headroom_mb": 537
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 4,
+        "weights_mb": 3795,
+        "kv_mb": 199,
+        "compute_mb": 575,
+        "projected_mb": 4769,
+        "headroom_mb": 1371
+      }
+    ],
+    "reason": "fits: qwen3-coder-next:80b-a3b on GPU [0, 1, 2, 3, 4, 5] at ctx 185600 (limited by card memory)",
+    "registry_profile": "default",
+    "status": "candidate",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 236.0,
+    "response": {
+      "profile": "qwen3-coder-next-80b-a3b-g0-1-2-3-4-5",
+      "model": "qwen3-coder-next:80b-a3b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "lease": "benchmarks-d55e3eacfdb541da855bd45cf646cef7",
+      "ctx": 185600,
+      "tensor_split": "24,5,5,5,5,5",
+      "estimate": {
+        "model": "qwen3-coder-next:80b-a3b",
+        "arch": "qwen3next",
+        "gpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 43250,
+        "host_mb": 167,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "hybrid: full attention every 4 layers"
+        ],
+        "compute_basis": "measured (1 load, 6 cards)",
+        "overhead_mb": [
+          573,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 185600,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 185600,
+        "tensor_split": "24,5,5,5,5,5",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 24,
+            "weights_mb": 21696,
+            "kv_mb": 1193,
+            "compute_mb": 575,
+            "projected_mb": 24037,
+            "headroom_mb": 512
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 5,
+            "weights_mb": 4441,
+            "kv_mb": 201,
+            "compute_mb": 575,
+            "projected_mb": 5417,
+            "headroom_mb": 723
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 5,
+            "weights_mb": 4441,
+            "kv_mb": 201,
+            "compute_mb": 575,
+            "projected_mb": 5417,
+            "headroom_mb": 723
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 5,
+            "weights_mb": 4441,
+            "kv_mb": 201,
+            "compute_mb": 575,
+            "projected_mb": 5417,
+            "headroom_mb": 723
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 5,
+            "weights_mb": 4436,
+            "kv_mb": 391,
+            "compute_mb": 575,
+            "projected_mb": 5603,
+            "headroom_mb": 537
+          },
+          {
+            "gpu": 5,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 4,
+            "weights_mb": 3795,
+            "kv_mb": 199,
+            "compute_mb": 575,
+            "projected_mb": 4769,
+            "headroom_mb": 1371
+          }
+        ],
+        "reason": "fits: qwen3-coder-next:80b-a3b on GPU [0, 1, 2, 3, 4, 5] at ctx 185600 (limited by requested)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 16384,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 185600,
+        "offloaded": 49,
+        "layers": 49,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 21696,
+            "kv_mb": 1155,
+            "compute_mb": 468,
+            "total_mb": 23319
+          },
+          {
+            "gpu": 1,
+            "model_mb": 4441,
+            "kv_mb": 193,
+            "compute_mb": 463,
+            "total_mb": 5097
+          },
+          {
+            "gpu": 2,
+            "model_mb": 4441,
+            "kv_mb": 193,
+            "compute_mb": 463,
+            "total_mb": 5096
+          },
+          {
+            "gpu": 3,
+            "model_mb": 4441,
+            "kv_mb": 193,
+            "compute_mb": 463,
+            "total_mb": 5097
+          },
+          {
+            "gpu": 4,
+            "model_mb": 4436,
+            "kv_mb": 385,
+            "compute_mb": 463,
+            "total_mb": 5284
+          },
+          {
+            "gpu": 5,
+            "model_mb": 3795,
+            "kv_mb": 193,
+            "compute_mb": 463,
+            "total_mb": 4451
+          }
+        ],
+        "host_mb": 264,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 5106,
+            "free_mb": 878
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 5106,
+            "free_mb": 879
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6065,
+            "projected_mb": 5106,
+            "free_mb": 878
+          },
+          {
+            "gpu": 4,
+            "total_mb": 6065,
+            "projected_mb": 5292,
+            "free_mb": 695
+          },
+          {
+            "gpu": 5,
+            "total_mb": 6065,
+            "projected_mb": 4459,
+            "free_mb": 1528
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "qwen3-coder-next-80b-a3b-g0-1-2-3-4-5",
+      "item": "unload-2f21ad13b061",
+      "state": "done",
+      "released": "benchmarks-d55e3eacfdb541da855bd45cf646cef7"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 185600,
+  "planned_ctx": 185600,
+  "plan_delta": 0,
+  "reaches_trained": false,
+  "finished_at": "2026-10-26T22:54:41+00:00"
+}

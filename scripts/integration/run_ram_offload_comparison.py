@@ -47,6 +47,16 @@ def gpu_memory_mib() -> list[int]:
     return [int(line.strip()) for line in output.splitlines()]
 
 
+def host_memory_mib() -> dict[str, int]:
+    wanted = {"MemAvailable", "SwapFree", "SwapTotal"}
+    values: dict[str, int] = {}
+    for line in Path("/proc/meminfo").read_text().splitlines():
+        key, _, value = line.partition(":")
+        if key in wanted:
+            values[key + "_mib"] = int(value.strip().split()[0]) // 1024
+    return values
+
+
 def request(path: str, body: dict | None = None, timeout: float = 30) -> dict:
     payload = None if body is None else json.dumps(body).encode()
     req = urllib.request.Request(f"http://127.0.0.1:{PORT}{path}", data=payload,
@@ -83,6 +93,8 @@ def main() -> int:
                     help="override GPU layer count for --only-mode 3090_full; records a partial placement")
     ap.add_argument("--load-timeout", type=float, default=240,
                     help="seconds to wait for server readiness (default: 240)")
+    ap.add_argument("--visible-gpus", help="override visible GPU IDs for a selected placement")
+    ap.add_argument("--tensor-split", help="explicit llama.cpp split for a multi-GPU placement")
     args = ap.parse_args()
     if args.ctx < 512:
         ap.error("--ctx must be at least 512")
@@ -91,14 +103,23 @@ def main() -> int:
         if args.only_mode != "3090_full" or args.gpu_layers < 0:
             ap.error("--gpu-layers requires --only-mode 3090_full and a nonnegative count")
         modes = ((f"3090_partial_{args.gpu_layers}", "0", str(args.gpu_layers)),)
+    if args.visible_gpus:
+        if args.only_mode != "3090_full":
+            ap.error("--visible-gpus requires --only-mode 3090_full")
+        modes = tuple((name, args.visible_gpus, layers) for name, _, layers in modes)
+    if args.tensor_split and not args.visible_gpus:
+        ap.error("--tensor-split requires --visible-gpus")
     args.output.mkdir(parents=True, exist_ok=True)
     if not args.model.is_file():
         raise FileNotFoundError(args.model)
     containers = run("docker", "ps", "--format", "{{.Names}}").stdout.splitlines()
     if NAME in containers:
         raise RuntimeError(f"benchmark container {NAME} is already running")
-    if gpu_memory_mib()[0] > 1024:
-        raise RuntimeError("GPU 0 is in use; wait for a free 3090")
+    visible_ids = {int(i) for _, visible, _ in modes for i in visible.split(",") if i != "-1"}
+    memory_now = gpu_memory_mib()
+    busy = [i for i in sorted(visible_ids) if memory_now[i] > 1024]
+    if busy:
+        raise RuntimeError(f"GPUs in use: {busy}; wait for free cards")
     power = run("nvidia-smi", "--query-gpu=index,power.limit", "--format=csv,noheader,nounits").stdout
     actual = [round(float(line.split(",")[1])) for line in power.splitlines()]
     if actual != [350, 100, 100, 100, 100, 100]:
@@ -113,7 +134,8 @@ def main() -> int:
             "cache_prompt": False, "ignore_eos": True, "stream": False}
     for mode, visible, layers in modes:
         row: dict = {"started_at": stamp(), "gpu_visible": visible,
-                     "gpu_layers_requested": layers, "status": "running"}
+                     "gpu_layers_requested": layers, "status": "running",
+                     "host_memory_before": host_memory_mib()}
         state["modes"][mode] = row
         write(args.output / "checkpoint.json", state)
         run("docker", "rm", "-f", NAME, check=False)
@@ -125,6 +147,10 @@ def main() -> int:
                "--ubatch-size", "64", "--parallel", "1", "--threads", "4",
                "--threads-batch", "4", "--load-mode", "none", "--gpu-layers", layers,
                "--slot-prompt-similarity", "0", "--log-verbosity", "4"]
+        if args.tensor_split:
+            cmd.extend(["--tensor-split", args.tensor_split])
+        if args.visible_gpus or args.gpu_layers is not None:
+            cmd.extend(["--fit", "off"])
         try:
             t0 = time.monotonic()
             launched = run(*cmd)
@@ -132,6 +158,7 @@ def main() -> int:
             ready(timeout=args.load_timeout)
             row["load_seconds"] = round(time.monotonic() - t0, 2)
             row["gpu_memory_after_load_mib"] = gpu_memory_mib()
+            row["host_memory_after_load"] = host_memory_mib()
             row["server_log"] = str(args.output / f"{mode}.log")
             for repeat in (1, 2):
                 t1 = time.monotonic()
@@ -144,6 +171,7 @@ def main() -> int:
                     "stopped_eos": response.get("stopped_eos"),
                     "stopped_limit": response.get("stopped_limit"),
                 }
+            row["host_memory_after_requests"] = host_memory_mib()
             row["status"] = "passed"
             print(f"{mode}: {row['repeat_2']['timings']}", flush=True)
         except Exception as exc:

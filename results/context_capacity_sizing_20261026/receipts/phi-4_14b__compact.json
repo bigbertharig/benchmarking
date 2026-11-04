@@ -1,0 +1,272 @@
+{
+  "case": {
+    "id": "phi-4_14b__compact",
+    "model": "phi-4:14b",
+    "target": "compact",
+    "gpus": [
+      1,
+      2
+    ],
+    "ctx": 16384,
+    "trained_ctx": 16384,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      705,
+      763
+    ]
+  },
+  "started_at": "2026-10-26T22:26:53+00:00",
+  "min_fit": {
+    "model": "phi-4:14b",
+    "arch": "phi3",
+    "gpus": [
+      1,
+      2
+    ],
+    "n_ctx_train": 16384,
+    "weights_mb": 8355,
+    "host_mb": 276,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (2 loads, 2 cards)",
+    "overhead_mb": [
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "21,20",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 21,
+        "weights_mb": 4164,
+        "kv_mb": 446,
+        "compute_mb": 138,
+        "projected_mb": 4948,
+        "headroom_mb": 1192
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 19,
+        "weights_mb": 4191,
+        "kv_mb": 404,
+        "compute_mb": 138,
+        "projected_mb": 4932,
+        "headroom_mb": 1208
+      }
+    ],
+    "reason": "fits: phi-4:14b on GPU [1, 2] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 16384,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "phi-4:14b",
+    "arch": "phi3",
+    "gpus": [
+      1,
+      2
+    ],
+    "n_ctx_train": 16384,
+    "weights_mb": 8355,
+    "host_mb": 276,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (2 loads, 2 cards)",
+    "overhead_mb": [
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 16384,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 16384,
+    "tensor_split": "21,20",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 21,
+        "weights_mb": 4164,
+        "kv_mb": 892,
+        "compute_mb": 186,
+        "projected_mb": 5443,
+        "headroom_mb": 697
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 19,
+        "weights_mb": 4191,
+        "kv_mb": 808,
+        "compute_mb": 186,
+        "projected_mb": 5384,
+        "headroom_mb": 756
+      }
+    ],
+    "reason": "fits: phi-4:14b on GPU [1, 2] at ctx 16384 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 16384,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 54.8,
+    "response": {
+      "profile": "phi-4-14b-g1-2",
+      "model": "phi-4:14b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1,
+        2
+      ],
+      "lease": "benchmarks-1022cdb3a87b41a99295d9acc0dcc793",
+      "ctx": 16384,
+      "tensor_split": "21,20",
+      "estimate": {
+        "model": "phi-4:14b",
+        "arch": "phi3",
+        "gpus": [
+          1,
+          2
+        ],
+        "n_ctx_train": 16384,
+        "weights_mb": 8355,
+        "host_mb": 276,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (2 loads, 2 cards)",
+        "overhead_mb": [
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 16384,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 16384,
+        "tensor_split": "21,20",
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 21,
+            "weights_mb": 4164,
+            "kv_mb": 892,
+            "compute_mb": 186,
+            "projected_mb": 5443,
+            "headroom_mb": 697
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 19,
+            "weights_mb": 4191,
+            "kv_mb": 808,
+            "compute_mb": 186,
+            "projected_mb": 5384,
+            "headroom_mb": 756
+          }
+        ],
+        "reason": "fits: phi-4:14b on GPU [1, 2] at ctx 16384 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 16384,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 16384,
+        "offloaded": 41,
+        "layers": 41,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 4164,
+            "kv_mb": 893,
+            "compute_mb": 111,
+            "total_mb": 5168
+          },
+          {
+            "gpu": 2,
+            "model_mb": 4191,
+            "kv_mb": 808,
+            "compute_mb": 100,
+            "total_mb": 5098
+          }
+        ],
+        "host_mb": 296,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 5167,
+            "free_mb": 827
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 5103,
+            "free_mb": 892
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "phi-4-14b-g1-2",
+      "item": "unload-af2c997e0b97",
+      "state": "done",
+      "released": "benchmarks-1022cdb3a87b41a99295d9acc0dcc793"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 16384,
+  "planned_ctx": 16384,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T22:27:54+00:00"
+}

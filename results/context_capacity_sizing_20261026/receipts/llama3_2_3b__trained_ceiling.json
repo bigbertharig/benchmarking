@@ -1,0 +1,333 @@
+{
+  "case": {
+    "id": "llama3_2_3b__trained_ceiling",
+    "model": "llama3.2:3b",
+    "target": "trained_ceiling",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "ctx": 131072,
+    "trained_ctx": 131072,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      1819,
+      1820,
+      2151
+    ]
+  },
+  "started_at": "2026-10-26T23:09:42+00:00",
+  "min_fit": {
+    "model": "llama3.2:3b",
+    "arch": "llama",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 1918,
+    "host_mb": 308,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": "11,11,7",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 11,
+        "weights_mb": 630,
+        "kv_mb": 94,
+        "compute_mb": 88,
+        "projected_mb": 1011,
+        "headroom_mb": 5129
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 11,
+        "weights_mb": 621,
+        "kv_mb": 94,
+        "compute_mb": 88,
+        "projected_mb": 1003,
+        "headroom_mb": 5137
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 6,
+        "weights_mb": 667,
+        "kv_mb": 51,
+        "compute_mb": 88,
+        "projected_mb": 1006,
+        "headroom_mb": 5134
+      }
+    ],
+    "reason": "fits: llama3.2:3b on GPU [1, 2, 3] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "llama3.2:3b",
+    "arch": "llama",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 1918,
+    "host_mb": 308,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 131072,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 131072,
+    "tensor_split": "10,10,9",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 569,
+        "kv_mb": 2720,
+        "compute_mb": 832,
+        "projected_mb": 4321,
+        "headroom_mb": 1819
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 568,
+        "kv_mb": 2720,
+        "compute_mb": 832,
+        "projected_mb": 4320,
+        "headroom_mb": 1820
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 781,
+        "kv_mb": 2176,
+        "compute_mb": 832,
+        "projected_mb": 3989,
+        "headroom_mb": 2151
+      }
+    ],
+    "reason": "fits: llama3.2:3b on GPU [1, 2, 3] at ctx 131072 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 41.6,
+    "response": {
+      "profile": "llama3.2-3b-g1-2-3",
+      "model": "llama3.2:3b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1,
+        2,
+        3
+      ],
+      "lease": "benchmarks-4899d0eb532541818c5d9c8a1459532f",
+      "ctx": 131072,
+      "tensor_split": "10,10,9",
+      "estimate": {
+        "model": "llama3.2:3b",
+        "arch": "llama",
+        "gpus": [
+          1,
+          2,
+          3
+        ],
+        "n_ctx_train": 131072,
+        "weights_mb": 1918,
+        "host_mb": 308,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "tied embeddings: output layer reuses token_embd"
+        ],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 131072,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 131072,
+        "tensor_split": "10,10,9",
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 569,
+            "kv_mb": 2720,
+            "compute_mb": 832,
+            "projected_mb": 4321,
+            "headroom_mb": 1819
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 568,
+            "kv_mb": 2720,
+            "compute_mb": 832,
+            "projected_mb": 4320,
+            "headroom_mb": 1820
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 8,
+            "weights_mb": 781,
+            "kv_mb": 2176,
+            "compute_mb": 832,
+            "projected_mb": 3989,
+            "headroom_mb": 2151
+          }
+        ],
+        "reason": "fits: llama3.2:3b on GPU [1, 2, 3] at ctx 131072 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 131072,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 131072,
+        "offloaded": 29,
+        "layers": 29,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 569,
+            "kv_mb": 2720,
+            "compute_mb": 589,
+            "total_mb": 3878
+          },
+          {
+            "gpu": 2,
+            "model_mb": 568,
+            "kv_mb": 2720,
+            "compute_mb": 582,
+            "total_mb": 3870
+          },
+          {
+            "gpu": 3,
+            "model_mb": 781,
+            "kv_mb": 2176,
+            "compute_mb": 582,
+            "total_mb": 3540
+          }
+        ],
+        "host_mb": 380,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 3877,
+            "free_mb": 2117
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 3873,
+            "free_mb": 2122
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6065,
+            "projected_mb": 3542,
+            "free_mb": 2453
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "llama3.2-3b-g1-2-3",
+      "item": "unload-51bdc12133ab",
+      "state": "done",
+      "released": "benchmarks-4899d0eb532541818c5d9c8a1459532f"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 131072,
+  "planned_ctx": 131072,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T23:10:30+00:00"
+}

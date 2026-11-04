@@ -1,0 +1,84 @@
+{
+  "name": "qwen36_35b_a3b_xl_quant_compare_20261103",
+  "description": "Matched UD-Q4_K_XL quant comparison against qwen36_35b_a3b_phase5_202610 UD-Q4_K_M: same 3090, image, default profile, context and suite arguments. Adds full EvalPlus code as old quant already has it.",
+  "defaults": {
+    "load_timeout_s": 900,
+    "run_class": "validated"
+  },
+  "blocks": [
+    {
+      "id": "qwen36moexl_reasoning_l50",
+      "model": "qwen3.6:35b-a3b-xl",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen36moexl_phase5",
+      "ctx_size": 16384,
+      "limit": 50,
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop,ifeval"
+      ]
+    },
+    {
+      "id": "qwen36moexl_mmlu_pro_l20",
+      "model": "qwen3.6:35b-a3b-xl",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "placement": "brain",
+      "suite": "bench-reasoning",
+      "runtime_group": "qwen36moexl_phase5",
+      "ctx_size": 16384,
+      "limit": 20,
+      "suite_args": [
+        "--tasks",
+        "mmlu_pro"
+      ]
+    },
+    {
+      "id": "qwen36moexl_geoimport",
+      "model": "qwen3.6:35b-a3b-xl",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "placement": "brain",
+      "suite": "bench-geoimport",
+      "runtime_group": "qwen36moexl_phase5",
+      "ctx_size": 16384,
+      "limit": 5,
+      "suite_args": [
+        "--tasks",
+        "classification,prep_plan,prep_handoff"
+      ]
+    },
+    {
+      "id": "qwen36moexl_code_full",
+      "model": "qwen3.6:35b-a3b-xl",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "placement": "brain",
+      "suite": "bench-code",
+      "runtime_group": "qwen36moexl_phase5",
+      "ctx_size": 16384,
+      "suite_args": [
+        "--tasks",
+        "humaneval,mbpp"
+      ],
+      "run_class": "full"
+    },
+    {
+      "id": "qwen36moexl_pipeline",
+      "model": "qwen3.6:35b-a3b-xl",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "placement": "brain",
+      "suite": "bench-pipeline",
+      "runtime_group": "qwen36moexl_phase5",
+      "ctx_size": 16384
+    },
+    {
+      "id": "qwen36moexl_runtime",
+      "model": "qwen3.6:35b-a3b-xl",
+      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "placement": "brain",
+      "suite": "bench-runtime",
+      "runtime_group": "qwen36moexl_phase5",
+      "ctx_size": 16384
+    }
+  ]
+}

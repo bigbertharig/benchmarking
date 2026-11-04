@@ -1,0 +1,167 @@
+{
+  "case": {
+    "id": "ornith-1_5_35b-a3b__compact",
+    "model": "ornith-1.5:35b-a3b",
+    "target": "compact",
+    "gpus": [
+      0
+    ],
+    "ctx": 188672,
+    "trained_ctx": 262144,
+    "preferred_pool": "brain",
+    "actual_pool": "brain",
+    "ubatch": 128,
+    "projected_headroom_mb": [
+      515
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ornith-1_5_35b-a3b__compact.json"
+  },
+  "max_validated_ctx": 188672,
+  "started_at": "2026-10-27T00:04:59+00:00",
+  "min_fit": {
+    "model": "ornith-1.5:35b-a3b",
+    "arch": "qwen35moe",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 19903,
+    "host_mb": 273,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "1 next-token-prediction layer(s) not loaded",
+      "hybrid: full attention every 4 layers"
+    ],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 41,
+        "weights_mb": 19903,
+        "kv_mb": 148,
+        "compute_mb": 103,
+        "projected_mb": 20727,
+        "headroom_mb": 3822
+      }
+    ],
+    "reason": "fits: ornith-1.5:35b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "candidate",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+    "ubatch": 128,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 68.2,
+    "response": {
+      "profile": "ornith-1.5-35b-a3b-g0",
+      "model": "ornith-1.5:35b-a3b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0
+      ],
+      "lease": "benchmarks-c4d8159612d24dbcaaf34fc7e5cc273e",
+      "ctx": 8192,
+      "tensor_split": null,
+      "estimate": {
+        "model": "ornith-1.5:35b-a3b",
+        "arch": "qwen35moe",
+        "gpus": [
+          0
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 19903,
+        "host_mb": 273,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "1 next-token-prediction layer(s) not loaded",
+          "hybrid: full attention every 4 layers"
+        ],
+        "compute_basis": "measured (1 load, 1 card)",
+        "overhead_mb": [
+          573
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 41,
+            "weights_mb": 19903,
+            "kv_mb": 148,
+            "compute_mb": 103,
+            "projected_mb": 20727,
+            "headroom_mb": 3822
+          }
+        ],
+        "reason": "fits: ornith-1.5:35b-a3b on GPU [0] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
+        "ubatch": 128,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 8192,
+        "offloaded": 42,
+        "layers": 42,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 19903,
+            "kv_mb": 85,
+            "compute_mb": 32,
+            "total_mb": 20020
+          }
+        ],
+        "host_mb": 279,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "ornith-1.5-35b-a3b-g0",
+      "item": "unload-4acb7168bda4",
+      "state": "done",
+      "released": "benchmarks-c4d8159612d24dbcaaf34fc7e5cc273e"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 8192,
+  "finished_at": "2026-10-27T00:06:13+00:00"
+}

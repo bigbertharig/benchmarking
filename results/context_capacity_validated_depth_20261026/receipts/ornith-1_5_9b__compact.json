@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T17:31:05-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 24320 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "ornith-1.5:9b",
+  "ubatch": null,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": null,
+    "ctx_limit": null,
+    "tensor_split": null,
+    "margin_mb": null,
+    "weights_mb": null,
+    "n_ctx_train": null,
+    "cards": null
+  },
+  "fits": false,
+  "reason": "ornith-1.5:9b needs about 5266 MiB on the cards at ctx 24320 (weights 4812 + KV/state 454); 1 card(s) [1] give 5258 MiB after margins. Fits on: same GPU [1] at minimum ctx 8192 (context_mode=min); 2 card(s) GPU [1, 2]: ctx 24320; 1 card GPU 0 (24564 MB): ctx 24320",
+  "ctx_requested": 24320,
+  "experiment_id": "ornith-1_5_9b__compact"
+}

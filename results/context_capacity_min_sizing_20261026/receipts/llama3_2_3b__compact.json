@@ -1,0 +1,165 @@
+{
+  "case": {
+    "id": "llama3_2_3b__compact",
+    "model": "llama3.2:3b",
+    "target": "compact",
+    "gpus": [
+      1
+    ],
+    "ctx": 53760,
+    "trained_ctx": 131072,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      519
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/llama3_2_3b__compact.json"
+  },
+  "max_validated_ctx": 53760,
+  "started_at": "2026-10-26T23:47:22+00:00",
+  "min_fit": {
+    "model": "llama3.2:3b",
+    "arch": "llama",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 1918,
+    "host_mb": 308,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 28,
+        "weights_mb": 1918,
+        "kv_mb": 238,
+        "compute_mb": 88,
+        "projected_mb": 2444,
+        "headroom_mb": 3696
+      }
+    ],
+    "reason": "fits: llama3.2:3b on GPU [1] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 41.9,
+    "response": {
+      "profile": "llama3.2-3b-g1",
+      "model": "llama3.2:3b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1
+      ],
+      "lease": "benchmarks-c93d6e3c0b5d4c709b703663249bf581",
+      "ctx": 4096,
+      "tensor_split": null,
+      "estimate": {
+        "model": "llama3.2:3b",
+        "arch": "llama",
+        "gpus": [
+          1
+        ],
+        "n_ctx_train": 131072,
+        "weights_mb": 1918,
+        "host_mb": 308,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "tied embeddings: output layer reuses token_embd"
+        ],
+        "compute_basis": "measured (1 load, 1 card)",
+        "overhead_mb": [
+          200
+        ],
+        "fits": true,
+        "ctx": 4096,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 4096,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 28,
+            "weights_mb": 1918,
+            "kv_mb": 238,
+            "compute_mb": 88,
+            "projected_mb": 2444,
+            "headroom_mb": 3696
+          }
+        ],
+        "reason": "fits: llama3.2:3b on GPU [1] at ctx 4096 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 131072,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 4096,
+        "offloaded": 29,
+        "layers": 29,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 1918,
+            "kv_mb": 238,
+            "compute_mb": 20,
+            "total_mb": 2177
+          }
+        ],
+        "host_mb": 312,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "llama3.2-3b-g1",
+      "item": "unload-2f9eb69840c8",
+      "state": "done",
+      "released": "benchmarks-c93d6e3c0b5d4c709b703663249bf581"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 4096,
+  "finished_at": "2026-10-26T23:48:09+00:00"
+}

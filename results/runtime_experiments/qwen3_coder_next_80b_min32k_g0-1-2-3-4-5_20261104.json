@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-11-03T19:17:58-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 32768 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "allow_eos": false,
+    "concise_instruction": false,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "qwen3-coder-next:80b-a3b",
+  "ubatch": 64,
+  "cards": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    },
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 4,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85B61043",
+      "board": "ASUS",
+      "bus": "11:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 5,
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "12:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 32768,
+    "ctx_limit": "requested",
+    "tensor_split": "23,5,5,5,5,6",
+    "margin_mb": 512,
+    "weights_mb": 43250,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24545,
+        "layers": 23,
+        "weights_mb": 20811,
+        "kv_mb": 208,
+        "compute_mb": 168,
+        "projected_mb": 21759,
+        "headroom_mb": 2786
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4436,
+        "kv_mb": 74,
+        "compute_mb": 168,
+        "projected_mb": 4878,
+        "headroom_mb": 1262
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 42,
+        "compute_mb": 168,
+        "projected_mb": 4851,
+        "headroom_mb": 1289
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 42,
+        "compute_mb": 168,
+        "projected_mb": 4851,
+        "headroom_mb": 1289
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4441,
+        "kv_mb": 42,
+        "compute_mb": 168,
+        "projected_mb": 4851,
+        "headroom_mb": 1289
+      },
+      {
+        "gpu": 5,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 4680,
+        "kv_mb": 74,
+        "compute_mb": 168,
+        "projected_mb": 5122,
+        "headroom_mb": 1018
+      }
+    ]
+  },
+  "load": {
+    "seconds": 236.4,
+    "profile": "qwen3-coder-next-80b-a3b-g0-1-2-3-4-5",
+    "port": 11434,
+    "ctx_allocated": 32768,
+    "measured": {
+      "n_ctx": 32768,
+      "offloaded": 49,
+      "layers": 49,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 20811,
+          "kv_mb": 170,
+          "compute_mb": 94,
+          "total_mb": 21075
+        },
+        {
+          "gpu": 1,
+          "model_mb": 4436,
+          "kv_mb": 68,
+          "compute_mb": 89,
+          "total_mb": 4594
+        },
+        {
+          "gpu": 2,
+          "model_mb": 4441,
+          "kv_mb": 34,
+          "compute_mb": 90,
+          "total_mb": 4565
+        },
+        {
+          "gpu": 3,
+          "model_mb": 4441,
+          "kv_mb": 34,
+          "compute_mb": 89,
+          "total_mb": 4564
+        },
+        {
+          "gpu": 4,
+          "model_mb": 4441,
+          "kv_mb": 34,
+          "compute_mb": 90,
+          "total_mb": 4565
+        },
+        {
+          "gpu": 5,
+          "model_mb": 4680,
+          "kv_mb": 68,
+          "compute_mb": 89,
+          "total_mb": 4837
+        }
+      ],
+      "host_mb": 189,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4602,
+          "free_mb": 1385
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 4575,
+          "free_mb": 1410
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 4574,
+          "free_mb": 1411
+        },
+        {
+          "gpu": 4,
+          "total_mb": 6065,
+          "projected_mb": 4575,
+          "free_mb": 1410
+        },
+        {
+          "gpu": 5,
+          "total_mb": 6065,
+          "projected_mb": 4845,
+          "free_mb": 1142
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 59,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 62.6,
+    "generation_tokens_per_second": 37.79,
+    "time_to_first_token_seconds": 0.9,
+    "wall_seconds": 14.5,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 14,
+        "avg_power_w": 120.0,
+        "peak_power_w": 121.61,
+        "peak_temperature_c": 53.0,
+        "peak_memory_mb": 21465.0
+      },
+      {
+        "gpu": 1,
+        "samples": 14,
+        "avg_power_w": 29.7,
+        "peak_power_w": 33.95,
+        "peak_temperature_c": 51.0,
+        "peak_memory_mb": 4700.0
+      },
+      {
+        "gpu": 2,
+        "samples": 14,
+        "avg_power_w": 34.5,
+        "peak_power_w": 40.57,
+        "peak_temperature_c": 55.0,
+        "peak_memory_mb": 4672.0
+      },
+      {
+        "gpu": 3,
+        "samples": 14,
+        "avg_power_w": 30.3,
+        "peak_power_w": 33.71,
+        "peak_temperature_c": 43.0,
+        "peak_memory_mb": 4672.0
+      },
+      {
+        "gpu": 4,
+        "samples": 14,
+        "avg_power_w": 30.7,
+        "peak_power_w": 34.29,
+        "peak_temperature_c": 47.0,
+        "peak_memory_mb": 4672.0
+      },
+      {
+        "gpu": 5,
+        "samples": 14,
+        "avg_power_w": 36.2,
+        "peak_power_w": 44.44,
+        "peak_temperature_c": 44.0,
+        "peak_memory_mb": 4942.0
+      }
+    ]
+  },
+  "experiment_id": "qwen3_coder_next_80b_min32k_g0-1-2-3-4-5_20261104"
+}

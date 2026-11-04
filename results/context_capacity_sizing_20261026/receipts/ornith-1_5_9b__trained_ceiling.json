@@ -1,0 +1,336 @@
+{
+  "case": {
+    "id": "ornith-1_5_9b__trained_ceiling",
+    "model": "ornith-1.5:9b",
+    "target": "trained_ceiling",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "ctx": 262144,
+    "trained_ctx": 262144,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      1691,
+      1733,
+      1918
+    ]
+  },
+  "started_at": "2026-10-26T23:21:32+00:00",
+  "min_fit": {
+    "model": "ornith-1.5:9b",
+    "arch": "qwen35",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 4812,
+    "host_mb": 546,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "1 next-token-prediction layer(s) not loaded",
+      "hybrid: full attention every 4 layers"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "13,13,8",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 13,
+        "weights_mb": 1648,
+        "kv_mb": 72,
+        "compute_mb": 96,
+        "projected_mb": 2016,
+        "headroom_mb": 4124
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 13,
+        "weights_mb": 1586,
+        "kv_mb": 72,
+        "compute_mb": 96,
+        "projected_mb": 1954,
+        "headroom_mb": 4186
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 7,
+        "weights_mb": 1579,
+        "kv_mb": 42,
+        "compute_mb": 96,
+        "projected_mb": 1917,
+        "headroom_mb": 4223
+      }
+    ],
+    "reason": "fits: ornith-1.5:9b on GPU [1, 2, 3] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "ornith-1.5:9b",
+    "arch": "qwen35",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 4812,
+    "host_mb": 546,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "1 next-token-prediction layer(s) not loaded",
+      "hybrid: full attention every 4 layers"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 262144,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 262144,
+    "tensor_split": "12,12,10",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 12,
+        "weights_mb": 1510,
+        "kv_mb": 1651,
+        "compute_mb": 1088,
+        "projected_mb": 4449,
+        "headroom_mb": 1691
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 12,
+        "weights_mb": 1469,
+        "kv_mb": 1651,
+        "compute_mb": 1088,
+        "projected_mb": 4407,
+        "headroom_mb": 1733
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 9,
+        "weights_mb": 1834,
+        "kv_mb": 1101,
+        "compute_mb": 1088,
+        "projected_mb": 4222,
+        "headroom_mb": 1918
+      }
+    ],
+    "reason": "fits: ornith-1.5:9b on GPU [1, 2, 3] at ctx 262144 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 41.5,
+    "response": {
+      "profile": "ornith-1.5-9b-g1-2-3",
+      "model": "ornith-1.5:9b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1,
+        2,
+        3
+      ],
+      "lease": "benchmarks-79dc4995ffeb46ea858bd300a54d7a74",
+      "ctx": 262144,
+      "tensor_split": "12,12,10",
+      "estimate": {
+        "model": "ornith-1.5:9b",
+        "arch": "qwen35",
+        "gpus": [
+          1,
+          2,
+          3
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 4812,
+        "host_mb": 546,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "1 next-token-prediction layer(s) not loaded",
+          "hybrid: full attention every 4 layers"
+        ],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 262144,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 262144,
+        "tensor_split": "12,12,10",
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 12,
+            "weights_mb": 1510,
+            "kv_mb": 1651,
+            "compute_mb": 1088,
+            "projected_mb": 4449,
+            "headroom_mb": 1691
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 12,
+            "weights_mb": 1469,
+            "kv_mb": 1651,
+            "compute_mb": 1088,
+            "projected_mb": 4407,
+            "headroom_mb": 1733
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 9,
+            "weights_mb": 1834,
+            "kv_mb": 1101,
+            "compute_mb": 1088,
+            "projected_mb": 4222,
+            "headroom_mb": 1918
+          }
+        ],
+        "reason": "fits: ornith-1.5:9b on GPU [1, 2, 3] at ctx 262144 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 262144,
+        "offloaded": 34,
+        "layers": 34,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 1510,
+            "kv_mb": 1632,
+            "compute_mb": 1173,
+            "total_mb": 4315
+          },
+          {
+            "gpu": 2,
+            "model_mb": 1469,
+            "kv_mb": 1632,
+            "compute_mb": 1164,
+            "total_mb": 4265
+          },
+          {
+            "gpu": 3,
+            "model_mb": 1834,
+            "kv_mb": 1088,
+            "compute_mb": 1164,
+            "total_mb": 4086
+          }
+        ],
+        "host_mb": 685,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 4333,
+            "free_mb": 1642
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 4287,
+            "free_mb": 1688
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6065,
+            "projected_mb": 4102,
+            "free_mb": 1879
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "ornith-1.5-9b-g1-2-3",
+      "item": "unload-30c15d8cba3a",
+      "state": "done",
+      "released": "benchmarks-79dc4995ffeb46ea858bd300a54d7a74"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 262144,
+  "planned_ctx": 262144,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T23:22:20+00:00"
+}

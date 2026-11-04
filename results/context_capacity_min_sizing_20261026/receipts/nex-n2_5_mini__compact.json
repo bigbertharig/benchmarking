@@ -1,0 +1,165 @@
+{
+  "case": {
+    "id": "nex-n2_5_mini__compact",
+    "model": "nex-n2.5:mini",
+    "target": "compact",
+    "gpus": [
+      0
+    ],
+    "ctx": 141568,
+    "trained_ctx": 262144,
+    "preferred_pool": "brain",
+    "actual_pool": "brain",
+    "ubatch": 128,
+    "projected_headroom_mb": [
+      515
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nex-n2_5_mini__compact.json"
+  },
+  "max_validated_ctx": 141568,
+  "started_at": "2026-10-26T23:59:31+00:00",
+  "min_fit": {
+    "model": "nex-n2.5:mini",
+    "arch": "qwen35moe",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 20759,
+    "host_mb": 515,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "hybrid: full attention every 4 layers"
+    ],
+    "compute_basis": "measured (1 load, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 40,
+        "weights_mb": 20759,
+        "kv_mb": 148,
+        "compute_mb": 103,
+        "projected_mb": 21583,
+        "headroom_mb": 2966
+      }
+    ],
+    "reason": "fits: nex-n2.5:mini on GPU [0] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "candidate",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+    "ubatch": 128,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 77.9,
+    "response": {
+      "profile": "nex-n2.5-mini-g0",
+      "model": "nex-n2.5:mini",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0
+      ],
+      "lease": "benchmarks-5cd8d397fabf4a3299d83596723137b1",
+      "ctx": 8192,
+      "tensor_split": null,
+      "estimate": {
+        "model": "nex-n2.5:mini",
+        "arch": "qwen35moe",
+        "gpus": [
+          0
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 20759,
+        "host_mb": 515,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "hybrid: full attention every 4 layers"
+        ],
+        "compute_basis": "measured (1 load, 1 card)",
+        "overhead_mb": [
+          573
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 40,
+            "weights_mb": 20759,
+            "kv_mb": 148,
+            "compute_mb": 103,
+            "projected_mb": 21583,
+            "headroom_mb": 2966
+          }
+        ],
+        "reason": "fits: nex-n2.5:mini on GPU [0] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+        "ubatch": 128,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 8192,
+        "offloaded": 41,
+        "layers": 41,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 20759,
+            "kv_mb": 85,
+            "compute_mb": 32,
+            "total_mb": 20876
+          }
+        ],
+        "host_mb": 522,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "nex-n2.5-mini-g0",
+      "item": "unload-05ade1107788",
+      "state": "done",
+      "released": "benchmarks-5cd8d397fabf4a3299d83596723137b1"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 8192,
+  "finished_at": "2026-10-27T00:00:54+00:00"
+}

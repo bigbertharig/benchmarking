@@ -1,0 +1,216 @@
+{
+  "case": {
+    "id": "phi-4-mini-reasoning_3_8b__compact",
+    "model": "phi-4-mini-reasoning:3.8b",
+    "target": "compact",
+    "gpus": [
+      1
+    ],
+    "ctx": 41216,
+    "trained_ctx": 131072,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      529
+    ]
+  },
+  "started_at": "2026-10-26T22:35:36+00:00",
+  "min_fit": {
+    "model": "phi-4-mini-reasoning:3.8b",
+    "arch": "phi3",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 2369,
+    "host_mb": 481,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 32,
+        "weights_mb": 2369,
+        "kv_mb": 272,
+        "compute_mb": 88,
+        "projected_mb": 2929,
+        "headroom_mb": 3211
+      }
+    ],
+    "reason": "fits: phi-4-mini-reasoning:3.8b on GPU [1] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "phi-4-mini-reasoning:3.8b",
+    "arch": "phi3",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 2369,
+    "host_mb": 481,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 41216,
+    "ctx_limit": "card memory",
+    "per_slot_ctx": 41216,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 32,
+        "weights_mb": 2369,
+        "kv_mb": 2737,
+        "compute_mb": 306,
+        "projected_mb": 5611,
+        "headroom_mb": 529
+      }
+    ],
+    "reason": "fits: phi-4-mini-reasoning:3.8b on GPU [1] at ctx 41216 (limited by card memory)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 38.3,
+    "response": {
+      "profile": "phi-4-mini-reasoning-3.8b-g1",
+      "model": "phi-4-mini-reasoning:3.8b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1
+      ],
+      "lease": "benchmarks-93d0cb3ddb434519a87f13e0af2cb26b",
+      "ctx": 41216,
+      "tensor_split": null,
+      "estimate": {
+        "model": "phi-4-mini-reasoning:3.8b",
+        "arch": "phi3",
+        "gpus": [
+          1
+        ],
+        "n_ctx_train": 131072,
+        "weights_mb": 2369,
+        "host_mb": 481,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "tied embeddings: output layer reuses token_embd"
+        ],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          200
+        ],
+        "fits": true,
+        "ctx": 41216,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 41216,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 32,
+            "weights_mb": 2369,
+            "kv_mb": 2737,
+            "compute_mb": 306,
+            "projected_mb": 5611,
+            "headroom_mb": 529
+          }
+        ],
+        "reason": "fits: phi-4-mini-reasoning:3.8b on GPU [1] at ctx 41216 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 131072,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 41216,
+        "offloaded": 33,
+        "layers": 33,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 2369,
+            "kv_mb": 2737,
+            "compute_mb": 170,
+            "total_mb": 5275
+          }
+        ],
+        "host_mb": 489,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "phi-4-mini-reasoning-3.8b-g1",
+      "item": "unload-31ff91c20bc8",
+      "state": "done",
+      "released": "benchmarks-93d0cb3ddb434519a87f13e0af2cb26b"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 41216,
+  "planned_ctx": 41216,
+  "plan_delta": 0,
+  "reaches_trained": false,
+  "finished_at": "2026-10-26T22:36:20+00:00"
+}

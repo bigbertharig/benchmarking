@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T17:54:08-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 41216 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "phi-4-mini-reasoning:3.8b",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 41216,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 2369,
+    "n_ctx_train": 131072,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 32,
+        "weights_mb": 2369,
+        "kv_mb": 2737,
+        "compute_mb": 251,
+        "projected_mb": 5557,
+        "headroom_mb": 583
+      }
+    ]
+  },
+  "load": {
+    "seconds": 41.6,
+    "profile": "phi-4-mini-reasoning-3.8b-g1",
+    "port": 11435,
+    "ctx_allocated": 41216,
+    "measured": {
+      "n_ctx": 41216,
+      "offloaded": 33,
+      "layers": 33,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 2369,
+          "kv_mb": 2737,
+          "compute_mb": 170,
+          "total_mb": 5275
+        }
+      ],
+      "host_mb": 489,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 69,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 433.19,
+    "generation_tokens_per_second": 33.71,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 15.3,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 15,
+        "avg_power_w": 95.9,
+        "peak_power_w": 104.12,
+        "peak_temperature_c": 63.0,
+        "peak_memory_mb": 5356.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 3777,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 513.58,
+      "generation_tokens_per_second": 29.89,
+      "time_to_first_token_seconds": 7.4,
+      "wall_seconds": 12.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 12,
+          "avg_power_w": 96.8,
+          "peak_power_w": 104.83,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 5356.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "IOCO3781",
+      "answer": "<think>\n\nOkay, let's try to figure out the answer here. The user is asking for t",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 36237,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 168.6,
+      "generation_tokens_per_second": 13.98,
+      "time_to_first_token_seconds": 214.9,
+      "wall_seconds": 226.4,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 211,
+          "avg_power_w": 97.5,
+          "peak_power_w": 111.52,
+          "peak_temperature_c": 68.0,
+          "peak_memory_mb": 5356.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "UIDQ7461",
+      "answer": "<think>\nOkay, let's see. The user is asking for the code that's mentioned at the",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "phi-4-mini-reasoning_3_8b__compact"
+}

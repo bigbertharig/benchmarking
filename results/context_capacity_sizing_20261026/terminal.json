@@ -1,0 +1,56 @@
+{
+  "run": "context-capacity-sizing-20261026",
+  "finished_at": "2026-10-26T23:37:03+00:00",
+  "passed": 47,
+  "failed": [],
+  "cases": 47,
+  "depth_started": true,
+  "depth_start_response": {
+    "item": {
+      "id": "job-2f793fecac9d",
+      "kind": "job",
+      "args": {
+        "run": "context-capacity-validated-depth-20261026",
+        "argv": [
+          "/usr/bin/python3",
+          "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_context_capacity_matrix.py",
+          "--manifest",
+          "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/validated_manifest.json",
+          "--output",
+          "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026"
+        ],
+        "owner": "context-capacity-validated-depth-20261026",
+        "cwd": "/mnt/shared/plans/shoulders/benchmarking",
+        "env": {},
+        "resume_argv": null,
+        "auto_resume": true,
+        "needs": [],
+        "note": "Depth probes after all compact and ceiling sizing loads passed"
+      },
+      "state": "queued",
+      "added_by": "pi",
+      "added_at": "2026-10-26T23:37:03Z",
+      "started_at": null,
+      "ended_at": null,
+      "result": null
+    },
+    "run": {
+      "run": "context-capacity-validated-depth-20261026",
+      "argv": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_context_capacity_matrix.py",
+        "--manifest",
+        "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/validated_manifest.json",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026"
+      ],
+      "owner": "context-capacity-validated-depth-20261026",
+      "cwd": "/mnt/shared/plans/shoulders/benchmarking",
+      "env": {},
+      "resume_argv": null,
+      "auto_resume": true,
+      "needs": [],
+      "note": "Depth probes after all compact and ceiling sizing loads passed"
+    }
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-27T05:24:12-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 262144 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "qwen3.6:27b",
+  "ubatch": 128,
+  "cards": [
+    0,
+    1,
+    2
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    },
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 262144,
+    "ctx_limit": "requested",
+    "tensor_split": "51,8,6",
+    "margin_mb": 512,
+    "weights_mb": 15346,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 51,
+        "weights_mb": 11339,
+        "kv_mb": 6650,
+        "compute_mb": 1531,
+        "projected_mb": 20093,
+        "headroom_mb": 4456
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 1829,
+        "kv_mb": 1107,
+        "compute_mb": 1531,
+        "projected_mb": 4667,
+        "headroom_mb": 1473
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 2178,
+        "kv_mb": 1097,
+        "compute_mb": 1531,
+        "projected_mb": 5007,
+        "headroom_mb": 1133
+      }
+    ]
+  },
+  "load": {
+    "seconds": 61.3,
+    "profile": "qwen3.6-27b-g0-1-2",
+    "port": 11434,
+    "ctx_allocated": 262144,
+    "measured": {
+      "n_ctx": 262144,
+      "offloaded": 65,
+      "layers": 65,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 11339,
+          "kv_mb": 6528,
+          "compute_mb": 1334,
+          "total_mb": 19200
+        },
+        {
+          "gpu": 1,
+          "model_mb": 1829,
+          "kv_mb": 1088,
+          "compute_mb": 1311,
+          "total_mb": 4228
+        },
+        {
+          "gpu": 2,
+          "model_mb": 2178,
+          "kv_mb": 1088,
+          "compute_mb": 1311,
+          "total_mb": 4577
+        }
+      ],
+      "host_mb": 964,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4256,
+          "free_mb": 1719
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 4596,
+          "free_mb": 1389
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 94.56,
+    "generation_tokens_per_second": 17.12,
+    "time_to_first_token_seconds": 0.7,
+    "wall_seconds": 30.5,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 29,
+        "avg_power_w": 175.4,
+        "peak_power_w": 180.99,
+        "peak_temperature_c": 57.0,
+        "peak_memory_mb": 19677.0
+      },
+      {
+        "gpu": 1,
+        "samples": 29,
+        "avg_power_w": 55.1,
+        "peak_power_w": 83.54,
+        "peak_temperature_c": 56.0,
+        "peak_memory_mb": 4344.0
+      },
+      {
+        "gpu": 2,
+        "samples": 29,
+        "avg_power_w": 64.9,
+        "peak_power_w": 115.32,
+        "peak_temperature_c": 60.0,
+        "peak_memory_mb": 4684.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 26903,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 387.85,
+      "generation_tokens_per_second": 14.62,
+      "time_to_first_token_seconds": 69.4,
+      "wall_seconds": 80.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 75,
+          "avg_power_w": 192.2,
+          "peak_power_w": 213.28,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 19691.0
+        },
+        {
+          "gpu": 1,
+          "samples": 75,
+          "avg_power_w": 67.4,
+          "peak_power_w": 118.36,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 4348.0
+        },
+        {
+          "gpu": 2,
+          "samples": 75,
+          "avg_power_w": 56.9,
+          "peak_power_w": 121.08,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 4688.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "GLQF8243",
+      "answer": "GLQF8243\n\nThe code given at the very start of this document is GLQF8243. I have ",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 251824,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 126.63,
+      "generation_tokens_per_second": 6.46,
+      "time_to_first_token_seconds": 1988.7,
+      "wall_seconds": 2013.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 1878,
+          "avg_power_w": 163.4,
+          "peak_power_w": 243.99,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 19691.0
+        },
+        {
+          "gpu": 1,
+          "samples": 1878,
+          "avg_power_w": 76.1,
+          "peak_power_w": 138.06,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 4348.0
+        },
+        {
+          "gpu": 2,
+          "samples": 1878,
+          "avg_power_w": 68.2,
+          "peak_power_w": 137.07,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 4688.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "TBBU6984",
+      "answer": "TBBU6984\n\n**Code:** TBBU6984\n\n**Answer:** TBBU6984\n\n**Final Answer:** TBBU6984\n\n",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "qwen3_6_27b__trained_ceiling"
+}

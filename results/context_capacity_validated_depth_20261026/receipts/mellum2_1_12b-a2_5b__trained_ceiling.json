@@ -1,0 +1,276 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T22:48:49-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "mellum2.1:12b-a2.5b",
+  "ubatch": 64,
+  "cards": [
+    1,
+    2,
+    3
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": "10,10,9",
+    "margin_mb": 512,
+    "weights_mb": 7572,
+    "n_ctx_train": 131072,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 2641,
+        "kv_mb": 280,
+        "compute_mb": 429,
+        "projected_mb": 3551,
+        "headroom_mb": 2589
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 2546,
+        "kv_mb": 415,
+        "compute_mb": 429,
+        "projected_mb": 3591,
+        "headroom_mb": 2549
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 2385,
+        "kv_mb": 278,
+        "compute_mb": 429,
+        "projected_mb": 3293,
+        "headroom_mb": 2847
+      }
+    ]
+  },
+  "load": {
+    "seconds": 104.4,
+    "profile": "mellum2.1-12b-a2.5b-g1-2-3",
+    "port": 11435,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 29,
+      "layers": 29,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 2641,
+          "kv_mb": 283,
+          "compute_mb": 332,
+          "total_mb": 3256
+        },
+        {
+          "gpu": 2,
+          "model_mb": 2546,
+          "kv_mb": 417,
+          "compute_mb": 327,
+          "total_mb": 3290
+        },
+        {
+          "gpu": 3,
+          "model_mb": 2385,
+          "kv_mb": 280,
+          "compute_mb": 327,
+          "total_mb": 2992
+        }
+      ],
+      "host_mb": 192,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 3255,
+          "free_mb": 2740
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 3292,
+          "free_mb": 2703
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 2994,
+          "free_mb": 3001
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 69,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 143.32,
+    "generation_tokens_per_second": 46.12,
+    "time_to_first_token_seconds": 0.5,
+    "wall_seconds": 11.6,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 11,
+        "avg_power_w": 42.4,
+        "peak_power_w": 49.45,
+        "peak_temperature_c": 53.0,
+        "peak_memory_mb": 3350.0
+      },
+      {
+        "gpu": 2,
+        "samples": 11,
+        "avg_power_w": 42.6,
+        "peak_power_w": 52.4,
+        "peak_temperature_c": 53.0,
+        "peak_memory_mb": 3386.0
+      },
+      {
+        "gpu": 3,
+        "samples": 11,
+        "avg_power_w": 42.9,
+        "peak_power_w": 49.8,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 3086.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 13239,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 275.44,
+      "generation_tokens_per_second": 37.48,
+      "time_to_first_token_seconds": 48.1,
+      "wall_seconds": 52.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 49,
+          "avg_power_w": 59.7,
+          "peak_power_w": 122.91,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 3354.0
+        },
+        {
+          "gpu": 2,
+          "samples": 49,
+          "avg_power_w": 56.0,
+          "peak_power_w": 140.46,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 3390.0
+        },
+        {
+          "gpu": 3,
+          "samples": 49,
+          "avg_power_w": 53.5,
+          "peak_power_w": 117.71,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 3090.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "XLEP2065",
+      "answer": "XLEP2065<think>\nWe need to read the problem carefully. The user says: \"Remember ",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 124661,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 150.43,
+      "generation_tokens_per_second": 13.44,
+      "time_to_first_token_seconds": 828.7,
+      "wall_seconds": 840.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 777,
+          "avg_power_w": 60.4,
+          "peak_power_w": 141.39,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 3354.0
+        },
+        {
+          "gpu": 2,
+          "samples": 777,
+          "avg_power_w": 60.1,
+          "peak_power_w": 149.78,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 3390.0
+        },
+        {
+          "gpu": 3,
+          "samples": 777,
+          "avg_power_w": 50.9,
+          "peak_power_w": 120.97,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 3090.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "JGAI3026",
+      "answer": "JGAI3026\n\nSection 0. The rig log records routine status for each card: fan speed",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "mellum2_1_12b-a2_5b__trained_ceiling"
+}

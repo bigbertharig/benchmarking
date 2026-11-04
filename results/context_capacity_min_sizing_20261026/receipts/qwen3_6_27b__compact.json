@@ -1,0 +1,165 @@
+{
+  "case": {
+    "id": "qwen3_6_27b__compact",
+    "model": "qwen3.6:27b",
+    "target": "compact",
+    "gpus": [
+      0
+    ],
+    "ctx": 208384,
+    "trained_ctx": 262144,
+    "preferred_pool": "brain",
+    "actual_pool": "brain",
+    "ubatch": 128,
+    "projected_headroom_mb": [
+      518
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_6_27b__compact.json"
+  },
+  "max_validated_ctx": 208384,
+  "started_at": "2026-10-27T00:09:26+00:00",
+  "min_fit": {
+    "model": "qwen3.6:27b",
+    "arch": "qwen35",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 15346,
+    "host_mb": 682,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "hybrid: full attention every 4 layers"
+    ],
+    "compute_basis": "measured (4 loads, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 64,
+        "weights_mb": 15346,
+        "kv_mb": 422,
+        "compute_mb": 129,
+        "projected_mb": 16470,
+        "headroom_mb": 8079
+      }
+    ],
+    "reason": "fits: qwen3.6:27b on GPU [0] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "ubatch": 128,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 54.8,
+    "response": {
+      "profile": "qwen3.6-27b-g0",
+      "model": "qwen3.6:27b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0
+      ],
+      "lease": "benchmarks-c311646d53ce4689804cea8ce19edc09",
+      "ctx": 8192,
+      "tensor_split": null,
+      "estimate": {
+        "model": "qwen3.6:27b",
+        "arch": "qwen35",
+        "gpus": [
+          0
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 15346,
+        "host_mb": 682,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "hybrid: full attention every 4 layers"
+        ],
+        "compute_basis": "measured (4 loads, 1 card)",
+        "overhead_mb": [
+          573
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 64,
+            "weights_mb": 15346,
+            "kv_mb": 422,
+            "compute_mb": 129,
+            "projected_mb": 16470,
+            "headroom_mb": 8079
+          }
+        ],
+        "reason": "fits: qwen3.6:27b on GPU [0] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+        "ubatch": 128,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 16384,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 8192,
+        "offloaded": 65,
+        "layers": 65,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 15346,
+            "kv_mb": 272,
+            "compute_mb": 59,
+            "total_mb": 15677
+          }
+        ],
+        "host_mb": 694,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "qwen3.6-27b-g0",
+      "item": "unload-998cb9a3277b",
+      "state": "done",
+      "released": "benchmarks-c311646d53ce4689804cea8ce19edc09"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 8192,
+  "finished_at": "2026-10-27T00:10:26+00:00"
+}

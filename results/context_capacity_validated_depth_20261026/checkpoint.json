@@ -1,0 +1,1752 @@
+{
+  "run": "context-capacity-validated-20261026",
+  "started_at": "2026-10-27T00:18:00+00:00",
+  "cases": {
+    "ministral-3_8b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:18:00+00:00",
+      "finished_at": "2026-10-27T00:20:15+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_8b__compact",
+          "model": "ministral-3:8b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 9216,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            517
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_8b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ministral-3_8b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ministral-3_8b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 38.3,
+        "error": null,
+        "observed_ctx": 9216,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "phi-4_14b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:20:15+00:00",
+      "finished_at": "2026-10-27T00:24:26+00:00",
+      "result": {
+        "case": {
+          "id": "phi-4_14b__compact",
+          "model": "phi-4:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 16384,
+          "trained_ctx": 16384,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            705,
+            763
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/phi-4_14b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/phi-4_14b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/phi-4_14b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 54.8,
+        "error": null,
+        "observed_ctx": 16384,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen2_5-coder_14b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:24:26+00:00",
+      "finished_at": "2026-10-27T00:31:05+00:00",
+      "result": {
+        "case": {
+          "id": "qwen2_5-coder_14b__compact",
+          "model": "qwen2.5-coder:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 21504,
+          "trained_ctx": 32768,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            522,
+            672
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen2_5-coder_14b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen2_5-coder_14b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen2_5-coder_14b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 117.7,
+        "error": null,
+        "observed_ctx": 21504,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ornith-1_5_9b__compact": {
+      "status": "failed",
+      "started_at": "2026-10-27T00:31:05+00:00",
+      "finished_at": "2026-10-27T00:31:05+00:00",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_9b__compact",
+          "model": "ornith-1.5:9b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 24320,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            516
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ornith-1_5_9b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ornith-1_5_9b__compact.log",
+        "returncode": 4,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ornith-1_5_9b__compact.json",
+        "recall_ok": false,
+        "load_seconds": null,
+        "error": "capacity runner exit 4",
+        "observed_ctx": null,
+        "depth_fractions": []
+      }
+    },
+    "qwen2_5-coder_7b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:31:06+00:00",
+      "finished_at": "2026-10-27T00:35:50+00:00",
+      "result": {
+        "case": {
+          "id": "qwen2_5-coder_7b__compact",
+          "model": "qwen2.5-coder:7b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 32768,
+          "trained_ctx": 32768,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            688
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen2_5-coder_7b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen2_5-coder_7b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen2_5-coder_7b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 35.0,
+        "error": null,
+        "observed_ctx": 32768,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ministral-3_14b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:35:51+00:00",
+      "finished_at": "2026-10-27T00:41:22+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_14b__compact",
+          "model": "ministral-3:14b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 33792,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            573,
+            517
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_14b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ministral-3_14b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ministral-3_14b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 51.5,
+        "error": null,
+        "observed_ctx": 33792,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "nemotron-3_5-bolt_74b-a9b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:41:22+00:00",
+      "finished_at": "2026-10-27T00:53:26+00:00",
+      "result": {
+        "case": {
+          "id": "nemotron-3_5-bolt_74b-a9b__compact",
+          "model": "nemotron-3.5-bolt:74b-a9b",
+          "target": "compact",
+          "gpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "ctx": 96256,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            513,
+            561,
+            635,
+            1573
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nemotron-3_5-bolt_74b-a9b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/nemotron-3_5-bolt_74b-a9b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/nemotron-3_5-bolt_74b-a9b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 203.1,
+        "error": null,
+        "observed_ctx": 96256,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "phi-4-mini-reasoning_3_8b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:53:26+00:00",
+      "finished_at": "2026-10-27T00:58:28+00:00",
+      "result": {
+        "case": {
+          "id": "phi-4-mini-reasoning_3_8b__compact",
+          "model": "phi-4-mini-reasoning:3.8b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 41216,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            529
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/phi-4-mini-reasoning_3_8b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/phi-4-mini-reasoning_3_8b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/phi-4-mini-reasoning_3_8b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 41.6,
+        "error": null,
+        "observed_ctx": 41216,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "llama3_2_3b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T00:58:28+00:00",
+      "finished_at": "2026-10-27T01:04:58+00:00",
+      "result": {
+        "case": {
+          "id": "llama3_2_3b__compact",
+          "model": "llama3.2:3b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 53760,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            519
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/llama3_2_3b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/llama3_2_3b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/llama3_2_3b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 41.6,
+        "error": null,
+        "observed_ctx": 53760,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ministral-3_3b__compact": {
+      "status": "failed",
+      "started_at": "2026-10-27T01:04:58+00:00",
+      "finished_at": "2026-10-27T01:04:58+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_3b__compact",
+          "model": "ministral-3:3b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 57600,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            520
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_3b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ministral-3_3b__compact.log",
+        "returncode": 4,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ministral-3_3b__compact.json",
+        "recall_ok": false,
+        "load_seconds": null,
+        "error": "capacity runner exit 4",
+        "observed_ctx": null,
+        "depth_fractions": []
+      }
+    },
+    "smollm3_3b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T01:04:58+00:00",
+      "finished_at": "2026-10-27T01:12:37+00:00",
+      "result": {
+        "case": {
+          "id": "smollm3_3b__compact",
+          "model": "smollm3:3b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 65536,
+          "trained_ctx": 65536,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1353
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/smollm3_3b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/smollm3_3b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/smollm3_3b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 35.3,
+        "error": null,
+        "observed_ctx": 65536,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gemma-4_31b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T01:12:37+00:00",
+      "finished_at": "2026-10-27T01:18:30+00:00",
+      "result": {
+        "case": {
+          "id": "gemma-4_31b__compact",
+          "model": "gemma-4:31b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 93440,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            519
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_31b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gemma-4_31b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gemma-4_31b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 183.9,
+        "error": null,
+        "observed_ctx": 93440,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3-coder_30b-a3b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T01:18:30+00:00",
+      "finished_at": "2026-10-27T01:21:45+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3-coder_30b-a3b__compact",
+          "model": "qwen3-coder:30b-a3b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 112128,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            515
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3-coder_30b-a3b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3-coder_30b-a3b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3-coder_30b-a3b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 58.2,
+        "error": null,
+        "observed_ctx": 112128,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "devstral-small_24b__compact": {
+      "status": "failed",
+      "started_at": "2026-10-27T01:21:45+00:00",
+      "finished_at": "2026-10-27T01:21:46+00:00",
+      "result": {
+        "case": {
+          "id": "devstral-small_24b__compact",
+          "model": "devstral-small:24b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 117504,
+          "trained_ctx": 393216,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            527
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/devstral-small_24b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/devstral-small_24b__compact.log",
+        "returncode": 4,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/devstral-small_24b__compact.json",
+        "recall_ok": false,
+        "load_seconds": null,
+        "error": "capacity runner exit 4",
+        "observed_ctx": null,
+        "depth_fractions": []
+      }
+    },
+    "mellum2_1_12b-a2_5b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T01:21:46+00:00",
+      "finished_at": "2026-10-27T01:39:06+00:00",
+      "result": {
+        "case": {
+          "id": "mellum2_1_12b-a2_5b__compact",
+          "model": "mellum2.1:12b-a2.5b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 129280,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            513,
+            685
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/mellum2_1_12b-a2_5b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/mellum2_1_12b-a2_5b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/mellum2_1_12b-a2_5b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 104.5,
+        "error": null,
+        "observed_ctx": 129280,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gemma-4_e2b-q8__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T01:39:06+00:00",
+      "finished_at": "2026-10-27T01:59:08+00:00",
+      "result": {
+        "case": {
+          "id": "gemma-4_e2b-q8__compact",
+          "model": "gemma-4:e2b-q8",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            2510
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_e2b-q8__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gemma-4_e2b-q8__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gemma-4_e2b-q8__compact.json",
+        "recall_ok": true,
+        "load_seconds": 31.7,
+        "error": null,
+        "observed_ctx": 131072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gemma-4_e4b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T01:59:08+00:00",
+      "finished_at": "2026-10-27T02:22:41+00:00",
+      "result": {
+        "case": {
+          "id": "gemma-4_e4b__compact",
+          "model": "gemma-4:e4b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            987
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_e4b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gemma-4_e4b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gemma-4_e4b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 71.5,
+        "error": null,
+        "observed_ctx": 131072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gpt-oss_20b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T02:22:41+00:00",
+      "finished_at": "2026-10-27T02:24:45+00:00",
+      "result": {
+        "case": {
+          "id": "gpt-oss_20b__compact",
+          "model": "gpt-oss:20b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            9371
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gpt-oss_20b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gpt-oss_20b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gpt-oss_20b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 41.5,
+        "error": null,
+        "observed_ctx": 131072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "minicpm5_2b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T02:24:45+00:00",
+      "finished_at": "2026-10-27T02:49:56+00:00",
+      "result": {
+        "case": {
+          "id": "minicpm5_2b__compact",
+          "model": "minicpm5:2b",
+          "target": "compact",
+          "gpus": [
+            1
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1624
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/minicpm5_2b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/minicpm5_2b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/minicpm5_2b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 38.3,
+        "error": null,
+        "observed_ctx": 131072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "nex-n2_5_mini__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T02:49:56+00:00",
+      "finished_at": "2026-10-27T02:53:29+00:00",
+      "result": {
+        "case": {
+          "id": "nex-n2_5_mini__compact",
+          "model": "nex-n2.5:mini",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 141568,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            515
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nex-n2_5_mini__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/nex-n2_5_mini__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/nex-n2_5_mini__compact.json",
+        "recall_ok": true,
+        "load_seconds": 84.4,
+        "error": null,
+        "observed_ctx": 141568,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3-coder-next_80b-a3b__compact": {
+      "status": "failed",
+      "started_at": "2026-10-27T02:53:29+00:00",
+      "finished_at": "2026-10-27T02:53:30+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3-coder-next_80b-a3b__compact",
+          "model": "qwen3-coder-next:80b-a3b",
+          "target": "compact",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "ctx": 185600,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            512,
+            723,
+            723,
+            723,
+            537,
+            1371
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3-coder-next_80b-a3b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3-coder-next_80b-a3b__compact.log",
+        "returncode": 4,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3-coder-next_80b-a3b__compact.json",
+        "recall_ok": false,
+        "load_seconds": null,
+        "error": "capacity runner exit 4",
+        "observed_ctx": null,
+        "depth_fractions": []
+      }
+    },
+    "ornith-1_5_35b-a3b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T02:53:30+00:00",
+      "finished_at": "2026-10-27T02:57:40+00:00",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_35b-a3b__compact",
+          "model": "ornith-1.5:35b-a3b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 188672,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            515
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ornith-1_5_35b-a3b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ornith-1_5_35b-a3b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ornith-1_5_35b-a3b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 71.2,
+        "error": null,
+        "observed_ctx": 188672,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_8_27b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T02:57:40+00:00",
+      "finished_at": "2026-10-27T03:03:35+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_8_27b__compact",
+          "model": "qwen3.8:27b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 190720,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            520
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_8_27b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_8_27b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_8_27b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 51.4,
+        "error": null,
+        "observed_ctx": 190720,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gemma-4_12b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T03:03:35+00:00",
+      "finished_at": "2026-10-27T04:44:48+00:00",
+      "result": {
+        "case": {
+          "id": "gemma-4_12b__compact",
+          "model": "gemma-4:12b",
+          "target": "compact",
+          "gpus": [
+            1,
+            2
+          ],
+          "ctx": 207616,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            512,
+            530
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_12b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gemma-4_12b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gemma-4_12b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 130.8,
+        "error": null,
+        "observed_ctx": 207616,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_6_27b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T04:44:48+00:00",
+      "finished_at": "2026-10-27T04:51:26+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_6_27b__compact",
+          "model": "qwen3.6:27b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 208384,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            518
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_6_27b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_6_27b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_6_27b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 51.5,
+        "error": null,
+        "observed_ctx": 208384,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_5_27b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T04:51:26+00:00",
+      "finished_at": "2026-10-27T05:00:35+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_5_27b__compact",
+          "model": "qwen3.5:27b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 209664,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            521
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_5_27b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_5_27b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_5_27b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 196.8,
+        "error": null,
+        "observed_ctx": 209664,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_6_35b-a3b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T05:00:35+00:00",
+      "finished_at": "2026-10-27T05:05:45+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_6_35b-a3b__compact",
+          "model": "qwen3.6:35b-a3b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 243968,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            128
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_6_35b-a3b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_6_35b-a3b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_6_35b-a3b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 74.6,
+        "error": null,
+        "observed_ctx": 243968,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gemma-4_26b-a4b__compact": {
+      "status": "passed",
+      "started_at": "2026-10-27T05:05:45+00:00",
+      "finished_at": "2026-10-27T05:12:21+00:00",
+      "result": {
+        "case": {
+          "id": "gemma-4_26b-a4b__compact",
+          "model": "gemma-4:26b-a4b",
+          "target": "compact",
+          "gpus": [
+            0
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "brain",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            3760
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_26b-a4b__compact.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gemma-4_26b-a4b__compact.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gemma-4_26b-a4b__compact.json",
+        "recall_ok": true,
+        "load_seconds": 160.8,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen2_5-coder_14b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T05:12:21+00:00",
+      "finished_at": "2026-10-27T05:21:53+00:00",
+      "result": {
+        "case": {
+          "id": "qwen2_5-coder_14b__trained_ceiling",
+          "model": "qwen2.5-coder:14b",
+          "target": "trained_ceiling",
+          "gpus": [
+            1,
+            2,
+            3
+          ],
+          "ctx": 32768,
+          "trained_ctx": 32768,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1720,
+            1777,
+            1759
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen2_5-coder_14b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen2_5-coder_14b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen2_5-coder_14b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 118.0,
+        "error": null,
+        "observed_ctx": 32768,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "llama3_2_3b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T05:21:53+00:00",
+      "finished_at": "2026-10-27T05:47:04+00:00",
+      "result": {
+        "case": {
+          "id": "llama3_2_3b__trained_ceiling",
+          "model": "llama3.2:3b",
+          "target": "trained_ceiling",
+          "gpus": [
+            1,
+            2,
+            3
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1819,
+            1820,
+            2151
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/llama3_2_3b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/llama3_2_3b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/llama3_2_3b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 41.6,
+        "error": null,
+        "observed_ctx": 131072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "mellum2_1_12b-a2_5b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T05:47:04+00:00",
+      "finished_at": "2026-10-27T06:03:59+00:00",
+      "result": {
+        "case": {
+          "id": "mellum2_1_12b-a2_5b__trained_ceiling",
+          "model": "mellum2.1:12b-a2.5b",
+          "target": "trained_ceiling",
+          "gpus": [
+            1,
+            2,
+            3
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1930,
+            1890,
+            2188
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/mellum2_1_12b-a2_5b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/mellum2_1_12b-a2_5b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/mellum2_1_12b-a2_5b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 104.4,
+        "error": null,
+        "observed_ctx": 131072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "phi-4-mini-reasoning_3_8b__trained_ceiling": {
+      "status": "failed",
+      "started_at": "2026-10-27T06:03:59+00:00",
+      "finished_at": "2026-10-27T06:32:17+00:00",
+      "result": {
+        "case": {
+          "id": "phi-4-mini-reasoning_3_8b__trained_ceiling",
+          "model": "phi-4-mini-reasoning:3.8b",
+          "target": "trained_ceiling",
+          "gpus": [
+            1,
+            2,
+            3
+          ],
+          "ctx": 131072,
+          "trained_ctx": 131072,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1464,
+            1476,
+            1311
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/phi-4-mini-reasoning_3_8b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/phi-4-mini-reasoning_3_8b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/phi-4-mini-reasoning_3_8b__trained_ceiling.json",
+        "recall_ok": false,
+        "load_seconds": 41.7,
+        "error": "one or more depth recall probes failed",
+        "observed_ctx": 131072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "devstral-small_24b__frontier": {
+      "status": "passed",
+      "started_at": "2026-10-27T06:32:17+00:00",
+      "finished_at": "2026-10-27T07:01:11+00:00",
+      "result": {
+        "case": {
+          "id": "devstral-small_24b__frontier",
+          "model": "devstral-small:24b",
+          "target": "frontier",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "ctx": 259072,
+          "trained_ctx": 393216,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            525,
+            1302,
+            1302,
+            1302,
+            1217,
+            692
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/devstral-small_24b__frontier.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/devstral-small_24b__frontier.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/devstral-small_24b__frontier.json",
+        "recall_ok": true,
+        "load_seconds": 61.4,
+        "error": null,
+        "observed_ctx": 259072,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ministral-3_3b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T07:01:11+00:00",
+      "finished_at": "2026-10-27T07:06:58+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_3b__trained_ceiling",
+          "model": "ministral-3:3b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "brain",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            6869
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_3b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ministral-3_3b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ministral-3_3b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 18.6,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ministral-3_8b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T07:06:58+00:00",
+      "finished_at": "2026-10-27T07:31:01+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_8b__trained_ceiling",
+          "model": "ministral-3:8b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            3480,
+            997
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_8b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ministral-3_8b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ministral-3_8b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 28.2,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "nex-n2_5_mini__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T07:31:02+00:00",
+      "finished_at": "2026-10-27T07:47:33+00:00",
+      "result": {
+        "case": {
+          "id": "nex-n2_5_mini__trained_ceiling",
+          "model": "nex-n2.5:mini",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            1318,
+            832
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nex-n2_5_mini__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/nex-n2_5_mini__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/nex-n2_5_mini__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 77.9,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ornith-1_5_35b-a3b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T07:47:33+00:00",
+      "finished_at": "2026-10-27T08:03:58+00:00",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_35b-a3b__trained_ceiling",
+          "model": "ornith-1.5:35b-a3b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            1944,
+            1062
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ornith-1_5_35b-a3b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ornith-1_5_35b-a3b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ornith-1_5_35b-a3b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 74.6,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_6_35b-a3b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T08:03:58+00:00",
+      "finished_at": "2026-10-27T08:20:05+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_6_35b-a3b__trained_ceiling",
+          "model": "qwen3.6:35b-a3b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            3193,
+            1480
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_6_35b-a3b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_6_35b-a3b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_6_35b-a3b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 77.7,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gemma-4_12b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T08:20:05+00:00",
+      "finished_at": "2026-10-27T10:47:43+00:00",
+      "result": {
+        "case": {
+          "id": "gemma-4_12b__trained_ceiling",
+          "model": "gemma-4:12b",
+          "target": "trained_ceiling",
+          "gpus": [
+            1,
+            2,
+            3
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1554,
+            1618,
+            1843
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_12b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gemma-4_12b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gemma-4_12b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 127.7,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ornith-1_5_9b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T10:47:43+00:00",
+      "finished_at": "2026-10-27T11:44:15+00:00",
+      "result": {
+        "case": {
+          "id": "ornith-1_5_9b__trained_ceiling",
+          "model": "ornith-1.5:9b",
+          "target": "trained_ceiling",
+          "gpus": [
+            1,
+            2,
+            3
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "worker",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1691,
+            1733,
+            1918
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ornith-1_5_9b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ornith-1_5_9b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ornith-1_5_9b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 38.5,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_5_27b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T11:44:15+00:00",
+      "finished_at": "2026-10-27T12:23:10+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_5_27b__trained_ceiling",
+          "model": "qwen3.5:27b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1,
+            2
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            686,
+            592,
+            1044
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_5_27b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_5_27b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_5_27b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 206.9,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_6_27b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T12:23:10+00:00",
+      "finished_at": "2026-10-27T12:59:41+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_6_27b__trained_ceiling",
+          "model": "qwen3.6:27b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1,
+            2
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            664,
+            543,
+            1042
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_6_27b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_6_27b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_6_27b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 61.3,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3_8_27b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T12:59:42+00:00",
+      "finished_at": "2026-10-27T13:32:08+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3_8_27b__trained_ceiling",
+          "model": "qwen3.8:27b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1,
+            2
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            1402,
+            777,
+            741
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3_8_27b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3_8_27b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3_8_27b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 61.4,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "ministral-3_14b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T13:32:08+00:00",
+      "finished_at": "2026-10-27T14:04:05+00:00",
+      "result": {
+        "case": {
+          "id": "ministral-3_14b__trained_ceiling",
+          "model": "ministral-3:14b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "worker",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            1071,
+            977,
+            934,
+            1116
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_14b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/ministral-3_14b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/ministral-3_14b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 38.2,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "gemma-4_31b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T14:04:05+00:00",
+      "finished_at": "2026-10-27T15:35:32+00:00",
+      "result": {
+        "case": {
+          "id": "gemma-4_31b__trained_ceiling",
+          "model": "gemma-4:31b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            918,
+            735,
+            696,
+            1729,
+            763
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/gemma-4_31b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/gemma-4_31b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/gemma-4_31b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 193.6,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "qwen3-coder_30b-a3b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T15:35:32+00:00",
+      "finished_at": "2026-10-27T16:39:21+00:00",
+      "result": {
+        "case": {
+          "id": "qwen3-coder_30b-a3b__trained_ceiling",
+          "model": "qwen3-coder:30b-a3b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 128,
+          "projected_headroom_mb": [
+            5390,
+            1866,
+            1915,
+            1816,
+            1473
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/qwen3-coder_30b-a3b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/qwen3-coder_30b-a3b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/qwen3-coder_30b-a3b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 74.6,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    },
+    "nemotron-3_5-bolt_74b-a9b__trained_ceiling": {
+      "status": "passed",
+      "started_at": "2026-10-27T16:39:21+00:00",
+      "finished_at": "2026-10-27T17:20:53+00:00",
+      "result": {
+        "case": {
+          "id": "nemotron-3_5-bolt_74b-a9b__trained_ceiling",
+          "model": "nemotron-3.5-bolt:74b-a9b",
+          "target": "trained_ceiling",
+          "gpus": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "ctx": 262144,
+          "trained_ctx": 262144,
+          "preferred_pool": "brain",
+          "actual_pool": "mixed",
+          "ubatch": 64,
+          "projected_headroom_mb": [
+            4740,
+            1410,
+            1688,
+            1767,
+            1530,
+            1407
+          ],
+          "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/nemotron-3_5-bolt_74b-a9b__trained_ceiling.json"
+        },
+        "log": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/logs/nemotron-3_5-bolt_74b-a9b__trained_ceiling.log",
+        "returncode": 0,
+        "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/receipts/nemotron-3_5-bolt_74b-a9b__trained_ceiling.json",
+        "recall_ok": true,
+        "load_seconds": 206.7,
+        "error": null,
+        "observed_ctx": 262144,
+        "depth_fractions": [
+          0.1,
+          0.9
+        ]
+      }
+    }
+  },
+  "finished_at": "2026-10-27T17:20:53+00:00"
+}

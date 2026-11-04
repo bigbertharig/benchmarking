@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T18:39:38-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 131072 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "gemma-4:e2b-q8",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 131072,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 2316,
+    "n_ctx_train": 131072,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 35,
+        "weights_mb": 2316,
+        "kv_mb": 967,
+        "compute_mb": 344,
+        "projected_mb": 3827,
+        "headroom_mb": 2313
+      }
+    ]
+  },
+  "load": {
+    "seconds": 31.7,
+    "profile": "gemma-4-e2b-q8-g1",
+    "port": 11435,
+    "ctx_allocated": 131072,
+    "measured": {
+      "n_ctx": 131072,
+      "offloaded": 36,
+      "layers": 36,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 2342,
+          "kv_mb": 413,
+          "compute_mb": 280,
+          "total_mb": 3035
+        }
+      ],
+      "host_mb": 2809,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 61,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 353.79,
+    "generation_tokens_per_second": 31.5,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 16.4,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 16,
+        "avg_power_w": 93.7,
+        "peak_power_w": 103.45,
+        "peak_temperature_c": 64.0,
+        "peak_memory_mb": 3184.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 13232,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 475.63,
+      "generation_tokens_per_second": 27.04,
+      "time_to_first_token_seconds": 27.8,
+      "wall_seconds": 33.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 32,
+          "avg_power_w": 90.7,
+          "peak_power_w": 109.31,
+          "peak_temperature_c": 67.0,
+          "peak_memory_mb": 3184.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "BIUZ8159",
+      "answer": "BIUZ8159.\n\n(Note: The provided text describes a structure for a log but does not",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 124654,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 113.1,
+      "generation_tokens_per_second": 12.69,
+      "time_to_first_token_seconds": 1102.2,
+      "wall_seconds": 1115.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 1040,
+          "avg_power_w": 94.4,
+          "peak_power_w": 113.75,
+          "peak_temperature_c": 67.0,
+          "peak_memory_mb": 3184.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "DXEP6326",
+      "answer": "DXEP6326.\n\nWait, I see you asked for the code given at the very start of the doc",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "gemma-4_e2b-q8__compact"
+}

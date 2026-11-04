@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T18:05:34-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 65536 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "smollm3:3b",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 65536,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 1819,
+    "n_ctx_train": 65536,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 36,
+        "weights_mb": 1819,
+        "kv_mb": 2448,
+        "compute_mb": 217,
+        "projected_mb": 4684,
+        "headroom_mb": 1456
+      }
+    ]
+  },
+  "load": {
+    "seconds": 35.3,
+    "profile": "smollm3-3b-g1",
+    "port": 11435,
+    "ctx_allocated": 65536,
+    "measured": {
+      "n_ctx": 65536,
+      "offloaded": 37,
+      "layers": 37,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 1819,
+          "kv_mb": 2448,
+          "compute_mb": 139,
+          "total_mb": 4406
+        }
+      ],
+      "host_mb": 216,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 119,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 640.14,
+    "generation_tokens_per_second": 41.36,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 12.6,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 12,
+        "avg_power_w": 99.9,
+        "peak_power_w": 111.03,
+        "peak_temperature_c": 62.0,
+        "peak_memory_mb": 4486.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 6228,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 528.73,
+      "generation_tokens_per_second": 33.91,
+      "time_to_first_token_seconds": 11.8,
+      "wall_seconds": 16.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 16,
+          "avg_power_w": 100.4,
+          "peak_power_w": 104.52,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 4486.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "EXEJ4650",
+      "answer": "EXEJ4650\n\nThe code given at the very start of this document is EXEJ4650. This is",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 57827,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 153.69,
+      "generation_tokens_per_second": 12.44,
+      "time_to_first_token_seconds": 376.3,
+      "wall_seconds": 389.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 362,
+          "avg_power_w": 98.1,
+          "peak_power_w": 109.35,
+          "peak_temperature_c": 67.0,
+          "peak_memory_mb": 4486.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "AUST7066",
+      "answer": "AUST7066. \n\nThe code given at the very start of the document is AUST7066. This c",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "smollm3_3b__compact"
+}

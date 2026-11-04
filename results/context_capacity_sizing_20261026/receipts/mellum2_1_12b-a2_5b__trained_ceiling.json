@@ -1,0 +1,333 @@
+{
+  "case": {
+    "id": "mellum2_1_12b-a2_5b__trained_ceiling",
+    "model": "mellum2.1:12b-a2.5b",
+    "target": "trained_ceiling",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "ctx": 131072,
+    "trained_ctx": 131072,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      1930,
+      1890,
+      2188
+    ]
+  },
+  "started_at": "2026-10-26T23:10:30+00:00",
+  "min_fit": {
+    "model": "mellum2.1:12b-a2.5b",
+    "arch": "mellum",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 7572,
+    "host_mb": 122,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "sliding window 1024 on 21 layers"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "9,10,10",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 9,
+        "weights_mb": 2401,
+        "kv_mb": 24,
+        "compute_mb": 128,
+        "projected_mb": 2753,
+        "headroom_mb": 3387
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 2546,
+        "kv_mb": 26,
+        "compute_mb": 128,
+        "projected_mb": 2900,
+        "headroom_mb": 3240
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 9,
+        "weights_mb": 2626,
+        "kv_mb": 32,
+        "compute_mb": 128,
+        "projected_mb": 2985,
+        "headroom_mb": 3155
+      }
+    ],
+    "reason": "fits: mellum2.1:12b-a2.5b on GPU [1, 2, 3] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "candidate",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "mellum2.1:12b-a2.5b",
+    "arch": "mellum",
+    "gpus": [
+      1,
+      2,
+      3
+    ],
+    "n_ctx_train": 131072,
+    "weights_mb": 7572,
+    "host_mb": 122,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "sliding window 1024 on 21 layers"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200,
+      200,
+      200
+    ],
+    "fits": true,
+    "ctx": 131072,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 131072,
+    "tensor_split": "10,10,9",
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 2641,
+        "kv_mb": 280,
+        "compute_mb": 1088,
+        "projected_mb": 4210,
+        "headroom_mb": 1930
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 10,
+        "weights_mb": 2546,
+        "kv_mb": 415,
+        "compute_mb": 1088,
+        "projected_mb": 4250,
+        "headroom_mb": 1890
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 2385,
+        "kv_mb": 278,
+        "compute_mb": 1088,
+        "projected_mb": 3952,
+        "headroom_mb": 2188
+      }
+    ],
+    "reason": "fits: mellum2.1:12b-a2.5b on GPU [1, 2, 3] at ctx 131072 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "candidate",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 8192,
+      "working": 8192,
+      "max": 131072,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 104.4,
+    "response": {
+      "profile": "mellum2.1-12b-a2.5b-g1-2-3",
+      "model": "mellum2.1:12b-a2.5b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1,
+        2,
+        3
+      ],
+      "lease": "benchmarks-abdb6fcb613242349c2d0c5cd403b91d",
+      "ctx": 131072,
+      "tensor_split": "10,10,9",
+      "estimate": {
+        "model": "mellum2.1:12b-a2.5b",
+        "arch": "mellum",
+        "gpus": [
+          1,
+          2,
+          3
+        ],
+        "n_ctx_train": 131072,
+        "weights_mb": 7572,
+        "host_mb": 122,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "sliding window 1024 on 21 layers"
+        ],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          200,
+          200,
+          200
+        ],
+        "fits": true,
+        "ctx": 131072,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 131072,
+        "tensor_split": "10,10,9",
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 2641,
+            "kv_mb": 280,
+            "compute_mb": 1088,
+            "projected_mb": 4210,
+            "headroom_mb": 1930
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 10,
+            "weights_mb": 2546,
+            "kv_mb": 415,
+            "compute_mb": 1088,
+            "projected_mb": 4250,
+            "headroom_mb": 1890
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 8,
+            "weights_mb": 2385,
+            "kv_mb": 278,
+            "compute_mb": 1088,
+            "projected_mb": 3952,
+            "headroom_mb": 2188
+          }
+        ],
+        "reason": "fits: mellum2.1:12b-a2.5b on GPU [1, 2, 3] at ctx 131072 (limited by requested)",
+        "registry_profile": "default",
+        "status": "candidate",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 8192,
+          "max": 131072,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 131072,
+        "offloaded": 29,
+        "layers": 29,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 2641,
+            "kv_mb": 283,
+            "compute_mb": 332,
+            "total_mb": 3256
+          },
+          {
+            "gpu": 2,
+            "model_mb": 2546,
+            "kv_mb": 417,
+            "compute_mb": 327,
+            "total_mb": 3290
+          },
+          {
+            "gpu": 3,
+            "model_mb": 2385,
+            "kv_mb": 280,
+            "compute_mb": 327,
+            "total_mb": 2992
+          }
+        ],
+        "host_mb": 192,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 3255,
+            "free_mb": 2740
+          },
+          {
+            "gpu": 2,
+            "total_mb": 6065,
+            "projected_mb": 3292,
+            "free_mb": 2703
+          },
+          {
+            "gpu": 3,
+            "total_mb": 6065,
+            "projected_mb": 2994,
+            "free_mb": 3001
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "mellum2.1-12b-a2.5b-g1-2-3",
+      "item": "unload-2a8f4397e7f5",
+      "state": "done",
+      "released": "benchmarks-abdb6fcb613242349c2d0c5cd403b91d"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 131072,
+  "planned_ctx": 131072,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T23:12:20+00:00"
+}

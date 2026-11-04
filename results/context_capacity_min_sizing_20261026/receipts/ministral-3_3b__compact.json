@@ -1,0 +1,165 @@
+{
+  "case": {
+    "id": "ministral-3_3b__compact",
+    "model": "ministral-3:3b",
+    "target": "compact",
+    "gpus": [
+      1
+    ],
+    "ctx": 57600,
+    "trained_ctx": 262144,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      520
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/ministral-3_3b__compact.json"
+  },
+  "max_validated_ctx": 57600,
+  "started_at": "2026-10-26T23:48:09+00:00",
+  "min_fit": {
+    "model": "ministral-3:3b",
+    "arch": "mistral3",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 2040,
+    "host_mb": 315,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "measured (5 loads, 1 card)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 26,
+        "weights_mb": 2040,
+        "kv_mb": 442,
+        "compute_mb": 106,
+        "projected_mb": 2787,
+        "headroom_mb": 3353
+      }
+    ],
+    "reason": "fits: ministral-3:3b on GPU [1] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 21.8,
+    "response": {
+      "profile": "ministral-3-3b-g1",
+      "model": "ministral-3:3b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1
+      ],
+      "lease": "benchmarks-545d060f37d64e1785281ca5478bbbac",
+      "ctx": 8192,
+      "tensor_split": null,
+      "estimate": {
+        "model": "ministral-3:3b",
+        "arch": "mistral3",
+        "gpus": [
+          1
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 2040,
+        "host_mb": 315,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "tied embeddings: output layer reuses token_embd"
+        ],
+        "compute_basis": "measured (5 loads, 1 card)",
+        "overhead_mb": [
+          200
+        ],
+        "fits": true,
+        "ctx": 8192,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 8192,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 26,
+            "weights_mb": 2040,
+            "kv_mb": 442,
+            "compute_mb": 106,
+            "projected_mb": 2787,
+            "headroom_mb": 3353
+          }
+        ],
+        "reason": "fits: ministral-3:3b on GPU [1] at ctx 8192 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 16384,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 8192,
+        "offloaded": 27,
+        "layers": 27,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 2040,
+            "kv_mb": 442,
+            "compute_mb": 38,
+            "total_mb": 2520
+          }
+        ],
+        "host_mb": 319,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "ministral-3-3b-g1",
+      "item": "unload-685e11fe9221",
+      "state": "done",
+      "released": "benchmarks-545d060f37d64e1785281ca5478bbbac"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 8192,
+  "finished_at": "2026-10-26T23:48:36+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "model": "/data/model-hotset/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-10-27T22:13:48+00:00",
+  "context": 32768,
+  "batch": 64,
+  "threads": 4,
+  "power_caps_w": [
+    350,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "modes": {
+    "cpu_ram": {
+      "started_at": "2026-10-27T22:13:48+00:00",
+      "gpu_visible": "0",
+      "gpu_layers_requested": "0",
+      "status": "failed",
+      "container_id": "344514f702f1",
+      "error": "RuntimeError: llama-server exited before ready",
+      "finished_at": "2026-10-27T22:13:54+00:00"
+    }
+  }
+}

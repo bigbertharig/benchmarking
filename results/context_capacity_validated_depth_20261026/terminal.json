@@ -1,0 +1,10 @@
+{
+  "run": "context-capacity-validated-20261026",
+  "status": "failed",
+  "finished_at": "2026-10-27T17:20:53+00:00",
+  "passed": 42,
+  "failed": 5,
+  "cases": 47,
+  "summary": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/SUMMARY.md",
+  "checkpoint": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026/checkpoint.json"
+}

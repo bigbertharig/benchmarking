@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-26T19:58:32-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 190720 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "qwen3.8:27b",
+  "ubatch": 128,
+  "cards": [
+    0
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    }
+  ],
+  "plan": {
+    "ctx": 190720,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 14674,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 65,
+        "weights_mb": 14674,
+        "kv_mb": 6482,
+        "compute_mb": 963,
+        "projected_mb": 22692,
+        "headroom_mb": 1857
+      }
+    ]
+  },
+  "load": {
+    "seconds": 51.4,
+    "profile": "qwen3.8-27b-g0",
+    "port": 11434,
+    "ctx_allocated": 190720,
+    "measured": {
+      "n_ctx": 190720,
+      "offloaded": 66,
+      "layers": 66,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 14674,
+          "kv_mb": 6332,
+          "compute_mb": 817,
+          "total_mb": 21824
+        }
+      ],
+      "host_mb": 739,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 103,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 287.27,
+    "generation_tokens_per_second": 45.63,
+    "time_to_first_token_seconds": 0.4,
+    "wall_seconds": 11.6,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 11,
+        "avg_power_w": 345.9,
+        "peak_power_w": 349.91,
+        "peak_temperature_c": 58.0,
+        "peak_memory_mb": 22323.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 19505,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 1243.79,
+      "generation_tokens_per_second": 40.75,
+      "time_to_first_token_seconds": 15.7,
+      "wall_seconds": 19.6,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 19,
+          "avg_power_w": 347.5,
+          "peak_power_w": 350.82,
+          "peak_temperature_c": 61.0,
+          "peak_memory_mb": 22341.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "ILPE8262",
+      "answer": "ILPE8262.\n</think>\n\nILPE8262.\n</think>\n\nILPE8262.\n</think>\n\nILPE8262.\n</think>\n\n",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 182587,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 705.84,
+      "generation_tokens_per_second": 20.44,
+      "time_to_first_token_seconds": 258.7,
+      "wall_seconds": 266.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 251,
+          "avg_power_w": 348.0,
+          "peak_power_w": 350.85,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 22341.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "OOUB1114",
+      "answer": "OOUB1114.\n\nWait, the user said \"Reply with only the code.\" Let me just provide t",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "qwen3_8_27b__compact"
+}

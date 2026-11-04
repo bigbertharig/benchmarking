@@ -1,0 +1,204 @@
+{
+  "model": "/data/model-hotset/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-10-27T22:21:55+00:00",
+  "context": 32768,
+  "batch": 64,
+  "threads": 4,
+  "power_caps_w": [
+    350,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "modes": {
+    "cpu_ram": {
+      "started_at": "2026-10-27T22:21:55+00:00",
+      "gpu_visible": "0",
+      "gpu_layers_requested": "0",
+      "status": "passed",
+      "container_id": "e3596e565d6a",
+      "load_seconds": 10.4,
+      "server_log": "/mnt/shared/plans/shoulders/benchmarking/results/ram_offload_comparison_r3_20261027/cpu_ram.log",
+      "repeat_1": {
+        "wall_seconds": 23.08,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 5960.284,
+          "prompt_per_token_ms": 4.162209497206704,
+          "prompt_per_second": 240.25700788754364,
+          "predicted_n": 128,
+          "predicted_ms": 17106.359,
+          "predicted_per_token_ms": 134.69574015748032,
+          "predicted_per_second": 7.424139759957102
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "repeat_2": {
+        "wall_seconds": 23.17,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 5917.261,
+          "prompt_per_token_ms": 4.132165502793296,
+          "prompt_per_second": 242.0038595559668,
+          "predicted_n": 128,
+          "predicted_ms": 17136.269,
+          "predicted_per_token_ms": 134.93125196850394,
+          "predicted_per_second": 7.411181512148298
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "finished_at": "2026-10-27T22:22:52+00:00"
+    },
+    "1060_partial_20": {
+      "started_at": "2026-10-27T22:22:52+00:00",
+      "gpu_visible": "1",
+      "gpu_layers_requested": "20",
+      "status": "passed",
+      "container_id": "bfb8eed93315",
+      "load_seconds": 8.34,
+      "server_log": "/mnt/shared/plans/shoulders/benchmarking/results/ram_offload_comparison_r3_20261027/1060_partial_20.log",
+      "repeat_1": {
+        "wall_seconds": 66.34,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 57339.834,
+          "prompt_per_token_ms": 40.04178351955307,
+          "prompt_per_second": 24.9739125509153,
+          "predicted_n": 128,
+          "predicted_ms": 8993.112,
+          "predicted_per_token_ms": 70.81190551181102,
+          "predicted_per_second": 14.12191908651866
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "repeat_2": {
+        "wall_seconds": 66.55,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 57306.786,
+          "prompt_per_token_ms": 40.01870530726257,
+          "prompt_per_second": 24.988314647413656,
+          "predicted_n": 128,
+          "predicted_ms": 9000.903,
+          "predicted_per_token_ms": 70.87325196850394,
+          "predicted_per_second": 14.109695438335464
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "finished_at": "2026-10-27T22:25:14+00:00"
+    },
+    "1060_full": {
+      "started_at": "2026-10-27T22:25:14+00:00",
+      "gpu_visible": "1",
+      "gpu_layers_requested": "all",
+      "status": "passed",
+      "container_id": "b2d576bdddde",
+      "load_seconds": 10.35,
+      "server_log": "/mnt/shared/plans/shoulders/benchmarking/results/ram_offload_comparison_r3_20261027/1060_full.log",
+      "repeat_1": {
+        "wall_seconds": 7.44,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 2974.063,
+          "prompt_per_token_ms": 2.0768596368715087,
+          "prompt_per_second": 481.4961888836921,
+          "predicted_n": 128,
+          "predicted_ms": 4466.271,
+          "predicted_per_token_ms": 35.16748818897638,
+          "predicted_per_second": 28.435354684030592
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "repeat_2": {
+        "wall_seconds": 7.78,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 2959.819,
+          "prompt_per_token_ms": 2.0669127094972066,
+          "prompt_per_second": 483.8133683174545,
+          "predicted_n": 128,
+          "predicted_ms": 4477.139,
+          "predicted_per_token_ms": 35.25306299212598,
+          "predicted_per_second": 28.3663294796074
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "finished_at": "2026-10-27T22:25:39+00:00"
+    },
+    "3090_full": {
+      "started_at": "2026-10-27T22:25:39+00:00",
+      "gpu_visible": "0",
+      "gpu_layers_requested": "all",
+      "status": "passed",
+      "container_id": "dd4bb6b742b4",
+      "load_seconds": 2.3,
+      "server_log": "/mnt/shared/plans/shoulders/benchmarking/results/ram_offload_comparison_r3_20261027/3090_full.log",
+      "repeat_1": {
+        "wall_seconds": 1.12,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 400.706,
+          "prompt_per_token_ms": 0.27982262569832406,
+          "prompt_per_second": 3573.692432856009,
+          "predicted_n": 128,
+          "predicted_ms": 720.238,
+          "predicted_per_token_ms": 5.671165354330709,
+          "predicted_per_second": 176.3306018288399
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "repeat_2": {
+        "wall_seconds": 1.18,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 1432,
+          "prompt_ms": 367.936,
+          "prompt_per_token_ms": 0.2569385474860335,
+          "prompt_per_second": 3891.9812141241955,
+          "predicted_n": 128,
+          "predicted_ms": 714.979,
+          "predicted_per_token_ms": 5.629755905511812,
+          "predicted_per_second": 177.6275946566263
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 1432,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "finished_at": "2026-10-27T22:25:44+00:00"
+    }
+  },
+  "finished_at": "2026-10-27T22:25:44+00:00",
+  "status": "passed"
+}

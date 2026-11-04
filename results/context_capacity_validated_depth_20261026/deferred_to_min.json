@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-26T23:37:07+00:00",
+  "min_run_started": true,
+  "response": {
+    "item": {
+      "id": "job-b559d8ba28c9",
+      "kind": "job",
+      "args": {
+        "run": "context-capacity-min-sizing-20261026",
+        "argv": [
+          "/usr/bin/python3",
+          "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_context_capacity_min_sizing.py"
+        ],
+        "owner": "context-capacity-min-sizing-20261026",
+        "cwd": "/mnt/shared/plans/shoulders/benchmarking",
+        "env": {},
+        "resume_argv": null,
+        "auto_resume": true,
+        "needs": [],
+        "note": "Minimum-context loads after maximum sizing; depth held"
+      },
+      "state": "queued",
+      "added_by": "pi",
+      "added_at": "2026-10-26T23:37:07Z",
+      "started_at": null,
+      "ended_at": null,
+      "result": null
+    },
+    "run": {
+      "run": "context-capacity-min-sizing-20261026",
+      "argv": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_context_capacity_min_sizing.py"
+      ],
+      "owner": "context-capacity-min-sizing-20261026",
+      "cwd": "/mnt/shared/plans/shoulders/benchmarking",
+      "env": {},
+      "resume_argv": null,
+      "auto_resume": true,
+      "needs": [],
+      "note": "Minimum-context loads after maximum sizing; depth held"
+    }
+  }
+}

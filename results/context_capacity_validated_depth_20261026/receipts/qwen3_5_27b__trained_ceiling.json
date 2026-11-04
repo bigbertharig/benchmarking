@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-10-27T04:47:43-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.0.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 262144 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "qwen3.5:27b",
+  "ubatch": 128,
+  "cards": [
+    0,
+    1,
+    2
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    },
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "0D:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 262144,
+    "ctx_limit": "requested",
+    "tensor_split": "51,8,6",
+    "margin_mb": 512,
+    "weights_mb": 15273,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 51,
+        "weights_mb": 11315,
+        "kv_mb": 6650,
+        "compute_mb": 1531,
+        "projected_mb": 20069,
+        "headroom_mb": 4480
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 8,
+        "weights_mb": 1806,
+        "kv_mb": 1107,
+        "compute_mb": 1531,
+        "projected_mb": 4644,
+        "headroom_mb": 1496
+      },
+      {
+        "gpu": 2,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 2152,
+        "kv_mb": 1097,
+        "compute_mb": 1531,
+        "projected_mb": 4980,
+        "headroom_mb": 1160
+      }
+    ]
+  },
+  "load": {
+    "seconds": 206.9,
+    "profile": "qwen3.5-27b-g0-1-2",
+    "port": 11434,
+    "ctx_allocated": 262144,
+    "measured": {
+      "n_ctx": 262144,
+      "offloaded": 65,
+      "layers": 65,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 11315,
+          "kv_mb": 6528,
+          "compute_mb": 1334,
+          "total_mb": 19176
+        },
+        {
+          "gpu": 1,
+          "model_mb": 1806,
+          "kv_mb": 1088,
+          "compute_mb": 1311,
+          "total_mb": 4205
+        },
+        {
+          "gpu": 2,
+          "model_mb": 2152,
+          "kv_mb": 1088,
+          "compute_mb": 1311,
+          "total_mb": 4551
+        }
+      ],
+      "host_mb": 964,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4234,
+          "free_mb": 1741
+        },
+        {
+          "gpu": 2,
+          "total_mb": 6065,
+          "projected_mb": 4570,
+          "free_mb": 1415
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 61,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 128.48,
+    "generation_tokens_per_second": 17.31,
+    "time_to_first_token_seconds": 0.5,
+    "wall_seconds": 30.0,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 29,
+        "avg_power_w": 179.8,
+        "peak_power_w": 181.95,
+        "peak_temperature_c": 58.0,
+        "peak_memory_mb": 19641.0
+      },
+      {
+        "gpu": 1,
+        "samples": 29,
+        "avg_power_w": 51.8,
+        "peak_power_w": 82.37,
+        "peak_temperature_c": 55.0,
+        "peak_memory_mb": 4308.0
+      },
+      {
+        "gpu": 2,
+        "samples": 29,
+        "avg_power_w": 64.4,
+        "peak_power_w": 116.38,
+        "peak_temperature_c": 60.0,
+        "peak_memory_mb": 4642.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 26900,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 387.47,
+      "generation_tokens_per_second": 14.9,
+      "time_to_first_token_seconds": 69.4,
+      "wall_seconds": 80.1,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 75,
+          "avg_power_w": 192.8,
+          "peak_power_w": 213.13,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 19655.0
+        },
+        {
+          "gpu": 1,
+          "samples": 75,
+          "avg_power_w": 66.5,
+          "peak_power_w": 134.44,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 4312.0
+        },
+        {
+          "gpu": 2,
+          "samples": 75,
+          "avg_power_w": 51.0,
+          "peak_power_w": 121.96,
+          "peak_temperature_c": 63.0,
+          "peak_memory_mb": 4646.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "KRNI9644",
+      "answer": "KRNI9644\n</think>\n\nKRNI9644\n</think>\n\nKRNI9644\n</think>\n\nKRNI9644\n</think>\n\nKRNI",
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 251821,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 126.7,
+      "generation_tokens_per_second": 6.48,
+      "time_to_first_token_seconds": 1987.6,
+      "wall_seconds": 2012.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 1876,
+          "avg_power_w": 164.5,
+          "peak_power_w": 239.73,
+          "peak_temperature_c": 59.0,
+          "peak_memory_mb": 19655.0
+        },
+        {
+          "gpu": 1,
+          "samples": 1876,
+          "avg_power_w": 76.3,
+          "peak_power_w": 142.49,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 4312.0
+        },
+        {
+          "gpu": 2,
+          "samples": 1876,
+          "avg_power_w": 67.5,
+          "peak_power_w": 132.89,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 4646.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "NHXT1881",
+      "answer": "NHXT1881\n</think>\n\nNHXT1881\n\nThe code given at the very start of this document i",
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "qwen3_5_27b__trained_ceiling"
+}

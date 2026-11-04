@@ -1,0 +1,266 @@
+{
+  "case": {
+    "id": "ministral-3_8b__trained_ceiling",
+    "model": "ministral-3:8b",
+    "target": "trained_ceiling",
+    "gpus": [
+      0,
+      1
+    ],
+    "ctx": 262144,
+    "trained_ctx": 262144,
+    "preferred_pool": "worker",
+    "actual_pool": "mixed",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      3480,
+      997
+    ]
+  },
+  "started_at": "2026-10-26T23:14:36+00:00",
+  "min_fit": {
+    "model": "ministral-3:8b",
+    "arch": "mistral3",
+    "gpus": [
+      0,
+      1
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 4662,
+    "host_mb": 288,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (1 load, 2 cards)",
+    "overhead_mb": [
+      573,
+      200
+    ],
+    "fits": true,
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 8192,
+    "tensor_split": "31,4",
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 31,
+        "weights_mb": 3845,
+        "kv_mb": 527,
+        "compute_mb": 128,
+        "projected_mb": 5073,
+        "headroom_mb": 19476
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 3,
+        "weights_mb": 818,
+        "kv_mb": 51,
+        "compute_mb": 128,
+        "projected_mb": 1197,
+        "headroom_mb": 4943
+      }
+    ],
+    "reason": "fits: ministral-3:8b on GPU [0, 1] at ctx 8192 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "ministral-3:8b",
+    "arch": "mistral3",
+    "gpus": [
+      0,
+      1
+    ],
+    "n_ctx_train": 262144,
+    "weights_mb": 4662,
+    "host_mb": 288,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (1 load, 2 cards)",
+    "overhead_mb": [
+      573,
+      200
+    ],
+    "fits": true,
+    "ctx": 262144,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 262144,
+    "tensor_split": "29,6",
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 29,
+        "weights_mb": 3580,
+        "kv_mb": 15776,
+        "compute_mb": 1141,
+        "projected_mb": 21069,
+        "headroom_mb": 3480
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 5,
+        "weights_mb": 1083,
+        "kv_mb": 2720,
+        "compute_mb": 1141,
+        "projected_mb": 5143,
+        "headroom_mb": 997
+      }
+    ],
+    "reason": "fits: ministral-3:8b on GPU [0, 1] at ctx 262144 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 8192,
+      "working": 16384,
+      "max": 262144,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 28.2,
+    "response": {
+      "profile": "ministral-3-8b-g0-1",
+      "model": "ministral-3:8b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0,
+        1
+      ],
+      "lease": "benchmarks-cf2413e7a430408fb34af3aaca011f85",
+      "ctx": 262144,
+      "tensor_split": "29,6",
+      "estimate": {
+        "model": "ministral-3:8b",
+        "arch": "mistral3",
+        "gpus": [
+          0,
+          1
+        ],
+        "n_ctx_train": 262144,
+        "weights_mb": 4662,
+        "host_mb": 288,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (1 load, 2 cards)",
+        "overhead_mb": [
+          573,
+          200
+        ],
+        "fits": true,
+        "ctx": 262144,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 262144,
+        "tensor_split": "29,6",
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 29,
+            "weights_mb": 3580,
+            "kv_mb": 15776,
+            "compute_mb": 1141,
+            "projected_mb": 21069,
+            "headroom_mb": 3480
+          },
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 5,
+            "weights_mb": 1083,
+            "kv_mb": 2720,
+            "compute_mb": 1141,
+            "projected_mb": 5143,
+            "headroom_mb": 997
+          }
+        ],
+        "reason": "fits: ministral-3:8b on GPU [0, 1] at ctx 262144 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 8192,
+          "working": 16384,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 262144,
+        "offloaded": 35,
+        "layers": 35,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 3580,
+            "kv_mb": 15776,
+            "compute_mb": 1169,
+            "total_mb": 20525
+          },
+          {
+            "gpu": 1,
+            "model_mb": 1083,
+            "kv_mb": 2720,
+            "compute_mb": 1160,
+            "total_mb": 4963
+          }
+        ],
+        "host_mb": 426,
+        "projection": [
+          {
+            "gpu": 1,
+            "total_mb": 6065,
+            "projected_mb": 4966,
+            "free_mb": 1028
+          }
+        ]
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "ministral-3-8b-g0-1",
+      "item": "unload-5a283f1204c0",
+      "state": "done",
+      "released": "benchmarks-cf2413e7a430408fb34af3aaca011f85"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 262144,
+  "planned_ctx": 262144,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T23:15:10+00:00"
+}

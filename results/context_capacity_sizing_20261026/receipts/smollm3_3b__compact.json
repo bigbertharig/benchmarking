@@ -1,0 +1,216 @@
+{
+  "case": {
+    "id": "smollm3_3b__compact",
+    "model": "smollm3:3b",
+    "target": "compact",
+    "gpus": [
+      1
+    ],
+    "ctx": 65536,
+    "trained_ctx": 65536,
+    "preferred_pool": "worker",
+    "actual_pool": "worker",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      1353
+    ]
+  },
+  "started_at": "2026-10-26T22:37:36+00:00",
+  "min_fit": {
+    "model": "smollm3:3b",
+    "arch": "smollm3",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 65536,
+    "weights_mb": 1819,
+    "host_mb": 205,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 36,
+        "weights_mb": 1819,
+        "kv_mb": 153,
+        "compute_mb": 80,
+        "projected_mb": 2252,
+        "headroom_mb": 3888
+      }
+    ],
+    "reason": "fits: smollm3:3b on GPU [1] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 65536,
+      "max_basis": "gguf_train"
+    }
+  },
+  "max_fit": {
+    "model": "smollm3:3b",
+    "arch": "smollm3",
+    "gpus": [
+      1
+    ],
+    "n_ctx_train": 65536,
+    "weights_mb": 1819,
+    "host_mb": 205,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [
+      "tied embeddings: output layer reuses token_embd"
+    ],
+    "compute_basis": "formula (no matched card-count load yet)",
+    "overhead_mb": [
+      200
+    ],
+    "fits": true,
+    "ctx": 65536,
+    "ctx_limit": "trained context",
+    "per_slot_ctx": 65536,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 36,
+        "weights_mb": 1819,
+        "kv_mb": 2448,
+        "compute_mb": 320,
+        "projected_mb": 4787,
+        "headroom_mb": 1353
+      }
+    ],
+    "reason": "fits: smollm3:3b on GPU [1] at ctx 65536 (limited by trained context)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "max",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 65536,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 35.0,
+    "response": {
+      "profile": "smollm3-3b-g1",
+      "model": "smollm3:3b",
+      "state": "ready",
+      "port": 11435,
+      "gpus": [
+        1
+      ],
+      "lease": "benchmarks-9a13a48757f94b2b80c216966b48af97",
+      "ctx": 65536,
+      "tensor_split": null,
+      "estimate": {
+        "model": "smollm3:3b",
+        "arch": "smollm3",
+        "gpus": [
+          1
+        ],
+        "n_ctx_train": 65536,
+        "weights_mb": 1819,
+        "host_mb": 205,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [
+          "tied embeddings: output layer reuses token_embd"
+        ],
+        "compute_basis": "formula (no matched card-count load yet)",
+        "overhead_mb": [
+          200
+        ],
+        "fits": true,
+        "ctx": 65536,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 65536,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 1,
+            "total_mb": 6144,
+            "free_mb": 6140,
+            "layers": 36,
+            "weights_mb": 1819,
+            "kv_mb": 2448,
+            "compute_mb": 320,
+            "projected_mb": 4787,
+            "headroom_mb": 1353
+          }
+        ],
+        "reason": "fits: smollm3:3b on GPU [1] at ctx 65536 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 65536,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 65536,
+        "offloaded": 37,
+        "layers": 37,
+        "cards": [
+          {
+            "gpu": 1,
+            "model_mb": 1819,
+            "kv_mb": 2448,
+            "compute_mb": 139,
+            "total_mb": 4406
+          }
+        ],
+        "host_mb": 216,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "smollm3-3b-g1",
+      "item": "unload-47628fd90148",
+      "state": "done",
+      "released": "benchmarks-9a13a48757f94b2b80c216966b48af97"
+    }
+  },
+  "error": null,
+  "suggested_ctx": 65536,
+  "planned_ctx": 65536,
+  "plan_delta": 0,
+  "reaches_trained": true,
+  "finished_at": "2026-10-26T22:38:17+00:00"
+}

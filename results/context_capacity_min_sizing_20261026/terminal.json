@@ -1,0 +1,56 @@
+{
+  "run": "context-capacity-min-sizing-20261026",
+  "finished_at": "2026-10-27T00:17:57+00:00",
+  "cases": 28,
+  "passed": 28,
+  "failed": [],
+  "depth_started": true,
+  "depth_start_response": {
+    "item": {
+      "id": "job-ca266273415a",
+      "kind": "job",
+      "args": {
+        "run": "context-capacity-validated-depth-after-min-20261026",
+        "argv": [
+          "/usr/bin/python3",
+          "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_context_capacity_matrix.py",
+          "--manifest",
+          "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/validated_manifest.json",
+          "--output",
+          "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026"
+        ],
+        "owner": "context-capacity-validated-depth-after-min-20261026",
+        "cwd": "/mnt/shared/plans/shoulders/benchmarking",
+        "env": {},
+        "resume_argv": null,
+        "auto_resume": true,
+        "needs": [],
+        "note": "Depth probes after max and min load-only sizing passed"
+      },
+      "state": "queued",
+      "added_by": "pi",
+      "added_at": "2026-10-27T00:17:58Z",
+      "started_at": null,
+      "ended_at": null,
+      "result": null
+    },
+    "run": {
+      "run": "context-capacity-validated-depth-after-min-20261026",
+      "argv": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_context_capacity_matrix.py",
+        "--manifest",
+        "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/validated_manifest.json",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_validated_depth_20261026"
+      ],
+      "owner": "context-capacity-validated-depth-after-min-20261026",
+      "cwd": "/mnt/shared/plans/shoulders/benchmarking",
+      "env": {},
+      "resume_argv": null,
+      "auto_resume": true,
+      "needs": [],
+      "note": "Depth probes after max and min load-only sizing passed"
+    }
+  }
+}

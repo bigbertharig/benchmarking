@@ -1,0 +1,161 @@
+{
+  "case": {
+    "id": "devstral-small_24b__compact",
+    "model": "devstral-small:24b",
+    "target": "compact",
+    "gpus": [
+      0
+    ],
+    "ctx": 117504,
+    "trained_ctx": 393216,
+    "preferred_pool": "brain",
+    "actual_pool": "brain",
+    "ubatch": 64,
+    "projected_headroom_mb": [
+      527
+    ],
+    "sizing_receipt": "/mnt/shared/plans/shoulders/benchmarking/results/context_capacity_sizing_20261026/receipts/devstral-small_24b__compact.json"
+  },
+  "max_validated_ctx": 117504,
+  "started_at": "2026-10-26T23:53:23+00:00",
+  "min_fit": {
+    "model": "devstral-small:24b",
+    "arch": "mistral3",
+    "gpus": [
+      0
+    ],
+    "n_ctx_train": 393216,
+    "weights_mb": 13302,
+    "host_mb": 360,
+    "margin_mb": 512,
+    "parallel": 1,
+    "notes": [],
+    "compute_basis": "measured (2 loads, 1 card)",
+    "overhead_mb": [
+      573
+    ],
+    "fits": true,
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "per_slot_ctx": 4096,
+    "tensor_split": null,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24549,
+        "layers": 40,
+        "weights_mb": 13302,
+        "kv_mb": 340,
+        "compute_mb": 89,
+        "projected_mb": 14304,
+        "headroom_mb": 10245
+      }
+    ],
+    "reason": "fits: devstral-small:24b on GPU [0] at ctx 4096 (limited by requested)",
+    "registry_profile": "default",
+    "status": "active",
+    "use": "chat",
+    "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+    "ubatch": 64,
+    "context_mode": "min",
+    "context_bounds": {
+      "min": 4096,
+      "working": 4096,
+      "max": 393216,
+      "max_basis": "gguf_train"
+    }
+  },
+  "load": {
+    "returncode": 0,
+    "seconds": 48.3,
+    "response": {
+      "profile": "devstral-small-24b-g0",
+      "model": "devstral-small:24b",
+      "state": "ready",
+      "port": 11434,
+      "gpus": [
+        0
+      ],
+      "lease": "benchmarks-94cd44a62f3a4c15a35674e220676719",
+      "ctx": 4096,
+      "tensor_split": null,
+      "estimate": {
+        "model": "devstral-small:24b",
+        "arch": "mistral3",
+        "gpus": [
+          0
+        ],
+        "n_ctx_train": 393216,
+        "weights_mb": 13302,
+        "host_mb": 360,
+        "margin_mb": 512,
+        "parallel": 1,
+        "notes": [],
+        "compute_basis": "measured (2 loads, 1 card)",
+        "overhead_mb": [
+          573
+        ],
+        "fits": true,
+        "ctx": 4096,
+        "ctx_limit": "requested",
+        "per_slot_ctx": 4096,
+        "tensor_split": null,
+        "cards": [
+          {
+            "gpu": 0,
+            "total_mb": 24564,
+            "free_mb": 24549,
+            "layers": 40,
+            "weights_mb": 13302,
+            "kv_mb": 340,
+            "compute_mb": 89,
+            "projected_mb": 14304,
+            "headroom_mb": 10245
+          }
+        ],
+        "reason": "fits: devstral-small:24b on GPU [0] at ctx 4096 (limited by requested)",
+        "registry_profile": "default",
+        "status": "active",
+        "use": "benchmark",
+        "gguf_path": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
+        "ubatch": 64,
+        "context_mode": "working",
+        "context_bounds": {
+          "min": 4096,
+          "working": 4096,
+          "max": 393216,
+          "max_basis": "gguf_train"
+        }
+      },
+      "measured": {
+        "n_ctx": 4096,
+        "offloaded": 41,
+        "layers": 41,
+        "cards": [
+          {
+            "gpu": 0,
+            "model_mb": 13302,
+            "kv_mb": 340,
+            "compute_mb": 30,
+            "total_mb": 13672
+          }
+        ],
+        "host_mb": 366,
+        "projection": []
+      }
+    }
+  },
+  "unload": {
+    "returncode": 0,
+    "response": {
+      "unloaded": "devstral-small-24b-g0",
+      "item": "unload-794396a4e31f",
+      "state": "done",
+      "released": "benchmarks-94cd44a62f3a4c15a35674e220676719"
+    }
+  },
+  "error": null,
+  "suggested_min_ctx": 4096,
+  "finished_at": "2026-10-26T23:54:17+00:00"
+}
