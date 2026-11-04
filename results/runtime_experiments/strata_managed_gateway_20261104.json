@@ -1,0 +1,36 @@
+{
+  "date_utc": "2026-11-04",
+  "status": "passed",
+  "scope": "Managed 8K Strata load, inference, gateway route and unload on GPU 0",
+  "installed_control": "Strata 0.2.10",
+  "qwen38": {
+    "model": "qwen3.8-flash-next:q2_0",
+    "engine": "auto",
+    "placement": "strata",
+    "first_load_seconds": 93.8,
+    "host_mem_available_mb_after_first_load": 18252,
+    "direct_completion": {"content": "ready", "finish_reason": "stop", "seconds": 1.2},
+    "gateway_route_repeat": {
+      "load_seconds": 90.7,
+      "host_mem_available_mb": 17981,
+      "route": "gpu-rig/qwen3.8-flash-next-q2-0-g0",
+      "listed_in_models_and_ready_roster": true,
+      "content": "ready",
+      "finish_reason": "stop",
+      "seconds": 1.5
+    },
+    "unloaded_and_lease_released": true
+  },
+  "qwen36": {
+    "model": "qwen3.6:35b-a3b-xl",
+    "auto_8k_fit": "gpu0_llama",
+    "explicit_engine": "strata",
+    "load_seconds": 70.8,
+    "host_mem_available_mb_after_load": 27305,
+    "completion": {"content": "ready", "finish_reason": "stop", "max_tokens": 512, "seconds": 0.8},
+    "short_64_token_completion": {"content": null, "finish_reason": "length"},
+    "unloaded_and_lease_released": true
+  },
+  "final_rig_state": {"mode": "idle", "profiles": 0, "leases": 0, "gpu0_used_mib": 19},
+  "limits": "Short serving and lifecycle probes only; no long-context recall or sustained NVMe speed comparison."
+}
