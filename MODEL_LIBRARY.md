@@ -184,3 +184,7 @@ Runtime setup: [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) § "CPU Inferenc
 - For runtime safety and practical limits, trust [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md).
 - When scores and operator reality disagree, update scores and re-run the benchmark.
 - For prompt history, check per-run result archives — never rely on current profiles to reconstruct past runs.
+
+## Model and n-gram size
+
+Each registry entry records `model_size_bytes` for the GGUF model file and `ngram_size_bytes` for a separate n-gram table. The latter is zero for ordinary models. The gateway import copies both fields and computes `total_size_bytes = model_size_bytes + ngram_size_bytes`. These are on-disk file sizes, not a prediction of VRAM or RAM use at a requested context; placement still needs runtime fit checks.

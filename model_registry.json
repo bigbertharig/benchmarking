@@ -52,7 +52,9 @@
           },
           "notes": "Split-load (2x 1060). Prompt v2 2026-03-16: replaced boolean-only evaluator prompt with general worker prompt. Old prompt forced True/False answers on all tasks including math, causing all-zero GSM8K/DROP."
         }
-      }
+      },
+      "model_size_bytes": 8988110240,
+      "ngram_size_bytes": 0
     },
     "deepseek-r1:32b": {
       "gguf": "deepseek-r1-32b/DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf",
@@ -80,7 +82,9 @@
           },
           "notes": "Brain-tier (3090). Same prompt as 7B deepseek sibling. First benchmark pass pending."
         }
-      }
+      },
+      "model_size_bytes": 19851335840,
+      "ngram_size_bytes": 0
     },
     "deepseek-r1:7b": {
       "gguf": "deepseek-r1-7b/DeepSeek-R1-Distill-Qwen-7B-Q4_K_M.gguf",
@@ -129,7 +133,9 @@
       },
       "test_prompt_overrides": {
         "custom_json_schema_strict": "Output only a strict JSON object with required keys. No markdown, no explanation, no reasoning steps."
-      }
+      },
+      "model_size_bytes": 4683073504,
+      "ngram_size_bytes": 0
     },
     "devstral-small:24b": {
       "gguf": "devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
@@ -183,7 +189,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 14334446752,
+      "ngram_size_bytes": 0
     },
     "gemma-3:12b": {
       "gguf": "gemma-3-12b/gemma-3-12b-it-Q4_K_M.gguf",
@@ -212,7 +220,9 @@
           },
           "notes": "Split-load (2x 1060). First benchmark pass pending."
         }
-      }
+      },
+      "model_size_bytes": 7300575264,
+      "ngram_size_bytes": 0
     },
     "gemma-3:4b": {
       "gguf": "gemma-3-4b/gemma-3-4b-it-Q4_K_M.gguf",
@@ -249,7 +259,9 @@
           },
           "notes": "RPi5-tier (4B). Google Gemma 3. 262K vocab — watch for VRAM on small GPUs. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
         }
-      }
+      },
+      "model_size_bytes": 2489757856,
+      "ngram_size_bytes": 0
     },
     "gemma-4:12b": {
       "gguf": "gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
@@ -311,7 +323,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 7381382048,
+      "ngram_size_bytes": 0
     },
     "gemma-4:26b-a4b": {
       "gguf": "gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
@@ -356,7 +370,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 16796010720,
+      "ngram_size_bytes": 0
     },
     "gemma-4:31b": {
       "gguf": "gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
@@ -414,7 +430,9 @@
           },
           "notes": "Measured 2026-10-25: faster prefill at the same context and decode speed; benchmark default remains 128."
         }
-      }
+      },
+      "model_size_bytes": 18687057376,
+      "ngram_size_bytes": 0
     },
     "gemma-4:e2b-q8": {
       "gguf": "gemma-4-e2b/gemma-4-e2b-it-Q8_0.gguf",
@@ -462,7 +480,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 4967490208,
+      "ngram_size_bytes": 0
     },
     "gemma-4:e4b": {
       "gguf": "gemma-4-e4b/gemma-4-e4b-it-Q4_K_M.gguf",
@@ -507,7 +527,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 5335285440,
+      "ngram_size_bytes": 0
     },
     "gpt-oss:20b": {
       "gguf": "gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
@@ -564,7 +586,9 @@
           ],
           "notes": "Interactive remote use (gpt-oss-20b); runtime fields replace the default profile's."
         }
-      }
+      },
+      "model_size_bytes": 12109566560,
+      "ngram_size_bytes": 0
     },
     "llama3.2:3b": {
       "gguf": "llama-3.2-3b/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
@@ -604,7 +628,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 2019377696,
+      "ngram_size_bytes": 0
     },
     "llama3.3:70b": {
       "gguf": "llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf",
@@ -655,7 +681,9 @@
           },
           "notes": "Capacity candidate requiring the RTX 3090 plus five GTX 1060s. First load completed from shared storage in 19m43.972s at 2K context. Sustained 512-token decode measured 4.113 tok/s at 306.13 W average combined GPU draw. Litmus math and JSON pass; code output wraps the function in Markdown fences. Pipeline smoke completed: JSON 30.8%, command safety 75.0%, ambiguity 15.4%, tool sequence 93.3%, orchestration 75.0%, long context 100%. Reasoning and code smoke pending in a dedicated capacity window."
         }
-      }
+      },
+      "model_size_bytes": 42520398816,
+      "ngram_size_bytes": 0
     },
     "mellum2.1:12b-a2.5b": {
       "gguf": "mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
@@ -731,7 +759,9 @@
           ],
           "notes": "Thinking variant (2026-10-20 Phase 4.5, GPUs 1+2): reasoning on with a 4096-token output budget scored bbh 0.707 vs 0.437 and gsm8k 1.0 vs 0.8 against the default, at about 7x the wall time (278 vs 38 min). The default is reasoning off: with no flag this Thinking model thinks, and under the default 512-token budget 18 of 20 gsm8k answers came back empty (Phase 4 2026-10-18)."
         }
-      }
+      },
+      "model_size_bytes": 8071295264,
+      "ngram_size_bytes": 0
     },
     "minicpm5:2b": {
       "gguf": "minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
@@ -776,7 +806,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 1561318368,
+      "ngram_size_bytes": 0
     },
     "ministral-3:14b": {
       "gguf": "ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
@@ -845,7 +877,9 @@
           "extra_args": [],
           "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
-      }
+      },
+      "model_size_bytes": 8239067840,
+      "ngram_size_bytes": 0
     },
     "ministral-3:3b": {
       "gguf": "ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
@@ -896,7 +930,9 @@
           "extra_args": [],
           "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
-      }
+      },
+      "model_size_bytes": 2146497824,
+      "ngram_size_bytes": 0
     },
     "ministral-3:8b": {
       "gguf": "ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
@@ -947,7 +983,9 @@
           "extra_args": [],
           "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
-      }
+      },
+      "model_size_bytes": 5198386720,
+      "ngram_size_bytes": 0
     },
     "mistral:7b-instruct": {
       "gguf": "mistral-7b-instruct/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
@@ -996,7 +1034,9 @@
       },
       "test_prompt_overrides": {
         "custom_json_schema_strict": "Output exactly one JSON object only. No prose before or after."
-      }
+      },
+      "model_size_bytes": 4372812000,
+      "ngram_size_bytes": 0
     },
     "nex-n2.5:mini": {
       "gguf": "nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
@@ -1055,7 +1095,9 @@
           ],
           "notes": "Interactive remote use (llm-gateway nex-split, five 1060s at tensor split 0.75,1,1,1,1, 3090 left free). Split placement from BENCHMARK_LESSONS_LEARNED.md 2026-10-17 (tested at ctx 8192; 65536 untested, hybrid recurrent KV is small). -fit off is required with n_gpu_layers 999; thinking off as in the default profile."
         }
-      }
+      },
+      "model_size_bytes": 22318512256,
+      "ngram_size_bytes": 0
     },
     "ornith-1.5:35b-a3b": {
       "gguf": "ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
@@ -1100,7 +1142,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 21713463040,
+      "ngram_size_bytes": 0
     },
     "ornith-1.5:9b": {
       "gguf": "ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
@@ -1158,7 +1202,9 @@
           ],
           "notes": "Thinking variant (2026-10-20 Phase 4.5, GPU 3 alone, ctx 26880): reasoning on with a 4096-token output budget scored gsm8k 1.0 vs 0.9 and bbh 0.896 vs 0.822 against the default, at about 2.6x the wall time (172 vs 67 min); answers kept the expected format (0 of 270 bbh misses from extraction). Same system prompt as the default, as in that run. Pick it per task in the harness: thinking for accuracy, default for throughput."
         }
-      }
+      },
+      "model_size_bytes": 5780090816,
+      "ngram_size_bytes": 0
     },
     "phi-4-mini-reasoning:3.8b": {
       "gguf": "phi-4-mini-reasoning/Phi-4-mini-reasoning-Q4_K_M.gguf",
@@ -1198,7 +1244,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 2491875232,
+      "ngram_size_bytes": 0
     },
     "phi-4-mini:3.8b": {
       "gguf": "phi-4-mini/Phi-4-mini-instruct-Q4_K_M.gguf",
@@ -1235,7 +1283,9 @@
           },
           "notes": "RPi5-tier (3.8B). Microsoft Phi-4-mini. Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
         }
-      }
+      },
+      "model_size_bytes": 2491874272,
+      "ngram_size_bytes": 0
     },
     "phi-4:14b": {
       "gguf": "phi-4-14b/phi-4-Q4_K_M.gguf",
@@ -1294,7 +1344,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 9053114816,
+      "ngram_size_bytes": 0
     },
     "qwen2.5-coder:14b": {
       "gguf": "qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
@@ -1369,7 +1421,9 @@
           "meta_timeout_seconds": 600,
           "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
-      }
+      },
+      "model_size_bytes": 8988111072,
+      "ngram_size_bytes": 0
     },
     "qwen2.5-coder:32b": {
       "gguf": "qwen2.5-coder-32b/Qwen2.5-Coder-32B-Instruct-Q4_K_M.gguf",
@@ -1398,7 +1452,9 @@
           },
           "notes": "Brain-tier (3090). Same prompt as 7B coder sibling. First benchmark pass pending."
         }
-      }
+      },
+      "model_size_bytes": 19851336672,
+      "ngram_size_bytes": 0
     },
     "qwen2.5-coder:7b": {
       "gguf": "qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
@@ -1462,7 +1518,9 @@
       },
       "test_prompt_overrides": {
         "custom_json_schema_strict": "Return only one raw JSON object. No markdown, no code fences, no extra text."
-      }
+      },
+      "model_size_bytes": 4683074336,
+      "ngram_size_bytes": 0
     },
     "qwen3-coder:30b-a3b": {
       "gguf": "qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
@@ -1522,7 +1580,9 @@
           "extra_args": [],
           "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
-      }
+      },
+      "model_size_bytes": 18556689568,
+      "ngram_size_bytes": 0
     },
     "qwen3.5:27b": {
       "gguf": "qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
@@ -1580,7 +1640,9 @@
           ],
           "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
-      }
+      },
+      "model_size_bytes": 16740812704,
+      "ngram_size_bytes": 0
     },
     "qwen3.5:35b-a3b": {
       "gguf": "qwen3.5-35b-a3b/Qwen3.5-35B-A3B-Q4_K_M.gguf",
@@ -1609,7 +1671,9 @@
           },
           "notes": "Brain-tier (3090). MoE 35B total / 3B active. Same prompt family as Qwen3.5-4B. First benchmark pass pending."
         }
-      }
+      },
+      "model_size_bytes": 22016023168,
+      "ngram_size_bytes": 0
     },
     "qwen3.5:4b": {
       "gguf": "qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
@@ -1662,7 +1726,9 @@
       },
       "test_prompt_overrides": {
         "custom_json_schema_strict": "Return exactly one raw JSON object. No <think> tags, no markdown, no commentary."
-      }
+      },
+      "model_size_bytes": 2740937888,
+      "ngram_size_bytes": 0
     },
     "qwen3.5:9b-q3km": {
       "gguf": "qwen3.5-9b/Qwen3.5-9B-Q3_K_M.gguf",
@@ -1715,7 +1781,9 @@
       },
       "test_prompt_overrides": {
         "custom_json_schema_strict": "Return only one valid JSON object with required keys. No surrounding text, no repeated output."
-      }
+      },
+      "model_size_bytes": 4673643744,
+      "ngram_size_bytes": 0
     },
     "qwen3.6:27b": {
       "gguf": "qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
@@ -1785,7 +1853,9 @@
           ],
           "notes": "Orchestrator llama launch settings (moved from config.json 2026-10-15)."
         }
-      }
+      },
+      "model_size_bytes": 16817244384,
+      "ngram_size_bytes": 0
     },
     "qwen3.6:35b-a3b": {
       "gguf": "qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
@@ -1843,7 +1913,9 @@
           "notes": "Measured 2026-10-25: faster prefill at the same context and decode speed; benchmark default remains 128."
         }
       },
-      "status_note": "Superseded by Strata-compatible qwen3.6:35b-a3b-xl after matched benchmark and 262K capacity comparison (2026-11-04); historical scores remain attached to this quantization."
+      "status_note": "Superseded by Strata-compatible qwen3.6:35b-a3b-xl after matched benchmark and 262K capacity comparison (2026-11-04); historical scores remain attached to this quantization.",
+      "model_size_bytes": 22134528992,
+      "ngram_size_bytes": 0
     },
     "qwen3.8:27b": {
       "gguf": "qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
@@ -1888,7 +1960,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 16464440224,
+      "ngram_size_bytes": 0
     },
     "qwen3:1.7b": {
       "gguf": "qwen3-1.7b/Qwen3-1.7B-Q4_K_M.gguf",
@@ -1924,7 +1998,9 @@
           },
           "notes": "RPi5-tier (1.7B). Prompt tuned 2026-03-16 for reasoning extraction: enforce final-answer-only format across GSM8K, BBH, and DROP."
         }
-      }
+      },
+      "model_size_bytes": 1107409472,
+      "ngram_size_bytes": 0
     },
     "qwen3:14b": {
       "gguf": "qwen3-14b/Qwen3-14B-Q4_K_M.gguf",
@@ -1982,7 +2058,9 @@
           },
           "notes": "Split-worker candidate on two GTX 1060s. First load on 2026-08-09 failed before CUDA initialization: GGUF tensor data is outside file bounds. Replace or re-verify the local artifact before smoke runs."
         }
-      }
+      },
+      "model_size_bytes": 5463531520,
+      "ngram_size_bytes": 0
     },
     "qwen3:8b": {
       "gguf": "qwen3-8b/Qwen3-8B-Q4_K_M.gguf",
@@ -2011,7 +2089,9 @@
           },
           "notes": "Single-worker (1060 6GB). Qwen3 family (non-3.5), may not have SWA issue."
         }
-      }
+      },
+      "model_size_bytes": 5027783488,
+      "ngram_size_bytes": 0
     },
     "smollm3:3b": {
       "gguf": "smollm3-3b/SmolLM3-3B-Q4_K_M.gguf",
@@ -2055,7 +2135,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 1915305312,
+      "ngram_size_bytes": 0
     },
     "qwen3-coder-next:80b-a3b": {
       "gguf": "qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
@@ -2112,7 +2194,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 45531949088,
+      "ngram_size_bytes": 0
     },
     "k2-v2-instruct:70b": {
       "gguf": "k2-v2-instruct/k2v2-Q4_K_M.gguf",
@@ -2173,7 +2257,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 43904518656,
+      "ngram_size_bytes": 0
     },
     "nemotron-3.5-bolt:74b-a9b": {
       "gguf": "nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
@@ -2234,7 +2320,9 @@
             "max_basis": "gguf_train"
           }
         }
-      }
+      },
+      "model_size_bytes": 39027158016,
+      "ngram_size_bytes": 0
     },
     "qwen3.6:35b-a3b-xl": {
       "gguf": "qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
@@ -2290,6 +2378,57 @@
             "ctx_size": 16384
           },
           "notes": "Measured 2026-10-25: faster prefill at the same context and decode speed; benchmark default remains 128."
+        }
+      },
+      "model_size_bytes": 22853663008,
+      "ngram_size_bytes": 0,
+      "strata": {
+        "family": "qwen36",
+        "model": "ud-q4_k_xl",
+        "model_path": "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "validated_version": "0.2.10"
+      }
+    },
+    "qwen3.8-flash-next:q2_0": {
+      "gguf": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+      "source_url": "https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF/tree/ed59f92082b1e93c0e96d60a8b11aab089b52f09/Q2_0",
+      "status": "candidate",
+      "status_note": "Strata-only two-shard pack, verified 2026-11-03; 8K and 256K Strata probes passed. Not a llama-server deployment profile.",
+      "model_size_bytes": 37623740192,
+      "ngram_size_bytes": 28800138432,
+      "strata": {
+        "family": "qwen",
+        "model": "q2_0",
+        "model_path": "/data/model-hotset/qwen3.8-flash-next-q2_0",
+        "data_dir": "/data/bench-staging/strata-v0.2.10/data",
+        "resident_budget_gib": 8,
+        "validated_version": "0.2.10"
+      },
+      "profiles": {
+        "default": {
+          "system_prompt": "You are a helpful assistant. Answer the user directly.",
+          "inference": {
+            "temperature": 0.0,
+            "top_p": 1.0,
+            "max_tokens": 512
+          },
+          "runtime": {
+            "ctx_size": 8192,
+            "batch_size": 128,
+            "parallel": 1
+          },
+          "extra_args": [],
+          "tuning": {
+            "status": "untuned",
+            "last_tuned_at": null,
+            "benchmark_suite": "strata_memory"
+          },
+          "notes": "Two verified GGUF shards; model_size_bytes is shard 1 and ngram_size_bytes is shard 2. The manager sums them for total disk footprint. Strata placement is version- and pack-specific.",
+          "context_bounds": {
+            "min": 8192,
+            "max": 262144,
+            "max_basis": "gguf_train"
+          }
         }
       }
     }

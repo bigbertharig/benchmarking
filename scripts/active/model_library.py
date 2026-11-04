@@ -67,7 +67,8 @@ def find_model(registry: dict[str, Any], model_id: str) -> tuple[str, dict[str, 
 
 
 def gguf_path(registry: dict[str, Any], entry: dict[str, Any]) -> str:
-    return f"{registry['archive_root']}/{entry['gguf']}"
+    path = Path(entry["gguf"])
+    return str(path if path.is_absolute() else Path(registry["archive_root"]) / path)
 
 
 def runtime_image(registry: dict[str, Any] | None = None) -> str:
@@ -212,6 +213,10 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
             seen[name] = mid
         if entry.get("status") not in STATUSES:
             errors.append(f"{mid}: status must be one of {sorted(STATUSES)}")
+        for field in ("model_size_bytes", "ngram_size_bytes"):
+            value = entry.get(field)
+            if type(value) is not int or value < (1 if field == "model_size_bytes" else 0):
+                errors.append(f"{mid}: {field} must be a nonnegative integer (model size must be positive)")
         if "default" not in entry.get("profiles", {}):
             errors.append(f"{mid}: no default profile")
         else:
