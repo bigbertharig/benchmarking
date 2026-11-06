@@ -1,0 +1,24 @@
+{
+  "started_at": "2026-11-06T19:38:29+00:00",
+  "status": "running",
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0",
+  "gpus": [
+    "1",
+    "0"
+  ],
+  "context": 8192,
+  "kv": "int8",
+  "parallel": 1,
+  "drafting": "off",
+  "mtp": "off",
+  "resident_budget_gib": 0.1,
+  "word_repetitions": 0,
+  "depth_fractions": null,
+  "data_dir": "/data/bench-staging/strata-v0.2.10/data",
+  "evict_expert_cache": false,
+  "block_counters": {
+    "nvme": "/sys/block/nvme0n1/stat",
+    "sata_ssd": "/sys/block/sda/stat"
+  },
+  "block_counter_scope": "host-wide"
+}

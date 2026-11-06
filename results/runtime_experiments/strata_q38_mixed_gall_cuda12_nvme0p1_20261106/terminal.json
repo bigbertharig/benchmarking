@@ -1,0 +1,407 @@
+{
+  "started_at": "2026-11-06T19:46:12+00:00",
+  "status": "passed",
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0",
+  "gpus": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "0"
+  ],
+  "context": 8192,
+  "kv": "int8",
+  "parallel": 1,
+  "drafting": "off",
+  "mtp": "off",
+  "resident_budget_gib": 0.1,
+  "word_repetitions": 0,
+  "depth_fractions": null,
+  "data_dir": "/data/bench-staging/strata-v0.2.10/data",
+  "evict_expert_cache": false,
+  "block_counters": {
+    "nvme": "/sys/block/nvme0n1/stat",
+    "sata_ssd": "/sys/block/sda/stat"
+  },
+  "block_counter_scope": "host-wide",
+  "launch_args": [
+    "--family",
+    "qwen",
+    "--model",
+    "q2_0",
+    "--model-path",
+    "/data/model-hotset/qwen3.8-flash-next-q2_0",
+    "--data-dir",
+    "/data/bench-staging/strata-v0.2.10/data",
+    "--gpu",
+    "1,2,3,4,5,0",
+    "--backend",
+    "nvidia",
+    "--vision",
+    "off",
+    "--context",
+    "8192",
+    "--kv",
+    "int8",
+    "--parallel",
+    "1",
+    "--drafting",
+    "off",
+    "--mtp",
+    "off",
+    "--port",
+    "18131",
+    "--access",
+    "local",
+    "--no-api-key",
+    "--tune",
+    "skip",
+    "--no-tui",
+    "--yes",
+    "--output",
+    "json",
+    "--set",
+    "resident-budget-gib=0.1"
+  ],
+  "expert_file": "/data/bench-staging/strata-v0.2.10/data/packs/q2_0/experts.bin",
+  "expert_size_bytes": 33973862400,
+  "expert_device_id": 66305,
+  "gpu_idle_mib": {
+    "0": 19,
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4,
+    "5": 4
+  },
+  "host_before": {
+    "MemAvailable_kib": 29943096,
+    "Cached_kib": 20905668,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23619236
+  },
+  "block_before": {
+    "nvme": {
+      "read_bytes": 3757469025280,
+      "written_bytes": 131075223552
+    },
+    "sata_ssd": {
+      "read_bytes": 115135969280,
+      "written_bytes": 54452974592
+    }
+  },
+  "launch_exit": 0,
+  "launch_seconds": 210.25,
+  "health": {
+    "status": "ok",
+    "max_context": 8192,
+    "model": "qwen3.8-flash-next-q2_0",
+    "images": false,
+    "api_key": false,
+    "image_generation": false,
+    "loaded": true,
+    "service": "strata"
+  },
+  "gpu_loaded_mib": {
+    "0": 23579,
+    "1": 5416,
+    "2": 5416,
+    "3": 5292,
+    "4": 5256,
+    "5": 5416
+  },
+  "host_loaded": {
+    "MemAvailable_kib": 24106744,
+    "Cached_kib": 5145672,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 22727492
+  },
+  "block_loaded": {
+    "nvme": {
+      "read_bytes": 3789974746112,
+      "written_bytes": 131075280896
+    },
+    "sata_ssd": {
+      "read_bytes": 115184801792,
+      "written_bytes": 54462997504
+    }
+  },
+  "engine_io_loaded": {
+    "rchar": 9428394883,
+    "wchar": 19361,
+    "read_bytes": 31268442112,
+    "write_bytes": 32768,
+    "pid": 928510,
+    "command": "/data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/q",
+    "VmHWM_kib": 24630644,
+    "VmRSS_kib": 5431212,
+    "VmSwap_kib": 712648
+  },
+  "requests": [
+    {
+      "repeat": 1,
+      "max_tokens": 128,
+      "target_fraction": null,
+      "prompt_tokens_exact": null,
+      "prompt_characters": 7260,
+      "recall_code": null,
+      "answer": "",
+      "answer_tail": "",
+      "final_answer": "",
+      "recall_ok": null,
+      "final_recall_ok": null,
+      "wall_seconds": 36.719,
+      "usage": {
+        "prompt_tokens": 1483,
+        "completion_tokens": 128,
+        "total_tokens": 1611,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finish_reason": "length",
+      "gpu_mib": {
+        "0": 23707,
+        "1": 5492,
+        "2": 5492,
+        "3": 5366,
+        "4": 5344,
+        "5": 5492
+      },
+      "host": {
+        "MemAvailable_kib": 23581824,
+        "Cached_kib": 13596568,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 22745056
+      },
+      "block_before": {
+        "nvme": {
+          "read_bytes": 3789974746112,
+          "written_bytes": 131075280896
+        },
+        "sata_ssd": {
+          "read_bytes": 115184801792,
+          "written_bytes": 54462997504
+        }
+      },
+      "block_after": {
+        "nvme": {
+          "read_bytes": 3798215558144,
+          "written_bytes": 131075280896
+        },
+        "sata_ssd": {
+          "read_bytes": 115186608128,
+          "written_bytes": 54465164288
+        }
+      },
+      "engine_io_before": {
+        "rchar": 9428394883,
+        "wchar": 19361,
+        "read_bytes": 31268442112,
+        "write_bytes": 32768,
+        "pid": 928510,
+        "command": "/data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/q",
+        "VmHWM_kib": 24630644,
+        "VmRSS_kib": 5431212,
+        "VmSwap_kib": 712648
+      },
+      "engine_io_after": {
+        "rchar": 9461677136,
+        "wchar": 39477,
+        "read_bytes": 39518003200,
+        "write_bytes": 40960,
+        "pid": 928510,
+        "command": "/data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/q",
+        "VmHWM_kib": 24630644,
+        "VmRSS_kib": 13680156,
+        "VmSwap_kib": 698228
+      }
+    },
+    {
+      "repeat": 2,
+      "max_tokens": 128,
+      "target_fraction": null,
+      "prompt_tokens_exact": null,
+      "prompt_characters": 7260,
+      "recall_code": null,
+      "answer": "",
+      "answer_tail": "",
+      "final_answer": "",
+      "recall_ok": null,
+      "final_recall_ok": null,
+      "wall_seconds": 3.605,
+      "usage": {
+        "prompt_tokens": 1483,
+        "completion_tokens": 128,
+        "total_tokens": 1611,
+        "prompt_tokens_details": {
+          "cached_tokens": 1478
+        }
+      },
+      "finish_reason": "length",
+      "gpu_mib": {
+        "0": 23707,
+        "1": 5492,
+        "2": 5492,
+        "3": 5366,
+        "4": 5344,
+        "5": 5492
+      },
+      "host": {
+        "MemAvailable_kib": 23317508,
+        "Cached_kib": 13639620,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 22745928
+      },
+      "block_before": {
+        "nvme": {
+          "read_bytes": 3798215558144,
+          "written_bytes": 131075280896
+        },
+        "sata_ssd": {
+          "read_bytes": 115186608128,
+          "written_bytes": 54465164288
+        }
+      },
+      "block_after": {
+        "nvme": {
+          "read_bytes": 3798217991168,
+          "written_bytes": 131075280896
+        },
+        "sata_ssd": {
+          "read_bytes": 115186608128,
+          "written_bytes": 54465364992
+        }
+      },
+      "engine_io_before": {
+        "rchar": 9461677606,
+        "wchar": 39477,
+        "read_bytes": 39518003200,
+        "write_bytes": 40960,
+        "pid": 928510,
+        "command": "/data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/q",
+        "VmHWM_kib": 24630644,
+        "VmRSS_kib": 13680156,
+        "VmSwap_kib": 698228
+      },
+      "engine_io_after": {
+        "rchar": 9464403087,
+        "wchar": 41665,
+        "read_bytes": 39520591872,
+        "write_bytes": 40960,
+        "pid": 928510,
+        "command": "/data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/q",
+        "VmHWM_kib": 24630644,
+        "VmRSS_kib": 13960944,
+        "VmSwap_kib": 697412
+      }
+    },
+    {
+      "repeat": 3,
+      "max_tokens": 512,
+      "target_fraction": null,
+      "prompt_tokens_exact": null,
+      "prompt_characters": 7260,
+      "recall_code": null,
+      "answer": "A **B-tree index** is a balanced, multiway search tree used by databases to supp",
+      "answer_tail": "ernal nodes guide navigation and leaf nodes contain the actual keys or pointers to rows.\n\n---\n\n## 1. Basic structure of a B-tree index\n\nA B-tree index has these",
+      "final_answer": "A **B-tree index** is a balanced, multiway search tree used by databases to support fast **searches**, **inserts**, and **deletes** on indexed columns. In many ",
+      "recall_ok": null,
+      "final_recall_ok": null,
+      "wall_seconds": 13.472,
+      "usage": {
+        "prompt_tokens": 1483,
+        "completion_tokens": 512,
+        "total_tokens": 1995,
+        "prompt_tokens_details": {
+          "cached_tokens": 1478
+        }
+      },
+      "finish_reason": "length",
+      "gpu_mib": {
+        "0": 23707,
+        "1": 5492,
+        "2": 5492,
+        "3": 5366,
+        "4": 5344,
+        "5": 5492
+      },
+      "host": {
+        "MemAvailable_kib": 23290004,
+        "Cached_kib": 13809832,
+        "SwapTotal_kib": 24127028,
+        "SwapFree_kib": 22759048
+      },
+      "block_before": {
+        "nvme": {
+          "read_bytes": 3798217991168,
+          "written_bytes": 131075280896
+        },
+        "sata_ssd": {
+          "read_bytes": 115186608128,
+          "written_bytes": 54465364992
+        }
+      },
+      "block_after": {
+        "nvme": {
+          "read_bytes": 3798257214464,
+          "written_bytes": 131075280896
+        },
+        "sata_ssd": {
+          "read_bytes": 115186919424,
+          "written_bytes": 54466786304
+        }
+      },
+      "engine_io_before": {
+        "rchar": 9464403087,
+        "wchar": 41665,
+        "read_bytes": 39520591872,
+        "write_bytes": 40960,
+        "pid": 928510,
+        "command": "/data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/q",
+        "VmHWM_kib": 24630644,
+        "VmRSS_kib": 13960944,
+        "VmSwap_kib": 697412
+      },
+      "engine_io_after": {
+        "rchar": 9502840313,
+        "wchar": 46589,
+        "read_bytes": 39562031104,
+        "write_bytes": 40960,
+        "pid": 928510,
+        "command": "/data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/q",
+        "VmHWM_kib": 24630644,
+        "VmRSS_kib": 13989840,
+        "VmSwap_kib": 685064
+      }
+    }
+  ],
+  "prompt_characters": 7260,
+  "stop_exit": 0,
+  "gpu_after_mib": {
+    "0": 19,
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4,
+    "5": 4
+  },
+  "host_after": {
+    "MemAvailable_kib": 29874404,
+    "Cached_kib": 11320916,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 23615136
+  },
+  "block_after": {
+    "nvme": {
+      "read_bytes": 3798358017024,
+      "written_bytes": 131075280896
+    },
+    "sata_ssd": {
+      "read_bytes": 115187787776,
+      "written_bytes": 54466933760
+    }
+  },
+  "finished_at": "2026-11-06T19:50:40+00:00"
+}

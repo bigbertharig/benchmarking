@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 CONTROL = Path("/data/bench-staging/strata-v0.2.10/control/bin/strata")
-COMPONENTS = "/data/bench-staging/strata-v0.2.10/components"
+COMPONENTS = os.environ.get("STRATA_COMPONENTS_DIR", "/data/bench-staging/strata-v0.2.10/components")
 DATA = "/data/bench-staging/strata-v0.2.10/data"
 MODEL = Path("/data/model-hotset/qwen3.8-flash-next-q2_0")
 RECEIPT = MODEL / "download_terminal.json"

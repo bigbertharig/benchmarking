@@ -1,0 +1,105 @@
+{
+  "run_id": "strata_q38_mixed_matched_20261106",
+  "started_at": "2026-11-06T19:52:47+00:00",
+  "status": "passed",
+  "engine_dir": "/data/bench-staging/strata-v0.2.10/components-cuda12",
+  "cases": [
+    {
+      "label": "g0_cuda12_nvme0p1",
+      "gpus": "0",
+      "resident_budget_gib": 0.1,
+      "output": "results/runtime_experiments/strata_q38_mixed_matched_20261106_g0_cuda12_nvme0p1",
+      "started_at": "2026-11-06T19:52:47+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/integration/run_strata_qwen38_placement.py",
+        "--output",
+        "results/runtime_experiments/strata_q38_mixed_matched_20261106_g0_cuda12_nvme0p1",
+        "--gpus",
+        "0",
+        "--context",
+        "8192",
+        "--resident-budget-gib",
+        "0.1",
+        "--evict-expert-cache"
+      ],
+      "exit_code": 0,
+      "stdout_tail": "Strata Qwen3.8 probe: passed\n",
+      "stderr_tail": "",
+      "finished_at": "2026-11-06T19:54:30+00:00"
+    },
+    {
+      "label": "g01_cuda12_nvme0p1",
+      "gpus": "1,0",
+      "resident_budget_gib": 0.1,
+      "output": "results/runtime_experiments/strata_q38_mixed_matched_20261106_g01_cuda12_nvme0p1",
+      "started_at": "2026-11-06T19:54:30+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/integration/run_strata_qwen38_placement.py",
+        "--output",
+        "results/runtime_experiments/strata_q38_mixed_matched_20261106_g01_cuda12_nvme0p1",
+        "--gpus",
+        "1,0",
+        "--context",
+        "8192",
+        "--resident-budget-gib",
+        "0.1",
+        "--evict-expert-cache"
+      ],
+      "exit_code": 0,
+      "stdout_tail": "Strata Qwen3.8 probe: passed\n",
+      "stderr_tail": "",
+      "finished_at": "2026-11-06T19:56:55+00:00"
+    },
+    {
+      "label": "gall_cuda12_nvme0p1",
+      "gpus": "1,2,3,4,5,0",
+      "resident_budget_gib": 0.1,
+      "output": "results/runtime_experiments/strata_q38_mixed_matched_20261106_gall_cuda12_nvme0p1",
+      "started_at": "2026-11-06T19:56:55+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/integration/run_strata_qwen38_placement.py",
+        "--output",
+        "results/runtime_experiments/strata_q38_mixed_matched_20261106_gall_cuda12_nvme0p1",
+        "--gpus",
+        "1,2,3,4,5,0",
+        "--context",
+        "8192",
+        "--resident-budget-gib",
+        "0.1",
+        "--evict-expert-cache"
+      ],
+      "exit_code": 0,
+      "stdout_tail": "Strata Qwen3.8 probe: passed\n",
+      "stderr_tail": "",
+      "finished_at": "2026-11-06T20:01:15+00:00"
+    },
+    {
+      "label": "gall_cuda12_nvme8",
+      "gpus": "1,2,3,4,5,0",
+      "resident_budget_gib": 8.0,
+      "output": "results/runtime_experiments/strata_q38_mixed_matched_20261106_gall_cuda12_nvme8",
+      "started_at": "2026-11-06T20:01:15+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "scripts/integration/run_strata_qwen38_placement.py",
+        "--output",
+        "results/runtime_experiments/strata_q38_mixed_matched_20261106_gall_cuda12_nvme8",
+        "--gpus",
+        "1,2,3,4,5,0",
+        "--context",
+        "8192",
+        "--resident-budget-gib",
+        "8.0",
+        "--evict-expert-cache"
+      ],
+      "exit_code": 0,
+      "stdout_tail": "Strata Qwen3.8 probe: passed\n",
+      "stderr_tail": "",
+      "finished_at": "2026-11-06T20:05:52+00:00"
+    }
+  ],
+  "finished_at": "2026-11-06T20:05:52+00:00"
+}

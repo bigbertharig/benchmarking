@@ -483,3 +483,8 @@ question goes into `results/runtime_experiments/` and its finding into the table
 Put the record in `results/runtime_experiments/` (the generated reference picks it up), state the finding here
 in one row with the record's date and model, and remove or update any row it replaces. A finding that changes how
 models are loaded (a placement or setting rule) also goes into the manager or the registry, not only here.
+
+
+## Strata Qwen3.8 Q2_0 mixed-card placement (2026-11-06 UTC)
+
+Matched 8K full-model Strata 0.1.56 CUDA 12 runs, one request at a time with a 512-token warm output: 3090 only **80.3 effective tok/s**, 3090 + one 1060 **68.5**, 3090 + five 1060s **38.0**, and all six cards plus an 8 GiB pinned expert RAM budget **37.7**. The corresponding file-tier sizes were 12.9, 10.8, 2.5 and 0.0 GiB. Extra 1060s reduced storage reads but slowed this short-context Q2 workload. These are output tokens divided by whole-request wall time, not isolated decode rates. Methods, physical NVMe reads and case receipts: [`results/runtime_experiments/strata_q38_mixed_matched_20261106/README.md`](results/runtime_experiments/strata_q38_mixed_matched_20261106/README.md). The Q4 same-model quant is downloading to the 4 TB drive for a later capacity test; it has no measured speed yet.
