@@ -1,0 +1,59 @@
+{
+  "schema": "moe-placement-probe/1",
+  "label": "nemotron-standard-5",
+  "case_set": "workload32",
+  "started_at": "2026-11-06T08:44:53.676108+00:00",
+  "port": 11434,
+  "request": {
+    "temperature": 0,
+    "seed": 42,
+    "ignore_eos": true,
+    "cache_prompt": false
+  },
+  "cases": [
+    {
+      "sample_repeats": 96,
+      "output_limit": 1024,
+      "wall_seconds": 58.029,
+      "prompt_tokens": 2417,
+      "completion_tokens": 1024,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2417,
+        "prompt_ms": 11304.674,
+        "prompt_per_token_ms": 4.6771510136532894,
+        "prompt_per_second": 213.80536935430425,
+        "predicted_n": 1024,
+        "predicted_ms": 46695.376,
+        "predicted_per_token_ms": 45.64552883675464,
+        "predicted_per_second": 21.907950800096355
+      },
+      "stop": true,
+      "stopped_eos": null,
+      "truncated": false
+    },
+    {
+      "sample_repeats": 1150,
+      "output_limit": 1024,
+      "wall_seconds": 170.793,
+      "prompt_tokens": 28767,
+      "completion_tokens": 1024,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 28767,
+        "prompt_ms": 116818.131,
+        "prompt_per_token_ms": 4.060838147877776,
+        "prompt_per_second": 246.25458183370526,
+        "predicted_n": 1024,
+        "predicted_ms": 53922.835,
+        "predicted_per_token_ms": 52.71049364613881,
+        "predicted_per_second": 18.97155444442044
+      },
+      "stop": true,
+      "stopped_eos": null,
+      "truncated": false
+    }
+  ],
+  "status": "complete",
+  "finished_at": "2026-11-06T08:48:42.505243+00:00"
+}

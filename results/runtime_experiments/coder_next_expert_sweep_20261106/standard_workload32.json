@@ -1,0 +1,59 @@
+{
+  "schema": "coder-next-placement-probe/2",
+  "label": "standard-32k",
+  "case_set": "workload32",
+  "started_at": "2026-11-06T08:11:16.597412+00:00",
+  "port": 11434,
+  "request": {
+    "temperature": 0,
+    "seed": 42,
+    "ignore_eos": true,
+    "cache_prompt": false
+  },
+  "cases": [
+    {
+      "sample_repeats": 96,
+      "output_limit": 1024,
+      "wall_seconds": 36.399,
+      "prompt_tokens": 2416,
+      "completion_tokens": 1024,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 2416,
+        "prompt_ms": 9327.579,
+        "prompt_per_token_ms": 3.8607528973509933,
+        "prompt_per_second": 259.0168359871302,
+        "predicted_n": 1024,
+        "predicted_ms": 27038.207,
+        "predicted_per_token_ms": 26.430309872922773,
+        "predicted_per_second": 37.83534906734016
+      },
+      "stop": true,
+      "stopped_eos": null,
+      "truncated": false
+    },
+    {
+      "sample_repeats": 1150,
+      "output_limit": 1024,
+      "wall_seconds": 158.323,
+      "prompt_tokens": 28766,
+      "completion_tokens": 1024,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 28766,
+        "prompt_ms": 120334.915,
+        "prompt_per_token_ms": 4.183234200097337,
+        "prompt_per_second": 239.04948950186235,
+        "predicted_n": 1024,
+        "predicted_ms": 37947.896,
+        "predicted_per_token_ms": 37.09471749755621,
+        "predicted_per_second": 26.958016328494207
+      },
+      "stop": true,
+      "stopped_eos": null,
+      "truncated": false
+    }
+  ],
+  "status": "complete",
+  "finished_at": "2026-11-06T08:14:31.328368+00:00"
+}

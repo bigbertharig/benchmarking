@@ -17,6 +17,7 @@ SAMPLE = "def accumulate(values):\n    total = 0\n    for value in values:\n    
 CASE_SETS = {
     "short": [(1, 256), (1, 256), (1, 256), (24, 256), (96, 256)],
     "depth32": [(120, 128), (1150, 128)],
+    "workload32": [(96, 1024), (1150, 1024)],
     "depth262": [(1000, 128), (9400, 128)],
     "depth262_90": [(9400, 128)],
 }

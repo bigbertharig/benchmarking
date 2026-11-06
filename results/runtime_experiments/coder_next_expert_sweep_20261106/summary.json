@@ -1,0 +1,75 @@
+{
+  "schema": "coder-next-expert-sweep/1",
+  "started_at": "2026-11-06T07:41:12.466518+00:00",
+  "runs": [
+    {
+      "layout": "24x5",
+      "port": 11520,
+      "started_at": "2026-11-06T07:41:12.466550+00:00",
+      "artifacts": {
+        "load_log": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x5_load.log",
+        "gpu": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x5_gpu.csv",
+        "workload": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x5_workload32.json",
+        "practical": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x5_practical.json"
+      },
+      "load_exit": 0,
+      "workload_exit": 0,
+      "practical_exit": 0,
+      "status": "complete",
+      "stop_exit": 0,
+      "finished_at": "2026-11-06T07:47:39.927236+00:00"
+    },
+    {
+      "layout": "28x5",
+      "port": 11521,
+      "started_at": "2026-11-06T07:47:39.929735+00:00",
+      "artifacts": {
+        "load_log": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28x5_load.log",
+        "gpu": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28x5_gpu.csv",
+        "workload": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28x5_workload32.json",
+        "practical": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28x5_practical.json"
+      },
+      "load_exit": 0,
+      "workload_exit": 0,
+      "practical_exit": 0,
+      "status": "complete",
+      "stop_exit": 0,
+      "finished_at": "2026-11-06T07:54:24.733074+00:00"
+    },
+    {
+      "layout": "24x4",
+      "port": 11522,
+      "started_at": "2026-11-06T07:54:24.735357+00:00",
+      "artifacts": {
+        "load_log": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x4_load.log",
+        "gpu": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x4_gpu.csv",
+        "workload": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x4_workload32.json",
+        "practical": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/24x4_practical.json"
+      },
+      "load_exit": 0,
+      "workload_exit": 0,
+      "practical_exit": 0,
+      "status": "complete",
+      "stop_exit": 0,
+      "finished_at": "2026-11-06T08:00:30.687604+00:00"
+    },
+    {
+      "layout": "28round",
+      "port": 11523,
+      "started_at": "2026-11-06T08:00:30.690292+00:00",
+      "artifacts": {
+        "load_log": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28round_load.log",
+        "gpu": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28round_gpu.csv",
+        "workload": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28round_workload32.json",
+        "practical": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/coder_next_expert_sweep_20261106/28round_practical.json"
+      },
+      "load_exit": 0,
+      "workload_exit": 0,
+      "practical_exit": 0,
+      "status": "complete",
+      "stop_exit": 0,
+      "finished_at": "2026-11-06T08:07:23.344392+00:00"
+    }
+  ],
+  "finished_at": "2026-11-06T08:07:23.346790+00:00"
+}

@@ -1,0 +1,62 @@
+{
+  "standard6": {
+    "syntax": "valid",
+    "classes": [
+      "LRUCache",
+      "TestLRUCache"
+    ],
+    "test_functions": [
+      "test_eviction",
+      "test_update",
+      "test_access_order"
+    ]
+  },
+  "standard5": {
+    "syntax": "valid",
+    "classes": [
+      "LRUCache",
+      "TestLRUCache"
+    ],
+    "test_functions": [
+      "test_eviction",
+      "test_update",
+      "test_access_order"
+    ]
+  },
+  "expert5": {
+    "syntax": "valid",
+    "classes": [
+      "LRUCache",
+      "TestLRUCache"
+    ],
+    "test_functions": [
+      "test_eviction",
+      "test_update",
+      "test_access_order"
+    ]
+  },
+  "expert4": {
+    "syntax": "valid",
+    "classes": [
+      "LRUCache",
+      "TestLRUCache"
+    ],
+    "test_functions": [
+      "test_eviction",
+      "test_update",
+      "test_access_order"
+    ]
+  },
+  "expert4_repeat": {
+    "syntax": "valid",
+    "classes": [
+      "LRUCache",
+      "TestLRUCache"
+    ],
+    "test_functions": [
+      "test_eviction",
+      "test_update",
+      "test_access_order"
+    ]
+  }
+}
