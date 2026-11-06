@@ -39,6 +39,6 @@ Next implementation stages: (a) record a verified model architecture/quantizatio
 
 ## Next full-model gate
 
-The pinned Qwen3.8 UD-Q4_K_XL download is being staged on the 4 TB shared drive. It is 111.3 GB across four GGUF shards and includes a 28.8 GB n-gram table. First require exact size/hash completion and a Strata fit/launch preflight. Its upstream guide says 48 GB RAM minimum for the normal mode; this rig has 32 GB marketed, so a failed admission is an informative limit, not permission to overcommit the host. If it cannot launch safely, use the existing Q2_0 as a **controlled constrained-tier experiment** while keeping clear that Q2 does not intrinsically require all GPU/RAM/storage tiers. A genuine oversized end-to-end case remains an open experiment.
+The [expert tensor placement test plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md) selects a genuinely oversized Q4 capacity candidate, defines the VRAM/RAM/NVMe tensor controls and keeps all launch gates explicit. Rig limits and measured hardware remain in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) and the [hardware survey](results/runtime_experiments/expert_capacity_survey_20261106/README.md). A genuine oversized end-to-end case remains an open experiment until the engine can safely execute it.
 
 For a paper, keep architectural claims, microbenchmarks, full-model latency, quality/recall, and hardware-specific conclusions separate. Publish commands, revisions, quantizations, context, output length, link topology, memory residency, file-read counters and failures with each result.
