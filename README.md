@@ -19,6 +19,7 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 | [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | campaigns (Phase 5 at scale); [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md) is the planned move onto the rig manager |
 | [scripts/integration/README.md](scripts/integration/README.md) | the lane tools for Phases 3-4.5 |
 | [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) | how fast the rig runs models and why: card vs bus, splits, context capacity, PCIe; open questions; which tool measures what |
+| [EXPERT_TENSOR_SHARDING_RESEARCH.md](EXPERT_TENSOR_SHARDING_RESEARCH.md) | tiered expert execution evidence, repo boundaries, hardware/model analysis and full-model research gates |
 | [CONTEXT_PROFILE_AUDIT_2026-10-26.md](CONTEXT_PROFILE_AUDIT_2026-10-26.md) | active and candidate model context bounds, working defaults, and read-only card-fit projections |
 | [CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md](CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md) | compact baseline and trained-ceiling test matrix and receipts |
 | [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md) | every speed, capacity and power measurement (generated from `results/runtime_experiments/`) |

@@ -13,13 +13,17 @@ This is a standalone engineering prototype combining **within-expert row shardin
 
 ## Results
 
-Mean of two runs' mean latency per expert call, microseconds:
+Two-run means for the existing two- and five-worker cases; the new one-worker measurement is one 100-call run. Latency per expert call, microseconds:
 
 | Weight source and compute | 3090 | Two 1060 shards | Five 1060 shards |
 | --- | ---: | ---: | ---: |
 | Packed weights resident in VRAM | **159.6** | 309.8 | 284.8 |
 | Packed weights uploaded from pinned RAM per call | **277.8** | 2,032.4 | 997.3 |
 | Packed weights read with direct NVMe I/O per call | **3,610.2** | 6,239.8* | 4,263.2 |
+
+A one-1060-shard extension used the same verified full expert and independent CPU reference, with 20 warmups and 100 timed calls. All six modes passed (maximum absolute error 1.19e-8). One worker measured **338.3 µs** with its weights in 1060 VRAM, **3,786.1 µs** when uploading from RAM each call, and **7,175.8 µs** with direct NVMe reads each call. The corresponding five-worker values above were 284.8, 997.3, and 4,263.2 µs. Adding workers helped this one-expert microkernel most when weights had to be moved, but it cost extra GPUs; none of these numbers is a full-model throughput prediction. Runner: [run_q38_tiered_one_worker.py](../../../scripts/active/run_q38_tiered_one_worker.py). Receipt: [one_worker_20261106.json](one_worker_20261106.json).
+
+**Placement rule for future planners:** if the full requested model and context fit entirely in GPUs, prefer the fewest measured-fast cards that fit. If any model data must spill to RAM, compare an expanded GPU placement that uses the available VRAM *before* accepting a smaller GPU set plus RAM. Only after useful GPU and RAM capacity is assigned should a compatible storage tier be considered. The existing one-card Strata manager policy and one-card llama RAM path do not yet implement this general mixed-tier search.
 
 \*The two-worker NVMe mean includes one timed outlier; its two per-run medians were about 5,324 and 5,333 µs. Two-worker resident timing also varied between runs (291 and 328 µs means). The five-worker and 3090 runs were more consistent. See `summary.json` and the four JSONL receipts for individual run means, medians, p95, error, and requested direct-read bytes.
 

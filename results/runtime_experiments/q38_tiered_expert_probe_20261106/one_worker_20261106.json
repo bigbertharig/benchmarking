@@ -1,0 +1,97 @@
+{
+  "schema": "q38-tiered-one-worker/1",
+  "started_at": "2026-11-06T21:02:34.990850+00:00",
+  "source_sample": "/data/bench-staging/q38_tiered_expert_probe_20261106",
+  "sample": "/data/bench-staging/q38_tiered_expert_probe_20261106_1worker",
+  "status": "passed",
+  "full_sha256": "38cf8875513497a99add6a9cd5a327e0bda33dfe3b114d02ab66eba02799da8c",
+  "sample_bytes": 1382400,
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--gpus",
+    "all",
+    "--network",
+    "none",
+    "-e",
+    "WORKERS=1",
+    "-v",
+    "/mnt/shared/plans/shoulders/benchmarking:/bench:ro",
+    "-v",
+    "/data/bench-staging/q38_tiered_expert_probe_20261106_1worker:/sample",
+    "nvidia/cuda:12.9.2-devel-ubuntu24.04",
+    "bash",
+    "/bench/scripts/active/run_q38_tiered_expert_probe.sh"
+  ],
+  "exit_code": 0,
+  "runs": [
+    {
+      "mode": "gpu0",
+      "workers": 0,
+      "iterations": 100,
+      "mean_us": 160.018,
+      "p50_us": 159.933,
+      "p95_us": 161.861,
+      "max_abs_error": 1.18744e-08,
+      "direct_disk_bytes": 0,
+      "verified": true
+    },
+    {
+      "mode": "gpu0_ram",
+      "workers": 0,
+      "iterations": 100,
+      "mean_us": 282.575,
+      "p50_us": 279.243,
+      "p95_us": 294.342,
+      "max_abs_error": 1.18744e-08,
+      "direct_disk_bytes": 0,
+      "verified": true
+    },
+    {
+      "mode": "gpu0_nvme",
+      "workers": 0,
+      "iterations": 100,
+      "mean_us": 3654.24,
+      "p50_us": 3653.53,
+      "p95_us": 3741.61,
+      "max_abs_error": 1.18744e-08,
+      "direct_disk_bytes": 166133760,
+      "verified": true
+    },
+    {
+      "mode": "resident",
+      "workers": 1,
+      "iterations": 100,
+      "mean_us": 338.336,
+      "p50_us": 337.801,
+      "p95_us": 349.443,
+      "max_abs_error": 1.18744e-08,
+      "direct_disk_bytes": 0,
+      "verified": true
+    },
+    {
+      "mode": "ram",
+      "workers": 1,
+      "iterations": 100,
+      "mean_us": 3786.14,
+      "p50_us": 3783.68,
+      "p95_us": 3859.06,
+      "max_abs_error": 1.18744e-08,
+      "direct_disk_bytes": 0,
+      "verified": true
+    },
+    {
+      "mode": "nvme",
+      "workers": 1,
+      "iterations": 100,
+      "mean_us": 7175.81,
+      "p50_us": 7167.06,
+      "p95_us": 7311.85,
+      "max_abs_error": 1.18744e-08,
+      "direct_disk_bytes": 166133760,
+      "verified": true
+    }
+  ],
+  "finished_at": "2026-11-06T21:02:44.069778+00:00"
+}

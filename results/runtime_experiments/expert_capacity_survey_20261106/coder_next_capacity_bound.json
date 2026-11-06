@@ -1,0 +1,75 @@
+{
+  "schema": "expert-capacity-bounds/1",
+  "hardware_source": "/media/bryan/shared/plans/shoulders/benchmarking/results/runtime_experiments/expert_capacity_survey_20261106/hardware_rig.json",
+  "model_source": "/media/bryan/shared/plans/shoulders/benchmarking/results/runtime_experiments/expert_capacity_survey_20261106/coder_next_model.json",
+  "assumptions": {
+    "gpu_reserve_mib": 512,
+    "primary_extra_mib": 1536,
+    "ram_reserve_fraction": 0.15,
+    "ram_reserve_min_gib": 4,
+    "ram_budget_gb": 26.0,
+    "ngram_assigned_to_storage": false
+  },
+  "gpu_budgets": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "total_bytes": 25757220864,
+      "reserve_bytes": 2147483648,
+      "budget_bytes": 23609737216
+    },
+    {
+      "index": 1,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_bytes": 6442450944,
+      "reserve_bytes": 536870912,
+      "budget_bytes": 5905580032
+    },
+    {
+      "index": 2,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_bytes": 6442450944,
+      "reserve_bytes": 536870912,
+      "budget_bytes": 5905580032
+    },
+    {
+      "index": 3,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_bytes": 6442450944,
+      "reserve_bytes": 536870912,
+      "budget_bytes": 5905580032
+    },
+    {
+      "index": 4,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_bytes": 6442450944,
+      "reserve_bytes": 536870912,
+      "budget_bytes": 5905580032
+    },
+    {
+      "index": 5,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_bytes": 6442450944,
+      "reserve_bytes": 536870912,
+      "budget_bytes": 5905580032
+    }
+  ],
+  "gpu_budget_sum_bytes": 53137637376,
+  "host_installed_bytes": 32232296448,
+  "host_available_bytes": 30652309504,
+  "host_reserve_bytes": 4834844468,
+  "host_budget_bytes": 25817465036,
+  "model_file_bytes": 45531949088,
+  "ngram_tensor_bytes": 0,
+  "model_bytes_for_gpu_or_ram": 45531949088,
+  "unplaced_after_gpu_bytes": 0,
+  "unplaced_after_gpu_and_ram_bytes": 0,
+  "live_storage_read_lower_bound_bytes": 0,
+  "fit_status": "unknown",
+  "limits": [
+    "Arithmetic capacity bound only: does not compute KV/cache, nonuniform layer sizes, dense copies, compute buffers or quantization kernel support.",
+    "Summed GPU memory is not a unified pool; the selected runtime must implement a feasible model split.",
+    "Storage only extends runnable capacity when the runtime supports streaming the required tensors.",
+    "A validated load, recall test, and measured latency are required before recommending a placement."
+  ]
+}

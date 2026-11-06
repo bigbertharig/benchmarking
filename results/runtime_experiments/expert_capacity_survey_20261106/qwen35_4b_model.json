@@ -1,0 +1,24 @@
+{
+  "schema": "expert-model-inventory/1",
+  "observed_at": "2026-11-06T21:06:25.492661+00:00",
+  "files": [
+    {
+      "path": "/media/bryan/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
+      "bytes": 2740937888,
+      "tensor_count": 426
+    }
+  ],
+  "model_file_bytes": 2740937888,
+  "tensor_payload_bytes": 2729969664,
+  "expert_tensor_bytes": 0,
+  "ngram_tensor_bytes": 0,
+  "tensor_types": {
+    "F32": 177,
+    "Q6_K": 22,
+    "Q4_K": 131,
+    "Q5_K": 48,
+    "Q8_0": 48
+  },
+  "expert_layers": {},
+  "expert_layer_count": 0
+}

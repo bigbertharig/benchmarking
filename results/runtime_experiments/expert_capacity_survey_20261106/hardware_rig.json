@@ -1,0 +1,262 @@
+{
+  "schema": "expert-hardware-snapshot/1",
+  "observed_at": "2026-11-06T21:07:49.355938+00:00",
+  "memory": {
+    "MemTotal_bytes": 32232296448,
+    "MemAvailable_bytes": 30652309504,
+    "SwapTotal_bytes": 24706076672,
+    "SwapFree_bytes": 24193286144
+  },
+  "gpus": [
+    {
+      "index": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "pcie.link.gen.current": 1,
+      "pcie.link.width.current": 16,
+      "pcie.link.gen.max": 3,
+      "pcie.link.width.max": 16,
+      "memory.total_bytes": 25757220864,
+      "memory.free_bytes": 25264390144
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "pcie.link.gen.current": 1,
+      "pcie.link.width.current": 1,
+      "pcie.link.gen.max": 2,
+      "pcie.link.width.max": 16,
+      "memory.total_bytes": 6442450944,
+      "memory.free_bytes": 6356467712
+    },
+    {
+      "index": 2,
+      "uuid": "GPU-d24dca6a-b19f-2018-57b7-15a79466efdf",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "pcie.link.gen.current": 1,
+      "pcie.link.width.current": 1,
+      "pcie.link.gen.max": 2,
+      "pcie.link.width.max": 16,
+      "memory.total_bytes": 6442450944,
+      "memory.free_bytes": 6356467712
+    },
+    {
+      "index": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "pcie.link.gen.current": 1,
+      "pcie.link.width.current": 1,
+      "pcie.link.gen.max": 2,
+      "pcie.link.width.max": 16,
+      "memory.total_bytes": 6442450944,
+      "memory.free_bytes": 6356467712
+    },
+    {
+      "index": 4,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "pcie.link.gen.current": 1,
+      "pcie.link.width.current": 1,
+      "pcie.link.gen.max": 2,
+      "pcie.link.width.max": 16,
+      "memory.total_bytes": 6442450944,
+      "memory.free_bytes": 6356467712
+    },
+    {
+      "index": 5,
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "pcie.link.gen.current": 1,
+      "pcie.link.width.current": 1,
+      "pcie.link.gen.max": 2,
+      "pcie.link.width.max": 16,
+      "memory.total_bytes": 6442450944,
+      "memory.free_bytes": 6356467712
+    }
+  ],
+  "block_devices": [
+    {
+      "name": "loop0",
+      "size": 4096,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/bare/5",
+      "tran": null
+    },
+    {
+      "name": "loop1",
+      "size": 77586432,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/core22/2437",
+      "tran": null
+    },
+    {
+      "name": "loop2",
+      "size": 77574144,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/core22/2955",
+      "tran": null
+    },
+    {
+      "name": "loop3",
+      "size": 70049792,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/core24/1643",
+      "tran": null
+    },
+    {
+      "name": "loop4",
+      "size": 270258176,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/firefox/8754",
+      "tran": null
+    },
+    {
+      "name": "loop5",
+      "size": 70033408,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/core24/2124",
+      "tran": null
+    },
+    {
+      "name": "loop6",
+      "size": 273506304,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/firefox/8863",
+      "tran": null
+    },
+    {
+      "name": "loop7",
+      "size": 557309952,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/gnome-42-2204/263",
+      "tran": null
+    },
+    {
+      "name": "loop8",
+      "size": 557187072,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/gnome-42-2204/247",
+      "tran": null
+    },
+    {
+      "name": "loop9",
+      "size": 635518976,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/gnome-46-2404/153",
+      "tran": null
+    },
+    {
+      "name": "loop10",
+      "size": 96141312,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/gtk-common-themes/1535",
+      "tran": null
+    },
+    {
+      "name": "loop11",
+      "size": 645148672,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/gnome-46-2404/168",
+      "tran": null
+    },
+    {
+      "name": "loop12",
+      "size": 414167040,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/mesa-2404/1165",
+      "tran": null
+    },
+    {
+      "name": "loop13",
+      "size": 421507072,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/mesa-2404/1839",
+      "tran": null
+    },
+    {
+      "name": "loop14",
+      "size": 52535296,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/snapd/27710",
+      "tran": null
+    },
+    {
+      "name": "loop15",
+      "size": 46882816,
+      "rota": false,
+      "type": "loop",
+      "mountpoint": "/snap/snapd/28254",
+      "tran": null
+    },
+    {
+      "name": "sda",
+      "size": 120034123776,
+      "rota": false,
+      "type": "disk",
+      "mountpoint": null,
+      "tran": "sata",
+      "children": [
+        {
+          "name": "sda1",
+          "size": 1127219200,
+          "rota": false,
+          "type": "part",
+          "mountpoint": "/boot/efi",
+          "tran": null
+        },
+        {
+          "name": "sda2",
+          "size": 118904324096,
+          "rota": false,
+          "type": "part",
+          "mountpoint": "/",
+          "tran": null
+        }
+      ]
+    },
+    {
+      "name": "zram0",
+      "size": 16116150272,
+      "rota": false,
+      "type": "disk",
+      "mountpoint": "[SWAP]",
+      "tran": null
+    },
+    {
+      "name": "nvme0n1",
+      "size": 512110190592,
+      "rota": false,
+      "type": "disk",
+      "mountpoint": null,
+      "tran": "nvme",
+      "children": [
+        {
+          "name": "nvme0n1p1",
+          "size": 512108789760,
+          "rota": false,
+          "type": "part",
+          "mountpoint": "/data",
+          "tran": "nvme"
+        }
+      ]
+    }
+  ],
+  "topology_text": "\t\u001b[4mGPU0\tGPU1\tGPU2\tGPU3\tGPU4\tGPU5\tCPU Affinity\tNUMA Affinity\tGPU NUMA ID\u001b[0m\nGPU0\t X \tPHB\tPHB\tPHB\tPHB\tPHB\t0-7\t0\t\tN/A\nGPU1\tPHB\t X \tPHB\tPHB\tPHB\tPHB\t0-7\t0\t\tN/A\nGPU2\tPHB\tPHB\t X \tPHB\tPHB\tPHB\t0-7\t0\t\tN/A\nGPU3\tPHB\tPHB\tPHB\t X \tPHB\tPHB\t0-7\t0\t\tN/A\nGPU4\tPHB\tPHB\tPHB\tPHB\t X \tPHB\t0-7\t0\t\tN/A\nGPU5\tPHB\tPHB\tPHB\tPHB\tPHB\t X \t0-7\t0\t\tN/A\n\nLegend:\n\n  X    = Self\n  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)\n  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node\n  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)\n  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)\n  PIX  = Connection traversing at most a single PCIe bridge\n  NV#  = Connection traversing a bonded set of # NVLinks\n",
+  "pcie_note": "Current generation may downshift while idle; max is the reported link ceiling."
+}

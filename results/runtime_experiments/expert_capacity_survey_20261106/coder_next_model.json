@@ -1,0 +1,1849 @@
+{
+  "schema": "expert-model-inventory/1",
+  "observed_at": "2026-11-06T21:07:00.876567+00:00",
+  "files": [
+    {
+      "path": "/media/bryan/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+      "bytes": 45531949088,
+      "tensor_count": 843
+    }
+  ],
+  "model_file_bytes": 45531949088,
+  "tensor_payload_bytes": 45525959680,
+  "expert_tensor_bytes": 43889197056,
+  "ngram_tensor_bytes": 0,
+  "tensor_types": {
+    "Q6_K": 49,
+    "F32": 361,
+    "Q4_K": 291,
+    "Q5_K": 46,
+    "MXFP4": 96
+  },
+  "expert_layers": {
+    "0": {
+      "down": [
+        {
+          "name": "blk.0.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 369098752,
+          "quant": "Q5_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.0.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.0.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "1": {
+      "down": [
+        {
+          "name": "blk.1.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 369098752,
+          "quant": "Q5_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.1.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.1.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "2": {
+      "down": [
+        {
+          "name": "blk.2.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 369098752,
+          "quant": "Q5_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.2.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.2.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "3": {
+      "down": [
+        {
+          "name": "blk.3.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 369098752,
+          "quant": "Q5_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.3.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.3.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "4": {
+      "down": [
+        {
+          "name": "blk.4.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 369098752,
+          "quant": "Q5_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.4.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.4.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "5": {
+      "down": [
+        {
+          "name": "blk.5.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 369098752,
+          "quant": "Q5_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.5.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.5.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "6": {
+      "down": [
+        {
+          "name": "blk.6.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.6.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.6.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "7": {
+      "down": [
+        {
+          "name": "blk.7.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.7.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.7.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "8": {
+      "down": [
+        {
+          "name": "blk.8.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.8.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.8.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "9": {
+      "down": [
+        {
+          "name": "blk.9.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.9.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.9.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "10": {
+      "down": [
+        {
+          "name": "blk.10.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.10.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.10.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "11": {
+      "down": [
+        {
+          "name": "blk.11.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.11.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.11.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "12": {
+      "down": [
+        {
+          "name": "blk.12.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.12.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.12.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "13": {
+      "down": [
+        {
+          "name": "blk.13.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.13.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.13.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "14": {
+      "down": [
+        {
+          "name": "blk.14.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.14.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.14.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "15": {
+      "down": [
+        {
+          "name": "blk.15.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.15.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.15.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "16": {
+      "down": [
+        {
+          "name": "blk.16.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.16.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.16.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "17": {
+      "down": [
+        {
+          "name": "blk.17.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.17.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.17.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "18": {
+      "down": [
+        {
+          "name": "blk.18.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.18.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.18.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "19": {
+      "down": [
+        {
+          "name": "blk.19.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.19.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.19.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "20": {
+      "down": [
+        {
+          "name": "blk.20.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.20.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.20.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "21": {
+      "down": [
+        {
+          "name": "blk.21.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.21.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.21.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "22": {
+      "down": [
+        {
+          "name": "blk.22.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.22.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.22.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "23": {
+      "down": [
+        {
+          "name": "blk.23.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.23.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.23.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "24": {
+      "down": [
+        {
+          "name": "blk.24.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.24.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.24.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "25": {
+      "down": [
+        {
+          "name": "blk.25.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.25.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.25.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "26": {
+      "down": [
+        {
+          "name": "blk.26.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.26.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.26.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "27": {
+      "down": [
+        {
+          "name": "blk.27.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.27.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.27.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "28": {
+      "down": [
+        {
+          "name": "blk.28.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.28.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.28.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "29": {
+      "down": [
+        {
+          "name": "blk.29.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.29.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.29.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "30": {
+      "down": [
+        {
+          "name": "blk.30.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.30.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.30.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "31": {
+      "down": [
+        {
+          "name": "blk.31.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.31.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.31.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "32": {
+      "down": [
+        {
+          "name": "blk.32.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.32.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.32.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "33": {
+      "down": [
+        {
+          "name": "blk.33.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.33.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.33.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "34": {
+      "down": [
+        {
+          "name": "blk.34.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.34.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.34.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "35": {
+      "down": [
+        {
+          "name": "blk.35.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.35.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.35.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "36": {
+      "down": [
+        {
+          "name": "blk.36.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.36.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.36.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "37": {
+      "down": [
+        {
+          "name": "blk.37.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.37.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.37.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "38": {
+      "down": [
+        {
+          "name": "blk.38.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.38.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.38.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "39": {
+      "down": [
+        {
+          "name": "blk.39.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.39.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.39.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "40": {
+      "down": [
+        {
+          "name": "blk.40.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.40.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.40.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "41": {
+      "down": [
+        {
+          "name": "blk.41.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.41.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.41.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "42": {
+      "down": [
+        {
+          "name": "blk.42.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.42.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.42.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "43": {
+      "down": [
+        {
+          "name": "blk.43.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.43.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.43.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "44": {
+      "down": [
+        {
+          "name": "blk.44.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.44.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.44.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "45": {
+      "down": [
+        {
+          "name": "blk.45.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.45.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.45.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "46": {
+      "down": [
+        {
+          "name": "blk.46.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.46.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.46.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    },
+    "47": {
+      "down": [
+        {
+          "name": "blk.47.ffn_down_exps.weight",
+          "shape": [
+            512,
+            2048,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "gate": [
+        {
+          "name": "blk.47.ffn_gate_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ],
+      "up": [
+        {
+          "name": "blk.47.ffn_up_exps.weight",
+          "shape": [
+            2048,
+            512,
+            512
+          ],
+          "bytes": 301989888,
+          "quant": "Q4_K"
+        }
+      ]
+    }
+  },
+  "expert_layer_count": 48
+}
