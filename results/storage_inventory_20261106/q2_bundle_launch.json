@@ -1,0 +1,22 @@
+{
+  "schema": "model-bundle-launch/1",
+  "started_at": "2026-11-06T21:55:32.021183+00:00",
+  "pid": 952269,
+  "command": [
+    "python3",
+    "/mnt/shared/plans/shoulders/benchmarking/scripts/analysis/sync_model_bundle.py",
+    "--model-id",
+    "qwen3.8-flash-next-q2_0",
+    "--gguf-source",
+    "/data/model-hotset/qwen3.8-flash-next-q2_0",
+    "--archive-root",
+    "/mnt/shared/models",
+    "--artifact",
+    "strata-q2_0=/data/bench-staging/strata-v0.2.10/data/packs/q2_0",
+    "--receipt",
+    "/mnt/shared/plans/shoulders/benchmarking/results/storage_inventory_20261106/q2_bundle_sync.json",
+    "--bwlimit",
+    "12M"
+  ],
+  "log": "/mnt/shared/plans/shoulders/benchmarking/results/storage_inventory_20261106/q2_bundle_sync.log"
+}

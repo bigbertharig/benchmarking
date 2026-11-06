@@ -10,7 +10,6 @@
   "permissions_path": "permissions/",
   "runtime_backend": "llama",
   "model_search_roots": [
-    "/home/bryan/model-hotset",
     "/mnt/shared/models"
   ],
   "runtime_host": "http://localhost:11434",

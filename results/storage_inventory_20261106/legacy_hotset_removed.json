@@ -1,0 +1,13 @@
+{
+  "schema": "model-store-reconciliation/1",
+  "recorded_at": "2026-11-06T22:03:42.976356+00:00",
+  "status": "complete",
+  "removed_path": "/home/bryan/model-hotset",
+  "removed_model_weights_bytes": 21500318720,
+  "verified_before_removal": "Both SATA GGUFs matched NVMe and archive by SHA-256",
+  "active_search_roots": [
+    "/data/model-hotset",
+    "/mnt/shared/models"
+  ],
+  "note": "Ollama CUDA runtime library remains on SATA and is not a model weight."
+}

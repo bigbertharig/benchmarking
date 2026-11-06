@@ -1,0 +1,23 @@
+{
+  "schema": "sata-hotset-dedupe/1",
+  "at": "2026-11-06T21:53:22.461051+00:00",
+  "files": [
+    {
+      "relative_path": "qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+      "size_bytes": 16817244384,
+      "sha256_verified_in_all_three_before": "5ed60d0af4650a854b1755bd392f9aef4872643dc25a254bc68043fa638392a0",
+      "sata_path": "/home/bryan/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+      "symlink_target": "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+      "status": "linked_to_verified_nvme_copy"
+    },
+    {
+      "relative_path": "qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+      "size_bytes": 4683074336,
+      "sha256_verified_in_all_three_before": "1664fccab734674a50763490a8c6931b70e3f2f8ec10031b54806d30e5f956b6",
+      "sata_path": "/home/bryan/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+      "symlink_target": "/data/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+      "status": "linked_to_verified_nvme_copy"
+    }
+  ],
+  "finished_at": "2026-11-06T21:53:22.562913+00:00"
+}

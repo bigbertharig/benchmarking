@@ -1,0 +1,11 @@
+# Model store reconciliation — 2026-11-06
+
+The canonical model store is the 4 TB share at `/mnt/shared/models/<model_id>/` on the rig (`/media/bryan/shared/models/<model_id>/` on the Pi). The NVMe `/data/model-hotset/<model_id>/` is a runnable cache. Model identifiers and published paths come from the benchmarking library; orchestration resolves a loaded model against the NVMe cache and canonical archive. The gateway routes requests and does not own a second list of weight paths.
+
+A complete bundle includes GGUF weights **and** any required runtime artifacts. Strata's Qwen3.8 Q2 bundle has 66,424,361,691 bytes of GGUF weights and 35,468,929,012 bytes of pack files (101,893,290,703 bytes total). Its pack contains expert and dense data, metadata, and tokenizer files; the 35.5 GB is required for the tested Strata runtime. It was originally downloaded and prepared on NVMe, so the 4 TB copy was missing. `scripts/analysis/sync_model_bundle.py` is mirroring the exact files into the matching archive folder, verifying SHA-256 per file, then writing `bundle_manifest.json` with each role and the total. The running job receipt is `q2_bundle_sync.json`; treat the archive copy as incomplete until that receipt says `complete`.
+
+The existing Qwen3.6 35B Strata pack consists of tokenizer artifacts (~9.8 MB). Its bundle is also being recorded with the same script. Future Strata packs should live under `<model_id>/runtime/<pack_name>/` in the archive and be staged into the runtime cache from there. The runtime's current staging paths are still in use; this inventory does not change a live model load.
+
+The old SATA hotset at `/home/bryan/model-hotset` contained two duplicate GGUFs (Qwen3.6 27B and Qwen2.5 Coder 7B). Full SHA-256 hashes matched both NVMe and archive copies before the SATA copies were removed. The directory is gone; active orchestration roots are NVMe then archive. The SATA drive still contains runtime software, including Ollama's CUDA library, which is not a model weight.
+
+Audit scope: the NVMe versus 4 TB reconciliation checked GGUF filename and size for every hotset folder and found Q2 as the sole missing bundle. Only the two removed SATA copies received full three-way hash verification; the bundle sync performs full hashes for Q2 and Qwen3.6 Strata files. A same-size inventory match is not a blanket hash audit of every model.
