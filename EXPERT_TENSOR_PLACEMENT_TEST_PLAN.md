@@ -16,6 +16,14 @@ The installed Strata CUDA 13 engine does not support the GTX 1060's `sm_61` work
 
 The existing **Qwen3.8 Q2_0** is the secondary control: it already runs with live NVMe-backed lookup/experts, and its one-expert and full-model Strata receipts exist. It can be forced through three tiers to study their costs, but its smaller weights do **not** intrinsically fill all available GPU and host capacity. Label any such result a constrained-tier comparison, not the oversized-model result.
 
+## Target topology and the 48 GB distinction
+
+The intended full experiment uses **3090 VRAM for dense/attention work and hot experts**, **the five 1060s as separately addressable expert-worker VRAM**, **safe system RAM for additional experts**, and **NVMe for remaining expert and lookup reads**. This is a useful capacity and scheduling target, but the 1060s are not host RAM: Strata's published 48 GB recommendation refers to physical host memory. Adding 24 GB of 1060 VRAM to 24 GB of system RAM does not make the existing Strata setup see 48 GB RAM. The documented `--yes` override is the first way to run below that recommendation.
+
+Five 6 GB cards offer 30 GB nominal 1060 VRAM, but a 24 GB *usable* worker target must be checked per card after CUDA, transport, KV and per-worker buffers. The rig's 26 GB decimal host ceiling is for **all new host-resident allocations**, so assigning 24 GB to expert weights alone would leave only 2 GB for other new allocations and is too close to the measured edge. Begin with an 8 GiB Strata expert RAM budget; increase it only after measuring total host allocation and preserving the 4 GiB `MemAvailable` guard. The 3090 likewise needs space for dense weights, cache and context; its full 24 GB cannot be counted as free expert capacity.
+
+Strata's current multi-GPU mode assigns layers and caches each card's layer experts. It is not the proposed 3090-plus-dedicated-1060-expert-worker architecture, and the installed CUDA 13 engine cannot execute `sm_61` kernels on the 1060s. The staged path is therefore: (1) verify Q4 on 3090 plus bounded host RAM plus storage using the documented override; (2) validate real Q4 expert kernels and transport on a 1060-compatible CUDA path; (3) integrate expert routing and per-card placement with memory guards; (4) compare the full topology against the same-model Strata baseline. This is a runtime implementation task, not a memory-budget flag.
+
 ## Controls and placement matrix
 
 | Level | Same-model measurement | Why keep it |
