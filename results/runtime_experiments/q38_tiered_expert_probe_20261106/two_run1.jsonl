@@ -1,0 +1,6 @@
+{"mode":"gpu0","workers":0,"iterations":100,"mean_us":160.09,"p50_us":159.84,"p95_us":162.619,"max_abs_error":1.18744e-08,"direct_disk_bytes":0,"verified":true}
+{"mode":"gpu0_ram","workers":0,"iterations":100,"mean_us":278.117,"p50_us":277.777,"p95_us":282.9,"max_abs_error":1.18744e-08,"direct_disk_bytes":0,"verified":true}
+{"mode":"gpu0_nvme","workers":0,"iterations":100,"mean_us":3626.6,"p50_us":3631.41,"p95_us":3655.39,"max_abs_error":1.18744e-08,"direct_disk_bytes":166133760,"verified":true}
+{"mode":"resident","workers":2,"iterations":100,"mean_us":291.203,"p50_us":289.322,"p95_us":298.794,"max_abs_error":1.0943e-08,"direct_disk_bytes":0,"verified":true}
+{"mode":"ram","workers":2,"iterations":100,"mean_us":2023.09,"p50_us":2017.97,"p95_us":2062.91,"max_abs_error":1.0943e-08,"direct_disk_bytes":0,"verified":true}
+{"mode":"nvme","workers":2,"iterations":100,"mean_us":7144.98,"p50_us":5324.41,"p95_us":5354.94,"max_abs_error":1.0943e-08,"direct_disk_bytes":166133760,"verified":true}
