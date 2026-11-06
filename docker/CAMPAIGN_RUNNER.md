@@ -32,8 +32,7 @@ bounded runs.
 
 A block names a registry model; the manager loads it from `model_registry.json` (its GGUF, the
 library's one runtime image, the profile's context, batch and extra args). A manifest carries only what
-it overrides. `runtime_image`, `batch_size` and `load_timeout_s` in older manifests are ignored, and a
-`gguf` is only a cross-check (preflight fails when it is not the registry's file).
+it overrides. Campaign blocks supply model IDs and optional profile/context/placement overrides; GGUF paths live in the registry.
 
 ```json
 {
@@ -75,7 +74,6 @@ Required block fields are `id`, `model`, and `suite`. Optional fields:
 | `profile` | `default` | Registry profile to load (e.g. a `thinking` variant) |
 | `runtime_args` | none | llama-server arguments after the profile's own `extra_args` |
 | `wait_s` | 7200 | How long the load may wait for busy cards (the manager collects them); -1 waits forever |
-| `gguf` | the registry's | Optional cross-check only |
 | `hardware_id` | derived from the cards | Optional explicit hardware identity |
 | `env_file` | none | Optional, only for suites that declare support |
 | `runtime_group` | none | Keep one compatible model runtime loaded across consecutive suite blocks |
@@ -147,7 +145,7 @@ ordering when required.
 Before loading a model the runner verifies:
 
 - manifest structure, placements and dependency references
-- the registry's GGUF for each model (and a manifest `gguf`, if given, matches it), env-file existence
+- the registry's GGUF for each model, env-file existence
 - model profile requirements
 - suite limit policy and runner-owned flags
 - suite image contract labels

@@ -9,7 +9,6 @@
     {
       "id": "nex_reasoning_l50",
       "model": "nex-n2.5:mini",
-      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "nex_phase5",
@@ -20,7 +19,6 @@
     {
       "id": "nex_mmlu_pro_l20",
       "model": "nex-n2.5:mini",
-      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "nex_phase5",
@@ -31,7 +29,6 @@
     {
       "id": "nex_geoimport",
       "model": "nex-n2.5:mini",
-      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "runtime_group": "nex_phase5",
@@ -42,7 +39,6 @@
     {
       "id": "nex_pipeline",
       "model": "nex-n2.5:mini",
-      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-pipeline",
       "runtime_group": "nex_phase5",
@@ -51,7 +47,6 @@
     {
       "id": "nex_runtime",
       "model": "nex-n2.5:mini",
-      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "nex_phase5",
@@ -60,7 +55,6 @@
     {
       "id": "ornith35_reasoning_l50",
       "model": "ornith-1.5:35b-a3b",
-      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "ornith35_phase5",
@@ -72,7 +66,6 @@
     {
       "id": "ornith35_mmlu_pro_l20",
       "model": "ornith-1.5:35b-a3b",
-      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "ornith35_phase5",
@@ -83,7 +76,6 @@
     {
       "id": "ornith35_geoimport",
       "model": "ornith-1.5:35b-a3b",
-      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "runtime_group": "ornith35_phase5",
@@ -94,7 +86,6 @@
     {
       "id": "ornith35_pipeline",
       "model": "ornith-1.5:35b-a3b",
-      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-pipeline",
       "runtime_group": "ornith35_phase5",
@@ -103,7 +94,6 @@
     {
       "id": "ornith35_runtime",
       "model": "ornith-1.5:35b-a3b",
-      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "ornith35_phase5",
@@ -112,7 +102,6 @@
     {
       "id": "qwen38_reasoning_l50",
       "model": "qwen3.8:27b",
-      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "qwen38_phase5",
@@ -124,7 +113,6 @@
     {
       "id": "qwen38_mmlu_pro_l20",
       "model": "qwen3.8:27b",
-      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "qwen38_phase5",
@@ -135,7 +123,6 @@
     {
       "id": "qwen38_geoimport",
       "model": "qwen3.8:27b",
-      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "runtime_group": "qwen38_phase5",
@@ -146,7 +133,6 @@
     {
       "id": "qwen38_pipeline",
       "model": "qwen3.8:27b",
-      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-pipeline",
       "runtime_group": "qwen38_phase5",
@@ -155,7 +141,6 @@
     {
       "id": "qwen38_runtime",
       "model": "qwen3.8:27b",
-      "gguf": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "qwen38_phase5",

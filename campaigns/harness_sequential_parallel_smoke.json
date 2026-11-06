@@ -9,7 +9,6 @@
     {
       "id": "knowledge_lane",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-knowledge",
       "suite_args": ["--tasks", "academic"],
@@ -19,7 +18,6 @@
     {
       "id": "data_parallel_lane",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-dataimport",
       "suite_args": ["--tasks", "converter"],
@@ -29,7 +27,6 @@
     {
       "id": "geometry_after_knowledge",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-geoimport",
       "suite_args": ["--tasks", "classification"],

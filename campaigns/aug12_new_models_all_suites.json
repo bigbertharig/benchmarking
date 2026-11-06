@@ -10,7 +10,6 @@
     {
       "id": "ministral3_14b_pipeline",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-pipeline",
       "runtime_group": "ministral3_14b_all_suites",
@@ -23,7 +22,6 @@
     {
       "id": "ministral3_14b_code",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-code",
       "runtime_group": "ministral3_14b_all_suites",
@@ -36,7 +34,6 @@
     {
       "id": "ministral3_14b_reasoning",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-reasoning",
       "runtime_group": "ministral3_14b_all_suites",
@@ -50,7 +47,6 @@
     {
       "id": "ministral3_14b_knowledge",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-knowledge",
       "runtime_group": "ministral3_14b_all_suites",
@@ -64,7 +60,6 @@
     {
       "id": "ministral3_14b_dataimport",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-dataimport",
       "runtime_group": "ministral3_14b_all_suites",
@@ -78,7 +73,6 @@
     {
       "id": "ministral3_14b_geoimport",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-geoimport",
       "runtime_group": "ministral3_14b_all_suites",
@@ -92,7 +86,6 @@
     {
       "id": "ministral3_14b_agent",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-agent",
       "runtime_group": "ministral3_14b_all_suites",
@@ -102,7 +95,6 @@
     {
       "id": "ministral3_14b_routing",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-routing",
       "runtime_group": "ministral3_14b_all_suites",
@@ -112,7 +104,6 @@
     {
       "id": "ministral3_14b_runtime",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-runtime",
       "runtime_group": "ministral3_14b_all_suites",
@@ -121,7 +112,6 @@
     {
       "id": "ministral3_14b_daedalmap",
       "model": "ministral-3:14b",
-      "gguf": "/mnt/shared/models/ministral-3-14b-instruct-2512/Ministral-3-14B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-daedalmap",
       "runtime_group": "ministral3_14b_all_suites",
@@ -131,7 +121,6 @@
     {
       "id": "ministral3_8b_pipeline",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-pipeline",
       "runtime_group": "ministral3_8b_all_suites",
@@ -144,7 +133,6 @@
     {
       "id": "ministral3_8b_code",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-code",
       "runtime_group": "ministral3_8b_all_suites",
@@ -157,7 +145,6 @@
     {
       "id": "ministral3_8b_reasoning",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-reasoning",
       "runtime_group": "ministral3_8b_all_suites",
@@ -171,7 +158,6 @@
     {
       "id": "ministral3_8b_knowledge",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-knowledge",
       "runtime_group": "ministral3_8b_all_suites",
@@ -185,7 +171,6 @@
     {
       "id": "ministral3_8b_dataimport",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-dataimport",
       "runtime_group": "ministral3_8b_all_suites",
@@ -199,7 +184,6 @@
     {
       "id": "ministral3_8b_geoimport",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-geoimport",
       "runtime_group": "ministral3_8b_all_suites",
@@ -213,7 +197,6 @@
     {
       "id": "ministral3_8b_agent",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-agent",
       "runtime_group": "ministral3_8b_all_suites",
@@ -223,7 +206,6 @@
     {
       "id": "ministral3_8b_routing",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-routing",
       "runtime_group": "ministral3_8b_all_suites",
@@ -233,7 +215,6 @@
     {
       "id": "ministral3_8b_runtime",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-runtime",
       "runtime_group": "ministral3_8b_all_suites",
@@ -242,7 +223,6 @@
     {
       "id": "ministral3_8b_daedalmap",
       "model": "ministral-3:8b",
-      "gguf": "/mnt/shared/models/ministral-3-8b-instruct-2512/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-daedalmap",
       "runtime_group": "ministral3_8b_all_suites",
@@ -252,7 +232,6 @@
     {
       "id": "ministral3_3b_pipeline",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-pipeline",
       "runtime_group": "ministral3_3b_all_suites",
@@ -265,7 +244,6 @@
     {
       "id": "ministral3_3b_code",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-code",
       "runtime_group": "ministral3_3b_all_suites",
@@ -278,7 +256,6 @@
     {
       "id": "ministral3_3b_reasoning",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-reasoning",
       "runtime_group": "ministral3_3b_all_suites",
@@ -292,7 +269,6 @@
     {
       "id": "ministral3_3b_knowledge",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-knowledge",
       "runtime_group": "ministral3_3b_all_suites",
@@ -306,7 +282,6 @@
     {
       "id": "ministral3_3b_dataimport",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-dataimport",
       "runtime_group": "ministral3_3b_all_suites",
@@ -320,7 +295,6 @@
     {
       "id": "ministral3_3b_geoimport",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-geoimport",
       "runtime_group": "ministral3_3b_all_suites",
@@ -334,7 +308,6 @@
     {
       "id": "ministral3_3b_agent",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-agent",
       "runtime_group": "ministral3_3b_all_suites",
@@ -344,7 +317,6 @@
     {
       "id": "ministral3_3b_routing",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-routing",
       "runtime_group": "ministral3_3b_all_suites",
@@ -354,7 +326,6 @@
     {
       "id": "ministral3_3b_runtime",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-runtime",
       "runtime_group": "ministral3_3b_all_suites",
@@ -363,7 +334,6 @@
     {
       "id": "ministral3_3b_daedalmap",
       "model": "ministral-3:3b",
-      "gguf": "/mnt/shared/models/ministral-3-3b-instruct-2512/Ministral-3-3B-Instruct-2512-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-daedalmap",
       "runtime_group": "ministral3_3b_all_suites",
@@ -373,7 +343,6 @@
     {
       "id": "qwen3coder_30b_pipeline",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-pipeline",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -386,7 +355,6 @@
     {
       "id": "qwen3coder_30b_code",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-code",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -399,7 +367,6 @@
     {
       "id": "qwen3coder_30b_reasoning",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -413,7 +380,6 @@
     {
       "id": "qwen3coder_30b_knowledge",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-knowledge",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -427,7 +393,6 @@
     {
       "id": "qwen3coder_30b_dataimport",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-dataimport",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -441,7 +406,6 @@
     {
       "id": "qwen3coder_30b_geoimport",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -455,7 +419,6 @@
     {
       "id": "qwen3coder_30b_agent",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-agent",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -465,7 +428,6 @@
     {
       "id": "qwen3coder_30b_routing",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-routing",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -475,7 +437,6 @@
     {
       "id": "qwen3coder_30b_runtime",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -484,7 +445,6 @@
     {
       "id": "qwen3coder_30b_daedalmap",
       "model": "qwen3-coder:30b-a3b",
-      "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-daedalmap",
       "runtime_group": "qwen3coder_30b_all_suites",
@@ -494,7 +454,6 @@
     {
       "id": "devstral_24b_pipeline",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-pipeline",
       "runtime_group": "devstral_24b_all_suites",
@@ -507,7 +466,6 @@
     {
       "id": "devstral_24b_code",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-code",
       "runtime_group": "devstral_24b_all_suites",
@@ -520,7 +478,6 @@
     {
       "id": "devstral_24b_reasoning",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "devstral_24b_all_suites",
@@ -534,7 +491,6 @@
     {
       "id": "devstral_24b_knowledge",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-knowledge",
       "runtime_group": "devstral_24b_all_suites",
@@ -548,7 +504,6 @@
     {
       "id": "devstral_24b_dataimport",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-dataimport",
       "runtime_group": "devstral_24b_all_suites",
@@ -562,7 +517,6 @@
     {
       "id": "devstral_24b_geoimport",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "runtime_group": "devstral_24b_all_suites",
@@ -576,7 +530,6 @@
     {
       "id": "devstral_24b_agent",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-agent",
       "runtime_group": "devstral_24b_all_suites",
@@ -586,7 +539,6 @@
     {
       "id": "devstral_24b_routing",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-routing",
       "runtime_group": "devstral_24b_all_suites",
@@ -596,7 +548,6 @@
     {
       "id": "devstral_24b_runtime",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "devstral_24b_all_suites",
@@ -605,7 +556,6 @@
     {
       "id": "devstral_24b_daedalmap",
       "model": "devstral-small:24b",
-      "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-daedalmap",
       "runtime_group": "devstral_24b_all_suites",
@@ -615,7 +565,6 @@
     {
       "id": "qwen35_27b_pipeline",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-pipeline",
       "runtime_group": "qwen35_27b_all_suites",
@@ -628,7 +577,6 @@
     {
       "id": "qwen35_27b_code",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-code",
       "runtime_group": "qwen35_27b_all_suites",
@@ -641,7 +589,6 @@
     {
       "id": "qwen35_27b_reasoning",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "qwen35_27b_all_suites",
@@ -655,7 +602,6 @@
     {
       "id": "qwen35_27b_knowledge",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-knowledge",
       "runtime_group": "qwen35_27b_all_suites",
@@ -669,7 +615,6 @@
     {
       "id": "qwen35_27b_dataimport",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-dataimport",
       "runtime_group": "qwen35_27b_all_suites",
@@ -683,7 +628,6 @@
     {
       "id": "qwen35_27b_geoimport",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "runtime_group": "qwen35_27b_all_suites",
@@ -697,7 +641,6 @@
     {
       "id": "qwen35_27b_agent",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-agent",
       "runtime_group": "qwen35_27b_all_suites",
@@ -707,7 +650,6 @@
     {
       "id": "qwen35_27b_routing",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-routing",
       "runtime_group": "qwen35_27b_all_suites",
@@ -717,7 +659,6 @@
     {
       "id": "qwen35_27b_runtime",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "qwen35_27b_all_suites",
@@ -726,7 +667,6 @@
     {
       "id": "qwen35_27b_daedalmap",
       "model": "qwen3.5:27b",
-      "gguf": "/mnt/shared/models/qwen3.5-27b/Qwen3.5-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-daedalmap",
       "runtime_group": "qwen35_27b_all_suites",

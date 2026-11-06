@@ -5,7 +5,6 @@
       "config_hash": "066b4f1942007784f985ad6b6ed4d6432086a4e08df4fc4c67d6e9280ed38270",
       "ctx_size": 8192,
       "depends_on": [],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_baseline",
       "matrix_profile": "baseline",
       "model": "qwen3.5:4b",
@@ -31,7 +30,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_baseline"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_structured_sampling_candidate",
       "matrix_profile": "structured_sampling_candidate",
       "model": "qwen3.5:4b",
@@ -57,7 +55,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_structured_sampling_candidate"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_thinking_disabled",
       "matrix_profile": "thinking_disabled",
       "model": "qwen3.5:4b",
@@ -83,7 +80,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_thinking_disabled"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_json_grammar",
       "matrix_profile": "json_grammar",
       "model": "qwen3.5:4b",
@@ -109,7 +105,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_json_grammar"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_context_4096",
       "matrix_profile": "context_4096",
       "model": "qwen3.5:4b",
@@ -135,7 +130,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_context_4096"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_kv_q8",
       "matrix_profile": "kv_q8",
       "model": "qwen3.5:4b",
@@ -166,7 +160,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_kv_q8"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_chatml_template",
       "matrix_profile": "chatml_template",
       "model": "qwen3.5:4b",
@@ -195,7 +188,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_chatml_template"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_strict_system_prompt",
       "matrix_profile": "strict_system_prompt",
       "model": "qwen3.5:4b",
@@ -221,7 +213,6 @@
       "depends_on": [
         "qwen35_4b_structured_worker_matrix_strict_system_prompt"
       ],
-      "gguf": "/mnt/shared/models/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf",
       "id": "qwen35_4b_structured_worker_matrix_double_newline_stop",
       "matrix_profile": "double_newline_stop",
       "model": "qwen3.5:4b",

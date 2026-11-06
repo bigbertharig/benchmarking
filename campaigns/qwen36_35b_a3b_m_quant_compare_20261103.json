@@ -9,7 +9,6 @@
     {
       "id": "qwen36moem_reasoning_l50",
       "model": "qwen3.6:35b-a3b",
-      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "qwen36moem_phase5",
@@ -23,7 +22,6 @@
     {
       "id": "qwen36moem_mmlu_pro_l20",
       "model": "qwen3.6:35b-a3b",
-      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "qwen36moem_phase5",
@@ -37,7 +35,6 @@
     {
       "id": "qwen36moem_geoimport",
       "model": "qwen3.6:35b-a3b",
-      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "runtime_group": "qwen36moem_phase5",
@@ -51,7 +48,6 @@
     {
       "id": "qwen36moem_code_full",
       "model": "qwen3.6:35b-a3b",
-      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-code",
       "runtime_group": "qwen36moem_phase5",
@@ -65,7 +61,6 @@
     {
       "id": "qwen36moem_pipeline",
       "model": "qwen3.6:35b-a3b",
-      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-pipeline",
       "runtime_group": "qwen36moem_phase5",
@@ -74,7 +69,6 @@
     {
       "id": "qwen36moem_runtime",
       "model": "qwen3.6:35b-a3b",
-      "gguf": "/mnt/shared/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "qwen36moem_phase5",

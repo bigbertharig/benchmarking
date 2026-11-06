@@ -9,7 +9,6 @@
     {
       "id": "ornith15_35b_runtime",
       "model": "ornith-1.5:35b-a3b",
-      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "ornith15_35b_validation",
@@ -18,7 +17,6 @@
     {
       "id": "ornith15_35b_reasoning_l50",
       "model": "ornith-1.5:35b-a3b",
-      "gguf": "/mnt/shared/models/ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "ornith15_35b_validation",
@@ -32,7 +30,6 @@
     {
       "id": "nex_n25_mini_runtime",
       "model": "nex-n2.5:mini",
-      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-runtime",
       "runtime_group": "nex_n25_mini_validation",
@@ -44,7 +41,6 @@
     {
       "id": "nex_n25_mini_reasoning_l50",
       "model": "nex-n2.5:mini",
-      "gguf": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-reasoning",
       "runtime_group": "nex_n25_mini_validation",
@@ -58,7 +54,6 @@
     {
       "id": "mellum21_12b_reasoning_l50",
       "model": "mellum2.1:12b-a2.5b",
-      "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-reasoning",
       "runtime_group": "mellum21_12b_validation",
@@ -75,7 +70,6 @@
     {
       "id": "mellum21_12b_code_full",
       "model": "mellum2.1:12b-a2.5b",
-      "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-code",
       "runtime_group": "mellum21_12b_validation",
@@ -89,7 +83,6 @@
     {
       "id": "mellum21_12b_runtime",
       "model": "mellum2.1:12b-a2.5b",
-      "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "placement": "split_1_3",
       "suite": "bench-runtime",
       "runtime_group": "mellum21_12b_validation",

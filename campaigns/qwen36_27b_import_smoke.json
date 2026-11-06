@@ -8,7 +8,6 @@
     {
       "id": "qwen36_27b_dataimport_smoke",
       "model": "qwen3.6:27b",
-      "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-dataimport",
       "suite_args": ["--tasks", "schema_understanding,reference", "--run-class", "smoke"],
@@ -19,7 +18,6 @@
     {
       "id": "qwen36_27b_geoimport_smoke",
       "model": "qwen3.6:27b",
-      "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],

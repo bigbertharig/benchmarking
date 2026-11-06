@@ -9,7 +9,6 @@
   {
    "id": "qwen3_coder_30b_a3b_reasoning_l50",
    "model": "qwen3-coder:30b-a3b",
-   "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "qwen3_coder_30b_a3b_phase5",
@@ -23,7 +22,6 @@
   {
    "id": "qwen3_coder_30b_a3b_mmlu_pro_l20",
    "model": "qwen3-coder:30b-a3b",
-   "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "qwen3_coder_30b_a3b_phase5",
@@ -37,7 +35,6 @@
   {
    "id": "qwen3_coder_30b_a3b_code_full",
    "model": "qwen3-coder:30b-a3b",
-   "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-code",
    "runtime_group": "qwen3_coder_30b_a3b_phase5",
@@ -51,7 +48,6 @@
   {
    "id": "qwen3_coder_30b_a3b_geoimport",
    "model": "qwen3-coder:30b-a3b",
-   "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-geoimport",
    "runtime_group": "qwen3_coder_30b_a3b_phase5",
@@ -65,7 +61,6 @@
   {
    "id": "qwen3_coder_30b_a3b_pipeline",
    "model": "qwen3-coder:30b-a3b",
-   "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-pipeline",
    "runtime_group": "qwen3_coder_30b_a3b_phase5",
@@ -74,7 +69,6 @@
   {
    "id": "qwen3_coder_30b_a3b_runtime",
    "model": "qwen3-coder:30b-a3b",
-   "gguf": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-runtime",
    "runtime_group": "qwen3_coder_30b_a3b_phase5",
@@ -83,7 +77,6 @@
   {
    "id": "gpt_oss_20b_reasoning_l50",
    "model": "gpt-oss:20b",
-   "gguf": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "gpt_oss_20b_phase5",
@@ -97,7 +90,6 @@
   {
    "id": "gpt_oss_20b_mmlu_pro_l20",
    "model": "gpt-oss:20b",
-   "gguf": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "gpt_oss_20b_phase5",
@@ -111,7 +103,6 @@
   {
    "id": "gpt_oss_20b_code_full",
    "model": "gpt-oss:20b",
-   "gguf": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
    "placement": "brain",
    "suite": "bench-code",
    "runtime_group": "gpt_oss_20b_phase5",
@@ -125,7 +116,6 @@
   {
    "id": "gpt_oss_20b_geoimport",
    "model": "gpt-oss:20b",
-   "gguf": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
    "placement": "brain",
    "suite": "bench-geoimport",
    "runtime_group": "gpt_oss_20b_phase5",
@@ -139,7 +129,6 @@
   {
    "id": "gpt_oss_20b_pipeline",
    "model": "gpt-oss:20b",
-   "gguf": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
    "placement": "brain",
    "suite": "bench-pipeline",
    "runtime_group": "gpt_oss_20b_phase5",
@@ -148,7 +137,6 @@
   {
    "id": "gpt_oss_20b_runtime",
    "model": "gpt-oss:20b",
-   "gguf": "/mnt/shared/models/gpt-oss-20b/gpt-oss-20b-mxfp4.gguf",
    "placement": "brain",
    "suite": "bench-runtime",
    "runtime_group": "gpt_oss_20b_phase5",
@@ -157,7 +145,6 @@
   {
    "id": "gemma_4_26b_a4b_reasoning_l50",
    "model": "gemma-4:26b-a4b",
-   "gguf": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "gemma_4_26b_a4b_phase5",
@@ -171,7 +158,6 @@
   {
    "id": "gemma_4_26b_a4b_mmlu_pro_l20",
    "model": "gemma-4:26b-a4b",
-   "gguf": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "gemma_4_26b_a4b_phase5",
@@ -185,7 +171,6 @@
   {
    "id": "gemma_4_26b_a4b_code_full",
    "model": "gemma-4:26b-a4b",
-   "gguf": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-code",
    "runtime_group": "gemma_4_26b_a4b_phase5",
@@ -199,7 +184,6 @@
   {
    "id": "gemma_4_26b_a4b_geoimport",
    "model": "gemma-4:26b-a4b",
-   "gguf": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-geoimport",
    "runtime_group": "gemma_4_26b_a4b_phase5",
@@ -213,7 +197,6 @@
   {
    "id": "gemma_4_26b_a4b_pipeline",
    "model": "gemma-4:26b-a4b",
-   "gguf": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-pipeline",
    "runtime_group": "gemma_4_26b_a4b_phase5",
@@ -222,7 +205,6 @@
   {
    "id": "gemma_4_26b_a4b_runtime",
    "model": "gemma-4:26b-a4b",
-   "gguf": "/mnt/shared/models/gemma-4-26b-a4b/gemma-4-26B-A4B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-runtime",
    "runtime_group": "gemma_4_26b_a4b_phase5",
@@ -231,7 +213,6 @@
   {
    "id": "qwen3_6_27b_reasoning_l50",
    "model": "qwen3.6:27b",
-   "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "qwen3_6_27b_phase5",
@@ -245,7 +226,6 @@
   {
    "id": "qwen3_6_27b_mmlu_pro_l20",
    "model": "qwen3.6:27b",
-   "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "qwen3_6_27b_phase5",
@@ -259,7 +239,6 @@
   {
    "id": "qwen3_6_27b_code_full",
    "model": "qwen3.6:27b",
-   "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-code",
    "runtime_group": "qwen3_6_27b_phase5",
@@ -273,7 +252,6 @@
   {
    "id": "qwen3_6_27b_geoimport",
    "model": "qwen3.6:27b",
-   "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-geoimport",
    "runtime_group": "qwen3_6_27b_phase5",
@@ -287,7 +265,6 @@
   {
    "id": "qwen3_6_27b_pipeline",
    "model": "qwen3.6:27b",
-   "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-pipeline",
    "runtime_group": "qwen3_6_27b_phase5",
@@ -296,7 +273,6 @@
   {
    "id": "qwen3_6_27b_runtime",
    "model": "qwen3.6:27b",
-   "gguf": "/mnt/shared/models/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-runtime",
    "runtime_group": "qwen3_6_27b_phase5",
@@ -305,7 +281,6 @@
   {
    "id": "gemma_4_31b_reasoning_l50",
    "model": "gemma-4:31b",
-   "gguf": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "gemma_4_31b_phase5",
@@ -319,7 +294,6 @@
   {
    "id": "gemma_4_31b_mmlu_pro_l20",
    "model": "gemma-4:31b",
-   "gguf": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "gemma_4_31b_phase5",
@@ -333,7 +307,6 @@
   {
    "id": "gemma_4_31b_code_full",
    "model": "gemma-4:31b",
-   "gguf": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-code",
    "runtime_group": "gemma_4_31b_phase5",
@@ -347,7 +320,6 @@
   {
    "id": "gemma_4_31b_geoimport",
    "model": "gemma-4:31b",
-   "gguf": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-geoimport",
    "runtime_group": "gemma_4_31b_phase5",
@@ -361,7 +333,6 @@
   {
    "id": "gemma_4_31b_pipeline",
    "model": "gemma-4:31b",
-   "gguf": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-pipeline",
    "runtime_group": "gemma_4_31b_phase5",
@@ -370,7 +341,6 @@
   {
    "id": "gemma_4_31b_runtime",
    "model": "gemma-4:31b",
-   "gguf": "/mnt/shared/models/gemma-4-31b/gemma-4-31B-it-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-runtime",
    "runtime_group": "gemma_4_31b_phase5",
@@ -379,7 +349,6 @@
   {
    "id": "devstral_small_24b_reasoning_l50",
    "model": "devstral-small:24b",
-   "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "devstral_small_24b_phase5",
@@ -393,7 +362,6 @@
   {
    "id": "devstral_small_24b_mmlu_pro_l20",
    "model": "devstral-small:24b",
-   "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-reasoning",
    "runtime_group": "devstral_small_24b_phase5",
@@ -407,7 +375,6 @@
   {
    "id": "devstral_small_24b_code_full",
    "model": "devstral-small:24b",
-   "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-code",
    "runtime_group": "devstral_small_24b_phase5",
@@ -421,7 +388,6 @@
   {
    "id": "devstral_small_24b_geoimport",
    "model": "devstral-small:24b",
-   "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-geoimport",
    "runtime_group": "devstral_small_24b_phase5",
@@ -435,7 +401,6 @@
   {
    "id": "devstral_small_24b_pipeline",
    "model": "devstral-small:24b",
-   "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-pipeline",
    "runtime_group": "devstral_small_24b_phase5",
@@ -444,7 +409,6 @@
   {
    "id": "devstral_small_24b_runtime",
    "model": "devstral-small:24b",
-   "gguf": "/mnt/shared/models/devstral-small-24b/Devstral-Small-2-24B-Instruct-2512-Q4_K_M.gguf",
    "placement": "brain",
    "suite": "bench-runtime",
    "runtime_group": "devstral_small_24b_phase5",
@@ -453,7 +417,6 @@
   {
    "id": "phi_4_14b_reasoning_l50",
    "model": "phi-4:14b",
-   "gguf": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-reasoning",
    "runtime_group": "phi_4_14b_phase5",
@@ -467,7 +430,6 @@
   {
    "id": "phi_4_14b_mmlu_pro_l20",
    "model": "phi-4:14b",
-   "gguf": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-reasoning",
    "runtime_group": "phi_4_14b_phase5",
@@ -481,7 +443,6 @@
   {
    "id": "phi_4_14b_code_full",
    "model": "phi-4:14b",
-   "gguf": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-code",
    "runtime_group": "phi_4_14b_phase5",
@@ -495,7 +456,6 @@
   {
    "id": "phi_4_14b_geoimport",
    "model": "phi-4:14b",
-   "gguf": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-geoimport",
    "runtime_group": "phi_4_14b_phase5",
@@ -509,7 +469,6 @@
   {
    "id": "phi_4_14b_pipeline",
    "model": "phi-4:14b",
-   "gguf": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-pipeline",
    "runtime_group": "phi_4_14b_phase5",
@@ -518,7 +477,6 @@
   {
    "id": "phi_4_14b_runtime",
    "model": "phi-4:14b",
-   "gguf": "/mnt/shared/models/phi-4-14b/phi-4-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-runtime",
    "runtime_group": "phi_4_14b_phase5",
@@ -527,7 +485,6 @@
   {
    "id": "gemma_4_12b_reasoning_l50",
    "model": "gemma-4:12b",
-   "gguf": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-reasoning",
    "runtime_group": "gemma_4_12b_phase5",
@@ -541,7 +498,6 @@
   {
    "id": "gemma_4_12b_mmlu_pro_l20",
    "model": "gemma-4:12b",
-   "gguf": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-reasoning",
    "runtime_group": "gemma_4_12b_phase5",
@@ -555,7 +511,6 @@
   {
    "id": "gemma_4_12b_code_full",
    "model": "gemma-4:12b",
-   "gguf": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-code",
    "runtime_group": "gemma_4_12b_phase5",
@@ -569,7 +524,6 @@
   {
    "id": "gemma_4_12b_geoimport",
    "model": "gemma-4:12b",
-   "gguf": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-geoimport",
    "runtime_group": "gemma_4_12b_phase5",
@@ -583,7 +537,6 @@
   {
    "id": "gemma_4_12b_pipeline",
    "model": "gemma-4:12b",
-   "gguf": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-pipeline",
    "runtime_group": "gemma_4_12b_phase5",
@@ -592,7 +545,6 @@
   {
    "id": "gemma_4_12b_runtime",
    "model": "gemma-4:12b",
-   "gguf": "/mnt/shared/models/gemma-4-12b/gemma-4-12B-it-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-runtime",
    "runtime_group": "gemma_4_12b_phase5",
@@ -601,7 +553,6 @@
   {
    "id": "mellum2_1_12b_a2_5b_reasoning_l50",
    "model": "mellum2.1:12b-a2.5b",
-   "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-reasoning",
    "runtime_group": "mellum2_1_12b_a2_5b_phase5",
@@ -615,7 +566,6 @@
   {
    "id": "mellum2_1_12b_a2_5b_mmlu_pro_l20",
    "model": "mellum2.1:12b-a2.5b",
-   "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-reasoning",
    "runtime_group": "mellum2_1_12b_a2_5b_phase5",
@@ -629,7 +579,6 @@
   {
    "id": "mellum2_1_12b_a2_5b_code_full",
    "model": "mellum2.1:12b-a2.5b",
-   "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-code",
    "runtime_group": "mellum2_1_12b_a2_5b_phase5",
@@ -643,7 +592,6 @@
   {
    "id": "mellum2_1_12b_a2_5b_geoimport",
    "model": "mellum2.1:12b-a2.5b",
-   "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-geoimport",
    "runtime_group": "mellum2_1_12b_a2_5b_phase5",
@@ -657,7 +605,6 @@
   {
    "id": "mellum2_1_12b_a2_5b_pipeline",
    "model": "mellum2.1:12b-a2.5b",
-   "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-pipeline",
    "runtime_group": "mellum2_1_12b_a2_5b_phase5",
@@ -666,7 +613,6 @@
   {
    "id": "mellum2_1_12b_a2_5b_runtime",
    "model": "mellum2.1:12b-a2.5b",
-   "gguf": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
    "placement": "split",
    "suite": "bench-runtime",
    "runtime_group": "mellum2_1_12b_a2_5b_phase5",

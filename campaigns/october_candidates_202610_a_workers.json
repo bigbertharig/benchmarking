@@ -9,7 +9,6 @@
     {
       "id": "w_ornith15_9b_reasoning_l50",
       "model": "ornith-1.5:9b",
-      "gguf": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-reasoning",
       "runtime_group": "w_ornith15_9b_validation",
@@ -20,7 +19,6 @@
     {
       "id": "w_ornith15_9b_runtime",
       "model": "ornith-1.5:9b",
-      "gguf": "/mnt/shared/models/ornith-1.5-9b/Ornith-1.5-9B-Q4_K_M.gguf",
       "placement": "split_4_5",
       "suite": "bench-runtime",
       "runtime_group": "w_ornith15_9b_validation",
@@ -29,7 +27,6 @@
     {
       "id": "w_minicpm5_2b_reasoning_l5",
       "model": "minicpm5:2b",
-      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-reasoning",
       "runtime_group": "w_minicpm5_2b_validation",
@@ -40,7 +37,6 @@
     {
       "id": "w_minicpm5_2b_code_full",
       "model": "minicpm5:2b",
-      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-code",
       "runtime_group": "w_minicpm5_2b_validation",
@@ -51,7 +47,6 @@
     {
       "id": "w_minicpm5_2b_runtime",
       "model": "minicpm5:2b",
-      "gguf": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
       "placement": "single",
       "suite": "bench-runtime",
       "runtime_group": "w_minicpm5_2b_validation",

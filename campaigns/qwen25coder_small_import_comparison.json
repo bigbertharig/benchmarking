@@ -8,7 +8,6 @@
     {
       "id": "qwen25coder_14b_dataimport_smoke",
       "model": "qwen2.5-coder:14b",
-      "gguf": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-dataimport",
       "suite_args": ["--tasks", "schema_understanding,reference", "--run-class", "smoke"],
@@ -19,7 +18,6 @@
     {
       "id": "qwen25coder_14b_geoimport_smoke",
       "model": "qwen2.5-coder:14b",
-      "gguf": "/mnt/shared/models/qwen2.5-coder-14b/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
@@ -31,7 +29,6 @@
     {
       "id": "qwen25coder_7b_dataimport_smoke",
       "model": "qwen2.5-coder:7b",
-      "gguf": "/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-dataimport",
       "suite_args": ["--tasks", "schema_understanding,reference", "--run-class", "smoke"],
@@ -43,7 +40,6 @@
     {
       "id": "qwen25coder_7b_geoimport_smoke",
       "model": "qwen2.5-coder:7b",
-      "gguf": "/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
       "placement": "brain",
       "suite": "bench-geoimport",
       "suite_args": ["--tasks", "classification,prep_plan,prep_handoff", "--run-class", "smoke"],
