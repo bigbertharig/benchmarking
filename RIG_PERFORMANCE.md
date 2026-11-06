@@ -25,14 +25,16 @@ The provisional workload policy targets 8K for small models, 16K for about 30B, 
 
 The manager planned Nemotron 32K on four cards with the normal margin. For Qwen Coder Next 80B, five cards were refused at 32K because its layers/output could not divide within per-card memory; six cards fit and loaded. Neither result changes the model's default benchmark profile yet.
 
-For a **matched Nemotron 32K speed comparison**, the same GGUF, llama-runtime:b11669, 1,542-token prompt, 128-token output, batch 64, 4 CPU threads, and two requests per placement were used. A benchmark lease reserved GPUs 0-3 and was released after both managed runs. The four-GPU leg offloaded 89/89 layers; the 3090 + host-RAM leg offloaded 48/89. The latter left 12,723 MiB host `MemAvailable` after load, above the 4 GiB planning guard.
+For a **matched Nemotron 32K speed comparison**, the same GGUF, llama-runtime:b11669, 1,542-token prompt, 128-token output, batch 64, 4 CPU threads, and two requests per placement were used. The GPU legs offloaded all 89 layers; the 3090 + host-RAM leg offloaded 48/89. The RAM leg left 12,723 MiB host `MemAvailable` after load, above the 4 GiB planning guard. A 3090 + two-1060 placement does not fit this model at 32K with normal margins, so the sweep begins at three 1060s.
 
 | Placement | Warm prompt processing | Warm decode | End-to-end, second request |
 |---|---:|---:|---:|
 | 3090 + three 1060s, all layers on GPUs | 233.18 tok/s | **24.63 tok/s** | 12.16 s |
+| 3090 + four 1060s, all layers on GPUs | 209.27 tok/s | **22.52 tok/s** | 13.44 s |
+| 3090 + five 1060s, all layers on GPUs | 183.33 tok/s | **20.43 tok/s** | 15.08 s |
 | 3090 + host RAM, 48/89 layers on GPU | 72.21 tok/s | 6.26 tok/s | 41.88 s |
 
-On this matched prompt, the GPU split decoded about **3.9x faster** and prefilling about **3.2x faster**. This is one layer split and two requests, not a sweep of RAM placements; host-RAM speed can change with the number of offloaded layers. Load times were about 97/101 s, but run order and file-cache warmth differ, so they are not a controlled load-time comparison. The runner recorded host available memory and swap, but not physical SSD I/O during decode; these are GPU-vs-resident-RAM results, not a Strata storage benchmark. Receipts: `results/ram_offload_comparison_nemotron32k_{gpu4,gpu0ram}_20261104/terminal.json`, with per-placement llama-server logs alongside.
+Each extra 1060 slowed this GPU split, but even all five 1060s decoded **3.26x faster** than the tested 3090 + CPU/RAM layer offload. There is no speed crossover within the available five 1060s for this model, context, and loader configuration. The GPU split with the fewest cards that fits was fastest. This does **not** establish that host RAM is always slower: a different model, a different CPU-layer count, or Strata's expert-cache placement can have a different curve. These are two requests per placement; they measure short 1.5K prompt/decode behavior at a *loaded* 32K context, not long-context performance. Load times were about 93-101 s, but run order and file-cache warmth differ, so they are not a controlled load-time comparison. The runner recorded host available memory and swap, but not physical SSD I/O during decode. Receipts: `results/ram_offload_comparison_nemotron32k_{gpu4,gpu0ram}_20261104/terminal.json` and `results/ram_offload_comparison_nemotron32k_{gpu5,gpu6}_20261106/terminal.json`, with llama-server logs alongside.
 
 ## Placement preference from current tests, 2026-11-04
 
