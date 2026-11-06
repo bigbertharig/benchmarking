@@ -1,0 +1,12 @@
+{
+  "expert": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+  },
+  "standard": {
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "F\n======================================================================\nFAIL: test_lru_cache (__main__.TestLRUCache.test_lru_cache)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpmw25am9v/generated.py\", line 46, in test_lru_cache\n    self.assertEqual(cache.get(1), -1)  # key 1 evicted\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\nAssertionError: 10 != -1\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "coder-next-placement-probe/2",
+  "label": "experts-on-1060s-dense-on-3090-262k-balanced-90pct",
+  "case_set": "depth262_90",
+  "started_at": "2026-11-06T05:31:29.691091+00:00",
+  "port": 11516,
+  "request": {
+    "temperature": 0,
+    "seed": 42,
+    "ignore_eos": true,
+    "cache_prompt": false
+  },
+  "cases": [
+    {
+      "sample_repeats": 9400,
+      "output_limit": 128,
+      "wall_seconds": 1319.225,
+      "prompt_tokens": 235016,
+      "completion_tokens": 128,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 235016,
+        "prompt_ms": 1315057.17,
+        "prompt_per_token_ms": 5.5956069799503005,
+        "prompt_per_second": 178.71162209624697,
+        "predicted_n": 128,
+        "predicted_ms": 3845.266,
+        "predicted_per_token_ms": 30.27768503937008,
+        "predicted_per_second": 33.02762409674649
+      },
+      "stop": true,
+      "stopped_eos": null,
+      "truncated": false
+    }
+  ],
+  "status": "complete",
+  "finished_at": "2026-11-06T05:53:28.925558+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "coder-next-long-recall/1",
+  "started_at": "2026-11-06T05:56:52.306756+00:00",
+  "port": 11516,
+  "markers": {
+    "marker_a": "BRONZE-7319",
+    "marker_b": "ORBIT-4286"
+  },
+  "filler_repeats": [
+    1000,
+    7500,
+    900
+  ],
+  "status": "complete",
+  "wall_seconds": 1323.235,
+  "usage": {
+    "completion_tokens": 36,
+    "prompt_tokens": 235063,
+    "total_tokens": 235099,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "finish_reason": "stop",
+  "content": "```json\n{\n  \"marker_a\": \"BRONZE-7319\",\n  \"marker_b\": \"ORBIT-4286\"\n}\n```",
+  "marker_a_found": true,
+  "marker_b_found": true,
+  "finished_at": "2026-11-06T06:18:55.542141+00:00"
+}

@@ -1,0 +1,146 @@
+{
+  "model": "/data/model-hotset/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+  "tensor_count": 843,
+  "expert_tensor_count": 384,
+  "tensor_types": {
+    "F32": 361,
+    "Q4_K": 291,
+    "MXFP4": 96,
+    "Q6_K": 49,
+    "Q5_K": 46
+  },
+  "expert_kinds": {
+    "ffn_down_exps": {
+      "count": 48,
+      "gib": 13.875,
+      "types": [
+        "Q4_K",
+        "Q5_K"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_down_exps.weight",
+        "shape": [
+          512,
+          2048,
+          512
+        ],
+        "bytes": 369098752
+      }
+    },
+    "ffn_down_shexp": {
+      "count": 48,
+      "gib": 0.038,
+      "types": [
+        "Q6_K"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_down_shexp.weight",
+        "shape": [
+          512,
+          2048
+        ],
+        "bytes": 860160
+      }
+    },
+    "ffn_gate_exps": {
+      "count": 48,
+      "gib": 13.5,
+      "types": [
+        "Q4_K"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_gate_exps.weight",
+        "shape": [
+          2048,
+          512,
+          512
+        ],
+        "bytes": 301989888
+      }
+    },
+    "ffn_gate_inp": {
+      "count": 48,
+      "gib": 0.188,
+      "types": [
+        "F32"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_gate_inp.weight",
+        "shape": [
+          2048,
+          512
+        ],
+        "bytes": 4194304
+      }
+    },
+    "ffn_gate_inp_shexp": {
+      "count": 48,
+      "gib": 0.0,
+      "types": [
+        "F32"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_gate_inp_shexp.weight",
+        "shape": [
+          2048
+        ],
+        "bytes": 8192
+      }
+    },
+    "ffn_gate_shexp": {
+      "count": 48,
+      "gib": 0.025,
+      "types": [
+        "MXFP4"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_gate_shexp.weight",
+        "shape": [
+          2048,
+          512
+        ],
+        "bytes": 557056
+      }
+    },
+    "ffn_up_exps": {
+      "count": 48,
+      "gib": 13.5,
+      "types": [
+        "Q4_K"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_up_exps.weight",
+        "shape": [
+          2048,
+          512,
+          512
+        ],
+        "bytes": 301989888
+      }
+    },
+    "ffn_up_shexp": {
+      "count": 48,
+      "gib": 0.025,
+      "types": [
+        "MXFP4"
+      ],
+      "sample": {
+        "name": "blk.0.ffn_up_shexp.weight",
+        "shape": [
+          2048,
+          512
+        ],
+        "bytes": 557056
+      }
+    }
+  },
+  "metadata": {
+    "qwen3next.block_count": 48,
+    "qwen3next.embedding_length": 2048,
+    "qwen3next.feed_forward_length": 5120,
+    "qwen3next.expert_count": 512,
+    "qwen3next.expert_used_count": 10,
+    "qwen3next.expert_feed_forward_length": 512,
+    "qwen3next.expert_shared_feed_forward_length": 512
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "coder-next-practical-task/1",
+  "label": "standard-32k",
+  "recorded_at": "2026-11-06T06:28:30.265752+00:00",
+  "prompt": "Implement a Python LRUCache class with get(key) returning -1 for missing keys and put(key, value), both O(1). Capacity is a positive integer. Include a small unittest.TestCase covering eviction, update, and access-order behavior, then briefly explain the data structure choices.",
+  "request": {
+    "temperature": 0,
+    "seed": 42,
+    "max_tokens": 1024
+  },
+  "usage": {
+    "completion_tokens": 874,
+    "prompt_tokens": 65,
+    "total_tokens": 939,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "finish_reason": "stop",
+  "content": "Here's a complete implementation of an `LRUCache` class using `OrderedDict` (or `dict` + doubly linked list for full control), along with a unit test and explanation.\n\n```python\nfrom collections import OrderedDict\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.cache = OrderedDict()  # key -> value\n\n    def get(self, key: int) -> int:\n        if key not in self.cache:\n            return -1\n        # Move to end (most recently used)\n        self.cache.move_to_end(key)\n        return self.cache[key]\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            # Update value and mark as recently used\n            self.cache.move_to_end(key)\n        self.cache[key] = value\n        # Evict LRU item if over capacity\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=False)  # pop first item (least recently used)\n\n\nimport unittest\n\nclass TestLRUCache(unittest.TestCase):\n    def test_lru_cache(self):\n        # Test 1: Basic put and get\n        cache = LRUCache(2)\n        cache.put(1, 1)\n        cache.put(2, 2)\n        self.assertEqual(cache.get(1), 1)  # returns 1\n\n        # Test 2: Eviction of LRU item\n        cache.put(3, 3)  # evicts key 2\n        self.assertEqual(cache.get(2), -1)  # returns -1 (not found)\n        self.assertEqual(cache.get(3), 3)   # returns 3\n\n        # Test 3: Update existing key (should not evict)\n        cache.put(1, 10)  # update key 1\n        self.assertEqual(cache.get(1), 10)  # returns 10\n\n        # Test 4: Access order matters for eviction\n        cache.put(4, 4)  # evicts key 1 (since key 3 was accessed after key 1)\n        self.assertEqual(cache.get(1), -1)  # key 1 evicted\n        self.assertEqual(cache.get(3), 3)   # key 3 still present\n        self.assertEqual(cache.get(4), 4)   # key 4 present\n\n        # Test 5: Capacity 1 edge case\n        cache2 = LRUCache(1)\n        cache2.put(1, 1)\n        cache2.put(2, 2)\n        self.assertEqual(cache2.get(1), -1)\n        self.assertEqual(cache2.get(2), 2)\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n### Data Structure Choices Explained\n\n1. **`OrderedDict`**  \n   - Python's `OrderedDict` maintains insertion order and supports `move_to_end()` and `popitem(last=False)` in O(1) time.\n   - The *end* of the `OrderedDict` represents the **most recently used** item; the *beginning* is the **least recently used**.\n   - This avoids manually implementing a doubly linked list, while still achieving O(1) operations.\n\n2. **Why not a plain `dict`?**  \n   - A regular `dict` (pre-3.7) doesn\u2019t guarantee order. Even with insertion order preserved in Python 3.7+, `dict.popitem(last=False)` is O(n) \u2014 so `OrderedDict` is essential for O(1) eviction.\n\n3. **Alternative (for interviews without `OrderedDict`)**  \n   - Use a **doubly linked list** (to maintain access order) + **hash map** (key \u2192 node pointer).\n   - `get`/`put`: move node to head (O(1)), evict tail (O(1)).\n   - More verbose but demonstrates deep understanding of LRU mechanics.\n\n\u2705 Both `get` and `put` run in **O(1)** average time.  \n\u2705 Eviction, updates, and access-order behavior are correctly handled.",
+  "wall_seconds": 23.763
+}
