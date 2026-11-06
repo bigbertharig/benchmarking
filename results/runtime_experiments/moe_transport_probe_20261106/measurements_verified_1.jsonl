@@ -1,0 +1,12 @@
+{"workers": 1, "width": 2048, "bytes_each_way": 8192, "mode": "copy", "iterations": 300, "verified": true, "mean_us": 73.2618, "p50_us": 72.717, "p95_us": 74.035, "gpu0_peer_access": [0]}
+{"workers": 1, "width": 2048, "bytes_each_way": 8192, "mode": "kernel", "iterations": 300, "verified": true, "mean_us": 76.0878, "p50_us": 76.035, "p95_us": 77.399, "gpu0_peer_access": [0]}
+{"workers": 1, "width": 4096, "bytes_each_way": 16384, "mode": "copy", "iterations": 300, "verified": true, "mean_us": 116.595, "p50_us": 117.005, "p95_us": 117.921, "gpu0_peer_access": [0]}
+{"workers": 1, "width": 4096, "bytes_each_way": 16384, "mode": "kernel", "iterations": 300, "verified": true, "mean_us": 120.841, "p50_us": 120.08, "p95_us": 121.814, "gpu0_peer_access": [0]}
+{"workers": 4, "width": 2048, "bytes_each_way": 8192, "mode": "copy", "iterations": 300, "verified": true, "mean_us": 78.1586, "p50_us": 76.195, "p95_us": 103.882, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 4, "width": 2048, "bytes_each_way": 8192, "mode": "kernel", "iterations": 300, "verified": true, "mean_us": 89.9641, "p50_us": 83.887, "p95_us": 114.251, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 4, "width": 4096, "bytes_each_way": 16384, "mode": "copy", "iterations": 300, "verified": true, "mean_us": 128.204, "p50_us": 126.703, "p95_us": 150.295, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 4, "width": 4096, "bytes_each_way": 16384, "mode": "kernel", "iterations": 300, "verified": true, "mean_us": 136.135, "p50_us": 129.728, "p95_us": 159.464, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 5, "width": 2048, "bytes_each_way": 8192, "mode": "copy", "iterations": 300, "verified": true, "mean_us": 81.4589, "p50_us": 79.703, "p95_us": 87.435, "gpu0_peer_access": [0, 0, 0, 0, 0]}
+{"workers": 5, "width": 2048, "bytes_each_way": 8192, "mode": "kernel", "iterations": 300, "verified": true, "mean_us": 91.1844, "p50_us": 89.247, "p95_us": 114.644, "gpu0_peer_access": [0, 0, 0, 0, 0]}
+{"workers": 5, "width": 4096, "bytes_each_way": 16384, "mode": "copy", "iterations": 300, "verified": true, "mean_us": 128.272, "p50_us": 126.963, "p95_us": 134.729, "gpu0_peer_access": [0, 0, 0, 0, 0]}
+{"workers": 5, "width": 4096, "bytes_each_way": 16384, "mode": "kernel", "iterations": 300, "verified": true, "mean_us": 134.629, "p50_us": 134.185, "p95_us": 139.071, "gpu0_peer_access": [0, 0, 0, 0, 0]}

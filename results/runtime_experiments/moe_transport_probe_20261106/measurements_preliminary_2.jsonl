@@ -1,0 +1,12 @@
+{"workers": 1, "width": 2048, "bytes_each_way": 8192, "mode": "copy", "iterations": 300, "mean_us": 73.8638, "p50_us": 73.448, "p95_us": 75.443, "gpu0_peer_access": [0]}
+{"workers": 1, "width": 2048, "bytes_each_way": 8192, "mode": "kernel", "iterations": 300, "mean_us": 77.4812, "p50_us": 76.38, "p95_us": 78.91, "gpu0_peer_access": [0]}
+{"workers": 1, "width": 4096, "bytes_each_way": 16384, "mode": "copy", "iterations": 300, "mean_us": 116.484, "p50_us": 117.003, "p95_us": 118.067, "gpu0_peer_access": [0]}
+{"workers": 1, "width": 4096, "bytes_each_way": 16384, "mode": "kernel", "iterations": 300, "mean_us": 120.923, "p50_us": 120.476, "p95_us": 122.566, "gpu0_peer_access": [0]}
+{"workers": 4, "width": 2048, "bytes_each_way": 8192, "mode": "copy", "iterations": 300, "mean_us": 80.3644, "p50_us": 77.508, "p95_us": 87.464, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 4, "width": 2048, "bytes_each_way": 8192, "mode": "kernel", "iterations": 300, "mean_us": 86.6555, "p50_us": 83.39, "p95_us": 114.344, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 4, "width": 4096, "bytes_each_way": 16384, "mode": "copy", "iterations": 300, "mean_us": 130.902, "p50_us": 126.692, "p95_us": 153.82, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 4, "width": 4096, "bytes_each_way": 16384, "mode": "kernel", "iterations": 300, "mean_us": 135.681, "p50_us": 132.27, "p95_us": 160.295, "gpu0_peer_access": [0, 0, 0, 0]}
+{"workers": 5, "width": 2048, "bytes_each_way": 8192, "mode": "copy", "iterations": 300, "mean_us": 82.9216, "p50_us": 82.059, "p95_us": 90.195, "gpu0_peer_access": [0, 0, 0, 0, 0]}
+{"workers": 5, "width": 2048, "bytes_each_way": 8192, "mode": "kernel", "iterations": 300, "mean_us": 88.8674, "p50_us": 88.325, "p95_us": 92.402, "gpu0_peer_access": [0, 0, 0, 0, 0]}
+{"workers": 5, "width": 4096, "bytes_each_way": 16384, "mode": "copy", "iterations": 300, "mean_us": 127.354, "p50_us": 126.126, "p95_us": 133.803, "gpu0_peer_access": [0, 0, 0, 0, 0]}
+{"workers": 5, "width": 4096, "bytes_each_way": 16384, "mode": "kernel", "iterations": 300, "mean_us": 134.923, "p50_us": 134.519, "p95_us": 139.12, "gpu0_peer_access": [0, 0, 0, 0, 0]}

@@ -1,0 +1,402 @@
+{
+  "schema": "moe-transport-probe/2",
+  "verified": true,
+  "runs": [
+    [
+      {
+        "workers": 1,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 73.2618,
+        "p50_us": 72.717,
+        "p95_us": 74.035,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 1,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 76.0878,
+        "p50_us": 76.035,
+        "p95_us": 77.399,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 1,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 116.595,
+        "p50_us": 117.005,
+        "p95_us": 117.921,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 1,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 120.841,
+        "p50_us": 120.08,
+        "p95_us": 121.814,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 78.1586,
+        "p50_us": 76.195,
+        "p95_us": 103.882,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 89.9641,
+        "p50_us": 83.887,
+        "p95_us": 114.251,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 128.204,
+        "p50_us": 126.703,
+        "p95_us": 150.295,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 136.135,
+        "p50_us": 129.728,
+        "p95_us": 159.464,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 81.4589,
+        "p50_us": 79.703,
+        "p95_us": 87.435,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 91.1844,
+        "p50_us": 89.247,
+        "p95_us": 114.644,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 128.272,
+        "p50_us": 126.963,
+        "p95_us": 134.729,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 134.629,
+        "p50_us": 134.185,
+        "p95_us": 139.071,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    [
+      {
+        "workers": 1,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 72.7388,
+        "p50_us": 72.816,
+        "p95_us": 74.101,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 1,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 77.2019,
+        "p50_us": 76.642,
+        "p95_us": 77.876,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 1,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 116.312,
+        "p50_us": 116.831,
+        "p95_us": 117.908,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 1,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 120.341,
+        "p50_us": 120.139,
+        "p95_us": 121.555,
+        "gpu0_peer_access": [
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 78.8175,
+        "p50_us": 77.83,
+        "p95_us": 86.717,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 86.7304,
+        "p50_us": 86.209,
+        "p95_us": 89.4,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 127.157,
+        "p50_us": 127.713,
+        "p95_us": 132.552,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 4,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 135.447,
+        "p50_us": 131.204,
+        "p95_us": 158.883,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 81.6407,
+        "p50_us": 79.535,
+        "p95_us": 87.116,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 2048,
+        "bytes_each_way": 8192,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 88.8011,
+        "p50_us": 88.494,
+        "p95_us": 92.661,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "copy",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 128.108,
+        "p50_us": 126.928,
+        "p95_us": 134.789,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "workers": 5,
+        "width": 4096,
+        "bytes_each_way": 16384,
+        "mode": "kernel",
+        "iterations": 300,
+        "verified": true,
+        "mean_us": 140.358,
+        "p50_us": 135.767,
+        "p95_us": 159.462,
+        "gpu0_peer_access": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  ]
+}

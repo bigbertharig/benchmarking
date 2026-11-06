@@ -1,0 +1,27 @@
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.9.2
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+{"workers":1,"width":2048,"bytes_each_way":8192,"mode":"copy","iterations":300,"verified":true,"mean_us":72.7388,"p50_us":72.816,"p95_us":74.101,"gpu0_peer_access":[0]}
+{"workers":1,"width":2048,"bytes_each_way":8192,"mode":"kernel","iterations":300,"verified":true,"mean_us":77.2019,"p50_us":76.642,"p95_us":77.876,"gpu0_peer_access":[0]}
+{"workers":1,"width":4096,"bytes_each_way":16384,"mode":"copy","iterations":300,"verified":true,"mean_us":116.312,"p50_us":116.831,"p95_us":117.908,"gpu0_peer_access":[0]}
+{"workers":1,"width":4096,"bytes_each_way":16384,"mode":"kernel","iterations":300,"verified":true,"mean_us":120.341,"p50_us":120.139,"p95_us":121.555,"gpu0_peer_access":[0]}
+{"workers":4,"width":2048,"bytes_each_way":8192,"mode":"copy","iterations":300,"verified":true,"mean_us":78.8175,"p50_us":77.83,"p95_us":86.717,"gpu0_peer_access":[0,0,0,0]}
+{"workers":4,"width":2048,"bytes_each_way":8192,"mode":"kernel","iterations":300,"verified":true,"mean_us":86.7304,"p50_us":86.209,"p95_us":89.4,"gpu0_peer_access":[0,0,0,0]}
+{"workers":4,"width":4096,"bytes_each_way":16384,"mode":"copy","iterations":300,"verified":true,"mean_us":127.157,"p50_us":127.713,"p95_us":132.552,"gpu0_peer_access":[0,0,0,0]}
+{"workers":4,"width":4096,"bytes_each_way":16384,"mode":"kernel","iterations":300,"verified":true,"mean_us":135.447,"p50_us":131.204,"p95_us":158.883,"gpu0_peer_access":[0,0,0,0]}
+{"workers":5,"width":2048,"bytes_each_way":8192,"mode":"copy","iterations":300,"verified":true,"mean_us":81.6407,"p50_us":79.535,"p95_us":87.116,"gpu0_peer_access":[0,0,0,0,0]}
+{"workers":5,"width":2048,"bytes_each_way":8192,"mode":"kernel","iterations":300,"verified":true,"mean_us":88.8011,"p50_us":88.494,"p95_us":92.661,"gpu0_peer_access":[0,0,0,0,0]}
+{"workers":5,"width":4096,"bytes_each_way":16384,"mode":"copy","iterations":300,"verified":true,"mean_us":128.108,"p50_us":126.928,"p95_us":134.789,"gpu0_peer_access":[0,0,0,0,0]}
+{"workers":5,"width":4096,"bytes_each_way":16384,"mode":"kernel","iterations":300,"verified":true,"mean_us":140.358,"p50_us":135.767,"p95_us":159.462,"gpu0_peer_access":[0,0,0,0,0]}
