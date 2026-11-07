@@ -112,7 +112,7 @@ at 19,019 MiB; each 1060 held 2,048 MiB KV and peaked at 2,208 MiB.
 See [the full receipts and private patch](results/runtime_experiments/kv_chat_real_model_20261106/README.md).
 The harness decodes chats sequentially and uses a process-global device
 selector; it is not a concurrent server. The 32K caches were allocated but
-only short prompts were filled. Long-context retrieval, Q4 KV at 200–250K,
+only short prompts were filled. Long-context retrieval,
 independent continuation under concurrent scheduling, and exact transfer
 accounting remain open. A production path also needs an explicit per-context
 device parameter, a scheduler that shares or budgets GPU0 workspace, and a
