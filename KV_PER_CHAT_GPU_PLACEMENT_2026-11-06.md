@@ -265,3 +265,31 @@ The PCIe rate samples are archived but not phase-aligned tightly enough to
 claim fewer transferred bytes. This is a speed and residency result for a
 hybrid MoE model; dense models need a different weight-placement strategy.
 It remains a private experiment, not a Manager profile.
+
+## Byte-balanced expert group placement with live chats (2026-11-07)
+
+The [matched whole-expert placement test](results/runtime_experiments/kv_matched_placement_20261107/README.md)
+held the Nemotron model, 3090 plus four expert 1060s, two 8K 1060 chats,
+optional paired chat, quantization, prompts, and output counts fixed. A
+header-only GGUF inventory allowed an interleaved layer assignment with the
+same 44 expert tensors and per-card expert bytes within 3.4 MiB of the
+existing contiguous assignment. All five measured runs passed first-token,
+model-buffer, phase, and occupied-depth checks. A local SATA copy of the
+same GGUF avoided repeated shared-storage load stalls; load time is excluded
+from the token rates.
+
+In short-history A/B/A order, the two-chat controls measured 64.09 and 61.21
+aggregate tok/s, with interleaved at 61.88. With the paired chat added, the
+controls measured 71.44 and 71.23, with interleaved at 68.49 (3.98% below
+their mean). At 10% and 90% occupied depth, the interleaved run measured
+43.55 and 14.45 aggregate tok/s versus 44.32 and 14.54 for contiguous.
+Both layouts filled the paired chat to 29,491 tokens in 538.2 seconds.
+Graph split counts were the same for both layouts. The 1 Hz PCIe samples
+cannot establish exact transferred bytes or explain the small speed gaps.
+
+There is no measured benefit from redistributing whole expert layers among
+these four 1060s, so the contiguous layout remains the supported experimental
+recipe. A routing-derived hot-expert placement needs expert-granularity
+residency and per-token transfer tracing; the current tensor overrides can
+only move whole expert tensors. This result should not change a Manager
+serving profile yet.

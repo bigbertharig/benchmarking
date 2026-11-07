@@ -1,0 +1,427 @@
+{
+  "matched_local_A1_short": {
+    "exit": "0",
+    "valid": true,
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "phases": {
+      "two_workers": {
+        "chats": 2,
+        "tokens_each": 256,
+        "seconds": 7.989335,
+        "aggregate_tps": 64.085434,
+        "ok": true
+      },
+      "two_workers_plus_pair": {
+        "chats": 3,
+        "tokens_each": 256,
+        "seconds": 10.750869,
+        "aggregate_tps": 71.436084,
+        "ok": true
+      }
+    },
+    "fills": [],
+    "benches": [
+      [
+        "worker4",
+        "two_workers",
+        261
+      ],
+      [
+        "worker5",
+        "two_workers",
+        261
+      ],
+      [
+        "worker4",
+        "two_workers_plus_pair",
+        517
+      ],
+      [
+        "worker5",
+        "two_workers_plus_pair",
+        517
+      ],
+      [
+        "large_pair45",
+        "two_workers_plus_pair",
+        261
+      ]
+    ],
+    "model_buffers_mib": {
+      "0": 20558.75,
+      "1": 4000.5,
+      "2": 3888.59,
+      "3": 4012.63,
+      "4": 4207.19
+    },
+    "peak_gpu_mib": {
+      "0": 21491,
+      "1": 4088,
+      "2": 3978,
+      "3": 4102,
+      "4": 4638,
+      "5": 444
+    },
+    "graph_splits": [
+      62,
+      68
+    ],
+    "buffer_matched": true
+  },
+  "matched_local_B_short": {
+    "exit": "0",
+    "valid": true,
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "phases": {
+      "two_workers": {
+        "chats": 2,
+        "tokens_each": 256,
+        "seconds": 8.273575,
+        "aggregate_tps": 61.883768,
+        "ok": true
+      },
+      "two_workers_plus_pair": {
+        "chats": 3,
+        "tokens_each": 256,
+        "seconds": 11.212796,
+        "aggregate_tps": 68.493173,
+        "ok": true
+      }
+    },
+    "fills": [],
+    "benches": [
+      [
+        "worker4",
+        "two_workers",
+        261
+      ],
+      [
+        "worker5",
+        "two_workers",
+        261
+      ],
+      [
+        "worker5",
+        "two_workers_plus_pair",
+        517
+      ],
+      [
+        "worker4",
+        "two_workers_plus_pair",
+        517
+      ],
+      [
+        "large_pair45",
+        "two_workers_plus_pair",
+        261
+      ]
+    ],
+    "model_buffers_mib": {
+      "0": 20558.75,
+      "1": 3997.25,
+      "2": 3891.94,
+      "3": 4014.47,
+      "4": 4205.25
+    },
+    "peak_gpu_mib": {
+      "0": 21491,
+      "1": 4084,
+      "2": 3980,
+      "3": 4104,
+      "4": 4636,
+      "5": 444
+    },
+    "graph_splits": [
+      62,
+      68
+    ],
+    "buffer_matched": true
+  },
+  "matched_local_A2_short": {
+    "exit": "0",
+    "valid": true,
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "phases": {
+      "two_workers": {
+        "chats": 2,
+        "tokens_each": 256,
+        "seconds": 8.365095,
+        "aggregate_tps": 61.206714,
+        "ok": true
+      },
+      "two_workers_plus_pair": {
+        "chats": 3,
+        "tokens_each": 256,
+        "seconds": 10.781874,
+        "aggregate_tps": 71.230663,
+        "ok": true
+      }
+    },
+    "fills": [],
+    "benches": [
+      [
+        "worker4",
+        "two_workers",
+        261
+      ],
+      [
+        "worker5",
+        "two_workers",
+        261
+      ],
+      [
+        "worker5",
+        "two_workers_plus_pair",
+        517
+      ],
+      [
+        "worker4",
+        "two_workers_plus_pair",
+        517
+      ],
+      [
+        "large_pair45",
+        "two_workers_plus_pair",
+        261
+      ]
+    ],
+    "model_buffers_mib": {
+      "0": 20558.75,
+      "1": 4000.5,
+      "2": 3888.59,
+      "3": 4012.63,
+      "4": 4207.19
+    },
+    "peak_gpu_mib": {
+      "0": 21491,
+      "1": 4088,
+      "2": 3978,
+      "3": 4102,
+      "4": 4638,
+      "5": 444
+    },
+    "graph_splits": [
+      62,
+      68
+    ],
+    "buffer_matched": true
+  },
+  "matched_local_B_depth": {
+    "exit": "0",
+    "valid": true,
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "phases": {
+      "depth10": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 8.817552,
+        "aggregate_tps": 43.549502,
+        "ok": true
+      },
+      "depth90": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 26.571585,
+        "aggregate_tps": 14.451528,
+        "ok": true
+      }
+    },
+    "fills": [
+      [
+        "worker4",
+        819
+      ],
+      [
+        "worker5",
+        819
+      ],
+      [
+        "large_pair45",
+        3276
+      ],
+      [
+        "worker4",
+        7372
+      ],
+      [
+        "worker5",
+        7372
+      ],
+      [
+        "large_pair45",
+        29491
+      ]
+    ],
+    "benches": [
+      [
+        "worker4",
+        "depth10",
+        947
+      ],
+      [
+        "worker5",
+        "depth10",
+        947
+      ],
+      [
+        "large_pair45",
+        "depth10",
+        3404
+      ],
+      [
+        "worker4",
+        "depth90",
+        7500
+      ],
+      [
+        "worker5",
+        "depth90",
+        7500
+      ],
+      [
+        "large_pair45",
+        "depth90",
+        29619
+      ]
+    ],
+    "model_buffers_mib": {
+      "0": 20558.75,
+      "1": 3997.25,
+      "2": 3891.94,
+      "3": 4014.47,
+      "4": 4205.25
+    },
+    "peak_gpu_mib": {
+      "0": 21539,
+      "1": 4084,
+      "2": 3980,
+      "3": 4104,
+      "4": 4402,
+      "5": 198
+    },
+    "graph_splits": [
+      62,
+      68
+    ],
+    "buffer_matched": true
+  },
+  "matched_local_A_depth": {
+    "exit": "0",
+    "valid": true,
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "phases": {
+      "depth10": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 8.665153,
+        "aggregate_tps": 44.31543,
+        "ok": true
+      },
+      "depth90": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 26.411063,
+        "aggregate_tps": 14.539362,
+        "ok": true
+      }
+    },
+    "fills": [
+      [
+        "worker4",
+        819
+      ],
+      [
+        "worker5",
+        819
+      ],
+      [
+        "large_pair45",
+        3276
+      ],
+      [
+        "worker4",
+        7372
+      ],
+      [
+        "worker5",
+        7372
+      ],
+      [
+        "large_pair45",
+        29491
+      ]
+    ],
+    "benches": [
+      [
+        "worker4",
+        "depth10",
+        947
+      ],
+      [
+        "worker5",
+        "depth10",
+        947
+      ],
+      [
+        "large_pair45",
+        "depth10",
+        3404
+      ],
+      [
+        "worker4",
+        "depth90",
+        7500
+      ],
+      [
+        "worker5",
+        "depth90",
+        7500
+      ],
+      [
+        "large_pair45",
+        "depth90",
+        29619
+      ]
+    ],
+    "model_buffers_mib": {
+      "0": 20558.75,
+      "1": 4000.5,
+      "2": 3888.59,
+      "3": 4012.63,
+      "4": 4207.19
+    },
+    "peak_gpu_mib": {
+      "0": 21539,
+      "1": 4088,
+      "2": 3978,
+      "3": 4102,
+      "4": 4404,
+      "5": 198
+    },
+    "graph_splits": [
+      62,
+      68
+    ],
+    "buffer_matched": true
+  }
+}

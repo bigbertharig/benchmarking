@@ -1,0 +1,3 @@
+*.pcie.txt -diff
+*.gpu.csv -diff
+*.log -diff
