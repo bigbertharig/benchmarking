@@ -1,0 +1,12 @@
+{
+  "label": "overnight_qwen27_recall_256k",
+  "mode": "recall_handoff",
+  "valid": true,
+  "errors": [],
+  "quality": {
+    "evidence": 15,
+    "final_visible": 15,
+    "final_pass": 15
+  },
+  "exit": 0
+}

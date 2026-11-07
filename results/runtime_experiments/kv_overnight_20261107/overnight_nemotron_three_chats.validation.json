@@ -1,0 +1,13 @@
+{
+  "label": "overnight_nemotron_three_chats",
+  "mode": "two_workers_and_pair",
+  "valid": true,
+  "errors": [],
+  "quality": {
+    "parallel_phases": [
+      "PARALLEL phase=two_workers chats=2 tokens_each=64 seconds=4.712982 aggregate_tps=27.159027 ok=1",
+      "PARALLEL phase=two_workers_plus_pair chats=3 tokens_each=64 seconds=5.778068 aggregate_tps=33.229098 ok=1"
+    ]
+  },
+  "exit": 0
+}

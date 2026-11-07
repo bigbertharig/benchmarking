@@ -1,0 +1,12 @@
+{
+  "label": "overnight_llama70_ram_128k",
+  "mode": "ram_kv",
+  "valid": true,
+  "errors": [],
+  "quality": {
+    "cpu_kv": [
+      "llama_kv_cache:        CPU KV buffer size = 11520.00 MiB"
+    ]
+  },
+  "exit": 0
+}

@@ -64,3 +64,24 @@ resume its prefill from the deepest valid checkpoint. A Pi user service
 waits for the campaign's terminal marker, then reloads the normal `chat-27b`
 route on GPU0 and records that outcome. A model load or answer failure must
 be read from its receipt; this experimental code is not a Manager profile.
+
+## Completed results
+
+The campaign finished at 2026-11-07T12:28:31Z with suite exit 0. All five
+cases exited 0 and passed their validators. The Pi watcher completed with
+exit 0 and restored the normal `chat-27b` route on GPU0.
+
+| Case | Result |
+| --- | --- |
+| Qwen3.6 27B, five distinct 256K chats | All five reached 235,929 occupied tokens (90%) in separate 4,608 MiB GPU KV buffers on GPUs1-5. Concurrent recall at 10%, 50%, and 90% gave 15/15 correct final answers. The case took about 65 minutes including model load, prefill, snapshots, state transfer, and inference. |
+| Nemotron 3.5 Bolt 74B, three chats | Weights loaded on GPUs0-3. Two 8K contexts on GPUs4/5 ran concurrently; adding a 131,072-capacity context split across GPUs4+5 also ran concurrently. The 64-token phases measured 27.16 and 33.23 aggregate tokens/s, respectively. The 131K context had only a short prompt, so occupied-depth capacity is not proven. |
+| Qwen3 1.7B, GPU weights and RAM KV | At 32K capacity, synthetic 10% and 90% histories decoded at 51.07 and 8.19 tokens/s for 32-token samples. |
+| Llama 3.3 70B Q4, GPU weights and RAM KV | All six GPUs held model layers while a 131,072-capacity Q4 K/V buffer occupied 11,520 MiB of CPU RAM. A short 32-token decode ran at 3.75 tokens/s. This establishes allocation and decode at that configured capacity, not a 128K occupied-history answer test. |
+| Llama 3.3 70B Q4, RAM KV depth | With 8K capacity and synthetic histories, 32-token decode measured 2.82 tokens/s at 10% (851 used tokens) and 0.85 tokens/s at 90% (7,404 used tokens). |
+
+The recall filler and RAM-depth histories are synthetic. Short Nemotron phases
+and the 70B capacity probe should not be treated as steady-state speed or
+long-context quality measurements. The 70B raw prompt also did not use the
+model's instruct chat template. These configurations remain experimental
+until the Manager handoff schema can express weight placement, per-context
+cache placement, RAM KV, and evidence-backed occupied-depth limits.

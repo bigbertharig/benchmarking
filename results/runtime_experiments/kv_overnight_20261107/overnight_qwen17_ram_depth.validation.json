@@ -1,0 +1,13 @@
+{
+  "label": "overnight_qwen17_ram_depth",
+  "mode": "ram_depth",
+  "valid": true,
+  "errors": [],
+  "quality": {
+    "depth": [
+      "BENCH name=ram_kv phase=ram_depth10 used=3308 tokens=32 seconds=0.626542 tps=51.073980",
+      "BENCH name=ram_kv phase=ram_depth90 used=29523 tokens=32 seconds=3.908993 tps=8.186252"
+    ]
+  },
+  "exit": 0
+}

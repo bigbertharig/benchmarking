@@ -1,0 +1,13 @@
+{
+  "label": "overnight_llama70_ram_8k_depth",
+  "mode": "ram_depth",
+  "valid": true,
+  "errors": [],
+  "quality": {
+    "depth": [
+      "BENCH name=ram_kv phase=ram_depth10 used=851 tokens=32 seconds=11.361840 tps=2.816445",
+      "BENCH name=ram_kv phase=ram_depth90 used=7404 tokens=32 seconds=37.636195 tps=0.850245"
+    ]
+  },
+  "exit": 0
+}
