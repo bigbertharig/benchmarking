@@ -205,3 +205,38 @@ The earlier process-global-selector and sequential-decode limitations above
 describe the historical prototypes; this experiment replaces those two
 mechanisms in the private fork. Manager load profiles and robust serving
 remain to be implemented.
+
+## Overnight distinct-chat, hybrid MoE, and RAM-KV campaign (2026-11-07)
+
+The five-case campaign finished with exit 0; all cases passed their explicit
+validators. [Receipts, source, and interpretation](results/runtime_experiments/kv_overnight_20261107/README.md)
+are archived in the benchmarking repo.
+
+Qwen3.6 27B Q4_K_M used one model load on GPU0. Five **different** chats
+were prepared separately, transferred to GPUs1-5, and continued concurrently
+at 10%, 50%, and 90% of a 262,144-token context. Each worker had a 4,608 MiB
+Q4 GPU KV buffer; at 90%, each held 235,929 occupied tokens. The final
+answer contained its own planted code in all 15 worker/depth checks. The
+synthetic filler controls depth and does not establish natural-conversation
+quality. This case took about 65 minutes including preparation and state I/O.
+
+With Nemotron 3.5 Bolt 74B, the newer b11669 private port placed the model
+on GPUs0-3. Two 8K-capacity chats on GPUs4/5 ran concurrently; a third chat
+with 131,072 configured capacity was then added across GPUs4+5 and all three
+continued concurrently. The 64-token phases delivered 27.16 and 33.23
+aggregate tokens/s. The large context had only a short prompt, so occupied
+131K operation remains untested. The older fork's tensor-shape load failure
+was a version mismatch; the b11669 build loaded the same model successfully.
+
+GPU weights plus host-RAM Q4 KV also worked. Qwen3 1.7B at 32K capacity
+measured 51.07 tok/s at 10% occupied and 8.19 at 90%. Llama 3.3 70B Q4
+loaded model layers across all six GPUs with an 11,520 MiB CPU KV allocation
+for 131,072 configured tokens and decoded a short prompt at 3.75 tok/s. A
+separate 8K-capacity synthetic-depth run measured 2.82 tok/s at 10% and
+0.85 at 90%. The 70B 128K context was allocated but not filled, and the
+raw prompt did not use its instruct template.
+
+These are experiment profiles, not Manager serving profiles. A Manager
+handoff needs to encode model-weight placement separately from per-chat KV
+placement, configured capacity separately from measured occupied depth, and
+the RAM-KV mode before it can select these layouts safely.
