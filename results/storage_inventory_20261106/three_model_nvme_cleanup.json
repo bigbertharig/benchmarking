@@ -1,0 +1,36 @@
+{
+  "schema": "model-hotset-cleanup/1",
+  "started_at": "2026-11-07T00:36:42.597685+00:00",
+  "status": "complete",
+  "files": [
+    {
+      "model_id": "qwen3-coder-30b-a3b",
+      "hotset": "/data/model-hotset/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "archive": "/mnt/shared/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+      "status": "removed_from_hotset",
+      "bytes": 18556689568,
+      "hotset_sha256": "fadc3e5f8d42bf7e894a785b05082e47daee4df26680389817e2093056f088ad",
+      "archive_sha256": "fadc3e5f8d42bf7e894a785b05082e47daee4df26680389817e2093056f088ad"
+    },
+    {
+      "model_id": "nex-n2.5-mini",
+      "hotset": "/data/model-hotset/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "archive": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "status": "removed_from_hotset",
+      "bytes": 22318512256,
+      "hotset_sha256": "7f4b8e921dd000e7232c48f53a67a022da22914a52f9fdf972cbdab6f9c407ef",
+      "archive_sha256": "7f4b8e921dd000e7232c48f53a67a022da22914a52f9fdf972cbdab6f9c407ef"
+    },
+    {
+      "model_id": "qwen3-coder-next",
+      "hotset": "/data/model-hotset/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+      "archive": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+      "status": "removed_from_hotset",
+      "bytes": 45531949088,
+      "hotset_sha256": "95e490ddf8d25eb911557ee1f4604ab7207e43f00a2bcf16223040ca0484cdb5",
+      "archive_sha256": "95e490ddf8d25eb911557ee1f4604ab7207e43f00a2bcf16223040ca0484cdb5"
+    }
+  ],
+  "finished_at": "2026-11-07T00:59:58.783000+00:00",
+  "bytes_reclaimed": 86407150912
+}

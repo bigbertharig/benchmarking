@@ -1,0 +1,24 @@
+{
+  "schema": "model-hotset-copy-verification/1",
+  "checked_at": "2026-11-07T00:32:40.246583+00:00",
+  "files": [
+    {
+      "hotset": "/data/model-hotset/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+      "archive": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+      "hotset_bytes": 43904518656,
+      "archive_bytes": 43904518656,
+      "status": "verified",
+      "hotset_sha256": "da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02",
+      "archive_sha256": "da1855d1d4ac1f40c344e04b889f9601bae2d3b60e9622dd985c9fcf2c6d4a02"
+    },
+    {
+      "hotset": "/data/model-hotset/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "archive": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "hotset_bytes": 16464440224,
+      "archive_bytes": 16464440224,
+      "status": "verified",
+      "hotset_sha256": "322e194ff79741c7baa497c240f677f54b201b0efab44ca8e50f122b39123482",
+      "archive_sha256": "322e194ff79741c7baa497c240f677f54b201b0efab44ca8e50f122b39123482"
+    }
+  ]
+}
