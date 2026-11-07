@@ -1,0 +1,16 @@
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.9.2
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+{"schema":"kv-attention-worker-probe/1","tokens":200000,"cache_mib_per_gpu":3515,"workspace_mib_per_gpu":1024,"active_fp16_kv_mib_per_gpu":97.6562,"workers":5,"verified":true,"iterations":10,"p50_ms":2.44205,"min_ms":2.40821,"max_ms":2.5019}

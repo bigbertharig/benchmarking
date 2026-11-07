@@ -1,0 +1,1 @@
+{"schema":"kv-attention-worker-probe/1","tokens":200000,"cache_mib_per_gpu":3515,"workspace_mib_per_gpu":1024,"active_fp16_kv_mib_per_gpu":97.6562,"workers":5,"verified":true,"iterations":10,"p50_ms":2.2084,"min_ms":2.17995,"max_ms":2.26827}
