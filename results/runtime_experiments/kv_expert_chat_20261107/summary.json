@@ -1,0 +1,664 @@
+{
+  "nemo_layer_chat_256": {
+    "exit": "0",
+    "one_weight_load": true,
+    "placement": [
+      "MODEL_PLACEMENT devices=0,1,2,3 split=56,16,9,8"
+    ],
+    "overrides": [],
+    "model_buffers_mib": {
+      "0": "21940.46",
+      "1": "4882.38",
+      "2": "4657.16",
+      "3": "5187.65"
+    },
+    "max_gpu_mib": {
+      "0": 22701,
+      "1": 5120,
+      "2": 4858,
+      "3": 5376,
+      "4": 688,
+      "5": 978
+    },
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "bench": [
+      {
+        "name": "worker4",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 18.761833,
+        "tps": 13.644723
+      },
+      {
+        "name": "worker5",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 18.768924,
+        "tps": 13.639567
+      },
+      {
+        "name": "worker4",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 23.185698,
+        "tps": 11.041289
+      },
+      {
+        "name": "worker5",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 23.198467,
+        "tps": 11.035212
+      },
+      {
+        "name": "large_pair45",
+        "phase": "two_workers_plus_pair",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 23.212475,
+        "tps": 11.028552
+      }
+    ],
+    "fill": [],
+    "phases": {
+      "two_workers": {
+        "chats": 2,
+        "tokens_each": 256,
+        "seconds": 18.769007,
+        "aggregate_tps": 27.279013,
+        "ok": true
+      },
+      "two_workers_plus_pair": {
+        "chats": 3,
+        "tokens_each": 256,
+        "seconds": 23.212548,
+        "aggregate_tps": 33.085554,
+        "ok": true
+      }
+    },
+    "valid": true,
+    "vs_four_card_baseline": {
+      "two_workers": 1.0,
+      "two_workers_plus_pair": 1.0
+    },
+    "vs_five_card_depth_baseline": {}
+  },
+  "nemo_experts1234_chat_256": {
+    "exit": "0",
+    "one_weight_load": true,
+    "placement": [
+      "MODEL_PLACEMENT devices=0,1,2,3,4 split=88,0,0,0,0"
+    ],
+    "overrides": [
+      "TENSOR_OVERRIDE gpu=1 pattern=blk[.](1|3|5|8|10|12|14)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=2 pattern=blk[.](17|19|21|23|26)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=3 pattern=blk[.](28|30|32|34|37)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=4 pattern=blk[.](39|41|43|45|48)[.]ffn_(up|down)_exps[.]weight"
+    ],
+    "model_buffers_mib": {
+      "0": "20558.75",
+      "1": "4000.50",
+      "2": "3888.59",
+      "3": "4012.63",
+      "4": "4207.19"
+    },
+    "max_gpu_mib": {
+      "0": 21491,
+      "1": 4088,
+      "2": 3978,
+      "3": 4102,
+      "4": 4638,
+      "5": 444
+    },
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "bench": [
+      {
+        "name": "worker4",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 7.618925,
+        "tps": 33.600542
+      },
+      {
+        "name": "worker5",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 7.626417,
+        "tps": 33.567533
+      },
+      {
+        "name": "worker5",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 9.995599,
+        "tps": 25.611272
+      },
+      {
+        "name": "worker4",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 10.063557,
+        "tps": 25.438321
+      },
+      {
+        "name": "large_pair45",
+        "phase": "two_workers_plus_pair",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 10.663882,
+        "tps": 24.006267
+      }
+    ],
+    "fill": [],
+    "phases": {
+      "two_workers": {
+        "chats": 2,
+        "tokens_each": 256,
+        "seconds": 7.626516,
+        "aggregate_tps": 67.134197,
+        "ok": true
+      },
+      "two_workers_plus_pair": {
+        "chats": 3,
+        "tokens_each": 256,
+        "seconds": 10.66398,
+        "aggregate_tps": 72.018137,
+        "ok": true
+      }
+    },
+    "valid": true,
+    "vs_four_card_baseline": {
+      "two_workers": 2.461,
+      "two_workers_plus_pair": 2.177
+    },
+    "vs_five_card_depth_baseline": {}
+  },
+  "nemo_experts1235_chat_256": {
+    "exit": "0",
+    "one_weight_load": true,
+    "placement": [
+      "MODEL_PLACEMENT devices=0,1,2,3,5 split=88,0,0,0,0"
+    ],
+    "overrides": [
+      "TENSOR_OVERRIDE gpu=1 pattern=blk[.](1|3|5|8|10|12|14)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=2 pattern=blk[.](17|19|21|23|26)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=3 pattern=blk[.](28|30|32|34|37)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=5 pattern=blk[.](39|41|43|45|48)[.]ffn_(up|down)_exps[.]weight"
+    ],
+    "model_buffers_mib": {
+      "0": "20558.75",
+      "1": "4000.50",
+      "2": "3888.59",
+      "3": "4012.63",
+      "5": "4207.19"
+    },
+    "max_gpu_mib": {
+      "0": 21491,
+      "1": 4088,
+      "2": 3978,
+      "3": 4102,
+      "4": 426,
+      "5": 4656
+    },
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "bench": [
+      {
+        "name": "worker5",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 7.735794,
+        "tps": 33.09292
+      },
+      {
+        "name": "worker4",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 7.743335,
+        "tps": 33.060689
+      },
+      {
+        "name": "worker4",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 9.990386,
+        "tps": 25.624636
+      },
+      {
+        "name": "worker5",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 9.997197,
+        "tps": 25.607179
+      },
+      {
+        "name": "large_pair45",
+        "phase": "two_workers_plus_pair",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 10.768328,
+        "tps": 23.773422
+      }
+    ],
+    "fill": [],
+    "phases": {
+      "two_workers": {
+        "chats": 2,
+        "tokens_each": 256,
+        "seconds": 7.743411,
+        "aggregate_tps": 66.120733,
+        "ok": true
+      },
+      "two_workers_plus_pair": {
+        "chats": 3,
+        "tokens_each": 256,
+        "seconds": 10.768405,
+        "aggregate_tps": 71.319754,
+        "ok": true
+      }
+    },
+    "valid": true,
+    "vs_four_card_baseline": {
+      "two_workers": 2.424,
+      "two_workers_plus_pair": 2.156
+    },
+    "vs_five_card_depth_baseline": {}
+  },
+  "nemo_layer5_chat_256": {
+    "exit": "0",
+    "one_weight_load": true,
+    "placement": [
+      "MODEL_PLACEMENT devices=0,1,2,3,4 split=56,12,11,10,10"
+    ],
+    "overrides": [],
+    "model_buffers_mib": {
+      "0": "20326.65",
+      "1": "3787.60",
+      "2": "2708.60",
+      "3": "4657.16",
+      "4": "5187.65"
+    },
+    "max_gpu_mib": {
+      "0": 21045,
+      "1": 4000,
+      "2": 2922,
+      "3": 4858,
+      "4": 5968,
+      "5": 978
+    },
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "bench": [
+      {
+        "name": "worker5",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 24.042553,
+        "tps": 10.647788
+      },
+      {
+        "name": "worker4",
+        "phase": "two_workers",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 24.134539,
+        "tps": 10.607205
+      },
+      {
+        "name": "worker4",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 35.941464,
+        "tps": 7.122693
+      },
+      {
+        "name": "worker5",
+        "phase": "two_workers_plus_pair",
+        "used": 517,
+        "tokens": 256,
+        "seconds": 35.952684,
+        "tps": 7.12047
+      },
+      {
+        "name": "large_pair45",
+        "phase": "two_workers_plus_pair",
+        "used": 261,
+        "tokens": 256,
+        "seconds": 35.98415,
+        "tps": 7.114243
+      }
+    ],
+    "fill": [],
+    "phases": {
+      "two_workers": {
+        "chats": 2,
+        "tokens_each": 256,
+        "seconds": 24.134626,
+        "aggregate_tps": 21.214333,
+        "ok": true
+      },
+      "two_workers_plus_pair": {
+        "chats": 3,
+        "tokens_each": 256,
+        "seconds": 35.984261,
+        "aggregate_tps": 21.342665,
+        "ok": true
+      }
+    },
+    "valid": true,
+    "vs_four_card_baseline": {
+      "two_workers": 0.778,
+      "two_workers_plus_pair": 0.645
+    },
+    "vs_five_card_depth_baseline": {}
+  },
+  "nemo_layer5_depth_128": {
+    "exit": "0",
+    "one_weight_load": true,
+    "placement": [
+      "MODEL_PLACEMENT devices=0,1,2,3,4 split=56,12,11,10,10"
+    ],
+    "overrides": [],
+    "model_buffers_mib": {
+      "0": "20326.65",
+      "1": "3787.60",
+      "2": "2708.60",
+      "3": "4657.16",
+      "4": "5187.65"
+    },
+    "max_gpu_mib": {
+      "0": 21053,
+      "1": 4000,
+      "2": 2922,
+      "3": 4858,
+      "4": 5542,
+      "5": 336
+    },
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "bench": [
+      {
+        "name": "worker5",
+        "phase": "depth10",
+        "used": 947,
+        "tokens": 128,
+        "seconds": 23.219557,
+        "tps": 5.512594
+      },
+      {
+        "name": "worker4",
+        "phase": "depth10",
+        "used": 947,
+        "tokens": 128,
+        "seconds": 23.346944,
+        "tps": 5.482516
+      },
+      {
+        "name": "large_pair45",
+        "phase": "depth10",
+        "used": 3404,
+        "tokens": 128,
+        "seconds": 23.414106,
+        "tps": 5.46679
+      },
+      {
+        "name": "worker5",
+        "phase": "depth90",
+        "used": 7500,
+        "tokens": 128,
+        "seconds": 30.43562,
+        "tps": 4.205599
+      },
+      {
+        "name": "worker4",
+        "phase": "depth90",
+        "used": 7500,
+        "tokens": 128,
+        "seconds": 30.501339,
+        "tps": 4.196537
+      },
+      {
+        "name": "large_pair45",
+        "phase": "depth90",
+        "used": 29619,
+        "tokens": 128,
+        "seconds": 44.624846,
+        "tps": 2.868357
+      }
+    ],
+    "fill": [
+      {
+        "name": "worker4",
+        "target": 819,
+        "seconds": 9.596013,
+        "tps": 85.347947
+      },
+      {
+        "name": "worker5",
+        "target": 819,
+        "seconds": 9.012644,
+        "tps": 90.872332
+      },
+      {
+        "name": "large_pair45",
+        "target": 3276,
+        "seconds": 43.819849,
+        "tps": 74.760641
+      },
+      {
+        "name": "worker4",
+        "target": 7372,
+        "seconds": 76.93335,
+        "tps": 95.823203
+      },
+      {
+        "name": "worker5",
+        "target": 7372,
+        "seconds": 71.996716,
+        "tps": 102.393559
+      },
+      {
+        "name": "large_pair45",
+        "target": 29491,
+        "seconds": 652.408029,
+        "tps": 45.203306
+      }
+    ],
+    "phases": {
+      "depth10": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 23.414247,
+        "aggregate_tps": 16.400271,
+        "ok": true
+      },
+      "depth90": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 44.625002,
+        "aggregate_tps": 8.605042,
+        "ok": true
+      }
+    },
+    "valid": true,
+    "vs_four_card_baseline": {},
+    "vs_five_card_depth_baseline": {
+      "depth10": 1.0,
+      "depth90": 1.0
+    }
+  },
+  "nemo_experts1234_depth_128": {
+    "exit": "0",
+    "one_weight_load": true,
+    "placement": [
+      "MODEL_PLACEMENT devices=0,1,2,3,4 split=88,0,0,0,0"
+    ],
+    "overrides": [
+      "TENSOR_OVERRIDE gpu=1 pattern=blk[.](1|3|5|8|10|12|14)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=2 pattern=blk[.](17|19|21|23|26)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=3 pattern=blk[.](28|30|32|34|37)[.]ffn_(up|down)_exps[.]weight",
+      "TENSOR_OVERRIDE gpu=4 pattern=blk[.](39|41|43|45|48)[.]ffn_(up|down)_exps[.]weight"
+    ],
+    "model_buffers_mib": {
+      "0": "20558.75",
+      "1": "4000.50",
+      "2": "3888.59",
+      "3": "4012.63",
+      "4": "4207.19"
+    },
+    "max_gpu_mib": {
+      "0": 21539,
+      "1": 4088,
+      "2": 3978,
+      "3": 4102,
+      "4": 4404,
+      "5": 198
+    },
+    "first_tokens": {
+      "worker4": " Tokyo",
+      "worker5": " Berlin",
+      "large_pair45": " Ottawa"
+    },
+    "bench": [
+      {
+        "name": "worker4",
+        "phase": "depth10",
+        "used": 947,
+        "tokens": 128,
+        "seconds": 5.996,
+        "tps": 21.347564
+      },
+      {
+        "name": "worker5",
+        "phase": "depth10",
+        "used": 947,
+        "tokens": 128,
+        "seconds": 6.1976,
+        "tps": 20.653154
+      },
+      {
+        "name": "large_pair45",
+        "phase": "depth10",
+        "used": 3404,
+        "tokens": 128,
+        "seconds": 8.619239,
+        "tps": 14.850498
+      },
+      {
+        "name": "worker4",
+        "phase": "depth90",
+        "used": 7500,
+        "tokens": 128,
+        "seconds": 14.086962,
+        "tps": 9.086416
+      },
+      {
+        "name": "worker5",
+        "phase": "depth90",
+        "used": 7500,
+        "tokens": 128,
+        "seconds": 16.333312,
+        "tps": 7.836745
+      },
+      {
+        "name": "large_pair45",
+        "phase": "depth90",
+        "used": 29619,
+        "tokens": 128,
+        "seconds": 26.442399,
+        "tps": 4.840711
+      }
+    ],
+    "fill": [
+      {
+        "name": "worker4",
+        "target": 819,
+        "seconds": 5.310872,
+        "tps": 154.211968
+      },
+      {
+        "name": "worker5",
+        "target": 819,
+        "seconds": 5.279419,
+        "tps": 155.130694
+      },
+      {
+        "name": "large_pair45",
+        "target": 3276,
+        "seconds": 28.334127,
+        "tps": 115.620289
+      },
+      {
+        "name": "worker4",
+        "target": 7372,
+        "seconds": 44.753178,
+        "tps": 164.725731
+      },
+      {
+        "name": "worker5",
+        "target": 7372,
+        "seconds": 45.335222,
+        "tps": 162.610871
+      },
+      {
+        "name": "large_pair45",
+        "target": 29491,
+        "seconds": 538.7203,
+        "tps": 54.742693
+      }
+    ],
+    "phases": {
+      "depth10": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 8.619346,
+        "aggregate_tps": 44.550946,
+        "ok": true
+      },
+      "depth90": {
+        "chats": 3,
+        "tokens_each": 128,
+        "seconds": 26.442531,
+        "aggregate_tps": 14.522059,
+        "ok": true
+      }
+    },
+    "valid": true,
+    "vs_four_card_baseline": {},
+    "vs_five_card_depth_baseline": {
+      "depth10": 2.716,
+      "depth90": 1.688
+    }
+  }
+}
