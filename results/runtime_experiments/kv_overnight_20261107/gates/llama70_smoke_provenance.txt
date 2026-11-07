@@ -1,0 +1,9 @@
+Run: kvram-llama70-smoke-20261107
+Case: llama70_ram_kv_4k_smoke
+Manager reported the run finished successfully with exit 0 at 2026-11-07T10:06:03Z.
+The runner script was replaced while this case was active. Its .exit and .finish
+files were reconstructed after completion from the Manager terminal status.
+The .start timestamp and total wall time must not be used as load or benchmark
+timing evidence. The BENCH line in the preserved log is the decode timing.
+The GPU and PCIe logs were captured during execution. This is a placement and
+decode smoke test; the raw prompt did not use the model's chat template.

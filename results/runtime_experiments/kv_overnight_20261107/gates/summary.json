@@ -1,0 +1,153 @@
+{
+  "qwen17_ram_kv_smoke": {
+    "exit": "0",
+    "files": [
+      "qwen17_ram_kv_smoke.pcie.txt",
+      "qwen17_ram_kv_smoke.log",
+      "qwen17_ram_kv_smoke.gpu.csv",
+      "qwen17_ram_kv_smoke.finish",
+      "qwen17_ram_kv_smoke.start",
+      "qwen17_ram_kv_smoke.exit"
+    ],
+    "model_ready": true,
+    "recall_rows": 0,
+    "recall_evidence": 0,
+    "recall_final_pass": 0,
+    "parallel_phases": [],
+    "bench": [
+      "BENCH name=ram_kv phase=ram_short used=37 tokens=32 seconds=0.177735 tps=180.043187"
+    ]
+  },
+  "qwen27_recall_handoff_smoke": {
+    "exit": "0",
+    "files": [
+      "qwen27_recall_handoff_smoke.start",
+      "qwen27_recall_handoff_smoke.pcie.txt",
+      "qwen27_recall_handoff_smoke.finish",
+      "qwen27_recall_handoff_smoke.log",
+      "qwen27_recall_handoff_smoke.exit",
+      "qwen27_recall_handoff_smoke.gpu.csv"
+    ],
+    "model_ready": true,
+    "recall_rows": 0,
+    "recall_evidence": 0,
+    "recall_final_pass": 0,
+    "parallel_phases": [],
+    "bench": []
+  },
+  "nemo_two_plus_pair_32k_smoke": {
+    "exit": "3",
+    "files": [
+      "nemo_two_plus_pair_32k_smoke.gpu.csv",
+      "nemo_two_plus_pair_32k_smoke.exit",
+      "nemo_two_plus_pair_32k_smoke.finish",
+      "nemo_two_plus_pair_32k_smoke.start",
+      "nemo_two_plus_pair_32k_smoke.pcie.txt",
+      "nemo_two_plus_pair_32k_smoke.log"
+    ],
+    "model_ready": false,
+    "recall_rows": 0,
+    "recall_evidence": 0,
+    "recall_final_pass": 0,
+    "parallel_phases": [],
+    "bench": []
+  },
+  "llama70_ram_kv_4k_smoke": {
+    "exit": "0",
+    "files": [
+      "llama70_ram_kv_4k_smoke.log",
+      "llama70_ram_kv_4k_smoke.pcie.txt",
+      "llama70_ram_kv_4k_smoke.start",
+      "llama70_ram_kv_4k_smoke.exit",
+      "llama70_ram_kv_4k_smoke.gpu.csv",
+      "llama70_ram_kv_4k_smoke.finish"
+    ],
+    "model_ready": true,
+    "recall_rows": 0,
+    "recall_evidence": 0,
+    "recall_final_pass": 0,
+    "parallel_phases": [],
+    "bench": [
+      "BENCH name=ram_kv phase=ram_short used=38 tokens=32 seconds=8.546936 tps=3.744032"
+    ]
+  },
+  "b11669_qwen17_ram_gate": {
+    "exit": "0",
+    "files": [
+      "b11669_qwen17_ram_gate.log",
+      "b11669_qwen17_ram_gate.pcie.txt",
+      "b11669_qwen17_ram_gate.start",
+      "b11669_qwen17_ram_gate.exit",
+      "b11669_qwen17_ram_gate.gpu.csv",
+      "b11669_qwen17_ram_gate.finish"
+    ],
+    "model_ready": true,
+    "recall_rows": 0,
+    "recall_evidence": 0,
+    "recall_final_pass": 0,
+    "parallel_phases": [],
+    "bench": [
+      "BENCH name=ram_kv phase=ram_short used=21 tokens=16 seconds=0.100075 tps=159.879927"
+    ]
+  },
+  "b11669_nemo_32k_gate": {
+    "exit": "0",
+    "files": [
+      "b11669_nemo_32k_gate.start",
+      "b11669_nemo_32k_gate.exit",
+      "b11669_nemo_32k_gate.gpu.csv",
+      "b11669_nemo_32k_gate.log",
+      "b11669_nemo_32k_gate.pcie.txt",
+      "b11669_nemo_32k_gate.finish"
+    ],
+    "model_ready": true,
+    "recall_rows": 0,
+    "recall_evidence": 0,
+    "recall_final_pass": 0,
+    "parallel_phases": [
+      "PARALLEL phase=two_workers chats=2 tokens_each=16 seconds=1.259480 aggregate_tps=25.407315 ok=1",
+      "PARALLEL phase=two_workers_plus_pair chats=3 tokens_each=16 seconds=1.460627 aggregate_tps=32.862605 ok=1"
+    ],
+    "bench": [
+      "BENCH name=worker5 phase=two_workers used=21 tokens=16 seconds=1.252761 tps=12.771791",
+      "BENCH name=worker4 phase=two_workers used=21 tokens=16 seconds=1.259410 tps=12.704366",
+      "BENCH name=worker4 phase=two_workers_plus_pair used=37 tokens=16 seconds=1.437667 tps=11.129142",
+      "BENCH name=worker5 phase=two_workers_plus_pair used=37 tokens=16 seconds=1.448008 tps=11.049662",
+      "BENCH name=large_pair45 phase=two_workers_plus_pair used=21 tokens=16 seconds=1.460562 tps=10.954686"
+    ]
+  },
+  "qwen27_recall_final_8k_gate": {
+    "exit": "0",
+    "files": [
+      "qwen27_recall_final_8k_gate.gpu.csv",
+      "qwen27_recall_final_8k_gate.log",
+      "qwen27_recall_final_8k_gate.start",
+      "qwen27_recall_final_8k_gate.finish",
+      "qwen27_recall_final_8k_gate.pcie.txt",
+      "qwen27_recall_final_8k_gate.exit"
+    ],
+    "model_ready": true,
+    "recall_rows": 15,
+    "recall_evidence": 15,
+    "recall_final_pass": 2,
+    "parallel_phases": [],
+    "bench": []
+  },
+  "qwen27_recall_direct_4k_gate": {
+    "exit": "0",
+    "files": [
+      "qwen27_recall_direct_4k_gate.start",
+      "qwen27_recall_direct_4k_gate.log",
+      "qwen27_recall_direct_4k_gate.exit",
+      "qwen27_recall_direct_4k_gate.finish",
+      "qwen27_recall_direct_4k_gate.pcie.txt",
+      "qwen27_recall_direct_4k_gate.gpu.csv"
+    ],
+    "model_ready": true,
+    "recall_rows": 15,
+    "recall_evidence": 15,
+    "recall_final_pass": 15,
+    "parallel_phases": [],
+    "bench": []
+  }
+}
