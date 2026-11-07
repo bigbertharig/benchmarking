@@ -1,0 +1,372 @@
+{
+  "source": "/mnt/shared/experiments/kvchat-20261106/llama.cpp",
+  "base": "/data/bench-staging/strata-v0.2.10/install/third_party/llama.cpp",
+  "base_sha256": {
+    "src/llama-kv-cache.cpp": "16b40ff274e5aed3827f0d1c13a04f4f44c4d800c4eecbb5294b04127ab213c3",
+    "src/llama-context.cpp": "9f246c4f7268d1438c3e6f4a544cd497feffe777095eeaa1606a24a3d2f07008",
+    "src/llama-graph.cpp": "90f5c6f082790599124630680ba1293d702b369e9ce9088680d210b69905c8d3",
+    "src/llama-kv-chat-device.h": null,
+    "examples/simple/simple.cpp": "9a5bdba74c80ec545c52038e331a9a75b63fa87be57498f21fe4a62794ac4943"
+  },
+  "runs": {
+    "smoke_1_7b": {
+      "exit": 0,
+      "additions": [
+        [
+          "1,2",
+          "-",
+          "16384"
+        ],
+        [
+          "3,4",
+          "-",
+          "16384"
+        ],
+        [
+          "-",
+          "5",
+          "8192"
+        ]
+      ],
+      "kv_buffers_mib": [
+        [
+          "1",
+          "252.00"
+        ],
+        [
+          "2",
+          "252.00"
+        ],
+        [
+          "3",
+          "252.00"
+        ],
+        [
+          "4",
+          "252.00"
+        ],
+        [
+          "5",
+          "252.00"
+        ]
+      ],
+      "first_tokens": [
+        [
+          "1,2",
+          "-",
+          " Paris"
+        ],
+        [
+          "3,4",
+          "-",
+          " Tokyo"
+        ],
+        [
+          "-",
+          "5",
+          " Madrid"
+        ]
+      ],
+      "phases": [
+        "PHASE_1_READY first pair continued before adding second",
+        "PHASE_2_READY two pairs live; first pair continued",
+        "PHASE_3_READY added single GPU5 chat; earlier pairs continued"
+      ],
+      "sampled_peak_mib": {
+        "0": 1379,
+        "1": 396,
+        "2": 396,
+        "3": 76,
+        "4": 76,
+        "5": 76
+      },
+      "model_buffer_mib": [
+        "1050.43"
+      ]
+    },
+    "qwen27_pair256k": {
+      "exit": 0,
+      "additions": [
+        [
+          "1,2",
+          "-",
+          "262144"
+        ],
+        [
+          "3,4",
+          "-",
+          "262144"
+        ],
+        [
+          "-",
+          "5",
+          "32768"
+        ]
+      ],
+      "kv_buffers_mib": [
+        [
+          "2",
+          "4608.00"
+        ],
+        [
+          "4",
+          "4608.00"
+        ],
+        [
+          "5",
+          "576.00"
+        ]
+      ],
+      "first_tokens": [
+        [
+          "1,2",
+          "-",
+          " Paris"
+        ],
+        [
+          "3,4",
+          "-",
+          " Tokyo"
+        ],
+        [
+          "-",
+          "5",
+          " Madrid"
+        ]
+      ],
+      "phases": [
+        "PHASE_1_READY first pair continued before adding second",
+        "PHASE_2_READY two pairs live; first pair continued",
+        "PHASE_3_READY added single GPU5 chat; earlier pairs continued"
+      ],
+      "sampled_peak_mib": {
+        "0": 16027,
+        "1": 70,
+        "2": 5716,
+        "3": 70,
+        "4": 5716,
+        "5": 76
+      },
+      "model_buffer_mib": [
+        "15345.66"
+      ]
+    },
+    "smoke_1_7b_v2": {
+      "exit": 0,
+      "additions": [
+        [
+          "1,2",
+          "-",
+          "16384"
+        ],
+        [
+          "3,4",
+          "-",
+          "16384"
+        ],
+        [
+          "-",
+          "5",
+          "8192"
+        ]
+      ],
+      "kv_buffers_mib": [
+        [
+          "1",
+          "252.00"
+        ],
+        [
+          "2",
+          "252.00"
+        ],
+        [
+          "3",
+          "252.00"
+        ],
+        [
+          "4",
+          "252.00"
+        ],
+        [
+          "5",
+          "252.00"
+        ]
+      ],
+      "first_tokens": [
+        [
+          "1,2",
+          "-",
+          " Paris"
+        ],
+        [
+          "3,4",
+          "-",
+          " Tokyo"
+        ],
+        [
+          "-",
+          "5",
+          " Madrid"
+        ]
+      ],
+      "phases": [
+        "PHASE_1_READY first pair continued before adding second",
+        "PHASE_2_READY two pairs live; first pair continued",
+        "PHASE_3_READY added single GPU5 chat; earlier pairs continued"
+      ],
+      "sampled_peak_mib": {
+        "0": 1379,
+        "1": 392,
+        "2": 392,
+        "3": 76,
+        "4": 76,
+        "5": 76
+      },
+      "model_buffer_mib": [
+        "1050.43"
+      ]
+    },
+    "qwen27_pair256k_v2": {
+      "exit": 0,
+      "additions": [
+        [
+          "1,2",
+          "-",
+          "262144"
+        ],
+        [
+          "3,4",
+          "-",
+          "262144"
+        ],
+        [
+          "-",
+          "5",
+          "32768"
+        ]
+      ],
+      "kv_buffers_mib": [
+        [
+          "2",
+          "4608.00"
+        ],
+        [
+          "4",
+          "4608.00"
+        ],
+        [
+          "5",
+          "576.00"
+        ]
+      ],
+      "first_tokens": [
+        [
+          "1,2",
+          "-",
+          " Paris"
+        ],
+        [
+          "3,4",
+          "-",
+          " Tokyo"
+        ],
+        [
+          "-",
+          "5",
+          " Madrid"
+        ]
+      ],
+      "phases": [
+        "PHASE_1_READY first pair continued before adding second",
+        "PHASE_2_READY two pairs live; first pair continued",
+        "PHASE_3_READY added single GPU5 chat; earlier pairs continued"
+      ],
+      "sampled_peak_mib": {
+        "0": 16011,
+        "1": 70,
+        "2": 5716,
+        "3": 70,
+        "4": 5712,
+        "5": 74
+      },
+      "model_buffer_mib": [
+        "15345.66"
+      ]
+    },
+    "qwen27_pair256k_v3": {
+      "exit": 0,
+      "additions": [
+        [
+          "1,2",
+          "-",
+          "262144"
+        ],
+        [
+          "3,4",
+          "-",
+          "262144"
+        ],
+        [
+          "-",
+          "5",
+          "32768"
+        ]
+      ],
+      "kv_buffers_mib": [
+        [
+          "1",
+          "2304.00"
+        ],
+        [
+          "2",
+          "2304.00"
+        ],
+        [
+          "3",
+          "2304.00"
+        ],
+        [
+          "4",
+          "2304.00"
+        ],
+        [
+          "5",
+          "576.00"
+        ]
+      ],
+      "first_tokens": [
+        [
+          "1,2",
+          "-",
+          " Paris"
+        ],
+        [
+          "3,4",
+          "-",
+          " Tokyo"
+        ],
+        [
+          "-",
+          "5",
+          " Madrid"
+        ]
+      ],
+      "phases": [
+        "PHASE_1_READY first pair continued before adding second",
+        "PHASE_2_READY two pairs live; first pair continued",
+        "PHASE_3_READY added single GPU5 chat; earlier pairs continued"
+      ],
+      "sampled_peak_mib": {
+        "0": 16027,
+        "1": 3412,
+        "2": 3412,
+        "3": 3408,
+        "4": 3408,
+        "5": 70
+      },
+      "model_buffer_mib": [
+        "15345.66"
+      ]
+    }
+  }
+}

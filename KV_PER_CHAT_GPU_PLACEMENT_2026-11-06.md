@@ -82,7 +82,8 @@ The first engineering gate was a forked llama.cpp prototype with one weight
 copy, two assigned contexts and real token generation. It passed at 4K, then
 five contexts passed at 32K cache capacity on dense and MoE models; details
 follow below. The next capacity gate is long prompts with measured cache
-occupancy, Q4 KV at 200K and 250K, continuations and cross-chat isolation.
+occupancy, continuations and cross-chat isolation. Allocated Q4 KV at 256K
+passed in the paired-worker experiment below.
 Compare bytes copied between cards with the theoretical query/new-KV/result
 traffic. The previous 1M-token layer-split failure was a 3,929-MiB compute
 buffer on a 1060; it does not establish failure for a cache-only worker.
@@ -118,4 +119,33 @@ device parameter, a scheduler that shares or budgets GPU0 workspace, and a
 Manager load contract for one weight GPU plus the chosen cache GPUs. Keep this
 as experimental benchmarking evidence until those runtime and Manager pieces
 are implemented and validated.
+
+## Paired 1060 workers and staged chat creation (2026-11-07)
+
+The private fork assigns one context's KV-bearing attention layers across a
+selected pair of 1060s, keeping one Qwen3.6 27B Q4_0 weight load on GPU0.
+It starts chat A on GPUs1+2 with a 256K Q4_0 K/V allocation, decodes it,
+adds chat B on GPUs3+4 with another 256K allocation, then adds a 32K chat
+on GPU5. Earlier chats continue after each addition. All three short capital
+prompts produced their expected first tokens. The final run reported 2,304
+MiB KV and about 1,029 MiB compute buffer on each paired 1060; sampled
+peaks were 3,412 MiB on GPUs1+2 and 3,408 MiB on GPUs3+4. GPU0's model
+buffer was 15,346 MiB and sampled peak was 16,027 MiB.
+
+The first two 27B runs exposed a hybrid-layer indexing error: although two
+devices were selected, all KV went to one card in each pair. Those runs still
+completed 256K Q4 cache allocations on individual 1060s, with about 5,716
+MiB sampled peak. Thus one 6 GB 1060 *can* reserve a 256K Q4 cache for this
+model at `n_ubatch=8`, but has little headroom. This does not imply a 256K
+FP16 cache fits. The corrected final run counts only KV-bearing layers after
+the cache filter and confirms the intended even split.
+
+These are 256K **configured capacities**, with only short prompts and a few
+continuation tokens filled. A 256K-token retrieval or near-full occupancy
+test remains open. Contexts were created one at a time within the same
+process and model object; this prototype does not grow or migrate an existing
+context's cache. Its process-global device selector and sequential decode are
+not suitable for concurrent serving. Manager integration remains open.
+
+See [patch, logs, GPU samples, and receipts](results/runtime_experiments/kv_pair_dynamic_20261107/README.md).
 

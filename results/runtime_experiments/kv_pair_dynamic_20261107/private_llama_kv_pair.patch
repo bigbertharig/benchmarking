@@ -1,0 +1,465 @@
+--- a/src/llama-kv-cache.cpp
++++ b/src/llama-kv-cache.cpp
+@@ -1,4 +1,5 @@
+ #include "llama-kv-cache.h"
++#include "llama-kv-chat-device.h"
+ 
+ #include "llama-impl.h"
+ #include "llama-io.h"
+@@ -9,6 +10,7 @@
+ #include <cassert>
+ #include <cmath>
+ #include <cstring>
++#include <cstdlib>
+ #include <limits>
+ #include <map>
+ #include <stdexcept>
+@@ -162,6 +164,7 @@
+ 
+     const bool is_mla = hparams.is_mla();
+ 
++    uint32_t kv_ordinal = 0;
+     for (uint32_t il = 0; il < n_layer; il++) {
+         if (!hparams.has_kv(il)) {
+             LLAMA_LOG_DEBUG("%s: layer %3d: does not have KV cache\n", __func__, il);
+@@ -172,6 +175,8 @@
+             LLAMA_LOG_DEBUG("%s: layer %3d: filtered\n", __func__, il);
+             continue;
+         }
++
++        const uint32_t cache_ordinal = kv_ordinal++;
+ 
+         if (share && other) {
+             const int32_t il_share = share(il);
+@@ -215,6 +220,7 @@
+ 
+         if (offload) {
+             auto * dev = model.dev_layer(il);
++            if (auto selected = kv_chat_device_for_layer(cache_ordinal)) dev = selected;
+             buft = ggml_backend_dev_buffer_type(dev);
+ 
+             dev_name = ggml_backend_dev_name(dev);
+--- a/src/llama-context.cpp
++++ b/src/llama-context.cpp
+@@ -1,4 +1,5 @@
+ #include "llama-context.h"
++#include "llama-kv-chat-device.h"
+ 
+ #include "ggml.h"
+ #include "llama-arch.h"
+@@ -16,6 +17,7 @@
+ #include <cinttypes>
+ #include <cmath>
+ #include <cstring>
++#include <cstdlib>
+ #include <limits>
+ #include <stdexcept>
+ #include <string>
+@@ -335,6 +337,21 @@
+                 throw std::runtime_error(format("failed to initialize %s backend", ggml_backend_dev_name(dev.dev)));
+             }
+             backends.emplace_back(backend);
++        }
++
++        // Add the selected cache workers even when weights use only GPU0.
++        for (int il = 0; il < 2; ++il) {
++            auto dev = kv_chat_device_for_layer(il);
++            if (!dev) continue;
++            bool present = false;
++            for (const auto & backend : backends) {
++                present |= ggml_backend_get_device(backend.get()) == dev;
++            }
++            if (!present) {
++                auto backend = ggml_backend_dev_init(dev, nullptr);
++                if (!backend) throw std::runtime_error("failed to initialize KV GPU backend");
++                backends.emplace_back(backend);
++            }
+         }
+ 
+         // add ACCEL backends (such as BLAS)
+@@ -2552,6 +2569,21 @@
+             ggml_format_name(cur, "%s-%d", name, il);
+         } else {
+             ggml_set_name(cur, name);
++        }
++
++        if (strcmp(name, "kv_fattn") == 0) {
++            int cache_ordinal = 0;
++            for (int layer = 0; layer < il; ++layer) {
++                if (model.hparams.has_kv(layer) && !model.hparams.is_recr(layer)) ++cache_ordinal;
++            }
++            if (auto dev = kv_chat_device_for_layer(cache_ordinal)) {
++                for (const auto & backend : backends) {
++                    if (ggml_backend_get_device(backend.get()) == dev &&
++                        ggml_backend_supports_op(backend.get(), cur)) {
++                        ggml_backend_sched_set_tensor_backend(sched.get(), cur, backend.get());
++                    }
++                }
++            }
+         }
+ 
+         // - norm may be automatically assigned to the backend of the previous layer, increasing data transfer between backends
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -2637,6 +2637,7 @@
+         GGML_ASSERT(n_kv_max >= 0 && n_kv_max <= INT32_MAX);
+         ggml_flash_attn_ext_set_n_kv_max(cur, static_cast<int32_t>(n_kv_max));
+         ggml_prec_set_acc(cur, GGML_PREC_F32);
++        cb(cur, "kv_fattn", il);
+ 
+         if (v_mla) {
+ #if 0
+--- /dev/null
++++ b/src/llama-kv-chat-device.h
+@@ -0,0 +1,32 @@
++#pragma once
++
++#include "ggml-backend.h"
++
++#include <cstdio>
++#include <cstdlib>
++#include <stdexcept>
++
++// Private experiment: select one or two CUDA cache workers by layer parity.
++static ggml_backend_dev_t kv_chat_device_for_layer(int il) {
++    int selected = -1;
++    if (const char * pair = std::getenv("LLAMA_KV_DEVICE_PAIR")) {
++        int first = -1;
++        int second = -1;
++        if (std::sscanf(pair, "%d,%d", &first, &second) != 2) {
++            throw std::runtime_error("invalid LLAMA_KV_DEVICE_PAIR");
++        }
++        selected = il % 2 ? second : first;
++    } else if (const char * single = std::getenv("LLAMA_KV_DEVICE_INDEX")) {
++        selected = std::atoi(single);
++    } else {
++        return nullptr;
++    }
++    if (selected < 0) throw std::runtime_error("negative KV device index");
++    int gpu_index = 0;
++    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
++        auto dev = ggml_backend_dev_get(i);
++        if (ggml_backend_dev_type(dev) != GGML_BACKEND_DEVICE_TYPE_GPU) continue;
++        if (gpu_index++ == selected) return dev;
++    }
++    throw std::runtime_error("KV device index not found");
++}
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1,223 +1,108 @@
+ #include "llama.h"
+-#include <clocale>
++#include "ggml-backend.h"
++
+ #include <cstdio>
+-#include <cstring>
++#include <cstdlib>
+ #include <string>
+ #include <vector>
+ 
+-static void print_usage(int, char ** argv) {
+-    printf("\nexample usage:\n");
+-    printf("\n    %s -m model.gguf [-n n_predict] [-ngl n_gpu_layers] [prompt]\n", argv[0]);
+-    printf("\n");
++struct chat {
++    const char * prompt;
++    const char * expected;
++    const char * pair;
++    const char * single;
++    llama_context * ctx = nullptr;
++    llama_sampler * sampler = nullptr;
++    std::vector<llama_token> next;
++    int steps = 0;
++};
++
++static void select_chat(const chat & c) {
++    if (c.pair) { setenv("LLAMA_KV_DEVICE_PAIR", c.pair, 1); unsetenv("LLAMA_KV_DEVICE_INDEX"); }
++    else { unsetenv("LLAMA_KV_DEVICE_PAIR"); setenv("LLAMA_KV_DEVICE_INDEX", c.single, 1); }
++}
++
++static bool add_chat(chat & c, llama_model * model, const llama_vocab * vocab, int ctx_size) {
++    select_chat(c);
++    auto cp = llama_context_default_params();
++    cp.n_ctx = ctx_size;
++    cp.n_batch = 64;
++    cp.n_ubatch = 8;
++    cp.n_seq_max = 1;
++    cp.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_ENABLED;
++    cp.type_k = GGML_TYPE_Q4_0;
++    cp.type_v = GGML_TYPE_Q4_0;
++    c.ctx = llama_init_from_model(model, cp);
++    if (!c.ctx) return false;
++    const std::string prompt(c.prompt);
++    int n = -llama_tokenize(vocab, prompt.c_str(), prompt.size(), nullptr, 0, true, true);
++    c.next.resize(n);
++    if (llama_tokenize(vocab, prompt.c_str(), prompt.size(), c.next.data(), n, true, true) != n) return false;
++    c.sampler = llama_sampler_init_greedy();
++    std::fprintf(stderr, "ADD_CHAT pair=%s single=%s ctx=%d prompt_tokens=%d\n",
++                 c.pair ? c.pair : "-", c.single ? c.single : "-", ctx_size, n);
++    return true;
++}
++
++static bool decode(chat & c, const llama_vocab * vocab) {
++    select_chat(c);
++    auto batch = llama_batch_get_one(c.next.data(), c.next.size());
++    int rc = llama_decode(c.ctx, batch);
++    if (rc) {
++        std::fprintf(stderr, "DECODE_FAILED pair=%s single=%s step=%d rc=%d\n",
++                     c.pair ? c.pair : "-", c.single ? c.single : "-", c.steps, rc);
++        return false;
++    }
++    llama_token token = llama_sampler_sample(c.sampler, c.ctx, -1);
++    char piece[256];
++    int len = llama_token_to_piece(vocab, token, piece, sizeof(piece), 0, true);
++    if (len < 0) return false;
++    const std::string text(piece, len);
++    std::printf("CHAT pair=%s single=%s step=%d token=%d text=%s\n",
++                c.pair ? c.pair : "-", c.single ? c.single : "-", c.steps, token, text.c_str());
++    std::fflush(stdout);
++    if (c.steps == 0 && text.find(c.expected) == std::string::npos) return false;
++    c.next.assign(1, token);
++    ++c.steps;
++    return true;
+ }
+ 
+ int main(int argc, char ** argv) {
+-    std::setlocale(LC_NUMERIC, "C");
++    if (argc != 4) {
++        std::fprintf(stderr, "usage: llama-simple MODEL.gguf PAIR_CONTEXT SINGLE_CONTEXT\n");
++        return 2;
++    }
++    ggml_backend_load_all();
++    auto mp = llama_model_default_params();
++    mp.n_gpu_layers = 99;
++    mp.split_mode = LLAMA_SPLIT_MODE_NONE;
++    mp.main_gpu = 0;
++    llama_model * model = llama_model_load_from_file(argv[1], mp);
++    if (!model) return 3;
++    std::fprintf(stderr, "MODEL_READY one weight load\n");
++    const llama_vocab * vocab = llama_model_get_vocab(model);
++    chat a{"The capital of France is", "Paris", "1,2", nullptr};
++    chat b{"The capital of Japan is", "Tokyo", "3,4", nullptr};
++    chat c{"The capital of Spain is", "Madrid", nullptr, "5"};
++    const int pair_ctx = std::atoi(argv[2]);
++    const int single_ctx = std::atoi(argv[3]);
+ 
+-    // path to the model gguf file
+-    std::string model_path;
+-    // prompt to generate text from
+-    std::string prompt = "Hello my name is";
+-    // number of layers to offload to the GPU
+-    int ngl = 99;
+-    // number of tokens to predict
+-    int n_predict = 32;
++    if (!add_chat(a, model, vocab, pair_ctx)) return 4;
++    if (!decode(a, vocab) || !decode(a, vocab)) return 5;
++    std::fprintf(stderr, "PHASE_1_READY first pair continued before adding second\n");
+ 
+-    // parse command line arguments
++    if (!add_chat(b, model, vocab, pair_ctx)) return 6;
++    if (!decode(b, vocab) || !decode(a, vocab) || !decode(b, vocab)) return 7;
++    std::fprintf(stderr, "PHASE_2_READY two pairs live; first pair continued\n");
+ 
+-    {
+-        int i = 1;
+-        for (; i < argc; i++) {
+-            if (strcmp(argv[i], "-m") == 0) {
+-                if (i + 1 < argc) {
+-                    model_path = argv[++i];
+-                } else {
+-                    print_usage(argc, argv);
+-                    return 1;
+-                }
+-            } else if (strcmp(argv[i], "-n") == 0) {
+-                if (i + 1 < argc) {
+-                    try {
+-                        n_predict = std::stoi(argv[++i]);
+-                    } catch (...) {
+-                        print_usage(argc, argv);
+-                        return 1;
+-                    }
+-                } else {
+-                    print_usage(argc, argv);
+-                    return 1;
+-                }
+-            } else if (strcmp(argv[i], "-ngl") == 0) {
+-                if (i + 1 < argc) {
+-                    try {
+-                        ngl = std::stoi(argv[++i]);
+-                    } catch (...) {
+-                        print_usage(argc, argv);
+-                        return 1;
+-                    }
+-                } else {
+-                    print_usage(argc, argv);
+-                    return 1;
+-                }
+-            } else {
+-                // prompt starts here
+-                break;
+-            }
+-        }
+-        if (model_path.empty()) {
+-            print_usage(argc, argv);
+-            return 1;
+-        }
+-        if (i < argc) {
+-            prompt = argv[i++];
+-            for (; i < argc; i++) {
+-                prompt += " ";
+-                prompt += argv[i];
+-            }
+-        }
++    if (!add_chat(c, model, vocab, single_ctx)) return 8;
++    if (!decode(c, vocab) || !decode(a, vocab) || !decode(b, vocab) || !decode(c, vocab)) return 9;
++    std::fprintf(stderr, "PHASE_3_READY added single GPU5 chat; earlier pairs continued\n");
++
++    for (chat * item : {&a, &b, &c}) {
++        llama_sampler_free(item->sampler);
++        llama_free(item->ctx);
+     }
+-
+-    // load dynamic backends
+-
+-    ggml_backend_load_all();
+-
+-    // initialize the model
+-
+-    llama_model_params model_params = llama_model_default_params();
+-    model_params.n_gpu_layers = ngl;
+-
+-    llama_model * model = llama_model_load_from_file(model_path.c_str(), model_params);
+-
+-    if (model == NULL) {
+-        fprintf(stderr , "%s: error: unable to load model\n" , __func__);
+-        return 1;
+-    }
+-
+-    const llama_vocab * vocab = llama_model_get_vocab(model);
+-    // tokenize the prompt
+-
+-    // find the number of tokens in the prompt
+-    const int n_prompt = -llama_tokenize(vocab, prompt.c_str(), prompt.size(), NULL, 0, true, true);
+-
+-    // allocate space for the tokens and tokenize the prompt
+-    std::vector<llama_token> prompt_tokens(n_prompt);
+-    if (llama_tokenize(vocab, prompt.c_str(), prompt.size(), prompt_tokens.data(), prompt_tokens.size(), true, true) < 0) {
+-        fprintf(stderr, "%s: error: failed to tokenize the prompt\n", __func__);
+-        return 1;
+-    }
+-
+-    // initialize the context
+-
+-    llama_context_params ctx_params = llama_context_default_params();
+-    // n_ctx is the context size
+-    ctx_params.n_ctx = n_prompt + n_predict - 1;
+-    // n_batch is the maximum number of tokens that can be processed in a single call to llama_decode
+-    ctx_params.n_batch = n_prompt;
+-    // enable performance counters
+-    ctx_params.no_perf = false;
+-
+-    llama_context * ctx = llama_init_from_model(model, ctx_params);
+-
+-    if (ctx == NULL) {
+-        fprintf(stderr , "%s: error: failed to create the llama_context\n" , __func__);
+-        return 1;
+-    }
+-
+-    // initialize the sampler
+-
+-    auto sparams = llama_sampler_chain_default_params();
+-    sparams.no_perf = false;
+-    llama_sampler * smpl = llama_sampler_chain_init(sparams);
+-
+-    llama_sampler_chain_add(smpl, llama_sampler_init_greedy());
+-
+-    // print the prompt token-by-token
+-
+-    for (auto id : prompt_tokens) {
+-        char buf[128];
+-        int n = llama_token_to_piece(vocab, id, buf, sizeof(buf), 0, true);
+-        if (n < 0) {
+-            fprintf(stderr, "%s: error: failed to convert token to piece\n", __func__);
+-            return 1;
+-        }
+-        std::string s(buf, n);
+-        printf("%s", s.c_str());
+-    }
+-
+-    // prepare a batch for the prompt
+-
+-    llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+-
+-    if (llama_model_has_encoder(model)) {
+-        if (llama_encode(ctx, batch)) {
+-            fprintf(stderr, "%s : failed to eval\n", __func__);
+-            return 1;
+-        }
+-
+-        llama_token decoder_start_token_id = llama_model_decoder_start_token(model);
+-        if (decoder_start_token_id == LLAMA_TOKEN_NULL) {
+-            decoder_start_token_id = llama_vocab_bos(vocab);
+-        }
+-
+-        batch = llama_batch_get_one(&decoder_start_token_id, 1);
+-    }
+-
+-    // main loop
+-
+-    const auto t_main_start = ggml_time_us();
+-    int n_decode = 0;
+-    llama_token new_token_id;
+-
+-    for (int n_pos = 0; n_pos + batch.n_tokens < n_prompt + n_predict; ) {
+-        // evaluate the current batch with the transformer model
+-        if (llama_decode(ctx, batch)) {
+-            fprintf(stderr, "%s : failed to eval, return code %d\n", __func__, 1);
+-            return 1;
+-        }
+-
+-        n_pos += batch.n_tokens;
+-
+-        // sample the next token
+-        {
+-            new_token_id = llama_sampler_sample(smpl, ctx, -1);
+-
+-            // is it an end of generation?
+-            if (llama_vocab_is_eog(vocab, new_token_id)) {
+-                break;
+-            }
+-
+-            char buf[128];
+-            int n = llama_token_to_piece(vocab, new_token_id, buf, sizeof(buf), 0, true);
+-            if (n < 0) {
+-                fprintf(stderr, "%s: error: failed to convert token to piece\n", __func__);
+-                return 1;
+-            }
+-            std::string s(buf, n);
+-            printf("%s", s.c_str());
+-            fflush(stdout);
+-
+-            // prepare the next batch with the sampled token
+-            batch = llama_batch_get_one(&new_token_id, 1);
+-
+-            n_decode += 1;
+-        }
+-    }
+-
+-    printf("\n");
+-
+-    const auto t_main_end = ggml_time_us();
+-
+-    fprintf(stderr, "%s: decoded %d tokens in %.2f s, speed: %.2f t/s\n",
+-            __func__, n_decode, (t_main_end - t_main_start) / 1000000.0f, n_decode / ((t_main_end - t_main_start) / 1000000.0f));
+-
+-    fprintf(stderr, "\n");
+-    llama_perf_sampler_print(smpl);
+-    llama_perf_context_print(ctx);
+-    fprintf(stderr, "\n");
+-
+-    llama_sampler_free(smpl);
+-    llama_free(ctx);
+     llama_model_free(model);
+-
+     return 0;
+ }
