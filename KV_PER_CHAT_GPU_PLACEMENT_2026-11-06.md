@@ -164,3 +164,44 @@ concurrent throughput. The comparison uses different models and weight
 formats, and histories occupied only a few tokens. A filled 256K history
 remains unmeasured. Receipts and timed source are in
 `results/runtime_experiments/kv_paired_speed_20261107/`.
+
+## Concurrent local and 1060 chats, GPU0 prefill, and state handoff (2026-11-07)
+
+The private llama.cpp fork now uses a thread-local KV device selector so
+independent contexts sharing one model object can decode concurrently. With
+Qwen3.6 27B Q4_K_M dense weights on GPU0, one short local chat and five
+single-1060 chats each reserved a 256K Q4 cache and generated 64 tokens
+concurrently: workers ran at 7.50–7.63 tok/s; aggregate throughput was
+45.0 tok/s. GPT-OSS 20B MXFP4 MoE likewise ran one local and five
+131K-capacity worker chats: workers 16.67–17.17 tok/s, aggregate 100.0
+tok/s. These are short occupied histories despite large allocated capacities.
+
+GPU0 can also serve as a temporary prefill engine without a persistent
+local chat. It filled a Qwen27 256K context to 90% (235,929 tokens) in
+539 seconds, saved a 4.51 GB state, and freed the temporary context. Five
+single-1060 contexts restored copies of that state in 11.05–11.11 seconds
+each, then generated concurrently. At 10% occupancy they ran at
+6.57–6.70 tok/s each (32.84 tok/s aggregate); at 90% they fell to
+1.21–1.26 tok/s each (6.06 tok/s aggregate). The 256K cache fits on each
+1060 with Q4 K/V and small microbatch, but near-full decode is slow.
+
+A separate Qwen3 1.7B 32K run prepared five **different** synthetic 10%
+histories on GPU0, verified five distinct state fingerprints, restored
+them to GPUs1–5, and decoded them concurrently at 252.0 tok/s aggregate.
+This demonstrates additive preparation of separate chats. It does not
+measure long-context retrieval quality or implement agent messaging.
+The 27B distinct-history version prepared five separate 26,214-token
+histories in 38.18–38.30 seconds each; all five fingerprints differed,
+and restored workers decoded concurrently at 31.94 tok/s aggregate.
+The checkpointed 1.7B test also prepared five different 90%-filled 32K
+histories in 12.76–12.85 seconds each, wrote and verified five ~952 MB
+state files, and restored them to GPUs1–5. Three successive concurrent
+continuations gave 104.0, 142.3, and 143.5 tok/s aggregate; the first
+included warmup. These state files remain experiment staging artifacts;
+their fingerprints are in the receipt, not committed as binary results.
+
+See [the matrix, raw receipts, PCIe samples, and private patch](results/runtime_experiments/kv_local_worker_matrix_20261107/README.md).
+The earlier process-global-selector and sequential-decode limitations above
+describe the historical prototypes; this experiment replaces those two
+mechanisms in the private fork. Manager load profiles and robust serving
+remain to be implemented.

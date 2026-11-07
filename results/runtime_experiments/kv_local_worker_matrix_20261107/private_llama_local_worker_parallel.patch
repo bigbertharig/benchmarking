@@ -1,0 +1,802 @@
+--- a/src/llama-kv-cache.cpp
++++ b/src/llama-kv-cache.cpp
+@@ -1,4 +1,5 @@
+ #include "llama-kv-cache.h"
++#include "llama-kv-chat-device.h"
+ 
+ #include "llama-impl.h"
+ #include "llama-io.h"
+@@ -9,6 +10,7 @@
+ #include <cassert>
+ #include <cmath>
+ #include <cstring>
++#include <cstdlib>
+ #include <limits>
+ #include <map>
+ #include <stdexcept>
+@@ -162,6 +164,7 @@
+ 
+     const bool is_mla = hparams.is_mla();
+ 
++    uint32_t kv_ordinal = 0;
+     for (uint32_t il = 0; il < n_layer; il++) {
+         if (!hparams.has_kv(il)) {
+             LLAMA_LOG_DEBUG("%s: layer %3d: does not have KV cache\n", __func__, il);
+@@ -172,6 +175,8 @@
+             LLAMA_LOG_DEBUG("%s: layer %3d: filtered\n", __func__, il);
+             continue;
+         }
++
++        const uint32_t cache_ordinal = kv_ordinal++;
+ 
+         if (share && other) {
+             const int32_t il_share = share(il);
+@@ -215,6 +220,7 @@
+ 
+         if (offload) {
+             auto * dev = model.dev_layer(il);
++            if (auto selected = kv_chat_device_for_layer(cache_ordinal)) dev = selected;
+             buft = ggml_backend_dev_buffer_type(dev);
+ 
+             dev_name = ggml_backend_dev_name(dev);
+--- a/src/llama-context.cpp
++++ b/src/llama-context.cpp
+@@ -1,4 +1,5 @@
+ #include "llama-context.h"
++#include "llama-kv-chat-device.h"
+ 
+ #include "ggml.h"
+ #include "llama-arch.h"
+@@ -16,9 +17,18 @@
+ #include <cinttypes>
+ #include <cmath>
+ #include <cstring>
++#include <cstdlib>
+ #include <limits>
+ #include <stdexcept>
+ #include <string>
++
++thread_local int kv_chat_first = -1;
++thread_local int kv_chat_second = -1;
++
++extern "C" LLAMA_API void llama_kv_chat_select(int first, int second) {
++    kv_chat_first = first;
++    kv_chat_second = second;
++}
+ 
+ //
+ // llama_context
+@@ -335,6 +345,21 @@
+                 throw std::runtime_error(format("failed to initialize %s backend", ggml_backend_dev_name(dev.dev)));
+             }
+             backends.emplace_back(backend);
++        }
++
++        // Add the selected cache workers even when weights use only GPU0.
++        for (int il = 0; il < 2; ++il) {
++            auto dev = kv_chat_device_for_layer(il);
++            if (!dev) continue;
++            bool present = false;
++            for (const auto & backend : backends) {
++                present |= ggml_backend_get_device(backend.get()) == dev;
++            }
++            if (!present) {
++                auto backend = ggml_backend_dev_init(dev, nullptr);
++                if (!backend) throw std::runtime_error("failed to initialize KV GPU backend");
++                backends.emplace_back(backend);
++            }
+         }
+ 
+         // add ACCEL backends (such as BLAS)
+@@ -2552,6 +2577,21 @@
+             ggml_format_name(cur, "%s-%d", name, il);
+         } else {
+             ggml_set_name(cur, name);
++        }
++
++        if (strcmp(name, "kv_fattn") == 0) {
++            int cache_ordinal = 0;
++            for (int layer = 0; layer < il; ++layer) {
++                if (model.hparams.has_kv(layer) && !model.hparams.is_recr(layer)) ++cache_ordinal;
++            }
++            if (auto dev = kv_chat_device_for_layer(cache_ordinal)) {
++                for (const auto & backend : backends) {
++                    if (ggml_backend_get_device(backend.get()) == dev &&
++                        ggml_backend_supports_op(backend.get(), cur)) {
++                        ggml_backend_sched_set_tensor_backend(sched.get(), cur, backend.get());
++                    }
++                }
++            }
+         }
+ 
+         // - norm may be automatically assigned to the backend of the previous layer, increasing data transfer between backends
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -2637,6 +2637,7 @@
+         GGML_ASSERT(n_kv_max >= 0 && n_kv_max <= INT32_MAX);
+         ggml_flash_attn_ext_set_n_kv_max(cur, static_cast<int32_t>(n_kv_max));
+         ggml_prec_set_acc(cur, GGML_PREC_F32);
++        cb(cur, "kv_fattn", il);
+ 
+         if (v_mla) {
+ #if 0
+--- /dev/null
++++ b/src/llama-kv-chat-device.h
+@@ -0,0 +1,23 @@
++#pragma once
++
++#include "ggml-backend.h"
++
++#include <stdexcept>
++
++// Private experiment: thread-scoped placement for independent contexts.
++extern thread_local int kv_chat_first;
++extern thread_local int kv_chat_second;
++extern "C" void llama_kv_chat_select(int first, int second);
++
++static ggml_backend_dev_t kv_chat_device_for_layer(int il) {
++    if (kv_chat_first < 0) return nullptr;
++    const int selected = kv_chat_second >= 0 && il % 2 ? kv_chat_second : kv_chat_first;
++    if (selected < 0) throw std::runtime_error("negative KV device index");
++    int gpu_index = 0;
++    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
++        auto dev = ggml_backend_dev_get(i);
++        if (ggml_backend_dev_type(dev) != GGML_BACKEND_DEVICE_TYPE_GPU) continue;
++        if (gpu_index++ == selected) return dev;
++    }
++    throw std::runtime_error("KV device index not found");
++}
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1,223 +1,443 @@
+ #include "llama.h"
+-#include <clocale>
++#include "ggml-backend.h"
++
++#include <algorithm>
++#include <chrono>
++#include <cstdint>
++#include <cerrno>
+ #include <cstdio>
+-#include <cstring>
++#include <cstdlib>
+ #include <string>
++#include <atomic>
++#include <thread>
+ #include <vector>
+ 
+-static void print_usage(int, char ** argv) {
+-    printf("\nexample usage:\n");
+-    printf("\n    %s -m model.gguf [-n n_predict] [-ngl n_gpu_layers] [prompt]\n", argv[0]);
+-    printf("\n");
++using clock_type = std::chrono::steady_clock;
++
++struct chat {
++    const char * name;
++    const char * prompt;
++    const char * pair;
++    const char * single;
++    llama_context * ctx = nullptr;
++    llama_sampler * sampler = nullptr;
++    std::vector<llama_token> next;
++    int used = 0;
++};
++
++extern "C" void llama_kv_chat_select(int first, int second);
++
++static void select_chat(const chat & c) {
++    if (c.pair) {
++        int first = -1, second = -1;
++        if (std::sscanf(c.pair, "%d,%d", &first, &second) != 2) std::abort();
++        llama_kv_chat_select(first, second);
++    } else {
++        llama_kv_chat_select(std::atoi(c.single), -1);
++    }
++}
++
++static bool add_chat(chat & c, llama_model * model, const llama_vocab * vocab, int cap, bool fast = false) {
++    select_chat(c);
++    auto cp = llama_context_default_params();
++    cp.n_ctx = cap;
++    cp.n_batch = fast ? 512 : 64;
++    cp.n_ubatch = fast ? 32 : 8;
++    cp.n_seq_max = 1;
++    cp.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_ENABLED;
++    cp.type_k = GGML_TYPE_Q4_0;
++    cp.type_v = GGML_TYPE_Q4_0;
++    c.ctx = llama_init_from_model(model, cp);
++    if (!c.ctx) return false;
++    const std::string prompt(c.prompt);
++    const int n = -llama_tokenize(vocab, prompt.c_str(), prompt.size(), nullptr, 0, true, true);
++    c.next.resize(n);
++    if (llama_tokenize(vocab, prompt.c_str(), prompt.size(), c.next.data(), n, true, true) != n) return false;
++    c.sampler = llama_sampler_init_greedy();
++    std::fprintf(stderr, "ADD name=%s pair=%s single=%s cap=%d prompt=%d\n",
++                 c.name, c.pair ? c.pair : "-", c.single ? c.single : "-", cap, n);
++    return true;
++}
++
++static bool decode(chat & c, const llama_vocab * vocab, bool report = false) {
++    select_chat(c);
++    const int count = (int)c.next.size();
++    if (llama_decode(c.ctx, llama_batch_get_one(c.next.data(), count))) return false;
++    c.used += count;
++    const llama_token token = llama_sampler_sample(c.sampler, c.ctx, -1);
++    if (report) {
++        char piece[256];
++        const int len = llama_token_to_piece(vocab, token, piece, sizeof(piece), 0, true);
++        std::fprintf(stderr, "FIRST name=%s token=%d text=%.*s\n", c.name, token,
++                     std::max(0, len), piece);
++    }
++    c.next.assign(1, token);
++    return true;
++}
++
++static bool bench(chat & c, const llama_vocab * vocab, int tokens, const char * phase) {
++    const auto start = clock_type::now();
++    for (int i = 0; i < tokens; ++i) {
++        if (!decode(c, vocab)) return false;
++    }
++    const double seconds = std::chrono::duration<double>(clock_type::now() - start).count();
++    std::fprintf(stderr, "BENCH name=%s phase=%s used=%d tokens=%d seconds=%.6f tps=%.6f\n",
++                 c.name, phase, c.used, tokens, seconds, tokens / seconds);
++    return true;
++}
++
++static bool fill(chat & c, int target, int block_size = 64) {
++    select_chat(c);
++    const llama_token filler = c.next[0];
++    std::vector<llama_token> block(block_size, filler);
++    const auto start = clock_type::now();
++    int last_report = c.used;
++    while (c.used < target) {
++        const int count = std::min(block_size, target - c.used);
++        if (llama_decode(c.ctx, llama_batch_get_one(block.data(), count))) return false;
++        c.used += count;
++        if (c.used - last_report >= 8192 || c.used == target) {
++            const double seconds = std::chrono::duration<double>(clock_type::now() - start).count();
++            std::fprintf(stderr, "FILL_PROGRESS name=%s used=%d target=%d seconds=%.2f\n",
++                         c.name, c.used, target, seconds);
++            std::fflush(stderr);
++            last_report = c.used;
++        }
++    }
++    c.next.assign(1, llama_sampler_sample(c.sampler, c.ctx, -1));
++    const double seconds = std::chrono::duration<double>(clock_type::now() - start).count();
++    std::fprintf(stderr, "FILL_DONE name=%s target=%d seconds=%.6f tps=%.6f\n",
++                 c.name, target, seconds, target / seconds);
++    return true;
++}
++
++struct snapshot {
++    std::vector<uint8_t> data;
++    llama_token next = 0;
++    int used = 0;
++};
++
++static uint64_t fingerprint(const snapshot & state) {
++    uint64_t hash = 1469598103934665603ULL;
++    for (uint8_t byte : state.data) hash = (hash ^ byte) * 1099511628211ULL;
++    return hash;
++}
++
++struct snapshot_header {
++    uint64_t magic;
++    uint64_t length;
++    uint64_t hash;
++    int32_t used;
++    int32_t next;
++};
++
++static bool write_snapshot_file(const std::string & path, const snapshot & state) {
++    const std::string pending = path + ".tmp";
++    FILE * file = std::fopen(pending.c_str(), "wb");
++    if (!file) return false;
++    const snapshot_header header{0x4b564348415431ULL, state.data.size(),
++                                 fingerprint(state), state.used, state.next};
++    bool ok = std::fwrite(&header, sizeof(header), 1, file) == 1 &&
++              std::fwrite(state.data.data(), 1, state.data.size(), file) == state.data.size() &&
++              std::fflush(file) == 0;
++    if (std::fclose(file) != 0) ok = false;
++    if (!ok) {
++        std::remove(pending.c_str());
++        return false;
++    }
++    if (std::rename(pending.c_str(), path.c_str()) != 0) return false;
++    std::fprintf(stderr, "STATE_FILE path=%s bytes=%zu hash=%016llx\n",
++                 path.c_str(), state.data.size(), (unsigned long long)header.hash);
++    return true;
++}
++
++static bool read_snapshot_file(const std::string & path, snapshot & state) {
++    FILE * file = std::fopen(path.c_str(), "rb");
++    if (!file) return false;
++    snapshot_header header{};
++    bool ok = std::fread(&header, sizeof(header), 1, file) == 1 &&
++              header.magic == 0x4b564348415431ULL &&
++              header.length > 0 && header.length <= (uint64_t)8 * 1024 * 1024 * 1024;
++    if (ok) {
++        state.data.resize(header.length);
++        ok = std::fread(state.data.data(), 1, state.data.size(), file) == state.data.size();
++    }
++    ok = std::fclose(file) == 0 && ok;
++    if (ok) ok = fingerprint(state) == header.hash;
++    if (!ok) return false;
++    state.used = header.used;
++    state.next = header.next;
++    std::fprintf(stderr, "STATE_FILE_READ path=%s bytes=%zu hash=%016llx\n",
++                 path.c_str(), state.data.size(), (unsigned long long)header.hash);
++    return true;
++}
++
++static bool save(chat & c, snapshot & state) {
++    select_chat(c);
++    const auto start = clock_type::now();
++    state.data.resize(llama_state_get_size(c.ctx));
++    const size_t copied = llama_state_get_data(c.ctx, state.data.data(), state.data.size());
++    if (copied == 0 || copied > state.data.size()) return false;
++    state.data.resize(copied);
++    state.next = c.next[0];
++    state.used = c.used;
++    const double seconds = std::chrono::duration<double>(clock_type::now() - start).count();
++    std::fprintf(stderr, "STATE_SAVE name=%s used=%d bytes=%zu seconds=%.3f\n",
++                 c.name, state.used, copied, seconds);
++    return true;
++}
++
++static bool restore(chat & c, const snapshot & state) {
++    select_chat(c);
++    const auto start = clock_type::now();
++    const size_t copied = llama_state_set_data(c.ctx, state.data.data(), state.data.size());
++    if (copied != state.data.size()) {
++        std::fprintf(stderr, "STATE_RESTORE_FAILED name=%s read=%zu expected=%zu\n",
++                     c.name, copied, state.data.size());
++        return false;
++    }
++    c.next.assign(1, state.next);
++    c.used = state.used;
++    const double seconds = std::chrono::duration<double>(clock_type::now() - start).count();
++    std::fprintf(stderr, "STATE_RESTORE name=%s used=%d bytes=%zu seconds=%.3f\n",
++                 c.name, c.used, copied, seconds);
++    return true;
++}
++
++static bool parallel_bench(const llama_vocab * vocab, const std::vector<chat *> & chats,
++                           int tokens, const char * phase) {
++    std::atomic<int> ready{0};
++    std::atomic<bool> go{false};
++    std::atomic<bool> ok{true};
++    std::vector<std::thread> threads;
++    for (chat * item : chats) {
++        threads.emplace_back([&, item]() {
++            select_chat(*item);
++            ready.fetch_add(1);
++            while (!go.load()) std::this_thread::yield();
++            if (!bench(*item, vocab, tokens, phase)) ok.store(false);
++        });
++    }
++    while (ready.load() != (int)chats.size()) std::this_thread::yield();
++    const auto start = clock_type::now();
++    go.store(true);
++    for (auto & thread : threads) thread.join();
++    const double seconds = std::chrono::duration<double>(clock_type::now() - start).count();
++    std::fprintf(stderr, "PARALLEL phase=%s chats=%zu tokens_each=%d seconds=%.6f aggregate_tps=%.6f ok=%d\n",
++                 phase, chats.size(), tokens, seconds, chats.size() * tokens / seconds, ok.load());
++    return ok.load();
++}
++
++static void destroy(chat & c) {
++    if (c.sampler) llama_sampler_free(c.sampler);
++    if (c.ctx) llama_free(c.ctx);
+ }
+ 
+ int main(int argc, char ** argv) {
+-    std::setlocale(LC_NUMERIC, "C");
+-
+-    // path to the model gguf file
+-    std::string model_path;
+-    // prompt to generate text from
+-    std::string prompt = "Hello my name is";
+-    // number of layers to offload to the GPU
+-    int ngl = 99;
+-    // number of tokens to predict
+-    int n_predict = 32;
+-
+-    // parse command line arguments
+-
+-    {
+-        int i = 1;
+-        for (; i < argc; i++) {
+-            if (strcmp(argv[i], "-m") == 0) {
+-                if (i + 1 < argc) {
+-                    model_path = argv[++i];
+-                } else {
+-                    print_usage(argc, argv);
+-                    return 1;
+-                }
+-            } else if (strcmp(argv[i], "-n") == 0) {
+-                if (i + 1 < argc) {
+-                    try {
+-                        n_predict = std::stoi(argv[++i]);
+-                    } catch (...) {
+-                        print_usage(argc, argv);
+-                        return 1;
+-                    }
+-                } else {
+-                    print_usage(argc, argv);
+-                    return 1;
+-                }
+-            } else if (strcmp(argv[i], "-ngl") == 0) {
+-                if (i + 1 < argc) {
+-                    try {
+-                        ngl = std::stoi(argv[++i]);
+-                    } catch (...) {
+-                        print_usage(argc, argv);
+-                        return 1;
+-                    }
+-                } else {
+-                    print_usage(argc, argv);
+-                    return 1;
+-                }
++    if (argc != 7) {
++        std::fprintf(stderr, "usage: llama-simple matrix|depth MODEL.gguf LOCAL_CAP PAIR_CAP SINGLE_CAP TOKENS\n");
++        return 2;
++    }
++    ggml_backend_load_all();
++    auto mp = llama_model_default_params();
++    mp.n_gpu_layers = 99;
++    mp.split_mode = LLAMA_SPLIT_MODE_NONE;
++    mp.main_gpu = 0;
++    llama_model * model = llama_model_load_from_file(argv[2], mp);
++    if (!model) return 3;
++    std::fprintf(stderr, "MODEL_READY one weight load\n");
++    const llama_vocab * vocab = llama_model_get_vocab(model);
++    chat local{"local", "The capital of France is", nullptr, "0"};
++    chat a{"pair12", "The capital of Japan is", "1,2", nullptr};
++    chat b{"pair34", "The capital of Germany is", "3,4", nullptr};
++    chat c{"single5", "The capital of Spain is", nullptr, "5"};
++    const int local_cap = std::atoi(argv[3]);
++    const int pair_cap = std::atoi(argv[4]);
++    const int single_cap = std::atoi(argv[5]);
++    const int tokens = std::atoi(argv[6]);
++    if (std::string(argv[1]) == "five_distinct_disk") {
++        const char * state_dir = std::getenv("KV_STATE_DIR");
++        if (!state_dir) return 60;
++        chat w1{"worker1", "The capital of Japan is", nullptr, "1"};
++        chat w2{"worker2", "The capital of Germany is", nullptr, "2"};
++        chat w3{"worker3", "The capital of Italy is", nullptr, "3"};
++        chat w4{"worker4", "The capital of Spain is", nullptr, "4"};
++        chat w5{"worker5", "The capital of Canada is", nullptr, "5"};
++        const std::vector<chat *> workers{&w1, &w2, &w3, &w4, &w5};
++        std::vector<uint64_t> hashes;
++        for (chat * worker : workers) {
++            const std::string path = std::string(state_dir) + "/" + worker->name + ".bin";
++            snapshot state;
++            if (!read_snapshot_file(path, state)) {
++                chat temp{worker->name, worker->prompt, nullptr, "0"};
++                if (!add_chat(temp, model, vocab, pair_cap, true) ||
++                    !decode(temp, vocab, true) ||
++                    !fill(temp, pair_cap * 9 / 10, 512) ||
++                    !save(temp, state) ||
++                    !write_snapshot_file(path, state)) return 61;
++                destroy(temp);
+             } else {
+-                // prompt starts here
+-                break;
++                std::fprintf(stderr, "STATE_REUSE name=%s\n", worker->name);
+             }
+-        }
+-        if (model_path.empty()) {
+-            print_usage(argc, argv);
+-            return 1;
+-        }
+-        if (i < argc) {
+-            prompt = argv[i++];
+-            for (; i < argc; i++) {
+-                prompt += " ";
+-                prompt += argv[i];
++            const uint64_t hash = fingerprint(state);
++            std::fprintf(stderr, "SNAPSHOT_ID name=%s hash=%016llx\n",
++                         worker->name, (unsigned long long)hash);
++            if (std::find(hashes.begin(), hashes.end(), hash) != hashes.end()) return 62;
++            hashes.push_back(hash);
++        }
++        for (chat * worker : workers) {
++            const std::string path = std::string(state_dir) + "/" + worker->name + ".bin";
++            snapshot state;
++            if (!read_snapshot_file(path, state) ||
++                !add_chat(*worker, model, vocab, pair_cap) ||
++                !restore(*worker, state)) return 63;
++        }
++        for (int rep = 1; rep <= 3; ++rep) {
++            const std::string phase = "five_distinct_depth90_rep" + std::to_string(rep);
++            if (!parallel_bench(vocab, workers, tokens, phase.c_str())) return 64;
++        }
++        for (auto it = workers.rbegin(); it != workers.rend(); ++it) destroy(**it);
++        llama_model_free(model);
++        return 0;
++    }
++    if (std::string(argv[1]) == "five_distinct_prefill") {
++        chat w1{"worker1", "The capital of Japan is", nullptr, "1"};
++        chat w2{"worker2", "The capital of Germany is", nullptr, "2"};
++        chat w3{"worker3", "The capital of Italy is", nullptr, "3"};
++        chat w4{"worker4", "The capital of Spain is", nullptr, "4"};
++        chat w5{"worker5", "The capital of Canada is", nullptr, "5"};
++        const std::vector<chat *> workers{&w1, &w2, &w3, &w4, &w5};
++        std::vector<snapshot> states(workers.size());
++        std::vector<uint64_t> fingerprints;
++        for (size_t i = 0; i < workers.size(); ++i) {
++            chat temp{workers[i]->name, workers[i]->prompt, nullptr, "0"};
++            if (!add_chat(temp, model, vocab, pair_cap, true) ||
++                !decode(temp, vocab, true) ||
++                !fill(temp, pair_cap / 10, 512) ||
++                !save(temp, states[i])) return 50;
++            uint64_t hash = 1469598103934665603ULL;
++            for (uint8_t byte : states[i].data) {
++                hash = (hash ^ byte) * 1099511628211ULL;
+             }
+-        }
+-    }
+-
+-    // load dynamic backends
+-
+-    ggml_backend_load_all();
+-
+-    // initialize the model
+-
+-    llama_model_params model_params = llama_model_default_params();
+-    model_params.n_gpu_layers = ngl;
+-
+-    llama_model * model = llama_model_load_from_file(model_path.c_str(), model_params);
+-
+-    if (model == NULL) {
+-        fprintf(stderr , "%s: error: unable to load model\n" , __func__);
+-        return 1;
+-    }
+-
+-    const llama_vocab * vocab = llama_model_get_vocab(model);
+-    // tokenize the prompt
+-
+-    // find the number of tokens in the prompt
+-    const int n_prompt = -llama_tokenize(vocab, prompt.c_str(), prompt.size(), NULL, 0, true, true);
+-
+-    // allocate space for the tokens and tokenize the prompt
+-    std::vector<llama_token> prompt_tokens(n_prompt);
+-    if (llama_tokenize(vocab, prompt.c_str(), prompt.size(), prompt_tokens.data(), prompt_tokens.size(), true, true) < 0) {
+-        fprintf(stderr, "%s: error: failed to tokenize the prompt\n", __func__);
+-        return 1;
+-    }
+-
+-    // initialize the context
+-
+-    llama_context_params ctx_params = llama_context_default_params();
+-    // n_ctx is the context size
+-    ctx_params.n_ctx = n_prompt + n_predict - 1;
+-    // n_batch is the maximum number of tokens that can be processed in a single call to llama_decode
+-    ctx_params.n_batch = n_prompt;
+-    // enable performance counters
+-    ctx_params.no_perf = false;
+-
+-    llama_context * ctx = llama_init_from_model(model, ctx_params);
+-
+-    if (ctx == NULL) {
+-        fprintf(stderr , "%s: error: failed to create the llama_context\n" , __func__);
+-        return 1;
+-    }
+-
+-    // initialize the sampler
+-
+-    auto sparams = llama_sampler_chain_default_params();
+-    sparams.no_perf = false;
+-    llama_sampler * smpl = llama_sampler_chain_init(sparams);
+-
+-    llama_sampler_chain_add(smpl, llama_sampler_init_greedy());
+-
+-    // print the prompt token-by-token
+-
+-    for (auto id : prompt_tokens) {
+-        char buf[128];
+-        int n = llama_token_to_piece(vocab, id, buf, sizeof(buf), 0, true);
+-        if (n < 0) {
+-            fprintf(stderr, "%s: error: failed to convert token to piece\n", __func__);
+-            return 1;
+-        }
+-        std::string s(buf, n);
+-        printf("%s", s.c_str());
+-    }
+-
+-    // prepare a batch for the prompt
+-
+-    llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+-
+-    if (llama_model_has_encoder(model)) {
+-        if (llama_encode(ctx, batch)) {
+-            fprintf(stderr, "%s : failed to eval\n", __func__);
+-            return 1;
+-        }
+-
+-        llama_token decoder_start_token_id = llama_model_decoder_start_token(model);
+-        if (decoder_start_token_id == LLAMA_TOKEN_NULL) {
+-            decoder_start_token_id = llama_vocab_bos(vocab);
+-        }
+-
+-        batch = llama_batch_get_one(&decoder_start_token_id, 1);
+-    }
+-
+-    // main loop
+-
+-    const auto t_main_start = ggml_time_us();
+-    int n_decode = 0;
+-    llama_token new_token_id;
+-
+-    for (int n_pos = 0; n_pos + batch.n_tokens < n_prompt + n_predict; ) {
+-        // evaluate the current batch with the transformer model
+-        if (llama_decode(ctx, batch)) {
+-            fprintf(stderr, "%s : failed to eval, return code %d\n", __func__, 1);
+-            return 1;
+-        }
+-
+-        n_pos += batch.n_tokens;
+-
+-        // sample the next token
+-        {
+-            new_token_id = llama_sampler_sample(smpl, ctx, -1);
+-
+-            // is it an end of generation?
+-            if (llama_vocab_is_eog(vocab, new_token_id)) {
+-                break;
++            std::fprintf(stderr, "SNAPSHOT_ID name=%s hash=%016llx\n",
++                         temp.name, (unsigned long long)hash);
++            if (std::find(fingerprints.begin(), fingerprints.end(), hash) != fingerprints.end()) return 51;
++            fingerprints.push_back(hash);
++            destroy(temp);
++        }
++        for (size_t i = 0; i < workers.size(); ++i) {
++            if (!add_chat(*workers[i], model, vocab, pair_cap) ||
++                !restore(*workers[i], states[i])) return 52;
++        }
++        if (!parallel_bench(vocab, workers, tokens, "five_distinct_depth10")) return 53;
++        for (auto it = workers.rbegin(); it != workers.rend(); ++it) destroy(**it);
++        llama_model_free(model);
++        return 0;
++    }
++    if (std::string(argv[1]) == "five_parallel" ||
++        std::string(argv[1]) == "five_migrate_depth") {
++        const bool deep = std::string(argv[1]) == "five_migrate_depth";
++        snapshot ten, ninety;
++        if (deep) {
++            chat temp{"temp_five", "The capital of Japan is", nullptr, "0"};
++            if (!add_chat(temp, model, vocab, pair_cap, true) || !decode(temp, vocab, true)) return 40;
++            if (!fill(temp, pair_cap / 10, 512) || !save(temp, ten)) return 41;
++            if (!fill(temp, pair_cap * 9 / 10, 512) || !save(temp, ninety)) return 42;
++            destroy(temp);
++        }
++        chat w1{"worker1", "The capital of Japan is", nullptr, "1"};
++        chat w2{"worker2", "The capital of Germany is", nullptr, "2"};
++        chat w3{"worker3", "The capital of Italy is", nullptr, "3"};
++        chat w4{"worker4", "The capital of Spain is", nullptr, "4"};
++        chat w5{"worker5", "The capital of Canada is", nullptr, "5"};
++        if (!deep && (!add_chat(local, model, vocab, local_cap) ||
++                      !decode(local, vocab, true))) return 43;
++        for (chat * item : {&w1, &w2, &w3, &w4, &w5}) {
++            if (!add_chat(*item, model, vocab, pair_cap)) return 44;
++            if (deep) {
++                if (!restore(*item, ten)) return 45;
++            } else if (!decode(*item, vocab, true)) return 46;
++        }
++        const std::vector<chat *> active = deep
++            ? std::vector<chat *>{&w1, &w2, &w3, &w4, &w5}
++            : std::vector<chat *>{&local, &w1, &w2, &w3, &w4, &w5};
++        if (!parallel_bench(vocab, active, tokens,
++                            deep ? "five_depth10" : "five_short")) return 47;
++        if (deep) {
++            for (chat * item : {&w1, &w2, &w3, &w4, &w5}) {
++                if (!restore(*item, ninety)) return 48;
+             }
+-
+-            char buf[128];
+-            int n = llama_token_to_piece(vocab, new_token_id, buf, sizeof(buf), 0, true);
+-            if (n < 0) {
+-                fprintf(stderr, "%s: error: failed to convert token to piece\n", __func__);
+-                return 1;
+-            }
+-            std::string s(buf, n);
+-            printf("%s", s.c_str());
+-            fflush(stdout);
+-
+-            // prepare the next batch with the sampled token
+-            batch = llama_batch_get_one(&new_token_id, 1);
+-
+-            n_decode += 1;
+-        }
+-    }
+-
+-    printf("\n");
+-
+-    const auto t_main_end = ggml_time_us();
+-
+-    fprintf(stderr, "%s: decoded %d tokens in %.2f s, speed: %.2f t/s\n",
+-            __func__, n_decode, (t_main_end - t_main_start) / 1000000.0f, n_decode / ((t_main_end - t_main_start) / 1000000.0f));
+-
+-    fprintf(stderr, "\n");
+-    llama_perf_sampler_print(smpl);
+-    llama_perf_context_print(ctx);
+-    fprintf(stderr, "\n");
+-
+-    llama_sampler_free(smpl);
+-    llama_free(ctx);
++            if (!parallel_bench(vocab, active, tokens, "five_depth90")) return 49;
++        }
++        for (chat * item : {&w5, &w4, &w3, &w2, &w1}) destroy(*item);
++        if (!deep) destroy(local);
++        llama_model_free(model);
++        return 0;
++    }
++    if (!add_chat(local, model, vocab, local_cap) || !decode(local, vocab, true)) return 4;
++    std::fprintf(stderr, "PHASE_LOCAL_READY\n");
++    if (!add_chat(a, model, vocab, pair_cap) || !decode(a, vocab, true)) return 5;
++    std::fprintf(stderr, "PHASE_PAIR12_READY\n");
++    if (std::string(argv[1]) == "matrix") {
++        if (!add_chat(b, model, vocab, pair_cap) || !decode(b, vocab, true)) return 6;
++        std::fprintf(stderr, "PHASE_PAIR34_READY\n");
++        if (!add_chat(c, model, vocab, single_cap) || !decode(c, vocab, true)) return 7;
++        std::fprintf(stderr, "PHASE_SINGLE5_READY\n");
++        for (chat * item : {&local, &a, &b, &c}) {
++            if (!bench(*item, vocab, tokens, "short")) return 8;
++        }
++    } else if (std::string(argv[1]) == "depth") {
++        const int ten = pair_cap / 10;
++        const int ninety = pair_cap * 9 / 10;
++        if (!fill(a, ten) || !bench(a, vocab, tokens, "depth10")) return 9;
++        if (!fill(a, ninety) || !bench(a, vocab, tokens, "depth90")) return 10;
++        if (!bench(local, vocab, tokens, "local_short_after_depth")) return 11;
++    } else if (std::string(argv[1]) == "parallel") {
++        if (!add_chat(b, model, vocab, pair_cap) || !decode(b, vocab, true)) return 13;
++        if (!add_chat(c, model, vocab, single_cap) || !decode(c, vocab, true)) return 14;
++        if (!parallel_bench(vocab, {&local, &a, &b, &c}, tokens, "short")) return 15;
++    } else if (std::string(argv[1]) == "migrate_depth_all") {
++        snapshot pair10, pair90, single10, single90;
++        // Build the long histories quickly on GPU0, then move their state.
++        destroy(a);
++        destroy(local);
++        chat temp_pair{"temp_pair", "The capital of Japan is", nullptr, "0"};
++        if (!add_chat(temp_pair, model, vocab, pair_cap, true) || !decode(temp_pair, vocab, true)) return 22;
++        if (!fill(temp_pair, pair_cap / 10, 512) || !save(temp_pair, pair10)) return 23;
++        if (!fill(temp_pair, pair_cap * 9 / 10, 512) || !save(temp_pair, pair90)) return 24;
++        destroy(temp_pair);
++        chat temp_single{"temp_single", "The capital of Spain is", nullptr, "0"};
++        if (!add_chat(temp_single, model, vocab, single_cap, true) || !decode(temp_single, vocab, true)) return 25;
++        if (!fill(temp_single, single_cap / 10, 512) || !save(temp_single, single10)) return 26;
++        if (!fill(temp_single, single_cap * 9 / 10, 512) || !save(temp_single, single90)) return 27;
++        destroy(temp_single);
++        local = {"local", "The capital of France is", nullptr, "0"};
++        a = {"pair12", "The capital of Japan is", "1,2", nullptr};
++        if (!add_chat(local, model, vocab, local_cap) || !decode(local, vocab, true)) return 28;
++        if (!add_chat(a, model, vocab, pair_cap) || !add_chat(b, model, vocab, pair_cap) ||
++            !add_chat(c, model, vocab, single_cap)) return 29;
++        if (!restore(a, pair10) || !restore(b, pair10) || !restore(c, single10)) return 30;
++        if (!parallel_bench(vocab, {&local, &a, &b, &c}, tokens, "migrated_depth10")) return 31;
++        if (!restore(a, pair90) || !restore(b, pair90) || !restore(c, single90)) return 32;
++        if (!parallel_bench(vocab, {&local, &a, &b, &c}, tokens, "migrated_depth90")) return 33;
++    } else if (std::string(argv[1]) == "depth_all") {
++        if (!add_chat(b, model, vocab, pair_cap) || !decode(b, vocab, true)) return 16;
++        if (!add_chat(c, model, vocab, single_cap) || !decode(c, vocab, true)) return 17;
++        for (chat * item : {&a, &b, &c}) {
++            const int cap = item == &c ? single_cap : pair_cap;
++            if (!fill(*item, cap / 10)) return 18;
++        }
++        if (!parallel_bench(vocab, {&local, &a, &b, &c}, tokens, "depth10")) return 19;
++        for (chat * item : {&a, &b, &c}) {
++            const int cap = item == &c ? single_cap : pair_cap;
++            if (!fill(*item, cap * 9 / 10)) return 20;
++        }
++        if (!parallel_bench(vocab, {&local, &a, &b, &c}, tokens, "depth90")) return 21;
++    } else return 12;
++    destroy(c);
++    destroy(b);
++    destroy(a);
++    destroy(local);
+     llama_model_free(model);
+-
+     return 0;
+ }

@@ -1,0 +1,824 @@
+{
+  "source": "/mnt/shared/experiments/kvchat-20261106/llama.cpp",
+  "base": "/data/bench-staging/strata-v0.2.10/install/third_party/llama.cpp",
+  "runs": {
+    "gptoss20_five_parallel_131k": {
+      "exit": 0,
+      "phases": [],
+      "first": [
+        "FIRST name=local token=12650 text= Paris",
+        "FIRST name=worker1 token=40510 text= Tokyo",
+        "FIRST name=worker2 token=21230 text= Berlin",
+        "FIRST name=worker3 token=27388 text= Rome",
+        "FIRST name=worker4 token=20264 text= Madrid",
+        "FIRST name=worker5 token=67810 text= Ottawa"
+      ],
+      "bench": [
+        "BENCH name=local phase=five_short used=69 tokens=64 seconds=0.503388 tps=127.138593",
+        "BENCH name=worker1 phase=five_short used=69 tokens=64 seconds=3.728213 tps=17.166402",
+        "BENCH name=worker2 phase=five_short used=69 tokens=64 seconds=3.779047 tps=16.935486",
+        "BENCH name=worker3 phase=five_short used=69 tokens=64 seconds=3.829411 tps=16.712755",
+        "BENCH name=worker4 phase=five_short used=69 tokens=64 seconds=3.832381 tps=16.699801",
+        "BENCH name=worker5 phase=five_short used=69 tokens=64 seconds=3.838930 tps=16.671310"
+      ],
+      "parallel": [
+        "PARALLEL phase=five_short chats=6 tokens_each=64 seconds=3.839009 aggregate_tps=100.025803 ok=1"
+      ],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 15165,
+        "1": 1802,
+        "2": 1802,
+        "3": 1802,
+        "4": 1802,
+        "5": 1802
+      },
+      "start": "2026-11-07T08:28:51Z",
+      "finish": "2026-11-07T08:30:13Z"
+    },
+    "gptoss20_matrix_max": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY",
+        "PHASE_PAIR34_READY",
+        "PHASE_SINGLE5_READY"
+      ],
+      "first": [
+        "FIRST name=local token=12650 text= Paris",
+        "FIRST name=pair12 token=40510 text= Tokyo",
+        "FIRST name=pair34 token=21230 text= Berlin",
+        "FIRST name=single5 token=20264 text= Madrid"
+      ],
+      "bench": [
+        "BENCH name=local phase=short used=37 tokens=32 seconds=0.216793 tps=147.606211",
+        "BENCH name=pair12 phase=short used=37 tokens=32 seconds=0.649847 tps=49.242339",
+        "BENCH name=pair34 phase=short used=37 tokens=32 seconds=0.656193 tps=48.766159",
+        "BENCH name=single5 phase=short used=37 tokens=32 seconds=0.651310 tps=49.131745"
+      ],
+      "parallel": [],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 14395,
+        "1": 938,
+        "2": 938,
+        "3": 938,
+        "4": 938,
+        "5": 1802
+      },
+      "start": "2026-11-07T07:44:50Z",
+      "finish": "2026-11-07T07:46:44Z"
+    },
+    "gptoss20_parallel_max": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY"
+      ],
+      "first": [
+        "FIRST name=local token=12650 text= Paris",
+        "FIRST name=pair12 token=40510 text= Tokyo",
+        "FIRST name=pair34 token=21230 text= Berlin",
+        "FIRST name=single5 token=20264 text= Madrid"
+      ],
+      "bench": [
+        "BENCH name=local phase=short used=69 tokens=64 seconds=0.508466 tps=125.868791",
+        "BENCH name=pair12 phase=short used=69 tokens=64 seconds=2.396344 tps=26.707353",
+        "BENCH name=pair34 phase=short used=69 tokens=64 seconds=2.432901 tps=26.306041",
+        "BENCH name=single5 phase=short used=69 tokens=64 seconds=2.435314 tps=26.279977"
+      ],
+      "parallel": [
+        "PARALLEL phase=short chats=4 tokens_each=64 seconds=2.435363 aggregate_tps=105.117790 ok=1"
+      ],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 14403,
+        "1": 938,
+        "2": 938,
+        "3": 938,
+        "4": 938,
+        "5": 1802
+      },
+      "start": "2026-11-07T07:55:49Z",
+      "finish": "2026-11-07T07:56:46Z"
+    },
+    "qwen17_depth_32k": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY"
+      ],
+      "first": [
+        "FIRST name=local token=12095 text= Paris",
+        "FIRST name=pair12 token=26194 text= Tokyo"
+      ],
+      "bench": [
+        "BENCH name=pair12 phase=depth10 used=3308 tokens=32 seconds=0.390373 tps=81.972799",
+        "BENCH name=pair12 phase=depth90 used=29523 tokens=32 seconds=0.992995 tps=32.225736",
+        "BENCH name=local phase=local_short_after_depth used=37 tokens=32 seconds=0.128229 tps=249.554242"
+      ],
+      "parallel": [],
+      "fill_done": [
+        "FILL_DONE name=pair12 target=3276 seconds=14.495963 tps=225.993959",
+        "FILL_DONE name=pair12 target=29491 seconds=239.038146 tps=123.373614"
+      ],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 2537,
+        "1": 712,
+        "2": 712,
+        "3": 70,
+        "4": 70,
+        "5": 70
+      },
+      "start": "2026-11-07T07:47:21Z",
+      "finish": "2026-11-07T07:51:40Z"
+    },
+    "qwen17_depth_all_32k": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY"
+      ],
+      "first": [
+        "FIRST name=local token=12095 text= Paris",
+        "FIRST name=pair12 token=26194 text= Tokyo",
+        "FIRST name=pair34 token=19846 text= Berlin",
+        "FIRST name=single5 token=24081 text= Madrid"
+      ],
+      "bench": [
+        "BENCH name=local phase=depth10 used=37 tokens=32 seconds=0.177670 tps=180.109492",
+        "BENCH name=pair12 phase=depth10 used=3308 tokens=32 seconds=0.549115 tps=58.275574",
+        "BENCH name=pair34 phase=depth10 used=3308 tokens=32 seconds=0.608187 tps=52.615374",
+        "BENCH name=single5 phase=depth10 used=3308 tokens=32 seconds=0.609153 tps=52.531948",
+        "BENCH name=local phase=depth90 used=69 tokens=32 seconds=0.102574 tps=311.971212",
+        "BENCH name=pair12 phase=depth90 used=29523 tokens=32 seconds=1.194353 tps=26.792739",
+        "BENCH name=single5 phase=depth90 used=29523 tokens=32 seconds=1.225840 tps=26.104550",
+        "BENCH name=pair34 phase=depth90 used=29523 tokens=32 seconds=1.228811 tps=26.041431"
+      ],
+      "parallel": [
+        "PARALLEL phase=depth10 chats=4 tokens_each=32 seconds=0.609202 aggregate_tps=210.110935 ok=1",
+        "PARALLEL phase=depth90 chats=4 tokens_each=32 seconds=1.228885 aggregate_tps=104.159479 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=pair12 target=3276 seconds=14.401757 tps=227.472251",
+        "FILL_DONE name=pair34 target=3276 seconds=15.178257 tps=215.835066",
+        "FILL_DONE name=single5 target=3276 seconds=15.084246 tps=217.180233",
+        "FILL_DONE name=pair12 target=29491 seconds=239.258483 tps=123.259997",
+        "FILL_DONE name=pair34 target=29491 seconds=248.466453 tps=118.692079",
+        "FILL_DONE name=single5 target=29491 seconds=246.168526 tps=119.800043"
+      ],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 2585,
+        "1": 712,
+        "2": 712,
+        "3": 712,
+        "4": 712,
+        "5": 1216
+      },
+      "start": "2026-11-07T07:57:22Z",
+      "finish": "2026-11-07T08:10:32Z"
+    },
+    "qwen17_five_distinct_32k": {
+      "exit": 0,
+      "phases": [],
+      "first": [
+        "FIRST name=worker1 token=26194 text= Tokyo",
+        "FIRST name=worker2 token=19846 text= Berlin",
+        "FIRST name=worker3 token=21718 text= Rome",
+        "FIRST name=worker4 token=24081 text= Madrid",
+        "FIRST name=worker5 token=264 text= a"
+      ],
+      "bench": [
+        "BENCH name=worker1 phase=five_distinct_depth10 used=3308 tokens=32 seconds=0.570652 tps=56.076194",
+        "BENCH name=worker2 phase=five_distinct_depth10 used=3308 tokens=32 seconds=0.589913 tps=54.245314",
+        "BENCH name=worker3 phase=five_distinct_depth10 used=3308 tokens=32 seconds=0.604326 tps=52.951547",
+        "BENCH name=worker4 phase=five_distinct_depth10 used=3308 tokens=32 seconds=0.630458 tps=50.756726",
+        "BENCH name=worker5 phase=five_distinct_depth10 used=3308 tokens=32 seconds=0.634803 tps=50.409342"
+      ],
+      "parallel": [
+        "PARALLEL phase=five_distinct_depth10 chats=5 tokens_each=32 seconds=0.634896 aggregate_tps=252.009834 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=worker1 target=3276 seconds=1.069562 tps=3062.935631",
+        "FILL_DONE name=worker2 target=3276 seconds=1.053337 tps=3110.114699",
+        "FILL_DONE name=worker3 target=3276 seconds=1.084736 tps=3020.089979",
+        "FILL_DONE name=worker4 target=3276 seconds=1.049159 tps=3122.501242",
+        "FILL_DONE name=worker5 target=3276 seconds=1.052281 tps=3113.237722"
+      ],
+      "state": [
+        "STATE_SAVE name=worker1 used=3276 bytes=105710665 seconds=0.056",
+        "STATE_SAVE name=worker2 used=3276 bytes=105710665 seconds=0.056",
+        "STATE_SAVE name=worker3 used=3276 bytes=105710665 seconds=0.056",
+        "STATE_SAVE name=worker4 used=3276 bytes=105710665 seconds=0.055",
+        "STATE_SAVE name=worker5 used=3276 bytes=105710665 seconds=0.055",
+        "STATE_RESTORE name=worker1 used=3276 bytes=105710665 seconds=0.277",
+        "STATE_RESTORE name=worker2 used=3276 bytes=105710665 seconds=0.277",
+        "STATE_RESTORE name=worker3 used=3276 bytes=105710665 seconds=0.277",
+        "STATE_RESTORE name=worker4 used=3276 bytes=105710665 seconds=0.277",
+        "STATE_RESTORE name=worker5 used=3276 bytes=105710665 seconds=0.278"
+      ],
+      "snapshot_id": [
+        "SNAPSHOT_ID name=worker1 hash=41a1554400134629",
+        "SNAPSHOT_ID name=worker2 hash=348f4dca9d870d6e",
+        "SNAPSHOT_ID name=worker3 hash=67dacc2bf8cfa4d9",
+        "SNAPSHOT_ID name=worker4 hash=28f9ba3fcd17a519",
+        "SNAPSHOT_ID name=worker5 hash=8355de0033dd9d61"
+      ],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 2525,
+        "1": 1216,
+        "2": 1216,
+        "3": 1216,
+        "4": 1216,
+        "5": 1216
+      },
+      "start": "2026-11-07T08:48:33Z",
+      "finish": "2026-11-07T08:48:53Z"
+    },
+    "qwen17_five_distinct_90_disk": {
+      "exit": 0,
+      "phases": [],
+      "first": [
+        "FIRST name=worker1 token=26194 text= Tokyo",
+        "FIRST name=worker2 token=19846 text= Berlin",
+        "FIRST name=worker3 token=21718 text= Rome",
+        "FIRST name=worker4 token=24081 text= Madrid",
+        "FIRST name=worker5 token=264 text= a"
+      ],
+      "bench": [
+        "BENCH name=worker1 phase=five_distinct_depth90_rep1 used=29523 tokens=32 seconds=1.410920 tps=22.680234",
+        "BENCH name=worker2 phase=five_distinct_depth90_rep1 used=29523 tokens=32 seconds=1.466441 tps=21.821540",
+        "BENCH name=worker3 phase=five_distinct_depth90_rep1 used=29523 tokens=32 seconds=1.502040 tps=21.304356",
+        "BENCH name=worker5 phase=five_distinct_depth90_rep1 used=29523 tokens=32 seconds=1.533264 tps=20.870505",
+        "BENCH name=worker4 phase=five_distinct_depth90_rep1 used=29523 tokens=32 seconds=1.538494 tps=20.799556",
+        "BENCH name=worker1 phase=five_distinct_depth90_rep2 used=29555 tokens=32 seconds=1.104926 tps=28.961220",
+        "BENCH name=worker3 phase=five_distinct_depth90_rep2 used=29555 tokens=32 seconds=1.107953 tps=28.882086",
+        "BENCH name=worker5 phase=five_distinct_depth90_rep2 used=29555 tokens=32 seconds=1.115212 tps=28.694085",
+        "BENCH name=worker4 phase=five_distinct_depth90_rep2 used=29555 tokens=32 seconds=1.119514 tps=28.583826",
+        "BENCH name=worker2 phase=five_distinct_depth90_rep2 used=29555 tokens=32 seconds=1.124102 tps=28.467170",
+        "BENCH name=worker3 phase=five_distinct_depth90_rep3 used=29587 tokens=32 seconds=1.092362 tps=29.294319",
+        "BENCH name=worker5 phase=five_distinct_depth90_rep3 used=29587 tokens=32 seconds=1.096833 tps=29.174902",
+        "BENCH name=worker1 phase=five_distinct_depth90_rep3 used=29587 tokens=32 seconds=1.105159 tps=28.955104",
+        "BENCH name=worker4 phase=five_distinct_depth90_rep3 used=29587 tokens=32 seconds=1.114655 tps=28.708432",
+        "BENCH name=worker2 phase=five_distinct_depth90_rep3 used=29587 tokens=32 seconds=1.115119 tps=28.696492"
+      ],
+      "parallel": [
+        "PARALLEL phase=five_distinct_depth90_rep1 chats=5 tokens_each=32 seconds=1.538582 aggregate_tps=103.991880 ok=1",
+        "PARALLEL phase=five_distinct_depth90_rep2 chats=5 tokens_each=32 seconds=1.124200 aggregate_tps=142.323416 ok=1",
+        "PARALLEL phase=five_distinct_depth90_rep3 chats=5 tokens_each=32 seconds=1.115185 aggregate_tps=143.473912 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=worker1 target=29491 seconds=12.832785 tps=2298.098190",
+        "FILL_DONE name=worker2 target=29491 seconds=12.847246 tps=2295.511354",
+        "FILL_DONE name=worker3 target=29491 seconds=12.815101 tps=2301.269502",
+        "FILL_DONE name=worker4 target=29491 seconds=12.846092 tps=2295.717586",
+        "FILL_DONE name=worker5 target=29491 seconds=12.755296 tps=2312.059258"
+      ],
+      "state": [
+        "STATE_SAVE name=worker1 used=29491 bytes=951616285 seconds=0.473",
+        "STATE_SAVE name=worker2 used=29491 bytes=951616285 seconds=0.486",
+        "STATE_SAVE name=worker3 used=29491 bytes=951616285 seconds=0.478",
+        "STATE_SAVE name=worker4 used=29491 bytes=951616285 seconds=0.479",
+        "STATE_SAVE name=worker5 used=29491 bytes=951616285 seconds=0.483",
+        "STATE_RESTORE name=worker1 used=29491 bytes=951616285 seconds=2.411",
+        "STATE_RESTORE name=worker2 used=29491 bytes=951616285 seconds=2.413",
+        "STATE_RESTORE name=worker3 used=29491 bytes=951616285 seconds=2.416",
+        "STATE_RESTORE name=worker4 used=29491 bytes=951616285 seconds=2.403",
+        "STATE_RESTORE name=worker5 used=29491 bytes=951616285 seconds=2.414"
+      ],
+      "snapshot_id": [
+        "SNAPSHOT_ID name=worker1 hash=da7adefb8f2e1698",
+        "SNAPSHOT_ID name=worker2 hash=122f85e46b1ba25e",
+        "SNAPSHOT_ID name=worker3 hash=5634ac0dbbad8494",
+        "SNAPSHOT_ID name=worker4 hash=a6960961632c3a50",
+        "SNAPSHOT_ID name=worker5 hash=78b6662d312455c2"
+      ],
+      "state_file": [
+        "STATE_FILE path=/state/qwen17_five_distinct_90_disk.states/worker1.bin bytes=951616285 hash=da7adefb8f2e1698",
+        "STATE_FILE path=/state/qwen17_five_distinct_90_disk.states/worker2.bin bytes=951616285 hash=122f85e46b1ba25e",
+        "STATE_FILE path=/state/qwen17_five_distinct_90_disk.states/worker3.bin bytes=951616285 hash=5634ac0dbbad8494",
+        "STATE_FILE path=/state/qwen17_five_distinct_90_disk.states/worker4.bin bytes=951616285 hash=a6960961632c3a50",
+        "STATE_FILE path=/state/qwen17_five_distinct_90_disk.states/worker5.bin bytes=951616285 hash=78b6662d312455c2",
+        "STATE_FILE_READ path=/state/qwen17_five_distinct_90_disk.states/worker1.bin bytes=951616285 hash=da7adefb8f2e1698",
+        "STATE_FILE_READ path=/state/qwen17_five_distinct_90_disk.states/worker2.bin bytes=951616285 hash=122f85e46b1ba25e",
+        "STATE_FILE_READ path=/state/qwen17_five_distinct_90_disk.states/worker3.bin bytes=951616285 hash=5634ac0dbbad8494",
+        "STATE_FILE_READ path=/state/qwen17_five_distinct_90_disk.states/worker4.bin bytes=951616285 hash=a6960961632c3a50",
+        "STATE_FILE_READ path=/state/qwen17_five_distinct_90_disk.states/worker5.bin bytes=951616285 hash=78b6662d312455c2"
+      ],
+      "sampled_peak_mib": {
+        "0": 2525,
+        "1": 1216,
+        "2": 1216,
+        "3": 1216,
+        "4": 1216,
+        "5": 1216
+      },
+      "start": "2026-11-07T08:55:25Z",
+      "finish": "2026-11-07T08:58:53Z",
+      "validation": {
+        "label": "qwen17_five_distinct_90_disk",
+        "mode": "five_distinct_disk",
+        "exit": 0,
+        "valid": true,
+        "errors": [],
+        "parallel": [
+          "PARALLEL phase=five_distinct_depth90_rep1 chats=5 tokens_each=32 seconds=1.538582 aggregate_tps=103.991880 ok=1",
+          "PARALLEL phase=five_distinct_depth90_rep2 chats=5 tokens_each=32 seconds=1.124200 aggregate_tps=142.323416 ok=1",
+          "PARALLEL phase=five_distinct_depth90_rep3 chats=5 tokens_each=32 seconds=1.115185 aggregate_tps=143.473912 ok=1"
+        ],
+        "snapshot_ids": [
+          "SNAPSHOT_ID name=worker1 hash=da7adefb8f2e1698",
+          "SNAPSHOT_ID name=worker2 hash=122f85e46b1ba25e",
+          "SNAPSHOT_ID name=worker3 hash=5634ac0dbbad8494",
+          "SNAPSHOT_ID name=worker4 hash=a6960961632c3a50",
+          "SNAPSHOT_ID name=worker5 hash=78b6662d312455c2"
+        ],
+        "restore_count": 5
+      }
+    },
+    "qwen17_five_migrate_32k": {
+      "exit": 0,
+      "phases": [],
+      "first": [
+        "FIRST name=temp_five token=26194 text= Tokyo"
+      ],
+      "bench": [
+        "BENCH name=worker1 phase=five_depth10 used=3308 tokens=32 seconds=0.563685 tps=56.769309",
+        "BENCH name=worker2 phase=five_depth10 used=3308 tokens=32 seconds=0.596494 tps=53.646830",
+        "BENCH name=worker3 phase=five_depth10 used=3308 tokens=32 seconds=0.622516 tps=51.404325",
+        "BENCH name=worker4 phase=five_depth10 used=3308 tokens=32 seconds=0.650102 tps=49.223077",
+        "BENCH name=worker5 phase=five_depth10 used=3308 tokens=32 seconds=0.651116 tps=49.146354",
+        "BENCH name=worker1 phase=five_depth90 used=29523 tokens=32 seconds=1.239541 tps=25.816002",
+        "BENCH name=worker2 phase=five_depth90 used=29523 tokens=32 seconds=1.256612 tps=25.465298",
+        "BENCH name=worker3 phase=five_depth90 used=29523 tokens=32 seconds=1.314899 tps=24.336478",
+        "BENCH name=worker5 phase=five_depth90 used=29523 tokens=32 seconds=1.353514 tps=23.642165",
+        "BENCH name=worker4 phase=five_depth90 used=29523 tokens=32 seconds=1.354534 tps=23.624355"
+      ],
+      "parallel": [
+        "PARALLEL phase=five_depth10 chats=5 tokens_each=32 seconds=0.651220 aggregate_tps=245.692585 ok=1",
+        "PARALLEL phase=five_depth90 chats=5 tokens_each=32 seconds=1.354637 aggregate_tps=118.112821 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=temp_five target=3276 seconds=1.094442 tps=2993.305229",
+        "FILL_DONE name=temp_five target=29491 seconds=12.783023 tps=2307.044350"
+      ],
+      "state": [
+        "STATE_SAVE name=temp_five used=3276 bytes=105710665 seconds=0.056",
+        "STATE_SAVE name=temp_five used=29491 bytes=951616285 seconds=0.481",
+        "STATE_RESTORE name=worker1 used=3276 bytes=105710665 seconds=0.278",
+        "STATE_RESTORE name=worker2 used=3276 bytes=105710665 seconds=0.277",
+        "STATE_RESTORE name=worker3 used=3276 bytes=105710665 seconds=0.277",
+        "STATE_RESTORE name=worker4 used=3276 bytes=105710665 seconds=0.278",
+        "STATE_RESTORE name=worker5 used=3276 bytes=105710665 seconds=0.279",
+        "STATE_RESTORE name=worker1 used=29491 bytes=951616285 seconds=2.402",
+        "STATE_RESTORE name=worker2 used=29491 bytes=951616285 seconds=2.405",
+        "STATE_RESTORE name=worker3 used=29491 bytes=951616285 seconds=2.409",
+        "STATE_RESTORE name=worker4 used=29491 bytes=951616285 seconds=2.405",
+        "STATE_RESTORE name=worker5 used=29491 bytes=951616285 seconds=2.416"
+      ],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 2525,
+        "1": 1216,
+        "2": 1216,
+        "3": 1216,
+        "4": 1216,
+        "5": 1216
+      },
+      "start": "2026-11-07T08:32:27Z",
+      "finish": "2026-11-07T08:33:15Z"
+    },
+    "qwen17_matrix_32k": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY",
+        "PHASE_PAIR34_READY",
+        "PHASE_SINGLE5_READY"
+      ],
+      "first": [
+        "FIRST name=local token=12095 text= Paris",
+        "FIRST name=pair12 token=26194 text= Tokyo",
+        "FIRST name=pair34 token=19846 text= Berlin",
+        "FIRST name=single5 token=24081 text= Madrid"
+      ],
+      "bench": [
+        "BENCH name=local phase=short used=37 tokens=32 seconds=0.131656 tps=243.057139",
+        "BENCH name=pair12 phase=short used=37 tokens=32 seconds=0.300481 tps=106.495750",
+        "BENCH name=pair34 phase=short used=37 tokens=32 seconds=0.304987 tps=104.922349",
+        "BENCH name=single5 phase=short used=37 tokens=32 seconds=0.300229 tps=106.585466"
+      ],
+      "parallel": [],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 2543,
+        "1": 708,
+        "2": 708,
+        "3": 708,
+        "4": 708,
+        "5": 1212
+      },
+      "start": "2026-11-07T07:41:04Z",
+      "finish": "2026-11-07T07:41:21Z"
+    },
+    "qwen17_migrate_depth_all_32k": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY"
+      ],
+      "first": [
+        "FIRST name=local token=12095 text= Paris",
+        "FIRST name=pair12 token=26194 text= Tokyo",
+        "FIRST name=temp_pair token=26194 text= Tokyo",
+        "FIRST name=temp_single token=24081 text= Madrid",
+        "FIRST name=local token=12095 text= Paris"
+      ],
+      "bench": [
+        "BENCH name=local phase=migrated_depth10 used=37 tokens=32 seconds=0.171442 tps=186.652481",
+        "BENCH name=pair12 phase=migrated_depth10 used=3308 tokens=32 seconds=0.516843 tps=61.914348",
+        "BENCH name=pair34 phase=migrated_depth10 used=3308 tokens=32 seconds=0.564037 tps=56.733845",
+        "BENCH name=single5 phase=migrated_depth10 used=3308 tokens=32 seconds=0.565381 tps=56.598999",
+        "BENCH name=local phase=migrated_depth90 used=69 tokens=32 seconds=0.099159 tps=322.714839",
+        "BENCH name=pair12 phase=migrated_depth90 used=29523 tokens=32 seconds=1.084401 tps=29.509389",
+        "BENCH name=single5 phase=migrated_depth90 used=29523 tokens=32 seconds=1.122607 tps=28.505085",
+        "BENCH name=pair34 phase=migrated_depth90 used=29523 tokens=32 seconds=1.124632 tps=28.453747"
+      ],
+      "parallel": [
+        "PARALLEL phase=migrated_depth10 chats=4 tokens_each=32 seconds=0.565435 aggregate_tps=226.374563 ok=1",
+        "PARALLEL phase=migrated_depth90 chats=4 tokens_each=32 seconds=1.124703 aggregate_tps=113.807836 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=temp_pair target=3276 seconds=1.109322 tps=2953.154071",
+        "FILL_DONE name=temp_pair target=29491 seconds=12.730850 tps=2316.498951",
+        "FILL_DONE name=temp_single target=3276 seconds=1.055804 tps=3102.847330",
+        "FILL_DONE name=temp_single target=29491 seconds=12.812572 tps=2301.723638"
+      ],
+      "state": [
+        "STATE_SAVE name=temp_pair used=3276 bytes=105710665 seconds=0.055",
+        "STATE_SAVE name=temp_pair used=29491 bytes=951616285 seconds=0.474",
+        "STATE_SAVE name=temp_single used=3276 bytes=105710665 seconds=0.056",
+        "STATE_SAVE name=temp_single used=29491 bytes=951616285 seconds=0.476",
+        "STATE_RESTORE name=pair12 used=3276 bytes=105710665 seconds=0.279",
+        "STATE_RESTORE name=pair34 used=3276 bytes=105710665 seconds=0.278",
+        "STATE_RESTORE name=single5 used=3276 bytes=105710665 seconds=0.279",
+        "STATE_RESTORE name=pair12 used=29491 bytes=951616285 seconds=2.404",
+        "STATE_RESTORE name=pair34 used=29491 bytes=951616285 seconds=2.407",
+        "STATE_RESTORE name=single5 used=29491 bytes=951616285 seconds=2.401"
+      ],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 2559,
+        "1": 712,
+        "2": 712,
+        "3": 712,
+        "4": 712,
+        "5": 1216
+      },
+      "start": "2026-11-07T08:11:48Z",
+      "finish": "2026-11-07T08:12:32Z"
+    },
+    "qwen17_parallel_32k": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY"
+      ],
+      "first": [
+        "FIRST name=local token=12095 text= Paris",
+        "FIRST name=pair12 token=26194 text= Tokyo",
+        "FIRST name=pair34 token=19846 text= Berlin",
+        "FIRST name=single5 token=24081 text= Madrid"
+      ],
+      "bench": [
+        "BENCH name=local phase=short used=69 tokens=64 seconds=0.327508 tps=195.414850",
+        "BENCH name=pair12 phase=short used=69 tokens=64 seconds=0.783078 tps=81.728767",
+        "BENCH name=pair34 phase=short used=69 tokens=64 seconds=0.822513 tps=77.810282",
+        "BENCH name=single5 phase=short used=69 tokens=64 seconds=0.828244 tps=77.271957"
+      ],
+      "parallel": [
+        "PARALLEL phase=short chats=4 tokens_each=64 seconds=0.828302 aggregate_tps=309.066039 ok=1"
+      ],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 2561,
+        "1": 712,
+        "2": 712,
+        "3": 712,
+        "4": 712,
+        "5": 1216
+      },
+      "start": "2026-11-07T07:53:06Z",
+      "finish": "2026-11-07T07:53:10Z"
+    },
+    "qwen27_five_distinct_256k": {
+      "exit": 0,
+      "phases": [],
+      "first": [
+        "FIRST name=worker1 token=25358 text= Tokyo",
+        "FIRST name=worker2 token=19241 text= Berlin",
+        "FIRST name=worker3 token=21047 text= Rome",
+        "FIRST name=worker4 token=23327 text= Madrid",
+        "FIRST name=worker5 token=31106 text= Ottawa"
+      ],
+      "bench": [
+        "BENCH name=worker1 phase=five_distinct_depth10 used=26246 tokens=32 seconds=4.899834 tps=6.530833",
+        "BENCH name=worker5 phase=five_distinct_depth10 used=26246 tokens=32 seconds=4.928944 tps=6.492263",
+        "BENCH name=worker3 phase=five_distinct_depth10 used=26246 tokens=32 seconds=4.938495 tps=6.479707",
+        "BENCH name=worker2 phase=five_distinct_depth10 used=26246 tokens=32 seconds=4.939755 tps=6.478055",
+        "BENCH name=worker4 phase=five_distinct_depth10 used=26246 tokens=32 seconds=5.008942 tps=6.388575"
+      ],
+      "parallel": [
+        "PARALLEL phase=five_distinct_depth10 chats=5 tokens_each=32 seconds=5.009055 aggregate_tps=31.942156 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=worker1 target=26214 seconds=38.175586 tps=686.669232",
+        "FILL_DONE name=worker2 target=26214 seconds=38.185634 tps=686.488530",
+        "FILL_DONE name=worker3 target=26214 seconds=38.227766 tps=685.731932",
+        "FILL_DONE name=worker4 target=26214 seconds=38.232088 tps=685.654423",
+        "FILL_DONE name=worker5 target=26214 seconds=38.295910 tps=684.511740"
+      ],
+      "state": [
+        "STATE_SAVE name=worker1 used=26214 bytes=640700354 seconds=0.323",
+        "STATE_SAVE name=worker2 used=26214 bytes=640700354 seconds=0.320",
+        "STATE_SAVE name=worker3 used=26214 bytes=640700354 seconds=0.325",
+        "STATE_SAVE name=worker4 used=26214 bytes=640700354 seconds=0.321",
+        "STATE_SAVE name=worker5 used=26214 bytes=640700354 seconds=0.323",
+        "STATE_RESTORE name=worker1 used=26214 bytes=640700354 seconds=1.276",
+        "STATE_RESTORE name=worker2 used=26214 bytes=640700354 seconds=1.270",
+        "STATE_RESTORE name=worker3 used=26214 bytes=640700354 seconds=1.272",
+        "STATE_RESTORE name=worker4 used=26214 bytes=640700354 seconds=1.279",
+        "STATE_RESTORE name=worker5 used=26214 bytes=640700354 seconds=1.273"
+      ],
+      "snapshot_id": [
+        "SNAPSHOT_ID name=worker1 hash=b5ccfa2f0a72e763",
+        "SNAPSHOT_ID name=worker2 hash=22f2e65a3dfd5222",
+        "SNAPSHOT_ID name=worker3 hash=1dc4539a9e8d71be",
+        "SNAPSHOT_ID name=worker4 hash=c5cb7e46c4b7106c",
+        "SNAPSHOT_ID name=worker5 hash=0175cf7162046e7b"
+      ],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 21513,
+        "1": 5716,
+        "2": 5716,
+        "3": 5716,
+        "4": 5716,
+        "5": 5716
+      },
+      "start": "2026-11-07T08:49:54Z",
+      "finish": "2026-11-07T08:53:38Z"
+    },
+    "qwen27_five_migrate_256k": {
+      "exit": 0,
+      "phases": [],
+      "first": [
+        "FIRST name=temp_five token=25358 text= Tokyo"
+      ],
+      "bench": [
+        "BENCH name=worker1 phase=five_depth10 used=26246 tokens=32 seconds=4.774035 tps=6.702926",
+        "BENCH name=worker2 phase=five_depth10 used=26246 tokens=32 seconds=4.794271 tps=6.674634",
+        "BENCH name=worker3 phase=five_depth10 used=26246 tokens=32 seconds=4.802178 tps=6.663643",
+        "BENCH name=worker5 phase=five_depth10 used=26246 tokens=32 seconds=4.817454 tps=6.642513",
+        "BENCH name=worker4 phase=five_depth10 used=26246 tokens=32 seconds=4.871798 tps=6.568417",
+        "BENCH name=worker5 phase=five_depth90 used=235961 tokens=32 seconds=25.387129 tps=1.260481",
+        "BENCH name=worker4 phase=five_depth90 used=235961 tokens=32 seconds=25.414473 tps=1.259125",
+        "BENCH name=worker1 phase=five_depth90 used=235961 tokens=32 seconds=25.897018 tps=1.235664",
+        "BENCH name=worker3 phase=five_depth90 used=235961 tokens=32 seconds=26.238477 tps=1.219583",
+        "BENCH name=worker2 phase=five_depth90 used=235961 tokens=32 seconds=26.403127 tps=1.211978"
+      ],
+      "parallel": [
+        "PARALLEL phase=five_depth10 chats=5 tokens_each=32 seconds=4.871918 aggregate_tps=32.841275 ok=1",
+        "PARALLEL phase=five_depth90 chats=5 tokens_each=32 seconds=26.403247 aggregate_tps=6.059861 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=temp_five target=26214 seconds=38.013237 tps=689.601879",
+        "FILL_DONE name=temp_five target=235929 seconds=539.149062 tps=437.595123"
+      ],
+      "state": [
+        "STATE_SAVE name=temp_five used=26214 bytes=640700354 seconds=0.325",
+        "STATE_SAVE name=temp_five used=235929 bytes=4511200394 seconds=2.315",
+        "STATE_RESTORE name=worker1 used=26214 bytes=640700354 seconds=1.277",
+        "STATE_RESTORE name=worker2 used=26214 bytes=640700354 seconds=1.273",
+        "STATE_RESTORE name=worker3 used=26214 bytes=640700354 seconds=1.277",
+        "STATE_RESTORE name=worker4 used=26214 bytes=640700354 seconds=1.275",
+        "STATE_RESTORE name=worker5 used=26214 bytes=640700354 seconds=1.275",
+        "STATE_RESTORE name=worker1 used=235929 bytes=4511200394 seconds=11.093",
+        "STATE_RESTORE name=worker2 used=235929 bytes=4511200394 seconds=11.064",
+        "STATE_RESTORE name=worker3 used=235929 bytes=4511200394 seconds=11.108",
+        "STATE_RESTORE name=worker4 used=235929 bytes=4511200394 seconds=11.052",
+        "STATE_RESTORE name=worker5 used=235929 bytes=4511200394 seconds=11.112"
+      ],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 21513,
+        "1": 5716,
+        "2": 5716,
+        "3": 5716,
+        "4": 5716,
+        "5": 5716
+      },
+      "start": "2026-11-07T08:33:34Z",
+      "finish": "2026-11-07T08:46:04Z"
+    },
+    "qwen27_five_parallel_256k": {
+      "exit": 0,
+      "phases": [],
+      "first": [
+        "FIRST name=local token=11751 text= Paris",
+        "FIRST name=worker1 token=25358 text= Tokyo",
+        "FIRST name=worker2 token=19241 text= Berlin",
+        "FIRST name=worker3 token=21047 text= Rome",
+        "FIRST name=worker4 token=23327 text= Madrid",
+        "FIRST name=worker5 token=31106 text= Ottawa"
+      ],
+      "bench": [
+        "BENCH name=local phase=five_short used=69 tokens=64 seconds=2.463810 tps=25.976034",
+        "BENCH name=worker2 phase=five_short used=69 tokens=64 seconds=8.383540 tps=7.634007",
+        "BENCH name=worker1 phase=five_short used=69 tokens=64 seconds=8.433404 tps=7.588869",
+        "BENCH name=worker5 phase=five_short used=69 tokens=64 seconds=8.507975 tps=7.522354",
+        "BENCH name=worker4 phase=five_short used=69 tokens=64 seconds=8.518223 tps=7.513304",
+        "BENCH name=worker3 phase=five_short used=69 tokens=64 seconds=8.529051 tps=7.503766"
+      ],
+      "parallel": [
+        "PARALLEL phase=five_short chats=6 tokens_each=64 seconds=8.529170 aggregate_tps=45.021966 ok=1"
+      ],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 22429,
+        "1": 5716,
+        "2": 5716,
+        "3": 5716,
+        "4": 5716,
+        "5": 5716
+      },
+      "start": "2026-11-07T08:27:15Z",
+      "finish": "2026-11-07T08:27:34Z"
+    },
+    "qwen27_matrix_max": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY",
+        "PHASE_PAIR34_READY",
+        "PHASE_SINGLE5_READY"
+      ],
+      "first": [
+        "FIRST name=local token=11751 text= Paris",
+        "FIRST name=pair12 token=25358 text= Tokyo",
+        "FIRST name=pair34 token=19241 text= Berlin",
+        "FIRST name=single5 token=23327 text= Madrid"
+      ],
+      "bench": [
+        "BENCH name=local phase=short used=37 tokens=32 seconds=0.772970 tps=41.398770",
+        "BENCH name=pair12 phase=short used=37 tokens=32 seconds=0.986471 tps=32.438861",
+        "BENCH name=pair34 phase=short used=37 tokens=32 seconds=0.990146 tps=32.318469",
+        "BENCH name=single5 phase=short used=37 tokens=32 seconds=0.985977 tps=32.455102"
+      ],
+      "parallel": [],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 22051,
+        "1": 3412,
+        "2": 3412,
+        "3": 3412,
+        "4": 3412,
+        "5": 784
+      },
+      "start": "2026-11-07T07:41:47Z",
+      "finish": "2026-11-07T07:44:31Z"
+    },
+    "qwen27_migrate_depth_all_256k": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY"
+      ],
+      "first": [
+        "FIRST name=local token=11751 text= Paris",
+        "FIRST name=pair12 token=25358 text= Tokyo",
+        "FIRST name=temp_pair token=25358 text= Tokyo",
+        "FIRST name=temp_single token=23327 text= Madrid",
+        "FIRST name=local token=11751 text= Paris"
+      ],
+      "bench": [
+        "BENCH name=local phase=migrated_depth10 used=37 tokens=32 seconds=1.307889 tps=24.466901",
+        "BENCH name=single5 phase=migrated_depth10 used=3308 tokens=32 seconds=3.984473 tps=8.031174",
+        "BENCH name=pair34 phase=migrated_depth10 used=26246 tokens=32 seconds=4.336130 tps=7.379852",
+        "BENCH name=pair12 phase=migrated_depth10 used=26246 tokens=32 seconds=4.434715 tps=7.215796",
+        "BENCH name=local phase=migrated_depth90 used=69 tokens=32 seconds=0.787711 tps=40.624034",
+        "BENCH name=single5 phase=migrated_depth90 used=29523 tokens=32 seconds=19.483498 tps=1.642416",
+        "BENCH name=pair12 phase=migrated_depth90 used=235961 tokens=32 seconds=21.455229 tps=1.491478",
+        "BENCH name=pair34 phase=migrated_depth90 used=235961 tokens=32 seconds=22.065659 tps=1.450217"
+      ],
+      "parallel": [
+        "PARALLEL phase=migrated_depth10 chats=4 tokens_each=32 seconds=4.434805 aggregate_tps=28.862596 ok=1",
+        "PARALLEL phase=migrated_depth90 chats=4 tokens_each=32 seconds=22.065768 aggregate_tps=5.800840 ok=1"
+      ],
+      "fill_done": [
+        "FILL_DONE name=temp_pair target=26214 seconds=38.003931 tps=689.770747",
+        "FILL_DONE name=temp_pair target=235929 seconds=540.307130 tps=436.657203",
+        "FILL_DONE name=temp_single target=3276 seconds=4.479932 tps=731.261110",
+        "FILL_DONE name=temp_single target=29491 seconds=39.089223 tps=754.453470"
+      ],
+      "state": [
+        "STATE_SAVE name=temp_pair used=26214 bytes=640700354 seconds=0.326",
+        "STATE_SAVE name=temp_pair used=235929 bytes=4511200394 seconds=2.257",
+        "STATE_SAVE name=temp_single used=3276 bytes=217356626 seconds=0.111",
+        "STATE_SAVE name=temp_single used=29491 bytes=701180666 seconds=0.349",
+        "STATE_RESTORE name=pair12 used=26214 bytes=640700354 seconds=1.269",
+        "STATE_RESTORE name=pair34 used=26214 bytes=640700354 seconds=1.271",
+        "STATE_RESTORE name=single5 used=3276 bytes=217356626 seconds=0.181",
+        "STATE_RESTORE name=pair12 used=235929 bytes=4511200394 seconds=11.029",
+        "STATE_RESTORE name=pair34 used=235929 bytes=4511200394 seconds=11.048",
+        "STATE_RESTORE name=single5 used=29491 bytes=701180666 seconds=1.409"
+      ],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 22013,
+        "1": 3412,
+        "2": 3412,
+        "3": 3412,
+        "4": 3412,
+        "5": 784
+      },
+      "start": "2026-11-07T08:13:03Z",
+      "finish": "2026-11-07T08:26:22Z"
+    },
+    "qwen27_parallel_max": {
+      "exit": 0,
+      "phases": [
+        "PHASE_LOCAL_READY",
+        "PHASE_PAIR12_READY"
+      ],
+      "first": [
+        "FIRST name=local token=11751 text= Paris",
+        "FIRST name=pair12 token=25358 text= Tokyo",
+        "FIRST name=pair34 token=19241 text= Berlin",
+        "FIRST name=single5 token=23327 text= Madrid"
+      ],
+      "bench": [
+        "BENCH name=local phase=short used=69 tokens=64 seconds=5.305561 tps=12.062815",
+        "BENCH name=pair12 phase=short used=69 tokens=64 seconds=5.701976 tps=11.224180",
+        "BENCH name=pair34 phase=short used=69 tokens=64 seconds=5.761304 tps=11.108597",
+        "BENCH name=single5 phase=short used=69 tokens=64 seconds=5.763494 tps=11.104375"
+      ],
+      "parallel": [
+        "PARALLEL phase=short chats=4 tokens_each=64 seconds=5.763562 aggregate_tps=44.416973 ok=1"
+      ],
+      "fill_done": [],
+      "state": [],
+      "snapshot_id": [],
+      "state_file": [],
+      "sampled_peak_mib": {
+        "0": 22051,
+        "1": 3412,
+        "2": 3412,
+        "3": 3412,
+        "4": 3412,
+        "5": 784
+      },
+      "start": "2026-11-07T07:53:45Z",
+      "finish": "2026-11-07T07:55:27Z"
+    }
+  },
+  "base_sha256": {
+    "src/llama-kv-cache.cpp": "16b40ff274e5aed3827f0d1c13a04f4f44c4d800c4eecbb5294b04127ab213c3",
+    "src/llama-context.cpp": "9f246c4f7268d1438c3e6f4a544cd497feffe777095eeaa1606a24a3d2f07008",
+    "src/llama-graph.cpp": "90f5c6f082790599124630680ba1293d702b369e9ce9088680d210b69905c8d3",
+    "src/llama-kv-chat-device.h": null,
+    "examples/simple/simple.cpp": "9a5bdba74c80ec545c52038e331a9a75b63fa87be57498f21fe4a62794ac4943"
+  }
+}
