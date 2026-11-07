@@ -240,3 +240,28 @@ These are experiment profiles, not Manager serving profiles. A Manager
 handoff needs to encode model-weight placement separately from per-chat KV
 placement, configured capacity separately from measured occupied depth, and
 the RAM-KV mode before it can select these layouts safely.
+
+## Whole expert tensors with live 1060 chat caches (2026-11-07)
+
+The [matched Nemotron experiment](results/runtime_experiments/kv_expert_chat_20261107/README.md)
+combined the prior four-group whole-expert placement with two 8K chats on
+GPUs4/5 and an additively created 131K-capacity chat split across them. With
+the same five weight cards, the normal layer split delivered 21.21 aggregate
+tok/s for two chats and 21.34 for three; whole-expert placement delivered
+67.13 and 72.02, respectively (3.16x and 3.37x). A four-weight-card layer
+control reached 27.28 and 33.09, so merely adding a card did not cause the
+gain. Moving the fourth expert group from GPU4 to GPU5 changed throughput by
+only 1-2% in this single pass.
+
+With three synthetic histories at 10% and 90% occupancy (8K on each small
+chat, 32K on the paired chat), the same five-card layer control measured
+16.40 and 8.61 aggregate tok/s. The expert layout measured 44.55 and 14.52
+(2.72x and 1.69x). The gain narrows as attention/cache work grows. The
+131K-capacity chat was not filled. In the short-history 131K-capacity case,
+peak sampled GPU4 use fell from 5,968 MiB with layer placement to 4,638 MiB
+with expert placement, adding about 1.3 GiB of headroom on the shared card.
+
+The PCIe rate samples are archived but not phase-aligned tightly enough to
+claim fewer transferred bytes. This is a speed and residency result for a
+hybrid MoE model; dense models need a different weight-placement strategy.
+It remains a private experiment, not a Manager profile.
