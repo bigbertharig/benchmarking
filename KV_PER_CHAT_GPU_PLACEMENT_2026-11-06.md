@@ -149,3 +149,18 @@ not suitable for concurrent serving. Manager integration remains open.
 
 See [patch, logs, GPU samples, and receipts](results/runtime_experiments/kv_pair_dynamic_20261107/README.md).
 
+
+
+## Paired-cache decode speed (2026-11-07)
+
+A timed extension of the private harness compared Qwen3.6 27B Q4_K_M dense
+with GPT-OSS 20B MXFP4 MoE. One model weight load stayed on GPU0. Two chats
+had 256K Q4 K/V capacities split across GPUs1+2 and 3+4, and a 32K chat
+used GPU5. After adding all three chats, 64 additional tokens per chat were
+timed separately: the dense model gave 33.67, 33.51, and 33.44 tok/s;
+the MoE gave 51.90, 50.93, and 51.18 tok/s. The pair means are 33.59 and
+51.42 tok/s, respectively. Sequential decoding means these rates are not
+concurrent throughput. The comparison uses different models and weight
+formats, and histories occupied only a few tokens. A filled 256K history
+remains unmeasured. Receipts and timed source are in
+`results/runtime_experiments/kv_paired_speed_20261107/`.
