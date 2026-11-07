@@ -1,0 +1,57 @@
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.9.2
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+-- llama.cpp version: 0.4.1-dev
+CMAKE_BUILD_TYPE=Release
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: x86_64
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- CUDA Toolkit found
+-- Using CMAKE_CUDA_ARCHITECTURES=61;86 CMAKE_CUDA_ARCHITECTURES_NATIVE=86-real;61-real
+-- FlashAttention K-V type combinations: f16-f16;q4_0-q4_0;q8_0-q8_0;bf16-bf16
+-- CUDA host compiler is GNU 13.3.0
+-- Including CUDA backend
+-- ggml version: 0.24.0
+-- ggml commit:  unknown
+-- Could NOT find OpenSSL, try to set the path to OpenSSL root folder in the system variable OPENSSL_ROOT_DIR (missing: OPENSSL_CRYPTO_LIBRARY OPENSSL_INCLUDE_DIR) 
+CMake Warning at vendor/cpp-httplib/CMakeLists.txt:154 (message):
+  OpenSSL not found, HTTPS support disabled
+
+
+CMake Warning at common/CMakeLists.txt:33 (message):
+  Git repository not found; to enable automatic generation of build info,
+  make sure Git is installed and the project is a Git repository.
+
+
+-- Configuring done (0.3s)
+-- Generating done (0.1s)
+-- Build files have been written to: /build
+[  4%] Built target ggml-base
+[ 11%] Built target ggml-cpu
+[ 77%] Built target ggml-cuda
+[ 79%] Built target ggml
+[ 80%] Building CXX object src/CMakeFiles/llama.dir/llama-context.cpp.o
+[ 80%] Linking CXX shared library ../bin/libllama.so
+[ 98%] Built target llama
+[ 98%] Building CXX object examples/simple/CMakeFiles/llama-simple.dir/simple.cpp.o
+[100%] Linking CXX executable ../../bin/llama-simple
+[100%] Built target llama-simple

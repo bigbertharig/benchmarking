@@ -78,16 +78,14 @@ microbatch must be partitioned by assigned sequence before attention; a
 single mixed-sequence attention graph cannot be pinned to one 1060. Hybrid
 models also need explicit ownership for any recurrent state.
 
-The next engineering gate is a forked llama.cpp prototype with one weight
-copy, two assigned slots and real token generation. Start at 100K Q4_0 per
-slot, then five slots at 200K and 250K only after the measured per-device
-attention workspace fits. Test a dense model and a MoE model with the same
-placement mechanism. Record per-device memory, actual cache occupancy,
-five distinct long prompts, continuations and cross-chat isolation. Compare
-the bytes copied between cards with the theoretical query/new-KV/result
+The first engineering gate was a forked llama.cpp prototype with one weight
+copy, two assigned contexts and real token generation. It passed at 4K, then
+five contexts passed at 32K cache capacity on dense and MoE models; details
+follow below. The next capacity gate is long prompts with measured cache
+occupancy, Q4 KV at 200K and 250K, continuations and cross-chat isolation.
+Compare bytes copied between cards with the theoretical query/new-KV/result
 traffic. The previous 1M-token layer-split failure was a 3,929-MiB compute
-buffer on a 1060; it does not establish failure for a cache-only worker, and
-the current synthetic probe does not establish full-model success.
+buffer on a 1060; it does not establish failure for a cache-only worker.
 
 ## Reproduction
 
@@ -98,3 +96,26 @@ The attention probe compiles with the existing
 `TOKENS CACHE_MIB ITERS`. The exact source, binary, raw CUDA output and JSON
 results are preserved in the paths above. No llama.cpp image or active model
 route was changed during these probes.
+
+## Real-model prototype result (2026-11-06)
+
+The next engineering gate above is now met at short prompts. A private
+llama.cpp fork gave each of five `llama_context` objects its own CUDA KV device,
+while all contexts shared one model object with weights on GPU0. Its attention
+node was assigned to the cache GPU in the graph scheduler. The same mechanism
+passed on dense Qwen3 1.7B, MoE GPT-OSS 20B, and the target dense Qwen3.6 27B.
+All five chats were resident at 32K capacity and produced distinct correct
+first answers. For the 27B run, GPU0 held a 15,346 MiB model buffer and peaked
+at 19,019 MiB; each 1060 held 2,048 MiB KV and peaked at 2,208 MiB.
+
+See [the full receipts and private patch](results/runtime_experiments/kv_chat_real_model_20261106/README.md).
+The harness decodes chats sequentially and uses a process-global device
+selector; it is not a concurrent server. The 32K caches were allocated but
+only short prompts were filled. Long-context retrieval, Q4 KV at 200–250K,
+independent continuation under concurrent scheduling, and exact transfer
+accounting remain open. A production path also needs an explicit per-context
+device parameter, a scheduler that shares or budgets GPU0 workspace, and a
+Manager load contract for one weight GPU plus the chosen cache GPUs. Keep this
+as experimental benchmarking evidence until those runtime and Manager pieces
+are implemented and validated.
+
