@@ -1,0 +1,58 @@
+{
+  "schema": "model-bundle-sync/1",
+  "model_id": "qwen3.6-35b-a3b-strata-xl",
+  "started_at": "2026-11-06T22:04:12.930444+00:00",
+  "status": "complete",
+  "files": [
+    {
+      "source": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "archive": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "role": "gguf",
+      "size_bytes": 22853663008,
+      "status": "verified",
+      "sha256": "55983c5a75a1ab969824077b3bb3de4146e82a9234072b48ad4e8f92ad3fe9f1"
+    },
+    {
+      "source": "/data/bench-staging/strata-v0.2.10/Strata-data/packs/qwen36-ud-q4_k_xl/tokenizer/chat_template.jinja",
+      "archive": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/runtime/strata-q4_k_xl/tokenizer/chat_template.jinja",
+      "role": "strata-q4_k_xl",
+      "size_bytes": 8057,
+      "status": "verified",
+      "sha256": "55d4931433fe502b794226ee7f4d206a6bdd436ac9f80eb7d8ebb4c639f9ea0c"
+    },
+    {
+      "source": "/data/bench-staging/strata-v0.2.10/Strata-data/packs/qwen36-ud-q4_k_xl/tokenizer/merges.txt",
+      "archive": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/runtime/strata-q4_k_xl/tokenizer/merges.txt",
+      "role": "strata-q4_k_xl",
+      "size_bytes": 3353258,
+      "status": "verified",
+      "sha256": "4ba698529766c7a2f5052083ea10cdf2485577f5237a332ee291054eb11e3332"
+    },
+    {
+      "source": "/data/bench-staging/strata-v0.2.10/Strata-data/packs/qwen36-ud-q4_k_xl/tokenizer/token_type.json",
+      "archive": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/runtime/strata-q4_k_xl/tokenizer/token_type.json",
+      "role": "strata-q4_k_xl",
+      "size_bytes": 744960,
+      "status": "verified",
+      "sha256": "5088c8c298fc06af8382ddb3b76c888703ac2634e82263b97eedcc2ad202738b"
+    },
+    {
+      "source": "/data/bench-staging/strata-v0.2.10/Strata-data/packs/qwen36-ud-q4_k_xl/tokenizer/tokenizer.json",
+      "archive": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/runtime/strata-q4_k_xl/tokenizer/tokenizer.json",
+      "role": "strata-q4_k_xl",
+      "size_bytes": 541,
+      "status": "verified",
+      "sha256": "2297d930613fcea0cbade386046ba7328b3aea97a9e3e4ac4154eb7a6d617665"
+    },
+    {
+      "source": "/data/bench-staging/strata-v0.2.10/Strata-data/packs/qwen36-ud-q4_k_xl/tokenizer/vocab.json",
+      "archive": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/runtime/strata-q4_k_xl/tokenizer/vocab.json",
+      "role": "strata-q4_k_xl",
+      "size_bytes": 5737005,
+      "status": "verified",
+      "sha256": "4ba64f0332abcfb0b600b7df1537d1e836e68009d5fb7cdb77339738dc6365c4"
+    }
+  ],
+  "manifest": "/mnt/shared/models/qwen3.6-35b-a3b-strata-xl/bundle_manifest.json",
+  "finished_at": "2026-11-06T22:15:11.901032+00:00"
+}

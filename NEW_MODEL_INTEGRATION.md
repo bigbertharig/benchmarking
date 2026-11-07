@@ -108,6 +108,8 @@ shows it); a slightly smaller quant that fits with headroom beats one that barel
 
 **Gate**: the hotset download matches the source size and SHA-256; the library copy matches the size.
 
+For a Strata model, treat the GGUF shards and the prepared runtime pack as **one model bundle**. Archive required pack files under `/mnt/shared/models/<model-dir>/runtime/<pack-name>/`; use `scripts/analysis/sync_model_bundle.py` to verify each file and publish `bundle_manifest.json`. Record `strata.prepared_pack_size_bytes` and `strata.bundle_size_bytes` in the registry. The bundle size is the disk footprint of GGUF plus prepared artifacts; GPU/RAM fit still uses model and n-gram bytes, so it must not count a derived pack twice as model weights.
+
 ## Phase 1: Register
 
 Add one entry to `model_registry.json` (keyed by the short model id), then regenerate the derived files.

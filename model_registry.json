@@ -1,6 +1,6 @@
 {
   "schema": "model-registry/1",
-  "updated": "2026-11-04",
+  "updated": "2026-11-06",
   "about": "Every model the rig has tested, with its archive GGUF, status, scheduling placement, and named profiles. The only place model settings are edited. models.catalog.json, model_tuning_profiles.json and custom_tasks/model_prompt_profiles.json are generated from this file by scripts/active/model_library.py.",
   "archive_root": "/mnt/shared/models",
   "runtime_image": "llama-runtime:b11669",
@@ -689,7 +689,7 @@
       "gguf": "mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/JetBrains/Mellum2.1-12B-A2.5B-Thinking-GGUF/resolve/main/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "status": "candidate",
-      "status_note": "Downloaded 2026-10-15 from JetBrains/Mellum2.1-12B-A2.5B-Thinking-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
+      "status_note": "Full code and validated reasoning suites completed by 2026-10-23. HumanEval+ 83.5%, MBPP+ 72.5%, BBH 45.6%, strict prompt IFEval 62%. Candidate for a specialized split-GPU code role; no routine role assigned.",
       "schedule": {
         "tier": 2,
         "placement": "split_gpu",
@@ -767,7 +767,7 @@
       "gguf": "minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/openbmb/MiniCPM5-2B-GGUF/resolve/main/MiniCPM5-2B-Q4_K_M.gguf",
       "status": "candidate",
-      "status_note": "Downloaded 2026-10-15 from openbmb/MiniCPM5-2B-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
+      "status_note": "Reasoning smoke and strict IFEval ran by 2026-10-26, but full code was 0.6% HumanEval+ and 1.9% MBPP+. Candidate only for a narrow low-cost worker role after task-specific validation.",
       "schedule": {
         "tier": 1,
         "placement": "single_gpu",
@@ -1042,7 +1042,7 @@
       "gguf": "nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/bartowski/nex-agi_Nex-N2.5-mini-GGUF/resolve/main/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "status": "candidate",
-      "status_note": "Downloaded 2026-10-15 from bartowski/nex-agi_Nex-N2.5-mini-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
+      "status_note": "Full code and validated reasoning suites completed by 2026-10-17. HumanEval+ 82.3%, BBH 73.8%, strict prompt IFEval 82%. Thinking control requires its template switch; candidate because current active brain alternatives score higher.",
       "schedule": {
         "tier": 3,
         "placement": "single_gpu",
@@ -1102,8 +1102,8 @@
     "ornith-1.5:35b-a3b": {
       "gguf": "ornith-1.5-35b-a3b/Ornith-1.5-35B-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B-GGUF/resolve/main/Ornith-1.5-35B-Q4_K_M.gguf",
-      "status": "candidate",
-      "status_note": "Downloaded 2026-10-15 from ornith-ai/Ornith-1.5-35B-A3B-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
+      "status": "active",
+      "status_note": "Promoted 2026-11-06 after full code and validated reasoning suites: BBH 92.4%, HumanEval+ 85.4%, strict prompt IFEval 82%. Measured 164.9 tok/s at 8K on the 3090; two-card 262K depth passed. Available as a fast brain alternative; no default role changed.",
       "schedule": {
         "tier": 3,
         "placement": "single_gpu",
@@ -1921,7 +1921,7 @@
       "gguf": "qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF/resolve/main/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "status": "candidate",
-      "status_note": "Downloaded 2026-10-15 from unsloth/Qwen3.8-27B-GGUF; not yet integrated (NEW_MODEL_INTEGRATION phases 2-6).",
+      "status_note": "Full code and validated reasoning suites completed by 2026-10-17. HumanEval+ 90.2%, strict prompt IFEval 92%, but BBH 41.6% in the selected validated run versus 91.6% for active Qwen3.6 27B. Candidate pending a useful role or settings correction.",
       "schedule": {
         "tier": 3,
         "placement": "single_gpu",
@@ -2143,7 +2143,7 @@
       "gguf": "qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
       "source_url": "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_S.gguf",
       "status": "candidate",
-      "status_note": "Six-card smoke and Phase 5 completed 2026-10-21/24; 162,304-context capacity depth passed, but the later 185,600-context manager placement failed. Candidate pending placement correction.",
+      "status_note": "Full code and validated reasoning suites completed by 2026-10-25. HumanEval+ 89.0%, MBPP+ 75.4%; 162,304-token six-card depth passed. 185,600-token manager placement failed; a later 32K six-card load passed. Candidate for expert-placement research; routine coding offers little measured gain over active Qwen3 Coder 30B for six-card cost.",
       "schedule": {
         "tier": 3,
         "placement": "split_gpu",
@@ -2202,7 +2202,7 @@
       "gguf": "k2-v2-instruct/k2v2-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/cturan/K2-V2-Instruct-GGUF/resolve/main/k2v2-Q4_K_M.gguf",
       "status": "candidate",
-      "status_note": "SHA-256 verified on rig NVMe and Pi archive. Context load gate passed 2026-10-27: five-card compact setting 13,312 tokens and six-card ceiling 30,464 tokens, both fully offloaded; smoke pending.",
+      "status_note": "SHA-256 and 5/6-card load gates passed 2026-10-27. Twenty-one selected smoke results exist by 2026-10-28, including BBH 11.9%, strict prompt IFEval 20%, HumanEval+ 72%; no full run or depth validation. Candidate retained for controlled retest, not routine placement.",
       "schedule": {
         "tier": 3,
         "placement": "split_gpu",
@@ -2388,14 +2388,16 @@
         "model_path": "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
         "validated_version": "0.2.10",
         "max_context": 8192,
-        "min_host_available_mb": 8192
+        "min_host_available_mb": 8192,
+        "prepared_pack_size_bytes": 9843821,
+        "bundle_size_bytes": 22863506829
       }
     },
     "qwen3.8-flash-next:q2_0": {
       "gguf": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
       "source_url": "https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF/tree/ed59f92082b1e93c0e96d60a8b11aab089b52f09/Q2_0",
       "status": "candidate",
-      "status_note": "Strata-only two-shard pack, verified 2026-11-03; 8K and 256K Strata probes passed. Not a llama-server deployment profile.",
+      "status_note": "Strata-only 8K and 256K probes passed; comparable model-quality suites are not yet in the selected scoreboard. Required GGUF and prepared-pack files form one bundle; archive verification is tracked by results/storage_inventory_20261106/q2_bundle_sync.json. Candidate for experimental Strata loads.",
       "model_size_bytes": 37623740192,
       "ngram_size_bytes": 28800138432,
       "strata": {
@@ -2408,7 +2410,9 @@
         "only": true,
         "max_context": 262144,
         "min_host_available_mb": 12288,
-        "prepared_experts_path": "/data/bench-staging/strata-v0.2.10/data/packs/q2_0/experts.bin"
+        "prepared_experts_path": "/data/bench-staging/strata-v0.2.10/data/packs/q2_0/experts.bin",
+        "prepared_pack_size_bytes": 35469412079,
+        "bundle_size_bytes": 101893290703
       },
       "profiles": {
         "default": {

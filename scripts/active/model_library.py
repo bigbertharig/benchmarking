@@ -217,6 +217,18 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
             value = entry.get(field)
             if type(value) is not int or value < (1 if field == "model_size_bytes" else 0):
                 errors.append(f"{mid}: {field} must be a nonnegative integer (model size must be positive)")
+        strata = entry.get("strata") or {}
+        if "prepared_pack_size_bytes" in strata or "bundle_size_bytes" in strata:
+            pack_bytes = strata.get("prepared_pack_size_bytes")
+            bundle_bytes = strata.get("bundle_size_bytes")
+            model_bytes = entry.get("model_size_bytes")
+            ngram_bytes = entry.get("ngram_size_bytes", 0)
+            valid_sizes = all(type(value) is int and value >= 0
+                              for value in (pack_bytes, bundle_bytes, model_bytes, ngram_bytes))
+            if not valid_sizes:
+                errors.append(f"{mid}: Strata bundle sizes must be nonnegative integers")
+            elif bundle_bytes != model_bytes + ngram_bytes + pack_bytes:
+                errors.append(f"{mid}: Strata bundle_size_bytes must equal model + ngram + prepared pack")
         if "default" not in entry.get("profiles", {}):
             errors.append(f"{mid}: no default profile")
         else:
