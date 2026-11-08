@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "name": "overnight_varied_chats_bigmoe_switch_route_expert_and_kv_growth_gate",
+  "stages": [
+    {
+      "id": "bigmoe_long_a_b_a",
+      "state": "ready",
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "command": ["python3", "scripts/integration/run_bigmoe_q2_long_switch.py", "--output", "results/runtime_experiments/model_loading_sequences/{run_id}/bigmoe_long_a_b_a_detail"],
+      "timeout_s": 3600,
+      "outputs": ["/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/bigmoe_long_a_b_a_detail/terminal.json"]
+    },
+    {
+      "id": "route_selected_expert_placement",
+      "state": "ready",
+      "gpus": [0, 1, 2],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "command": ["python3", "scripts/integration/run_route_selected_expert_placement.py", "--output", "results/runtime_experiments/model_loading_sequences/{run_id}/route_selected_expert_placement_detail"],
+      "timeout_s": 3600,
+      "outputs": ["/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/route_selected_expert_placement_detail/terminal.json"]
+    },
+    {
+      "id": "varied_concurrent_1060_chats",
+      "state": "ready",
+      "gpus": [0, 1, 3, 5],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {"KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build"},
+      "command": ["/bin/bash", "/mnt/shared/experiments/kvpair-20261106/run_matrix.sh", "varied_concurrent_single", "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf", "32768", "32768", "32768", "32", "qwen27_varied_single_20261108"],
+      "timeout_s": 7200,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen27_varied_single_20261108.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen27_varied_single_20261108.log"]
+    },
+    {
+      "id": "varied_concurrent_ram_chats",
+      "state": "ready",
+      "gpus": [0],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {"KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build"},
+      "command": ["/bin/bash", "/mnt/shared/experiments/kvpair-20261106/run_matrix.sh", "varied_concurrent_ram", "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf", "32768", "32768", "32768", "32", "qwen27_varied_ram_20261108"],
+      "timeout_s": 7200,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen27_varied_ram_20261108.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen27_varied_ram_20261108.log"]
+    },
+    {
+      "id": "strata_q2_kv_growth",
+      "state": "blocked",
+      "reason": "Installed Qwen3.8 Q2 Strata pack has 32 GiB experts.bin, while host MemAvailable is about 28 GiB. KV growth requires all experts resident in host RAM; the 4 GiB host floor and 26 GB allocation ceiling cannot be met. Need a smaller supported MoE pack or additional physical RAM before launch."
+    }
+  ]
+}
