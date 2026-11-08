@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "recipes": {
+    "qwen27_3090_five_kv1060_v1": {
+      "model": "qwen3.6:27b",
+      "status": "research",
+      "procedure": "kvchat_private_v1",
+      "placement": {
+        "weights": ["gpu0"],
+        "chat_state": ["gpu_workers"]
+      },
+      "evidence": [
+        "results/runtime_experiments/kv_local_worker_matrix_20261107/README.md",
+        "results/runtime_experiments/kv_overnight_20261107/README.md"
+      ]
+    },
+    "nemotron74_expert1060_chat1060_v1": {
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "status": "research",
+      "procedure": "kv_expert_private_v1",
+      "placement": {
+        "weights": ["gpu0"],
+        "experts": ["gpu_workers"],
+        "chat_state": ["gpu_workers"]
+      },
+      "evidence": [
+        "results/runtime_experiments/kv_expert_chat_20261107/README.md",
+        "results/runtime_experiments/kv_matched_placement_20261107/README.md"
+      ]
+    }
+  }
+}

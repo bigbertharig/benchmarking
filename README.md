@@ -11,6 +11,7 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 
 | Doc | For |
 |---|---|
+| [MODEL_LOADING_AND_CHAT_PLACEMENT.md](MODEL_LOADING_AND_CHAT_PLACEMENT.md) | one entry point for GPU/RAM/storage model placement, independent chat state, measured layouts, and promotion to Manager |
 | [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) | the entry point for running anything: the phases from download to full run (2 load, 3 litmus, 3.5 runtime, 4 smoke, 4.5 optional settings experiments, 5 full run, 6 finalize), with decision trees for common failures |
 | [MODEL_LIBRARY.md](MODEL_LIBRARY.md) | picking a model: the library, latest scores, prompt methodology |
 | [MODEL_BEST_OF.md](MODEL_BEST_OF.md) | the current best model per job and rig lane |
@@ -41,12 +42,14 @@ starts a model on a card by itself. The suites run on the rig and read this repo
 
 ## The model library
 
-Edit only these two, then run `scripts/active/model_library.py export` (and `check`):
+Edit these source files, then run `scripts/active/model_library.py export` (and `check`):
 
 - `model_registry.json`: every tested model: status, archive GGUF, source URL, scheduling, named profiles
   (`default` = benchmark settings, `interactive` = gateway use, `orchestration`, and optional variants such
   as `thinking`)
 - `model_roles.json`: which model and profile per rig lane and job (what other repos read)
+- `load_recipes.json`: passive, evidence-linked experimental and validated load
+  layouts imported by the gateway; they are not executable Manager offers
 
 The model's GGUF and runtime options are load requirements. Each current model's
 default profile also records `context_bounds.min` (a provisional planning floor)
