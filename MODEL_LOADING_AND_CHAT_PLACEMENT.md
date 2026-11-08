@@ -129,7 +129,7 @@ campaign preflight, not an automatic change to our test conclusions.
 | Layout | Evidence | Current limit |
 | --- | --- | --- |
 | Qwen3.6 27B weights on GPU0, chats' KV on 1060s and/or RAM | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md), [alternating chats](results/runtime_experiments/model_loading_sequences/qwen27-alternating-tiers-20261108/README.md), [mixed-tier chats](results/runtime_experiments/qwen27_mixed_ram_gpu_20261108/README.md) | Private llama.cpp fork; new chats were added without a second weight load. Five distinct 1060 chats reached 90% of 256K and passed recall; GPU1, RAM, and GPU2 chats also coexisted and decoded. Deep mixed-tier recall and practical admission speed remain open. |
-| Nemotron 74B weights and whole experts on GPU0-4, chat-only GPU5; also a GPU0-3 weight control with GPU4/5 chats | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; two 8K chats and an added third 131K-capacity context ran on one load. The 131K chat had short occupied history. A separate paired 32K chat reached 29,491 occupied tokens. Serial worker turnover on GPU5 and deeper GPU5-only chats remain open. |
+| Nemotron 74B whole experts on GPU0-4, chat-only GPU5; also a GPU0-3 layer split with chats isolated on GPU4/5 | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md), [two isolated 32K chats](results/runtime_experiments/model_loading_sequences/nemotron-two-isolated-chat-depth-20261108/README.md) | Private fork; two GPU4/GPU5 chats each reserved 262K and reached 32K occupied history on one GPU0-3 weight load, decoding concurrently at about 11 tok/s each. The prior 131K paired chat was only shallowly occupied. Larger occupied depths, retrieval quality, and ongoing chat migration remain open. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
 | Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json), [two-chat probe](results/runtime_experiments/model_loading_sequences/strata-q4-two-chat-20261108/q4_two_chat_detail/terminal.json) | Strata 3090/RAM/NVMe served two interleaved chats at 1,044 and 2,964 prompt tokens on one 8K-capacity load. Slots were reserved at launch; deeper occupancy, third chat, and separate KV tiers are open. |
@@ -211,15 +211,17 @@ in every receipt.
    baseline already placed weights on GPU0-4 and a chat on GPU5. Two 8K chats
    and an added 131K-capacity paired chat worked; a separate 32K paired chat
    reached 29,491 occupied tokens. The model advertises 262K context and Q4
-   KV allocated 288 MiB for a 131K paired context; neither a full 262K chat
-   nor the main-plus-worker maximum has been demonstrated. Next hold the
-   GPU0-4 weight placement, keep a main chat's KV on GPU0 (also compare GPU4),
-   and add an independent GPU5 worker. Step both through 8K, 32K, 128K, and
-   the largest safe occupied depth. Record admission, actual KV and recurrent
-   state allocation, correctness, and matched per-chat decode rates with and
-   without the worker. Then close and replace the GPU5 worker without reloading
-   weights. Compare with the GPU0-3 weight layout, which leaves both GPU4 and
-   GPU5 for chats.
+   KV allocated 288 MiB for a 131K paired context. A new
+   [GPU0-3 weight, GPU4/GPU5 isolated-chat run](results/runtime_experiments/model_loading_sequences/nemotron-two-isolated-chat-depth-20261108/README.md)
+   admitted two 262K-capacity chats and filled both to 32K; per-chat decode
+   was 12.6, 12.1, and 11.0 tok/s at 8K, 16K, and 32K occupied depth.
+   Next test 128K and the largest safe occupied depth with retrieval checks.
+   In the GPU0-4 expert layout, keep a main chat's KV on GPU0 (also compare
+   GPU4) and add an independent GPU5 worker. Measure matched per-chat speed
+   and main-chat delay, then close and replace the worker without reloading
+   weights. The exact 13.6 versus 33.6 tok/s short-history comparison changes
+   weight placement as well as card count; a controlled placement sweep is
+   needed to attribute its speed difference.
 3. **27B per-chat speed and admission optimization.** The GPU0-weight,
    1060-chat layout has strong capacity and correctness evidence, but a new
    chat's history fill and deep generation are slow on a 1060. Measure
@@ -244,6 +246,12 @@ in every receipt.
    first answer separately; check whether it is a compatible live state or a
    prefix that must be recomputed. Test a main chat continuing during worker
    preparation, because temporary GPU0 memory and compute may interfere.
+   For an **ongoing** worker conversation, test repeated GPU5 → GPU0 → GPU5
+   turn trips: transfer the state after worker generation, prefill the next
+   user turn on GPU0, return the updated state, then generate on GPU5. Verify
+   retained facts, full state including recurrent state for Nemotron, transfer
+   bytes and time, and main-chat delay. Compare against direct GPU5 prefill.
+   Initial 27B GPU0 → GPU1 admission passed; repeated round trips have not.
 6. **Strata shared-brain lifecycle.** With a viable Q2/Q4 load, test whether
    independent chats can open, close, and restart without reloading model
    state. Record each chat's physical state tier and main-chat responsiveness.

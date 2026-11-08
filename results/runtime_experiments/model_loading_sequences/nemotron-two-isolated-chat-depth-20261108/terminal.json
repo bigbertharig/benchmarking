@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T23:34:27+00:00",
+  "manifest_sha256": "c7c1d94498e205654284a91fe8e98b2dcafba4d843d066772531101452704134",
+  "run_id": "nemotron-two-isolated-chat-depth-20261108",
+  "stages": {
+    "two_isolated_chat_depth": "passed"
+  },
+  "started_at": "2026-11-08T23:19:29+00:00",
+  "status": "passed"
+}

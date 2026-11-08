@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "two_isolated_chat_depth",
+    "/data/model-hotset/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf",
+    "32768",
+    "262144",
+    "32768",
+    "64",
+    "nemotron_two_isolated_chat_depth_20261108"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_MODEL_DEVICES",
+    "KV_MODEL_SPLIT"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T23:34:27+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29903112,
+  "host_min_available_kib": 28558232,
+  "id": "two_isolated_chat_depth",
+  "started_at": "2026-11-08T23:19:29+00:00",
+  "status": "passed",
+  "timeout_s": 3600
+}

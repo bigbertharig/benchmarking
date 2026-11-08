@@ -883,6 +883,37 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "two_isolated_chat_depth") {
+        if (pair_cap < 32768 || single_cap < 16384 ||
+            single_cap + tokens >= pair_cap || tokens < 16) return 190;
+        chat main_chat{"main_gpu4", "The capital of Japan is", nullptr, "4"};
+        chat worker_chat{"worker_gpu5", "The capital of Germany is", nullptr, "5"};
+        if (!add_chat(main_chat, model, vocab, pair_cap) ||
+            !decode(main_chat, vocab, true) ||
+            !add_chat(worker_chat, model, vocab, pair_cap) ||
+            !decode(worker_chat, vocab, true)) return 191;
+        std::fprintf(stderr, "TWO_ISOLATED_READY cap_each=%d target=%d\n",
+                     pair_cap, single_cap);
+        const int depths[3] = {8192, 16384, single_cap};
+        for (int depth : depths) {
+            if (depth > single_cap || (depth == 16384 && single_cap == 16384)) continue;
+            if (!fill(main_chat, depth) || !fill(worker_chat, depth)) return 192;
+            const std::string phase = "isolated_depth" + std::to_string(depth);
+            if (!parallel_bench(vocab, {&main_chat, &worker_chat},
+                                tokens, phase.c_str())) return 193;
+        }
+        if (single_cap == 16384) {
+            if (!fill(main_chat, single_cap) || !fill(worker_chat, single_cap) ||
+                !parallel_bench(vocab, {&main_chat, &worker_chat},
+                                tokens, "isolated_depth16384")) return 194;
+        }
+        std::fprintf(stderr, "TWO_ISOLATED_DONE main_used=%d worker_used=%d\n",
+                     main_chat.used, worker_chat.used);
+        destroy(worker_chat);
+        destroy(main_chat);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "two_workers_and_pair") {
         chat w4{"worker4", "The capital of Japan is", nullptr, "4"};
         chat w5{"worker5", "The capital of Germany is", nullptr, "5"};

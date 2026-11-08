@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "name": "nemotron_two_isolated_chat_depth",
+  "stages": [
+    {
+      "id": "two_isolated_chat_depth",
+      "state": "ready",
+      "gpus": [0, 1, 2, 3, 4, 5],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_MODEL_DEVICES": "0,1,2,3",
+        "KV_MODEL_SPLIT": "56,16,9,8"
+      },
+      "command": ["/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh", "two_isolated_chat_depth", "/data/model-hotset/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf", "32768", "262144", "32768", "64", "nemotron_two_isolated_chat_depth_20261108"],
+      "timeout_s": 3600,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/nemotron_two_isolated_chat_depth_20261108.exit", "/mnt/shared/experiments/kv-matrix-20261107/nemotron_two_isolated_chat_depth_20261108.log"]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "run": "nemotron-two-isolated-chat-depth-20261108",
+  "started_at": "2026-11-08T23:18:53+00:00",
+  "status": "restored",
+  "run_state": "finished",
+  "terminal_observed_at": "2026-11-08T23:34:36+00:00",
+  "attempt": 1,
+  "load_exit": 0,
+  "load_stdout": "{\n  \"profile\": \"chat-27b\",\n  \"port\": 11434,\n  \"state\": \"ready\"\n}\n",
+  "load_stderr": "",
+  "finished_at": "2026-11-08T23:35:35+00:00"
+}
