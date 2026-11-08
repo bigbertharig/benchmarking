@@ -449,3 +449,16 @@ only 2.19%, so the multi-expert cache budget remains the useful next routing
 question. Strata KV growth was capacity blocked before launch: the installed
 32 GiB `experts.bin` cannot be fully resident within the rig's 4 GiB RAM floor
 and 26 GB allocation ceiling. The ordinary chat service was restored.
+
+The [two-100K same-1060 test](results/runtime_experiments/model_loading_sequences/qwen27-large-chat-latency-v2-20261108/README.md)
+then put two independent 102,423-occupied chat contexts on GPU1 while the 27B
+weights remained on GPU0. Each chat reserved 2,016 MiB of KV; GPU1 total use
+was about 5,037 MiB. Both codes were recalled correctly after concurrent
+generation. A alone decoded at 3.62 tok/s with 273 ms median token latency;
+with both chats active, A and B each decoded at about 1.53 tok/s and 650 ms
+median token latency. This is a clean 16-token window per chat, unlike the
+earlier mixed prompt/decode timing. It proves two 100K chats fit and remain
+independent on one 6 GB 1060, while the per-chat rate roughly halves when they
+generate at the same time. The setup of each deep chat took about half an hour.
+A separate [235K per-chat latency run](results/runtime_experiments/model_loading_sequences/qwen27-one-235k-chat-latency-20261108/README.md)
+is in progress; it tests the near-capacity speed on one 1060.
