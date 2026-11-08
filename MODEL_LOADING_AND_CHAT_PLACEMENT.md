@@ -210,11 +210,16 @@ in every receipt.
 2. **Nemotron model across cards, worker on the spare 1060.** The 74B MoE
    baseline already placed weights on GPU0-4 and a chat on GPU5. Two 8K chats
    and an added 131K-capacity paired chat worked; a separate 32K paired chat
-   reached 29,491 occupied tokens. Next hold the GPU0-4 weight placement,
-   grow a GPU5-only chat to several occupied depths, close it, and start a
-   different GPU5 worker. Check one weight load, correct independent recall,
-   memory reclamation, first useful answer, and per-chat speed. Compare with
-   the GPU0-3 weight layout, which leaves both GPU4 and GPU5 for chats.
+   reached 29,491 occupied tokens. The model advertises 262K context and Q4
+   KV allocated 288 MiB for a 131K paired context; neither a full 262K chat
+   nor the main-plus-worker maximum has been demonstrated. Next hold the
+   GPU0-4 weight placement, keep a main chat's KV on GPU0 (also compare GPU4),
+   and add an independent GPU5 worker. Step both through 8K, 32K, 128K, and
+   the largest safe occupied depth. Record admission, actual KV and recurrent
+   state allocation, correctness, and matched per-chat decode rates with and
+   without the worker. Then close and replace the GPU5 worker without reloading
+   weights. Compare with the GPU0-3 weight layout, which leaves both GPU4 and
+   GPU5 for chats.
 3. **27B per-chat speed and admission optimization.** The GPU0-weight,
    1060-chat layout has strong capacity and correctness evidence, but a new
    chat's history fill and deep generation are slow on a 1060. Measure
