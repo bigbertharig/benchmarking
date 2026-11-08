@@ -1,0 +1,83 @@
+{
+  "bigmoe_commit": "930b2c9ebd8c2cface6566bd9f11075ac07adfe0",
+  "bigmoe_version": "0.40.1",
+  "block_before": {
+    "nvme": {
+      "read_bytes": 5854597010432,
+      "write_bytes": 248857432064
+    },
+    "sata": {
+      "read_bytes": 399306897408,
+      "write_bytes": 104648684544
+    }
+  },
+  "block_final": {
+    "nvme": {
+      "read_bytes": 5993286001664,
+      "write_bytes": 248857522176
+    },
+    "sata": {
+      "read_bytes": 399842220032,
+      "write_bytes": 104662410240
+    }
+  },
+  "command": [
+    "/data/bench-staging/bigmoe-v0.40.1/bmoe-cli",
+    "-m",
+    "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "-p",
+    "Reply with the single word ORCHID. Do not include any other text.",
+    "--chatml",
+    "--no-think",
+    "-c",
+    "32768",
+    "-n",
+    "64",
+    "--moe-stream",
+    "--cache-mb",
+    "8192",
+    "--dense-mapped",
+    "token_embd.weight;per_layer_token_embd.weight",
+    "--no-cache-pin",
+    "--gpu-layers",
+    "0"
+  ],
+  "correct": true,
+  "exit_code": 0,
+  "finished_at": "2026-11-08T04:13:32+00:00",
+  "gpu_before_mib": {
+    "0": 22819,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_final_mib": {
+    "0": 22819,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "host_before": {
+    "MemAvailable_kib": 29521068,
+    "SwapFree_kib": 23231864,
+    "SwapTotal_kib": 24127028
+  },
+  "host_final": {
+    "MemAvailable_kib": 29026300,
+    "SwapFree_kib": 23199680,
+    "SwapTotal_kib": 24127028
+  },
+  "host_min_available_kib": 13470284,
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+  "role": "CPU/flash correctness gate; not a performance comparison",
+  "started_at": "2026-11-08T04:08:09+00:00",
+  "status": "passed",
+  "stderr_tail": "35 MiB\nsched_reserve: graph: nodes = 6627, splits = 1, input objects = 6, input tensors = 18\nsched_reserve: reserve took 264.30 ms, sched copies = 1\nbmoe: dense-weights=anon \u2014 27465 MiB in 1 tensor(s) exceeds the 26775 MiB available: left mmap'd with random-access advice, outside the warm sweep and the residency sensor\nbmoe: dense-weights=anon \u2014 644 MiB in 1 table(s) left mmap'd as the plan priced them: the graph gathers rows from them, outside the warm sweep and the residency sensor\nbmoe: dense-weights=anon \u2014 4606 MiB in 1078 anon buffers\nbmoe: dense-weights=anon \u2014 dropped 4602 MiB of now-unused mmap pages\nbmoe: expert streaming ON  n_expert=512 o_direct=1 io_threads=4 cache=8192 MiB shards=4\nbmoe: page cache: the model files' read-ahead handed back (4 file(s))\nbmoe: memory: phase=session-ready process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=23351.172 compressed_or_swap_mib=193.410 system_available_mib=22148.168\nbmoe: context checkpoints: 112.6 MiB each, up to 8 kept\n",
+  "stdout_tail": "ute: 18.4% CPU occupancy (1.7116 cpu-s/token over 4 threads), 24.00 major faults/token\nprefill: 28 tokens, 34.774 s (0.8 tok/s) | model load 275.077 s | TTFT 309.851 s\nmode: expert streaming, cache 8192 MiB, dense anon\nmoe-stream: read 2492.0 MiB (830.65 MiB/token), decode 2.325 s/token (compute 0.314 + cache mgmt 0.039 + flash I/O 1.972 s/token, 421 MiB/s)\nmoe-cache: 10.1% hit, resident 8189.7 MiB\nmoe-cache: 2690 evictions, 304 re-reads (101.3/token) \u2014 bytes the cache had already paid for once\n",
+  "visible_answer": "ORCHID",
+  "wall_seconds": 322.045
+}

@@ -75,7 +75,8 @@ campaign preflight, not an automatic update to a Manager recipe.
 | Nemotron 74B weights and whole experts on GPU0-3, chats on remaining 1060s | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; the 131K paired chat had short occupied history. Byte-balanced interleaving did not beat contiguous experts. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [matched mixed-card comparison](results/runtime_experiments/strata_q38_mixed_matched_20261106/README.md) | One-card long-context recall and mixed-card short-context tests; no independent per-chat placement or combined Strata-plus-1060 expert workers. |
-| Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [8K smoke](results/runtime_experiments/model_loading_sequences/model-loading-q4-smoke-20261108/q4_smoke_detail/terminal.json) | Four verified NVMe shards; Strata 8K 3090/RAM/NVMe load and one correct request passed. Matched 32K throughput and multi-chat tests pending. |
+| Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json) | Strata 3090/RAM/NVMe answered all four 32K-capacity requests; repeat runs, full-depth occupancy, and multi-chat tests pending. |
+| Qwen3.8 Q4 on BigMoe | [same-file smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json) | 32K capacity CPU/flash correctness passed; GPU placement and matched throughput remain untested. |
 
 Whole-expert placement improved Coder Next and Nemotron decode, while ordinary
 layer splits across slow 1060 links often hurt. [Tiered real-expert probes](results/runtime_experiments/q38_tiered_expert_probe_20261106/README.md)
@@ -301,3 +302,17 @@ The [first attempt](results/runtime_experiments/model_loading_sequences/bigmoe-q
 had the same correct model output and exit 0, but the validator misread the
 CLI's echoed prompt and trailing metrics; the parser was corrected before the
 passed repeat. The ordinary GPU0 chat route remained loaded throughout.
+
+The [same-file Q4 BigMoe smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json)
+also passed at 32K configured context. With an 8 GiB expert RAM cache and CPU
+decode, model load took 275 seconds, 28 prompt tokens prefetched at 0.8 tok/s,
+and a correct three-token answer decoded at about 0.43 tok/s. BigMoe reported
+2,492 MiB of expert reads during those three output tokens, a 10.1% cache hit
+rate, and 2,690 evictions. Whole-run NVMe counters increased by 138.69 GB;
+this includes model loading and request activity. `MemAvailable` stayed above
+13,470,284 KiB, and GPU0 remained with the ordinary chat model. This proves
+same-file compatibility under a safe CPU/flash placement. It does not compare
+BigMoe's GPU path with Strata's 3090 path. A matched next run should give
+BigMoe CUDA0 prefill, record a longer output, and separate first/warm requests;
+the long 11.6K-token Strata depth prompt would be excessively slow under this
+CPU-only prefill setting.

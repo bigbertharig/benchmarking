@@ -10,6 +10,8 @@ This is the entry point for the next rig session. The [Strata baseline and Q2 co
 
 The [32K Q4 baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json) passed with 23,561 MiB GPU0 allocation, a 131-second warm-pack launch, and four correct requests. Two repeated 68-token prompts decoded at 18.0 and 19.7 tok/s, versus 4.4 tok/s for the first after load. An 11,597-token retrieval prompt prefetched at 54.1 tok/s, decoded at 4.1 tok/s, and coincided with 99.86 GB NVMe reads. These are one run per case; the engine warned of only 457 MiB free VRAM at one request start. Test a 768 MiB reserve and repeat matched prompts before drawing a steady-state throughput conclusion.
 
+The [same-file BigMoe Q4 smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json) passed with a bounded 8 GiB RAM expert cache, CPU decode, and 32K configured context. Its correct three-token answer decoded at about 0.43 tok/s after a 275-second load; the CLI reported 2,492 MiB of expert reads and a 10.1% cache hit. This is a loader and correctness gate, not a matched engine comparison: the Strata run used GPU0 for the model, whereas BigMoe left GPU0 to the ordinary chat service. A CUDA0-prefill, longer-output BigMoe test is needed before comparing its load and speed tradeoffs.
+
 The Q4 runtime data directory is `/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/`. The actual launch used its `packs/unsloth-ud-q4_k_xl/` child. The pack has already been built; to rebuild it from shard 1, use the installed Strata control Python:
 
 ```bash

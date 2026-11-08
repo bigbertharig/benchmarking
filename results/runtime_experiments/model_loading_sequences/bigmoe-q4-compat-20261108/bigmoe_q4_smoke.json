@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_bigmoe_q4_smoke.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail"
+  ],
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T04:13:33+00:00",
+  "gpus": [],
+  "host_before_available_kib": 29521304,
+  "host_min_available_kib": 29521304,
+  "id": "bigmoe_q4_smoke",
+  "started_at": "2026-11-08T04:08:09+00:00",
+  "status": "passed",
+  "timeout_s": 2100
+}

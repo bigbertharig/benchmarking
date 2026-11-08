@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/preflight_q4_stage.py",
+    "--quick"
+  ],
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T04:08:09+00:00",
+  "gpus": [],
+  "host_before_available_kib": 29516048,
+  "host_min_available_kib": 29516048,
+  "id": "q4_verify_shards",
+  "started_at": "2026-11-08T04:08:07+00:00",
+  "status": "passed",
+  "timeout_s": 300
+}

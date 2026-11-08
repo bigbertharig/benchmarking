@@ -47,7 +47,7 @@
     {
       "id": "bigmoe_same_file",
       "state": "blocked",
-      "reason": "BigMoeOnEdge is not installed or compatibility checked for this four-shard Q4 model."
+      "reason": "BigMoe Q2 and same-file Q4 CPU/flash correctness passed; the matched CUDA0-prefill, longer-output and warm-request runner remains to be built."
     },
     {
       "id": "q2_strata_multichat",
