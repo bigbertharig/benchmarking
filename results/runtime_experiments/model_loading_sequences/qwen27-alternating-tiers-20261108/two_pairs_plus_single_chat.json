@@ -1,0 +1,32 @@
+{
+  "command": [
+    "/bin/bash",
+    "/mnt/shared/experiments/kvpair-20261106/run_matrix.sh",
+    "alternate_pair",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "16384",
+    "16384",
+    "16384",
+    "32",
+    "qwen27_alternate_pair_20261108"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T07:19:51+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29896120,
+  "host_min_available_kib": 28333120,
+  "id": "two_pairs_plus_single_chat",
+  "started_at": "2026-11-08T07:17:09+00:00",
+  "status": "passed",
+  "timeout_s": 3600
+}

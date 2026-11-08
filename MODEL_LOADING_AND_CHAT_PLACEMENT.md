@@ -383,3 +383,15 @@ steps and evaluating the next 32, top 16/32/64 experts per layer covered
 1.06/2.12/4.25 GB. Top 128 covered 84.1% at 8.49 GB. This is one nearby-token
 holdout and does not measure cache hits or speed. It suggests testing compact
 per-layer expert sets before a larger hot-expert placement.
+
+The [27B alternating-chat placement run](results/runtime_experiments/model_loading_sequences/qwen27-alternating-tiers-20261108/README.md)
+passed the exact A → B → A → C → A sequence, plus final B/C recall, on one
+NVMe-backed Qwen3.6 27B weight load per layout. Three separate 1060 KV chats,
+two paired-1060 chats plus one single-1060 chat, and three RAM KV chats all
+retained distinct code words. Final occupied positions were A 8,228, B 3,144,
+and C 6,216 under 16K caps. The logs show 288 MiB per single-GPU or RAM KV
+chat, or 144 MiB on each card of a paired chat. With this repeated-note filler,
+aggregate prefill was about 148 tok/s for either 1060 layout and 292 tok/s for
+RAM KV. No second model load occurred when a chat was added. This is a
+correctness and placement result with artificial histories and brief answers;
+real mixed-content histories and concurrent longer decode remain to test.

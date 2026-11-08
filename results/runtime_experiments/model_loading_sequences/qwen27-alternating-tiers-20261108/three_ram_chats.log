@@ -1,0 +1,20 @@
+sched_reserve:      CUDA0 compute buffer size =    89.25 MiB
+sched_reserve:  CUDA_Host compute buffer size =     5.52 MiB
+sched_reserve: graph: nodes = 4041, splits = 322, input objects = 4, input tensors = 12
+sched_reserve: reserve took 28.38 ms, sched copies = 1
+ADD name=C pair=- single=-1 cap=16384 prompt=26
+TURN_FILL step=C1 name=C used=6144 added=6118 seconds=20.805891 tps=294.051336
+RECALL_RESULT name=C depth=6144 expected=7358 evidence=1 final_visible=1 final_pass=1 answer=7358<|im_end|>
+TURN_DONE step=C1 name=C used=6180 recall_seconds=0.512848 correct=1
+TURN_FILL step=A3 name=A used=8192 added=4048 seconds=14.729295 tps=274.826451
+RECALL_RESULT name=A depth=8192 expected=4827 evidence=1 final_visible=1 final_pass=1 answer=4827<|im_end|>
+TURN_DONE step=A3 name=A used=8228 recall_seconds=0.534865 correct=1
+RECALL_RESULT name=B depth=3108 expected=6193 evidence=1 final_visible=1 final_pass=1 answer=6193<|im_end|>
+RECALL_RESULT name=C depth=6180 expected=7358 evidence=1 final_visible=1 final_pass=1 answer=7358<|im_end|>
+ALTERNATING_PASS mode=alternate_ram order=A-B-A-C-A final_used=A:8228,B:3144,C:6216
+~llama_context:      CUDA0 compute buffer size is  89.2507 MiB, matches expectation of  89.2507 MiB
+~llama_context:  CUDA_Host compute buffer size is   5.5172 MiB, matches expectation of   5.5172 MiB
+~llama_context:      CUDA0 compute buffer size is  89.2507 MiB, matches expectation of  89.2507 MiB
+~llama_context:  CUDA_Host compute buffer size is   5.5172 MiB, matches expectation of   5.5172 MiB
+~llama_context:      CUDA0 compute buffer size is  89.2507 MiB, matches expectation of  89.2507 MiB
+~llama_context:  CUDA_Host compute buffer size is   5.5172 MiB, matches expectation of   5.5172 MiB

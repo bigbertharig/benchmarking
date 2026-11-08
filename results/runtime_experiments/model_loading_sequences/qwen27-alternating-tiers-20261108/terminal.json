@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-08T07:21:03+00:00",
+  "manifest_sha256": "31c885080dd1514c06414a29cdb43c9bc86b78d5a53f751cc2c0dc6bae0c38f3",
+  "run_id": "qwen27-alternating-tiers-20261108",
+  "stages": {
+    "three_ram_chats": "passed",
+    "three_single_1060_chats": "passed",
+    "two_pairs_plus_single_chat": "passed"
+  },
+  "started_at": "2026-11-08T07:14:21+00:00",
+  "status": "passed"
+}
