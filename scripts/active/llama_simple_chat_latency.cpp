@@ -640,6 +640,54 @@ int main(int argc, char ** argv) {
         destroy(cb); destroy(ca); llama_model_free(model);
         return correct.load() == 2 ? 0 : 165;
     }
+    if (std::string(argv[1]) == "matched_100k_kv_placement") {
+        if (local_cap < 102400 || single_cap < 100000 ||
+            single_cap + 256 >= local_cap || tokens < 16) return 170;
+        const std::string prompt =
+            "<|im_start|>user\nRemember my private four-digit code: 4827. These are my field notes.\n";
+        std::string notes;
+        for (int i = 0; i < 300; ++i)
+            notes += "A note " + std::to_string(i) +
+                     " records marker " + std::to_string((i*7919+17)%100003) +
+                     " beside a bridge.\n";
+        const auto filler = tokenize_text(vocab, notes, false);
+        if (filler.empty()) return 171;
+        chat prep{"prep", prompt.c_str(), nullptr, "0"};
+        const auto prep_start = clock_type::now();
+        if (!add_chat(prep, model, vocab, local_cap, true) ||
+            !decode_raw(prep, prep.next) ||
+            !decode_raw(prep, filler, single_cap-prep.used) ||
+            !decode(prep, vocab)) return 172;
+        const double prep_seconds = std::chrono::duration<double>(clock_type::now()-prep_start).count();
+        std::fprintf(stderr, "PREP_METRIC name=matched gpu=0 used=%d seconds=%.6f\n",
+                     prep.used, prep_seconds);
+        snapshot state;
+        if (!save(prep, state)) return 173;
+        destroy(prep);
+        auto run_placement = [&](const char * name, const char * pair,
+                                 const char * single, const char * phase) {
+            chat target{name, "", pair, single};
+            if (!add_chat(target, model, vocab, local_cap, true) ||
+                !restore(target, state) || !decode(target, vocab, true)) return false;
+            std::fprintf(stderr, "CHAT_READY name=%s pair=%s single=%s used=%d cap=%d\n",
+                         name, pair ? pair : "-", single ? single : "-",
+                         target.used, local_cap);
+            const bool timed = measured_generation(target, vocab, tokens, phase);
+            const bool correct = timed && recall_answer(target, vocab, "4827", target.used, 64);
+            std::fprintf(stderr, "PLACEMENT_RESULT name=%s phase=%s correct=%d\n",
+                         name, phase, correct);
+            destroy(target);
+            return correct;
+        };
+        if (!run_placement("local", nullptr, "0", "matched_100k_local")) return 174;
+        if (!run_placement("single", nullptr, "1", "matched_100k_single")) return 175;
+        if (!run_placement("pair", "1,2", nullptr, "matched_100k_pair")) return 176;
+        if (!run_placement("local_repeat", nullptr, "0", "matched_100k_local_repeat")) return 177;
+        std::fprintf(stderr, "MATCHED_PLACEMENT_DONE used=%d tokens=%d placements=4\n",
+                     state.used, tokens);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "varied_concurrent_single" ||
         std::string(argv[1]) == "varied_concurrent_ram") {
         const bool ram = std::string(argv[1]) == "varied_concurrent_ram";

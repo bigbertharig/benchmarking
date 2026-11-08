@@ -496,3 +496,14 @@ decode rate still meets the use case.
 A separate [235K per-chat latency run](results/runtime_experiments/model_loading_sequences/qwen27-one-235k-chat-latency-20261108/README.md)
 was stopped after 65,536 occupied positions in 906.52 seconds of direct GPU1
 fill to free the rig for the handoff test. It has no 235K decode result.
+
+The [matched 102K placement comparison](results/runtime_experiments/model_loading_sequences/qwen27-matched-100k-kv-placement-20261108/README.md)
+prepared one chat on GPU0 and restored the same snapshot sequentially to
+GPU0, GPU1, GPUs1+2, then GPU0 again. With Qwen27 weights on GPU0, 64 clean
+generation steps measured 26.73, 3.66, 3.65, and 27.32 tok/s respectively.
+All four private-code recalls passed. The pair allocated 1,008 MiB KV on
+each 1060 versus 2,016 MiB on one card. At this occupied depth, using one or
+two 1060s for attention was about 7.4 times slower than local 3090 KV;
+splitting across two 1060s did not improve generation in this run. This is
+one synthetic-history pass, so it does not yet isolate attention compute,
+memory access, host-staged PCIe transfers, and graph synchronization.

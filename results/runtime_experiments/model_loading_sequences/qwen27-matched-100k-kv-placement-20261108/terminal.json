@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T22:35:01+00:00",
+  "manifest_sha256": "b3a9144b0b0cf1cfe85ff3e957985fadb91640d8ca5c0488b4422e5116ad4166",
+  "run_id": "qwen27-matched-100k-kv-placement-20261108",
+  "stages": {
+    "matched_100k_kv_placement": "passed"
+  },
+  "started_at": "2026-11-08T22:30:55+00:00",
+  "status": "passed"
+}
