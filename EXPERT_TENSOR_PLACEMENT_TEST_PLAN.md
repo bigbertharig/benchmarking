@@ -6,14 +6,14 @@ Status: design and preflight, 2026-11-06. This experiment consumes the rig profi
 
 This is the entry point for the next rig session. The [Strata baseline and Q2 controls](STRATA_MEMORY_TEST_PLAN.md), [tensor-sharding research](EXPERT_TENSOR_SHARDING_RESEARCH.md), and [rig limits](RIG_PERFORMANCE.md) provide the surrounding evidence. The upstream [UD-Q4_K_XL setup guide](https://github.com/Niko1221/Strata/blob/main/docs/UNSLOTH_Q4.md) defines this quant's pack format. Do not describe an unrun combined Strata-plus-M10 prototype as a measured speedup.
 
-**Current handoff (2026-11-07):** the pinned Q4 download on the 4 TB drive passed per-shard SHA-256 in `/mnt/shared/models/qwen3.8-flash-next-ud-q4_k_xl/download_terminal.json`. The canonical four shards total 111,334,654,784 bytes. The copy to `/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/` completed at 02:38:47 UTC; `results/storage_inventory_20261106/q4_nvme_stage.json` records `complete` and `verified` for all four shards. The 4 TB source stays in place. The runtime pack and Q4 full-model baseline have not yet been recorded, nor has a combined worker run.
+**Current handoff (2026-11-08):** the pinned Q4 download on the 4 TB drive passed per-shard SHA-256 in `/mnt/shared/models/qwen3.8-flash-next-ud-q4_k_xl/download_terminal.json`. The canonical four shards total 111,334,654,784 bytes. The NVMe copy at `/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/` was rehashed in [`model-loading-q4-prep-20261108`](results/runtime_experiments/model_loading_sequences/model-loading-q4-prep-20261108/terminal.json). Its 1.4 GiB runtime pack is built, with no `experts.bin` duplicate, and the corrected read-only plan reports the installed CUDA engine usable. The plan still warns that normal sizing does not fit this host. The guarded 8K load, Q4 full-model baseline, and combined worker run have not happened yet. The 4 TB source stays in place.
 
-The Q4 runtime pack belongs under the same model folder at `/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/`. Once all four shards are verified on NVMe, build it from shard 1 with the installed Strata control Python:
+The Q4 runtime data directory is `/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/`. Strata reads its pack under that directory's `packs/ud-q4_k_xl/` child. The pack has already been built; to rebuild it from shard 1, use the installed Strata control Python:
 
 ```bash
 STRATA=/data/bench-staging/strata-v0.2.10
 MODEL=/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl
-"$STRATA/control/python/bin/python" "$STRATA/control/tools/iq_pack.py"   --gguf "$MODEL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"   --out "$MODEL/runtime/strata-ud-q4_k_xl" --compat-bf16
+"$STRATA/control/python/bin/python" "$STRATA/control/tools/iq_pack.py"   --gguf "$MODEL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"   --out "$MODEL/runtime/strata-ud-q4_k_xl/packs/ud-q4_k_xl" --compat-bf16
 ```
 
 The Q4 guide specifies about 1.4 GB for this pack and **no** `experts.bin`: experts are read directly from the GGUF files. Do not pass `--experts-bin`, which would create a roughly 77 GB duplicate and exceed the available NVMe headroom. Preserve the pack and its hash manifest with the four shards as one model bundle. The shared Strata expert profile is at `$STRATA/control/data/expert-profile.bin`; an MTP draft is optional for the first matched run and should be disabled unless its asset and memory budget are verified.
