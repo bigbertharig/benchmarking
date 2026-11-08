@@ -446,7 +446,9 @@ int main(int argc, char ** argv) {
     const int pair_cap = std::atoi(argv[4]);
     const int single_cap = std::atoi(argv[5]);
     const int tokens = std::atoi(argv[6]);
-    if (std::string(argv[1]) == "large_chat_fresh") {
+    if (std::string(argv[1]) == "large_chat_fresh" ||
+        std::string(argv[1]) == "one_235k_fresh") {
+        const int chat_count = std::string(argv[1]) == "one_235k_fresh" ? 1 : 5;
         if (local_cap < 262144 || pair_cap < 200000 || pair_cap + 256 >= local_cap || tokens < 8)
             return 150;
         const char * names[5] = {"worker1", "worker2", "worker3", "worker4", "worker5"};
@@ -459,7 +461,7 @@ int main(int argc, char ** argv) {
                               codes[i] + ". These are unrelated field notes.\n");
         std::vector<chat> chats;
         chats.reserve(5);
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < chat_count; ++i) {
             chats.push_back({names[i], prompts[i].c_str(), nullptr, cards[i]});
             chat & c = chats.back();
             std::string notes;
@@ -492,16 +494,16 @@ int main(int argc, char ** argv) {
         }
         std::atomic<int> correct{0};
         std::vector<std::thread> checks;
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < chat_count; ++i)
             checks.emplace_back([&, i]() {
                 if (recall_answer(chats[i], vocab, codes[i], chats[i].used, 64))
                     correct.fetch_add(1);
             });
         for (auto & thread : checks) thread.join();
-        std::fprintf(stderr, "DEEP_INDEPENDENCE correct=%d chats=5\n", correct.load());
+        std::fprintf(stderr, "DEEP_INDEPENDENCE correct=%d chats=%d\n", correct.load(), chat_count);
         for (auto & c : chats) destroy(c);
         llama_model_free(model);
-        return correct.load() == 5 ? 0 : 155;
+        return correct.load() == chat_count ? 0 : 155;
     }
     if (std::string(argv[1]) == "large_chat_latency") {
         const char * state_dir = std::getenv("KV_STATE_DIR");
