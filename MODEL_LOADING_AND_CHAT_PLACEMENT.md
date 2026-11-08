@@ -7,6 +7,34 @@ speeds. We are exploring placements, chat behavior, tensor layouts, caching,
 and runtime designs; no single layout or Manager procedure is the target yet.
 The order of experiments can change when a result suggests a better question.
 
+## The big picture
+
+There are two linked goals. The systems goal is to use the rig's separate 3090
+VRAM, 1060 VRAM, host RAM, and NVMe tiers to run larger models at useful speed.
+Strata demonstrates a software-managed GPU/RAM/storage hierarchy, and
+BigMoeOnEdge and m10dis supply ideas for caching, streaming, and placing routed
+experts. This is not a true unified memory pool: each tier has its own capacity,
+access cost, and supported runtime operations. The installed Strata path has
+run Qwen3.8 with GPU0, RAM, and NVMe; using the 1060s as dedicated expert
+workers in that engine would require a separate compatible bridge or engine
+change. The [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md)
+tracks that unbuilt combined path.
+
+The practical goal is to keep a capable model resident as a main brain and
+admit more work without repeatedly loading its weights. A helper can be a new,
+independent chat on that same model, gaining the same weights and quantization
+as the main chat, or a separately loaded smaller model with its own speed and
+quality tradeoff. Shared weights do not guarantee equal per-chat speed: KV
+placement, occupied history, concurrent attention, and contention with the
+main chat all matter. Different model families and quants also need quality
+checks before calling one configuration smarter than another.
+
+We are still learning what fits, how independent chats behave, and where time
+and bytes move. After that, optimize promising placements and compare them on
+realistic workloads. Only then choose a small number of useful load styles for
+Manager and harnesses. The current passive recipe handoff records evidence; it
+does not commit us to a serving policy.
+
 ## Questions to explore
 
 Try different ways to place weights, dense layers, experts, lookup tables,
@@ -124,6 +152,33 @@ Record surprising failures and dead ends as well as successes. A result may
 lead to another placement test, a tensor experiment, a speed experiment, or a
 different model family. Add research notes to the passive handoff when useful;
 Manager integration is a separate future choice.
+
+## Workloads to anchor the next comparisons
+
+Use the same evolving conversation and output requests when comparing memory
+placements of one model. Record each turn's occupied context, added prompt
+tokens, prefill time, first-token delay, per-chat decode rate, correctness,
+and physical GPU/RAM/storage use. Include ordinary back-and-forth turns and a
+few long additions; report a speed curve, not one short-prompt number or a
+10%/90% pair alone. Separate the cost of preparing and transferring a chat
+from its later generation speed.
+
+Then compare three practical schedules under a fixed hardware budget: main
+brain alone; main brain plus a same-model worker chat; and main brain plus a
+separately loaded small worker model. Measure main-chat latency while helpers
+work, each helper's useful output, total task completion time, cold admission
+time, and the memory/IO left for the next helper. A new chat has no second
+weight load, but may still slow the main chat; a small model has a load cost
+but may finish its part faster.
+
+Use the best plausible large-brain candidates, not parameter count alone.
+The 74B-total/9B-active Nemotron MoE has a 32K short-probe result around
+24 tok/s on GPU0-3; dense Llama 70B was much slower in its measured six-card
+layout. Qwen3.8 Q2/Q4 Strata can reach the RAM/storage tiers, but its cold
+reads, context depth, and independent-chat behavior need the same workload
+measurements. For a promising oversized candidate, compare placements on the
+same model bytes and conversation trace, with expert-route hit/miss rates and
+physical reads, before attributing a gain to a particular tier.
 
 ## Candidate experiments
 
