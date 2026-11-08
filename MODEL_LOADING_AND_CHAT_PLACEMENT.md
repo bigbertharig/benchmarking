@@ -374,3 +374,12 @@ controlled cold-load ratio: the NVMe file was copied immediately beforehand,
 page cache was not cleared, and both stage times include context setup and
 inference. The new file fully loaded and produced both chats; transfer finished
 successfully and the copy has the expected 42,520,398,816-byte size.
+
+The [BigMoe Q2 route trace](results/runtime_experiments/model_loading_sequences/bigmoe-q2-route-trace-20261108/bigmoe_q2_route_trace_detail/README.md)
+recorded 30,720 decode routes over 64 output steps and 48 layers from one
+NVMe-backed Qwen3.8 Q2 prompt. Ranking each layer's experts by the first 32
+steps and evaluating the next 32, top 16/32/64 experts per layer covered
+46.5%/60.1%/76.0% of later routes, at estimated expert-weight budgets of
+1.06/2.12/4.25 GB. Top 128 covered 84.1% at 8.49 GB. This is one nearby-token
+holdout and does not measure cache hits or speed. It suggests testing compact
+per-layer expert sets before a larger hot-expert placement.

@@ -1,0 +1,101 @@
+{
+  "bigmoe_commit": "930b2c9ebd8c2cface6566bd9f11075ac07adfe0",
+  "bigmoe_version": "0.40.1",
+  "block_before": {
+    "nvme": {
+      "read_bytes": 6536084026368,
+      "write_bytes": 291387723776
+    },
+    "sata": {
+      "read_bytes": 403542480896,
+      "write_bytes": 105094300672
+    }
+  },
+  "block_final": {
+    "nvme": {
+      "read_bytes": 6622153847808,
+      "write_bytes": 291387723776
+    },
+    "sata": {
+      "read_bytes": 404043954176,
+      "write_bytes": 105103434752
+    }
+  },
+  "command": [
+    "/data/bench-staging/bigmoe-v0.40.1/bmoe-cli",
+    "-m",
+    "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+    "-p",
+    "Describe a voxel pagoda garden in one paragraph. Mention the path, the pond, and the lighting.",
+    "--chatml",
+    "--no-think",
+    "-c",
+    "8192",
+    "-n",
+    "64",
+    "--moe-stream",
+    "--cache-mb",
+    "8192",
+    "--dense-mapped",
+    "token_embd.weight;per_layer_token_embd.weight",
+    "--no-cache-pin",
+    "--gpu-layers",
+    "0",
+    "--route-trace",
+    "results/runtime_experiments/model_loading_sequences/bigmoe-q2-route-trace-20261108/bigmoe_q2_route_trace_detail/route_trace.csv"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T06:19:11+00:00",
+  "gpu_before_mib": {
+    "0": 23617,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_final_mib": {
+    "0": 23617,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "host_before": {
+    "MemAvailable_kib": 29290752,
+    "SwapFree_kib": 23554440,
+    "SwapTotal_kib": 24127028
+  },
+  "host_final": {
+    "MemAvailable_kib": 29447132,
+    "SwapFree_kib": 23197232,
+    "SwapTotal_kib": 24127028
+  },
+  "host_min_available_kib": 16971708,
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "role": "routing diagnostic; tracing perturbs speed, so not a speed comparison",
+  "started_at": "2026-11-08T06:15:31+00:00",
+  "status": "passed",
+  "stderr_tail": "4 HC post enabled\nresolve_fused_ops: resolving fused top-k mask support:\nresolve_fused_ops: fused top-k mask enabled\nsched_reserve:        CPU compute buffer size =  2603.84 MiB\nsched_reserve: graph: nodes = 6631, splits = 1, input objects = 6, input tensors = 18\nsched_reserve: reserve took 84.69 ms, sched copies = 1\nbmoe: dense-weights=anon \u2014 27726 MiB in 2 table(s) left mmap'd as the plan priced them: the graph gathers rows from them, outside the warm sweep and the residency sensor\nbmoe: dense-weights=anon \u2014 3209 MiB in 1078 anon buffers\nbmoe: dense-weights=anon \u2014 dropped 3206 MiB of now-unused mmap pages\nbmoe: expert streaming ON  n_expert=512 o_direct=1 io_threads=4 cache=8192 MiB shards=2\nbmoe: page cache: the model files' read-ahead handed back (2 file(s))\nbmoe: memory: phase=session-ready process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=26794.508 compressed_or_swap_mib=930.059 system_available_mib=25172.719\nbmoe: context checkpoints: 112.6 MiB each, up to 8 kept\n",
+  "stdout_tail": "compute: 58.9% CPU occupancy (0.9724 cpu-s/token over 4 threads), 8.08 major faults/token\nprefill: 33 tokens, 18.572 s (1.8 tok/s) | model load 170.410 s | TTFT 188.982 s\nmode: expert streaming, cache 8192 MiB, dense anon\nmoe-stream: read 4350.8 MiB (67.98 MiB/token), decode 0.412 s/token (compute 0.239 + cache mgmt 0.003 + flash I/O 0.171 s/token, 398 MiB/s)\nmoe-cache: 76.8% hit, resident 8191.0 MiB\nmoe-cache: 2074 evictions, 275 re-reads (4.3/token) \u2014 bytes the cache had already paid for once\n",
+  "trace_summary": {
+    "decode_layers": 48,
+    "decode_rows": 30720,
+    "distinct_layer_expert_pairs": 5490,
+    "in_sample_top_experts_per_layer_coverage": {
+      "1": 0.0743,
+      "128": 0.9843,
+      "16": 0.5494,
+      "32": 0.7264,
+      "4": 0.2364,
+      "64": 0.8867,
+      "8": 0.3789
+    },
+    "physical_expert_read_bytes": 11455948800,
+    "prefill_rows": 15520,
+    "warning": "in-sample oracle coverage, not a measured runtime cache hit rate"
+  },
+  "visible_answer": "In this voxel pagoda garden, a winding stone path composed of distinct cubic blocks guides visitors through a serene landscape where a perfectly square pond reflects the geometric sky. The lighting is soft and ambient, emanating from glowing lanterns placed at regular intervals along the walkway, casting gentle shadows that accentuate the sharp edges of",
+  "wall_seconds": 220.027
+}

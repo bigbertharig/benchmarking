@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T06:19:13+00:00",
+  "manifest_sha256": "01132f4ccac9812e1e2752c32adfba138e07d3663d640d8c73b40c54240cf77d",
+  "run_id": "bigmoe-q2-route-trace-20261108",
+  "stages": {
+    "bigmoe_q2_route_trace": "passed"
+  },
+  "started_at": "2026-11-08T06:15:31+00:00",
+  "status": "passed"
+}

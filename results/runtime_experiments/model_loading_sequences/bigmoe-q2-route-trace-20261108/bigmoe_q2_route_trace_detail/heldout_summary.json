@@ -1,0 +1,47 @@
+{
+  "budgets": {
+    "1": {
+      "estimated_expert_bytes": 66355200,
+      "test_route_coverage": 0.0674,
+      "test_weight_coverage": 0.0819
+    },
+    "128": {
+      "estimated_expert_bytes": 8493465600,
+      "test_route_coverage": 0.8413,
+      "test_weight_coverage": 0.8647
+    },
+    "16": {
+      "estimated_expert_bytes": 1061683200,
+      "test_route_coverage": 0.4646,
+      "test_weight_coverage": 0.488
+    },
+    "32": {
+      "estimated_expert_bytes": 2123366400,
+      "test_route_coverage": 0.6011,
+      "test_weight_coverage": 0.6263
+    },
+    "4": {
+      "estimated_expert_bytes": 265420800,
+      "test_route_coverage": 0.2076,
+      "test_weight_coverage": 0.2315
+    },
+    "64": {
+      "estimated_expert_bytes": 4246732800,
+      "test_route_coverage": 0.76,
+      "test_weight_coverage": 0.7828
+    },
+    "8": {
+      "estimated_expert_bytes": 530841600,
+      "test_route_coverage": 0.3249,
+      "test_weight_coverage": 0.3477
+    }
+  },
+  "decode_steps": 64,
+  "layers": 48,
+  "limit": "one prompt and nearby tokens; coverage estimates are not measured cache hits or speedups",
+  "method": "top experts per layer by route count in first half of decode steps; evaluate second half",
+  "test_rows": 15360,
+  "test_steps": 32,
+  "training_rows": 15360,
+  "training_steps": 32
+}

@@ -1,0 +1,17 @@
+{
+  "decode_layers": 48,
+  "decode_rows": 30720,
+  "distinct_layer_expert_pairs": 5490,
+  "in_sample_top_experts_per_layer_coverage": {
+    "1": 0.0743,
+    "128": 0.9843,
+    "16": 0.5494,
+    "32": 0.7264,
+    "4": 0.2364,
+    "64": 0.8867,
+    "8": 0.3789
+  },
+  "physical_expert_read_bytes": 11455948800,
+  "prefill_rows": 15520,
+  "warning": "in-sample oracle coverage, not a measured runtime cache hit rate"
+}

@@ -1,0 +1,9 @@
+Describe a voxel pagoda garden in one paragraph. Mention the path, the pond, and the lighting.In this voxel pagoda garden, a winding stone path composed of distinct cubic blocks guides visitors through a serene landscape where a perfectly square pond reflects the geometric sky. The lighting is soft and ambient, emanating from glowing lanterns placed at regular intervals along the walkway, casting gentle shadows that accentuate the sharp edges of
+
+generation: 64 tokens, 0.412 s/token (2.425 tok/s)
+compute: 58.9% CPU occupancy (0.9724 cpu-s/token over 4 threads), 8.08 major faults/token
+prefill: 33 tokens, 18.572 s (1.8 tok/s) | model load 170.410 s | TTFT 188.982 s
+mode: expert streaming, cache 8192 MiB, dense anon
+moe-stream: read 4350.8 MiB (67.98 MiB/token), decode 0.412 s/token (compute 0.239 + cache mgmt 0.003 + flash I/O 0.171 s/token, 398 MiB/s)
+moe-cache: 76.8% hit, resident 8191.0 MiB
+moe-cache: 2074 evictions, 275 re-reads (4.3/token) — bytes the cache had already paid for once
