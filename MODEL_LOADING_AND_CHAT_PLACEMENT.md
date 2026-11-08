@@ -87,7 +87,7 @@ campaign preflight, not an automatic change to our test conclusions.
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
 | Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json), [two-chat probe](results/runtime_experiments/model_loading_sequences/strata-q4-two-chat-20261108/q4_two_chat_detail/terminal.json) | Strata 3090/RAM/NVMe served two interleaved chats at 1,044 and 2,964 prompt tokens on one 8K-capacity load. Slots were reserved at launch; deeper occupancy, third chat, and separate KV tiers are open. |
-| Qwen3.8 Q4 on BigMoe | [same-file smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json) | 32K capacity CPU/flash correctness passed; GPU placement and matched throughput remain untested. |
+| Qwen3.8 on BigMoe | [same-file Q4 smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json), [Q2 warm session](results/runtime_experiments/model_loading_sequences/bigmoe-q2-session-20261108/bigmoe_q2_session_detail/terminal.json) | Q4 32K CPU/flash correctness passed. One Q2 CLI session served five correct turns; clearing KV reset live context but retained a warming expert cache. Concurrent independent live KV remains untested. |
 
 Whole-expert placement improved Coder Next and Nemotron decode, while ordinary
 layer splits across slow 1060 links often hurt. [Tiered real-expert probes](results/runtime_experiments/q38_tiered_expert_probe_20261106/README.md)
@@ -128,11 +128,11 @@ the latest result can answer most clearly.
    useful finding on Q4, whose single-chat 32K load and two-chat 8K load have
    both passed.
 3. **BigMoe warm model, multiple conversations.** Q2 and same-file Q4
-   CPU/flash correctness passed. Keep its model and expert cache open across
-   prompts, then interleave two conversations and see whether each retains KV
-   or must restore/recompute it. Explore its GPU prefill path, cache budget,
-   and dense-weight policy if those change the result. Its session interface
-   explicitly distinguishes a continuing chat from a new one.
+   CPU/flash correctness passed. A Q2 session now shows that continuing the
+   current chat retains context, while `clear_kv` resets it and keeps the
+   expert cache warm. Explore whether its server can hold independent live
+   chats or restore their state, then try GPU prefill, cache budget, and
+   dense-weight policy where they change the result.
 4. **Expert and tensor placement.** Compare whole experts on 1060s with
    row-sharded experts on a small real Qwen3.8 slice, including transfer and
    synchronization costs. Try a routing trace to choose a hot expert set for
@@ -346,3 +346,13 @@ prompt tokens. GPU0 use was 23,437 MiB after load, 23,577 MiB after A, and
 requests resent full histories and slots were reserved at launch, so this is a
 two-chat fit and prefix-reuse result; it does not establish dynamic chat
 allocation or physical KV separation.
+
+The [BigMoe Q2 warm-session probe](results/runtime_experiments/model_loading_sequences/bigmoe-q2-session-20261108/bigmoe_q2_session_detail/terminal.json)
+passed five turns on one model load (169 seconds). A first turn and its
+continuation returned `ORCHID`; a new chat and its continuation returned
+`LANTERN`; reopening A returned `ORCHID`. `n_past` grew from 26 to 52 within
+each chat and reset to 26 after `clear_kv`. The cumulative expert-cache hit
+figure rose from 17.8% to 72.8% across turns, while each turn's `read_mib`
+remained nonzero. This supports a warm model/expert cache with one live CLI
+conversation at a time. It does not show simultaneous independent live KV or
+cheap restoration of a parked chat.

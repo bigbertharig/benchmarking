@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T05:27:56+00:00",
+  "manifest_sha256": "9d2df3f4037c361a17f4ddabf636f849bd11bba477e09ddbdfff7349b202a0d9",
+  "run_id": "bigmoe-q2-session-20261108",
+  "stages": {
+    "bigmoe_q2_session": "passed"
+  },
+  "started_at": "2026-11-08T05:24:16+00:00",
+  "status": "passed"
+}
