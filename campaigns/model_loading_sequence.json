@@ -67,7 +67,7 @@
     {
       "id": "expert_hotness_replay",
       "state": "blocked",
-      "reason": "Deferred speed-optimization work; requires routed expert traces and calibrated per-tier replay inputs after incremental chat-capacity gates."
+      "reason": "Exploratory tensor-placement idea. A replay needs routed expert traces and calibrated per-tier costs; run it when an experiment makes that question useful."
     }
   ]
 }
