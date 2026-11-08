@@ -2,6 +2,8 @@
 
 Manager run: `qwen27-large-chat-latency-20261108`.
 
+**Terminal status: failed before measurement.** The first 256K snapshot parsed and passed its embedded fingerprint, but `llama_state_set_data` rejected the KV layout with `incompatible key rotation (2 instead of 256)`. No per-chat timing or two-chat same-card test occurred in this run. The [v2 campaign](../qwen27-large-chat-latency-v2-20261108/README.md) builds fresh state with the current runtime and places the two-chat test first.
+
 This campaign keeps Qwen3.6 27B Q4 weights on GPU0 and tests independent KV contexts on GTX 1060 cards. It is a capacity and per-chat latency experiment. The ordinary `chat-27b` route is unloaded for the run and should be restored after the terminal receipt.
 
 1. Restore the five previously validated 90%-of-256K chat snapshots, one onto each 1060. Each saved context has 235,929 occupied tokens. Time 16 **single-token generation steps per chat** with one, three, and five active chats. Record each chat's first-step, median, p95, total seconds, and tokens/s; verify five private-code recalls after timing. Existing snapshot files stay outside Git and have their embedded fingerprints checked on read.

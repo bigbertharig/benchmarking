@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "large_chat_latency",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "0",
+    "262144",
+    "0",
+    "16",
+    "qwen27_deep_chat_latency_20261108"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "error": "exit 132; see five_deep_chats_individual_latency.log",
+  "exit_code": 132,
+  "finished_at": "2026-11-08T20:30:23+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29916756,
+  "host_min_available_kib": 24404828,
+  "id": "five_deep_chats_individual_latency",
+  "started_at": "2026-11-08T20:29:26+00:00",
+  "status": "failed",
+  "timeout_s": 5400
+}

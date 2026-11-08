@@ -433,10 +433,12 @@ The [deeper concurrent-chat and route-selected expert campaign](results/runtime_
 ran on 2026-11-08. Four runnable stages passed. Qwen3.6 27B held one weight
 load per layout while three chats grew to 16,408/6,168/10,264 occupied
 positions and all correctly recalled their distinct codes after concurrent
-generation. Separate 1060 KV produced 29.38 aggregate tok/s for 32 generated
-tokens per chat; host-RAM KV produced 12.76 tok/s in the matched one-run
-layout. This differs from the earlier repeated-note prefill ordering, so
-prefill and concurrent decode should be compared separately at matched depths.
+timing. The timed loop's first step replayed the 24-token opening prompt,
+followed by 31 single-token generation steps. The 29.38 versus 12.76
+aggregate steps/s for separate 1060 versus RAM KV is mixed prompt/decode work,
+not a clean generation comparison. This differs from the earlier repeated-note
+prefill ordering; the subsequent large-chat latency campaign corrects the
+setup and measures each chat separately at matched depths.
 
 With 70 distinct notes per BigMoe chat, reopening A after B prefetched 1,488
 tokens in 131.6 seconds, almost the same work as the first A request's 1,463

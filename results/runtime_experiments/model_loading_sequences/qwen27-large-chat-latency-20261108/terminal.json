@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-08T20:30:23+00:00",
+  "manifest_sha256": "fa5a2b2a34ed8d08217719a1e064082f7e05fee3e8bf0fbe675e757cbe07f2d1",
+  "reason": "exit 132; see five_deep_chats_individual_latency.log",
+  "run_id": "qwen27-large-chat-latency-20261108",
+  "stages": {
+    "five_deep_chats_individual_latency": "failed"
+  },
+  "started_at": "2026-11-08T20:29:26+00:00",
+  "status": "failed"
+}
