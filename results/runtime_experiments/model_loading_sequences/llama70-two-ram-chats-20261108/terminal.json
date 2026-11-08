@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T05:54:48+00:00",
+  "manifest_sha256": "22b251e76a94b98075b6cc28cd4f2a9f93b3c18176c6d6fd4bb7a1e43b2af5c0",
+  "run_id": "llama70-two-ram-chats-20261108",
+  "stages": {
+    "llama70_two_ram_chats": "passed"
+  },
+  "started_at": "2026-11-08T05:36:55+00:00",
+  "status": "passed"
+}

@@ -356,3 +356,14 @@ figure rose from 17.8% to 72.8% across turns, while each turn's `read_mib`
 remained nonzero. This supports a warm model/expert cache with one live CLI
 conversation at a time. It does not show simultaneous independent live KV or
 cheap restoration of a parked chat.
+
+The [dense 70B two-RAM-chat probe](results/runtime_experiments/model_loading_sequences/llama70-two-ram-chats-20261108/terminal.json)
+passed on one Llama 3.3 70B Q4_K_M weight load across GPUs 0-5. Model buffers
+were 19,060 MiB on GPU0, 4,317 MiB on each GPU1-3, 4,033 MiB on GPU4, and
+3,935 MiB on GPU5. Chat A had an 8K cap and 720 MiB CPU KV; chat B had a 32K
+cap and 2,880 MiB CPU KV. Both admitted and decoded together, 16 tokens each
+in 4.57 seconds (7.00 aggregate tok/s). These were short prompts and outputs;
+the result proves separate chat-state allocation and concurrent decode on one
+large-model load, not long-history recall. The source GGUF was on shared storage
+for this run, so its 17m53s stage wall time is not an NVMe load benchmark.
+The same GGUF is being staged on the rig NVMe for the next local-load run.
