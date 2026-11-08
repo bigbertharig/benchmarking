@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T05:34:08+00:00",
+  "manifest_sha256": "69c2518563e183cce85a784cfe9b6b92f1328cf45a7f796ef19bd48cc7515aa5",
+  "run_id": "qwen27-mixed-ram-gpu-20261108",
+  "stages": {
+    "qwen27_gpu1_ram_gpu2_chats": "passed"
+  },
+  "started_at": "2026-11-08T05:31:20+00:00",
+  "status": "passed"
+}

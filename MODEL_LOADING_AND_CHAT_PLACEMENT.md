@@ -82,7 +82,7 @@ campaign preflight, not an automatic change to our test conclusions.
 
 | Layout | Evidence | Current limit |
 | --- | --- | --- |
-| Qwen3.6 27B weights on GPU0, separate chats' KV and attention on GPUs1-5 or one chat's KV in RAM | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [concurrent matrix](results/runtime_experiments/kv_local_worker_matrix_20261107/README.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md), [27B RAM-KV smoke](results/runtime_experiments/qwen27_ram_kv_20261108/README.md) | Private llama.cpp fork; five distinct 1060 chats reached 90% of 256K and passed recall. A separate 32K RAM-KV single-chat smoke passed. Mixed RAM/1060 chats on one load remain untested. |
+| Qwen3.6 27B weights on GPU0, chats' KV on 1060s and/or RAM | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md), [27B RAM-KV smoke](results/runtime_experiments/qwen27_ram_kv_20261108/README.md), [mixed-tier chats](results/runtime_experiments/qwen27_mixed_ram_gpu_20261108/README.md) | Private llama.cpp fork; five distinct 1060 chats reached 90% of 256K and passed recall. Separate short-history GPU1 + RAM + GPU2 chats now coexist and decode on one weight load. Deep mixed-tier recall remains open. |
 | Nemotron 74B weights and whole experts on GPU0-3, chats on remaining 1060s | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; the 131K paired chat had short occupied history. Byte-balanced interleaving did not beat contiguous experts. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
@@ -115,11 +115,11 @@ terminal receipts for runs that occupy hardware. Pick the next probe by what
 the latest result can answer most clearly.
 
 1. **27B model weights with chat state elsewhere.** The private fork already
-   places Qwen3.6 27B weights on GPU0 and chat KV on 1060s. Keep the weights
-   loaded while opening and revisiting chats on separate 1060s, then try a RAM
-   backed chat. Compare one 1060 per chat with paired cards. Capture the
-   placement, context, correctness, and speed as chats grow; this directly
-   explores the intended model/chat separation.
+   places Qwen3.6 27B weights on GPU0 and distinct chats on 1060s; a new
+   short-history run also mixed GPU1, RAM, and GPU2 chats on one weight load.
+   Grow the mixed-tier chats and verify each one's recall after interleaving.
+   Compare one 1060 per chat with paired cards where that changes capacity or
+   speed; the earlier five-worker 256K depth run need not be repeated.
 2. **Strata chat capacity and KV behavior.** The Q2 run served three chats at
    about 1K, 3K, and 5.8K occupied prompt tokens on one load. Try a larger
    context and more interleaving, and inspect whether its conversation cache
