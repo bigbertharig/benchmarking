@@ -114,29 +114,34 @@ before trying a new idea. Use the existing rig lease, guard, cleanup, and
 terminal receipts for runs that occupy hardware. Pick the next probe by what
 the latest result can answer most clearly.
 
-1. **27B model weights with chat state elsewhere.** The private fork already
-   places Qwen3.6 27B weights on GPU0 and distinct chats on 1060s; a new
-   short-history run also mixed GPU1, RAM, and GPU2 chats on one weight load.
-   Grow the mixed-tier chats and verify each one's recall after interleaving.
-   Compare one 1060 per chat with paired cards where that changes capacity or
-   speed; the earlier five-worker 256K depth run need not be repeated.
+1. **27B model weights with chat state elsewhere.** The private fork places
+   Qwen3.6 27B weights on GPU0. The exact A → B → A → C → A sequence now passed
+   with three separate 1060 KV chats, two pairs plus a single 1060, and three
+   RAM KV chats, with occupied positions up to 8.2K and final B/C recall.
+   RAM KV gave faster repeated-note prefill in this layout. Next use varied
+   histories, concurrent longer decode, and larger occupied contexts; the
+   earlier five-worker 256K depth run need not be repeated.
 2. **Strata chat capacity and KV behavior.** The Q2 run served three chats at
    about 1K, 3K, and 5.8K occupied prompt tokens on one load. Try a larger
    context and more interleaving, and inspect whether its conversation cache
-   keeps each chat's state or just reuses a resent prefix. Try its RAM backed
-   KV streaming or KV growth where the installed build supports it. Repeat a
-   useful finding on Q4, whose single-chat 32K load and two-chat 8K load have
-   both passed.
+   keeps each chat's state or just reuses a resent prefix. The installed
+   0.1.56 engine served a 42K Q2 prompt with RAM-backed KV streaming and
+   reused its prefix on a follow-up. KV growth remains separate and untested.
+   Repeat useful long-context findings on Q4, whose single-chat 32K load and
+   two-chat 8K load have both passed.
 3. **BigMoe warm model, multiple conversations.** Q2 and same-file Q4
    CPU/flash correctness passed. A Q2 session now shows that continuing the
    current chat retains context, while `clear_kv` resets it and keeps the
-   expert cache warm. Explore whether its server can hold independent live
-   chats or restore their state, then try GPU prefill, cache budget, and
-   dense-weight policy where they change the result.
+   expert cache warm. The HTTP server's A → B → A → A probe showed that
+   switching back to A reprocessed its prefix, while immediately continuing
+   A reused the current KV. Explore explicit chat-state save/restore or longer
+   prefixes, then try GPU prefill, cache budget, and dense-weight policy where
+   they change the result.
 4. **Expert and tensor placement.** Compare whole experts on 1060s with
    row-sharded experts on a small real Qwen3.8 slice, including transfer and
-   synchronization costs. Try a routing trace to choose a hot expert set for
-   GPU or RAM. A gain in a slice is a lead for a full-model run, not a presumed
+   synchronization costs. The Q2 routing trace now ranks hot experts with a
+   later-token check; use it to test a 16/32/64-expert-per-layer cache on new
+   prompts. A gain in a slice is a lead for a full-model run, not a presumed
    full-model speedup.
 5. **Larger and stranger layouts.** Revisit 70B and Nemotron 74B with the chat
    tiers above; then test a 120B-class model spanning GPU, RAM, and NVMe.
