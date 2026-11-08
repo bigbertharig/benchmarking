@@ -1,0 +1,15 @@
+{
+  "finished_at": "2026-11-08T10:33:29+00:00",
+  "manifest_sha256": "ff8d07a0073b128457f2ba294532fa27f5833a66b2a809278e9da7ea0a85142a",
+  "reason": "Installed Qwen3.8 Q2 Strata pack has 32 GiB experts.bin, while host MemAvailable is about 28 GiB. KV growth requires all experts resident in host RAM; the 4 GiB host floor and 26 GB allocation ceiling cannot be met. Need a smaller supported MoE pack or additional physical RAM before launch.",
+  "run_id": "overnight-loading-probes-20261108",
+  "stages": {
+    "bigmoe_long_a_b_a": "passed",
+    "route_selected_expert_placement": "passed",
+    "strata_q2_kv_growth": "blocked",
+    "varied_concurrent_1060_chats": "passed",
+    "varied_concurrent_ram_chats": "passed"
+  },
+  "started_at": "2026-11-08T10:14:45+00:00",
+  "status": "blocked"
+}

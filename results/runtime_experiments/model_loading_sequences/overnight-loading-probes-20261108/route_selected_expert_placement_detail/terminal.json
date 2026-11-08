@@ -1,0 +1,194 @@
+{
+  "benchmark_command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "--gpus",
+    "all",
+    "--user",
+    "1000:1000",
+    "-e",
+    "WORKERS=2",
+    "-v",
+    "/mnt/shared/plans/shoulders/benchmarking:/bench:ro",
+    "-v",
+    "/mnt/shared/experiments/route-expert-20261108/layer0_expert403_two_workers:/sample",
+    "--entrypoint",
+    "/bin/bash",
+    "nvidia/cuda:12.9.2-devel-ubuntu24.04",
+    "/bench/scripts/active/run_q38_tiered_expert_probe.sh"
+  ],
+  "benchmark_exit": 0,
+  "benchmark_seconds": 11.641,
+  "block_before": {
+    "nvme": {
+      "read_bytes": 6989827597312,
+      "write_bytes": 291414581248
+    },
+    "sata": {
+      "read_bytes": 406269630464,
+      "write_bytes": 105722954752
+    }
+  },
+  "block_final": {
+    "nvme": {
+      "read_bytes": 6989841474560,
+      "write_bytes": 291414650880
+    },
+    "sata": {
+      "read_bytes": 406505101312,
+      "write_bytes": 105727906816
+    }
+  },
+  "extract_command": [
+    "python3",
+    "/mnt/shared/plans/shoulders/benchmarking/scripts/active/prepare_q38_tiered_expert_sample.py",
+    "--gguf",
+    "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+    "--gguf-py",
+    "/data/bench-staging/strata-v0.2.10/install/third_party/llama.cpp/gguf-py",
+    "--output",
+    "/mnt/shared/experiments/route-expert-20261108/layer0_expert403_two_workers",
+    "--layer",
+    "0",
+    "--expert",
+    "403",
+    "--workers",
+    "2"
+  ],
+  "finished_at": "2026-11-08T10:26:15+00:00",
+  "gpu_before_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_final_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "host_before": {
+    "MemAvailable_kib": 29648744,
+    "SwapFree_kib": 23535208,
+    "SwapTotal_kib": 24127028
+  },
+  "host_final": {
+    "MemAvailable_kib": 29720188,
+    "SwapFree_kib": 23543304,
+    "SwapTotal_kib": 24127028
+  },
+  "method": "layer-0 top expert in first half of decode steps; real Q2 tensor sample and CUDA placement benchmark",
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "placements": [
+    {
+      "direct_disk_bytes": 0,
+      "iterations": 100,
+      "max_abs_error": 1.44355e-08,
+      "mean_us": 159.182,
+      "mode": "gpu0",
+      "p50_us": 159.063,
+      "p95_us": 160.901,
+      "verified": true,
+      "workers": 0
+    },
+    {
+      "direct_disk_bytes": 0,
+      "iterations": 100,
+      "max_abs_error": 1.44355e-08,
+      "mean_us": 277.751,
+      "mode": "gpu0_ram",
+      "p50_us": 277.335,
+      "p95_us": 280.174,
+      "verified": true,
+      "workers": 0
+    },
+    {
+      "direct_disk_bytes": 166133760,
+      "iterations": 100,
+      "max_abs_error": 1.44355e-08,
+      "mean_us": 12640.8,
+      "mode": "gpu0_nvme",
+      "p50_us": 12673.1,
+      "p95_us": 12790.1,
+      "verified": true,
+      "workers": 0
+    },
+    {
+      "direct_disk_bytes": 0,
+      "iterations": 100,
+      "max_abs_error": 1.39698e-08,
+      "mean_us": 318.245,
+      "mode": "resident",
+      "p50_us": 328.141,
+      "p95_us": 356.52,
+      "verified": true,
+      "workers": 2
+    },
+    {
+      "direct_disk_bytes": 0,
+      "iterations": 100,
+      "max_abs_error": 1.39698e-08,
+      "mean_us": 2025.76,
+      "mode": "ram",
+      "p50_us": 2017.49,
+      "p95_us": 2052.02,
+      "verified": true,
+      "workers": 2
+    },
+    {
+      "direct_disk_bytes": 166133760,
+      "iterations": 100,
+      "max_abs_error": 1.39698e-08,
+      "mean_us": 14403,
+      "mode": "nvme",
+      "p50_us": 14361.7,
+      "p95_us": 14559.4,
+      "verified": true,
+      "workers": 2
+    }
+  ],
+  "sample": {
+    "expert": 403,
+    "full_sha256": "330c48572e00672325ecc120ddd468282a48a8436bf70a24b5d0e485c947a5d1",
+    "hidden": 2560,
+    "intermediate": 640,
+    "layer": 0,
+    "matrix_bytes": 460800,
+    "model": "Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+    "quant_type": "Q2_0",
+    "reference_max_abs": 0.013211754150688648,
+    "reference_sha256": "735fd77db164e8b55f26f8278b4781b87ffed743b9f4682fe1c7c93f8cb83961",
+    "rows_per_worker": 320,
+    "schema": 1,
+    "shards": [
+      {
+        "data_bytes": 691200,
+        "file_bytes": 692224,
+        "name": "shard_0.bin"
+      },
+      {
+        "data_bytes": 691200,
+        "file_bytes": 692224,
+        "name": "shard_1.bin"
+      }
+    ],
+    "workers": 2
+  },
+  "selection": {
+    "early_hits": 10,
+    "expert": 403,
+    "late_coverage": 0.0219,
+    "layer": 0
+  },
+  "started_at": "2026-11-08T10:25:54+00:00",
+  "status": "passed",
+  "trace": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/bigmoe-q2-route-trace-20261108/bigmoe_q2_route_trace_detail/route_trace.csv"
+}

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_bigmoe_q2_long_switch.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/overnight-loading-probes-20261108/bigmoe_long_a_b_a_detail"
+  ],
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T10:25:53+00:00",
+  "gpus": [],
+  "host_before_available_kib": 29936932,
+  "host_min_available_kib": 29936932,
+  "id": "bigmoe_long_a_b_a",
+  "started_at": "2026-11-08T10:14:45+00:00",
+  "status": "passed",
+  "timeout_s": 3600
+}

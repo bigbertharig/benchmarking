@@ -12,6 +12,13 @@ The [manifest](../../../campaigns/overnight_loading_probes_20261108.json) is run
 
 The route-selected probe uses an existing trace, so its selected expert represents one prior prompt. Its CUDA timings cannot establish a full-model speedup. BigMoe route tracing is not used for a throughput comparison.
 
+## Results so far
+
+- BigMoe stage **passed**. The A and B first requests prefetched 1,463 and 1,464 tokens in 130.4 and 129.5 seconds. Reopening A after B prefetched 1,488 tokens in 131.6 seconds; immediate continuation of A prefetched only 22 tokens in 10.5 seconds. All four one-word responses were correct. At this history length, returning to an older chat costs a near-full prefill, while continuing the active chat reuses its current KV. These are CPU/flash timings with a warm server and are not comparable to a GPU resident model.
+- The route-selected physical expert stage **passed**. Layer-0 expert 403 was the most frequent in the earlier first-half decode trace, but covered only 2.19% of held-out layer-0 routes. For this one real Q2 expert, median invocation was 159 µs on GPU0 resident, 277 µs with RAM upload, and 12,673 µs with direct NVMe read. The two-1060 row-shard modes were 328 µs resident, 2,017 µs RAM, and 14,362 µs NVMe. All six output checks matched the reference within about 1.5e-8 maximum absolute error. These are one-expert kernel timings; they do not imply full-model acceleration.
+- Both deeper Qwen3.6 27B layouts **passed** with exactly one model weight load per layout. Before simultaneous generation, A/B/C had 16,408/6,168/10,264 occupied positions, respectively. Each chat generated 32 tokens concurrently, then all three concurrently recalled its own original code from the long history. Aggregate generation was 29.38 tok/s with KV on separate 1060s versus 12.76 tok/s with RAM KV; concurrent recall finished in 0.77 versus 1.22 seconds. These are one run per layout, with a fixed generated-token count and no normalization for physical KV size or separate first-token latency. The result supports independent growth and correct concurrent access, not a general speed ranking across all prompt depths.
+- The sequence terminal status is `blocked` solely because the final Strata KV growth stage was intentionally capacity blocked. The four runnable stages all passed. The normal `chat-27b` Manager profile was restored and reported `ready` after the sequence.
+
 ## Receipts
 
 The sequence writes `terminal.json` and per-stage JSON files here. Each Python stage also writes a detail `terminal.json`; the 27B wrapper writes a `.log`, `.exit`, GPU memory sample, and PCIe sample under `/mnt/shared/experiments/kv-matrix-20261107/`. The normal chat service should be restored after the terminal receipt is recorded.

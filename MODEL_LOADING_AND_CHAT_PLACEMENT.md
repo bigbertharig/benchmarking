@@ -118,15 +118,18 @@ the latest result can answer most clearly.
    Qwen3.6 27B weights on GPU0. The exact A → B → A → C → A sequence now passed
    with three separate 1060 KV chats, two pairs plus a single 1060, and three
    RAM KV chats, with occupied positions up to 8.2K and final B/C recall.
-   RAM KV gave faster repeated-note prefill in this layout. Next use varied
-   histories, concurrent longer decode, and larger occupied contexts; the
-   earlier five-worker 256K depth run need not be repeated.
+   RAM KV gave faster repeated-note prefill in this layout. A later varied-note
+   run also passed three concurrent chats at 16.4K/6.2K/10.3K occupied
+   positions. Next vary per-chat context caps and test longer generated turns;
+   the earlier five-worker 256K depth run need not be repeated.
 2. **Strata chat capacity and KV behavior.** The Q2 run served three chats at
    about 1K, 3K, and 5.8K occupied prompt tokens on one load. Try a larger
    context and more interleaving, and inspect whether its conversation cache
    keeps each chat's state or just reuses a resent prefix. The installed
    0.1.56 engine served a 42K Q2 prompt with RAM-backed KV streaming and
-   reused its prefix on a follow-up. KV growth remains separate and untested.
+   reused its prefix on a follow-up. KV growth remains separate and untested;
+   the installed Q2 pack's 32 GiB expert file exceeds this host's safe RAM
+   capacity for that mode.
    Repeat useful long-context findings on Q4, whose single-chat 32K load and
    two-chat 8K load have both passed.
 3. **BigMoe warm model, multiple conversations.** Q2 and same-file Q4
@@ -134,12 +137,15 @@ the latest result can answer most clearly.
    current chat retains context, while `clear_kv` resets it and keeps the
    expert cache warm. The HTTP server's A → B → A → A probe showed that
    switching back to A reprocessed its prefix, while immediately continuing
-   A reused the current KV. Explore explicit chat-state save/restore or longer
-   prefixes, then try GPU prefill, cache budget, and dense-weight policy where
+   A reused the current KV. A later 1.5K-token-per-chat switch reproduced that
+   cost: reopening A prefetched 1,488 tokens in 132 seconds. Explore explicit
+   chat-state save/restore, then try GPU prefill, cache budget, and dense-weight policy where
    they change the result.
 4. **Expert and tensor placement.** Compare whole experts on 1060s with
    row-sharded experts on a small real Qwen3.8 slice, including transfer and
-   synchronization costs. The Q2 routing trace now ranks hot experts with a
+   synchronization costs. A routed layer-0 expert passed the real Q2 kernel
+   comparison, but a single expert covered only 2.19% of held-out routes.
+   The Q2 routing trace now ranks hot experts with a
    later-token check; use it to test a 16/32/64-expert-per-layer cache on new
    prompts. A gain in a slice is a lead for a full-model run, not a presumed
    full-model speedup.
@@ -422,3 +428,22 @@ A's full 48-token history, while immediately continuing A processed only a
 recomputation on chat switching, rather than simultaneous resident A/B KV.
 The prompts were short; larger histories or explicit KV state save/restore
 would reveal the switching cost more clearly.
+
+The [deeper concurrent-chat and route-selected expert campaign](results/runtime_experiments/model_loading_sequences/overnight-loading-probes-20261108/README.md)
+ran on 2026-11-08. Four runnable stages passed. Qwen3.6 27B held one weight
+load per layout while three chats grew to 16,408/6,168/10,264 occupied
+positions and all correctly recalled their distinct codes after concurrent
+generation. Separate 1060 KV produced 29.38 aggregate tok/s for 32 generated
+tokens per chat; host-RAM KV produced 12.76 tok/s in the matched one-run
+layout. This differs from the earlier repeated-note prefill ordering, so
+prefill and concurrent decode should be compared separately at matched depths.
+
+With 70 distinct notes per BigMoe chat, reopening A after B prefetched 1,488
+tokens in 131.6 seconds, almost the same work as the first A request's 1,463
+tokens in 130.4 seconds. Immediate continuation of A needed only 22 new
+prompt tokens. A route-selected real Q2 expert had correct GPU0, RAM-upload,
+NVMe, and two-1060 row-shard results; its single-expert held-out coverage was
+only 2.19%, so the multi-expert cache budget remains the useful next routing
+question. Strata KV growth was capacity blocked before launch: the installed
+32 GiB `experts.bin` cannot be fully resident within the rig's 4 GiB RAM floor
+and 26 GB allocation ceiling. The ordinary chat service was restored.

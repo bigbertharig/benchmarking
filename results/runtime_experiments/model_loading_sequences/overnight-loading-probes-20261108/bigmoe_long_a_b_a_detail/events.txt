@@ -1,0 +1,141 @@
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":24922,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":false}
+
+event: config
+data: {"values":{"model":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","mmproj":"","image-max-tokens":0,"n-predict":8,"think":false,"ctx-size":8192,"threads":4,"threads-batch":0,"trial-threads":"8","trial-window":8,"chatml":true,"temp":0.0,"top-k":40,"top-p":0.95,"seed":4294967295,"moe-stream":true,"device-cache-mb":0,"expert-host-buffer":"","io-threads":4,"o-direct":true,"overlap":true,"io-two-wave":false,"trial-overlap":true,"release-mmap":false,"cache-mb":8192,"cache-floor-mb":1536,"cache-ceil-mb":0,"routing-record":256,"record-unstreamed":false,"dense-weights":"anon","ubatch":0,"ctx-checkpoints":8,"checkpoint-min-step":8192,"row-stream":false,"row-stream-mb":64,"gpu-layers":0,"dense-on-device":false,"dense-mapped":"token_embd.weight;per_layer_token_embd.weight","tensor-overrides":"","device-split":"","device-list":"","devices":"cpu","prefill-device":"","prefill-best-effort":false,"prefill-verify":true,"prefill-min-tokens":32,"prefill-slots":2,"prefill-slots-on-demand":false,"prefill-loaders":8,"prefill-routed":true,"prefill-routed-full":0.85,"decide":true,"decide-prefix-cache":"auto","decide-probe":"","prefetch":0,"predict-prefetch":false,"predict-spec-max":2,"spec":"none","draft":3,"mtp-head":"","mtp-head-on-devices":false,"mtp-p-min":0.0,"ngram-min-match":3,"ngram-max-match":12,"cache-type-k":"q8_0","cache-type-v":"q8_0","n-expert-used":0,"drop-cold-experts":0.0,"drop-renorm":true,"drop-in-prefill":false,"expert-substitute":0.0,"route-ahead":0,"gate-mirror":"auto","predict-log":false,"llama-debug":false,"load-all":false,"cache-pin":false,"cache-brake":true,"cache-pin-fit":false,"force-cache":false,"prefetch-sync":false},"user_keys":["cache-mb","cache-pin","ctx-size","dense-mapped","gpu-layers","model","moe-stream","n-predict","think"],"launch_keys":["cache-mb","cache-pin","ctx-size","dense-mapped","gpu-layers","model","moe-stream","n-predict","think"],"args":["--model","/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","--n-predict","8","--ctx-size","8192","--trial-threads","8","--chatml","--moe-stream","--overlap","--trial-overlap","--cache-mb","8192","--dense-mapped","token_embd.weight;per_layer_token_embd.weight","--devices","cpu","--decide","--no-cache-pin"],"valid":true,"error":"","reload_required":false,"reload_keys":[],"plan":[{"knob":"ubatch","label":"Batch width","group":"kept","value":"0","value_text":"as wide as the context","source":"unprobed","brief":"0 tokens per pass, the default: its memory cost was not measured.","reason":"what a token of graph width costs in compute buffers was not measured here, so the width is not this plan's to choose; keeping the default"},{"knob":"placement","label":"Layer placement","group":"notes","value":"none","value_text":"none","source":"unprobed","brief":"Every layer stays on the CPU: no device placement was tried.","reason":"the capacity fitter was not run, so no layer is placed on a device: everything is on the host"},{"knob":"regime","label":"Streaming mode","group":"notes","value":"dense-oversized","value_text":"dense oversized","source":"derived","brief":"Even the dense weights (30.2 GiB) exceed the 25.4 GiB usable.","reason":"on the host 63336 MiB (dense 30936) against 26051 MiB usable, which is the 28946 MiB this process may hold (estimated from what this machine's compressor is achieving) less a 2894 MiB margin (reclaimed into compressed RAM)"},{"knob":"extra-offload","label":"Further offload","group":"notes","value":"none","value_text":"none","source":"policy","brief":"Nothing beyond the layer placement moves to a device.","reason":"the fitter has already placed what fits on the devices - see the placement line above - and placing weights across devices is a capacity problem it solves exactly; this planner owns the tier below it and does not second-guess it"},{"knob":"experts","label":"Where experts live","group":"notes","value":"host","value_text":"host","source":"derived","brief":"Experts compute on the CPU: no device can reach streamed memory.","reason":"this device could compute them on paper - it offers a host buffer and runs the model's own layout - and it still cannot. The streamer rebinds every expert onto memory it reserved itself, which no device was given access to; and a host buffer type would not survive the load anyway, since a mapped model has one substituted for the CPU's. Whether this device can wrap memory a caller already owns - the one opening left - is unprobed. What it advertises is a blanket promise, and a backend whose support is conditional declines to make one while implementing the call anyway, so the absence of a yes decides nothing here"},{"knob":"dense-weights","label":"Dense weights","group":"set","value":"anon","value_text":"copied into memory","source":"derived","brief":"Dense weights are copied into RAM, so they are never re-read from storage.","reason":"no reclaim-exempt store here, so anonymous buffers are what keeps the dense set off a flash refault (a reclaim then means: reclaimed into compressed RAM)"},{"knob":"prefill-device","label":"Prefill device","group":"set","value":"off","value_text":"off","source":"derived","brief":"Prompts run on the CPU: CUDA0 (80.8x faster) would take 0 MiB the cache needs.","reason":"CUDA0 computes a wide prefill at 80.8x the host's rate and is refused on memory: with a single expert slot it would still hold 0 MiB of this pool (a layer of this model and its compute buffer), which leaves the expert cache 0 MiB against a token cycle of 632. That is paid on every decoded token, and a prefill is paid once"},{"knob":"memory-ledger","label":"Memory use","group":"notes","value":"over","value_text":"over","source":"operator","brief":"Your cache size brings the run to 38.2 GiB, over the 25.4 GiB it may hold.","reason":"the cache the caller set takes what is held to 39128 MiB, over the 26051 MiB this process may hold: charged as asked"},{"knob":"memory-ledger","label":"Memory use","group":"notes","value":"39128 MiB","value_text":"38.2 GiB","source":"derived","brief":"This run holds 38.2 GiB of the 25.4 GiB it may use.","reason":"held 39128 of 26051 MiB holdable, of which locked 0 MiB of 0 MiB lockable: dense 30936, expert cache 8192"},{"knob":"storage-rate","label":"Storage speed","group":"notes","value":"430 MiB/s","value_text":"430 MiB/s","source":"derived","brief":"Experts load at 430 MiB/s, in 450 KiB reads, 4 at a time.","reason":"this model's expert slice is 450 KiB and at that request size this storage gives 430 MiB/s over 4 lanes: the expert lane is priced there, not at the storage's peak"},{"knob":"cache-floor","label":"Cache floor","group":"notes","value":"632 MiB","value_text":"632 MiB","source":"derived","brief":"The smallest cache that helps is 632 MiB, under the engine's usual 1.5 GiB minimum.","reason":"the engine's fixed cache guard (1500 MiB) is above this model's token cycle (632 MiB), so a budget between the two returns hits and needs force-cache to be accepted; the floor enforced here is the model's"},{"knob":"device-unapplied","label":"Device placement","group":"notes","value":"-","value_text":"","source":"derived","brief":"A device would be faster for some weights; this build cannot use it yet.","reason":"a device won at least one group, but this build computes on the host: the placement is reported, not applied"},{"knob":"cache-floor","label":"Cache floor","group":"notes","value":"632 MiB","value_text":"632 MiB","source":"derived","brief":"Your cache is under the 632 MiB one token reads; kept as you set it.","reason":"the derived budget (0 MiB) is under this model's token cycle, but the caller pinned cache-mb and a pin is the caller's authority: proceeding with the pinned value"},{"knob":"moe-stream","label":"Expert streaming","group":"set","value":"on","value_text":"on","source":"derived","brief":"Experts stream, and the dense weights fit only in part.","reason":"neither set fits, so the experts stream and the dense policy degrades with them (a tensor larger than this budget is left mapped rather than made resident)"},{"knob":"cache-mb","label":"Expert cache","group":"kept","value":"8192","value_text":"8.0 GiB","source":"operator","brief":"Kept at 8192, as you set it.","reason":"set by the caller; the planner leaves it alone"},{"knob":"io-threads","label":"Read lanes","group":"set","value":"4","value_text":"4 lanes","source":"measured","brief":"4 parallel reads: the fastest rate this storage gave.","reason":"the highest measured rate for this model's 450 KiB expert slice on this storage"},{"knob":"o-direct","label":"Direct I/O","group":"set","value":"on","value_text":"on","source":"measured","brief":"Reads bypass the page cache: checked correct on this storage.","reason":"uncached reads return correct bytes on this path"},{"knob":"release-mmap","label":"Unmap the file after load","group":"set","value":"off","value_text":"off","source":"derived","brief":"The model's file mapping stays: this run still reads from it.","reason":"this run keeps a live pointer into the mapping (a tied head, a draft block, a dense policy that stays mapped, or a table left mapped), so the mapping cannot be released whatever the storage does"},{"knob":"lossy","label":"Output quality","group":"notes","value":"off","value_text":"off","source":"policy","brief":"Nothing that changes the output is turned on.","reason":"no quality budget was given, and a policy that changes the output must never arm itself"},{"knob":"devices","label":"Compute devices","group":"set","value":"cpu only","value_text":"cpu only","source":"measured","brief":"A device that failed its check is left out of the run.","reason":"a device was probed in a process of its own and did not survive it (CUDA1: its probe ended the process that ran it (signal 6); CUDA2: its probe ended the process that ran it (signal 6); CUDA3: its probe ended the process that ran it (signal 6); CUDA4: its probe ended the process that ran it (signal 6); CUDA5: its probe ended the process that ran it (signal 6)): it is kept out of the run, which is the only way the run starts"},{"knob":"overlap","label":"Overlap I/O","group":"kept","value":"on","value_text":"on","source":"unprobed","brief":"On until the first answer measures it against off.","reason":"hiding compute behind the reads changes no output and has measured faster, but one machine is not a rule: the first real request alternates decode windows with it on and off once the cache has settled, and switches it only if the other setting decodes 10% faster; the next load starts from the verdict"},{"knob":"threads","label":"Compute threads","group":"set","value":"4","value_text":"4 threads","source":"measured","brief":"4 threads: the fastest count measured on this model's format.","reason":"swept over the thread counts this machine has, on a matmul in this model's own quantized format, which is the material that matters: a sweep in F32 can pick a count the quantized kernels are much slower at"},{"knob":"trial-threads","label":"Thread counts to measure","group":"set","value":"8","value_text":"8","source":"policy","brief":"The first answer measures 8 threads against 4.","reason":"the thread count changes no output and which one decodes fastest is this machine's answer, not a rule's: once the cache has settled the first real request alternates decode windows between 4 and 8 (where a slower class of core starts, every core, or half of them where all are alike), and switches only to a count 10% faster in the median of its rounds; the next load starts from the verdict"}],"auto_plan":true}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":24912,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":true}
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+event: log
+data: {"level":"info","message":"context checkpoints: 112.6 MiB each, up to 8 kept"}
+
+event: token
+data: {"step":1,"steps":8,"wall_ms":1260.22427,"io_ms":3688.0001460000076,"compute_ms":252.36394800000022,"mgmt_ms":23.142980000000037,"stall_ms":984.7173419999997,"flash_wait_ms":984.7173419999997,"read_mib":431.09375,"cache_hit_pct":0.933572710951526,"cache_budget_mib":8192.0,"rss_mib":28163.55078125,"mem_available_mib":15115.16796875,"majflt":7,"cpu_ms":1347.6112959999682,"dense_resident_frac":-1.0,"mtp_batch":1}
+
+event: token
+data: {"step":2,"steps":8,"wall_ms":907.1341990000001,"io_ms":2355.670110999995,"compute_ms":248.9845419999995,"mgmt_ms":15.72369699999998,"stall_ms":642.4259600000006,"flash_wait_ms":642.4259600000006,"read_mib":280.53125,"cache_hit_pct":2.472367655613729,"cache_budget_mib":8192.0,"rss_mib":28163.63671875,"mem_available_mib":15126.58203125,"majflt":10,"cpu_ms":1224.995487000001,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: token
+data: {"step":3,"steps":8,"wall_ms":725.535385,"io_ms":1692.0701829999985,"compute_ms":250.9974549999979,"mgmt_ms":10.532219999999981,"stall_ms":464.0057100000021,"flash_wait_ms":464.0057100000021,"read_mib":203.51953125,"cache_hit_pct":4.255800792303339,"cache_budget_mib":8192.0,"rss_mib":28165.3203125,"mem_available_mib":15126.44140625,"majflt":4,"cpu_ms":1165.106413999979,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: log
+data: {"level":"info","message":"answer: 3 tokens at 1.0 tok/s, prompt 1463 tokens prefilled in 130.4 s (11 tok/s, 21587 MiB read), context 1466 tokens, experts 915 MiB read, cache hit 4%"}
+
+event: done
+data: {"cancelled":false,"tokens":3,"tok_s":1.037023876922378,"load_s":168.295955412,"prefill_s":130.378911877,"prefill_tps":11.221139821907704,"prefill_read_mib":21587.0859375,"prefill_dev_tokens":0,"n_prompt":1463,"n_past":1466,"cache_hit_pct":4.255800792303339,"read_mib":915.14453125,"io_s_tok":2.578580146666667,"compute_s_tok":0.2507819816666658,"stall_s_tok":0.6970496706666675,"flash_wait_s_tok":0.6970496706666675,"mgmt_s_tok":0.016466299,"majflt_tok":7.0,"cpu_s_tok":1.2459043989999827,"loop_overhead_s_tok":0.002853506,"cache_resident_mib":8190.966796875,"cache_budget_mib":8192.0,"cache_evictions":10705,"cache_rereads":589,"token_demand_mib":632.8125,"mtp_drafted":0,"mtp_accepted":0,"mtp_decodes":3,"drafted_steps":0,"mtp_draft_s_tok":0.0,"ttft_s":130.378911877}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":15126,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":false}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":15135,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":true}
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+event: token
+data: {"step":1,"steps":8,"wall_ms":1265.130328,"io_ms":3707.5769729999593,"compute_ms":248.49759800000086,"mgmt_ms":24.013023999999827,"stall_ms":992.6197059999993,"flash_wait_ms":992.6197059999993,"read_mib":433.67578125,"cache_hit_pct":3.5602458541110984,"cache_budget_mib":8192.0,"rss_mib":28180.4453125,"mem_available_mib":15147.99609375,"majflt":9,"cpu_ms":1339.6514439999692,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: token
+data: {"step":2,"steps":8,"wall_ms":861.6888630000001,"io_ms":2190.2144370000087,"compute_ms":252.15871799999974,"mgmt_ms":14.140937000000076,"stall_ms":595.3892080000003,"flash_wait_ms":595.3892080000003,"read_mib":260.65234375,"cache_hit_pct":4.323458767013611,"cache_budget_mib":8192.0,"rss_mib":28180.15234375,"mem_available_mib":15073.26171875,"majflt":7,"cpu_ms":1224.1590909999331,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: token
+data: {"step":3,"steps":8,"wall_ms":816.643411,"io_ms":2047.1069040000316,"compute_ms":247.00588499999674,"mgmt_ms":13.913247000000073,"stall_ms":555.7242790000032,"flash_wait_ms":555.7242790000032,"read_mib":243.3671875,"cache_hit_pct":5.102674038136072,"cache_budget_mib":8192.0,"rss_mib":28181.875,"mem_available_mib":15127.6328125,"majflt":1,"cpu_ms":1192.6399900000888,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: log
+data: {"level":"info","message":"answer: 3 tokens at 1.0 tok/s, prompt 1464 tokens prefilled in 129.5 s (11 tok/s, 21308 MiB read), context 1467 tokens, experts 938 MiB read, cache hit 5%"}
+
+event: done
+data: {"cancelled":false,"tokens":3,"tok_s":1.0192077854026698,"load_s":168.295955412,"prefill_s":129.469486513,"prefill_tps":11.307683682309191,"prefill_read_mib":21307.64453125,"prefill_dev_tokens":0,"n_prompt":1464,"n_past":1467,"cache_hit_pct":5.102674038136072,"read_mib":937.6953125,"io_s_tok":2.648299438,"compute_s_tok":0.24922073366666594,"stall_s_tok":0.7145777310000009,"flash_wait_s_tok":0.7145777310000009,"mgmt_s_tok":0.017355735999999993,"majflt_tok":5.666666666666667,"cpu_s_tok":1.252150174999997,"loop_overhead_s_tok":0.0006691993333333333,"cache_resident_mib":8190.966796875,"cache_budget_mib":8192.0,"cache_evictions":27430,"cache_rereads":15920,"token_demand_mib":632.8125,"mtp_drafted":0,"mtp_accepted":0,"mtp_decodes":3,"drafted_steps":0,"mtp_draft_s_tok":0.0,"ttft_s":129.469486513}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":15127,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":false}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":15123,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":true}
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+: ping
+
+event: token
+data: {"step":1,"steps":8,"wall_ms":1255.197635,"io_ms":3704.3150739999646,"compute_ms":244.70503800001038,"mgmt_ms":22.465409000000047,"stall_ms":988.0271879999896,"flash_wait_ms":988.0271879999896,"read_mib":431.04296875,"cache_hit_pct":4.433497536945813,"cache_budget_mib":8192.0,"rss_mib":28219.3359375,"mem_available_mib":15278.515625,"majflt":0,"cpu_ms":1324.0208239999447,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: token
+data: {"step":2,"steps":8,"wall_ms":969.881695,"io_ms":2624.9495800000204,"compute_ms":243.99180699999494,"mgmt_ms":16.77526500000015,"stall_ms":709.1146230000049,"flash_wait_ms":709.1146230000049,"read_mib":309.828125,"cache_hit_pct":4.858925306745576,"cache_budget_mib":8192.0,"rss_mib":28220.07421875,"mem_available_mib":15212.51171875,"majflt":0,"cpu_ms":1230.9714800001075,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: token
+data: {"step":3,"steps":8,"wall_ms":636.592338,"io_ms":1363.8476160000437,"compute_ms":248.59614499999984,"mgmt_ms":8.870567999999857,"stall_ms":379.12562500000035,"flash_wait_ms":379.12562500000035,"read_mib":166.26171875,"cache_hit_pct":5.478454153202458,"cache_budget_mib":8192.0,"rss_mib":28221.0,"mem_available_mib":15185.44921875,"majflt":0,"cpu_ms":1128.959782000038,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: log
+data: {"level":"info","message":"answer: 3 tokens at 1.0 tok/s, prompt 1488 tokens prefilled in 131.6 s (11 tok/s, 21652 MiB read), context 1491 tokens, experts 907 MiB read, cache hit 5%"}
+
+event: done
+data: {"cancelled":false,"tokens":3,"tok_s":1.04833829595017,"load_s":168.295955412,"prefill_s":131.617886136,"prefill_tps":11.305454324516791,"prefill_read_mib":21652.2109375,"prefill_dev_tokens":0,"n_prompt":1488,"n_past":1491,"cache_hit_pct":5.478454153202458,"read_mib":907.1328125,"io_s_tok":2.5643707566666762,"compute_s_tok":0.2457643300000015,"stall_s_tok":0.6920891453333317,"flash_wait_s_tok":0.6920891453333317,"mgmt_s_tok":0.016037080666666686,"majflt_tok":0.0,"cpu_s_tok":1.2279840286666968,"loop_overhead_s_tok":0.0006154479999999999,"cache_resident_mib":8190.966796875,"cache_budget_mib":8192.0,"cache_evictions":44391,"cache_rereads":32589,"token_demand_mib":632.8125,"mtp_drafted":0,"mtp_accepted":0,"mtp_decodes":3,"drafted_steps":0,"mtp_draft_s_tok":0.0,"ttft_s":131.617886136}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":15185,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":false}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":15179,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":true}
+
+event: token
+data: {"step":1,"steps":8,"wall_ms":451.78193300000004,"io_ms":643.7512510000261,"compute_ms":255.48473100000027,"mgmt_ms":5.992533000000133,"stall_ms":190.30466899999965,"flash_wait_ms":190.30466899999965,"read_mib":83.8671875,"cache_hit_pct":7.5834053586862575,"cache_budget_mib":8192.0,"rss_mib":28130.33984375,"mem_available_mib":14927.96484375,"majflt":0,"cpu_ms":1073.5381810000035,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: token
+data: {"step":2,"steps":8,"wall_ms":522.237039,"io_ms":902.4572690000241,"compute_ms":255.6944730000044,"mgmt_ms":6.82392399999987,"stall_ms":259.7186419999957,"flash_wait_ms":259.7186419999957,"read_mib":114.3515625,"cache_hit_pct":8.19646836962112,"cache_budget_mib":8192.0,"rss_mib":28130.5625,"mem_available_mib":14901.71484375,"majflt":0,"cpu_ms":1111.1346850000245,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: token
+data: {"step":3,"steps":8,"wall_ms":334.055782,"io_ms":285.20981799999845,"compute_ms":243.76148899999745,"mgmt_ms":3.5328219999999355,"stall_ms":86.76147100000264,"flash_wait_ms":86.76147100000264,"read_mib":38.6015625,"cache_hit_pct":8.896446182622004,"cache_budget_mib":8192.0,"rss_mib":28130.3984375,"mem_available_mib":14909.7578125,"majflt":0,"cpu_ms":999.5176659999743,"dense_resident_frac":1.0,"mtp_batch":1}
+
+event: log
+data: {"level":"info","message":"answer: 3 tokens at 2.3 tok/s, prompt 22 tokens prefilled in 10.5 s (2 tok/s, 3719 MiB read), context 1516 tokens, experts 237 MiB read, cache hit 9%"}
+
+event: done
+data: {"cancelled":false,"tokens":3,"tok_s":2.2934469080044644,"load_s":168.295955412,"prefill_s":10.459552456,"prefill_tps":2.1033404720275537,"prefill_read_mib":3719.03515625,"prefill_dev_tokens":0,"n_prompt":22,"n_past":1516,"cache_hit_pct":8.896446182622004,"read_mib":236.8203125,"io_s_tok":0.6104727793333495,"compute_s_tok":0.2516468976666673,"stall_s_tok":0.178928260666666,"flash_wait_s_tok":0.178928260666666,"mgmt_s_tok":0.0054497596666666466,"majflt_tok":0.0,"cpu_s_tok":1.0613968440000008,"loop_overhead_s_tok":0.0005915206666666666,"cache_resident_mib":8190.966796875,"cache_budget_mib":8192.0,"cache_evictions":47365,"cache_rereads":35443,"token_demand_mib":632.8125,"mtp_drafted":0,"mtp_accepted":0,"mtp_decodes":3,"drafted_steps":0,"mtp_draft_s_tok":0.0,"ttft_s":10.459552456}
+
+event: state
+data: {"version":"0.40.1","overlap_available":true,"planner_available":true,"host":{"ram_total_mib":30739,"ram_available_mib":14909,"cpu_threads":8},"state":"ready","error":"","model":{"path":"/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","name":"Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf","arch":"qwen4exp","n_ctx":8192,"n_expert_used":10,"think_ctl":"template","load_s":168.295955412,"streaming":true,"vision":false,"projector":"","compute_threads":4,"busy_threads":8,"ctx_advice":{"recommended":16384,"short":true,"param":"ctx-size","refused":false,"warn":false}},"generating":false}
+

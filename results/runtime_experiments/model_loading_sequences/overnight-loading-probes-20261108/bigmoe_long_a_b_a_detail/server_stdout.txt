@@ -1,0 +1,4 @@
+bmoe-server 0.40.1 listening on http://127.0.0.1:18766/
+  data: /data/bench-staging/bigmoe-server-long-switch-20261108
+  models: /data/bench-staging/bigmoe-server-long-switch-20261108/models
+  ui: /data/bench-staging/bigmoe-v0.40.1/ui

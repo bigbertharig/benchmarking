@@ -1,0 +1,59 @@
+{
+  "bmoe": {
+    "summary": {
+      "cache_budget_mib": 8192.0,
+      "cache_evictions": 10705,
+      "cache_hit_pct": 4.255800792303339,
+      "cache_rereads": 589,
+      "cache_resident_mib": 8190.966796875,
+      "cancelled": false,
+      "compute_s_tok": 0.2507819816666658,
+      "cpu_s_tok": 1.2459043989999827,
+      "drafted_steps": 0,
+      "flash_wait_s_tok": 0.6970496706666675,
+      "io_s_tok": 2.578580146666667,
+      "load_s": 168.295955412,
+      "loop_overhead_s_tok": 0.002853506,
+      "majflt_tok": 7.0,
+      "mgmt_s_tok": 0.016466299,
+      "mtp_accepted": 0,
+      "mtp_decodes": 3,
+      "mtp_draft_s_tok": 0.0,
+      "mtp_drafted": 0,
+      "n_past": 1466,
+      "n_prompt": 1463,
+      "prefill_dev_tokens": 0,
+      "prefill_read_mib": 21587.0859375,
+      "prefill_s": 130.378911877,
+      "prefill_tps": 11.221139821907704,
+      "read_mib": 915.14453125,
+      "stall_s_tok": 0.6970496706666675,
+      "tok_s": 1.037023876922378,
+      "token_demand_mib": 632.8125,
+      "tokens": 3,
+      "ttft_s": 130.378911877
+    }
+  },
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "ORCHID",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794133137,
+  "id": "chatcmpl-1",
+  "model": "Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 3,
+    "prompt_tokens": 1463,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 1466
+  }
+}

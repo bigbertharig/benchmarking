@@ -1,0 +1,59 @@
+{
+  "bmoe": {
+    "summary": {
+      "cache_budget_mib": 8192.0,
+      "cache_evictions": 27430,
+      "cache_hit_pct": 5.102674038136072,
+      "cache_rereads": 15920,
+      "cache_resident_mib": 8190.966796875,
+      "cancelled": false,
+      "compute_s_tok": 0.24922073366666594,
+      "cpu_s_tok": 1.252150174999997,
+      "drafted_steps": 0,
+      "flash_wait_s_tok": 0.7145777310000009,
+      "io_s_tok": 2.648299438,
+      "load_s": 168.295955412,
+      "loop_overhead_s_tok": 0.0006691993333333333,
+      "majflt_tok": 5.666666666666667,
+      "mgmt_s_tok": 0.017355735999999993,
+      "mtp_accepted": 0,
+      "mtp_decodes": 3,
+      "mtp_draft_s_tok": 0.0,
+      "mtp_drafted": 0,
+      "n_past": 1467,
+      "n_prompt": 1464,
+      "prefill_dev_tokens": 0,
+      "prefill_read_mib": 21307.64453125,
+      "prefill_s": 129.469486513,
+      "prefill_tps": 11.307683682309191,
+      "read_mib": 937.6953125,
+      "stall_s_tok": 0.7145777310000009,
+      "tok_s": 1.0192077854026698,
+      "token_demand_mib": 632.8125,
+      "tokens": 3,
+      "ttft_s": 129.469486513
+    }
+  },
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "LANTERN",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794133270,
+  "id": "chatcmpl-2",
+  "model": "Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 3,
+    "prompt_tokens": 1464,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 1467
+  }
+}
