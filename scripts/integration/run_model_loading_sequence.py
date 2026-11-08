@@ -61,6 +61,9 @@ def validate(manifest):
                 raise ValueError(f'{name}: positive timeout_s required')
             if not isinstance(stage.get('gpus', []), list) or any(x not in range(6) for x in stage.get('gpus', [])):
                 raise ValueError(f'{name}: gpus must be IDs 0..5')
+            env = stage.get('env', {})
+            if not isinstance(env, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in env.items()):
+                raise ValueError(f'{name}: env must be a string map')
 
 
 def lease(action, *args):
@@ -85,7 +88,8 @@ def run_stage(stage, folder, run_id):
     name = stage['id']
     floor = int(stage.get('mem_floor_gib', 4)) * 1048576
     record = {'id': name, 'status': 'running', 'started_at': stamp(), 'command': stage['command'],
-              'gpus': stage.get('gpus', []), 'timeout_s': stage['timeout_s']}
+              'gpus': stage.get('gpus', []), 'timeout_s': stage['timeout_s'],
+              'env_keys': sorted(stage.get('env', {}))}
     receipt = folder / f'{name}.json'
     atomic_json(receipt, record)
     lease_id = ''
@@ -100,7 +104,7 @@ def run_stage(stage, folder, run_id):
                 raise RuntimeError('Manager unreachable: lease ID missing')
         with (folder / f'{name}.log').open('w') as log:
             proc = subprocess.Popen(stage['command'], cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
-                                    start_new_session=True)
+                                    env=dict(os.environ, **stage.get('env', {})), start_new_session=True)
             began = time.monotonic()
             next_renew = began + 120
             while proc.poll() is None:

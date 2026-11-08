@@ -1,0 +1,14 @@
+{
+  "finished_at": "2026-11-08T02:45:52+00:00",
+  "manifest_sha256": "d89f320cdd8ce50d56a7548394208d62dc3fc3d6ca14e6908ba16318edcadeb0",
+  "reason": "Q4-specific CUDA engine is missing, and a guarded launch and request validator have not been implemented; the installed Q2 probe hardcodes a different model and pack.",
+  "run_id": "model-loading-q4-prep-20261108",
+  "stages": {
+    "q4_8k_smoke": "blocked",
+    "q4_build_pack": "passed",
+    "q4_plan": "passed",
+    "q4_verify_shards": "passed"
+  },
+  "started_at": "2026-11-08T02:37:41+00:00",
+  "status": "blocked"
+}

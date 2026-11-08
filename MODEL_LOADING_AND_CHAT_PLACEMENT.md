@@ -208,10 +208,31 @@ runner or input in the manifest; these are queued questions, not runnable
 measurements yet. A new manifest revision needs a fresh run ID so a changed
 procedure cannot silently reuse old receipts.
 
-The [read-only Q4 plan](results/runtime_experiments/q4_plan_20261108.json) on
-2026-11-08 found the four local model shards and no
-model download requirement with vision off. It warned that normal sizing does
-not fit this host and reported the Q4 CUDA engine missing. Its exit code 0
-means the plan was produced; it is not a fit or inference pass. The normal
-GPU0 chat load was still active, so the GPU smoke should wait for an available
-managed lease and a guarded Q4-specific runner.
+The first managed run, `model-loading-q4-prep-20261108`, finished the shard
+verification, pack build and plan stages. Its
+[terminal receipt](results/runtime_experiments/model_loading_sequences/model-loading-q4-prep-20261108/terminal.json)
+records `blocked` at the 8K smoke gate. The Manager marked the job failed
+because the sequence deliberately exits nonzero at a blocked stage; the three
+preparation stages themselves passed. Use
+[`watch_model_loading_sequence.py`](scripts/integration/watch_model_loading_sequence.py)
+to receive one event for each completed stage and a terminal event from
+filesystem notifications:
+
+```bash
+python3 scripts/integration/watch_model_loading_sequence.py model-loading-q4-prep-20261108
+```
+
+The [first read-only Q4 plan](results/runtime_experiments/q4_plan_20261108.json)
+on 2026-11-08 found the four local model shards and no model download
+requirement with vision off, but reported the engine missing because the
+command omitted `STRATA_COMPONENTS_DIR`. The
+[corrected plan](results/runtime_experiments/q4_plan_components_20261108.json)
+uses the installed components and reports `engine_usable=true` with no
+download. Both plans warn that normal sizing does not fit this host; exit 0
+means a plan was produced, not that the model fits or answered a request.
+The first pack build succeeded at 1.4 GiB with no `experts.bin`. Its files
+were moved under `runtime/strata-ud-q4_k_xl/packs/ud-q4_k_xl/`, the path the
+installed Strata launcher expects beneath its data directory. The campaign
+manifest now builds directly to that path. The normal GPU0 chat load was
+still active, so the GPU smoke awaits an available managed lease and a guarded
+Q4-specific runner.
