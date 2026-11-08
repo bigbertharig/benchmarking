@@ -75,7 +75,7 @@ campaign preflight, not an automatic update to a Manager recipe.
 | Nemotron 74B weights and whole experts on GPU0-3, chats on remaining 1060s | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; the 131K paired chat had short occupied history. Byte-balanced interleaving did not beat contiguous experts. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [matched mixed-card comparison](results/runtime_experiments/strata_q38_mixed_matched_20261106/README.md) | One-card long-context recall and mixed-card short-context tests; no independent per-chat placement or combined Strata-plus-1060 expert workers. |
-| Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md) | Four verified shards staged on rig NVMe; runtime pack and full-model run pending. |
+| Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [8K smoke](results/runtime_experiments/model_loading_sequences/model-loading-q4-smoke-20261108/q4_smoke_detail/terminal.json) | Four verified NVMe shards; Strata 8K 3090/RAM/NVMe load and one correct request passed. Matched 32K throughput and multi-chat tests pending. |
 
 Whole-expert placement improved Coder Next and Nemotron decode, while ordinary
 layer splits across slow 1060 links often hurt. [Tiered real-expert probes](results/runtime_experiments/q38_tiered_expert_probe_20261106/README.md)
@@ -121,7 +121,7 @@ limiting allocation is a result.
 
 1. **Qwen3.8 Q4 capacity gate (first).** Follow
    [the Q4 execution plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md#resume-here-q4-strata-and-expert-placement):
-   recheck four shard hashes and free NVMe space, build the small Strata runtime
+   reuse the verified four-shard receipt if file metadata is unchanged and check free NVMe space, build the small Strata runtime
    pack without an `experts.bin` duplicate, run the non-allocating plan, then
    attempt a guarded 3090 + 8 GiB resident-expert + NVMe load. Begin at 8K
    for a functional request; move to matched 32K short and depth prompts only
@@ -198,11 +198,12 @@ python3 ~/llm-gateway/tools/rigctl.py run-start \
   campaigns/model_loading_sequence.json --run-id model-loading-YYYYMMDD
 ```
 
-The
-first three prepared stages rehash all four Q4 NVMe shards, check free space,
-build the small Q4 Strata pack without `experts.bin`, and request a non-allocating
-Strata plan. The next stage is blocked until a Q4-specific guarded launch and
-validator exist. BigMoeOnEdge,
+The first stage now reuses the full SHA-256 receipt when each shard still has
+the verified size, digest in the manifest, and unchanged modification/change
+timestamps. The full read is needed only after a shard or its metadata changes.
+The next stages check free space, build the small Q4 Strata pack without
+`experts.bin`, and request a non-allocating Strata plan. The guarded 8K smoke
+is ready and passed once. BigMoeOnEdge,
 multi-chat Strata, matched 27B KV, and expert replay each name their missing
 runner or input in the manifest; these are queued questions, not runnable
 measurements yet. A new manifest revision needs a fresh run ID so a changed
@@ -230,9 +231,19 @@ command omitted `STRATA_COMPONENTS_DIR`. The
 uses the installed components and reports `engine_usable=true` with no
 download. Both plans warn that normal sizing does not fit this host; exit 0
 means a plan was produced, not that the model fits or answered a request.
-The first pack build succeeded at 1.4 GiB with no `experts.bin`. Its files
-were moved under `runtime/strata-ud-q4_k_xl/packs/ud-q4_k_xl/`, the path the
-installed Strata launcher expects beneath its data directory. The campaign
-manifest now builds directly to that path. The normal GPU0 chat load was
-still active, so the GPU smoke awaits an available managed lease and a guarded
-Q4-specific runner.
+The first pack build succeeded at 1.4 GiB with no `experts.bin`. The 8K launch
+showed that the installed Strata launcher uses
+`runtime/strata-ud-q4_k_xl/packs/unsloth-ud-q4_k_xl/`; the campaign now targets
+that exact path. The earlier `packs/ud-q4_k_xl/` remains on disk as a redundant
+pack until it is separately reviewed for cleanup.
+
+The [managed 8K smoke](results/runtime_experiments/model_loading_sequences/model-loading-q4-smoke-20261108/terminal.json)
+passed all four stages on 2026-11-08. Strata loaded the 111.3 GB Q4 bundle
+using GPU0 (23,567 MiB loaded), an 8 GiB resident expert budget, host RAM, and
+NVMe. Available host memory dropped by 13.22 GB decimal at the sampled loaded
+point and stayed above 16.5 million KiB during the stage, within the 26 GB
+ceiling and 4 GiB floor. One 68-token prompt returned `ORCHID` correctly;
+its 42 generated tokens decoded at 4.6 tok/s and 68 prompt tokens processed
+at 10.7 tok/s. Launch took 599 seconds, including startup and pack setup.
+These are one short smoke request, not a steady-state speed or 32K result.
+Strata stopped cleanly and the ordinary GPU0 chat service was restored.

@@ -17,7 +17,7 @@ CONTROL = STRATA / 'control/bin/strata'
 COMPONENTS = STRATA / 'components'
 MODEL = Path('/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl')
 DATA = MODEL / 'runtime/strata-ud-q4_k_xl'
-PACK = DATA / 'packs/ud-q4_k_xl'
+PACK = DATA / 'packs/unsloth-ud-q4_k_xl'
 PORT = 18144
 PROMPT = 'Reply with the single word ORCHID. Do not include any other text.'
 

@@ -1,0 +1,49 @@
+{
+  "block_before": {
+    "nvme": {
+      "read_bytes": 5346623288320,
+      "write_bytes": 246166691840
+    },
+    "sata": {
+      "read_bytes": 397533329408,
+      "write_bytes": 103529849856
+    }
+  },
+  "context": 8192,
+  "gpu": 0,
+  "gpu_before_mib": {
+    "0": 19,
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4,
+    "5": 4
+  },
+  "host_before": {
+    "MemAvailable_kib": 29808888,
+    "SwapFree_kib": 23573924,
+    "SwapTotal_kib": 24127028
+  },
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl",
+  "mtp": "off",
+  "pack": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/packs/ud-q4_k_xl",
+  "plan": {
+    "download": {
+      "engine_missing": false,
+      "engine_usable": true,
+      "gb": 0,
+      "own_files": true,
+      "parts": [],
+      "text": "Nothing to download: your model files are used where they are."
+    },
+    "ok": true,
+    "warnings": [
+      "With --backend nvidia the engine for NVIDIA cards is used. Nothing is remembered by --plan.",
+      "Qwen3.8-Flash-Next (Unsloth) UD-Q4_K_XL does not fit this computer. It can still start; expect it to be slow or to run out of memory."
+    ]
+  },
+  "prompt": "Reply with the single word ORCHID. Do not include any other text.",
+  "resident_experts_gib": 8,
+  "started_at": "2026-11-08T03:09:10+00:00",
+  "status": "running"
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/data/bench-staging/strata-v0.2.10/control/python/bin/python",
+    "/data/bench-staging/strata-v0.2.10/control/tools/iq_pack.py",
+    "--gguf",
+    "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+    "--out",
+    "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/packs/ud-q4_k_xl",
+    "--compat-bf16"
+  ],
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T03:09:01+00:00",
+  "gpus": [],
+  "host_before_available_kib": 29896492,
+  "host_min_available_kib": 29896492,
+  "id": "q4_build_pack",
+  "started_at": "2026-11-08T03:08:39+00:00",
+  "status": "passed",
+  "timeout_s": 7200
+}
