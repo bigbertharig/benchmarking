@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "name": "bigmoe_q4_same_file_compatibility",
+  "stages": [
+    {
+      "id": "q4_verify_shards",
+      "state": "ready",
+      "command": ["python3", "scripts/integration/preflight_q4_stage.py", "--quick"],
+      "timeout_s": 300,
+      "outputs": ["/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/q4_quick_preflight.json"]
+    },
+    {
+      "id": "bigmoe_q4_smoke",
+      "state": "ready",
+      "command": ["python3", "scripts/integration/run_bigmoe_q4_smoke.py", "--output", "results/runtime_experiments/model_loading_sequences/{run_id}/bigmoe_q4_detail"],
+      "timeout_s": 2100,
+      "outputs": ["/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/bigmoe_q4_detail/terminal.json"]
+    }
+  ]
+}
