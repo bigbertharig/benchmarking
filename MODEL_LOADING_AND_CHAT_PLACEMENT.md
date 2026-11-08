@@ -74,7 +74,7 @@ campaign preflight, not an automatic update to a Manager recipe.
 | Qwen3.6 27B weights on GPU0, separate chats' KV and attention on GPUs1-5 | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [concurrent matrix](results/runtime_experiments/kv_local_worker_matrix_20261107/README.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Private llama.cpp fork, no Manager serving profile; 27B deep-chat decode slows sharply at 90% occupancy. |
 | Nemotron 74B weights and whole experts on GPU0-3, chats on remaining 1060s | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; the 131K paired chat had short occupied history. Byte-balanced interleaving did not beat contiguous experts. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
-| Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [matched mixed-card comparison](results/runtime_experiments/strata_q38_mixed_matched_20261106/README.md) | One-card long-context recall and mixed-card short-context tests; no independent per-chat placement or combined Strata-plus-1060 expert workers. |
+| Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | One loaded model served three distinct short chats; no occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
 | Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json) | Strata 3090/RAM/NVMe answered all four 32K-capacity requests; repeat runs, full-depth occupancy, and multi-chat tests pending. |
 | Qwen3.8 Q4 on BigMoe | [same-file smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json) | 32K capacity CPU/flash correctness passed; GPU placement and matched throughput remain untested. |
 
@@ -327,4 +327,15 @@ for 97 generated tokens across the two chats, about 34.8 aggregate tok/s for
 that pair. Loaded GPU0 use was 23,399 MiB, and sampled `MemAvailable` stayed
 above 16,974,800 KiB. The histories were short (91 prompt tokens each); this
 establishes separate short-chat correctness and overlap, not 8K occupancy or
-multi-chat behavior at depth. Three slots are the next fit gate.
+multi-chat behavior at depth. Three slots were tested next.
+
+The [three-chat Q2 gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json)
+then passed with the same model, 8K configured context per slot, 8 GiB resident
+experts, and 768 MiB VRAM reserve. `ORCHID`, `LANTERN`, and `SAPPHIRE` each
+survived a distinct first turn and concurrent continuation; all three
+continuations reported 60 cached prompt tokens. The concurrent turn took
+3.60 seconds for 160 generated tokens in total, about 44.4 aggregate tok/s,
+versus 2.79 seconds and 34.8 aggregate tok/s for two chats. Loaded GPU0 use
+was again 23,399 MiB; sampled host `MemAvailable` stayed above 16,615,704 KiB.
+This is one short-history run per slot count. The higher aggregate rate is
+promising, but occupied 8K histories and 32K capacity remain untested.

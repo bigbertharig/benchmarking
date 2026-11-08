@@ -52,7 +52,7 @@
     {
       "id": "q2_strata_multichat",
       "state": "blocked",
-      "reason": "The Q2 two-chat 8K-capacity correctness gate passed; three slots, occupied-depth retention, and 32K remain to be tested."
+      "reason": "Q2 two- and three-chat short-history 8K-capacity gates passed; occupied-depth retention and 32K remain to be tested."
     },
     {
       "id": "qwen27_kv_crossover",

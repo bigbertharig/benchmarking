@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "SAPPHIRE",
+        "reasoning_content": "We need answer user: \"Repeat your previous answer as one uppercase word.\" Previous answer was SAPPHIRE. Need output exactly SAPPHIRE? They said repeat previous answer as one uppercase word. Need final only SAPPHIRE. Ensure no punctuation.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794112082,
+  "id": "chatcmpl-1ae60d8a17b54b77bb5e0e63",
+  "model": "qwen3.8-flash-next-q2_0",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 60,
+    "draft_n": 1,
+    "draft_n_accepted": 1,
+    "predicted_ms": 2421.4,
+    "predicted_n": 58,
+    "predicted_per_second": 24.0,
+    "predicted_per_token_ms": 41.748,
+    "prompt_ms": 393.9,
+    "prompt_n": 32,
+    "prompt_per_second": 81.2,
+    "prompt_per_token_ms": 12.309
+  },
+  "usage": {
+    "completion_tokens": 58,
+    "prompt_tokens": 92,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 150
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "LANTERN",
+        "reasoning_content": "We need answer user's request: \"Reply with exactly the single word LANTERN. No punctuation.\" Need final only LANTERN. Ensure no punctuation.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794112080,
+  "id": "chatcmpl-2190ad3733ee44759a77b72b",
+  "model": "qwen3.8-flash-next-q2_0",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 15,
+    "draft_n_accepted": 9,
+    "predicted_ms": 715.9,
+    "predicted_n": 39,
+    "predicted_per_second": 54.5,
+    "predicted_per_token_ms": 18.356,
+    "prompt_ms": 517.5,
+    "prompt_n": 65,
+    "prompt_per_second": 125.6,
+    "prompt_per_token_ms": 7.962
+  },
+  "usage": {
+    "completion_tokens": 39,
+    "prompt_tokens": 65,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 104
+  }
+}

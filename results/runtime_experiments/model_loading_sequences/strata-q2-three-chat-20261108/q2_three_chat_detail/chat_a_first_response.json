@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "ORCHID",
+        "reasoning_content": "We need answer user's request: \"Reply with exactly the single word ORCHID. No punctuation.\" Need final only ORCHID. Ensure no punctuation.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794112077,
+  "id": "chatcmpl-65b3c3b879b74c468cff568f",
+  "model": "qwen3.8-flash-next-q2_0",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 14,
+    "draft_n_accepted": 8,
+    "predicted_ms": 1582.9,
+    "predicted_n": 39,
+    "predicted_per_second": 24.6,
+    "predicted_per_token_ms": 40.587,
+    "prompt_ms": 899.6,
+    "prompt_n": 65,
+    "prompt_per_second": 72.3,
+    "prompt_per_token_ms": 13.84
+  },
+  "usage": {
+    "completion_tokens": 39,
+    "prompt_tokens": 65,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 104
+  }
+}
