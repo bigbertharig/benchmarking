@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+"""Guarded Qwen3.8 Q2 two-chat state and concurrent-continuation gate."""
+from __future__ import annotations
+
+import argparse
+import concurrent.futures
+import json
+import os
+import signal
+import subprocess
+import time
+from pathlib import Path
+
+from run_strata_q4_smoke import CONTROL, COMPONENTS, block, gpu, memory, request, save, stamp
+
+MODEL = Path('/data/model-hotset/qwen3.8-flash-next-q2_0')
+DATA = Path('/data/bench-staging/strata-v0.2.10/data')
+PACK = DATA / 'packs/q2_0'
+PORT = 18144
+WORDS = {'chat_a': 'ORCHID', 'chat_b': 'LANTERN'}
+
+
+def call(out, name, messages, expected):
+    start = time.monotonic()
+    response = request('/v1/chat/completions', {
+        'model': 'strata', 'messages': messages, 'max_tokens': 96, 'temperature': 0}, timeout=600)
+    wall = round(time.monotonic() - start, 3)
+    save(out / f'{name}_response.json', response)
+    choice = (response.get('choices') or [{}])[0]
+    message = choice.get('message') or {}
+    answer = (message.get('content') or '').strip()
+    final = answer.rsplit('</think>', 1)[-1].strip() if '</think>' in answer else answer
+    return {'name': name, 'wall_seconds': wall, 'answer': final[:200],
+            'expected': expected, 'correct': final == expected,
+            'usage': response.get('usage'), 'timings': response.get('timings'),
+            'finish_reason': choice.get('finish_reason')}
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--output', type=Path, required=True)
+    args = ap.parse_args()
+    out = args.output
+    out.mkdir(parents=True, exist_ok=True)
+    state = {'model': str(MODEL), 'pack': str(PACK), 'context': 8192,
+             'parallel': 2, 'gpu': 0, 'resident_experts_gib': 8,
+             'started_at': stamp(), 'status': 'running', 'requests': []}
+    save(out / 'checkpoint.json', state)
+    env = dict(os.environ, STRATA_COMPONENTS_DIR=str(COMPONENTS), CUDA_DEVICE_ORDER='PCI_BUS_ID')
+    common = [str(CONTROL), 'launch', '--family', 'qwen', '--model', 'q2_0',
+              '--model-path', str(MODEL), '--data-dir', str(DATA), '--gpu', '0',
+              '--backend', 'nvidia', '--context', '8192', '--kv', 'int8',
+              '--vision', 'off', '--parallel', '2', '--mtp', 'off', '--drafting', 'off',
+              '--set', 'resident-budget-gib=8', '--set', 'vram-reserve-mib=768',
+              '--tune', 'skip', '--port', str(PORT), '--access', 'local',
+              '--no-api-key', '--yes', '--output', 'json']
+    launched = False
+
+    def terminated(_signum, _frame):
+        raise RuntimeError('multichat terminated by Manager or memory guard')
+    signal.signal(signal.SIGTERM, terminated)
+    try:
+        if not (PACK / 'index.txt').is_file() or not (PACK / 'experts.bin').is_file():
+            raise RuntimeError('Q2 pack completion markers missing')
+        if len(list(MODEL.glob('*.gguf'))) != 2:
+            raise RuntimeError('expected two Q2 GGUF shards')
+        state['host_before'] = memory()
+        state['gpu_before_mib'] = gpu()
+        state['block_before'] = block()
+        if state['host_before']['MemAvailable_kib'] < 8 * 1048576:
+            raise RuntimeError('less than 8 GiB MemAvailable before load')
+        if state['gpu_before_mib'].get(0, 999999) > 1024:
+            raise RuntimeError('GPU0 is already occupied')
+        plan = subprocess.run(common + ['--plan'], env=env, capture_output=True,
+                              text=True, timeout=120)
+        (out / 'plan_stdout.json').write_text(plan.stdout)
+        (out / 'plan_stderr.txt').write_text(plan.stderr)
+        if plan.returncode:
+            raise RuntimeError(f'Strata plan exited {plan.returncode}')
+        plan_data = json.loads(plan.stdout)
+        download = plan_data.get('plan', {}).get('download', {})
+        state['plan'] = {'ok': plan_data.get('ok'), 'download': download,
+                         'warnings': plan_data.get('plan', {}).get('warnings', [])}
+        if not plan_data.get('ok') or not download.get('engine_usable') or download.get('gb') != 0:
+            raise RuntimeError('plan requires missing engine or model download')
+        save(out / 'checkpoint.json', state)
+        started = time.monotonic()
+        launched = True
+        launch = subprocess.run(common + ['--no-tui'], env=env, capture_output=True,
+                                text=True, timeout=1200)
+        state['launch_seconds'] = round(time.monotonic() - started, 3)
+        state['launch_exit'] = launch.returncode
+        (out / 'launch_stdout.txt').write_text(launch.stdout)
+        (out / 'launch_stderr.txt').write_text(launch.stderr)
+        if launch.returncode:
+            raise RuntimeError(f'Strata launch exited {launch.returncode}')
+        for _ in range(30):
+            try:
+                state['health'] = request('/health', timeout=2)
+                break
+            except (OSError, ValueError):
+                time.sleep(2)
+        else:
+            raise RuntimeError('Strata did not become ready')
+        state['host_loaded'] = memory()
+        state['gpu_loaded_mib'] = gpu()
+        if state['host_loaded']['MemAvailable_kib'] < 4 * 1048576:
+            raise RuntimeError('less than 4 GiB MemAvailable after load')
+        histories = {}
+        for chat, word in WORDS.items():
+            first = f'Reply with exactly the single word {word}. No punctuation.'
+            messages = [{'role': 'user', 'content': first}]
+            result = call(out, f'{chat}_first', messages, word)
+            state['requests'].append(result)
+            save(out / 'checkpoint.json', state)
+            if not result['correct']:
+                raise RuntimeError(f'{chat} first answer mismatch')
+            histories[chat] = messages + [{'role': 'assistant', 'content': result['answer']},
+                                         {'role': 'user', 'content': 'Repeat your previous answer as one uppercase word.'}]
+        state['concurrent_before'] = {'block': block(), 'host': memory(), 'gpu_mib': gpu()}
+        started = time.monotonic()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+            futures = {chat: pool.submit(call, out, f'{chat}_continue', histories[chat], word)
+                       for chat, word in WORDS.items()}
+            continued = [futures[chat].result(timeout=600) for chat in WORDS]
+        state['concurrent_wall_seconds'] = round(time.monotonic() - started, 3)
+        state['concurrent_after'] = {'block': block(), 'host': memory(), 'gpu_mib': gpu()}
+        state['requests'].extend(continued)
+        save(out / 'checkpoint.json', state)
+        if any(not row['correct'] for row in continued):
+            raise RuntimeError('one or more independent continuations mismatched')
+        if state['concurrent_after']['host']['MemAvailable_kib'] < 4 * 1048576:
+            raise RuntimeError('less than 4 GiB MemAvailable after continuation')
+        state['status'] = 'passed'
+    except BaseException as exc:
+        state['status'] = 'failed'
+        state['error'] = f'{type(exc).__name__}: {exc}'
+    finally:
+        if launched:
+            try:
+                stopped = subprocess.run([str(CONTROL), 'launch', '--stop', '--output', 'json'],
+                                         env=env, capture_output=True, text=True, timeout=120)
+                state['stop_exit'] = stopped.returncode
+                (out / 'stop_stdout.txt').write_text(stopped.stdout)
+                (out / 'stop_stderr.txt').write_text(stopped.stderr)
+                if stopped.returncode:
+                    state['status'] = 'failed'
+                    state['error'] = f'Strata stop exited {stopped.returncode}'
+            except Exception as exc:
+                state['status'] = 'failed'
+                state['stop_error'] = f'{type(exc).__name__}: {exc}'
+        state['host_final'] = memory()
+        state['gpu_final_mib'] = gpu()
+        state['block_final'] = block()
+        state['finished_at'] = stamp()
+        save(out / 'terminal.json', state)
+        print(json.dumps({'status': state['status'], 'error': state.get('error'),
+                          'receipt': str(out / 'terminal.json')}), flush=True)
+    return 0 if state['status'] == 'passed' else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
