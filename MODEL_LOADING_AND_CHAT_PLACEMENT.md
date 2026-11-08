@@ -53,6 +53,20 @@ capability. See [m10dis](https://github.com/crgregersen/m10dis) and
 designs: the former distributes expert computation; the latter streams routed
 experts from flash behind caches. Neither is our combined runtime.
 
+## Upstream projects to check before a new campaign
+
+| Project | Repository and useful entry points | What to watch for |
+| --- | --- | --- |
+| [m10dis](https://github.com/crgregersen/m10dis) | [Results](https://github.com/crgregersen/m10dis/blob/main/docs/RESULTS.md), [architecture](https://github.com/crgregersen/m10dis/blob/main/docs/ARCHITECTURE.md) | A committed 262K sparse-KV implementation and receipts: occupied depth, GPU hot-buffer size, RAM use, hit/miss rate, MTP settings, and decode rate. Its PCIe peer/multicast path differs from our host-staged 1060 links. |
+| [BigMoeOnEdge](https://github.com/Helldez/BigMoeOnEdge) | [Planner](https://github.com/Helldez/BigMoeOnEdge/blob/main/docs/hardware-planning.md), [streaming](https://github.com/Helldez/BigMoeOnEdge/blob/main/docs/moe-streaming.md), [model compatibility](https://github.com/Helldez/BigMoeOnEdge/blob/main/docs/which-models-stream.md) | Same-GGUF Qwen3.8 compatibility, GPU expert-cache behavior, physical reads on cold and diverse prompts, multi-chat serving, and how its planner accounts for the n-gram table. |
+| [Strata](https://github.com/Niko1221/Strata) | [Q4 setup](https://github.com/Niko1221/Strata/blob/main/docs/UNSLOTH_Q4.md), [engine details](https://github.com/Niko1221/Strata/blob/main/docs/DETAILS.md), [supported models](https://github.com/Niko1221/Strata/blob/main/docs/MODELS.md) | Q4 pack and low-RAM requirements, 1060-compatible builds, concurrent chat/KV support, and changes to the resident expert and storage tiers. |
+
+Pin the exact upstream revision and engine build in every local receipt. A new
+README claim or Reddit post is a lead until its code, conditions, and result
+are available; do not merge numbers from different quants, contexts, drafts,
+or hardware into one comparison. Checking these links is part of each new
+campaign preflight, not an automatic update to a Manager recipe.
+
 ## What has been measured here
 
 | Layout | Evidence | Current limit |
@@ -95,3 +109,54 @@ a matched BigMoeOnEdge control if that engine accepts the same GGUF. The next
 multi-chat gate is a managed version of the 27B GPU0/1060 KV layout. Real
 routing traces should decide whether expert-granularity 1060 caching repays
 transfer cost before building a Strata-plus-worker bridge.
+
+## Next test queue
+
+Run these as separate managed benchmark runs with fresh terminal receipts and
+the existing rig lease, guard, and cleanup path. Keep load-to-ready, prefill,
+decode, and total wall time separate. For chat tests report both configured
+capacity and occupied tokens, per-chat latency, aggregate throughput, recall,
+GPU/host allocation, and physical storage reads. A failed fit with its exact
+limiting allocation is a result.
+
+1. **Qwen3.8 Q4 capacity gate (first).** Follow
+   [the Q4 execution plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md#resume-here-q4-strata-and-expert-placement):
+   recheck four shard hashes and free NVMe space, build the small Strata runtime
+   pack without an `experts.bin` duplicate, run the non-allocating plan, then
+   attempt a guarded 3090 + 8 GiB resident-expert + NVMe load. Begin at 8K
+   for a functional request; move to matched 32K short and depth prompts only
+   after the first fit. Record whether the 26 GB decimal new-host-allocation
+   ceiling and 4 GiB `MemAvailable` floor hold throughout. This answers whether
+   the staged 111.3 GB Q4 actually runs on this rig before optimizing it.
+2. **Same-file BigMoeOnEdge control.** Start with a read-only plan and a Q2
+   compatibility smoke, then test the *same verified Q4 shards* and 32K
+   requests used in test 1 if its model/loader supports them. Compare one cold
+   request, two warm repeats, and a distinct-prompt request; use identical
+   output caps and record GPU cache hits, RAM, physical NVMe reads, and answer
+   correctness. A plan refusal or unsupported Qwen3.8 layout is a compatibility
+   result. Do not compare its published speeds from other machines with ours.
+3. **One Qwen3.8 model, several chats.** On the already working Q2 Strata
+   placement, test one, two, then three independent 8K chats on one load.
+   Measure correct first turns, separate continuations, prefix retention,
+   aggregate versus per-chat tokens/s, and whether the engine actually runs
+   them concurrently. Repeat at 32K only if the small gate passes. This tells
+   us whether a large model can share one weight load before adding custom KV
+   placement. Later repeat with Q4 only if test 1 fits and resources allow it.
+4. **Matched 27B chat-state crossover.** Keep the Qwen3.6 27B weights on the
+   3090 and compare local Q4 KV, one 1060 per chat, paired 1060s, and host-RAM
+   Q4 KV. Begin with identical distinct histories at a common 32K configured
+   capacity and 10%, 50%, and 90% occupied depth. Test one chat on every
+   fitting layout; then five concurrent chats on layouts with capacity for
+   five, and two paired chats on GPUs1-4. Run a separate 256K capacity/depth
+   comparison only on layouts that fit it safely. Include GPU0 prefill and
+   state-transfer time alongside continuation speed. This identifies where
+   each state tier becomes too slow, rather than selecting from configured
+   context size alone. Any host-RAM 27B variant requires a new validated run;
+   existing 1.7B/70B RAM results are not its baseline.
+5. **Expert hotness and link-cost replay.** Capture real routed expert IDs for
+   Nemotron and Qwen3.8, then replay fixed 3090, 1060, RAM, and NVMe budgets.
+   Compare contiguous whole tensors, hot whole tensors, and a hypothetical
+   finer-grained cache using measured 1060 transport and storage-miss costs.
+   Implement a new expert-worker bridge only if the replay predicts a gain and
+   a full-model test can verify it. Keep live NVMe-backed KV as a later sparse
+   attention experiment after a RAM-backed hot-block cache has passed.
