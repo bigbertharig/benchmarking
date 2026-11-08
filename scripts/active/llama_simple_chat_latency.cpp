@@ -446,6 +446,63 @@ int main(int argc, char ** argv) {
     const int pair_cap = std::atoi(argv[4]);
     const int single_cap = std::atoi(argv[5]);
     const int tokens = std::atoi(argv[6]);
+    if (std::string(argv[1]) == "large_chat_fresh") {
+        if (local_cap < 262144 || pair_cap < 200000 || pair_cap + 256 >= local_cap || tokens < 8)
+            return 150;
+        const char * names[5] = {"worker1", "worker2", "worker3", "worker4", "worker5"};
+        const char * codes[5] = {"4827", "6193", "7358", "2046", "8915"};
+        const char * cards[5] = {"1", "2", "3", "4", "5"};
+        std::vector<std::string> prompts;
+        prompts.reserve(5);
+        for (int i = 0; i < 5; ++i)
+            prompts.push_back(std::string("<|im_start|>user\nRemember my private four-digit code: ") +
+                              codes[i] + ". These are unrelated field notes.\n");
+        std::vector<chat> chats;
+        chats.reserve(5);
+        for (int i = 0; i < 5; ++i) {
+            chats.push_back({names[i], prompts[i].c_str(), nullptr, cards[i]});
+            chat & c = chats.back();
+            std::string notes;
+            for (int j = 0; j < 300; ++j)
+                notes += std::string(names[i]) + " note " + std::to_string(j) +
+                         " records item " + std::to_string((j*7919+i*101+17)%100003) +
+                         " beside a bridge.\n";
+            const auto filler = tokenize_text(vocab, notes, false);
+            if (filler.empty() || !add_chat(c, model, vocab, local_cap, true) ||
+                !decode_raw(c, c.next)) return 151;
+            const auto began = clock_type::now();
+            while (c.used < pair_cap) {
+                const int next_target = std::min(pair_cap, ((c.used/8192)+1)*8192);
+                if (!decode_raw(c, filler, next_target-c.used)) return 152;
+                const double elapsed = std::chrono::duration<double>(clock_type::now()-began).count();
+                std::fprintf(stderr, "FILL_PROGRESS name=%s used=%d target=%d seconds=%.2f\n",
+                             c.name, c.used, pair_cap, elapsed);
+                std::fflush(stderr);
+            }
+            // Decode the pending opening token outside the timed window.
+            if (!decode(c, vocab)) return 153;
+            std::fprintf(stderr, "CHAT_READY name=%s gpu=%s used=%d cap=%d\n",
+                         c.name, c.single, c.used, local_cap);
+            if (i == 0 || i == 2 || i == 4) {
+                std::vector<chat *> active;
+                for (chat & item : chats) active.push_back(&item);
+                const std::string phase = "deep_" + std::to_string(active.size()) + "_chats";
+                if (!measured_parallel(vocab, active, tokens, phase.c_str())) return 154;
+            }
+        }
+        std::atomic<int> correct{0};
+        std::vector<std::thread> checks;
+        for (int i = 0; i < 5; ++i)
+            checks.emplace_back([&, i]() {
+                if (recall_answer(chats[i], vocab, codes[i], chats[i].used, 64))
+                    correct.fetch_add(1);
+            });
+        for (auto & thread : checks) thread.join();
+        std::fprintf(stderr, "DEEP_INDEPENDENCE correct=%d chats=5\n", correct.load());
+        for (auto & c : chats) destroy(c);
+        llama_model_free(model);
+        return correct.load() == 5 ? 0 : 155;
+    }
     if (std::string(argv[1]) == "large_chat_latency") {
         const char * state_dir = std::getenv("KV_STATE_DIR");
         if (!state_dir || pair_cap < 262144 || tokens < 8) return 130;
