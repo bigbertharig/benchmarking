@@ -17,7 +17,7 @@ MODEL = Path('/data/model-hotset/qwen3.8-flash-next-q2_0')
 DATA = Path('/data/bench-staging/strata-v0.2.10/data')
 PACK = DATA / 'packs/q2_0'
 PORT = 18144
-WORDS = {'chat_a': 'ORCHID', 'chat_b': 'LANTERN'}
+WORDS = {'chat_a': 'ORCHID', 'chat_b': 'LANTERN', 'chat_c': 'SAPPHIRE'}
 
 
 def call(out, name, messages, expected):
@@ -39,18 +39,20 @@ def call(out, name, messages, expected):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--output', type=Path, required=True)
+    ap.add_argument('--parallel', type=int, choices=(2, 3), default=2)
     args = ap.parse_args()
+    words = dict(list(WORDS.items())[:args.parallel])
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     state = {'model': str(MODEL), 'pack': str(PACK), 'context': 8192,
-             'parallel': 2, 'gpu': 0, 'resident_experts_gib': 8,
+             'parallel': args.parallel, 'gpu': 0, 'resident_experts_gib': 8,
              'started_at': stamp(), 'status': 'running', 'requests': []}
     save(out / 'checkpoint.json', state)
     env = dict(os.environ, STRATA_COMPONENTS_DIR=str(COMPONENTS), CUDA_DEVICE_ORDER='PCI_BUS_ID')
     common = [str(CONTROL), 'launch', '--family', 'qwen', '--model', 'q2_0',
               '--model-path', str(MODEL), '--data-dir', str(DATA), '--gpu', '0',
               '--backend', 'nvidia', '--context', '8192', '--kv', 'int8',
-              '--vision', 'off', '--parallel', '2', '--mtp', 'off', '--drafting', 'off',
+              '--vision', 'off', '--parallel', str(args.parallel), '--mtp', 'off', '--drafting', 'off',
               '--set', 'resident-budget-gib=8', '--set', 'vram-reserve-mib=768',
               '--tune', 'skip', '--port', str(PORT), '--access', 'local',
               '--no-api-key', '--yes', '--output', 'json']
@@ -107,7 +109,7 @@ def main():
         if state['host_loaded']['MemAvailable_kib'] < 4 * 1048576:
             raise RuntimeError('less than 4 GiB MemAvailable after load')
         histories = {}
-        for chat, word in WORDS.items():
+        for chat, word in words.items():
             first = f'Reply with exactly the single word {word}. No punctuation.'
             messages = [{'role': 'user', 'content': first}]
             result = call(out, f'{chat}_first', messages, word)
@@ -119,10 +121,10 @@ def main():
                                          {'role': 'user', 'content': 'Repeat your previous answer as one uppercase word.'}]
         state['concurrent_before'] = {'block': block(), 'host': memory(), 'gpu_mib': gpu()}
         started = time.monotonic()
-        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=args.parallel) as pool:
             futures = {chat: pool.submit(call, out, f'{chat}_continue', histories[chat], word)
-                       for chat, word in WORDS.items()}
-            continued = [futures[chat].result(timeout=600) for chat in WORDS]
+                       for chat, word in words.items()}
+            continued = [futures[chat].result(timeout=600) for chat in words]
         state['concurrent_wall_seconds'] = round(time.monotonic() - started, 3)
         state['concurrent_after'] = {'block': block(), 'host': memory(), 'gpu_mib': gpu()}
         state['requests'].extend(continued)

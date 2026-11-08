@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "name": "strata_q2_three_independent_chats",
+  "stages": [
+    {
+      "id": "q2_three_chat",
+      "state": "ready",
+      "gpus": [0],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "command": ["python3", "scripts/integration/run_strata_q2_multichat.py", "--parallel", "3", "--output", "results/runtime_experiments/model_loading_sequences/{run_id}/q2_three_chat_detail"],
+      "timeout_s": 2400,
+      "outputs": ["/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/q2_three_chat_detail/terminal.json"]
+    }
+  ]
+}
