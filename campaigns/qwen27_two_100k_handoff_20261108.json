@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "name": "qwen27_two_100k_gpu0_prep_gpu1_handoff",
+  "stages": [
+    {
+      "id": "two_100k_handoff_one_1060",
+      "state": "ready",
+      "gpus": [0, 1],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {"KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build"},
+      "command": ["/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh", "two_100k_handoff_one_1060", "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf", "114688", "0", "102400", "16", "qwen27_two_100k_handoff_20261108"],
+      "timeout_s": 3600,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen27_two_100k_handoff_20261108.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen27_two_100k_handoff_20261108.log"]
+    }
+  ]
+}

@@ -53,6 +53,24 @@ worth generalizing and exposing to harnesses.
 | Live chat KV and other per-chat state | Grows with occupied history; attention architecture matters | Does it belong on the attention GPU, a dedicated 1060, or host RAM with a hot GPU block cache? |
 | Parked chat state | No decode until resumed | Is checkpoint-to-NVMe plus measured restore acceptable? |
 
+### Prepare on fast hardware, then place on a slower tier
+
+The 3090 can act as a temporary preparation engine: create a chat history or
+other reusable state there, then move its finished representation to the card,
+RAM, or storage tier where it will live. Keep preparation, serialization,
+transfer, restore, and first generation step as separate measurements. A
+handoff wins on admission only when fast preparation plus moving the result is
+shorter than preparing it at the destination. Measure subsequent decode too:
+the move does not make a slow destination fast during generation.
+
+The KV-state path has now passed for one deep chat and for two different 100K
+chats on one 1060. Other candidates are prepared prompt prefixes,
+packed or quantized weights, expert tensors, and sparse-attention hot blocks.
+Each needs a compatible representation at the destination and enough space for
+any temporary staging copy. Check whether preparing one new artifact disturbs
+chats already resident there. Do not assume that a model tensor or a live KV
+cache can be moved as cheaply as a completed chat checkpoint.
+
 Storage-backed **live** KV is a research target. Dense attention can revisit
 an entire history on each token; writing a checkpoint to NVMe is a different
 operation from serving active KV there. Sparse attention may permit a bounded
@@ -460,5 +478,21 @@ median token latency. This is a clean 16-token window per chat, unlike the
 earlier mixed prompt/decode timing. It proves two 100K chats fit and remain
 independent on one 6 GB 1060, while the per-chat rate roughly halves when they
 generate at the same time. The setup of each deep chat took about half an hour.
+Treat this as a capacity proof: about 1.53 tok/s per chat under concurrent
+generation is poor for ordinary use. Preparing each chat directly on GPU1 also
+made admission expensive. The matched [GPU0 preparation and GPU1 handoff run](results/runtime_experiments/model_loading_sequences/qwen27-two-100k-handoff-20261108/README.md)
+prepared the same two distinct 102K histories in 180.67 and 180.83 seconds,
+saved each 2.05 GB state in 1.02 seconds, and restored each on GPU1 in 4.79
+and 4.81 seconds. Both private-code recalls passed. Solo generation remained
+3.66 tok/s and concurrent generation was 1.46 tok/s per chat. Thus admission
+became much faster, while deep generation remained slow. Earlier GPU0
+preparation filled one 235K Qwen27 context in 539 seconds and restored it on
+a 1060 in about 11 seconds; the five-distinct-chat run also passed. The
+general design question is which reusable chat or model artifacts can be
+constructed on fast devices and moved to a slower residency tier. Transfer is
+useful when saved preparation time exceeds transfer cost and the destination's
+decode rate still meets the use case.
+
 A separate [235K per-chat latency run](results/runtime_experiments/model_loading_sequences/qwen27-one-235k-chat-latency-20261108/README.md)
-is in progress; it tests the near-capacity speed on one 1060.
+was stopped after 65,536 occupied positions in 906.52 seconds of direct GPU1
+fill to free the rig for the handoff test. It has no 235K decode result.

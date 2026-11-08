@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "one_235k_fresh",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "262144",
+    "235929",
+    "0",
+    "16",
+    "qwen27_one_235k_fresh_20261108"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "error": "Manager stopped the sequence",
+  "exit_code": -9,
+  "finished_at": "2026-11-08T22:04:59+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29917220,
+  "host_min_available_kib": 28518404,
+  "id": "one_235k_chat_per_token_latency",
+  "started_at": "2026-11-08T21:46:35+00:00",
+  "status": "failed",
+  "timeout_s": 10800
+}

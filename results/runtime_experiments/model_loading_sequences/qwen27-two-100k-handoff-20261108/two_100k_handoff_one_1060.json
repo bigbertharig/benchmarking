@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "two_100k_handoff_one_1060",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "114688",
+    "0",
+    "102400",
+    "16",
+    "qwen27_two_100k_handoff_20261108"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T22:15:33+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29909916,
+  "host_min_available_kib": 26480524,
+  "id": "two_100k_handoff_one_1060",
+  "started_at": "2026-11-08T22:08:50+00:00",
+  "status": "passed",
+  "timeout_s": 3600
+}

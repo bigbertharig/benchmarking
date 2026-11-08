@@ -588,6 +588,58 @@ int main(int argc, char ** argv) {
         destroy(cb); destroy(ca); llama_model_free(model);
         return correct.load() == 2 ? 0 : 146;
     }
+    if (std::string(argv[1]) == "two_100k_handoff_one_1060") {
+        if (local_cap < 102400 || single_cap < 100000 || single_cap + 256 >= local_cap)
+            return 160;
+        const std::string pa = "<|im_start|>user\nRemember my private four-digit code: 4827. These are my field notes.\n";
+        const std::string pb = "<|im_start|>user\nRemember my private four-digit code: 6193. These are my workshop notes.\n";
+        chat ca{"A", "", nullptr, "1"};
+        chat cb{"B", "", nullptr, "1"};
+        auto prepare_and_transfer = [&](chat & target, const std::string & prompt,
+                                        const char * label) {
+            const std::string notes_label(label);
+            std::string notes;
+            for (int i = 0; i < 300; ++i)
+                notes += notes_label + " note " + std::to_string(i) +
+                         " records marker " + std::to_string((i*7919+17)%100003) +
+                         " beside a bridge.\n";
+            const auto filler = tokenize_text(vocab, notes, false);
+            if (filler.empty()) return false;
+            chat prep{label, prompt.c_str(), nullptr, "0"};
+            const auto prep_start = clock_type::now();
+            if (!add_chat(prep, model, vocab, local_cap, true) ||
+                !decode_raw(prep, prep.next) ||
+                !decode_raw(prep, filler, single_cap-prep.used) ||
+                !decode(prep, vocab)) return false;
+            const double prep_seconds = std::chrono::duration<double>(clock_type::now()-prep_start).count();
+            std::fprintf(stderr, "PREP_METRIC name=%s gpu=0 used=%d seconds=%.6f\n",
+                         label, prep.used, prep_seconds);
+            snapshot state;
+            if (!save(prep, state)) return false;
+            destroy(prep);
+            if (!add_chat(target, model, vocab, local_cap, true) ||
+                !restore(target, state)) return false;
+            state.data.clear();
+            state.data.shrink_to_fit();
+            if (!decode(target, vocab)) return false;
+            std::fprintf(stderr, "CHAT_READY name=%s gpu=1 used=%d cap=%d\n",
+                         target.name, target.used, local_cap);
+            return true;
+        };
+        if (!prepare_and_transfer(ca, pa, "A")) return 161;
+        if (!measured_parallel(vocab, {&ca}, tokens, "one_100k_chat_handoff")) return 162;
+        if (!prepare_and_transfer(cb, pb, "B")) return 163;
+        if (!measured_parallel(vocab, {&ca, &cb}, tokens,
+                               "two_100k_chats_handoff_same_1060")) return 164;
+        std::atomic<int> correct{0};
+        std::thread ta([&]() { if (recall_answer(ca, vocab, "4827", ca.used, 64)) correct.fetch_add(1); });
+        std::thread tb([&]() { if (recall_answer(cb, vocab, "6193", cb.used, 64)) correct.fetch_add(1); });
+        ta.join(); tb.join();
+        std::fprintf(stderr, "TWO_CHAT_HANDOFF_INDEPENDENCE correct=%d used_A=%d used_B=%d\n",
+                     correct.load(), ca.used, cb.used);
+        destroy(cb); destroy(ca); llama_model_free(model);
+        return correct.load() == 2 ? 0 : 165;
+    }
     if (std::string(argv[1]) == "varied_concurrent_single" ||
         std::string(argv[1]) == "varied_concurrent_ram") {
         const bool ram = std::string(argv[1]) == "varied_concurrent_ram";

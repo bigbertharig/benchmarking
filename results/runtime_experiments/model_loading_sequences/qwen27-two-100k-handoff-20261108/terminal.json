@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T22:15:33+00:00",
+  "manifest_sha256": "7d8e0bec376107e28edb7647242b16cfbd2c0e56903096b9b9bef9d2f548c824",
+  "run_id": "qwen27-two-100k-handoff-20261108",
+  "stages": {
+    "two_100k_handoff_one_1060": "passed"
+  },
+  "started_at": "2026-11-08T22:08:50+00:00",
+  "status": "passed"
+}

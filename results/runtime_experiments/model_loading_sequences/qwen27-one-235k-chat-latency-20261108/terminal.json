@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-08T22:04:59+00:00",
+  "manifest_sha256": "7a35917ea952932edd568d1522454dc1a0f43f7dc6e13bbbdc59e1b047b4902e",
+  "reason": "Manager stopped the sequence",
+  "run_id": "qwen27-one-235k-chat-latency-20261108",
+  "stages": {
+    "one_235k_chat_per_token_latency": "failed"
+  },
+  "started_at": "2026-11-08T21:46:35+00:00",
+  "status": "failed"
+}
