@@ -1,0 +1,336 @@
+{
+  "admission_model": "two slots reserved at launch; chats opened sequentially",
+  "admissions": [
+    {
+      "after": {
+        "block": {
+          "nvme": {
+            "read_bytes": 6259896869888,
+            "write_bytes": 248858091520
+          },
+          "sata": {
+            "read_bytes": 400797124608,
+            "write_bytes": 104872236032
+          }
+        },
+        "gpu_mib": {
+          "0": 23577,
+          "1": 5,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "host": {
+          "MemAvailable_kib": 15678420,
+          "SwapFree_kib": 23557632,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "before": {
+        "block": {
+          "nvme": {
+            "read_bytes": 6209148568576,
+            "write_bytes": 248858091520
+          },
+          "sata": {
+            "read_bytes": 400790067200,
+            "write_bytes": 104867673088
+          }
+        },
+        "gpu_mib": {
+          "0": 23437,
+          "1": 5,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "host": {
+          "MemAvailable_kib": 16071660,
+          "SwapFree_kib": 23558932,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "chat": "chat_a",
+      "filler_lines": 64,
+      "prompt_chars": 3991,
+      "prompt_tokens": 1044
+    },
+    {
+      "after": {
+        "block": {
+          "nvme": {
+            "read_bytes": 6313057604608,
+            "write_bytes": 248858091520
+          },
+          "sata": {
+            "read_bytes": 400837949440,
+            "write_bytes": 104877691904
+          }
+        },
+        "gpu_mib": {
+          "0": 23601,
+          "1": 5,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "host": {
+          "MemAvailable_kib": 16493196,
+          "SwapFree_kib": 21951176,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "before": {
+        "block": {
+          "nvme": {
+            "read_bytes": 6265667838976,
+            "write_bytes": 248858091520
+          },
+          "sata": {
+            "read_bytes": 400808974336,
+            "write_bytes": 104873239552
+          }
+        },
+        "gpu_mib": {
+          "0": 23601,
+          "1": 5,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "host": {
+          "MemAvailable_kib": 16591616,
+          "SwapFree_kib": 21857224,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "chat": "chat_b",
+      "filler_lines": 192,
+      "prompt_chars": 11672,
+      "prompt_tokens": 2964
+    }
+  ],
+  "block_before": {
+    "nvme": {
+      "read_bytes": 6161125893120,
+      "write_bytes": 248857862144
+    },
+    "sata": {
+      "read_bytes": 400775997440,
+      "write_bytes": 104859968512
+    }
+  },
+  "context": 8192,
+  "gpu": 0,
+  "gpu_before_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_loaded_mib": {
+    "0": 23437,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "health": {
+    "api_key": false,
+    "image_generation": false,
+    "images": false,
+    "loaded": true,
+    "max_context": 8192,
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "service": "strata",
+    "status": "ok"
+  },
+  "host_before": {
+    "MemAvailable_kib": 29917900,
+    "SwapFree_kib": 23559028,
+    "SwapTotal_kib": 24127028
+  },
+  "host_loaded": {
+    "MemAvailable_kib": 16072248,
+    "SwapFree_kib": 23558932,
+    "SwapTotal_kib": 24127028
+  },
+  "launch_exit": 0,
+  "launch_seconds": 134.279,
+  "live_chat_state_location": "not established by this runner",
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl",
+  "pack": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/packs/unsloth-ud-q4_k_xl",
+  "parallel": 2,
+  "plan": {
+    "download": {
+      "engine_missing": false,
+      "engine_usable": true,
+      "gb": 0,
+      "own_files": true,
+      "parts": [],
+      "text": "Nothing to download: your model files are used where they are."
+    },
+    "ok": true,
+    "warnings": [
+      "With --backend nvidia the engine for NVIDIA cards is used. Nothing is remembered by --plan.",
+      "Qwen3.8-Flash-Next (Unsloth) UD-Q4_K_XL does not fit this computer. It can still start; expect it to be slow or to run out of memory."
+    ]
+  },
+  "requests": [
+    {
+      "answer": "ORCHID",
+      "correct": true,
+      "expected": "ORCHID",
+      "finish_reason": "stop",
+      "name": "chat_a_first",
+      "timings": {
+        "cache_n": 0,
+        "draft_n": 6,
+        "draft_n_accepted": 2,
+        "predicted_ms": 15487.8,
+        "predicted_n": 41,
+        "predicted_per_second": 2.6,
+        "predicted_per_token_ms": 377.751,
+        "prompt_ms": 102672.9,
+        "prompt_n": 1044,
+        "prompt_per_second": 10.2,
+        "prompt_per_token_ms": 98.346
+      },
+      "usage": {
+        "completion_tokens": 41,
+        "prompt_tokens": 1044,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 1085
+      },
+      "wall_seconds": 118.164
+    },
+    {
+      "answer": "ORCHID",
+      "correct": true,
+      "expected": "ORCHID",
+      "finish_reason": "stop",
+      "name": "chat_a_after_chat_a",
+      "timings": {
+        "cache_n": 1039,
+        "draft_n": 12,
+        "draft_n_accepted": 7,
+        "predicted_ms": 10451.7,
+        "predicted_n": 45,
+        "predicted_per_second": 4.3,
+        "predicted_per_token_ms": 232.26,
+        "prompt_ms": 8298.3,
+        "prompt_n": 38,
+        "prompt_per_second": 4.6,
+        "prompt_per_token_ms": 218.376
+      },
+      "usage": {
+        "completion_tokens": 45,
+        "prompt_tokens": 1077,
+        "prompt_tokens_details": {
+          "cached_tokens": 1039
+        },
+        "total_tokens": 1122
+      },
+      "wall_seconds": 18.753
+    },
+    {
+      "answer": "LANTERN",
+      "correct": true,
+      "expected": "LANTERN",
+      "finish_reason": "stop",
+      "name": "chat_b_first",
+      "timings": {
+        "cache_n": 0,
+        "draft_n": 10,
+        "draft_n_accepted": 9,
+        "predicted_ms": 13730.6,
+        "predicted_n": 62,
+        "predicted_per_second": 4.5,
+        "predicted_per_token_ms": 221.461,
+        "prompt_ms": 98386.8,
+        "prompt_n": 2964,
+        "prompt_per_second": 30.1,
+        "prompt_per_token_ms": 33.194
+      },
+      "usage": {
+        "completion_tokens": 62,
+        "prompt_tokens": 2964,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 3026
+      },
+      "wall_seconds": 112.124
+    },
+    {
+      "answer": "ORCHID",
+      "correct": true,
+      "expected": "ORCHID",
+      "finish_reason": "stop",
+      "name": "chat_a_after_chat_b",
+      "timings": {
+        "cache_n": 1072,
+        "draft_n": 5,
+        "draft_n_accepted": 5,
+        "predicted_ms": 3762.5,
+        "predicted_n": 45,
+        "predicted_per_second": 12.0,
+        "predicted_per_token_ms": 83.611,
+        "prompt_ms": 736.0,
+        "prompt_n": 5,
+        "prompt_per_second": 6.8,
+        "prompt_per_token_ms": 147.2
+      },
+      "usage": {
+        "completion_tokens": 45,
+        "prompt_tokens": 1077,
+        "prompt_tokens_details": {
+          "cached_tokens": 1072
+        },
+        "total_tokens": 1122
+      },
+      "wall_seconds": 4.501
+    },
+    {
+      "answer": "LANTERN",
+      "correct": true,
+      "expected": "LANTERN",
+      "finish_reason": "stop",
+      "name": "chat_b_after_chat_b",
+      "timings": {
+        "cache_n": 2959,
+        "draft_n": 5,
+        "draft_n_accepted": 5,
+        "predicted_ms": 4982.7,
+        "predicted_n": 51,
+        "predicted_per_second": 10.2,
+        "predicted_per_token_ms": 97.7,
+        "prompt_ms": 5387.0,
+        "prompt_n": 38,
+        "prompt_per_second": 7.1,
+        "prompt_per_token_ms": 141.763
+      },
+      "usage": {
+        "completion_tokens": 51,
+        "prompt_tokens": 2997,
+        "prompt_tokens_details": {
+          "cached_tokens": 2959
+        },
+        "total_tokens": 3048
+      },
+      "wall_seconds": 10.374
+    }
+  ],
+  "resident_experts_gib": 8,
+  "started_at": "2026-11-08T05:13:28+00:00",
+  "status": "running"
+}

@@ -86,7 +86,7 @@ campaign preflight, not an automatic change to our test conclusions.
 | Nemotron 74B weights and whole experts on GPU0-3, chats on remaining 1060s | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; the 131K paired chat had short occupied history. Byte-balanced interleaving did not beat contiguous experts. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
-| Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json) | Strata 3090/RAM/NVMe answered all four 32K-capacity requests; repeat runs, full-depth occupancy, and multi-chat tests pending. |
+| Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json), [two-chat probe](results/runtime_experiments/model_loading_sequences/strata-q4-two-chat-20261108/q4_two_chat_detail/terminal.json) | Strata 3090/RAM/NVMe served two interleaved chats at 1,044 and 2,964 prompt tokens on one 8K-capacity load. Slots were reserved at launch; deeper occupancy, third chat, and separate KV tiers are open. |
 | Qwen3.8 Q4 on BigMoe | [same-file smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json) | 32K capacity CPU/flash correctness passed; GPU placement and matched throughput remain untested. |
 
 Whole-expert placement improved Coder Next and Nemotron decode, while ordinary
@@ -125,7 +125,8 @@ the latest result can answer most clearly.
    context and more interleaving, and inspect whether its conversation cache
    keeps each chat's state or just reuses a resent prefix. Try its RAM backed
    KV streaming or KV growth where the installed build supports it. Repeat a
-   useful finding on Q4, whose single-chat 32K load has already passed.
+   useful finding on Q4, whose single-chat 32K load and two-chat 8K load have
+   both passed.
 3. **BigMoe warm model, multiple conversations.** Q2 and same-file Q4
    CPU/flash correctness passed. Keep its model and expert cache open across
    prompts, then interleave two conversations and see whether each retains KV
@@ -335,3 +336,13 @@ chat history, the slots were reserved before the first chat, and this receipt
 does not locate the underlying KV buffers. Dynamic slot allocation, separate
 chat-state tiers, an occupied 8K limit, 32K slots, and an N+1 fit boundary
 remain open.
+
+The [Q4 Strata two-chat probe](results/runtime_experiments/model_loading_sequences/strata-q4-two-chat-20261108/q4_two_chat_detail/terminal.json)
+passed with one Q4 model load, two 8K configured slots, and distinct chats at
+1,044 and 2,964 prompt tokens. Both chats recalled their own code word after
+interleaving. Their final continuations reported 1,072 and 2,959 cached
+prompt tokens. GPU0 use was 23,437 MiB after load, 23,577 MiB after A, and
+23,601 MiB after B. The launch took 134 seconds and stopped cleanly. The
+requests resent full histories and slots were reserved at launch, so this is a
+two-chat fit and prefix-reuse result; it does not establish dynamic chat
+allocation or physical KV separation.

@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "LANTERN",
+        "reasoning_content": "We need answer user's request. User says private code word is LANTERN. Remember it. Then many reference lines. Asks: What is this conversation's private code word? Reply with only that uppercase word. Need final only LANTERN. Ensure no extra.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794115088,
+  "id": "chatcmpl-055af8767e2c493999d5b22a",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 10,
+    "draft_n_accepted": 9,
+    "predicted_ms": 13730.6,
+    "predicted_n": 62,
+    "predicted_per_second": 4.5,
+    "predicted_per_token_ms": 221.461,
+    "prompt_ms": 98386.8,
+    "prompt_n": 2964,
+    "prompt_per_second": 30.1,
+    "prompt_per_token_ms": 33.194
+  },
+  "usage": {
+    "completion_tokens": 62,
+    "prompt_tokens": 2964,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3026
+  }
+}

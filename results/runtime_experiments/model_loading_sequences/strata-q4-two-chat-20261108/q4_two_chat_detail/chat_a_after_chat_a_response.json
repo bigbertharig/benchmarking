@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "ORCHID",
+        "reasoning_content": "We need answer user's request: \"What is this conversation's private code word? Reply with only that uppercase word.\" Need comply. Need final only uppercase word. Need ensure no extra.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794115070,
+  "id": "chatcmpl-af3bd4c318c44be79cf2f9da",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 1039,
+    "draft_n": 12,
+    "draft_n_accepted": 7,
+    "predicted_ms": 10451.7,
+    "predicted_n": 45,
+    "predicted_per_second": 4.3,
+    "predicted_per_token_ms": 232.26,
+    "prompt_ms": 8298.3,
+    "prompt_n": 38,
+    "prompt_per_second": 4.6,
+    "prompt_per_token_ms": 218.376
+  },
+  "usage": {
+    "completion_tokens": 45,
+    "prompt_tokens": 1077,
+    "prompt_tokens_details": {
+      "cached_tokens": 1039
+    },
+    "total_tokens": 1122
+  }
+}
