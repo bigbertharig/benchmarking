@@ -246,12 +246,13 @@ in every receipt.
    first answer separately; check whether it is a compatible live state or a
    prefix that must be recomputed. Test a main chat continuing during worker
    preparation, because temporary GPU0 memory and compute may interfere.
-   For an **ongoing** worker conversation, test repeated GPU5 → GPU0 → GPU5
-   turn trips: transfer the state after worker generation, prefill the next
-   user turn on GPU0, return the updated state, then generate on GPU5. Verify
-   retained facts, full state including recurrent state for Nemotron, transfer
-   bytes and time, and main-chat delay. Compare against direct GPU5 prefill.
-   Initial 27B GPU0 → GPU1 admission passed; repeated round trips have not.
+   The [27B ongoing-turn handoff](results/runtime_experiments/model_loading_sequences/qwen27-ongoing-turn-handoff-20261108/README.md)
+   passed three GPU1 → GPU0 → GPU1 trips: each roughly 4K-token new turn was
+   prepared on GPU0 and answered correctly on GPU1. Complete turn time was
+   4.46–4.71× faster than direct GPU1 prefill at 8K–16K occupied depth,
+   including both state transfers. Next test a continuing main chat during
+   worker preparation, deeper and varied histories, and the full recurrent
+   state path for Nemotron. Compare against direct GPU5 prefill there.
 6. **Strata shared-brain lifecycle.** With a viable Q2/Q4 load, test whether
    independent chats can open, close, and restart without reloading model
    state. Record each chat's physical state tier and main-chat responsiveness.
@@ -659,3 +660,13 @@ each close, versus 71 MiB before the first worker. This establishes a clean
 serial context lifecycle in the private llama.cpp harness. The first useful
 answer still paid for the new chat's 1K or 2K history fill; repeated worker
 turnover, explicit stale-state exclusion, and API-level overhead remain open.
+
+The [ongoing-turn GPU1 → GPU0 → GPU1 test](results/runtime_experiments/model_loading_sequences/qwen27-ongoing-turn-handoff-20261108/README.md)
+began from one 4K Qwen27 chat state cloned onto two GPU1 contexts. Across
+three matched new turns of roughly 4K tokens each, direct GPU1 ingestion plus
+answer took 30.61, 34.60, and 38.61 seconds. Saving the live GPU1 state,
+preparing on GPU0, returning the updated state to GPU1, and answering there
+took 6.87, 7.52, and 8.19 seconds, including both transfers. All six GPU1
+private-code answers were correct. This proves repeated migration for the
+private 27B path at 8K–16K occupied depth; main-chat interference, long
+histories, and Nemotron recurrent-state compatibility remain unmeasured.

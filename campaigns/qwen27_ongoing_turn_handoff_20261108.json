@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "name": "qwen27_ongoing_turn_handoff",
+  "stages": [
+    {
+      "id": "ongoing_turn_handoff",
+      "state": "ready",
+      "gpus": [0, 1],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {"KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build"},
+      "command": ["/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh", "ongoing_turn_handoff", "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf", "32768", "0", "0", "64", "qwen27_ongoing_turn_handoff_20261108"],
+      "timeout_s": 1800,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen27_ongoing_turn_handoff_20261108.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen27_ongoing_turn_handoff_20261108.log"]
+    }
+  ]
+}

@@ -688,6 +688,82 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "ongoing_turn_handoff") {
+        if (local_cap < 32768 || tokens < 16) return 200;
+        const std::string prompt =
+            "<|im_start|>user\nRemember my private four-digit code: 4827. These are my project notes.\n";
+        const auto filler = tokenize_text(vocab,
+            " A project note records one more detail for the final answer.\n", false);
+        const auto next_user = tokenize_text(vocab,
+            "\n<|im_start|>user\nHere are more unrelated notes.\n", false);
+        if (filler.empty() || next_user.empty()) return 201;
+        chat seed{"seed_gpu0", prompt.c_str(), nullptr, "0"};
+        if (!add_chat(seed, model, vocab, local_cap, true) ||
+            !decode_raw(seed, seed.next) ||
+            !decode_raw(seed, filler, 4096-seed.used) ||
+            !recall_answer(seed, vocab, "4827", 4096, tokens)) return 202;
+        snapshot initial;
+        if (!save(seed, initial)) return 203;
+        destroy(seed);
+        chat direct{"direct_gpu1", "", nullptr, "1"};
+        chat handoff{"handoff_gpu1", "", nullptr, "1"};
+        chat prep{"prep_gpu0", "", nullptr, "0"};
+        if (!add_chat(direct, model, vocab, local_cap, true) ||
+            !restore(direct, initial) ||
+            !add_chat(handoff, model, vocab, local_cap, true) ||
+            !restore(handoff, initial) ||
+            !add_chat(prep, model, vocab, local_cap, true)) return 204;
+        std::fprintf(stderr, "ONGOING_SEED used=%d bytes=%zu cap=%d\n",
+                     initial.used, initial.data.size(), local_cap);
+        initial.data.clear();
+        initial.data.shrink_to_fit();
+        auto add_turn = [&](chat & c, int target) {
+            if (c.next.empty() || !decode_raw(c, c.next) ||
+                !decode_raw(c, next_user) || target <= c.used) return false;
+            return decode_raw(c, filler, target-c.used);
+        };
+        auto run_turn = [&](chat & worker, bool transfer, int step, int target) {
+            const auto start = clock_type::now();
+            snapshot before, after;
+            bool ok;
+            if (transfer) {
+                ok = save(worker, before) && restore(prep, before) &&
+                     add_turn(prep, target) && save(prep, after) &&
+                     restore(worker, after);
+            } else {
+                ok = add_turn(worker, target);
+            }
+            if (!ok) return false;
+            const double prep_seconds = std::chrono::duration<double>(clock_type::now()-start).count();
+            const auto answer_start = clock_type::now();
+            const bool correct = recall_answer(worker, vocab, "4827", target, tokens);
+            const double answer_seconds = std::chrono::duration<double>(clock_type::now()-answer_start).count();
+            const double total_seconds = std::chrono::duration<double>(clock_type::now()-start).count();
+            std::fprintf(stderr,
+                "ONGOING_TURN step=%d layout=%s target=%d used=%d prep_seconds=%.6f answer_seconds=%.6f total_seconds=%.6f correct=%d\n",
+                step, transfer ? "roundtrip" : "direct", target, worker.used,
+                prep_seconds, answer_seconds, total_seconds, correct);
+            return correct;
+        };
+        const int targets[3] = {8192, 12288, 16384};
+        for (int i = 0; i < 3; ++i) {
+            const bool direct_first = i != 1;
+            if (direct_first) {
+                if (!run_turn(direct, false, i+1, targets[i]) ||
+                    !run_turn(handoff, true, i+1, targets[i])) return 205;
+            } else {
+                if (!run_turn(handoff, true, i+1, targets[i]) ||
+                    !run_turn(direct, false, i+1, targets[i])) return 206;
+            }
+        }
+        std::fprintf(stderr, "ONGOING_HANDOFF_DONE turns=3 direct_used=%d roundtrip_used=%d\n",
+                     direct.used, handoff.used);
+        destroy(prep);
+        destroy(handoff);
+        destroy(direct);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "worker_chat_lifecycle") {
         if (local_cap < 8192 || pair_cap < 16384 || tokens < 16) return 180;
         const std::string main_prompt =

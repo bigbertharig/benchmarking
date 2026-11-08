@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T23:46:13+00:00",
+  "manifest_sha256": "0b7143a525fe629aa07455da081cd5b7f83df51cc71823663bf2b100ee703738",
+  "run_id": "qwen27-ongoing-turn-handoff-20261108",
+  "stages": {
+    "ongoing_turn_handoff": "passed"
+  },
+  "started_at": "2026-11-08T23:43:53+00:00",
+  "status": "passed"
+}
