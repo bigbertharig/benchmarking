@@ -2,6 +2,37 @@
 
 Status: design and preflight, 2026-11-06. This experiment consumes the rig profile in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) and the [read-only hardware survey](results/runtime_experiments/expert_capacity_survey_20261106/README.md). Those sources own the rig specifications. This document owns the candidate model, placement matrix, measurement protocol, and admission gates. The broader cross-repository research is in [EXPERT_TENSOR_SHARDING_RESEARCH.md](EXPERT_TENSOR_SHARDING_RESEARCH.md).
 
+## Resume here: Q4 Strata and expert placement
+
+This is the entry point for the next rig session. The [Strata baseline and Q2 controls](STRATA_MEMORY_TEST_PLAN.md), [tensor-sharding research](EXPERT_TENSOR_SHARDING_RESEARCH.md), and [rig limits](RIG_PERFORMANCE.md) provide the surrounding evidence. The upstream [UD-Q4_K_XL setup guide](https://github.com/Niko1221/Strata/blob/main/docs/UNSLOTH_Q4.md) defines this quant's pack format. Do not describe an unrun combined Strata-plus-M10 prototype as a measured speedup.
+
+**Current handoff (2026-11-07):** the pinned Q4 download on the 4 TB drive passed per-shard SHA-256 in `/mnt/shared/models/qwen3.8-flash-next-ud-q4_k_xl/download_terminal.json`. The canonical four shards total 111,334,654,784 bytes. The copy to `/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/` completed at 02:38:47 UTC; `results/storage_inventory_20261106/q4_nvme_stage.json` records `complete` and `verified` for all four shards. The 4 TB source stays in place. The runtime pack and Q4 full-model baseline have not yet been recorded, nor has a combined worker run.
+
+The Q4 runtime pack belongs under the same model folder at `/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/`. Once all four shards are verified on NVMe, build it from shard 1 with the installed Strata control Python:
+
+```bash
+STRATA=/data/bench-staging/strata-v0.2.10
+MODEL=/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl
+"$STRATA/control/python/bin/python" "$STRATA/control/tools/iq_pack.py"   --gguf "$MODEL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"   --out "$MODEL/runtime/strata-ud-q4_k_xl" --compat-bf16
+```
+
+The Q4 guide specifies about 1.4 GB for this pack and **no** `experts.bin`: experts are read directly from the GGUF files. Do not pass `--experts-bin`, which would create a roughly 77 GB duplicate and exceed the available NVMe headroom. Preserve the pack and its hash manifest with the four shards as one model bundle. The shared Strata expert profile is at `$STRATA/control/data/expert-profile.bin`; an MTP draft is optional for the first matched run and should be disabled unless its asset and memory budget are verified.
+
+Before allocating GPU memory, run the read-only model inventory and capacity screen below. Write new receipts under a dated `results/runtime_experiments/q38_q4_expert_*/` directory and record the code revision, shard hashes, context, each GPU's usable memory, host budget and file-tier bytes. The rig's tested host planning ceiling is 26 GB decimal, including all new resident allocations.
+
+```bash
+cd /mnt/shared/plans/shoulders/benchmarking
+STRATA=/data/bench-staging/strata-v0.2.10
+MODEL=/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl
+OUT=results/runtime_experiments/q38_q4_expert_preflight_20261107
+mkdir -p "$OUT"
+python3 scripts/analysis/snapshot_expert_hardware.py --output "$OUT/hardware.json"
+python3 scripts/analysis/inspect_expert_gguf.py --gguf "$MODEL"/*.gguf   --gguf-py "$STRATA/install/third_party/llama.cpp/gguf-py" --output "$OUT/model.json"
+python3 scripts/analysis/summarize_expert_capacity.py --hardware "$OUT/hardware.json"   --model "$OUT/model.json" --ram-budget-gb 26 --output "$OUT/capacity.json"
+```
+
+Then follow the [execution sequence](#execution-sequence-and-durable-evidence): non-allocating Strata plan; below-48-GB one-3090 Strata launch with an initial 8 GiB resident budget; same-file llama.cpp control if safely loadable; standalone real-expert worker correctness; and finally a matched 32K full-model comparison under an exclusive rig lease. The installed Strata CUDA 13 engine cannot run GTX 1060 `sm_61` workers directly. The combined test requires a separate 1060 worker bridge or engine extension. The Q2 one-expert and full-model receipts are controls, not Q4 results.
+
 ## Question and model selection
 
 **Primary experiment:** retain Strata's model loader, bounded expert RAM cache, and file-backed expert/lookup tiers, then add M10-style expert placement/sharding across the 3090 and 1060s. Ask whether that changes full-model latency and physical storage reads without losing correctness. Use the **same GGUF bytes and context** in every comparable full-model run. Record actual tensor residency, not only a requested budget.

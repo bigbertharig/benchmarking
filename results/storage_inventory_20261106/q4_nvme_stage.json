@@ -1,0 +1,42 @@
+{
+  "schema": "model-bundle-sync/1",
+  "model_id": "qwen3.8-flash-next-ud-q4_k_xl",
+  "started_at": "2026-11-07T01:11:53.455162+00:00",
+  "status": "complete",
+  "files": [
+    {
+      "source": "/mnt/shared/models/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "archive": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "role": "gguf",
+      "size_bytes": 10946624,
+      "status": "verified",
+      "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082"
+    },
+    {
+      "source": "/mnt/shared/models/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "archive": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "role": "gguf",
+      "size_bytes": 49859583136,
+      "status": "verified",
+      "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9"
+    },
+    {
+      "source": "/mnt/shared/models/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "archive": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "role": "gguf",
+      "size_bytes": 49376141504,
+      "status": "verified",
+      "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3"
+    },
+    {
+      "source": "/mnt/shared/models/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "archive": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "role": "gguf",
+      "size_bytes": 12087983520,
+      "status": "verified",
+      "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a"
+    }
+  ],
+  "manifest": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/bundle_manifest.json",
+  "finished_at": "2026-11-07T02:38:47.112735+00:00"
+}
