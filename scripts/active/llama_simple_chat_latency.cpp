@@ -688,6 +688,68 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "worker_chat_lifecycle") {
+        if (local_cap < 8192 || pair_cap < 16384 || tokens < 16) return 180;
+        const std::string main_prompt =
+            "<|im_start|>user\nRemember my private four-digit code: 7358. These are the manager notes.\n";
+        chat manager{"manager", main_prompt.c_str(), nullptr, "0"};
+        const auto main_filler = tokenize_text(vocab,
+            " Manager note: the garden project needs a plan and a final review.\n", false);
+        const auto worker_filler = tokenize_text(vocab,
+            " Worker note: an independent draft records a task result for later review.\n", false);
+        if (main_filler.empty() || worker_filler.empty() ||
+            !add_chat(manager, model, vocab, local_cap, true) ||
+            !decode_raw(manager, manager.next) ||
+            !alternating_turn(manager, vocab, main_filler, "7358", "M0", 512,
+                              tokens, false)) return 181;
+        auto sample_memory = [&](const char * phase) {
+            std::fprintf(stderr, "GPU_MEMORY phase=%s\n", phase);
+            std::fflush(stderr);
+            const int rc = std::system("nvidia-smi --query-gpu=index,memory.used --format=csv,noheader");
+            std::fprintf(stderr, "GPU_MEMORY_DONE phase=%s exit=%d\n", phase, rc);
+            return rc == 0;
+        };
+        if (!sample_memory("baseline")) return 182;
+        const char * names[3] = {"A", "B", "C"};
+        const char * codes[3] = {"4827", "6193", "2046"};
+        const int caps[3] = {8192, 16384, 8192};
+        const int first_depths[3] = {1024, 2048, 1024};
+        const int second_depths[3] = {2048, 4096, 2048};
+        double previous_close_seconds = 0.0;
+        for (int i = 0; i < 3; ++i) {
+            const std::string prompt = std::string("<|im_start|>user\nRemember my private four-digit code: ") +
+                codes[i] + ". These are my separate worker notes.\n";
+            chat worker{names[i], prompt.c_str(), nullptr, "1"};
+            const auto open_start = clock_type::now();
+            if (!add_chat(worker, model, vocab, caps[i], true)) return 183;
+            const double open_seconds = std::chrono::duration<double>(clock_type::now()-open_start).count();
+            std::fprintf(stderr, "WORKER_OPEN name=%s gpu=1 cap=%d seconds=%.6f\n",
+                         worker.name, caps[i], open_seconds);
+            if (i > 0)
+                std::fprintf(stderr, "WORKER_TURNOVER from=%s to=%s close_plus_open_seconds=%.6f\n",
+                             names[i-1], names[i], previous_close_seconds+open_seconds);
+            if (!decode_raw(worker, worker.next) ||
+                !alternating_turn(worker, vocab, worker_filler, codes[i],
+                                  "worker_first", first_depths[i], tokens, false) ||
+                !sample_memory("worker_live")) return 184;
+            if (!alternating_turn(manager, vocab, main_filler, "7358", "M_live",
+                                  1024+i*512, tokens, true) ||
+                !alternating_turn(worker, vocab, worker_filler, codes[i],
+                                  "worker_second", second_depths[i], tokens, true)) return 185;
+            const auto close_start = clock_type::now();
+            destroy(worker);
+            previous_close_seconds = std::chrono::duration<double>(clock_type::now()-close_start).count();
+            std::fprintf(stderr, "WORKER_CLOSE name=%s gpu=1 seconds=%.6f\n",
+                         names[i], previous_close_seconds);
+            if (!sample_memory("worker_closed")) return 186;
+        }
+        if (!alternating_turn(manager, vocab, main_filler, "7358", "M_final",
+                              3072, tokens, true)) return 187;
+        std::fprintf(stderr, "WORKER_LIFECYCLE_DONE workers=3 manager_used=%d\n", manager.used);
+        destroy(manager);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "varied_concurrent_single" ||
         std::string(argv[1]) == "varied_concurrent_ram") {
         const bool ram = std::string(argv[1]) == "varied_concurrent_ram";

@@ -180,7 +180,48 @@ measurements. For a promising oversized candidate, compare placements on the
 same model bytes and conversation trace, with expert-route hit/miss rates and
 physical reads, before attributing a gain to a particular tier.
 
-## Candidate experiments
+## Suggested next tests
+
+This is a menu of capability questions, not a required sequence. Favor a small
+test that exposes a new operation or a surprising boundary before tuning its
+speed. Keep the weight load, chat state, and actual buffer locations separate
+in every receipt.
+
+1. **Worker chat lifecycle on one 1060 (first pass complete).** Keep a 27B
+   model and main chat on GPU0. Open worker A on GPU1, use it for multiple
+   turns, close it, and open worker B with a different code and context
+   capacity on the same card.
+   Repeat once more. Time context creation, cleanup, and the next worker's
+   first useful answer; verify GPU1 memory is reclaimed, the main chat
+   continues correctly, and the model weights load once.
+   This tests serial reuse, not simultaneous serving. The
+   [A → B → C lifecycle run](results/runtime_experiments/model_loading_sequences/qwen27-worker-chat-lifecycle-20261108/README.md)
+   passed with one weight load, correct recalls, 0.15–0.16 second context
+   turnover, and GPU1 returning within 6 MiB of its baseline after each close.
+   Follow with many turnovers and an explicit test that B cannot see A's state.
+2. **Admission and removal across tiers.** With one model load, add and remove
+   chats of different context caps on separate 1060s, a shared 1060, a pair,
+   and RAM. Check whether releasing one chat actually makes capacity available
+   for another without moving the weights or invalidating surviving chats.
+3. **Move, park, and revive a chat.** Prepare on GPU0, restore on a 1060 or in
+   RAM, park to NVMe, and revive on a different tier. Measure transfer and
+   first answer separately; check whether it is a compatible live state or a
+   prefix that must be recomputed. Test a main chat continuing during worker
+   preparation, because temporary GPU0 memory and compute may interfere.
+4. **Larger shared brains.** Try the same lifecycle with a 74B MoE load and
+   its available worker cards, then a viable Strata Q2/Q4 load. Distinguish
+   one model's multiple independent chats from several smaller model loads.
+   Measure main-chat responsiveness, worker correctness, and admission cost.
+5. **Placement and caching.** Use real expert-route traces to compare whole
+   experts, selected hot experts, and row shards on 1060s against RAM and
+   storage misses. A full Strata-plus-1060 worker run needs the unbuilt bridge;
+   use the existing llama.cpp and real-expert controls first.
+6. **Conversation speed curves.** Once the lifecycle and tier operations are
+   mapped, run back-and-forth transcripts that grow through several occupied
+   depths. Report per-turn speed ranges for each working layout, including
+   how concurrent worker chats affect the main chat.
+
+## Model and engine follow-ups
 
 These are promising directions, not a fixed order or a checklist to finish
 before trying a new idea. Use the existing rig lease, guard, cleanup, and
@@ -562,3 +603,15 @@ two 1060s for attention was about 7.4 times slower than local 3090 KV;
 splitting across two 1060s did not improve generation in this run. This is
 one synthetic-history pass, so it does not yet isolate attention compute,
 memory access, host-staged PCIe transfers, and graph synchronization.
+
+The [worker chat lifecycle run](results/runtime_experiments/model_loading_sequences/qwen27-worker-chat-lifecycle-20261108/README.md)
+kept the same 27B weights and a continuing manager chat on GPU0 while three
+worker chats opened and closed sequentially on GPU1. Each worker had a
+different private code and two successful recall turns; the manager recalled
+its own code throughout. Worker context creation took 0.141–0.152 seconds,
+cleanup 0.008–0.009 seconds, and close-plus-next-open 0.152–0.161 seconds.
+GPU1 returned from 261 or 439 MiB while a worker was live to 77 MiB after
+each close, versus 71 MiB before the first worker. This establishes a clean
+serial context lifecycle in the private llama.cpp harness. The first useful
+answer still paid for the new chat's 1K or 2K history fill; repeated worker
+turnover, explicit stale-state exclusion, and API-level overhead remain open.

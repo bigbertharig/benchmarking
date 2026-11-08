@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T22:55:55+00:00",
+  "manifest_sha256": "305e017d03943723d19814a4e7b46315acd51eb8efd0194a18ceddfb833a1160",
+  "run_id": "qwen27-worker-chat-lifecycle-20261108",
+  "stages": {
+    "worker_chat_lifecycle": "passed"
+  },
+  "started_at": "2026-11-08T22:54:48+00:00",
+  "status": "passed"
+}
