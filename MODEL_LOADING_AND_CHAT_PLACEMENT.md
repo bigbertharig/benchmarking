@@ -128,12 +128,20 @@ campaign preflight, not an automatic change to our test conclusions.
 
 | Layout | Evidence | Current limit |
 | --- | --- | --- |
-| Qwen3.6 27B weights on GPU0, chats' KV on 1060s and/or RAM | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md), [27B RAM-KV smoke](results/runtime_experiments/qwen27_ram_kv_20261108/README.md), [mixed-tier chats](results/runtime_experiments/qwen27_mixed_ram_gpu_20261108/README.md) | Private llama.cpp fork; five distinct 1060 chats reached 90% of 256K and passed recall. Separate short-history GPU1 + RAM + GPU2 chats now coexist and decode on one weight load. Deep mixed-tier recall remains open. |
-| Nemotron 74B weights and whole experts on GPU0-3, chats on remaining 1060s | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; the 131K paired chat had short occupied history. Byte-balanced interleaving did not beat contiguous experts. |
+| Qwen3.6 27B weights on GPU0, chats' KV on 1060s and/or RAM | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md), [alternating chats](results/runtime_experiments/model_loading_sequences/qwen27-alternating-tiers-20261108/README.md), [mixed-tier chats](results/runtime_experiments/qwen27_mixed_ram_gpu_20261108/README.md) | Private llama.cpp fork; new chats were added without a second weight load. Five distinct 1060 chats reached 90% of 256K and passed recall; GPU1, RAM, and GPU2 chats also coexisted and decoded. Deep mixed-tier recall and practical admission speed remain open. |
+| Nemotron 74B weights and whole experts on GPU0-4, chat-only GPU5; also a GPU0-3 weight control with GPU4/5 chats | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; two 8K chats and an added third 131K-capacity context ran on one load. The 131K chat had short occupied history. A separate paired 32K chat reached 29,491 occupied tokens. Serial worker turnover on GPU5 and deeper GPU5-only chats remain open. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
 | Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json), [two-chat probe](results/runtime_experiments/model_loading_sequences/strata-q4-two-chat-20261108/q4_two_chat_detail/terminal.json) | Strata 3090/RAM/NVMe served two interleaved chats at 1,044 and 2,964 prompt tokens on one 8K-capacity load. Slots were reserved at launch; deeper occupancy, third chat, and separate KV tiers are open. |
 | Qwen3.8 on BigMoe | [same-file Q4 smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json), [Q2 warm session](results/runtime_experiments/model_loading_sequences/bigmoe-q2-session-20261108/bigmoe_q2_session_detail/terminal.json) | Q4 32K CPU/flash correctness passed. One Q2 CLI session served five correct turns; clearing KV reset live context but retained a warming expert cache. Concurrent independent live KV remains untested. |
+
+**Additive chat admission is established in the private llama.cpp fork.** With
+weights held once, the 27B tests opened distinct chats on separate 1060s, a
+shared 1060, paired 1060s, and RAM at different configured and occupied sizes.
+The Nemotron tests added a third chat while two were already active. This is
+the ability to add independent contexts, not a guarantee that every new chat
+fits or responds quickly. Removing and replacing chats across all tiers has
+only been checked for three sequential 27B workers on one 1060.
 
 Whole-expert placement improved Coder Next and Nemotron decode, while ordinary
 layer splits across slow 1060 links often hurt. [Tiered real-expert probes](results/runtime_experiments/q38_tiered_expert_probe_20261106/README.md)
@@ -199,24 +207,47 @@ in every receipt.
    passed with one weight load, correct recalls, 0.15–0.16 second context
    turnover, and GPU1 returning within 6 MiB of its baseline after each close.
    Follow with many turnovers and an explicit test that B cannot see A's state.
-2. **Admission and removal across tiers.** With one model load, add and remove
-   chats of different context caps on separate 1060s, a shared 1060, a pair,
-   and RAM. Check whether releasing one chat actually makes capacity available
-   for another without moving the weights or invalidating surviving chats.
-3. **Move, park, and revive a chat.** Prepare on GPU0, restore on a 1060 or in
+2. **Nemotron model across cards, worker on the spare 1060.** The 74B MoE
+   baseline already placed weights on GPU0-4 and a chat on GPU5. Two 8K chats
+   and an added 131K-capacity paired chat worked; a separate 32K paired chat
+   reached 29,491 occupied tokens. Next hold the GPU0-4 weight placement,
+   grow a GPU5-only chat to several occupied depths, close it, and start a
+   different GPU5 worker. Check one weight load, correct independent recall,
+   memory reclamation, first useful answer, and per-chat speed. Compare with
+   the GPU0-3 weight layout, which leaves both GPU4 and GPU5 for chats.
+3. **27B per-chat speed and admission optimization.** The GPU0-weight,
+   1060-chat layout has strong capacity and correctness evidence, but a new
+   chat's history fill and deep generation are slow on a 1060. Measure
+   conversation turns at matched occupied depths with one worker, multiple
+   workers, and a GPU0-KV control. Separate context creation, direct 1060
+   prefill, GPU0 preparation plus KV transfer, first answer, and steady decode.
+   Do not extrapolate the 1K worker fill linearly: two directly filled 100K
+   GPU1 chats each took about half an hour as attention cost grew with depth.
+   Test whether GPU0 preparation delays the continuing main chat. The
+   [two-100K handoff](results/runtime_experiments/model_loading_sequences/qwen27-two-100k-handoff-20261108/README.md)
+   cut admission sharply, while the
+   [matched 102K comparison](results/runtime_experiments/model_loading_sequences/qwen27-matched-100k-kv-placement-20261108/README.md)
+   measured 26.73 tok/s on GPU0 KV versus 3.66 tok/s on GPU1 KV; use those as
+   controls before trying placement or transfer optimizations.
+4. **Removal across tiers.** Adding independent chats is established. With
+   one model load, remove and replace chats of different context caps on
+   separate 1060s, a shared 1060, a pair, and RAM. Check whether releasing
+   one chat makes capacity available for another without moving the weights
+   or invalidating surviving chats; probe explicitly for stale state.
+5. **Move, park, and revive a chat.** Prepare on GPU0, restore on a 1060 or in
    RAM, park to NVMe, and revive on a different tier. Measure transfer and
    first answer separately; check whether it is a compatible live state or a
    prefix that must be recomputed. Test a main chat continuing during worker
    preparation, because temporary GPU0 memory and compute may interfere.
-4. **Larger shared brains.** Try the same lifecycle with a 74B MoE load and
-   its available worker cards, then a viable Strata Q2/Q4 load. Distinguish
-   one model's multiple independent chats from several smaller model loads.
-   Measure main-chat responsiveness, worker correctness, and admission cost.
-5. **Placement and caching.** Use real expert-route traces to compare whole
+6. **Strata shared-brain lifecycle.** With a viable Q2/Q4 load, test whether
+   independent chats can open, close, and restart without reloading model
+   state. Record each chat's physical state tier and main-chat responsiveness.
+   This has different runtime semantics from the private llama.cpp fork.
+7. **Placement and caching.** Use real expert-route traces to compare whole
    experts, selected hot experts, and row shards on 1060s against RAM and
    storage misses. A full Strata-plus-1060 worker run needs the unbuilt bridge;
    use the existing llama.cpp and real-expert controls first.
-6. **Conversation speed curves.** Once the lifecycle and tier operations are
+8. **Conversation speed curves.** Once the lifecycle and tier operations are
    mapped, run back-and-forth transcripts that grow through several occupied
    depths. Report per-turn speed ranges for each working layout, including
    how concurrent worker chats affect the main chat.
