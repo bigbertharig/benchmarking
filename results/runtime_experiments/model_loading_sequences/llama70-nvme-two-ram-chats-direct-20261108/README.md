@@ -20,9 +20,11 @@ it is not a controlled cold-storage throughput benchmark. The successful
 checks used for this experiment.
 
 The sequence runner ran directly on the rig after three Manager launch
-attempts exited with SSH code 255 before creating a run folder. The direct
-runner acquired its normal benchmark lease and wrote a passed terminal
-receipt. The ordinary 27B chat profile was restored afterward.
+attempts exited with SSH code 255 before creating a run folder. Those launch
+commands added an unnecessary SSH hop; the documented Manager invocation
+passes the rig-side Python command with the benchmarking repo as its working
+directory. The direct runner acquired its normal benchmark lease and wrote a
+passed terminal receipt. The ordinary 27B chat profile was restored afterward.
 
 Evidence: [`terminal.json`](terminal.json),
 [`llama70_nvme_two_ram_chats.json`](llama70_nvme_two_ram_chats.json), and
