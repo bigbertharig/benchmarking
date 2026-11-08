@@ -160,3 +160,58 @@ limiting allocation is a result.
    Implement a new expert-worker bridge only if the replay predicts a gain and
    a full-model test can verify it. Keep live NVMe-backed KV as a later sparse
    attention experiment after a RAM-backed hot-block cache has passed.
+
+## Reusable experimental sequence
+
+Last night's [KV campaign](results/runtime_experiments/kv_overnight_20261107/README.md)
+ran serialized cases in one Manager job, kept per-case receipts, and reused
+validated cases after an interruption. The reusable version is
+[`campaigns/model_loading_sequence.json`](campaigns/model_loading_sequence.json)
+with [`scripts/integration/run_model_loading_sequence.py`](scripts/integration/run_model_loading_sequence.py).
+It is for experimental engines outside the standard registry-backed suite
+runner described in [CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md). Each stage
+has an explicit command, timeout, expected outputs, and optional GPU set. A
+GPU stage requires a Manager benchmark lease and renews it; the sequence
+refuses an offline/no-lease run. Host `MemAvailable` must remain above 4 GiB.
+The runner writes a log and atomic JSON receipt for every attempted stage,
+plus a terminal summary under
+`results/runtime_experiments/model_loading_sequences/<run-id>/`. Reusing the
+same run ID skips a passed stage only while its expected artifacts still exist
+and the manifest hash matches. It stops at a failure or a declared blocked
+stage, so a partial queue cannot be reported as a successful experiment.
+
+Dry run from the rig (read-only):
+
+```bash
+cd /mnt/shared/plans/shoulders/benchmarking
+python3 scripts/integration/run_model_loading_sequence.py \
+  campaigns/model_loading_sequence.json --run-id q4-sequence-20261108 --check
+```
+
+When the remaining stages have validated commands, launch the rig-side runner
+through `rigctl run-start` on the Pi with the same run ID for recovery:
+
+```bash
+python3 ~/llm-gateway/tools/rigctl.py run-start \
+  --run model-loading-YYYYMMDD --cwd /mnt/shared/plans/shoulders/benchmarking \
+  -- python3 scripts/integration/run_model_loading_sequence.py \
+  campaigns/model_loading_sequence.json --run-id model-loading-YYYYMMDD
+```
+
+The
+first three prepared stages rehash all four Q4 NVMe shards, check free space,
+build the small Q4 Strata pack without `experts.bin`, and request a non-allocating
+Strata plan. The next stage is blocked until a Q4-specific guarded launch and
+validator exist. BigMoeOnEdge,
+multi-chat Strata, matched 27B KV, and expert replay each name their missing
+runner or input in the manifest; these are queued questions, not runnable
+measurements yet. A new manifest revision needs a fresh run ID so a changed
+procedure cannot silently reuse old receipts.
+
+The [read-only Q4 plan](results/runtime_experiments/q4_plan_20261108.json) on
+2026-11-08 found the four local model shards and no
+model download requirement with vision off. It warned that normal sizing does
+not fit this host and reported the Q4 CUDA engine missing. Its exit code 0
+means the plan was produced; it is not a fit or inference pass. The normal
+GPU0 chat load was still active, so the GPU smoke should wait for an available
+managed lease and a guarded Q4-specific runner.
