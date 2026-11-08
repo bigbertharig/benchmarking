@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "name": "q4_32k_matched_baseline",
+  "stages": [
+    {
+      "id": "q4_verify_shards",
+      "state": "ready",
+      "command": ["python3", "scripts/integration/preflight_q4_stage.py", "--quick"],
+      "timeout_s": 300,
+      "outputs": ["/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/q4_quick_preflight.json"]
+    },
+    {
+      "id": "q4_32k_matched",
+      "state": "ready",
+      "gpus": [0],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "command": ["python3", "scripts/integration/run_strata_q4_32k.py", "--output", "results/runtime_experiments/model_loading_sequences/{run_id}/q4_32k_detail"],
+      "timeout_s": 5400,
+      "outputs": ["/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/q4_32k_detail/terminal.json"]
+    }
+  ]
+}

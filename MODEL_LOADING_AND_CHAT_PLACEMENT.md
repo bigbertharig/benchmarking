@@ -247,3 +247,13 @@ its 42 generated tokens decoded at 4.6 tok/s and 68 prompt tokens processed
 at 10.7 tok/s. Launch took 599 seconds, including startup and pack setup.
 These are one short smoke request, not a steady-state speed or 32K result.
 Strata stopped cleanly and the ordinary GPU0 chat service was restored.
+
+The next run uses [the short followup campaign](campaigns/q4_32k_sequence.json)
+so it checks the existing shard receipt, then leases GPU0 for a 32K capacity
+load without repeating pack creation or the 8K smoke. Its fixed requests are
+one short first turn, two same-prompt repeats, and one retrieval prompt with a
+target at 80% of the input records. The generated prompt and per-request
+timing, answer, host/GPU memory and block-I/O snapshots are saved for a later
+same-file loader comparison. The depth prompt occupies less than 32K; this
+stage tests 32K configured capacity and modest occupied depth, not a full
+32K attention stress test.
