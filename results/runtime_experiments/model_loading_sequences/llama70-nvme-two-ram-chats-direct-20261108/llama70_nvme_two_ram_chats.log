@@ -1,0 +1,20 @@
+sched_reserve: reserve took 29.44 ms, sched copies = 1
+ADD name=ram_b pair=- single=-1 cap=32768 prompt=6
+FIRST name=ram_b token=20437 text= Berlin
+BENCH name=ram_a phase=two_ram_chats used=22 tokens=16 seconds=4.448540 tps=3.596686
+BENCH name=ram_b phase=two_ram_chats used=22 tokens=16 seconds=4.495661 tps=3.558987
+PARALLEL phase=two_ram_chats chats=2 tokens_each=16 seconds=4.495899 aggregate_tps=7.117597 ok=1
+~llama_context:      CUDA0 compute buffer size is 165.8289 MiB, matches expectation of 165.8289 MiB
+~llama_context:      CUDA1 compute buffer size is 165.5787 MiB, matches expectation of 165.5787 MiB
+~llama_context:      CUDA2 compute buffer size is 165.5787 MiB, matches expectation of 165.5787 MiB
+~llama_context:      CUDA3 compute buffer size is 165.5787 MiB, matches expectation of 165.5787 MiB
+~llama_context:      CUDA4 compute buffer size is 165.5787 MiB, matches expectation of 165.5787 MiB
+~llama_context:      CUDA5 compute buffer size is 165.5787 MiB, matches expectation of 165.5787 MiB
+~llama_context:  CUDA_Host compute buffer size is   1.5784 MiB, matches expectation of   1.5784 MiB
+~llama_context:      CUDA0 compute buffer size is  42.5789 MiB, matches expectation of  42.5789 MiB
+~llama_context:      CUDA1 compute buffer size is  42.2037 MiB, matches expectation of  42.2037 MiB
+~llama_context:      CUDA2 compute buffer size is  42.2037 MiB, matches expectation of  42.2037 MiB
+~llama_context:      CUDA3 compute buffer size is  42.2037 MiB, matches expectation of  42.2037 MiB
+~llama_context:      CUDA4 compute buffer size is  42.2037 MiB, matches expectation of  42.2037 MiB
+~llama_context:      CUDA5 compute buffer size is  42.2037 MiB, matches expectation of  42.2037 MiB
+~llama_context:  CUDA_Host compute buffer size is   1.2034 MiB, matches expectation of   1.2034 MiB

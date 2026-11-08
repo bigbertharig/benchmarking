@@ -366,4 +366,11 @@ in 4.57 seconds (7.00 aggregate tok/s). These were short prompts and outputs;
 the result proves separate chat-state allocation and concurrent decode on one
 large-model load, not long-history recall. The source GGUF was on shared storage
 for this run, so its 17m53s stage wall time is not an NVMe load benchmark.
-The same GGUF is being staged on the rig NVMe for the next local-load run.
+The [NVMe-path repeat](results/runtime_experiments/model_loading_sequences/llama70-nvme-two-ram-chats-direct-20261108/terminal.json)
+passed with the same GGUF, GPU split, and chat settings in 3m29s stage wall
+time, versus 17m53s for the shared-path run. Concurrent decode was similar:
+7.12 versus 7.00 aggregate tok/s. This is a strong load-path signal, not a
+controlled cold-load ratio: the NVMe file was copied immediately beforehand,
+page cache was not cleared, and both stage times include context setup and
+inference. The new file fully loaded and produced both chats; transfer finished
+successfully and the copy has the expected 42,520,398,816-byte size.

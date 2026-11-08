@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "name": "llama70_nvme_six_gpu_weights_two_ram_chats",
+  "stages": [
+    {
+      "id": "llama70_nvme_two_ram_chats",
+      "state": "ready",
+      "gpus": [0, 1, 2, 3, 4, 5],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_MODEL_DEVICES": "0,1,2,3,4,5",
+        "KV_MODEL_SPLIT": "39,9,9,9,8,7"
+      },
+      "command": ["/bin/bash", "/mnt/shared/experiments/kvpair-20261106/run_matrix.sh", "two_ram_chats", "/data/model-hotset/llama-3.3-70b/Llama-3.3-70B-Instruct-Q4_K_M.gguf", "8192", "32768", "32768", "16", "llama70_nvme_two_ram_chats_20261108"],
+      "timeout_s": 7200,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/llama70_nvme_two_ram_chats_20261108.exit", "/mnt/shared/experiments/kv-matrix-20261107/llama70_nvme_two_ram_chats_20261108.log"]
+    }
+  ]
+}

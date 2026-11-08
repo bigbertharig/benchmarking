@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T06:13:52+00:00",
+  "manifest_sha256": "9418e58ffbae2949a20474a5286dc35c01070360fd3e94f90ca1b850503a302d",
+  "run_id": "llama70-nvme-two-ram-chats-direct-20261108",
+  "stages": {
+    "llama70_nvme_two_ram_chats": "passed"
+  },
+  "started_at": "2026-11-08T06:10:23+00:00",
+  "status": "passed"
+}
