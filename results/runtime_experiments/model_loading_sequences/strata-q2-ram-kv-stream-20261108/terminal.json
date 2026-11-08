@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T07:32:37+00:00",
+  "manifest_sha256": "1b39457cea3cd846b04f1468475f962b397c5b33ec9bd92faa6b79113d5757b6",
+  "run_id": "strata-q2-ram-kv-stream-20261108",
+  "stages": {
+    "q2_ram_kv_stream": "passed"
+  },
+  "started_at": "2026-11-08T07:30:05+00:00",
+  "status": "passed"
+}

@@ -395,3 +395,14 @@ aggregate prefill was about 148 tok/s for either 1060 layout and 292 tok/s for
 RAM KV. No second model load occurred when a chat was added. This is a
 correctness and placement result with artificial histories and brief answers;
 real mixed-content histories and concurrent longer decode remain to test.
+
+The [Strata Q2 RAM-KV streaming probe](results/runtime_experiments/model_loading_sequences/strata-q2-ram-kv-stream-20261108/q2_ram_kv_stream_detail/README.md)
+passed with engine 0.1.56, 64K context, and a live `--kv-resident 32768`
+setting. One 42,084-token prompt recalled its code correctly beyond the VRAM
+resident window. A follow-up resent the history, recalled correctly, and
+reported 42,079 cached tokens with only 38 new prompt tokens processed.
+GPU0 use rose from 23,459 MiB after load to 23,607 MiB after the long prompt.
+This verifies the installed feature path and long-prefix reuse for one chat;
+the receipt does not isolate physical RAM KV bytes or prove multiple long
+conversations. KV growth remains a separate, untested mode with different
+requirements.

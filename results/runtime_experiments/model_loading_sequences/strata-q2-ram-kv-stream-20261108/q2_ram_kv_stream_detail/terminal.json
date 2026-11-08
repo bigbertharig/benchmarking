@@ -1,0 +1,214 @@
+{
+  "after_first": {
+    "block": {
+      "nvme": {
+        "read_bytes": 6732964897792,
+        "write_bytes": 291388907520
+      },
+      "sata": {
+        "read_bytes": 404849338368,
+        "write_bytes": 105339122688
+      }
+    },
+    "gpu_mib": {
+      "0": 23607,
+      "1": 5,
+      "2": 5,
+      "3": 5,
+      "4": 5,
+      "5": 5
+    },
+    "host": {
+      "MemAvailable_kib": 17121840,
+      "SwapFree_kib": 23568544,
+      "SwapTotal_kib": 24127028
+    },
+    "prompt_chars": 168151,
+    "prompt_tokens": 42084
+  },
+  "after_followup": {
+    "block": {
+      "nvme": {
+        "read_bytes": 6732970329088,
+        "write_bytes": 291388907520
+      },
+      "sata": {
+        "read_bytes": 404849338368,
+        "write_bytes": 105339126784
+      }
+    },
+    "gpu_mib": {
+      "0": 23629,
+      "1": 5,
+      "2": 5,
+      "3": 5,
+      "4": 5,
+      "5": 5
+    },
+    "host": {
+      "MemAvailable_kib": 15937920,
+      "SwapFree_kib": 23568548,
+      "SwapTotal_kib": 24127028
+    }
+  },
+  "block_before": {
+    "nvme": {
+      "read_bytes": 6689861485568,
+      "write_bytes": 291388706816
+    },
+    "sata": {
+      "read_bytes": 404835215360,
+      "write_bytes": 105330779136
+    }
+  },
+  "block_final": {
+    "nvme": {
+      "read_bytes": 6733052847104,
+      "write_bytes": 291388907520
+    },
+    "sata": {
+      "read_bytes": 404850423808,
+      "write_bytes": 105339134976
+    }
+  },
+  "context": 65536,
+  "engine_commands": [
+    "/data/bench-staging/strata-v0.2.10/components/engine/0.1.56-linux-x86_64-cuda-cuda13/strata --serve --pack /data/bench-staging/strata-v0.2.10/data/packs/q2_0 --native /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf --ple-gguf /data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00002-of-00002.gguf --expert-profile /data/bench-staging/strata-v0.2.10/control/data/expert-profile.bin --expert-cache auto --prefill auto --spec 4 --max-context 65536 --kv int8 --resident-experts --resident-budget-gib 8 --vram-reserve-mib 768 --kv-resident 32768 "
+  ],
+  "finished_at": "2026-11-08T07:32:35+00:00",
+  "gpu": 0,
+  "gpu_before_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_final_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_loaded_mib": {
+    "0": 23459,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "health": {
+    "api_key": false,
+    "image_generation": false,
+    "images": false,
+    "loaded": true,
+    "max_context": 65536,
+    "model": "qwen3.8-flash-next-q2_0",
+    "service": "strata",
+    "status": "ok"
+  },
+  "host_before": {
+    "MemAvailable_kib": 29862184,
+    "SwapFree_kib": 23568892,
+    "SwapTotal_kib": 24127028
+  },
+  "host_final": {
+    "MemAvailable_kib": 29878484,
+    "SwapFree_kib": 23568552,
+    "SwapTotal_kib": 24127028
+  },
+  "host_loaded": {
+    "MemAvailable_kib": 17881656,
+    "SwapFree_kib": 23568916,
+    "SwapTotal_kib": 24127028
+  },
+  "kv_resident": 32768,
+  "launch_exit": 0,
+  "launch_seconds": 101.154,
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0",
+  "pack": "/data/bench-staging/strata-v0.2.10/data/packs/q2_0",
+  "parallel": 1,
+  "plan": {
+    "download": {
+      "engine_missing": false,
+      "engine_usable": true,
+      "gb": 0,
+      "own_files": true,
+      "parts": [],
+      "text": "Nothing to download: your model files are used where they are."
+    },
+    "ok": true,
+    "warnings": [
+      "With --backend nvidia the engine for NVIDIA cards is used. Nothing is remembered by --plan."
+    ]
+  },
+  "prompt_lines": 2800,
+  "requests": [
+    {
+      "answer": "ORCHID",
+      "correct": true,
+      "expected": "ORCHID",
+      "finish_reason": "stop",
+      "name": "long_first",
+      "timings": {
+        "cache_n": 0,
+        "draft_n": 6,
+        "draft_n_accepted": 2,
+        "predicted_ms": 651.4,
+        "predicted_n": 41,
+        "predicted_per_second": 62.9,
+        "predicted_per_token_ms": 15.888,
+        "prompt_ms": 37725.5,
+        "prompt_n": 42084,
+        "prompt_per_second": 1115.5,
+        "prompt_per_token_ms": 0.896
+      },
+      "usage": {
+        "completion_tokens": 41,
+        "prompt_tokens": 42084,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 42125
+      },
+      "wall_seconds": 38.409
+    },
+    {
+      "answer": "ORCHID",
+      "correct": true,
+      "expected": "ORCHID",
+      "finish_reason": "stop",
+      "name": "long_followup",
+      "timings": {
+        "cache_n": 42079,
+        "draft_n": 2,
+        "draft_n_accepted": 0,
+        "predicted_ms": 340.8,
+        "predicted_n": 28,
+        "predicted_per_second": 82.2,
+        "predicted_per_token_ms": 12.171,
+        "prompt_ms": 786.3,
+        "prompt_n": 38,
+        "prompt_per_second": 48.3,
+        "prompt_per_token_ms": 20.692
+      },
+      "usage": {
+        "completion_tokens": 28,
+        "prompt_tokens": 42117,
+        "prompt_tokens_details": {
+          "cached_tokens": 42079
+        },
+        "total_tokens": 42145
+      },
+      "wall_seconds": 1.14
+    }
+  ],
+  "resident_experts_gib": 8,
+  "started_at": "2026-11-08T07:30:06+00:00",
+  "status": "passed",
+  "stop_exit": 0
+}
