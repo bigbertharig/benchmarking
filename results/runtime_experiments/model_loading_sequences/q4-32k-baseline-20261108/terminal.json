@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-08T03:34:54+00:00",
+  "manifest_sha256": "5f969ae52a36679aafdc8d057b36d82caea8a52e027aa904de5d4f57a3f869bc",
+  "run_id": "q4-32k-baseline-20261108",
+  "stages": {
+    "q4_32k_matched": "passed",
+    "q4_verify_shards": "passed"
+  },
+  "started_at": "2026-11-08T03:28:05+00:00",
+  "status": "passed"
+}

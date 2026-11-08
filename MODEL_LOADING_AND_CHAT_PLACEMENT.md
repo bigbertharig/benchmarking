@@ -257,3 +257,23 @@ timing, answer, host/GPU memory and block-I/O snapshots are saved for a later
 same-file loader comparison. The depth prompt occupies less than 32K; this
 stage tests 32K configured capacity and modest occupied depth, not a full
 32K attention stress test.
+
+The [32K baseline receipt](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json)
+passed on 2026-11-08. The reused pack cut launch time to 131 seconds. GPU0
+used 23,561 MiB when loaded; sampled host `MemAvailable` stayed above
+15,917,564 KiB. The model answered all four requests correctly:
+
+| Request | Prompt tokens | Output tokens | Wall time | Prefill tok/s | Decode tok/s | NVMe read |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| First short | 68 | 42 | 21.4 s | 5.7 | 4.4 | 7.91 GB |
+| Repeat 1 | 68 (63 cached) | 42 | 2.6 s | 22.9 for 5 new tokens | 18.0 | 0.46 GB |
+| Repeat 2 | 68 (63 cached) | 42 | 2.4 s | 22.2 for 5 new tokens | 19.7 | 0.52 GB |
+| Retrieval at 80% of 640 records | 11,597 | 87 | 235.3 s | 54.1 | 4.1 | 99.86 GB |
+
+The block counters include any device activity during each request; no other
+rig workload was scheduled. Strata's [engine log](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/engine.log)
+attributes about 99.9 GB of physical reads to the depth request. Its warning
+reported only 457 MiB VRAM free at one short request start. A 768 MiB VRAM
+reserve or lower batch/context is the next headroom control. The speed gap
+between first and repeated short prompts includes KV reuse, warmed experts and
+page cache; this run does not isolate their individual contributions.

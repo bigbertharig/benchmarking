@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "ORCHID",
+        "reasoning_content": "We need to respond to user: \"Reply with the single word ORCHID. Do not include any other text.\" Need final only ORCHID. Ensure no extra.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794108649,
+  "id": "chatcmpl-7a405b961d6d4038951a26fe",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 63,
+    "draft_n": 8,
+    "draft_n_accepted": 7,
+    "predicted_ms": 2336.0,
+    "predicted_n": 42,
+    "predicted_per_second": 18.0,
+    "predicted_per_token_ms": 55.619,
+    "prompt_ms": 218.2,
+    "prompt_n": 5,
+    "prompt_per_second": 22.9,
+    "prompt_per_token_ms": 43.64
+  },
+  "usage": {
+    "completion_tokens": 42,
+    "prompt_tokens": 68,
+    "prompt_tokens_details": {
+      "cached_tokens": 63
+    },
+    "total_tokens": 110
+  }
+}

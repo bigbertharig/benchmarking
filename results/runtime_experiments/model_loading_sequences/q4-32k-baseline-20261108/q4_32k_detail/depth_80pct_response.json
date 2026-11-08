@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "MARIGOLD",
+        "reasoning_content": "We need answer user's request. User asks: Read records below. What is the garden access word in record 0512? Reply with that single uppercase word.\nWe need inspect record 0512: \"Record 0512: the garden access word is MARIGOLD.\" So answer MARIGOLD. Need final only single uppercase word. Ensure no extra.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794108654,
+  "id": "chatcmpl-9e55a8b9a46241f0a53c5d11",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 50,
+    "draft_n_accepted": 21,
+    "predicted_ms": 21131.0,
+    "predicted_n": 87,
+    "predicted_per_second": 4.1,
+    "predicted_per_token_ms": 242.885,
+    "prompt_ms": 214166.2,
+    "prompt_n": 11597,
+    "prompt_per_second": 54.1,
+    "prompt_per_token_ms": 18.467
+  },
+  "usage": {
+    "completion_tokens": 87,
+    "prompt_tokens": 11597,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 11684
+  }
+}
