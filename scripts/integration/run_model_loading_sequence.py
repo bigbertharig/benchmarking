@@ -64,6 +64,9 @@ def validate(manifest):
             env = stage.get('env', {})
             if not isinstance(env, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in env.items()):
                 raise ValueError(f'{name}: env must be a string map')
+            if 'max_host_drop_gb' in stage and (not isinstance(stage['max_host_drop_gb'], (int, float))
+                                                or stage['max_host_drop_gb'] <= 0):
+                raise ValueError(f'{name}: max_host_drop_gb must be positive')
 
 
 def lease(action, *args):
@@ -84,6 +87,14 @@ def renew_lease(lease_id, owner):
         raise RuntimeError(f'lease renewal failed: {(result.stderr or result.stdout).strip()[-500:]}')
 
 
+def expand_stage(stage, run_id):
+    expanded = dict(stage)
+    for key in ('command', 'outputs', 'absent'):
+        if key in stage:
+            expanded[key] = [value.replace('{run_id}', run_id) for value in stage[key]]
+    return expanded
+
+
 def run_stage(stage, folder, run_id):
     name = stage['id']
     floor = int(stage.get('mem_floor_gib', 4)) * 1048576
@@ -95,7 +106,11 @@ def run_stage(stage, folder, run_id):
     lease_id = ''
     proc = None
     try:
-        if mem_available_kib() < floor:
+        host_before = mem_available_kib()
+        record['host_before_available_kib'] = host_before
+        record['host_min_available_kib'] = host_before
+        max_drop_kib = int(stage.get('max_host_drop_gb', 0) * 1_000_000_000 / 1024)
+        if host_before < floor:
             raise RuntimeError('host memory below floor before start')
         gpus = stage.get('gpus', [])
         if gpus:
@@ -110,8 +125,13 @@ def run_stage(stage, folder, run_id):
             while proc.poll() is None:
                 if time.monotonic() - began > stage['timeout_s']:
                     raise RuntimeError('stage timeout')
-                if gpus and mem_available_kib() < floor:
-                    raise RuntimeError('host memory fell below floor')
+                if gpus:
+                    available = mem_available_kib()
+                    record['host_min_available_kib'] = min(record['host_min_available_kib'], available)
+                    if available < floor:
+                        raise RuntimeError('host memory fell below floor')
+                    if max_drop_kib and host_before - available > max_drop_kib:
+                        raise RuntimeError('host available-memory drop exceeded stage ceiling')
                 if lease_id and time.monotonic() >= next_renew:
                     renew_lease(lease_id, run_id)
                     next_renew = time.monotonic() + 120
@@ -154,12 +174,15 @@ def main():
     ap.add_argument('manifest', type=Path)
     ap.add_argument('--run-id', required=True)
     ap.add_argument('--check', action='store_true', help='show the sequence without creating receipts')
+    ap.add_argument('--through', help='stop successfully after this stage; later queue stages remain pending')
     args = ap.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]*', args.run_id):
         ap.error('unsafe run ID')
     raw = args.manifest.read_bytes()
     manifest = json.loads(raw)
     validate(manifest)
+    if args.through and args.through not in {stage['id'] for stage in manifest['stages']}:
+        ap.error(f'unknown --through stage: {args.through}')
     digest = hashlib.sha256(raw).hexdigest()
     if args.check:
         print(json.dumps({'manifest_sha256': digest, 'stages': [
@@ -185,13 +208,17 @@ def main():
         atomic_json(anchor, {'sha256': digest, 'manifest': str(args.manifest), 'created_at': stamp()})
     summary = {'run_id': args.run_id, 'manifest_sha256': digest, 'started_at': stamp(), 'stages': {}}
     terminal = folder / 'terminal.json'
-    for stage in manifest['stages']:
+    for raw_stage in manifest['stages']:
+        stage = expand_stage(raw_stage, args.run_id)
         name = stage['id']
         existing = folder / f'{name}.json'
         if (existing.exists() and json.loads(existing.read_text()).get('status') == 'passed'
                 and all(Path(p).exists() for p in stage.get('outputs', []))
                 and all(not Path(p).exists() for p in stage.get('absent', []))):
             summary['stages'][name] = 'reused'
+            if name == args.through:
+                summary['status'] = 'completed_to_stage'
+                break
             continue
         if stage['state'] == 'blocked':
             summary['stages'][name] = 'blocked'
@@ -204,12 +231,15 @@ def main():
             summary['status'] = 'failed'
             summary['reason'] = result.get('error') or result.get('release_error')
             break
+        if name == args.through:
+            summary['status'] = 'completed_to_stage'
+            break
     else:
         summary['status'] = 'passed'
     summary['finished_at'] = stamp()
     atomic_json(terminal, summary)
     print(json.dumps(summary, indent=2), flush=True)
-    return 0 if summary['status'] == 'passed' else 1
+    return 0 if summary['status'] in ('passed', 'completed_to_stage') else 1
 
 
 if __name__ == '__main__':
