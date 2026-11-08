@@ -290,3 +290,14 @@ before attempting same-file Q4; it monitors host memory and saves output and
 device-read receipts. The planner reported CUDA1-5 probes ending with signal 6,
 while their Vulkan probes succeeded; a later multi-card BigMoe trial must
 investigate that backend behavior separately.
+
+The [Q2 compatibility smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q2-compat-fixed-20261108/bigmoe_q2_detail/terminal.json)
+passed on the second receipt: BigMoe loaded Qwen3.8 Q2 with an 8 GiB expert
+cache and returned `ORCHID`. Model load took 169 seconds; the 28-token prompt
+prefilled at 1.7 tok/s and the three-token answer decoded at 1.49 tok/s on
+CPU. The CLI reported 532 MiB streamed for those three output tokens and a
+17.3% expert-cache hit rate. This short output is a compatibility check only.
+The [first attempt](results/runtime_experiments/model_loading_sequences/bigmoe-q2-compat-20261108/bigmoe_q2_detail/terminal.json)
+had the same correct model output and exit 0, but the validator misread the
+CLI's echoed prompt and trailing metrics; the parser was corrected before the
+passed repeat. The ordinary GPU0 chat route remained loaded throughout.

@@ -1,0 +1,8 @@
+Reply with the single word ORCHID. Do not include any other text.ORCHID
+
+generation: 3 tokens, 0.675 s/token (1.482 tok/s)
+compute: 38.5% CPU occupancy (1.0396 cpu-s/token over 4 threads), 4.67 major faults/token
+prefill: 28 tokens, 16.508 s (1.7 tok/s) | model load 169.374 s | TTFT 185.882 s
+mode: expert streaming, cache 8192 MiB, dense anon
+moe-stream: read 532.1 MiB (177.36 MiB/token), decode 0.675 s/token (compute 0.240 + cache mgmt 0.000 + flash I/O 0.434 s/token, 408 MiB/s)
+moe-cache: 17.3% hit, resident 6576.0 MiB

@@ -1,0 +1,29 @@
+{
+  "bigmoe_commit": "930b2c9ebd8c2cface6566bd9f11075ac07adfe0",
+  "bigmoe_version": "0.40.1",
+  "command": [
+    "/data/bench-staging/bigmoe-v0.40.1/bmoe-cli",
+    "-m",
+    "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+    "-p",
+    "Reply with the single word ORCHID. Do not include any other text.",
+    "--chatml",
+    "--no-think",
+    "-c",
+    "8192",
+    "-n",
+    "64",
+    "--moe-stream",
+    "--cache-mb",
+    "8192",
+    "--dense-mapped",
+    "token_embd.weight;per_layer_token_embd.weight",
+    "--no-cache-pin",
+    "--gpu-layers",
+    "0"
+  ],
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
+  "role": "CPU/flash correctness gate; not a performance comparison",
+  "started_at": "2026-11-08T04:01:46+00:00",
+  "status": "running"
+}

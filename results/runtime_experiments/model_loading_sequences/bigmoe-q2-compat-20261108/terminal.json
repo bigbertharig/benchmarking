@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-08T04:00:20+00:00",
+  "manifest_sha256": "c97fd74faf60bf1b886ebe377352eea65166a86ecf2f021b5e5ee8d0cf6b6f52",
+  "reason": "exit 1; see bigmoe_q2_smoke.log",
+  "run_id": "bigmoe-q2-compat-20261108",
+  "stages": {
+    "bigmoe_q2_smoke": "failed"
+  },
+  "started_at": "2026-11-08T03:57:06+00:00",
+  "status": "failed"
+}

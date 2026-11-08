@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T04:05:01+00:00",
+  "manifest_sha256": "c97fd74faf60bf1b886ebe377352eea65166a86ecf2f021b5e5ee8d0cf6b6f52",
+  "run_id": "bigmoe-q2-compat-fixed-20261108",
+  "stages": {
+    "bigmoe_q2_smoke": "passed"
+  },
+  "started_at": "2026-11-08T04:01:45+00:00",
+  "status": "passed"
+}

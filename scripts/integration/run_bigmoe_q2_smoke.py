@@ -66,7 +66,11 @@ def main():
         state['stderr_tail'] = (out / 'stderr.txt').read_text(errors='replace')[-1000:]
         if proc.returncode:
             raise RuntimeError(f'BigMoe CLI exited {proc.returncode}')
-        state['correct'] = stdout.strip().splitlines()[-1].strip() == 'ORCHID' if stdout.strip() else False
+        visible = stdout.split('\n\ngeneration:', 1)[0]
+        if visible.startswith(PROMPT):
+            visible = visible[len(PROMPT):]
+        state['visible_answer'] = visible.strip()
+        state['correct'] = state['visible_answer'] == 'ORCHID'
         if not state['correct']:
             raise RuntimeError('Q2 visible answer did not end with ORCHID')
         state['status'] = 'passed'
