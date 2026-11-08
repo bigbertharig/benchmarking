@@ -377,6 +377,19 @@ int main(int argc, char ** argv) {
     const int pair_cap = std::atoi(argv[4]);
     const int single_cap = std::atoi(argv[5]);
     const int tokens = std::atoi(argv[6]);
+    if (std::string(argv[1]) == "two_ram_chats") {
+        chat a{"ram_a", "The capital of Japan is", nullptr, "-1"};
+        chat b{"ram_b", "The capital of Germany is", nullptr, "-1"};
+        if (!add_chat(a, model, vocab, local_cap) ||
+            !decode(a, vocab, true)) return 105;
+        if (!add_chat(b, model, vocab, pair_cap) ||
+            !decode(b, vocab, true)) return 106;
+        if (!parallel_bench(vocab, {&a, &b}, tokens, "two_ram_chats")) return 107;
+        destroy(b);
+        destroy(a);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "mixed_ram_gpu_chats") {
         chat gpu1{"gpu1", "The capital of Japan is", nullptr, "1"};
         chat ram{"ram", "The capital of Germany is", nullptr, "-1"};
