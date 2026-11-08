@@ -406,3 +406,14 @@ This verifies the installed feature path and long-prefix reuse for one chat;
 the receipt does not isolate physical RAM KV bytes or prove multiple long
 conversations. KV growth remains a separate, untested mode with different
 requirements.
+
+The [BigMoe Q2 HTTP server switch probe](results/runtime_experiments/model_loading_sequences/bigmoe-q2-server-switch-20261108/bigmoe_q2_server_switch_detail/README.md)
+passed A → B → A → A with correct separate code words on one CPU/flash model
+load while GPU0's ordinary chat route remained loaded. The server's per-turn
+`n_prompt` values were 23, 23, 48, and 22: reopening A after B reprocessed
+A's full 48-token history, while immediately continuing A processed only a
+22-token suffix. The expert cache stayed warm (cumulative hit rate 17.8% to
+68.0%). This indicates one live KV stream across the HTTP requests and
+recomputation on chat switching, rather than simultaneous resident A/B KV.
+The prompts were short; larger histories or explicit KV state save/restore
+would reveal the switching cost more clearly.

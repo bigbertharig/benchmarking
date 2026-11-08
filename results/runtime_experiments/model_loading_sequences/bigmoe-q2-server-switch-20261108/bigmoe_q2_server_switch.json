@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_bigmoe_q2_server_switch.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/bigmoe-q2-server-switch-20261108/bigmoe_q2_server_switch_detail"
+  ],
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T07:44:24+00:00",
+  "gpus": [],
+  "host_before_available_kib": 29238356,
+  "host_min_available_kib": 29238356,
+  "id": "bigmoe_q2_server_switch",
+  "started_at": "2026-11-08T07:39:44+00:00",
+  "status": "passed",
+  "timeout_s": 2400
+}

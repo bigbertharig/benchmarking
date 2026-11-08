@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T07:44:24+00:00",
+  "manifest_sha256": "2d68366fb7e9c37e825f463baef15ad6509e3524e4f766090ca38b7d870c6aa1",
+  "run_id": "bigmoe-q2-server-switch-20261108",
+  "stages": {
+    "bigmoe_q2_server_switch": "passed"
+  },
+  "started_at": "2026-11-08T07:39:44+00:00",
+  "status": "passed"
+}
