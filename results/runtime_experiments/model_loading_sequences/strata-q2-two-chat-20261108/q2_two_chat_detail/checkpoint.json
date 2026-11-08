@@ -1,0 +1,241 @@
+{
+  "block_before": {
+    "nvme": {
+      "read_bytes": 5994198967296,
+      "write_bytes": 248857579520
+    },
+    "sata": {
+      "read_bytes": 399933782016,
+      "write_bytes": 104688694272
+    }
+  },
+  "concurrent_after": {
+    "block": {
+      "nvme": {
+        "read_bytes": 6029677351936,
+        "write_bytes": 248857673728
+      },
+      "sata": {
+        "read_bytes": 399950243840,
+        "write_bytes": 104694600704
+      }
+    },
+    "gpu_mib": {
+      "0": 23527,
+      "1": 5,
+      "2": 5,
+      "3": 5,
+      "4": 5,
+      "5": 5
+    },
+    "host": {
+      "MemAvailable_kib": 16974516,
+      "SwapFree_kib": 23544912,
+      "SwapTotal_kib": 24127028
+    }
+  },
+  "concurrent_before": {
+    "block": {
+      "nvme": {
+        "read_bytes": 6029222278144,
+        "write_bytes": 248857673728
+      },
+      "sata": {
+        "read_bytes": 399950039040,
+        "write_bytes": 104694232064
+      }
+    },
+    "gpu_mib": {
+      "0": 23447,
+      "1": 5,
+      "2": 5,
+      "3": 5,
+      "4": 5,
+      "5": 5
+    },
+    "host": {
+      "MemAvailable_kib": 17786364,
+      "SwapFree_kib": 23544884,
+      "SwapTotal_kib": 24127028
+    }
+  },
+  "concurrent_wall_seconds": 2.787,
+  "context": 8192,
+  "gpu": 0,
+  "gpu_before_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_loaded_mib": {
+    "0": 23399,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "health": {
+    "api_key": false,
+    "image_generation": false,
+    "images": false,
+    "loaded": true,
+    "max_context": 8192,
+    "model": "qwen3.8-flash-next-q2_0",
+    "service": "strata",
+    "status": "ok"
+  },
+  "host_before": {
+    "MemAvailable_kib": 29887004,
+    "SwapFree_kib": 23545040,
+    "SwapTotal_kib": 24127028
+  },
+  "host_loaded": {
+    "MemAvailable_kib": 18275224,
+    "SwapFree_kib": 23544884,
+    "SwapTotal_kib": 24127028
+  },
+  "launch_exit": 0,
+  "launch_seconds": 99.505,
+  "model": "/data/model-hotset/qwen3.8-flash-next-q2_0",
+  "pack": "/data/bench-staging/strata-v0.2.10/data/packs/q2_0",
+  "parallel": 2,
+  "plan": {
+    "download": {
+      "engine_missing": false,
+      "engine_usable": true,
+      "gb": 0,
+      "own_files": true,
+      "parts": [],
+      "text": "Nothing to download: your model files are used where they are."
+    },
+    "ok": true,
+    "warnings": [
+      "With --backend nvidia the engine for NVIDIA cards is used. Nothing is remembered by --plan."
+    ]
+  },
+  "requests": [
+    {
+      "answer": "ORCHID",
+      "correct": true,
+      "expected": "ORCHID",
+      "finish_reason": "stop",
+      "name": "chat_a_first",
+      "timings": {
+        "cache_n": 0,
+        "draft_n": 14,
+        "draft_n_accepted": 8,
+        "predicted_ms": 1531.4,
+        "predicted_n": 39,
+        "predicted_per_second": 25.5,
+        "predicted_per_token_ms": 39.267,
+        "prompt_ms": 919.9,
+        "prompt_n": 65,
+        "prompt_per_second": 70.7,
+        "prompt_per_token_ms": 14.152
+      },
+      "usage": {
+        "completion_tokens": 39,
+        "prompt_tokens": 65,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 104
+      },
+      "wall_seconds": 2.453
+    },
+    {
+      "answer": "LANTERN",
+      "correct": true,
+      "expected": "LANTERN",
+      "finish_reason": "stop",
+      "name": "chat_b_first",
+      "timings": {
+        "cache_n": 0,
+        "draft_n": 15,
+        "draft_n_accepted": 9,
+        "predicted_ms": 689.2,
+        "predicted_n": 39,
+        "predicted_per_second": 56.6,
+        "predicted_per_token_ms": 17.672,
+        "prompt_ms": 507.3,
+        "prompt_n": 65,
+        "prompt_per_second": 128.1,
+        "prompt_per_token_ms": 7.805
+      },
+      "usage": {
+        "completion_tokens": 39,
+        "prompt_tokens": 65,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 104
+      },
+      "wall_seconds": 1.198
+    },
+    {
+      "answer": "ORCHID",
+      "correct": true,
+      "expected": "ORCHID",
+      "finish_reason": "stop",
+      "name": "chat_a_continue",
+      "timings": {
+        "cache_n": 60,
+        "draft_n": 11,
+        "draft_n_accepted": 1,
+        "predicted_ms": 1663.4,
+        "predicted_n": 57,
+        "predicted_per_second": 34.3,
+        "predicted_per_token_ms": 29.182,
+        "prompt_ms": 342.8,
+        "prompt_n": 31,
+        "prompt_per_second": 90.4,
+        "prompt_per_token_ms": 11.058
+      },
+      "usage": {
+        "completion_tokens": 57,
+        "prompt_tokens": 91,
+        "prompt_tokens_details": {
+          "cached_tokens": 60
+        },
+        "total_tokens": 148
+      },
+      "wall_seconds": 2.776
+    },
+    {
+      "answer": "LANTERN",
+      "correct": true,
+      "expected": "LANTERN",
+      "finish_reason": "stop",
+      "name": "chat_b_continue",
+      "timings": {
+        "cache_n": 60,
+        "draft_n": 0,
+        "draft_n_accepted": 0,
+        "predicted_ms": 1584.3,
+        "predicted_n": 40,
+        "predicted_per_second": 25.2,
+        "predicted_per_token_ms": 39.608,
+        "prompt_ms": 547.5,
+        "prompt_n": 31,
+        "prompt_per_second": 56.6,
+        "prompt_per_token_ms": 17.661
+      },
+      "usage": {
+        "completion_tokens": 40,
+        "prompt_tokens": 91,
+        "prompt_tokens_details": {
+          "cached_tokens": 60
+        },
+        "total_tokens": 131
+      },
+      "wall_seconds": 2.154
+    }
+  ],
+  "resident_experts_gib": 8,
+  "started_at": "2026-11-08T04:21:07+00:00",
+  "status": "running"
+}

@@ -316,3 +316,15 @@ BigMoe's GPU path with Strata's 3090 path. A matched next run should give
 BigMoe CUDA0 prefill, record a longer output, and separate first/warm requests;
 the long 11.6K-token Strata depth prompt would be excessively slow under this
 CPU-only prefill setting.
+
+The [Q2 Strata two-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-two-chat-20261108/q2_two_chat_detail/terminal.json)
+passed with one model load, two 8K configured slots, and a 768 MiB VRAM
+reserve. Chat A returned `ORCHID` and chat B returned `LANTERN`; after both
+first turns, their continuations ran concurrently and each repeated its own
+word. Both continuations reported 60 cached prompt tokens, so the intervening
+chat did not evict their short prefixes. Concurrent wall time was 2.79 seconds
+for 97 generated tokens across the two chats, about 34.8 aggregate tok/s for
+that pair. Loaded GPU0 use was 23,399 MiB, and sampled `MemAvailable` stayed
+above 16,974,800 KiB. The histories were short (91 prompt tokens each); this
+establishes separate short-chat correctness and overlap, not 8K occupancy or
+multi-chat behavior at depth. Three slots are the next fit gate.

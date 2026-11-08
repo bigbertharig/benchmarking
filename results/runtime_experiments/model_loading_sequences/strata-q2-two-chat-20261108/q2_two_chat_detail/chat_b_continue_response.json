@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "LANTERN",
+        "reasoning_content": "We need answer user: \"Repeat your previous answer as one uppercase word.\" Previous answer was LANTERN. Need exactly one uppercase word. Final LANTERN.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794111776,
+  "id": "chatcmpl-e56e83b1c8ee414cb1bf256e",
+  "model": "qwen3.8-flash-next-q2_0",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 60,
+    "draft_n": 0,
+    "draft_n_accepted": 0,
+    "predicted_ms": 1584.3,
+    "predicted_n": 40,
+    "predicted_per_second": 25.2,
+    "predicted_per_token_ms": 39.608,
+    "prompt_ms": 547.5,
+    "prompt_n": 31,
+    "prompt_per_second": 56.6,
+    "prompt_per_token_ms": 17.661
+  },
+  "usage": {
+    "completion_tokens": 40,
+    "prompt_tokens": 91,
+    "prompt_tokens_details": {
+      "cached_tokens": 60
+    },
+    "total_tokens": 131
+  }
+}
