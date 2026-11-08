@@ -277,3 +277,16 @@ reported only 457 MiB VRAM free at one short request start. A 768 MiB VRAM
 reserve or lower batch/context is the next headroom control. The speed gap
 between first and repeated short prompts includes KV reuse, warmed experts and
 page cache; this run does not isolate their individual contributions.
+
+BigMoeOnEdge v0.40.1 (`930b2c9`) was staged from its published Linux CLI and
+CUDA packs, each checked against its release SHA-256. Its
+[Q4 read-only plan](results/runtime_experiments/bigmoe_q4_plan_20261108/terminal.json)
+accepted the exact Q4 shard set and identified 512 experts with top-10 routing
+across 48 blocks. With the storage read probe disabled, it proposed host decode,
+CUDA0 prefill, and a 21,443 MiB expert RAM cache. This is a capacity and
+compatibility plan, not an inference result. The first correctness run uses
+[a bounded 8 GiB cache on the existing Q2 model](campaigns/bigmoe_q2_smoke_sequence.json)
+before attempting same-file Q4; it monitors host memory and saves output and
+device-read receipts. The planner reported CUDA1-5 probes ending with signal 6,
+while their Vulkan probes succeeded; a later multi-card BigMoe trial must
+investigate that backend behavior separately.

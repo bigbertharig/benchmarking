@@ -1,0 +1,69 @@
+ggml_cuda_init: found 6 CUDA devices (Total VRAM: 54441 MiB):
+  Device 0: NVIDIA GeForce RTX 3090 Ti, compute capability 8.6, VMM: yes, VRAM: 24112 MiB
+  Device 1: NVIDIA GeForce GTX 1060 6GB, compute capability 6.1, VMM: yes, VRAM: 6065 MiB
+  Device 2: NVIDIA GeForce GTX 1060 6GB, compute capability 6.1, VMM: yes, VRAM: 6065 MiB
+  Device 3: NVIDIA GeForce GTX 1060 6GB, compute capability 6.1, VMM: yes, VRAM: 6065 MiB
+  Device 4: NVIDIA GeForce GTX 1060 6GB, compute capability 6.1, VMM: yes, VRAM: 6065 MiB
+  Device 5: NVIDIA GeForce GTX 1060 6GB, compute capability 6.1, VMM: yes, VRAM: 6065 MiB
+load_backend: loaded CUDA backend from /data/bench-staging/bigmoe-v0.40.1/libggml-cuda.so
+load_backend: loaded Vulkan backend from /data/bench-staging/bigmoe-v0.40.1/libggml-vulkan.so
+load_backend: loaded CPU backend from /data/bench-staging/bigmoe-v0.40.1/libggml-cpu-haswell.so
+bmoe: memory: phase=auto-probe-begin process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=284.578 compressed_or_swap_mib=0.000 system_available_mib=28908.875
+bmoe: memory: phase=auto-hardware process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=931.641 compressed_or_swap_mib=0.000 system_available_mib=28263.988
+bmoe: memory: phase=auto-device-support process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=953.684 compressed_or_swap_mib=0.000 system_available_mib=27383.434
+bmoe: memory: phase=auto-bandwidth process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=974.422 compressed_or_swap_mib=0.000 system_available_mib=27337.117
+bmoe: memory: phase=auto-device-costs process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=974.422 compressed_or_swap_mib=0.000 system_available_mib=27337.117
+bmoe: memory: phase=auto-storage process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=974.422 compressed_or_swap_mib=0.000 system_available_mib=27337.117
+bmoe: memory: phase=auto-headroom process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=974.422 compressed_or_swap_mib=0.000 system_available_mib=27337.117
+bmoe: memory: phase=auto-probe-end process_footprint_mib=-1.000 process_headroom_mib=-1.000 rss_mib=974.547 compressed_or_swap_mib=0.000 system_available_mib=27337.117
+plan: machine 8 cores, 28908 MiB available of 30739 MiB, 25 GiB/s on this model's matmul
+plan: storage: uncached reads in effect; read rate not probed
+plan: device CUDA0: one token 737 GiB/s (same result), 128 tokens wide 3638 GiB/s (same result); this model's layer: experts 585.9, dense 508.5 GiB/s; crossing 8 us, probed in a process of its own
+plan: device CUDA1: UNUSABLE - its probe ended the process that ran it (signal 6)
+plan: device CUDA2: UNUSABLE - its probe ended the process that ran it (signal 6)
+plan: device CUDA3: UNUSABLE - its probe ended the process that ran it (signal 6)
+plan: device CUDA4: UNUSABLE - its probe ended the process that ran it (signal 6)
+plan: device CUDA5: UNUSABLE - its probe ended the process that ran it (signal 6)
+plan: device Vulkan0: one token 385 GiB/s (same result), 128 tokens wide 1488 GiB/s (same result); this model's layer: experts 330.7, dense 361.3 GiB/s; crossing 35 us, probed in a process of its own
+plan: device Vulkan1: one token 100 GiB/s (same result), 128 tokens wide 225 GiB/s (same result); this model's layer: experts 89.4, dense 87.4 GiB/s; crossing 57 us, probed in a process of its own
+plan: device Vulkan2: one token 106 GiB/s (same result), 128 tokens wide 223 GiB/s (same result); this model's layer: experts 89.5, dense 81.7 GiB/s; crossing 57 us, probed in a process of its own
+plan: device Vulkan3: one token 105 GiB/s (same result), 128 tokens wide 231 GiB/s (same result); this model's layer: experts 89.1, dense 83.7 GiB/s; crossing 57 us, probed in a process of its own
+plan: device Vulkan4: one token 103 GiB/s (same result), 128 tokens wide 224 GiB/s (same result); this model's layer: experts 88.3, dense 84.2 GiB/s; crossing 58 us, probed in a process of its own
+plan: device Vulkan5: one token 106 GiB/s (same result), 128 tokens wide 224 GiB/s (same result); this model's layer: experts 89.1, dense 84.7 GiB/s; crossing 59 us, probed in a process of its own
+plan: device CPU (host): one token 25 GiB/s (same result), 128 tokens wide 88 GiB/s (same result); this model's layer: experts 23.5, dense 24.0 GiB/s; crossing 0 us
+plan: model qwen4exp, 512 experts top-10 over 48 of 48 blocks
+plan:   embedding    28110 MiB,       0 MiB/token  (row-gathered)
+plan:   attention     2135 MiB,    2135 MiB/token
+plan:   dense-ffn      479 MiB,     479 MiB/token
+plan:   experts      73450 MiB,    1434 MiB/token  (streamable)
+plan:   output         644 MiB,     644 MiB/token
+plan:   other         1347 MiB,    1347 MiB/token
+plan: regime dense-oversized
+plan:   token cycle 1434 MiB
+plan:   ubatch         0          [unprobed] what a token of graph width costs in compute buffers was not measured here, so the width is not this plan's to choose; keeping the default
+plan:   placement      none       [unprobed] the capacity fitter was not run, so no layer is placed on a device: everything is on the host
+plan:   regime         dense-oversized [derived] on the host 106166 MiB (dense 32716) against 26050 MiB usable, which is the 28944 MiB this process may hold (estimated from what this machine's compressor is achieving) less a 2894 MiB margin (reclaimed into compressed RAM)
+plan:   extra-offload  none       [policy] the fitter has already placed what fits on the devices - see the placement line above - and placing weights across devices is a capacity problem it solves exactly; this planner owns the tier below it and does not second-guess it
+plan:   experts        host       [derived] this device could compute them on paper - it offers a host buffer and runs the model's own layout - and it still cannot. The streamer rebinds every expert onto memory it reserved itself, which no device was given access to; and a host buffer type would not survive the load anyway, since a mapped model has one substituted for the CPU's. Whether this device can wrap memory a caller already owns - the one opening left - is unprobed. What it advertises is a blanket promise, and a backend whose support is conditional declines to make one while implementing the call anyway, so the absence of a yes decides nothing here
+plan:   dense-weights  anon       [derived] no reclaim-exempt store here, so anonymous buffers are what keeps the dense set off a flash refault (a reclaim then means: reclaimed into compressed RAM)
+plan:   prefill-device CUDA0      [measured] computes this model's matmul 128 tokens wide at 41.2x the host's rate with the same result; its 0 MiB fit with two expert slots, so a layer is read while the one before it computes, and the expert cache gives up 0 MiB for it. Decode stays on the host, and so does the prefill if the device cannot be set up at load. A device's arithmetic is not the host's to the last bit, so the text can differ from a host prefill's: pass an empty --prefill-device to keep the prefill on the host
+plan:   dense-mapped   2 table(s) [derived] the allocation priced the embedding group as mmap (left mapped: the graph gathers rows from it, so a token reads a few KiB of it however large the table is, and residency would buy bytes nothing reads), and the anon policy would otherwise copy its 28110 MiB into memory the ledger did not charge
+plan:   cache-pin      off        [derived] not even one token cycle of the cache can be locked in place here after what is ahead of it, so the cache is ordinary memory and no lock is asked for
+plan:   memory-ledger  26049 MiB  [derived] held 26049 of 26050 MiB holdable, of which locked 0 MiB of 0 MiB lockable: dense 4606, expert cache 21443
+plan:   unmeasured-refault -          [derived] the price of a refault was not measured on this storage, so what a mapped group costs under pressure is unknown and no residency can be justified by avoiding it
+plan:   unmeasured-storage -          [derived] no read rate for this model's expert slice on this storage: the expert lane cannot be priced, so no plan that depends on it will be proposed
+plan:   cache-unpriced 20.9 GiB   [derived] the expert cache was sized from what remains after the dense policy (21443 MiB) rather than from what a hit is worth: this machine's read rate was not measured, so there is no price to rank it against. It is the answer that was available, not the answer that was chosen.
+plan:   moe-stream     on         [derived] neither set fits, so the experts stream and the dense policy degrades with them (a tensor larger than this budget is left mapped rather than made resident)
+plan:   cache-mb       21443      [derived] what the cache is worth out of 26050 MiB usable, ranked against the resident groups by seconds saved per byte of RAM, with what none of them wanted added: 21443 MiB committed in total, of which 21443 MiB is cache, over a floor of 1434 MiB
+plan:   io-threads     4          [unprobed] no read-rate curve for this machine; keeping the default lane count
+plan:   o-direct       on         [measured] uncached reads return correct bytes on this path
+plan:   release-mmap   off        [derived] this run keeps a live pointer into the mapping (a tied head, a draft block, a dense policy that stays mapped, or a table left mapped), so the mapping cannot be released whatever the storage does
+plan:   lossy          off        [policy] no quality budget was given, and a policy that changes the output must never arm itself
+plan:   devices        prefill device only [measured] a device was probed in a process of its own and did not survive it (CUDA1: its probe ended the process that ran it (signal 6); CUDA2: its probe ended the process that ran it (signal 6); CUDA3: its probe ended the process that ran it (signal 6); CUDA4: its probe ended the process that ran it (signal 6); CUDA5: its probe ended the process that ran it (signal 6)): it is kept out of the run, which is the only way the run starts
+plan:   overlap        off        [unprobed] hiding compute behind the reads changes no output and has measured faster, but one machine is not a rule and nothing here predicts where it stops paying: pass --overlap
+plan:   threads        4          [measured] swept over the thread counts this machine has, on a matmul in this model's own quantized format, which is the material that matters: a sweep in F32 can pick a count the quantized kernels are much slower at
+plan:   memory held 26049 of 26050 MiB holdable, locked 0 of 0 MiB lockable
+plan:     dense                  4606 MiB  ordinary
+plan:     expert cache          21443 MiB  ordinary
+plan: reproduce with
+  bmoe-cli -m /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf --ctx-size 32768 --moe-stream --cache-mb 21443 --dense-mapped 'token_embd.weight;per_layer_token_embd.weight' --prefill-device CUDA0 --prefill-best-effort --prefill-slots-on-demand --no-cache-pin
