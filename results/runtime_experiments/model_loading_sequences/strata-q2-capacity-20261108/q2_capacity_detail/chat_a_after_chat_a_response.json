@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "ORCHID",
+        "reasoning_content": "We need answer user's request. Need comply: private code word ORCHID. Reply only uppercase word. Need final only ORCHID.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794113183,
+  "id": "chatcmpl-76d62c03bc4b4b908e64f01d",
+  "model": "qwen3.8-flash-next-q2_0",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 1039,
+    "draft_n": 0,
+    "draft_n_accepted": 0,
+    "predicted_ms": 487.6,
+    "predicted_n": 36,
+    "predicted_per_second": 73.8,
+    "predicted_per_token_ms": 13.544,
+    "prompt_ms": 424.2,
+    "prompt_n": 38,
+    "prompt_per_second": 89.6,
+    "prompt_per_token_ms": 11.163
+  },
+  "usage": {
+    "completion_tokens": 36,
+    "prompt_tokens": 1077,
+    "prompt_tokens_details": {
+      "cached_tokens": 1039
+    },
+    "total_tokens": 1113
+  }
+}

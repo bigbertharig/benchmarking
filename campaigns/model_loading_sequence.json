@@ -47,7 +47,7 @@
     {
       "id": "q2_strata_multichat",
       "state": "blocked",
-      "reason": "Q2 two- and three-chat short-history gates passed. Build a one-load incremental admission runner: grow A, add B/C without model reload, continue all chats, test occupied depth and 32K capacity, and record actual per-chat state residence and any shared slot limit."
+      "reason": "One-load Q2 three-chat admission passed at 1044/2964/5844 prompt tokens, with slots reserved at launch. Next probe near-8K occupied depth, 32K slots, mixed per-chat limits if supported, actual KV residence, and the first fit failure."
     },
     {
       "id": "qwen27_kv_crossover",

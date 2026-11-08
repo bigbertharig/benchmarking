@@ -151,12 +151,12 @@ the first failed fit with its exact allocation reason. Retain timing and I/O
 observations without using them to choose the next layout.
 
 1. **Q2 Strata incremental chats.** Reuse the working GPU/RAM/NVMe model
-   placement. The short-history one-, two-, and three-chat 8K gates have
-   passed. Grow A's history, add B, continue A, grow B, add C, and continue A
-   and B. Try 8K and 32K configured limits; test different per-chat limits if
-   the runtime supports them. Record the number of occupied tokens at every
-   step and the first fit failure. Determine whether the runtime allocates
-   chat KV separately or reserves a common per-slot pool at launch.
+   placement. The short-history one-, two-, and three-chat gates and a
+   three-chat probe at 1K/3K/5.8K occupied prompt sizes have passed. Next grow
+   selected histories toward the 8K configured limit, then try 32K slots and
+   different per-chat limits if the runtime supports them. Record the first
+   fit failure and determine whether the runtime allocates chat KV separately;
+   the current runner reserves all slots at launch.
 2. **27B model on GPU0, chats on 1060s or RAM.** Hold the existing private-fork
    model load fixed. Admit one chat on a 1060, then another on a different 1060,
    then additional chats until a fit limit; continue all earlier chats after
@@ -356,3 +356,17 @@ versus 2.79 seconds and 34.8 aggregate tok/s for two chats. Loaded GPU0 use
 was again 23,399 MiB; sampled host `MemAvailable` stayed above 16,615,704 KiB.
 This is one short-history run per slot count. Occupied 8K histories, 32K
 capacity, mixed chat sizes, and physical chat-state placement remain untested.
+
+The [incremental Q2 capacity probe](results/runtime_experiments/model_loading_sequences/strata-q2-capacity-20261108/q2_capacity_detail/terminal.json)
+then passed with one Strata Q2 model load and three slots reserved at launch.
+Chat A opened with 1,044 prompt tokens, B with 2,964, and C with 5,844. After
+each admission, every open chat correctly recalled its distinct private code
+word. The final continuations reported 1,072, 2,992, and 5,839 cached prompt
+tokens respectively. GPU0 use was 23,399 MiB just after load and 23,555 MiB
+after each admission; sampled host `MemAvailable` was 17,002,072 KiB after C.
+The model stopped cleanly. This demonstrates correctness and prefix reuse at
+three different occupied sizes on one model load. Each API request resent its
+chat history, the slots were reserved before the first chat, and this receipt
+does not locate the underlying KV buffers. Dynamic slot allocation, separate
+chat-state tiers, an occupied 8K limit, 32K slots, and an N+1 fit boundary
+remain open.

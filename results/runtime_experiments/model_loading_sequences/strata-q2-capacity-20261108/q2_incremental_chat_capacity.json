@@ -1,0 +1,20 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q2_capacity.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/strata-q2-capacity-20261108/q2_capacity_detail"
+  ],
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-08T04:46:40+00:00",
+  "gpus": [
+    0
+  ],
+  "host_before_available_kib": 29952040,
+  "host_min_available_kib": 16840608,
+  "id": "q2_incremental_chat_capacity",
+  "started_at": "2026-11-08T04:44:20+00:00",
+  "status": "passed",
+  "timeout_s": 3000
+}

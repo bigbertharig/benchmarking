@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "LANTERN",
+        "reasoning_content": "We need answer user's request. Need produce final only uppercase word. Private code word given LANTERN. Need only that.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794113195,
+  "id": "chatcmpl-d2500dec00944b4484b7cbb9",
+  "model": "qwen3.8-flash-next-q2_0",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 2992,
+    "draft_n": 0,
+    "draft_n_accepted": 0,
+    "predicted_ms": 331.4,
+    "predicted_n": 33,
+    "predicted_per_second": 99.6,
+    "predicted_per_token_ms": 10.042,
+    "prompt_ms": 135.0,
+    "prompt_n": 5,
+    "prompt_per_second": 37.0,
+    "prompt_per_token_ms": 27.0
+  },
+  "usage": {
+    "completion_tokens": 33,
+    "prompt_tokens": 2997,
+    "prompt_tokens_details": {
+      "cached_tokens": 2992
+    },
+    "total_tokens": 3030
+  }
+}

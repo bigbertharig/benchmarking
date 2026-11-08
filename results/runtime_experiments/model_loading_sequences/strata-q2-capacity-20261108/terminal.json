@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-08T04:46:40+00:00",
+  "manifest_sha256": "c0b37798477362f962060cba6e7c2ff241700c795b8a49ff8ba03b8e8d772faf",
+  "run_id": "strata-q2-capacity-20261108",
+  "stages": {
+    "q2_incremental_chat_capacity": "passed"
+  },
+  "started_at": "2026-11-08T04:44:20+00:00",
+  "status": "passed"
+}

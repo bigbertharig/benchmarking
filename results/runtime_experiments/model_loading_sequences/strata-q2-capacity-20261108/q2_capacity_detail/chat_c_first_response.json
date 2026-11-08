@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "SAPPHIRE",
+        "reasoning_content": "We need answer user's request. Need produce final only uppercase word. User says private code word SAPPHIRE. Need reply only that uppercase word. Ensure no extra.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794113189,
+  "id": "chatcmpl-daae06a2fc90459fba0e7487",
+  "model": "qwen3.8-flash-next-q2_0",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 0,
+    "draft_n_accepted": 0,
+    "predicted_ms": 455.1,
+    "predicted_n": 42,
+    "predicted_per_second": 92.3,
+    "predicted_per_token_ms": 10.836,
+    "prompt_ms": 5061.8,
+    "prompt_n": 5844,
+    "prompt_per_second": 1154.5,
+    "prompt_per_token_ms": 0.866
+  },
+  "usage": {
+    "completion_tokens": 42,
+    "prompt_tokens": 5844,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5886
+  }
+}
