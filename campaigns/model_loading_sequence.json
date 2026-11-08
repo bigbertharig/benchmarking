@@ -45,24 +45,29 @@
       "outputs": ["/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/q4_32k_detail/terminal.json"]
     },
     {
-      "id": "bigmoe_same_file",
-      "state": "blocked",
-      "reason": "BigMoe Q2 and same-file Q4 CPU/flash correctness passed; the matched CUDA0-prefill, longer-output and warm-request runner remains to be built."
-    },
-    {
       "id": "q2_strata_multichat",
       "state": "blocked",
-      "reason": "Q2 two- and three-chat short-history 8K-capacity gates passed; occupied-depth retention and 32K remain to be tested."
+      "reason": "Q2 two- and three-chat short-history gates passed. Build a one-load incremental admission runner: grow A, add B/C without model reload, continue all chats, test occupied depth and 32K capacity, and record actual per-chat state residence and any shared slot limit."
     },
     {
       "id": "qwen27_kv_crossover",
       "state": "blocked",
-      "reason": "Requires a matched 32K local/1060/paired/RAM case runner; last night's 256K worker test is a different matrix."
+      "reason": "Build a fixed-weights GPU0 runner that admits chats incrementally onto distinct 1060s, paired 1060s, and RAM where supported. Verify old chats after each addition, actual KV residence, and the first capacity failure."
+    },
+    {
+      "id": "q4_strata_multichat",
+      "state": "blocked",
+      "reason": "Q4 32K single-chat fit passed. Adapt the incremental admission runner for a second and third chat on the same model load under the existing GPU and host-memory guards."
+    },
+    {
+      "id": "bigmoe_same_file",
+      "state": "blocked",
+      "reason": "BigMoe Q2 and same-file Q4 CPU/flash correctness passed. Determine whether the server retains one model load across independently admitted chats and exposes verifiable per-chat state residence before a capacity runner is built."
     },
     {
       "id": "expert_hotness_replay",
       "state": "blocked",
-      "reason": "Requires routed expert traces and calibrated per-tier replay inputs."
+      "reason": "Deferred speed-optimization work; requires routed expert traces and calibrated per-tier replay inputs after incremental chat-capacity gates."
     }
   ]
 }

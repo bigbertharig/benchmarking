@@ -1,10 +1,38 @@
 # Model loading and chat placement
 
-This is the entry point for experiments that place one shared model and multiple
-independent chats across the RTX 3090 Ti, five GTX 1060s, host RAM, and local
-storage. The aim is to keep frequently used computation and state on the fastest
-practical device while using slower tiers for capacity. A larger configured
-context is useful only when occupied-depth recall and speed have been measured.
+This is the entry point for proof-of-concept experiments that place one shared
+model and multiple independent chats across the RTX 3090 Ti, five GTX 1060s,
+host RAM, and local storage. The current question is **what fits**: hold the
+model placement fixed, then admit additional chats of increasing size without
+reloading or moving the model. Record throughput as a diagnostic, but do not
+select or optimize layouts by speed in this phase. A configured context is a
+capacity claim; occupied history, correct continuation, and actual state
+residence must be demonstrated separately.
+
+## Current proof-of-concept gate
+
+For each layout, load the model once and record the weight, expert, and shared
+workspace tiers. Open chat A, then add B, C, and later chats while A remains
+available. Give each chat a distinct marker and history, continue earlier chats
+after each admission, and verify that neither their history nor their state
+leaks between chats. Grow occupied history in steps and report the requested
+and observed capacity **for each chat**, not just a server-wide context limit.
+Where the engine only supports one context size for all slots, record that
+limitation instead of claiming mixed-size chats.
+
+At each admission, record where the new chat's live KV and other per-chat state
+actually reside, GPU/host memory and storage use, whether model buffers moved
+or reloaded, and the first failed admission with its allocation reason. Test
+parking and restoring a chat separately from live chat placement. The useful
+result is a layout and a reproducible capacity boundary: one model load plus N
+independent chats at stated occupied sizes. Correctness and fit are gates;
+prefill, decode, and I/O timings remain in receipts for later optimization.
+
+One loaded engine serving several sessions proves **logical separation** of
+model and chat. **Physical separation** requires evidence that chat state
+lives on a different GPU, in RAM, or in storage while model placement stays
+fixed. The Q2 Strata three-chat result proves the former for short histories;
+it does not yet prove the latter.
 
 ## Ownership and operating contract
 
@@ -14,16 +42,18 @@ Benchmarking owns measurements, raw receipts, and the passive
 documents import and promotion. Manager owns the lookup from a supported recipe
 ID to a known load procedure, resource leases, fit checks, launch, and observed
 ready state. The rig executes that procedure. Harnesses and use cases request a
-model, context, number of chats, and a preference such as latency or capacity;
-they do not select cards, tensor overrides, cache files, or storage paths.
+model, then open or add chats with stated capacity needs; they do not select
+cards, tensor overrides, cache files, or storage paths. Manager applies a
+known model procedure and admits chats within its measured resource envelope.
 
-Manager should keep four choices at most for a model: fastest single chat,
-balanced concurrent chats, largest validated per-chat context, and largest
-validated model fit. A choice is offered only when its complete procedure is
-implemented and measured for the requested context and hardware. A request
-that does not fit returns a reason; Manager does not silently shrink context or
-substitute a slower recipe. The ready response must report actual context,
-chat capacity, placement ID, and measured versus estimated performance basis.
+Manager should keep a small lookup of validated model load procedures and their
+chat admission envelopes. During this proof-of-concept phase, a choice is
+offered only when its complete procedure is implemented and its claimed model
+fit, chat count, per-chat context, and correctness have been demonstrated. A
+request that does not fit returns a reason; Manager does not silently shrink
+context or substitute a different recipe. The ready response must report the
+model placement ID, actual per-chat capacity and placement, and whether each
+claim is measured or estimated.
 
 The existing registry and importer already pass named model profiles to Manager.
 The recipe handoff added here is **passive**: schema v1 permits `research` and
@@ -74,7 +104,7 @@ campaign preflight, not an automatic update to a Manager recipe.
 | Qwen3.6 27B weights on GPU0, separate chats' KV and attention on GPUs1-5 | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [concurrent matrix](results/runtime_experiments/kv_local_worker_matrix_20261107/README.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Private llama.cpp fork, no Manager serving profile; 27B deep-chat decode slows sharply at 90% occupancy. |
 | Nemotron 74B weights and whole experts on GPU0-3, chats on remaining 1060s | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md) | Private fork; the 131K paired chat had short occupied history. Byte-balanced interleaving did not beat contiguous experts. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
-| Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | One loaded model served three distinct short chats; no occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
+| Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
 | Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json) | Strata 3090/RAM/NVMe answered all four 32K-capacity requests; repeat runs, full-depth occupancy, and multi-chat tests pending. |
 | Qwen3.8 Q4 on BigMoe | [same-file smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json) | 32K capacity CPU/flash correctness passed; GPU placement and matched throughput remain untested. |
 
@@ -105,62 +135,50 @@ access in these probes, so account for host-staged transfers and synchronization
    managed recipe. Test full request routing, concurrent admission, cancel,
    unload, failure cleanup, and fallback refusal before exposing it to harnesses.
 
-The next capacity gate is Q4 Strata on the staged verified shards, followed by
-a matched BigMoeOnEdge control if that engine accepts the same GGUF. The next
-multi-chat gate is a managed version of the 27B GPU0/1060 KV layout. Real
-routing traces should decide whether expert-granularity 1060 caching repays
-transfer cost before building a Strata-plus-worker bridge.
+The next gate is incremental chat admission on a fixed model load, first in the
+already working Q2 Strata layout and then in the 27B GPU0/1060 KV layout to
+prove physical separation. Q4 Strata and larger model layouts follow as fit
+experiments. Matched throughput comparisons, expert-hotness replay, and a
+Strata-plus-worker bridge are later optimization work.
 
 ## Next test queue
 
-Run these as separate managed benchmark runs with fresh terminal receipts and
-the existing rig lease, guard, and cleanup path. Keep load-to-ready, prefill,
-decode, and total wall time separate. For chat tests report both configured
-capacity and occupied tokens, per-chat latency, aggregate throughput, recall,
-GPU/host allocation, and physical storage reads. A failed fit with its exact
-limiting allocation is a result.
+Run each case with a fresh terminal receipt and the existing rig lease, guard,
+and cleanup path. Report one model load identity; model and chat buffer
+residence before and after each admission; configured and occupied tokens per
+chat; correct continuation of every earlier chat; memory and storage use; and
+the first failed fit with its exact allocation reason. Retain timing and I/O
+observations without using them to choose the next layout.
 
-1. **Qwen3.8 Q4 capacity gate (first).** Follow
-   [the Q4 execution plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md#resume-here-q4-strata-and-expert-placement):
-   reuse the verified four-shard receipt if file metadata is unchanged and check free NVMe space, build the small Strata runtime
-   pack without an `experts.bin` duplicate, run the non-allocating plan, then
-   attempt a guarded 3090 + 8 GiB resident-expert + NVMe load. Begin at 8K
-   for a functional request; move to matched 32K short and depth prompts only
-   after the first fit. Record whether the 26 GB decimal new-host-allocation
-   ceiling and 4 GiB `MemAvailable` floor hold throughout. This answers whether
-   the staged 111.3 GB Q4 actually runs on this rig before optimizing it.
-2. **Same-file BigMoeOnEdge control.** Start with a read-only plan and a Q2
-   compatibility smoke, then test the *same verified Q4 shards* and 32K
-   requests used in test 1 if its model/loader supports them. Compare one cold
-   request, two warm repeats, and a distinct-prompt request; use identical
-   output caps and record GPU cache hits, RAM, physical NVMe reads, and answer
-   correctness. A plan refusal or unsupported Qwen3.8 layout is a compatibility
-   result. Do not compare its published speeds from other machines with ours.
-3. **One Qwen3.8 model, several chats.** On the already working Q2 Strata
-   placement, test one, two, then three independent 8K chats on one load.
-   Measure correct first turns, separate continuations, prefix retention,
-   aggregate versus per-chat tokens/s, and whether the engine actually runs
-   them concurrently. Repeat at 32K only if the small gate passes. This tells
-   us whether a large model can share one weight load before adding custom KV
-   placement. Later repeat with Q4 only if test 1 fits and resources allow it.
-4. **Matched 27B chat-state crossover.** Keep the Qwen3.6 27B weights on the
-   3090 and compare local Q4 KV, one 1060 per chat, paired 1060s, and host-RAM
-   Q4 KV. Begin with identical distinct histories at a common 32K configured
-   capacity and 10%, 50%, and 90% occupied depth. Test one chat on every
-   fitting layout; then five concurrent chats on layouts with capacity for
-   five, and two paired chats on GPUs1-4. Run a separate 256K capacity/depth
-   comparison only on layouts that fit it safely. Include GPU0 prefill and
-   state-transfer time alongside continuation speed. This identifies where
-   each state tier becomes too slow, rather than selecting from configured
-   context size alone. Any host-RAM 27B variant requires a new validated run;
-   existing 1.7B/70B RAM results are not its baseline.
-5. **Expert hotness and link-cost replay.** Capture real routed expert IDs for
-   Nemotron and Qwen3.8, then replay fixed 3090, 1060, RAM, and NVMe budgets.
-   Compare contiguous whole tensors, hot whole tensors, and a hypothetical
-   finer-grained cache using measured 1060 transport and storage-miss costs.
-   Implement a new expert-worker bridge only if the replay predicts a gain and
-   a full-model test can verify it. Keep live NVMe-backed KV as a later sparse
-   attention experiment after a RAM-backed hot-block cache has passed.
+1. **Q2 Strata incremental chats.** Reuse the working GPU/RAM/NVMe model
+   placement. The short-history one-, two-, and three-chat 8K gates have
+   passed. Grow A's history, add B, continue A, grow B, add C, and continue A
+   and B. Try 8K and 32K configured limits; test different per-chat limits if
+   the runtime supports them. Record the number of occupied tokens at every
+   step and the first fit failure. Determine whether the runtime allocates
+   chat KV separately or reserves a common per-slot pool at launch.
+2. **27B model on GPU0, chats on 1060s or RAM.** Hold the existing private-fork
+   model load fixed. Admit one chat on a 1060, then another on a different 1060,
+   then additional chats until a fit limit; continue all earlier chats after
+   each addition. Repeat with paired 1060s and host-RAM KV where supported.
+   Start at a modest occupied history, then grow selected chats toward their
+   configured limits. This is the clearest near-term proof of physical model
+   and chat separation. Do not infer the 27B host-RAM result from other models.
+3. **Q4 Strata incremental chats.** The staged Q4 model already passed its
+   32K-capacity single-chat baseline. Attempt a second and third chat on the
+   same load within the established host and GPU guards. Vary occupied size,
+   check whether model buffers stay resident, and record any admission limit.
+4. **Larger model fit.** Revisit the 70B six-GPU/RAM-KV and Nemotron 74B
+   expert/chat-split layouts with the same incremental admission method. Then
+   try a 120B Strata-like weight hierarchy only after its single-chat fit and
+   chat-state mechanism are explicit. A storage-backed parked chat is a
+   separate proof from storage-backed live KV.
+5. **BigMoeOnEdge chat capacity.** Q2 and same-file Q4 CPU/flash correctness
+   already passed. Investigate whether its server can retain one model load
+   while adding independent chats, and where it allocates each chat's state.
+   Run an admission test only if the server exposes a repeatable way to verify
+   those conditions. Matched GPU throughput, expert-hotness replay, and new
+   cache algorithms remain later work.
 
 ## Reusable experimental sequence
 
@@ -202,13 +220,11 @@ python3 ~/llm-gateway/tools/rigctl.py run-start \
 The first stage now reuses the full SHA-256 receipt when each shard still has
 the verified size, digest in the manifest, and unchanged modification/change
 timestamps. The full read is needed only after a shard or its metadata changes.
-The next stages check free space, build the small Q4 Strata pack without
-`experts.bin`, and request a non-allocating Strata plan. The guarded 8K smoke
-is ready and passed once. BigMoeOnEdge,
-multi-chat Strata, matched 27B KV, and expert replay each name their missing
-runner or input in the manifest; these are queued questions, not runnable
-measurements yet. A new manifest revision needs a fresh run ID so a changed
-procedure cannot silently reuse old receipts.
+The preparation, guarded Q4 8K smoke, and Q4 32K single-chat baseline have
+passed. The manifest lists the missing incremental-chat runners in
+capacity-first order after those completed stages. Its blocked entries are
+queued questions, not runnable measurements. A new manifest revision needs a
+fresh run ID so a changed procedure cannot silently reuse old receipts.
 
 The first managed run, `model-loading-q4-prep-20261108`, finished the shard
 verification, pack build and plan stages. Its
@@ -249,7 +265,7 @@ at 10.7 tok/s. Launch took 599 seconds, including startup and pack setup.
 These are one short smoke request, not a steady-state speed or 32K result.
 Strata stopped cleanly and the ordinary GPU0 chat service was restored.
 
-The next run uses [the short followup campaign](campaigns/q4_32k_sequence.json)
+The completed followup used [the short campaign](campaigns/q4_32k_sequence.json)
 so it checks the existing shard receipt, then leases GPU0 for a 32K capacity
 load without repeating pack creation or the 8K smoke. Its fixed requests are
 one short first turn, two same-prompt repeats, and one retrieval prompt with a
@@ -312,10 +328,11 @@ rate, and 2,690 evictions. Whole-run NVMe counters increased by 138.69 GB;
 this includes model loading and request activity. `MemAvailable` stayed above
 13,470,284 KiB, and GPU0 remained with the ordinary chat model. This proves
 same-file compatibility under a safe CPU/flash placement. It does not compare
-BigMoe's GPU path with Strata's 3090 path. A matched next run should give
-BigMoe CUDA0 prefill, record a longer output, and separate first/warm requests;
-the long 11.6K-token Strata depth prompt would be excessively slow under this
-CPU-only prefill setting.
+BigMoe's GPU path with Strata's 3090 path. A later speed-comparison run could
+give BigMoe CUDA0 prefill and separate first/warm requests; the current
+priority is its ability to admit independent chats on one model load. The long
+11.6K-token Strata depth prompt would be excessively slow under this CPU-only
+prefill setting.
 
 The [Q2 Strata two-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-two-chat-20261108/q2_two_chat_detail/terminal.json)
 passed with one model load, two 8K configured slots, and a 768 MiB VRAM
@@ -337,5 +354,5 @@ continuations reported 60 cached prompt tokens. The concurrent turn took
 3.60 seconds for 160 generated tokens in total, about 44.4 aggregate tok/s,
 versus 2.79 seconds and 34.8 aggregate tok/s for two chats. Loaded GPU0 use
 was again 23,399 MiB; sampled host `MemAvailable` stayed above 16,615,704 KiB.
-This is one short-history run per slot count. The higher aggregate rate is
-promising, but occupied 8K histories and 32K capacity remain untested.
+This is one short-history run per slot count. Occupied 8K histories, 32K
+capacity, mixed chat sizes, and physical chat-state placement remain untested.
