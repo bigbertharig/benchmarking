@@ -841,6 +841,29 @@ Smaller KV state therefore reduces worker memory and handoff bytes, but does
 not directly speed GPU0 prefill. This replay does not yet cover alternating
 conversation turns.
 
+A [Q4_1 CUDA fusion A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-q41-fusion-16k32k50k-20261109/README.md)
+held the worker cache and histories fixed while disabling runtime operation
+fusion. Worker speed fell about 8.5%/5.5%/2.7% at occupied 16K/32K/50K,
+with close default runs before and after. Some fused work in the model-plus-
+worker path therefore matters, particularly at short history; the smaller
+effect at 50K is consistent with growing attention/KV work on GPU1. This is
+an inference from the matched speed trend, not a GPU or kernel attribution.
+The next local knob to
+probe is worker decode microbatch configuration, while keeping the same
+Q4_1 checkpoints and full worker reservation. The resulting
+[microbatch sweep](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-q41-ubatch-16k32k50k-20261109/README.md)
+found all tested worker `n_ubatch` values (1, 8, 32, 64) within roughly 3%
+at these depths, so this is not yet a useful single-token decode knob. The
+small 32K/50K advantage for `n_ubatch=1` needs a repeat before adoption.
+
+The [CUDA graph optimization A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-q41-graph-opt-16k32k50k-20261109/README.md)
+changed Q4_1 worker decode by less than 1% at 16K/32K/50K. This is not a
+useful tuning knob in the current layout. CUDA graphs are disabled on Pascal
+1060s by this backend, limiting the meaning of the GPU0 option for worker
+attention. The next worthwhile speed work should measure the 1060 attention
+and KV kernels more directly and test an explicit change to that path, while
+keeping end-to-end chat preparation and transfer time visible.
+
 Near-term tests stay at occupied **16K, 32K, and 50K** on a 262K-cap worker.
 Use 100K only when a short result merits a targeted slope check. Do not run
 every format or placement through 150K/200K yet. Measure each change against

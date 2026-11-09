@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T05:16:04+00:00",
+  "manifest_sha256": "f750f7356c84c7f15cf2fc7e24b6d38a76f2258d22b4a87e196045e497818422",
+  "run_id": "qwen35-moe-worker-q41-graph-opt-16k32k50k-20261109",
+  "stages": {
+    "graph_default_after": "passed",
+    "graph_default_before": "passed",
+    "graph_opt": "passed"
+  },
+  "started_at": "2026-11-09T05:15:10+00:00",
+  "status": "passed"
+}

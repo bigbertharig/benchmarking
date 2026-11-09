@@ -36,12 +36,20 @@ nvidia-smi --query-gpu=timestamp,index,memory.used,utilization.gpu --format=csv,
 sampler=$!
 nvidia-smi dmon -s t -d 1 > "$base/$label.pcie.txt" 2>&1 &
 pcie_sampler=$!
+if [ "${KV_SAMPLE_DETAIL-}" = 1 ]; then
+  nvidia-smi --query-gpu=timestamp,index,utilization.gpu,utilization.memory,clocks.sm,power.draw,pcie.link.gen.current,pcie.link.width.current --format=csv,noheader -l 1 > "$base/$label.gpu_detail.csv" 2>&1 &
+  detail_sampler=$!
+fi
 finish_run() {
   rc=$?
   trap - EXIT TERM INT
   kill "$sampler" "$pcie_sampler" 2>/dev/null || true
   wait "$sampler" 2>/dev/null || true
   wait "$pcie_sampler" 2>/dev/null || true
+  if [ -n "${detail_sampler-}" ]; then
+    kill "$detail_sampler" 2>/dev/null || true
+    wait "$detail_sampler" 2>/dev/null || true
+  fi
   date -u +%FT%TZ > "$base/$label.finish"
   echo "$rc" > "$base/$label.exit"
   if [ -f "$base/$label.log" ]; then tail -20 "$base/$label.log"; fi
@@ -57,6 +65,9 @@ docker run --rm --gpus all --network none \
   -e "KV_REPLAY_CHAT_GPUS=${KV_REPLAY_CHAT_GPUS-}" \
   -e "KV_KV_TYPE=${KV_KV_TYPE-}" \
   -e "KV_K_TYPE=${KV_K_TYPE-}" -e "KV_V_TYPE=${KV_V_TYPE-}" \
+  -e "KV_WORKER_UBATCH=${KV_WORKER_UBATCH-}" \
+  -e "GGML_CUDA_DISABLE_FUSION=${GGML_CUDA_DISABLE_FUSION-}" \
+  -e "GGML_CUDA_GRAPH_OPT=${GGML_CUDA_GRAPH_OPT-}" \
   -e "KV_TENSOR_OVERRIDES_FILE=${KV_TENSOR_OVERRIDES_FILE-}" \
   -e "KV_MODEL_DEVICES=${KV_MODEL_DEVICES-}" -e "KV_MODEL_SPLIT=${KV_MODEL_SPLIT-}" \
   -w /build/bin 4bfa1cb0a955 \

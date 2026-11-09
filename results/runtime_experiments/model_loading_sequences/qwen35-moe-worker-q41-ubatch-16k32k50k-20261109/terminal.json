@@ -1,0 +1,14 @@
+{
+  "finished_at": "2026-11-09T05:13:31+00:00",
+  "manifest_sha256": "d528257fa8db586ac95e20a88c0c4be209f67096701e46e64bf44f9ce9abde51",
+  "run_id": "qwen35-moe-worker-q41-ubatch-16k32k50k-20261109",
+  "stages": {
+    "ubatch1": "passed",
+    "ubatch32": "passed",
+    "ubatch64": "passed",
+    "ubatch8_after": "passed",
+    "ubatch8_before": "passed"
+  },
+  "started_at": "2026-11-09T05:11:57+00:00",
+  "status": "passed"
+}

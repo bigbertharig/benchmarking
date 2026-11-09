@@ -47,6 +47,14 @@ static bool add_chat(chat & c, llama_model * model, const llama_vocab * vocab, i
     cp.n_ctx = cap;
     cp.n_batch = fast ? 512 : 64;
     cp.n_ubatch = fast ? 32 : 8;
+    if (!fast) {
+        const char * worker_ubatch = std::getenv("KV_WORKER_UBATCH");
+        if (worker_ubatch && *worker_ubatch) {
+            const int value = std::atoi(worker_ubatch);
+            if (value < 1 || value > 64) return false;
+            cp.n_ubatch = value;
+        }
+    }
     cp.n_seq_max = 1;
     cp.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_ENABLED;
     const char * kv_type = std::getenv("KV_KV_TYPE");
@@ -73,9 +81,9 @@ static bool add_chat(chat & c, llama_model * model, const llama_vocab * vocab, i
     c.next.resize(n);
     if (llama_tokenize(vocab, prompt.c_str(), prompt.size(), c.next.data(), n, true, true) != n) return false;
     c.sampler = llama_sampler_init_greedy();
-    std::fprintf(stderr, "ADD name=%s pair=%s single=%s cap=%d prompt=%d kv_k=%s kv_v=%s\n",
+    std::fprintf(stderr, "ADD name=%s pair=%s single=%s cap=%d prompt=%d kv_k=%s kv_v=%s n_batch=%u n_ubatch=%u\n",
                  c.name, c.pair ? c.pair : "-", c.single ? c.single : "-", cap, n,
-                 ggml_type_name(cp.type_k), ggml_type_name(cp.type_v));
+                 ggml_type_name(cp.type_k), ggml_type_name(cp.type_v), cp.n_batch, cp.n_ubatch);
     return true;
 }
 

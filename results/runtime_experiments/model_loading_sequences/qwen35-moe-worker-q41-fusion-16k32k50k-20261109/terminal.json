@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T05:07:36+00:00",
+  "manifest_sha256": "51a91b94a73c5f15183757b49125fefac74b54eda9b1c591c7d9a8e0bf1a92ca",
+  "run_id": "qwen35-moe-worker-q41-fusion-16k32k50k-20261109",
+  "stages": {
+    "fusion_off": "passed",
+    "fusion_on_after": "passed",
+    "fusion_on_before": "passed"
+  },
+  "started_at": "2026-11-09T05:06:39+00:00",
+  "status": "passed"
+}

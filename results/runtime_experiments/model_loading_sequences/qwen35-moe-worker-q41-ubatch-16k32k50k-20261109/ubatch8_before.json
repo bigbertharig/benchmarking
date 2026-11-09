@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_one_replay",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "64",
+    "qwen35_moe_worker_q41_ubatch_16k32k50k_20261109_ubatch8_before"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_K_TYPE",
+    "KV_SAMPLE_DETAIL",
+    "KV_STATE_SOURCE_DIR",
+    "KV_V_TYPE",
+    "KV_WORKER_UBATCH"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-09T05:12:15+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29899060,
+  "host_min_available_kib": 28168680,
+  "id": "ubatch8_before",
+  "started_at": "2026-11-09T05:11:57+00:00",
+  "status": "passed",
+  "timeout_s": 1800
+}
