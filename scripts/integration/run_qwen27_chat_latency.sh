@@ -55,6 +55,8 @@ docker run --rm --gpus all --network none \
   -v "$base:/state" -e "KV_STATE_DIR=/state/$label.states" \
   -e "KV_STATE_SOURCE_DIR=${KV_STATE_SOURCE_DIR-}" \
   -e "KV_REPLAY_CHAT_GPUS=${KV_REPLAY_CHAT_GPUS-}" \
+  -e "KV_KV_TYPE=${KV_KV_TYPE-}" \
+  -e "KV_K_TYPE=${KV_K_TYPE-}" -e "KV_V_TYPE=${KV_V_TYPE-}" \
   -e "KV_TENSOR_OVERRIDES_FILE=${KV_TENSOR_OVERRIDES_FILE-}" \
   -e "KV_MODEL_DEVICES=${KV_MODEL_DEVICES-}" -e "KV_MODEL_SPLIT=${KV_MODEL_SPLIT-}" \
   -w /build/bin 4bfa1cb0a955 \

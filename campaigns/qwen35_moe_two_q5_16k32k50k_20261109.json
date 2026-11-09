@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "name": "qwen35_moe_two_q5_16k32k50k_20261109",
+  "stages": [
+    {
+      "id": "moe_two_q5_prep",
+      "state": "ready",
+      "gpus": [
+        0,
+        1,
+        2
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_KV_TYPE": "q5_0"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_short",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_moe_two_q5_16k32k50k_20261109"
+      ],
+      "timeout_s": 3600,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_q5_16k32k50k_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_q5_16k32k50k_20261109.log"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T04:14:59+00:00",
+  "manifest_sha256": "739ceb05f68e2afe33e9b8bb55c97b4c8b73d2166ebc9235d847bd508d4ba7b3",
+  "run_id": "qwen35-moe-two-q5-16k32k50k-20261109",
+  "stages": {
+    "moe_two_q5_prep": "passed"
+  },
+  "started_at": "2026-11-09T04:10:11+00:00",
+  "status": "passed"
+}

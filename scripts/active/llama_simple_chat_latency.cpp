@@ -49,8 +49,20 @@ static bool add_chat(chat & c, llama_model * model, const llama_vocab * vocab, i
     cp.n_ubatch = fast ? 32 : 8;
     cp.n_seq_max = 1;
     cp.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_ENABLED;
-    cp.type_k = GGML_TYPE_Q4_0;
-    cp.type_v = GGML_TYPE_Q4_0;
+    const char * kv_type = std::getenv("KV_KV_TYPE");
+    const char * k_type = std::getenv("KV_K_TYPE");
+    const char * v_type = std::getenv("KV_V_TYPE");
+    const auto cache_type = [](const char * name) {
+        const std::string type = name && *name ? name : "q4_0";
+        if (type == "q4_0") return GGML_TYPE_Q4_0;
+        if (type == "q5_0") return GGML_TYPE_Q5_0;
+        if (type == "q8_0") return GGML_TYPE_Q8_0;
+        if (type == "f16") return GGML_TYPE_F16;
+        std::fprintf(stderr, "unsupported KV type: %s\n", type.c_str());
+        std::exit(2);
+    };
+    cp.type_k = cache_type(k_type && *k_type ? k_type : kv_type);
+    cp.type_v = cache_type(v_type && *v_type ? v_type : kv_type);
     if (c.single && std::string(c.single) == "-1") cp.offload_kqv = false;
     c.ctx = llama_init_from_model(model, cp);
     if (!c.ctx) return false;
@@ -59,8 +71,9 @@ static bool add_chat(chat & c, llama_model * model, const llama_vocab * vocab, i
     c.next.resize(n);
     if (llama_tokenize(vocab, prompt.c_str(), prompt.size(), c.next.data(), n, true, true) != n) return false;
     c.sampler = llama_sampler_init_greedy();
-    std::fprintf(stderr, "ADD name=%s pair=%s single=%s cap=%d prompt=%d\n",
-                 c.name, c.pair ? c.pair : "-", c.single ? c.single : "-", cap, n);
+    std::fprintf(stderr, "ADD name=%s pair=%s single=%s cap=%d prompt=%d kv_k=%s kv_v=%s\n",
+                 c.name, c.pair ? c.pair : "-", c.single ? c.single : "-", cap, n,
+                 ggml_type_name(cp.type_k), ggml_type_name(cp.type_v));
     return true;
 }
 

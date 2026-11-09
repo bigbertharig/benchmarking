@@ -1,0 +1,13 @@
+{
+  "finished_at": "2026-11-09T04:17:18+00:00",
+  "manifest_sha256": "6432f3ef07063661e39604f30c2f55364fef3da33cd9e09d09941c96dc5f6d8f",
+  "run_id": "qwen35-moe-worker-q5-matrix-20261109",
+  "stages": {
+    "q4_after": "passed",
+    "q4_before": "passed",
+    "q5": "passed",
+    "q8_reference": "passed"
+  },
+  "started_at": "2026-11-09T04:15:09+00:00",
+  "status": "passed"
+}

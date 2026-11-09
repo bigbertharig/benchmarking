@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T03:49:55+00:00",
+  "manifest_sha256": "435fe30b46448d1fc557bea0e8788a7e22d22ea88eaedebf36c463a1c778021c",
+  "reason": "Manager stopped the sequence",
+  "run_id": "qwen35-moe-two-q8-curve-extend-20261109",
+  "stages": {
+    "moe_two_q8_curve_extend": "failed"
+  },
+  "started_at": "2026-11-09T03:41:28+00:00",
+  "status": "failed"
+}

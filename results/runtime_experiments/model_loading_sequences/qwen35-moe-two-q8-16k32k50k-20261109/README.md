@@ -1,0 +1,9 @@
+# Qwen3.6 35B-A3B Q8 KV checkpoint preparation (2026-11-09)
+
+Run `qwen35-moe-two-q8-16k32k50k-20261109` passed at occupied 16K, 32K, and 50K with all MoE weights on GPU0 and independent `q8_0` key and value caches on GPUs1 and 2. Each worker reserved the full 262,144-token context. Both private-code recalls passed at all three depths. The saved checkpoints feed the [matched Q4/Q8/Q4 one-worker replay](../qwen35-moe-worker-q4-vs-q8-16k32k50k-20261109/README.md) and the [Q8 long-depth continuation](../qwen35-moe-two-q8-curve-extend-20261109/README.md).
+
+At startup each 1060 held about 3,309 MiB, versus about 2,037 MiB for the matched Q4 worker allocation. GPU0 preparation plus handoff to a usable Q8 worker took 14.27/14.09 s at 16K, another 15.86/21.76 s at 32K, and another 18.32/29.47 s at 50K for workers1/2. The state save/restore portion was about 0.61/1.16/1.73 s by depth for each worker, versus about 0.35/0.65/0.96 s in the Q4 six-depth baseline. These are incremental chat additions; checkpoint write and recall add time beyond usable handoff. The second worker's longer 32K/50K preparation should not be generalized without a repeat.
+
+In this preparation run, 64-token simultaneous windows gave worker1/2 **55.64/55.30 tok/s at 16K**, **37.09/36.71 at 32K**, and **27.93/27.70 at 50K**. Solo worker1 was 55.97/37.82/28.24 tok/s at those depths. Thus two Q8 workers also remained close to their solo rates in this short decode probe. These values are a different run from the matched one-worker replay and should not be spliced into it as an A/B stage.
+
+Evidence: `terminal.json` and stage JSON in this directory; manifest `campaigns/qwen35_moe_two_q8_16k32k50k_20261109.json`; raw log, GPU/PCIe samples, and checkpoints under `/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_q8_16k32k50k_20261109.*`.

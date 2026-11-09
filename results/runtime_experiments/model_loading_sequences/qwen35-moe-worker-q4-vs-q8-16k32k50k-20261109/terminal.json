@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T03:39:43+00:00",
+  "manifest_sha256": "15e152aae1c540d5df9946ef3737c00d7df1d5872f76195f7e26d9c4c195677a",
+  "run_id": "qwen35-moe-worker-q4-vs-q8-16k32k50k-20261109",
+  "stages": {
+    "q4_after": "passed",
+    "q4_before": "passed",
+    "q8": "passed"
+  },
+  "started_at": "2026-11-09T03:38:03+00:00",
+  "status": "passed"
+}

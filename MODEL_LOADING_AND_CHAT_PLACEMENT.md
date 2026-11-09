@@ -804,3 +804,30 @@ relies on Qwen3.8's sparse QSA selecting roughly 2K tokens from a much larger
 history. It is an idea source for sparse-attention models, not evidence that
 Qwen3.6's full attention can skip most KV reads without a model or algorithm
 change.
+
+### Current 1060 worker speed probes
+
+The model's Q4_K_XL weight quantization is fixed in these comparisons. Q4_0,
+Q5_0, and Q8_0 below refer instead to each chat's attention key/value (KV)
+cache format. The runtime can choose K and V types separately per chat. With
+the same model, saved history, 262K reserved capacity, and one GPU1 worker,
+the [KV format matrix](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-kv-format-matrix-20261109/README.md)
+found Q4/Q4 at about 36/24/17 tok/s, either mixed Q8/Q4 or Q4/Q8 at about
+49/34/24 tok/s, and Q8/Q8 at about 53/39/29 tok/s for occupied 16K/32K/50K.
+Worker allocation rose from about 2.04 to 2.67 to 3.31 GiB. The higher
+precision cache being faster is an observed property of this attention path,
+not a claim that quantization generally makes execution slower. The separate
+[Q5 KV comparison](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-q5-matrix-20261109/README.md)
+placed Q5/Q5 between Q4/Q4 and mixed Q4/Q8: about 46/30/21 tok/s at the
+same depths, using about 2.36 GiB per worker. The separate
+[Q8 extension](results/runtime_experiments/model_loading_sequences/qwen35-moe-two-q8-curve-extend-20261109/README.md)
+showed about 15.3 tok/s per simultaneous chat at 100K versus Q4's 9.3, then
+was intentionally stopped before a complete 150K result.
+
+Near-term tests stay at occupied **16K, 32K, and 50K** on a 262K-cap worker.
+Use 100K only when a short result merits a targeted slope check. Do not run
+every format or placement through 150K/200K yet. Measure each change against
+matched saved histories and bracketing controls; preserve preparation,
+capture/restore, memory, correctness, and decode evidence separately. Focus
+on per-chat 1060 speed before scaling promising changes to two and five
+workers. These are experiments, not a fixed Manager load recipe.

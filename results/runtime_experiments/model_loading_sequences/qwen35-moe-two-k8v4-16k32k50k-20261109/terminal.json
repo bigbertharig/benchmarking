@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T03:54:41+00:00",
+  "manifest_sha256": "c94918c0d96546d6428109eae88916186a4e78b43d298bf2f3920478676c00eb",
+  "run_id": "qwen35-moe-two-k8v4-16k32k50k-20261109",
+  "stages": {
+    "moe_two_k8v4_prep": "passed"
+  },
+  "started_at": "2026-11-09T03:51:11+00:00",
+  "status": "passed"
+}

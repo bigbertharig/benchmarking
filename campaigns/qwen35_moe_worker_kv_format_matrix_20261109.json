@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "name": "qwen35_moe_worker_kv_format_matrix",
+  "stages": [
+    {
+      "id": "q4_before",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_curve_20261109.states",
+        "KV_K_TYPE": "q4_0",
+        "KV_V_TYPE": "q4_0"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_moe_worker_kv_format_matrix_20261109_q4_before"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_q4_before.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_q4_before.log"
+      ]
+    },
+    {
+      "id": "k8v4",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_k8v4_16k32k50k_20261109.states",
+        "KV_K_TYPE": "q8_0",
+        "KV_V_TYPE": "q4_0"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_moe_worker_kv_format_matrix_20261109_k8v4"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_k8v4.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_k8v4.log"
+      ]
+    },
+    {
+      "id": "k4v8",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_k4v8_16k32k50k_20261109.states",
+        "KV_K_TYPE": "q4_0",
+        "KV_V_TYPE": "q8_0"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_moe_worker_kv_format_matrix_20261109_k4v8"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_k4v8.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_k4v8.log"
+      ]
+    },
+    {
+      "id": "q8_reference",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_q8_16k32k50k_20261109.states",
+        "KV_K_TYPE": "q8_0",
+        "KV_V_TYPE": "q8_0"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_moe_worker_kv_format_matrix_20261109_q8_reference"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_q8_reference.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_q8_reference.log"
+      ]
+    },
+    {
+      "id": "q4_after",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_curve_20261109.states",
+        "KV_K_TYPE": "q4_0",
+        "KV_V_TYPE": "q4_0"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_moe_worker_kv_format_matrix_20261109_q4_after"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_q4_after.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_worker_kv_format_matrix_20261109_q4_after.log"
+      ]
+    }
+  ]
+}
