@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T03:16:07+00:00",
+  "manifest_sha256": "6292cdfa947cebb5aeeca8774afa20a1769c778eabc265696943aad90622ab1f",
+  "run_id": "qwen35-moe-two-short-extend-20261109",
+  "stages": {
+    "moe_two_short_extend": "passed"
+  },
+  "started_at": "2026-11-09T03:14:34+00:00",
+  "status": "passed"
+}

@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T03:10:52+00:00",
+  "manifest_sha256": "14f6fd1817aaadb5a679b8bc788692384428e946322a315fecb3d7ba8e84c225",
+  "reason": "exit 202; see baseline_before.log",
+  "run_id": "qwen35-moe-mixed-16k32k-20261109",
+  "stages": {
+    "baseline_before": "failed"
+  },
+  "started_at": "2026-11-09T03:10:00+00:00",
+  "status": "failed"
+}

@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T03:19:18+00:00",
+  "manifest_sha256": "e98fab0cb68307d36852f006df064b3fc54334f93e3fe4a92a8b6d52189f401e",
+  "run_id": "qwen35-moe-mixed-16k32k50k-20261109",
+  "stages": {
+    "baseline_after": "passed",
+    "baseline_before": "passed",
+    "main_gpu0_worker_gpu1": "passed"
+  },
+  "started_at": "2026-11-09T03:17:31+00:00",
+  "status": "passed"
+}

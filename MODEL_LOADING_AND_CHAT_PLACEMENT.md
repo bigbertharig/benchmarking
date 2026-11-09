@@ -746,6 +746,27 @@ capacity/speed test remains separate from this two-chat baseline. The 1060
 links are x1 Gen2 during active transfer; that observation alone does not
 identify the bottleneck.
 
+The immediate optimization target is **per-chat decode for KV on a 1060**,
+with GPU0 holding the model and doing as much useful shared work as possible.
+The [mixed GPU0-main/1060-worker A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-mixed-maxctx-16k32k50k-20261109/README.md)
+passed with both chats reserving 262K: the GPU0 main reached about
+118/111/101 tok/s at occupied 16K/32K/50K, while its simultaneous 1060
+worker stayed at about 37/24/17 tok/s, close to the two-1060 baselines. This
+is a capacity and interference reference, not a worker speed optimization.
+The small 65K-reservation control had essentially the same decode rates;
+the full reservation added about 1.47 GiB per chat card. Place a chat on GPU0
+only if the chosen model and worker optimization still leave useful headroom.
+
+The first [one-1060 attention-weight placement probe](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-attn3-16k32k50k-20261109/README.md)
+kept the 262K KV reservation and moved just 27.63 MiB of block 3 attention
+weights from GPU0 to GPU1. The worker slowed 3.8%/2.4%/1.8% at
+16K/32K/50K against surrounding baselines. That negative result argues
+against moving more attention weights blindly. GPU1 was busy while sampled
+PCIe traffic during decode was modest, but one-second counters cannot isolate
+kernel, memory, or transfer time. Next measure the 1060 attention/KV path more
+directly, then test a specific KV format, kernel, or hot-state change with
+the same saved histories and A/B/A controls.
+
 ### Placement ideas to measure on this rig
 
 For the current experimental sequence, do not automatically restore `chat-27b`

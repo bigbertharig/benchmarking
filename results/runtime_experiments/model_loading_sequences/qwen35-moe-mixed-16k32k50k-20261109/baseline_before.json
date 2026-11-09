@@ -1,0 +1,31 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_two_replay",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "65536",
+    "65536",
+    "65536",
+    "64",
+    "qwen35_moe_mixed_16k32k50k_20261109_baseline_before"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_REPLAY_CHAT_GPUS",
+    "KV_STATE_SOURCE_DIR"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-09T03:18:21+00:00",
+  "gpus": [
+    0,
+    1,
+    2
+  ],
+  "host_before_available_kib": 29907000,
+  "host_min_available_kib": 27647372,
+  "id": "baseline_before",
+  "started_at": "2026-11-09T03:17:31+00:00",
+  "status": "passed",
+  "timeout_s": 1800
+}

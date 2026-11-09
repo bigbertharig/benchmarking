@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T03:22:23+00:00",
+  "manifest_sha256": "d85bf077db5bc58ebeaebefb82ba5e6af19c1b75ab099096c3fc4cef2551d1f6",
+  "run_id": "qwen35-moe-mixed-maxctx-16k32k50k-20261109",
+  "stages": {
+    "baseline_after": "passed",
+    "baseline_before": "passed",
+    "main_gpu0_worker_gpu1": "passed"
+  },
+  "started_at": "2026-11-09T03:19:37+00:00",
+  "status": "passed"
+}

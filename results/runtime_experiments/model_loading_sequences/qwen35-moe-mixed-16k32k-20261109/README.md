@@ -1,0 +1,3 @@
+# Superseded mixed-placement attempt
+
+The first mixed-placement campaign completed its 16K and 32K baseline windows, then exited 202 when the replay binary requested a 50K checkpoint absent from the 16K/32K source directory. This was a test-data gate, not a model-placement failure. The checkpoint set was extended and the comparison rerun successfully at all three depths in the [65K control](../qwen35-moe-mixed-16k32k50k-20261109/README.md) and [full-262K run](../qwen35-moe-mixed-maxctx-16k32k50k-20261109/README.md). Keep this failed terminal receipt for provenance; do not use it for placement conclusions.

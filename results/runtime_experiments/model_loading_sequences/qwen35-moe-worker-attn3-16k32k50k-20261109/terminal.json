@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T03:28:43+00:00",
+  "manifest_sha256": "99d6ad7222aa6cb4ee534b9fc25ea61c9b615b56350c90fef52d730ff75a34b9",
+  "run_id": "qwen35-moe-worker-attn3-16k32k50k-20261109",
+  "stages": {
+    "attn3_gpu1": "passed",
+    "baseline_after": "passed",
+    "baseline_before": "passed"
+  },
+  "started_at": "2026-11-09T03:27:44+00:00",
+  "status": "passed"
+}

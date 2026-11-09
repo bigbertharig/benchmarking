@@ -1219,6 +1219,27 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "moe_one_replay") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        if (!source_dir || pair_cap < 210000 || tokens < 16) return 210;
+        chat worker{"worker", "", nullptr, "1"};
+        if (!add_chat(worker, model, vocab, pair_cap)) return 211;
+        for (int depth : {16384, 32768, 50000}) {
+            const std::string path = std::string(source_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            snapshot state;
+            if (!read_snapshot_file(path, state) || !restore(worker, state)) return 212;
+            state.data.clear();
+            state.data.shrink_to_fit();
+            const std::string phase = "depth" + std::to_string(depth) + "_worker_solo";
+            if (!measured_parallel(vocab, {&worker}, tokens, phase.c_str())) return 213;
+            std::fprintf(stderr, "ONE_REPLAY_DONE depth=%d gpu=1 tokens=%d\n", depth, tokens);
+            std::fflush(stderr);
+        }
+        destroy(worker);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "moe_two_replay") {
         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
         if (!source_dir || pair_cap < 40000 || tokens < 16) return 200;
