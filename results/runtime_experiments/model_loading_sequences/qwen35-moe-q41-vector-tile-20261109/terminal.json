@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T06:37:22+00:00",
+  "manifest_sha256": "8a7b370695f0a7afc816e234e060623b216e0aad635b1c525522b5bb5bfeedd1",
+  "run_id": "qwen35-moe-q41-vector-tile-20261109",
+  "stages": {
+    "tile": "passed",
+    "vector_after": "passed",
+    "vector_before": "passed"
+  },
+  "started_at": "2026-11-09T06:36:28+00:00",
+  "status": "passed"
+}

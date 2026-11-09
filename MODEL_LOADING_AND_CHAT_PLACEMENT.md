@@ -932,3 +932,53 @@ matched saved histories and bracketing controls; preserve preparation,
 capture/restore, memory, correctness, and decode evidence separately. Focus
 on per-chat 1060 speed before scaling promising changes to two and five
 workers. These are experiments, not a fixed Manager load recipe.
+
+### Research leads for 1060 chat speed (2026-11-09)
+
+1. **Pascal vector versus tile attention, at occupied 16K/32K/50K with a
+   262K reservation (first pass complete).** Current llama.cpp dispatch sends
+   single-token quantized KV to the vector kernel, while its generic tile
+   kernel can share KV reads across grouped query heads after expanding the
+   quantized cache to F16 scratch. Force tile only for this Q4_1/Q4_1,
+   256-wide-head worker case. First gate on GPU1 memory at full reservation;
+   then compare saved-history vector/tile/vector runs with kernel traces,
+   correctness, setup/transfer, and per-chat decode. A pending upstream
+   [Q8_0 tile PR](https://github.com/ggml-org/llama.cpp/pull/30792) reports
+   gains on ROCm hardware; those gains are not evidence for Pascal Q4_1.
+   [Current dispatch](https://github.com/ggml-org/llama.cpp/blob/master/ggml/src/ggml-cuda/fattn.cu)
+   is the implementation reference.
+2. **Fused GQA tile with native quantized reads.** If tile helps but F16
+   scratch costs too much time or VRAM, study the same upstream Q8_0 PR's
+   register dequantization and the [experimental GQA decode kernel](https://github.com/LL4nc33/llama-tq/blob/turboquant/docs/turboquant.md)
+   for a Q4_1-capable Pascal prototype. Account for dequantization and
+   grouped-head reuse together. Measure quality and total per-chat latency,
+   not just kernel time; do not assume the prototype can use tensor cores.
+3. **Query-selected KV pages at longer contexts.** [Quest](https://proceedings.mlr.press/v235/tang24l.html)
+   suggests selecting important pages per query to reduce full-attention
+   reads. This changes which history is attended to, so compare long-range
+   recall and output quality with exact attention before treating speed as a
+   win. [HiSparse](https://github.com/sgl-project/sglang/blob/main/docs/docs/advanced_features/hisparse_guide.mdx)
+   currently needs models with native sparse attention; its exact host-backed
+   behavior does not directly apply to Qwen3.6 full-attention layers.
+4. **Shared-prefix admission for independent chats.** For workers with the
+   same system/task prefix, reuse prepared KV and branch independent chat
+   tails. Measure bytes and time saved at spawn and verify isolation after
+   divergence. [SGLang's session-aware radix cache](https://github.com/sgl-project/sglang/blob/main/docs/docs/advanced_features/session_radix_cache.mdx)
+   is a reference for retaining reusable prefixes under memory pressure;
+   it does not by itself improve a worker's steady decode speed.
+
+For this model, the [published configuration](https://huggingface.co/Qwen/Qwen3.6-35B-A3B/blob/main/config.json)
+has 40 layers with full attention every fourth layer, 256-wide heads, and
+16 query heads sharing two KV heads. Treat its recurrent state and growing
+full-attention KV separately when deciding what to optimize or move.
+
+The [first Q4_1 vector/tile/vector A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-vector-tile-16k32k50k-20261109/README.md)
+passed at all three depths with the full 262K reservation. Generic tile
+attention raised the one-worker rate from mean vector controls of roughly
+50.8/35.0/24.1 to 53.5/40.9/31.5 tok/s at 16K/32K/50K, while GPU1 peak
+memory stayed near 2.2 GiB. Decode traces show tile attention itself fell
+from 293/661/1,171 to 217/422/633 ms across 64 tokens; recurring Q4_1
+dequantization remained about 242/477/723 ms. This makes the fused-read
+candidate concrete, but output-quality equivalence and wider-model transfer
+are still open tests. The result applies to this Pascal Q4_1/head-256/GQA
+path; it is not a general speed rule for all chats.

@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T06:39:49+00:00",
+  "manifest_sha256": "dc51c7d70bb12bf903966e2ca0f85d3bc0a359348860fe058dcc80fada7f9068",
+  "run_id": "qwen35-moe-q41-tile-trace-20261109",
+  "stages": {
+    "16k": "passed",
+    "32k": "passed",
+    "50k": "passed"
+  },
+  "started_at": "2026-11-09T06:39:01+00:00",
+  "status": "passed"
+}

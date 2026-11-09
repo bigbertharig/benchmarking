@@ -1,0 +1,14 @@
+{
+  "16k": {
+    "gpu1_dequant_ms_64_tokens": 241.526,
+    "gpu1_attention_ms_64_tokens": 217.459
+  },
+  "32k": {
+    "gpu1_dequant_ms_64_tokens": 476.694,
+    "gpu1_attention_ms_64_tokens": 422.12
+  },
+  "50k": {
+    "gpu1_dequant_ms_64_tokens": 723.258,
+    "gpu1_attention_ms_64_tokens": 633.427
+  }
+}
