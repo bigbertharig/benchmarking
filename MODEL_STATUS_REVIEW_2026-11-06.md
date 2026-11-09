@@ -17,4 +17,4 @@ The existing 22 active models were not demoted in this pass: their roles and ava
 
 ## Loading-stage update, 2026-11-08
 
-Qwen3.8 Flash-Next Q2_0 now has a linked `loading_stage` record in `model_registry.json`: `ready_for_benchmark` for its tested Strata recipe. The bundle, gateway route, 256K single-chat recall and short 8K concurrent chats have receipts. This does not change its candidate deployment status; a small application and harness quality sample is the next step when GPUs are available. See [MODEL_LOADING_GATE.md](MODEL_LOADING_GATE.md) for the new checkpoint.
+Qwen3.8 Flash-Next Q2_0 now has a concise `loading_stage` record in `model_registry.json`: `ready_for_benchmark` for its tested Strata recipe, with 8K default context and a 256K single-chat limit supported by near-full-context recall. Detailed bundle, route, and chat experiment receipts remain in the runtime research area. This does not change its candidate deployment status; a small application and harness quality sample is the next step when GPUs are available. See [MODEL_LOADING_GATE.md](MODEL_LOADING_GATE.md) for the loading and context checkpoint.

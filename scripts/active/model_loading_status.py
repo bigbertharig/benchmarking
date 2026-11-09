@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Show loading-stage progress and verify recorded evidence without using the rig."""
+"""Show loading readiness and configured context limits without using the rig."""
 
 from __future__ import annotations
 
@@ -11,32 +11,41 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "model_registry.json"
 STATES = {"in_progress", "ready_for_benchmark", "blocked"}
-REQUIRED = ("state", "runtime", "recipe", "evidence", "limits", "next_step")
+REQUIRED = ("state", "runtime", "recipe", "limits")
+CONTEXT_FIELDS = ("default_context", "context_limit", "context_basis")
 
 
-def problems(model_id: str, stage: object) -> list[str]:
+def problems(model_id: str, entry: dict) -> list[str]:
+    stage = entry.get("loading_stage")
     if not isinstance(stage, dict):
         return [f"{model_id}: loading_stage must be an object"]
     errors = []
     for field in REQUIRED:
         value = stage.get(field)
-        if field == "evidence":
-            if not isinstance(value, list) or not all(isinstance(p, str) and p for p in value):
-                errors.append(f"{model_id}: evidence must be a list of paths")
-            elif stage.get("state") == "ready_for_benchmark" and not value:
-                errors.append(f"{model_id}: ready_for_benchmark requires at least one receipt")
-        elif not isinstance(value, str) or not value.strip():
+        if not isinstance(value, str) or not value.strip():
             errors.append(f"{model_id}: {field} must be nonempty text")
     if stage.get("state") not in STATES:
         errors.append(f"{model_id}: state must be one of {', '.join(sorted(STATES))}")
-    for raw in stage.get("evidence", []) if isinstance(stage.get("evidence"), list) else []:
-        if not isinstance(raw, str):
+    for field in CONTEXT_FIELDS:
+        value = stage.get(field)
+        if value is None and stage.get("state") != "ready_for_benchmark":
             continue
-        path = (ROOT / raw).resolve()
-        if not path.is_relative_to(ROOT):
-            errors.append(f"{model_id}: evidence path leaves the repository: {raw}")
-        elif not path.is_file():
-            errors.append(f"{model_id}: missing evidence: {raw}")
+        if field in ("default_context", "context_limit"):
+            if type(value) is not int or value <= 0:
+                errors.append(f"{model_id}: {field} must be a positive integer when recorded")
+        elif not isinstance(value, str) or not value.strip():
+            errors.append(f"{model_id}: {field} must be nonempty text when recorded")
+    default = stage.get("default_context")
+    limit = stage.get("context_limit")
+    if type(default) is int and type(limit) is int and default > limit:
+        errors.append(f"{model_id}: default_context exceeds context_limit")
+    profile = entry.get("profiles", {}).get("default", {})
+    registered_default = profile.get("runtime", {}).get("ctx_size")
+    registered_max = profile.get("context_bounds", {}).get("max")
+    if type(default) is int and type(registered_default) is int and default != registered_default:
+        errors.append(f"{model_id}: default_context differs from the default profile")
+    if type(limit) is int and type(registered_max) is int and limit > registered_max:
+        errors.append(f"{model_id}: context_limit exceeds the registered context bound")
     return errors
 
 
@@ -60,9 +69,11 @@ def main() -> int:
         counts[state] = counts.get(state, 0) + 1
         if args.model_id or stage is not None:
             print(f"{model_id}: {state} | deployment={entry.get('status')} | "
-                  f"runtime={stage.get('runtime', '?') if isinstance(stage, dict) else '?'}")
+                  f"runtime={stage.get('runtime', '?') if isinstance(stage, dict) else '?'} | "
+                  f"context={stage.get('default_context', '?') if isinstance(stage, dict) else '?'}"
+                  f"/{stage.get('context_limit', '?') if isinstance(stage, dict) else '?'}")
         if stage is not None:
-            errors.extend(problems(model_id, stage))
+            errors.extend(problems(model_id, entry))
         if args.check_ready and state != "ready_for_benchmark":
             errors.append(f"{model_id}: loading stage is {state}, not ready_for_benchmark")
     print("Summary: " + ", ".join(f"{key}={value}" for key, value in sorted(counts.items())))

@@ -2401,16 +2401,11 @@
       "loading_stage": {
         "state": "ready_for_benchmark",
         "runtime": "strata/0.2.10",
-        "recipe": "Q2_0 bundle on GPU 0, 8 GiB resident expert RAM, 8K default context; 256K single-chat depth separately tested",
-        "evidence": [
-          "results/storage_inventory_20261106/q2_bundle_sync.json",
-          "results/runtime_experiments/strata_managed_gateway_20261104.json",
-          "results/runtime_experiments/strata_q38_depth10_90_g0_20261103/terminal.json",
-          "results/runtime_experiments/model_loading_sequences/strata-q2-two-chat-20261108/q2_two_chat_detail/terminal.json",
-          "results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json"
-        ],
-        "limits": "Q2_0 only. The 256K result is single-chat recall; concurrent chats were short at 8K. RAM/SSD placement and throughput results are in STRATA_MEMORY_TEST_PLAN.md. No comparable model-quality or application suite has run for this quant.",
-        "next_step": "Run a small application and harness quality sample against an active comparator when GPUs are available. Keep quality and loading results separate."
+        "recipe": "Q2_0 bundle on GPU 0 with 8 GiB resident expert RAM; gateway route works",
+        "default_context": 8192,
+        "context_limit": 262144,
+        "context_basis": "Single-chat marker recall passed at 251864 prompt tokens within 262144 configured context.",
+        "limits": "The 256K result is single-chat; concurrent chats were short at 8K. This loading result applies only to the Q2_0 Strata recipe."
       },
       "model_size_bytes": 37623740192,
       "ngram_size_bytes": 28800138432,

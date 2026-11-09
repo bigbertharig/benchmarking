@@ -47,23 +47,23 @@ Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/..
 | 3 | First load | the lane (`rigctl load-model` through the manager) | the model serves, every layer on the GPUs |
 | 4 | Litmus | the lane (`litmus.py`) | the 3 checks pass, or each failure is documented |
 | 5 | Runtime characterization | the lane (`runtime_char.py`) | a `results/runtime_experiments/` record |
-| L (before 6) | Loading readiness | `MODEL_LOADING_GATE.md`; record `loading_stage` in the registry | a tested serving recipe and receipt support a small quality smoke; limits recorded |
 | 6 | Smoke (limit 10) | the lane (`phase4.sh`) | every suite scores; raw answers read |
 | 7 | Settings experiments (optional) | operator's choice after reading Phase 6: the lane's thinking A/B (`LANE_START_AT=7`), experiments by hand | each Phase 6 problem tried against the options that could fix it |
 | 8 | Depth check | `capacity_run.py` at the validated compact and ceiling contexts | 10%/90% final-answer recall and speed recorded; deep-context claims only after a passing result |
+| L (before 9) | Loading and context decision | `MODEL_LOADING_GATE.md`; summarize the working recipe and tested context in the registry | a useful load method and context limit are known before the full campaign |
 | 9 | Full run (limit 50 + full code) | a campaign | all blocks complete |
 | 10 | Finalize | registry status and notes, integration log | the model is discoverable with its settings |
 
-For simple llama.cpp models, Phases 3-6 remain one command: their ordinary load, litmus and runtime
-receipts satisfy Phase L without a separate experiment. For complex MoE, offload, split-runtime or
-multi-chat recipes, use `LANE_STOP_AFTER=5` or a managed experiment, record the loading decision,
-then start benchmark smoke for the tested recipe. Do not infer that one quant or runtime validates another.
-Phase 2 sizes context before the lane,
-Phase 7 is a separate settings decision, Phase 8 checks depth, and Phase 9 is one campaign. The manager
+For simple llama.cpp models, Phases 2-5 and 8 establish the loading and context decision without
+extra placement experiments. For complex MoE, offload, split-runtime or multi-chat recipes, use
+`LANE_STOP_AFTER=5` or managed experiments to find a useful load. The Phase 6 smoke may help diagnose
+settings before the loading decision is finalized; Phase L gates the full Phase 9 campaign. Do not infer
+that one quant or runtime validates another. Phase 2 sizes context before the lane, Phase 7 is a separate
+settings decision, and Phase 8 checks depth before Phase L. The manager
 does placement: say which cards a lane uses, and it checks the fit and picks context and split.
 
-For a recipe that uses a new runtime, quant, or placement, check its loading record before capability
-smoke or a full campaign: `python3 scripts/active/model_loading_status.py '<model-id>' --check-ready`.
+For a recipe that uses a new runtime, quant, or placement, check its loading record before a full
+campaign: `python3 scripts/active/model_loading_status.py '<model-id>' --check-ready`.
 An absent field on a historical model means its loading evidence has not yet been summarized; it does
 not invalidate existing benchmark receipts. Add the summary when that model is next reviewed.
 
@@ -337,10 +337,10 @@ enough for the model's normal answer; a thinking model also needs the final answ
 code echoed inside its reasoning. Keep prompt changes such as `--concise-instruction` explicit in the
 receipt. A failed 10% probe is corrected before spending time on 90%; a 90% failure stays a known limit.
 
-The fit/load bounds and the 10%/90% quality checks answer different questions. Passing Phase 2 says the
-model fits in memory; passing Phase 8 says it can use that context for retrieval. Record both in the
-registry notes. Phase 9 can still run at the default context while a deep-context issue is investigated,
-but do not publish a maximum usable context without a passing depth check.
+The fit/load bounds and the 10%/90% checks answer different questions. Passing Phase 2 says the model
+fits in memory; passing Phase 8 says it can use that context for retrieval. Summarize the usable
+context in `loading_stage` at Phase L. If deep recall fails, record the lower tested context that works;
+Phase 9 may still run there. Do not publish an untested ceiling as the usable context limit.
 
 ## Phase 9: Full Run
 
