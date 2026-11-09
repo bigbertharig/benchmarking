@@ -156,6 +156,7 @@
       "tier": 2,
       "placement": "split_gpu",
       "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
+      "in_testing": true,
       "split_groups": [
         {
           "id": "pair_1_3",
@@ -185,6 +186,7 @@
       "tier": 1,
       "placement": "single_gpu",
       "gguf_path": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
+      "in_testing": true,
       "tags": [
         "small",
         "worker_candidate"
@@ -256,6 +258,7 @@
       "tier": 3,
       "placement": "single_gpu",
       "gguf_path": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
+      "in_testing": true,
       "tags": [
         "brain_candidate",
         "moe"
@@ -436,6 +439,7 @@
       "tier": 3,
       "placement": "single_gpu",
       "gguf_path": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+      "in_testing": true,
       "tags": [
         "brain_candidate",
         "dense"
@@ -494,6 +498,7 @@
       "tier": 3,
       "placement": "split_gpu",
       "gguf_path": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
+      "in_testing": true,
       "split_groups": [
         {
           "id": "all_gpus_capacity",
@@ -520,6 +525,7 @@
       "tier": 3,
       "placement": "split_gpu",
       "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
+      "in_testing": true,
       "split_groups": [
         {
           "id": "all_gpus_capacity",

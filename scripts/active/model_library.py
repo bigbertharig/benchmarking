@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -41,6 +42,7 @@ GENERATED_NOTE = "Generated from model_registry.json by scripts/active/model_lib
 ROLE_STATUSES = {"active"}
 ORCHESTRATOR_ROLES = ("brain", "single_1060")
 STATUSES = {"active", "candidate", "archived", "invalid"}
+GOOD_FOR_TAG = re.compile(r"[a-z][a-z0-9_]*\Z")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -99,6 +101,7 @@ def resolve(model_id: str, profile: str = "default", registry: dict[str, Any] | 
         "model": mid,
         "profile": profile,
         "status": entry["status"],
+        **({"in_testing": True} if entry.get("in_testing") else {}),
         "gguf_path": gguf_path(registry, entry),
         "schedule": copy.deepcopy(entry.get("schedule", {})),
         **merged,
@@ -137,6 +140,8 @@ def export_catalog(registry: dict[str, Any]) -> dict[str, Any]:
             continue
         row = {"id": mid, "tier": sched["tier"], "placement": sched["placement"],
                "gguf_path": gguf_path(registry, entry)}
+        if entry.get("in_testing"):
+            row["in_testing"] = True
         if "split_groups" in sched:
             row["split_groups"] = sched["split_groups"]
         row["tags"] = sched.get("tags", [])
@@ -213,6 +218,10 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
             seen[name] = mid
         if entry.get("status") not in STATUSES:
             errors.append(f"{mid}: status must be one of {sorted(STATUSES)}")
+        if "in_testing" in entry and type(entry["in_testing"]) is not bool:
+            errors.append(f"{mid}: in_testing must be a boolean")
+        if entry.get("status") == "candidate" and entry.get("in_testing") is not True:
+            errors.append(f"{mid}: candidate models must set in_testing to true")
         for field in ("model_size_bytes", "ngram_size_bytes"):
             value = entry.get(field)
             if type(value) is not int or value < (1 if field == "model_size_bytes" else 0):
@@ -246,6 +255,11 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
         for pname, prof in entry.get("profiles", {}).items():
             if "image" in prof:
                 errors.append(f"{mid}: profile {pname} sets image; all models use the registry runtime_image")
+            tags = prof.get("good_for")
+            if tags is not None and (not isinstance(tags, list) or not tags or
+                                     any(not isinstance(tag, str) or not GOOD_FOR_TAG.fullmatch(tag)
+                                         for tag in tags)):
+                errors.append(f"{mid}/{pname}: good_for must be a nonempty list of category IDs")
             if entry.get("status") in {"active", "candidate"}:
                 merged = resolve(mid, pname, registry)
                 bounds = merged.get("context_bounds") or {}
@@ -278,13 +292,17 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
         except KeyError as exc:
             errors.append(f"{where}: {exc}")
             return
-        if entry["status"] not in ROLE_STATUSES:
-            errors.append(f"{where}: {mid} is {entry['status']}, roles may only use active models")
+        if entry["status"] not in ROLE_STATUSES or entry.get("in_testing"):
+            errors.append(f"{where}: {mid} is not approved for runtime roles")
         if profile not in entry["profiles"]:
             errors.append(f"{where}: {mid} has no profile {profile}")
 
     for role, spec in roles["roles"].items():
         check_ref(f"role {role}", spec["model"], spec.get("profile", "default"))
+        good_for = spec.get("good_for")
+        if not isinstance(good_for, list) or not good_for or any(
+                not isinstance(item, str) or not GOOD_FOR_TAG.fullmatch(item) for item in good_for):
+            errors.append(f"role {role}: good_for must be a nonempty list of category IDs")
     for job in roles["jobs"]:
         if job["role"] not in roles["roles"]:
             errors.append(f"job {job['id']}: unknown role {job['role']}")

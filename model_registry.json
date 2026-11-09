@@ -295,6 +295,7 @@
       },
       "profiles": {
         "default": {
+          "good_for": ["chatbot"],
           "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }.",
           "inference": {
             "temperature": 0.0,
@@ -499,6 +500,7 @@
       },
       "profiles": {
         "default": {
+          "good_for": ["chatbot"],
           "system_prompt": "You are a strict worker assistant. Follow instructions exactly and keep output minimal. When JSON is requested, return raw JSON only. Never wrap JSON in ```json code blocks or markdown formatting. Start JSON with { and end with }.",
           "inference": {
             "temperature": 0.0,
@@ -576,6 +578,7 @@
           }
         },
         "interactive": {
+          "good_for": ["chatbot"],
           "runtime": {
             "ctx_size": 65536,
             "batch_size": 64,
@@ -689,6 +692,7 @@
       "gguf": "mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/JetBrains/Mellum2.1-12B-A2.5B-Thinking-GGUF/resolve/main/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "status": "candidate",
+      "in_testing": true,
       "status_note": "Full code and validated reasoning suites completed by 2026-10-23. HumanEval+ 83.5%, MBPP+ 72.5%, BBH 45.6%, strict prompt IFEval 62%. Candidate for a specialized split-GPU code role; no routine role assigned.",
       "schedule": {
         "tier": 2,
@@ -767,6 +771,7 @@
       "gguf": "minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/openbmb/MiniCPM5-2B-GGUF/resolve/main/MiniCPM5-2B-Q4_K_M.gguf",
       "status": "candidate",
+      "in_testing": true,
       "status_note": "Reasoning smoke and strict IFEval ran by 2026-10-26, but full code was 0.6% HumanEval+ and 1.9% MBPP+. Candidate only for a narrow low-cost worker role after task-specific validation.",
       "schedule": {
         "tier": 1,
@@ -1042,6 +1047,7 @@
       "gguf": "nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/bartowski/nex-agi_Nex-N2.5-mini-GGUF/resolve/main/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "status": "candidate",
+      "in_testing": true,
       "status_note": "Full code and validated reasoning suites completed by 2026-10-17. HumanEval+ 82.3%, BBH 73.8%, strict prompt IFEval 82%. Thinking control requires its template switch; candidate because current active brain alternatives score higher.",
       "schedule": {
         "tier": 3,
@@ -1828,6 +1834,7 @@
           }
         },
         "interactive": {
+          "good_for": ["chatbot"],
           "runtime": {
             "ctx_size": 65536,
             "batch_size": 512,
@@ -1921,6 +1928,7 @@
       "gguf": "qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF/resolve/main/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "status": "candidate",
+      "in_testing": true,
       "status_note": "Full code and validated reasoning suites completed by 2026-10-17. HumanEval+ 90.2%, strict prompt IFEval 92%, but BBH 41.6% in the selected validated run versus 91.6% for active Qwen3.6 27B. Candidate pending a useful role or settings correction.",
       "schedule": {
         "tier": 3,
@@ -2143,6 +2151,7 @@
       "gguf": "qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
       "source_url": "https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF/resolve/main/Qwen3-Coder-Next-Q4_K_S.gguf",
       "status": "candidate",
+      "in_testing": true,
       "status_note": "Full code and validated reasoning suites completed by 2026-10-25. HumanEval+ 89.0%, MBPP+ 75.4%; 162,304-token six-card depth passed. 185,600-token manager placement failed; a later 32K six-card load passed. Candidate for expert-placement research; routine coding offers little measured gain over active Qwen3 Coder 30B for six-card cost.",
       "schedule": {
         "tier": 3,
@@ -2202,6 +2211,7 @@
       "gguf": "k2-v2-instruct/k2v2-Q4_K_M.gguf",
       "source_url": "https://huggingface.co/cturan/K2-V2-Instruct-GGUF/resolve/main/k2v2-Q4_K_M.gguf",
       "status": "candidate",
+      "in_testing": true,
       "status_note": "SHA-256 and 5/6-card load gates passed 2026-10-27. Twenty-one selected smoke results exist by 2026-10-28, including BBH 11.9%, strict prompt IFEval 20%, HumanEval+ 72%; no full run or depth validation. Candidate retained for controlled retest, not routine placement.",
       "schedule": {
         "tier": 3,
@@ -2397,6 +2407,7 @@
       "gguf": "/data/model-hotset/qwen3.8-flash-next-q2_0/Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf",
       "source_url": "https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF/tree/ed59f92082b1e93c0e96d60a8b11aab089b52f09/Q2_0",
       "status": "candidate",
+      "in_testing": true,
       "status_note": "Loading stage complete for the tested Strata Q2_0 recipe; gateway route, 256K recall, and short concurrent chats passed. Capability and application quality remain untested for this quant, so it stays a candidate.",
       "loading_stage": {
         "state": "ready_for_benchmark",

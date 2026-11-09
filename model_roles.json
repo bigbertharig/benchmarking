@@ -8,6 +8,7 @@
       "profile": "default",
       "lane": "3090",
       "why": "Running brain model; Qwen3.8-27B is the next candidate.",
+      "good_for": ["general", "planning", "orchestration_brain"],
       "evidence": "MODEL_BEST_OF 2026-08-22 (qwen3.5:27b provisional); operator choice 2026-10-15"
     },
     "brain_code": {
@@ -15,6 +16,7 @@
       "profile": "default",
       "lane": "3090",
       "why": "Leads MBPP+ base 87.8% vs 85.7%; code-only brain work.",
+      "good_for": ["coding", "code_review", "orchestration_brain"],
       "evidence": "20260813_limit5_all full EvalPlus"
     },
     "split_quality": {
@@ -22,6 +24,7 @@
       "profile": "default",
       "lane": "2x1060",
       "why": "Data prep and split-worker code; HumanEval+ base 87.2%.",
+      "good_for": ["data_preparation", "coding", "split_worker"],
       "evidence": "20260820_modern_validation_l50_retry3"
     },
     "split_speed": {
@@ -29,6 +32,7 @@
       "profile": "default",
       "lane": "2x1060",
       "why": "Faster split lane for parallel import prep and cheaper code work.",
+      "good_for": ["data_preparation", "small_coding", "split_worker"],
       "evidence": "20260820_modern_validation_l50_retry3"
     },
     "single_1060": {
@@ -36,6 +40,7 @@
       "profile": "default",
       "lane": "1x1060",
       "why": "General single-1060 worker: structured extraction, document prep, QA. Provisional; leads qwen2.5-coder:7b on reasoning, ambiguity, orchestration and long context.",
+      "good_for": ["structured_extraction", "document_preparation", "question_answering"],
       "evidence": "smoke suites 2026-10-19 (full code and l50 reasoning pending); switched 2026-10-20"
     },
     "single_1060_code": {
@@ -43,6 +48,7 @@
       "profile": "default",
       "lane": "1x1060",
       "why": "Code on one 1060: still leads ornith-1.5:9b on HumanEval+ (84.1 vs 73.8). The single_1060 default until 2026-10-20.",
+      "good_for": ["coding", "small_coding", "single_gpu_worker"],
       "evidence": "complete l100 suites; full code 2026-10-18"
     },
     "single_1060_compact": {
@@ -50,6 +56,7 @@
       "profile": "default",
       "lane": "1x1060",
       "why": "Tested smaller alternative; weaker than the 7B default.",
+      "good_for": ["compact_worker", "small_tasks"],
       "evidence": "20260820_modern_validation_l50_retry3 full code/runtime"
     },
     "text_extraction": {
@@ -57,6 +64,7 @@
       "profile": "default",
       "lane": "1x1060",
       "why": "Document QA and reading comprehension (high DROP, low code).",
+      "good_for": ["document_qa", "reading_comprehension", "text_extraction"],
       "evidence": "model_task_library 2026-04-28"
     },
     "safe_tool_use": {
@@ -64,6 +72,7 @@
       "profile": "default",
       "lane": "2x1060",
       "why": "Command safety and tool sequencing; not for complex reasoning.",
+      "good_for": ["tool_sequencing", "command_safety"],
       "evidence": "model_task_library 2026-04-28"
     }
   },
