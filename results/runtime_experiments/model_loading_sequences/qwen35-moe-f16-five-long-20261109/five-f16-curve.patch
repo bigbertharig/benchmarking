@@ -1,0 +1,12 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1322,0 +1323 @@
++        std::string(argv[1]) == "moe_five_f16_curve" ||
+@@ -1326 +1327,2 @@
+-        const bool two_chats = std::string(argv[1]) != "five_ongoing_depths";
++        const bool two_chats = std::string(argv[1]) != "five_ongoing_depths" &&
++                               std::string(argv[1]) != "moe_five_f16_curve";
+@@ -1328 +1330,2 @@
+-        const bool full_curve = std::string(argv[1]) == "moe_two_curve";
++        const bool full_curve = std::string(argv[1]) == "moe_two_curve" ||
++                                std::string(argv[1]) == "moe_five_f16_curve";

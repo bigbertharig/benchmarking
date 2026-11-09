@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "name": "qwen35_moe_f16_five_ram_prep_resume_20261109",
+  "stages": [
+    {
+      "id": "resume_five_f16_curve",
+      "state": "ready",
+      "gpus": [0, 1, 2, 3, 4, 5],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-f16-five-cpuprep-build",
+        "KV_KV_TYPE": "f16",
+        "KV_PREP_CPU_FROM_DEPTH": "150000",
+        "KV_SAMPLE_DETAIL": "1"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_five_f16_curve",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "1000",
+        "qwen35_moe_f16_five_16k200k_long_decode_20261109"
+      ],
+      "timeout_s": 43200,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_f16_five_16k200k_long_decode_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_f16_five_16k200k_long_decode_20261109.log"
+      ]
+    }
+  ]
+}

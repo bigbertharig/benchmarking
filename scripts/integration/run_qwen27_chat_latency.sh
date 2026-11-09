@@ -27,7 +27,7 @@ if [ "$mode" = large_chat_latency ]; then
     exit 81
   }
 fi
-if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode" = five_ongoing_depths ] || [ "$mode" = moe_two_depths ] || [ "$mode" = moe_two_short ] || [ "$mode" = moe_two_curve ]; then
+if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode" = five_ongoing_depths ] || [ "$mode" = moe_five_f16_curve ] || [ "$mode" = moe_two_depths ] || [ "$mode" = moe_two_short ] || [ "$mode" = moe_two_curve ]; then
   mkdir -p "$base/$label.states"
 fi
 date -u +%FT%TZ > "$base/$label.start"
@@ -67,6 +67,7 @@ docker run --rm --gpus all --network none \
   -e "KV_DELTA_COMPARE_MODE=${KV_DELTA_COMPARE_MODE-}" \
   -e "KV_MIRROR_CHATS=${KV_MIRROR_CHATS-}" \
   -e "KV_MIRROR_CAP=${KV_MIRROR_CAP-}" \
+  -e "KV_PREP_CPU_FROM_DEPTH=${KV_PREP_CPU_FROM_DEPTH-}" \
   -e "KV_KV_TYPE=${KV_KV_TYPE-}" \
   -e "KV_K_TYPE=${KV_K_TYPE-}" -e "KV_V_TYPE=${KV_V_TYPE-}" \
   -e "KV_WORKER_UBATCH=${KV_WORKER_UBATCH-}" \

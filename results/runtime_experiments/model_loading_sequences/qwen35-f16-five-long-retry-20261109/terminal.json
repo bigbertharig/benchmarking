@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T21:36:55+00:00",
+  "manifest_sha256": "cc5780be83ee19ba0678d79faf844905cbf9c2a50c301ada33cc420e6a4807d9",
+  "reason": "exit 103; see five_f16_curve.log",
+  "run_id": "qwen35-f16-five-long-retry-20261109",
+  "stages": {
+    "five_f16_curve": "failed"
+  },
+  "started_at": "2026-11-09T21:16:46+00:00",
+  "status": "failed"
+}

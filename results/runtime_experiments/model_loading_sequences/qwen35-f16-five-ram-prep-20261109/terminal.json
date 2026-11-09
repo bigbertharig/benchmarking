@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T22:24:23+00:00",
+  "manifest_sha256": "377f204081ff388eea4de9d967822acb2deac5cccf554e3df6e134fe745129a3",
+  "reason": "exit 137; see resume_five_f16_curve.log",
+  "run_id": "qwen35-f16-five-ram-prep-20261109",
+  "stages": {
+    "resume_five_f16_curve": "failed"
+  },
+  "started_at": "2026-11-09T21:38:02+00:00",
+  "status": "failed"
+}

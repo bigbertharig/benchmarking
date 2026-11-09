@@ -1,0 +1,35 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_five_f16_curve",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "1000",
+    "qwen35_moe_f16_five_16k200k_long_decode_20261109"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_KV_TYPE",
+    "KV_SAMPLE_DETAIL"
+  ],
+  "error": "exit 103; see five_f16_curve.log",
+  "exit_code": 103,
+  "finished_at": "2026-11-09T21:36:55+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29849744,
+  "host_min_available_kib": 25741428,
+  "id": "five_f16_curve",
+  "started_at": "2026-11-09T21:16:46+00:00",
+  "status": "failed",
+  "timeout_s": 21600
+}

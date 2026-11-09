@@ -266,6 +266,38 @@ in every receipt.
    depths. Report per-turn speed ranges for each working layout, including
    how concurrent worker chats affect the main chat.
 
+9. **Five-chat F16 preparation and contention.** The
+   [16K–200K five-chat curve](results/runtime_experiments/model_loading_sequences/qwen35-moe-f16-five-long-20261109/README.md)
+   keeps model weights on GPU0, no resident GPU0 main chat, and one F16
+   chat on each 1060. At 150K, temporary GPU0 F16 preparation failed a
+   3,040 MiB allocation; RAM-backed preparation can continue. Test compact
+   Q4_1 preparation KV on GPU0, then conversion or transfer to a worker's
+   F16 KV. Compare against RAM preparation at 150K and 200K, recording
+   preparation and transfer time, GPU0 peak VRAM, and first useful token.
+   With identical worker KV and occupied histories, trace GPU0 compute,
+   each x1 link, and 1060 attention during matched solo and five-chat
+   1,000-token windows. At 16K the five-chat rates fell from 76.5 solo to
+   about 40 tok/s per chat; at 100K, from 33 solo to about 27. Find the
+   shared bottleneck before trying another placement or buffer change.
+   **Admission concurrency comparison:** use the same 35B weights, five
+   distinct histories, F16 worker KV, reserved context, and occupied depth.
+   Measure (a) one direct 1060 fill, (b) five direct 1060 fills started
+   together, (c) sequential GPU0 preparation plus handoff, and (d) compact
+   GPU0 preparation or RAM fallback when needed. Record time until each
+   chat's first correct answer and until all five are ready, GPU0 occupancy,
+   1060/link utilization, and the continuing chats' delay. Start at a
+   modest depth before testing a deeper crossover; stop an arm once its
+   measured rate makes the remaining time uninformative. A direct 1060 fill
+   still uses GPU0 model weights, so parallel 1060 KV work may contend for
+   shared GPU0 compute. The separate 27B 102K result favored sequential
+   GPU0 preparation per chat, but it did not test five concurrent fills or
+   this 35B RAM-backed preparation boundary.
+
+   The [partial five-chat F16 result](results/runtime_experiments/model_loading_sequences/qwen35-moe-f16-five-long-20261109/README.md)
+   completed 16K–100K decode and exposed a 150K admission boundary. The
+   RAM-backed 100K → 150K preparation took about 594 seconds per chat,
+   sequentially; the user canceled before 150K five-chat decode.
+
 ## Model and engine follow-ups
 
 These are promising directions, not a fixed order or a checklist to finish

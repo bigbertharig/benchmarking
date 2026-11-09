@@ -1,0 +1,151 @@
+{
+  "status": "canceled_by_user",
+  "terminal_run_id": "qwen35-f16-five-ram-prep-20261109",
+  "terminal_status": "failed",
+  "terminal_reason": "exit 137; see resume_five_f16_curve.log",
+  "completed_depths": {
+    "16384": {
+      "solo_tps": 76.537775,
+      "five_chat_tps": {
+        "worker1": 40.456645,
+        "worker3": 39.873405,
+        "worker4": 39.803582,
+        "worker2": 39.555426,
+        "worker5": 39.552597
+      },
+      "prep_usable_seconds": {
+        "worker1": 14.398528,
+        "worker2": 14.289191,
+        "worker3": 14.218719,
+        "worker4": 14.28405,
+        "worker5": 14.256813
+      },
+      "handoff_seconds": {
+        "worker1": 1.104815,
+        "worker2": 1.119652,
+        "worker3": 1.11112,
+        "worker4": 1.120005,
+        "worker5": 1.111947
+      },
+      "private_code_recall_passed": true
+    },
+    "32768": {
+      "solo_tps": 60.000546,
+      "five_chat_tps": {
+        "worker1": 36.755866,
+        "worker4": 36.338428,
+        "worker3": 36.290756,
+        "worker5": 36.252926,
+        "worker2": 36.125858
+      },
+      "prep_usable_seconds": {
+        "worker1": 16.505952,
+        "worker2": 19.949268,
+        "worker3": 19.968147,
+        "worker4": 20.26686,
+        "worker5": 20.002304
+      },
+      "handoff_seconds": {
+        "worker1": 2.11462,
+        "worker2": 2.132007,
+        "worker3": 2.133865,
+        "worker4": 2.132999,
+        "worker5": 2.139167
+      },
+      "private_code_recall_passed": true
+    },
+    "50000": {
+      "solo_tps": 49.605585,
+      "five_chat_tps": {
+        "worker3": 35.223022,
+        "worker2": 35.214447,
+        "worker5": 35.090302,
+        "worker1": 35.083894,
+        "worker4": 34.656321
+      },
+      "prep_usable_seconds": {
+        "worker1": 19.499365,
+        "worker2": 25.822805,
+        "worker3": 25.857997,
+        "worker4": 25.731422,
+        "worker5": 25.75587
+      },
+      "handoff_seconds": {
+        "worker1": 3.203581,
+        "worker2": 3.206519,
+        "worker3": 3.200972,
+        "worker4": 3.218276,
+        "worker5": 3.193823
+      },
+      "private_code_recall_passed": true
+    },
+    "100000": {
+      "solo_tps": 33.008017,
+      "five_chat_tps": {
+        "worker1": 27.485922,
+        "worker3": 27.408448,
+        "worker5": 27.297449,
+        "worker2": 27.231186,
+        "worker4": 26.93978
+      },
+      "prep_usable_seconds": {
+        "worker1": 54.926156,
+        "worker2": 64.219249,
+        "worker3": 64.07425,
+        "worker4": 64.204068,
+        "worker5": 64.130606
+      },
+      "handoff_seconds": {
+        "worker1": 6.336823,
+        "worker2": 6.333819,
+        "worker3": 6.298618,
+        "worker4": 6.290851,
+        "worker5": 6.294941
+      },
+      "private_code_recall_passed": true
+    }
+  },
+  "partial_150000": {
+    "prepared_chats": [
+      "worker1",
+      "worker2",
+      "worker3",
+      "worker4"
+    ],
+    "usable_seconds": {
+      "worker1": 593.50351,
+      "worker2": 593.668317,
+      "worker3": 593.902362,
+      "worker4": 593.192508
+    },
+    "total_seconds": {
+      "worker1": 633.294971,
+      "worker2": 633.356292,
+      "worker3": 633.781811,
+      "worker4": 633.088507
+    },
+    "handoff_seconds": {
+      "worker1": 9.394707,
+      "worker2": 9.411423,
+      "worker3": 9.393114,
+      "worker4": 9.397662
+    },
+    "five_chat_decode_measured": false
+  },
+  "gpu_preparation_peak_mib": {
+    "0": 23851,
+    "1": 5201,
+    "2": 5201,
+    "3": 5201,
+    "4": 5201,
+    "5": 5201
+  },
+  "ram_preparation_peak_mib": {
+    "0": 22127,
+    "1": 5201,
+    "2": 5201,
+    "3": 5201,
+    "4": 5201,
+    "5": 5197
+  }
+}
