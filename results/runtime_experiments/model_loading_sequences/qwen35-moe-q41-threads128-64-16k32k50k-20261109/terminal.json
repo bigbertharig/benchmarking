@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T06:22:39+00:00",
+  "manifest_sha256": "594d740d3ca44381872a6007e5c07fdb968bc3eb0b0e12c365701a973749b8ed",
+  "run_id": "qwen35-moe-q41-threads128-64-16k32k50k-20261109",
+  "stages": {
+    "native128_after": "passed",
+    "native128_before": "passed",
+    "native64": "passed"
+  },
+  "started_at": "2026-11-09T06:21:33+00:00",
+  "status": "passed"
+}

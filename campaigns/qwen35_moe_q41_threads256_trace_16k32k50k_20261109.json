@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "name": "qwen35_moe_q41_threads256_trace_16k32k50k_20261109",
+  "stages": [
+    {
+      "id": "16k",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-256-build"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen35_decode_trace.sh",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "16384",
+        "qwen35_moe_q41_threads256_trace_16k32k50k_20261109_16k",
+        "64"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_16k.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_16k.log",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_16k.nsys-rep"
+      ]
+    },
+    {
+      "id": "32k",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-256-build"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen35_decode_trace.sh",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "32768",
+        "qwen35_moe_q41_threads256_trace_16k32k50k_20261109_32k",
+        "64"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_32k.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_32k.log",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_32k.nsys-rep"
+      ]
+    },
+    {
+      "id": "50k",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-256-build"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen35_decode_trace.sh",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "50000",
+        "qwen35_moe_q41_threads256_trace_16k32k50k_20261109_50k",
+        "64"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_50k.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_50k.log",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_threads256_trace_16k32k50k_20261109_50k.nsys-rep"
+      ]
+    }
+  ]
+}

@@ -889,6 +889,42 @@ generation speed at the same three depths. A separate hot-F16-KV-cache idea
 could remove the fallback's recurrent conversion cost while retaining compact
 Q4_1 backing; that needs a distinct memory and setup-time budget.
 
+The [256-thread native Q4_1 A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-threads128-256-16k32k50k-20261109/README.md)
+slowed worker decode about 5.0%/4.0%/4.1% at 16K/32K/50K. Its
+[traces](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-threads256-trace-16k32k50k-20261109/README.md)
+showed nearly unchanged register use (255 to 254 per thread), fewer KV
+partitions (grid Y 5 to 3), and more attention-kernel time. The opposite
+[64-thread A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-threads128-64-16k32k50k-20261109/README.md)
+was effectively tied with 128 threads at 32K/50K and about 1% slower in
+64-token throughput at 16K because its first token was slower. Its
+[traces](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-threads64-trace-16k32k50k-20261109/README.md)
+kept five KV partitions and nearly the same register use and attention time.
+Thus 64/128/256-thread launch shape is not a useful speed lever for this
+native Q4_1 kernel on the 1060. The F16 attention fallback remains the
+fastest tested Q4_1 path. The next promising idea is a separately budgeted
+F16 hot KV window with compact Q4_1 backing, since repeated dequantization
+costs 241/477/729 ms per 64 tokens at 16K/32K/50K in the fallback traces.
+
+### Which findings transfer to other models
+
+The experimental method transfers: separate weight placement from each chat's
+KV placement, measure setup/transfer and per-chat decode separately, and use
+saved-history A/B/A controls plus device-specific traces before changing a
+kernel. The hardware-tier constraint also transfers on this rig: a 1060's
+x1 link and 6 GiB VRAM limit the amount and frequency of data it can receive.
+
+Capacity and speed must be measured for each model and attention family.
+Number of layers, KV heads, head size, context scheme, and cache format change
+KV bytes and attention work per token. Dense, sliding-window, and sparse
+attention need different placement and growth assumptions. MoE routing and
+expert caching affect the weight path but do not by themselves make a long
+chat's KV cheap. The exact Q4_1 fallback advantage, register counts, thread
+choice, and tok/s above are specific to this Qwen3.6 build, Pascal CUDA
+kernel, and tested context depths; they are not universal loader settings.
+Before applying a speed rule elsewhere, replay the same short depth curve on
+at least one different dense and one different MoE model, recording the
+selected kernel, KV footprint, occupied context, GPU topology, and setup time.
+
 Near-term tests stay at occupied **16K, 32K, and 50K** on a 262K-cap worker.
 Use 100K only when a short result merits a targeted slope check. Do not run
 every format or placement through 150K/200K yet. Measure each change against

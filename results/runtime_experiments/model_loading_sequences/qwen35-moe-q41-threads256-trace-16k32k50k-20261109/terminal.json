@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T06:18:43+00:00",
+  "manifest_sha256": "9e39dbd981ce6c41d169eb3c43118da61ce74058bd5d9ec246dbaf2eb3a17961",
+  "run_id": "qwen35-moe-q41-threads256-trace-16k32k50k-20261109",
+  "stages": {
+    "16k": "passed",
+    "32k": "passed",
+    "50k": "passed"
+  },
+  "started_at": "2026-11-09T06:17:50+00:00",
+  "status": "passed"
+}
