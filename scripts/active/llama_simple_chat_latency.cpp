@@ -143,6 +143,21 @@ static bool decode_raw(chat & c, const std::vector<llama_token> & tokens,
     return true;
 }
 
+static bool decode_raw_progress(chat & c, const std::vector<llama_token> & tokens,
+                                int count, int depth) {
+    const auto started = clock_type::now();
+    const int begin = c.used;
+    while (c.used - begin < count) {
+        const int chunk = std::min(8192, count - (c.used - begin));
+        if (!decode_raw(c, tokens, chunk)) return false;
+        const double seconds = std::chrono::duration<double>(clock_type::now()-started).count();
+        std::fprintf(stderr, "PREP_PROGRESS name=%s depth=%d used=%d added=%d seconds=%.2f\n",
+                     c.name, depth, c.used, c.used-begin, seconds);
+        std::fflush(stderr);
+    }
+    return true;
+}
+
 static bool recall_answer(chat & c, const llama_vocab * vocab,
                           const char * expected, int depth, int max_tokens) {
     c.next = tokenize_text(vocab,
@@ -1026,6 +1041,95 @@ int main(int argc, char ** argv) {
         destroy(large);
         destroy(w5);
         destroy(w4);
+        llama_model_free(model);
+        return 0;
+    }
+    if (std::string(argv[1]) == "five_ongoing_depths") {
+        const char * state_dir = std::getenv("KV_STATE_DIR");
+        if (!state_dir || pair_cap < 210000 || tokens < 2) return 100;
+        const int depths[4] = {50000, 100000, 150000, 200000};
+        const char * codes[5] = {"4827", "6193", "7358", "2046", "8915"};
+        const char * cards[5] = {"1", "2", "3", "4", "5"};
+        chat w1{"worker1", "", nullptr, cards[0]};
+        chat w2{"worker2", "", nullptr, cards[1]};
+        chat w3{"worker3", "", nullptr, cards[2]};
+        chat w4{"worker4", "", nullptr, cards[3]};
+        chat w5{"worker5", "", nullptr, cards[4]};
+        const std::vector<chat *> workers{&w1, &w2, &w3, &w4, &w5};
+        for (chat * worker : workers) {
+            if (!add_chat(*worker, model, vocab, pair_cap)) return 101;
+        }
+        for (int stage = 0; stage < 4; ++stage) {
+            const int depth = depths[stage];
+            const std::string done_path = std::string(state_dir) + "/depth" +
+                std::to_string(depth) + ".done";
+            if (std::ifstream(done_path).good()) {
+                std::fprintf(stderr, "DEPTH_REUSE depth=%d\n", depth);
+                continue;
+            }
+            for (int i = 0; i < 5; ++i) {
+                const std::string path = std::string(state_dir) + "/worker" +
+                    std::to_string(i+1) + "_depth" + std::to_string(depth) + ".bin";
+                snapshot state;
+                if (read_snapshot_file(path, state)) {
+                    if (!restore(*workers[i], state)) return 102;
+                    std::fprintf(stderr, "PREP_REUSE name=%s depth=%d\n", workers[i]->name, depth);
+                    continue;
+                }
+                const std::string prompt = std::string("<|im_start|>user\n") +
+                    "Remember my private four-digit code: " + codes[i] +
+                    ". I will ask for it after several turns.\n";
+                chat temp{workers[i]->name, prompt.c_str(), nullptr, "0"};
+                if (!add_chat(temp, model, vocab, pair_cap, true)) return 103;
+                if (stage == 0) {
+                    if (!decode_raw(temp, temp.next)) return 104;
+                } else {
+                    const std::string previous = std::string(state_dir) + "/worker" +
+                        std::to_string(i+1) + "_depth" + std::to_string(depths[stage-1]) + ".bin";
+                    snapshot prior;
+                    if (!read_snapshot_file(previous, prior) || !restore(temp, prior)) return 105;
+                    prior.data.clear();
+                    prior.data.shrink_to_fit();
+                    if (!decode_raw(temp, temp.next)) return 106;
+                    const auto next_user = tokenize_text(vocab,
+                        "\n<|im_start|>user\nHere is another batch of unrelated field notes.\n", false);
+                    if (next_user.empty() || !decode_raw(temp, next_user)) return 107;
+                }
+                const std::string note = std::string(" Entry ") + std::to_string(i+1) +
+                    " describes a blue bicycle beside a river, a quiet bridge, and mild weather.\n";
+                const auto filler = tokenize_text(vocab, note, false);
+                if (filler.empty() || temp.used >= depth ||
+                    !decode_raw_progress(temp, filler, depth-temp.used, depth)) return 108;
+                if (!save(temp, state)) return 109;
+                destroy(temp);
+                if (!restore(*workers[i], state)) return 110;
+                state.data.clear();
+                state.data.shrink_to_fit();
+                if (!recall_answer(*workers[i], vocab, codes[i], depth, 64)) return 111;
+                if (!save(*workers[i], state) || !write_snapshot_file(path, state)) return 112;
+                std::fprintf(stderr, "PREP_DONE name=%s depth=%d used=%d\n",
+                             workers[i]->name, depth, workers[i]->used);
+                std::fflush(stderr);
+            }
+            const std::string phase_solo = "depth" + std::to_string(depth) + "_solo";
+            if (!measured_parallel(vocab, {workers[0]}, tokens, phase_solo.c_str())) return 113;
+            const std::string first_path = std::string(state_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            snapshot first_state;
+            if (!read_snapshot_file(first_path, first_state) ||
+                !restore(*workers[0], first_state)) return 114;
+            const std::string phase_five = "depth" + std::to_string(depth) + "_five";
+            if (!measured_parallel(vocab, workers, tokens, phase_five.c_str())) return 115;
+            std::ofstream done(done_path + ".tmp");
+            done << "complete depth=" << depth << "\n";
+            done.close();
+            if (!done || std::rename((done_path + ".tmp").c_str(), done_path.c_str()) != 0)
+                return 116;
+            std::fprintf(stderr, "DEPTH_DONE depth=%d chats=5 solo_tokens=%d parallel_tokens=%d\n",
+                         depth, tokens, tokens);
+            std::fflush(stderr);
+        }
+        for (auto it = workers.rbegin(); it != workers.rend(); ++it) destroy(**it);
         llama_model_free(model);
         return 0;
     }

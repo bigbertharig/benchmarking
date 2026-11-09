@@ -27,7 +27,7 @@ if [ "$mode" = large_chat_latency ]; then
     exit 81
   }
 fi
-if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ]; then
+if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode" = five_ongoing_depths ]; then
   mkdir -p "$base/$label.states"
 fi
 date -u +%FT%TZ > "$base/$label.start"
