@@ -830,6 +830,17 @@ The separate
 showed about 15.3 tok/s per simultaneous chat at 100K versus Q4's 9.3, then
 was intentionally stopped before a complete 150K result.
 
+The [Q4_1 main/secondary replay](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-main-secondary-16k32k50k-20261109/README.md)
+confirmed one GPU0 model load with independent 262K-reserved Q4_1 KV chats
+on GPUs1 and 2. At occupied 16K/32K/50K, main-alone decode was about
+50/35/24 tok/s; with both active, main was 54/34/23 and secondary was
+52/33/23. In the preceding checkpoint preparation, GPU0 built each chat's
+history and handed its state to the 1060: the capture/restore portion took
+about 0.4/0.7/1.1 s by depth, while usable setup took roughly 14-25 s.
+Smaller KV state therefore reduces worker memory and handoff bytes, but does
+not directly speed GPU0 prefill. This replay does not yet cover alternating
+conversation turns.
+
 Near-term tests stay at occupied **16K, 32K, and 50K** on a 262K-cap worker.
 Use 100K only when a short result merits a targeted slope check. Do not run
 every format or placement through 150K/200K yet. Measure each change against

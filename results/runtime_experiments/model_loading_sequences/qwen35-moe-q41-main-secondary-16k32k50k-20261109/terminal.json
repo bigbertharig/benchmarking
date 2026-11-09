@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T04:57:10+00:00",
+  "manifest_sha256": "5ff94da7315f4d96219deb36ff56ce3cfdd296828e4dcc6611756592de914960",
+  "run_id": "qwen35-moe-q41-main-secondary-16k32k50k-20261109",
+  "stages": {
+    "q41_main_secondary": "passed"
+  },
+  "started_at": "2026-11-09T04:55:57+00:00",
+  "status": "passed"
+}
