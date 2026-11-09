@@ -63,6 +63,10 @@ docker run --rm --gpus all --network none \
   -v "$base:/state" -e "KV_STATE_DIR=/state/$label.states" \
   -e "KV_STATE_SOURCE_DIR=${KV_STATE_SOURCE_DIR-}" \
   -e "KV_REPLAY_CHAT_GPUS=${KV_REPLAY_CHAT_GPUS-}" \
+  -e "KV_DELTA_SOURCE_DEPTH=${KV_DELTA_SOURCE_DEPTH-}" \
+  -e "KV_DELTA_COMPARE_MODE=${KV_DELTA_COMPARE_MODE-}" \
+  -e "KV_MIRROR_CHATS=${KV_MIRROR_CHATS-}" \
+  -e "KV_MIRROR_CAP=${KV_MIRROR_CAP-}" \
   -e "KV_KV_TYPE=${KV_KV_TYPE-}" \
   -e "KV_K_TYPE=${KV_K_TYPE-}" -e "KV_V_TYPE=${KV_V_TYPE-}" \
   -e "KV_WORKER_UBATCH=${KV_WORKER_UBATCH-}" \

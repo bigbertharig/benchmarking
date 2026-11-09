@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T20:34:17+00:00",
+  "manifest_sha256": "94fcb97d25144ebd23c8da6893581e2e925f03cc8b179c433ffd95b498659eb9",
+  "reason": "exit 26; see depth50k_five_chats.log",
+  "run_id": "qwen27-mirror-50k-five-20261109",
+  "stages": {
+    "depth50k_five_chats": "failed"
+  },
+  "started_at": "2026-11-09T20:32:59+00:00",
+  "status": "failed"
+}

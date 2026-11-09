@@ -1,0 +1,137 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "depth": 100000,
+      "mode": "full",
+      "label": "qwen35_moe_turn_full_delta_100k200k_20261109_100000_full",
+      "turns": [
+        {
+          "turn": 1,
+          "bytes": 709395325,
+          "prep_s": 0.390268,
+          "handoff_s": 2.056023,
+          "gpu0_workspace_s": 2.694453,
+          "response_first_s": 0.53964,
+          "request_to_first_s": 3.234093,
+          "response_s": 0.770709,
+          "capture_s": 1.873951,
+          "total_s": 5.339113,
+          "recall": true
+        },
+        {
+          "turn": 2,
+          "bytes": 710525949,
+          "prep_s": 0.228584,
+          "handoff_s": 2.066054,
+          "gpu0_workspace_s": 2.539941,
+          "response_first_s": 0.527378,
+          "request_to_first_s": 3.067319,
+          "response_s": 0.756905,
+          "capture_s": 1.557339,
+          "total_s": 4.854185,
+          "recall": true
+        }
+      ]
+    },
+    {
+      "depth": 100000,
+      "mode": "delta",
+      "label": "qwen35_moe_turn_full_delta_100k200k_20261109_100000_delta",
+      "turns": [
+        {
+          "turn": 1,
+          "bytes": 66764052,
+          "prep_s": 0.377521,
+          "handoff_s": 0.051939,
+          "gpu0_workspace_s": 0.673485,
+          "response_first_s": 0.536273,
+          "request_to_first_s": 1.209758,
+          "response_s": 0.767013,
+          "capture_s": 1.870105,
+          "total_s": 3.310603,
+          "recall": true
+        },
+        {
+          "turn": 2,
+          "bytes": 66764052,
+          "prep_s": 0.208344,
+          "handoff_s": 0.050111,
+          "gpu0_workspace_s": 0.520112,
+          "response_first_s": 0.521574,
+          "request_to_first_s": 1.041686,
+          "response_s": 0.748844,
+          "capture_s": 1.5573,
+          "total_s": 2.826256,
+          "recall": true
+        }
+      ]
+    },
+    {
+      "depth": 200000,
+      "mode": "full",
+      "label": "qwen35_moe_turn_full_delta_100k200k_20261109_200000_full",
+      "turns": [
+        {
+          "turn": 1,
+          "bytes": 1351795325,
+          "prep_s": 0.419352,
+          "handoff_s": 4.049718,
+          "gpu0_workspace_s": 4.861376,
+          "response_first_s": 0.997965,
+          "request_to_first_s": 5.859341,
+          "response_s": 1.410391,
+          "capture_s": 3.696739,
+          "total_s": 9.968506,
+          "recall": true
+        },
+        {
+          "turn": 2,
+          "bytes": 1352925949,
+          "prep_s": 0.25687,
+          "handoff_s": 4.080607,
+          "gpu0_workspace_s": 4.716942,
+          "response_first_s": 0.930329,
+          "request_to_first_s": 5.647271,
+          "response_s": 1.338328,
+          "capture_s": 3.095447,
+          "total_s": 9.150718,
+          "recall": true
+        }
+      ]
+    },
+    {
+      "depth": 200000,
+      "mode": "delta",
+      "label": "qwen35_moe_turn_full_delta_100k200k_20261109_200000_delta",
+      "turns": [
+        {
+          "turn": 1,
+          "bytes": 66764052,
+          "prep_s": 0.417612,
+          "handoff_s": 0.054001,
+          "gpu0_workspace_s": 0.857323,
+          "response_first_s": 0.952273,
+          "request_to_first_s": 1.809596,
+          "response_s": 1.359519,
+          "capture_s": 3.705754,
+          "total_s": 5.922597,
+          "recall": true
+        },
+        {
+          "turn": 2,
+          "bytes": 66764052,
+          "prep_s": 0.268861,
+          "handoff_s": 0.051605,
+          "gpu0_workspace_s": 0.710168,
+          "response_first_s": 0.928132,
+          "request_to_first_s": 1.6383,
+          "response_s": 1.336135,
+          "capture_s": 3.095491,
+          "total_s": 5.141794,
+          "recall": true
+        }
+      ]
+    }
+  ]
+}

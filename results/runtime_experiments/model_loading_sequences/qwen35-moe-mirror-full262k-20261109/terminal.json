@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T20:23:31+00:00",
+  "manifest_sha256": "5f6e3056789ba260b67cff59fcfde76d94751c621cd2c6385f40a56d0186f0c5",
+  "run_id": "qwen35-moe-mirror-full262k-20261109",
+  "stages": {
+    "full262k": "passed"
+  },
+  "started_at": "2026-11-09T20:23:01+00:00",
+  "status": "passed"
+}

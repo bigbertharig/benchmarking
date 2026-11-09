@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "depth": 50000,
+      "label": "qwen27_mirror_50k_20261109",
+      "adds": [
+        "MIRROR_ADD chat=1 depth=50000 cap=65536 source_bytes=1080359194",
+        "MIRROR_ADD chat=2 depth=50000 cap=65536 source_bytes=1080359194"
+      ],
+      "turns": [
+        "MIRROR_TURN chat=1 depth=50000 turn=1 outbound_bytes=159478612 outbound_s=0.111881 response_first_s=1.016810 response_s=1.637330 return_bytes=157559188 return_s=0.104868 total_s=2.537631 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=50000 turn=1 outbound_bytes=159478612 outbound_s=0.110762 response_first_s=1.024388 response_s=1.644346 return_bytes=157559188 return_s=0.103960 total_s=2.199323 state_equal=1 recall=1",
+        "MIRROR_TURN chat=1 depth=50000 turn=2 outbound_bytes=159478612 outbound_s=0.110883 response_first_s=1.023993 response_s=1.638135 return_bytes=157559188 return_s=0.105637 total_s=2.212281 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=50000 turn=2 outbound_bytes=159478612 outbound_s=0.109937 response_first_s=0.988091 response_s=1.607043 return_bytes=157559188 return_s=0.103926 total_s=2.147156 state_equal=1 recall=1"
+      ],
+      "peak_mib": {
+        "0": 19307,
+        "1": 5717,
+        "2": 5717,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      },
+      "total_s": [
+        2.537631,
+        2.199323,
+        2.212281,
+        2.147156
+      ],
+      "first_s": [
+        1.01681,
+        1.024388,
+        1.023993,
+        0.988091
+      ]
+    },
+    {
+      "depth": 100000,
+      "label": "qwen27_mirror_100k_20261109",
+      "adds": [
+        "MIRROR_ADD chat=1 depth=100000 cap=114688 source_bytes=2003159194",
+        "MIRROR_ADD chat=2 depth=100000 cap=114688 source_bytes=2003159194"
+      ],
+      "turns": [
+        "MIRROR_TURN chat=1 depth=100000 turn=1 outbound_bytes=159478612 outbound_s=0.115693 response_first_s=1.676650 response_s=2.775597 return_bytes=157559188 return_s=0.105551 total_s=3.570638 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=100000 turn=1 outbound_bytes=159478612 outbound_s=0.111904 response_first_s=1.677084 response_s=2.782611 return_bytes=157559188 return_s=0.103856 total_s=3.447927 state_equal=1 recall=1",
+        "MIRROR_TURN chat=1 depth=100000 turn=2 outbound_bytes=159478612 outbound_s=0.110009 response_first_s=1.698164 response_s=2.795678 return_bytes=157559188 return_s=0.103861 total_s=3.415308 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=100000 turn=2 outbound_bytes=159478612 outbound_s=0.110137 response_first_s=1.713271 response_s=2.818223 return_bytes=157559188 return_s=0.105515 total_s=3.429052 state_equal=1 recall=1"
+      ],
+      "peak_mib": {
+        "0": 21423,
+        "1": 5717,
+        "2": 5717,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      },
+      "total_s": [
+        3.570638,
+        3.447927,
+        3.415308,
+        3.429052
+      ],
+      "first_s": [
+        1.67665,
+        1.677084,
+        1.698164,
+        1.713271
+      ]
+    }
+  ]
+}

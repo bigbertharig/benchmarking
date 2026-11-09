@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "codec": "zstd --patch-from -1",
+  "cases": [
+    {
+      "worker": 1,
+      "old_depth": 16384,
+      "new_depth": 32768,
+      "old_bytes": 171346813,
+      "full_bytes": 276597629,
+      "compressed_full_bytes": 250755126,
+      "patch_bytes": 155399502,
+      "exact_reconstruction": true,
+      "full_encode": 0.845,
+      "delta_encode": 0.934,
+      "delta_decode": 0.348
+    },
+    {
+      "worker": 1,
+      "old_depth": 32768,
+      "new_depth": 50000,
+      "old_bytes": 276597629,
+      "full_bytes": 387295997,
+      "compressed_full_bytes": 349255376,
+      "patch_bytes": 159989052,
+      "exact_reconstruction": true,
+      "full_encode": 1.201,
+      "delta_encode": 1.131,
+      "delta_decode": 0.452
+    },
+    {
+      "worker": 2,
+      "old_depth": 32768,
+      "new_depth": 50000,
+      "old_bytes": 276597629,
+      "full_bytes": 387295997,
+      "compressed_full_bytes": 349045605,
+      "patch_bytes": 159832258,
+      "exact_reconstruction": true,
+      "full_encode": 3.481,
+      "delta_encode": 3.478,
+      "delta_decode": 0.456
+    },
+    {
+      "worker": 1,
+      "old_depth": 50000,
+      "new_depth": 100000,
+      "old_bytes": 387295997,
+      "full_bytes": 708495997,
+      "compressed_full_bytes": 633072294,
+      "patch_bytes": 346062759,
+      "exact_reconstruction": true,
+      "full_encode": 2.242,
+      "delta_encode": 2.227,
+      "delta_decode": 0.834
+    },
+    {
+      "worker": 2,
+      "old_depth": 50000,
+      "new_depth": 100000,
+      "old_bytes": 387295997,
+      "full_bytes": 708495997,
+      "compressed_full_bytes": 632483164,
+      "patch_bytes": 345578919,
+      "exact_reconstruction": true,
+      "full_encode": 6.469,
+      "delta_encode": 5.637,
+      "delta_decode": 0.855
+    }
+  ]
+}

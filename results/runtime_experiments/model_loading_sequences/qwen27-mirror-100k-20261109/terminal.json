@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T20:31:17+00:00",
+  "manifest_sha256": "eda49f5cba1f99a33112a04611d441c679593e89f15d92af65bf6a9a4486c602",
+  "run_id": "qwen27-mirror-100k-20261109",
+  "stages": {
+    "depth100k_two_chats": "passed"
+  },
+  "started_at": "2026-11-09T20:29:38+00:00",
+  "status": "passed"
+}

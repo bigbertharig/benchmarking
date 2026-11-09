@@ -1,0 +1,13 @@
+{
+  "finished_at": "2026-11-09T20:14:12+00:00",
+  "manifest_sha256": "5a2723b84513a0472991ce248737c00c6a28c88b9e03e72516690230bd18d4d1",
+  "run_id": "qwen35-moe-turn-ab-20261109",
+  "stages": {
+    "depth100000_delta": "passed",
+    "depth100000_full": "passed",
+    "depth200000_delta": "passed",
+    "depth200000_full": "passed"
+  },
+  "started_at": "2026-11-09T20:12:12+00:00",
+  "status": "passed"
+}

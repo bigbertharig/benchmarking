@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T19:59:27+00:00",
+  "manifest_sha256": "5ec24fb82d47ad093b2c55093e9c43b313ee21f96df31d3276903e9099ad200b",
+  "reason": "exit 241; see from50000.log",
+  "run_id": "qwen35-moe-live-delta-validated-20261109",
+  "stages": {
+    "from16384": "passed",
+    "from50000": "failed"
+  },
+  "started_at": "2026-11-09T19:59:02+00:00",
+  "status": "failed"
+}

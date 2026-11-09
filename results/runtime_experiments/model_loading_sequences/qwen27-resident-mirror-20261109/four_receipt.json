@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "adds": [
+    "MIRROR_ADD chat=1 depth=50000 cap=65536 source_bytes=1080359194",
+    "MIRROR_ADD chat=2 depth=50000 cap=65536 source_bytes=1080359194",
+    "MIRROR_ADD chat=3 depth=50000 cap=65536 source_bytes=1080359194",
+    "MIRROR_ADD chat=4 depth=50000 cap=65536 source_bytes=1080359194"
+  ],
+  "turns": [
+    "MIRROR_TURN chat=1 depth=50000 turn=1 outbound_bytes=159478612 outbound_s=0.114524 response_first_s=1.043891 response_s=1.662357 return_bytes=157559188 return_s=0.106572 total_s=2.535137 state_equal=1 recall=1",
+    "MIRROR_TURN chat=2 depth=50000 turn=1 outbound_bytes=159478612 outbound_s=0.112533 response_first_s=1.001937 response_s=1.626901 return_bytes=157559188 return_s=0.104852 total_s=2.184444 state_equal=1 recall=1",
+    "MIRROR_TURN chat=3 depth=50000 turn=1 outbound_bytes=159478612 outbound_s=0.115199 response_first_s=0.995903 response_s=1.613693 return_bytes=157559188 return_s=0.104013 total_s=2.171391 state_equal=1 recall=1",
+    "MIRROR_TURN chat=4 depth=50000 turn=1 outbound_bytes=159478612 outbound_s=0.113816 response_first_s=1.038553 response_s=1.685915 return_bytes=157559188 return_s=0.103757 total_s=2.237121 state_equal=1 recall=1",
+    "MIRROR_TURN chat=1 depth=50000 turn=2 outbound_bytes=159478612 outbound_s=0.118381 response_first_s=0.986854 response_s=1.603407 return_bytes=157559188 return_s=0.104231 total_s=2.148761 state_equal=1 recall=1",
+    "MIRROR_TURN chat=2 depth=50000 turn=2 outbound_bytes=159478612 outbound_s=0.112967 response_first_s=0.992299 response_s=1.613482 return_bytes=157559188 return_s=0.103439 total_s=2.152952 state_equal=1 recall=1",
+    "MIRROR_TURN chat=3 depth=50000 turn=2 outbound_bytes=159478612 outbound_s=0.112530 response_first_s=0.984935 response_s=1.599987 return_bytes=157559188 return_s=0.104121 total_s=2.180784 state_equal=1 recall=1",
+    "MIRROR_TURN chat=4 depth=50000 turn=2 outbound_bytes=159478612 outbound_s=0.115124 response_first_s=1.081566 response_s=1.726193 return_bytes=157559188 return_s=0.103708 total_s=2.269745 state_equal=1 recall=1"
+  ],
+  "peak_mib": {
+    "0": 22949,
+    "1": 5717,
+    "2": 5717,
+    "3": 5717,
+    "4": 5717,
+    "5": 71
+  },
+  "total_s": [
+    2.535137,
+    2.184444,
+    2.171391,
+    2.237121,
+    2.148761,
+    2.152952,
+    2.180784,
+    2.269745
+  ],
+  "first_s": [
+    1.043891,
+    1.001937,
+    0.995903,
+    1.038553,
+    0.986854,
+    0.992299,
+    0.984935,
+    1.081566
+  ]
+}

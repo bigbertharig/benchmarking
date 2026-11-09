@@ -1021,3 +1021,71 @@ end-to-end turn latency, per-chat tok/s, and recall/isolation across repeated
 turns. Test both short and long increments at 16K/32K/50K first, then a long
 context point. Recurrent state cannot be treated as an append-only KV file;
 define and validate a compatible delta format before optimizing transfer.
+
+The [serialized-state delta probe](results/runtime_experiments/model_loading_sequences/qwen35-moe-file-delta-probe-20261109/README.md)
+found exact `zstd --patch-from` payloads at 41–56% of full state size for
+16K→32K, 32K→50K, and 50K→100K. Both worker chats reconstructed byte for
+byte, but encode/decode alone cost 1.3–6.5 seconds and the public state API
+still restores the full GPU state. It is not a turn-speed win or a true
+incremental handoff. The next test must update new KV pages and recurrent
+state in place on the 1060, while GPU0 uses a temporary one-chat workspace.
+The long run sampled GPU0 at 21,319 MiB with weights alone and up to 23,075
+MiB during preparation. Measure its exact per-turn occupancy and concurrent
+decode interference in the partial-update prototype.
+
+The [live partial-KV handoff](results/runtime_experiments/model_loading_sequences/qwen35-moe-live-kv-delta-20261109/README.md)
+supersedes the file-level delta candidate: for this Qwen3.6 hybrid model, an
+isolated fork exported new full-attention KV cells and replaced the recurrent
+state on the 1060. Across two short turns starting at 16K, 50K, 100K, 150K,
+and 200K,
+the partial worker and a full-restore control had byte-identical states and
+both passed recall. The partial payload was about 66.8 MB per turn while
+full state grew from 172 MB to 1.35 GB; export plus apply took roughly 0.05 s,
+against full restore alone of 0.29–3.34 s. GPU0 peaked at 23,161 MiB in 1 Hz
+samples at 200K. This is a handoff result, not
+yet a complete request-to-first-token measurement. Next measure a delta-only
+turn and GPU0 workspace occupancy, verify rollback/position guards, test
+interference while another worker decodes, then test two distinct chats before
+trying five.
+
+The [complete-turn A/B](results/runtime_experiments/model_loading_sequences/qwen35-moe-turn-full-vs-delta-100k200k-20261109/README.md)
+includes GPU0 restore and preparation, 1060 handoff, recall response, and
+worker-state capture over two turns. At 100K, full handoff took
+5.34/4.85 s per turn versus 3.31/2.83 s with partial KV. At 200K, it took
+9.97/9.15 s versus 5.92/5.14 s. Request-to-first-token fell from roughly
+3.2 to 1.1 s at 100K and from 5.8 to 1.7 s at 200K. Full capture of the
+worker's post-response state remains 1.6–1.9 s at 100K and 3.1–3.7 s at
+200K. The next return-path experiment should transfer the worker's new KV
+and recurrent state to a host checkpoint without retaining a GPU0 chat
+mirror. Then test distinct worker chats and concurrent generation before
+five workers.
+
+The [resident mirror experiment](results/runtime_experiments/model_loading_sequences/qwen35-moe-resident-mirror-20261109/README.md)
+kept matched GPU0 and 1060 chat copies, exchanging only new KV and recurrent
+state in both directions. Two independent 50K or 100K chats passed alternating
+turns; one 200K chat passed even with a full 262K GPU0 reservation. At 100K,
+the two-mirror turn range was 1.03–1.27 s and sampled GPU0 peak was 23,411
+MiB. At 200K, the full-cap single mirror took 1.66–1.92 s per turn. Every
+post-turn state matched byte for byte, and both private-code recalls passed.
+This is a deliberately memory-heavy speed mode, not evidence that five GPU0
+mirrors fit. The smaller-model and matched non-mirror control probes can test
+the capacity/latency trade further; concurrent worker interference remains open.
+
+The [smaller 27B mirrored-chat probe](results/runtime_experiments/model_loading_sequences/qwen27-resident-mirror-20261109/README.md)
+passed two independent 50K and 100K chats on separate 1060s, with GPU0
+copies and exact post-turn state agreement. At 50K, turns took 2.15–2.54 s
+and GPU0 peaked at 19,307 MiB; at 100K, turns took
+3.42–3.57 s and GPU0 peaked at 21,423 MiB.
+The 27B model leaves more mirror capacity on GPU0 than the 35B MoE, but its
+dense worker turns are slower at these depths. The follow-up below tests the
+mirror count; a matched no-mirror control and simultaneous generation remain
+open.
+
+
+A [four-mirror 27B follow-up](results/runtime_experiments/model_loading_sequences/qwen27-resident-mirror-20261109/README.md#four-50k-mirrors-and-a-five-mirror-limit)
+then kept four 50K GPU0 mirrors and one 262K-reserved worker chat on each
+of four 1060s. All eight alternating turns passed recall and exact state comparison; GPU0
+sampled peak was 22,949 MiB and per-chat turns took 2.15–2.54 s.
+The fifth GPU0 mirror failed during a 266 MiB CUDA allocation after four
+contexts had initialized. This establishes four-chat capacity at a 65K GPU0
+mirror cap, not at full 262K reservations or with simultaneous generation.

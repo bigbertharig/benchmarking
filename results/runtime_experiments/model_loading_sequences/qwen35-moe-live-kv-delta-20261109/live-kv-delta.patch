@@ -1,0 +1,272 @@
+--- a/include/llama.h
++++ b/include/llama.h
+@@ -932,0 +933,2 @@
++// Experimental benchmark only: lower 8 bits are flags; upper 24 bits are the first KV position to export.
++#define LLAMA_STATE_SEQ_FLAGS_KV_APPEND 4
+--- a/src/llama-kv-cache.h
++++ b/src/llama-kv-cache.h
+@@ -353 +353 @@
+-    bool state_read_meta(llama_io_read_i & io, uint32_t strm, uint32_t cell_count,       slot_info & sinfo, llama_seq_id dest_seq_id = -1, const slot_info * sinfo_in = nullptr);
++    bool state_read_meta(llama_io_read_i & io, uint32_t strm, uint32_t cell_count,       slot_info & sinfo, llama_seq_id dest_seq_id = -1, const slot_info * sinfo_in = nullptr, bool append = false);
+--- a/src/llama-kv-cache.cpp
++++ b/src/llama-kv-cache.cpp
+@@ -2106,0 +2107,3 @@
++            if (flags & LLAMA_STATE_SEQ_FLAGS_KV_APPEND) {
++                add_cell = add_cell && cells.pos_get(i) >= (llama_pos)(flags >> 8);
++            }
+@@ -2210 +2213,2 @@
+-        res = res && state_read_meta(io, strm, cell_count, sinfo, seq_id, sinfos_in ? &(*sinfos_in)[s] : nullptr);
++        res = res && state_read_meta(io, strm, cell_count, sinfo, seq_id, sinfos_in ? &(*sinfos_in)[s] : nullptr,
++                                      (flags & LLAMA_STATE_SEQ_FLAGS_KV_APPEND) != 0);
+@@ -2363 +2367 @@
+-bool llama_kv_cache::state_read_meta(llama_io_read_i & io, uint32_t strm, uint32_t cell_count, slot_info & sinfo, llama_seq_id dest_seq_id, const slot_info * sinfo_in) {
++bool llama_kv_cache::state_read_meta(llama_io_read_i & io, uint32_t strm, uint32_t cell_count, slot_info & sinfo, llama_seq_id dest_seq_id, const slot_info * sinfo_in, bool append) {
+@@ -2374 +2378 @@
+-        seq_rm(dest_seq_id, -1, -1);
++        if (!append) seq_rm(dest_seq_id, -1, -1);
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -187 +187,3 @@
+-                          const char * expected, int depth, int max_tokens) {
++                          const char * expected, int depth, int max_tokens,
++                          double * first_token_s = nullptr) {
++    const auto response_start = clock_type::now();
+@@ -194,0 +197,3 @@
++        if (i == 0 && first_token_s) {
++            *first_token_s = std::chrono::duration<double>(clock_type::now()-response_start).count();
++        }
+@@ -1242,0 +1248,234 @@
++        llama_model_free(model);
++        return 0;
++    }
++    if (std::string(argv[1]) == "moe_mirror") {
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        const char * depth_env = std::getenv("KV_DELTA_SOURCE_DEPTH");
++        const char * chats_env = std::getenv("KV_MIRROR_CHATS");
++        if (!source_dir || !depth_env || !chats_env) return 280;
++        const int source_depth = std::atoi(depth_env);
++        const int chat_count = std::atoi(chats_env);
++        if (chat_count < 1 || chat_count > 5) return 281;
++        const char * mirror_cap_env = std::getenv("KV_MIRROR_CAP");
++        const int mirror_cap = mirror_cap_env && *mirror_cap_env ? std::atoi(mirror_cap_env)
++            : std::min(pair_cap, ((source_depth + 8191)/8192 + 1)*8192);
++        if (mirror_cap < source_depth + 1024 || mirror_cap > pair_cap) return 290;
++        const char * codes[5] = {"4827","6193","7358","2046","8915"};
++        chat mirror1{"mirror1","",nullptr,"0"};
++        chat mirror2{"mirror2","",nullptr,"0"};
++        chat mirror3{"mirror3","",nullptr,"0"};
++        chat mirror4{"mirror4","",nullptr,"0"};
++        chat mirror5{"mirror5","",nullptr,"0"};
++        chat worker1{"worker1","",nullptr,"1"};
++        chat worker2{"worker2","",nullptr,"2"};
++        chat worker3{"worker3","",nullptr,"3"};
++        chat worker4{"worker4","",nullptr,"4"};
++        chat worker5{"worker5","",nullptr,"5"};
++        std::vector<chat *> mirrors{&mirror1,&mirror2,&mirror3,&mirror4,&mirror5};
++        std::vector<chat *> workers{&worker1,&worker2,&worker3,&worker4,&worker5};
++        for (int i=0;i<chat_count;++i) {
++            snapshot state;
++            const std::string source=std::string(source_dir)+"/worker"+
++                std::to_string(i+1)+"_depth"+std::to_string(source_depth)+".bin";
++            if (!read_snapshot_file(source,state) ||
++                !add_chat(*mirrors[i],model,vocab,mirror_cap,true) ||
++                !add_chat(*workers[i],model,vocab,pair_cap) ||
++                !restore(*mirrors[i],state) || !restore(*workers[i],state)) return 282;
++            std::fprintf(stderr,"MIRROR_ADD chat=%d depth=%d cap=%d source_bytes=%zu\n",
++                         i+1,source_depth,mirror_cap,state.data.size());
++        }
++        const auto filler=tokenize_text(vocab,
++            " A quiet field note describes a blue bicycle by a river and a wooden bridge.\n",false);
++        const auto user=tokenize_text(vocab,
++            "\n<|im_start|>user\nHere are more unrelated notes.\n",false);
++        if (filler.empty() || user.empty()) return 283;
++        auto send_tail=[&](chat & from, chat & to, int cutoff, size_t & bytes, double & seconds) {
++            const llama_state_seq_flags flags=LLAMA_STATE_SEQ_FLAGS_KV_APPEND | ((uint32_t)cutoff<<8);
++            select_chat(from);
++            const auto start=clock_type::now();
++            std::vector<uint8_t> tail(llama_state_seq_get_size_ext(from.ctx,0,flags));
++            if (tail.empty()) return false;
++            const size_t got=llama_state_seq_get_data_ext(from.ctx,tail.data(),tail.size(),0,flags);
++            if (got==0 || got>tail.size()) return false;
++            tail.resize(got);
++            select_chat(to);
++            if (llama_state_seq_set_data_ext(to.ctx,tail.data(),tail.size(),0,flags)!=tail.size()) return false;
++            to.used=from.used;
++            to.next=from.next;
++            bytes=tail.size();
++            seconds=std::chrono::duration<double>(clock_type::now()-start).count();
++            return true;
++        };
++        for (int turn=1;turn<=2;++turn) {
++            for (int i=0;i<chat_count;++i) {
++                chat & mirror=*mirrors[i];
++                chat & worker=*workers[i];
++                const auto start=clock_type::now();
++                const int cutoff=mirror.used;
++                if (!decode_raw(mirror,mirror.next) || !decode_raw(mirror,user) ||
++                    !decode_raw(mirror,filler,128)) return 284;
++                size_t outbound_bytes=0,return_bytes=0;
++                double outbound_s=0,return_s=0;
++                if (!send_tail(mirror,worker,cutoff,outbound_bytes,outbound_s)) return 285;
++                const int return_cutoff=mirror.used;
++                double first_s=0;
++                const auto response_start=clock_type::now();
++                if (!recall_answer(worker,vocab,codes[i],source_depth,64,&first_s)) return 286;
++                const double response_s=std::chrono::duration<double>(clock_type::now()-response_start).count();
++                if (!send_tail(worker,mirror,return_cutoff,return_bytes,return_s)) return 287;
++                const double turn_s=std::chrono::duration<double>(clock_type::now()-start).count();
++                snapshot a,b;
++                if (!save(mirror,a) || !save(worker,b)) return 288;
++                const bool same=a.data==b.data && a.used==b.used && a.next==b.next;
++                std::fprintf(stderr,"MIRROR_TURN chat=%d depth=%d turn=%d outbound_bytes=%zu outbound_s=%.6f response_first_s=%.6f response_s=%.6f return_bytes=%zu return_s=%.6f total_s=%.6f state_equal=%d recall=1\n",
++                             i+1,source_depth,turn,outbound_bytes,outbound_s,first_s,response_s,
++                             return_bytes,return_s,turn_s,same);
++                std::fflush(stderr);
++                if (!same) return 289;
++            }
++        }
++        for (int i=chat_count-1;i>=0;--i) {
++            destroy(*workers[i]);
++            destroy(*mirrors[i]);
++        }
++        llama_model_free(model);
++        return 0;
++    }
++    if (std::string(argv[1]) == "moe_turn_ab") {
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        const char * depth_env = std::getenv("KV_DELTA_SOURCE_DEPTH");
++        const char * mode_env = std::getenv("KV_DELTA_COMPARE_MODE");
++        if (!source_dir || !depth_env || !mode_env) return 260;
++        const bool use_delta = std::string(mode_env) == "delta";
++        if (!use_delta && std::string(mode_env) != "full") return 261;
++        const int source_depth = std::atoi(depth_env);
++        const int temp_cap = std::min(pair_cap, ((source_depth + 8191)/8192 + 1)*8192);
++        const std::string source = std::string(source_dir) + "/worker1_depth" +
++            std::to_string(source_depth) + ".bin";
++        snapshot prior;
++        if (!read_snapshot_file(source, prior)) return 262;
++        chat worker{"worker", "", nullptr, "1"};
++        if (!add_chat(worker,model,vocab,pair_cap) || !restore(worker,prior)) return 263;
++        const auto filler = tokenize_text(vocab,
++            " A quiet field note describes a blue bicycle by a river and a wooden bridge.\n", false);
++        const auto user = tokenize_text(vocab,
++            "\n<|im_start|>user\nHere are more unrelated notes.\n", false);
++        if (filler.empty() || user.empty()) return 264;
++        for (int turn=1; turn<=2; ++turn) {
++            const auto request_start=clock_type::now();
++            chat temp{"prep", "", nullptr, "0"};
++            if (!add_chat(temp,model,vocab,temp_cap,true) || !restore(temp,prior)) return 265;
++            const int cutoff=prior.used;
++            const auto prep_start=clock_type::now();
++            if (!decode_raw(temp,temp.next) || !decode_raw(temp,user) ||
++                !decode_raw(temp,filler,128)) return 266;
++            const double prep_s=std::chrono::duration<double>(clock_type::now()-prep_start).count();
++            const auto handoff_start=clock_type::now();
++            size_t bytes=0;
++            if (use_delta) {
++                const llama_state_seq_flags flags = LLAMA_STATE_SEQ_FLAGS_KV_APPEND | ((uint32_t)cutoff << 8);
++                select_chat(temp);
++                std::vector<uint8_t> tail(llama_state_seq_get_size_ext(temp.ctx,0,flags));
++                if (tail.empty()) return 267;
++                const size_t got=llama_state_seq_get_data_ext(temp.ctx,tail.data(),tail.size(),0,flags);
++                if (got==0 || got>tail.size()) return 268;
++                tail.resize(got);
++                select_chat(worker);
++                if (llama_state_seq_set_data_ext(worker.ctx,tail.data(),tail.size(),0,flags)!=tail.size()) return 269;
++                worker.used=temp.used;
++                worker.next=temp.next;
++                bytes=tail.size();
++            } else {
++                snapshot full;
++                if (!save(temp,full) || !restore(worker,full)) return 270;
++                bytes=full.data.size();
++            }
++            const double handoff_s=std::chrono::duration<double>(clock_type::now()-handoff_start).count();
++            destroy(temp);
++            const double workspace_s=std::chrono::duration<double>(clock_type::now()-request_start).count();
++            double first_token_s=0.0;
++            const auto response_start=clock_type::now();
++            if (!recall_answer(worker,vocab,"4827",source_depth,64,&first_token_s)) return 271;
++            const double response_s=std::chrono::duration<double>(clock_type::now()-response_start).count();
++            const auto capture_start=clock_type::now();
++            if (!save(worker,prior)) return 272;
++            const double capture_s=std::chrono::duration<double>(clock_type::now()-capture_start).count();
++            const double total_s=std::chrono::duration<double>(clock_type::now()-request_start).count();
++            std::fprintf(stderr,"TURN_AB mode=%s depth=%d turn=%d cutoff=%d bytes=%zu prep_s=%.6f handoff_s=%.6f workspace_s=%.6f response_first_s=%.6f response_s=%.6f capture_s=%.6f total_s=%.6f recall=1\n",
++                         mode_env,source_depth,turn,cutoff,bytes,prep_s,handoff_s,workspace_s,first_token_s,response_s,capture_s,total_s);
++            std::fflush(stderr);
++        }
++        destroy(worker);
++        llama_model_free(model);
++        return 0;
++    }
++    if (std::string(argv[1]) == "moe_live_delta") {
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        if (!source_dir || pair_cap < 50000 || tokens < 16) return 240;
++        const char * depth_env = std::getenv("KV_DELTA_SOURCE_DEPTH");
++        const int source_depth = depth_env && *depth_env ? std::atoi(depth_env) : 16384;
++        const int temp_cap = std::min(pair_cap, ((source_depth + 8191)/8192 + 1)*8192);
++        snapshot prior;
++        const std::string source = std::string(source_dir) + "/worker1_depth" +
++            std::to_string(source_depth) + ".bin";
++        std::fprintf(stderr,"DELTA_SOURCE path=%s depth=%d cap=%d\n", source.c_str(), source_depth, temp_cap);
++        if (!read_snapshot_file(source, prior)) return 241;
++        chat delta{"delta", "", nullptr, "1"};
++        chat control{"control", "", nullptr, "2"};
++        if (!add_chat(delta, model, vocab, pair_cap) ||
++            !add_chat(control, model, vocab, pair_cap) ||
++            !restore(delta, prior) || !restore(control, prior)) return 242;
++        const auto filler = tokenize_text(vocab,
++            " A quiet field note describes a blue bicycle by a river and a wooden bridge.\n", false);
++        const auto user = tokenize_text(vocab,
++            "\n<|im_start|>user\nHere are more unrelated notes.\n", false);
++        if (filler.empty() || user.empty()) return 243;
++        for (int turn=1; turn<=2; ++turn) {
++            const auto turn_start = clock_type::now();
++            chat temp{"prep", "", nullptr, "0"};
++            if (!add_chat(temp, model, vocab, temp_cap, true) || !restore(temp, prior)) return 244;
++            const int cutoff = prior.used;
++            const auto prep_start = clock_type::now();
++            if (!decode_raw(temp, temp.next) || !decode_raw(temp, user) ||
++                !decode_raw(temp, filler, 128)) return 245;
++            const double prep_s = std::chrono::duration<double>(clock_type::now()-prep_start).count();
++            const llama_state_seq_flags flags = LLAMA_STATE_SEQ_FLAGS_KV_APPEND | ((uint32_t)cutoff << 8);
++            select_chat(temp);
++            const auto delta_start=clock_type::now();
++            std::vector<uint8_t> tail(llama_state_seq_get_size_ext(temp.ctx, 0, flags));
++            if (tail.empty()) return 246;
++            const size_t got=llama_state_seq_get_data_ext(temp.ctx,tail.data(),tail.size(),0,flags);
++            if (got==0 || got>tail.size()) return 247;
++            tail.resize(got);
++            const double export_s=std::chrono::duration<double>(clock_type::now()-delta_start).count();
++            select_chat(delta);
++            const auto apply_start=clock_type::now();
++            const size_t applied=llama_state_seq_set_data_ext(delta.ctx,tail.data(),tail.size(),0,flags);
++            if (applied!=tail.size()) return 248;
++            delta.used=temp.used;
++            delta.next=temp.next;
++            const double apply_s=std::chrono::duration<double>(clock_type::now()-apply_start).count();
++            snapshot full;
++            if (!save(temp,full)) return 249;
++            const auto full_start=clock_type::now();
++            if (!restore(control,full)) return 250;
++            const double full_restore_s=std::chrono::duration<double>(clock_type::now()-full_start).count();
++            destroy(temp);
++            const double workspace_s=std::chrono::duration<double>(clock_type::now()-turn_start).count();
++            snapshot delta_check, control_check;
++            if (!save(delta,delta_check) || !save(control,control_check)) return 252;
++            const bool same_state=delta_check.data == control_check.data &&
++                                  delta_check.used == control_check.used &&
++                                  delta_check.next == control_check.next;
++            std::fprintf(stderr,"STATE_COMPARE turn=%d equal=%d delta_bytes=%zu control_bytes=%zu\n",
++                         turn,same_state,delta_check.data.size(),control_check.data.size());
++            if (!same_state) return 253;
++            const bool delta_recall=recall_answer(delta,vocab,"4827",turn,64);
++            const bool control_recall=recall_answer(control,vocab,"4827",turn,64);
++            if (!delta_recall || !control_recall || !save(delta,prior)) return 251;
++            std::fprintf(stderr,"LIVE_DELTA turn=%d cutoff=%d used=%d delta_bytes=%zu full_bytes=%zu prep_s=%.6f export_s=%.6f apply_s=%.6f full_restore_s=%.6f gpu0_workspace_s=%.6f delta_recall=%d control_recall=%d\n",
++                         turn,cutoff,delta.used,tail.size(),full.data.size(),prep_s,export_s,apply_s,full_restore_s,workspace_s,delta_recall,control_recall);
++            std::fflush(stderr);
++        }
++        destroy(control);
++        destroy(delta);

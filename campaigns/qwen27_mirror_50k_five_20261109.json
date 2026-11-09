@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "name": "qwen27_mirror_50k_five_20261109",
+  "stages": [
+    {
+      "id": "depth50k_five_chats",
+      "state": "ready",
+      "gpus": [0, 1, 2, 3, 4, 5],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-delta-build",
+        "KV_KV_TYPE": "q4_0",
+        "KV_DELTA_SOURCE_DEPTH": "50000",
+        "KV_MIRROR_CHATS": "5",
+        "KV_STATE_SOURCE_DIR": "/state/qwen27_five_ongoing_depths_20261108.states"
+      },
+      "command": ["/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh", "moe_mirror", "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf", "262144", "262144", "262144", "64", "qwen27_mirror_50k_five_20261109"],
+      "timeout_s": 1800,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen27_mirror_50k_five_20261109.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen27_mirror_50k_five_20261109.log"]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "title": "35B two mirrors, 50K",
+      "label": "qwen35_moe_mirror_50k100k200k_20261109_50000_2chats",
+      "adds": [
+        "MIRROR_ADD chat=1 depth=50000 cap=65536 source_bytes=387295965",
+        "MIRROR_ADD chat=2 depth=50000 cap=65536 source_bytes=387295965"
+      ],
+      "turns": [
+        "MIRROR_TURN chat=1 depth=50000 turn=1 outbound_bytes=66764052 outbound_s=0.048205 response_first_s=0.382337 response_s=0.527860 return_bytes=66095956 return_s=0.045744 total_s=1.000110 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=50000 turn=1 outbound_bytes=66764052 outbound_s=0.047973 response_first_s=0.350406 response_s=0.492975 return_bytes=66095956 return_s=0.045404 total_s=0.776039 state_equal=1 recall=1",
+        "MIRROR_TURN chat=1 depth=50000 turn=2 outbound_bytes=66764052 outbound_s=0.047085 response_first_s=0.326164 response_s=0.465260 return_bytes=66095956 return_s=0.045317 total_s=0.721694 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=50000 turn=2 outbound_bytes=66764052 outbound_s=0.047029 response_first_s=0.330378 response_s=0.471238 return_bytes=66095956 return_s=0.045309 total_s=0.732760 state_equal=1 recall=1"
+      ],
+      "peak_mib": {
+        "0": 22611,
+        "1": 2193,
+        "2": 2193,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      }
+    },
+    {
+      "title": "35B two mirrors, 100K",
+      "label": "qwen35_moe_mirror_50k100k200k_20261109_100000_2chats",
+      "adds": [
+        "MIRROR_ADD chat=1 depth=100000 cap=114688 source_bytes=708495965",
+        "MIRROR_ADD chat=2 depth=100000 cap=114688 source_bytes=708495965"
+      ],
+      "turns": [
+        "MIRROR_TURN chat=1 depth=100000 turn=1 outbound_bytes=66764052 outbound_s=0.049183 response_first_s=0.543200 response_s=0.777794 return_bytes=66095956 return_s=0.045908 total_s=1.266028 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=100000 turn=1 outbound_bytes=66764052 outbound_s=0.049064 response_first_s=0.565307 response_s=0.796551 return_bytes=66095956 return_s=0.046065 total_s=1.109649 state_equal=1 recall=1",
+        "MIRROR_TURN chat=1 depth=100000 turn=2 outbound_bytes=66764052 outbound_s=0.048139 response_first_s=0.519818 response_s=0.747257 return_bytes=66095956 return_s=0.046036 total_s=1.029469 state_equal=1 recall=1",
+        "MIRROR_TURN chat=2 depth=100000 turn=2 outbound_bytes=66764052 outbound_s=0.047373 response_first_s=0.536597 response_s=0.766555 return_bytes=66095956 return_s=0.046162 total_s=1.046353 state_equal=1 recall=1"
+      ],
+      "peak_mib": {
+        "0": 23411,
+        "1": 2193,
+        "2": 2193,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      }
+    },
+    {
+      "title": "35B one mirror, 200K",
+      "label": "qwen35_moe_mirror_50k100k200k_20261109_200000_1chats",
+      "adds": [
+        "MIRROR_ADD chat=1 depth=200000 cap=212992 source_bytes=1350895965"
+      ],
+      "turns": [
+        "MIRROR_TURN chat=1 depth=200000 turn=1 outbound_bytes=66764052 outbound_s=0.052368 response_first_s=0.954616 response_s=1.360551 return_bytes=66095956 return_s=0.046466 total_s=1.890627 state_equal=1 recall=1",
+        "MIRROR_TURN chat=1 depth=200000 turn=2 outbound_bytes=66764052 outbound_s=0.048905 response_first_s=0.916661 response_s=1.319787 return_bytes=66095956 return_s=0.046358 total_s=1.655260 state_equal=1 recall=1"
+      ],
+      "peak_mib": {
+        "0": 23045,
+        "1": 2193,
+        "2": 71,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      }
+    },
+    {
+      "title": "35B one mirror, 200K/full 262K reservation",
+      "label": "qwen35_moe_mirror_200k_full262k_20261109",
+      "adds": [
+        "MIRROR_ADD chat=1 depth=200000 cap=262144 source_bytes=1350895965"
+      ],
+      "turns": [
+        "MIRROR_TURN chat=1 depth=200000 turn=1 outbound_bytes=66764052 outbound_s=0.051710 response_first_s=0.983410 response_s=1.386834 return_bytes=66095956 return_s=0.046551 total_s=1.922350 state_equal=1 recall=1",
+        "MIRROR_TURN chat=1 depth=200000 turn=2 outbound_bytes=66764052 outbound_s=0.048997 response_first_s=0.915594 response_s=1.318800 return_bytes=66095956 return_s=0.046520 total_s=1.655716 state_equal=1 recall=1"
+      ],
+      "peak_mib": {
+        "0": 23443,
+        "1": 2193,
+        "2": 71,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      }
+    }
+  ]
+}

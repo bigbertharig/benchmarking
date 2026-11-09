@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T20:08:47+00:00",
+  "manifest_sha256": "8f28aee6740de28c354f10aadab038e52f79bf1770a8dd20f43a4b6593faaab1",
+  "run_id": "qwen35-moe-live-delta-150k200k-20261109",
+  "stages": {
+    "from150000": "passed",
+    "from200000": "passed"
+  },
+  "started_at": "2026-11-09T20:06:42+00:00",
+  "status": "passed"
+}

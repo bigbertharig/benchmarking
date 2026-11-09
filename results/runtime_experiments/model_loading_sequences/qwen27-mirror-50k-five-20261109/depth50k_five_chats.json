@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_mirror",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "64",
+    "qwen27_mirror_50k_five_20261109"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_DELTA_SOURCE_DEPTH",
+    "KV_KV_TYPE",
+    "KV_MIRROR_CHATS",
+    "KV_STATE_SOURCE_DIR"
+  ],
+  "error": "exit 26; see depth50k_five_chats.log",
+  "exit_code": 26,
+  "finished_at": "2026-11-09T20:34:17+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29840792,
+  "host_min_available_kib": 27504060,
+  "id": "depth50k_five_chats",
+  "started_at": "2026-11-09T20:32:59+00:00",
+  "status": "failed",
+  "timeout_s": 1800
+}

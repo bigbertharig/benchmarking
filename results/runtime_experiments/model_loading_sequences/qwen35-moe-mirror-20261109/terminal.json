@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T20:20:55+00:00",
+  "manifest_sha256": "58ba0e3a1616587ddfd8d027d8df5e9f0d68de88ef6c96a57d624e2ef7a68e80",
+  "run_id": "qwen35-moe-mirror-20261109",
+  "stages": {
+    "depth100000_2chats": "passed",
+    "depth200000_1chats": "passed",
+    "depth50000_2chats": "passed"
+  },
+  "started_at": "2026-11-09T20:19:25+00:00",
+  "status": "passed"
+}
