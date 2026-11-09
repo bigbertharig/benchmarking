@@ -748,6 +748,14 @@ identify the bottleneck.
 
 ### Placement ideas to measure on this rig
 
+For the current experimental sequence, do not automatically restore `chat-27b`
+after a benchmark. Leave the model or service currently loaded until the next
+test needs the cards. The custom placement runner owns its model in an
+experiment container, so its load ends when that run exits; a separate idle
+MoE server can be loaded between runs but is not the same resident instance.
+The next custom run may unload that server to claim GPU0, and it should not
+revert to 27B afterward.
+
 [m10dis architecture](https://github.com/crgregersen/m10dis/blob/main/docs/ARCHITECTURE.md)
 keeps attention, routing, and live KV on its fast RTX while distributing
 resident expert row slices across many slower M10 GPUs. Its
