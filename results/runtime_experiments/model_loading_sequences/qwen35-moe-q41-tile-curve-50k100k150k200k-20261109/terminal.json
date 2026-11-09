@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T07:06:29+00:00",
+  "manifest_sha256": "3ee4480a534ee991b653f13ada3c6176e4be93361e40502f2b8feef1c1ee5a4c",
+  "run_id": "qwen35-moe-q41-tile-curve-20261109",
+  "stages": {
+    "q41_tile_curve": "passed"
+  },
+  "started_at": "2026-11-09T06:54:59+00:00",
+  "status": "passed"
+}

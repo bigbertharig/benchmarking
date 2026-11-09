@@ -982,3 +982,42 @@ dequantization remained about 242/477/723 ms. This makes the fused-read
 candidate concrete, but output-quality equivalence and wider-model transfer
 are still open tests. The result applies to this Pascal Q4_1/head-256/GQA
 path; it is not a general speed rule for all chats.
+
+The [Q8 tile A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-q8-vector-tile-16k32k50k-20261109/README.md)
+did not reproduce the Q4_1 improvement: 50.9/38.0/29.0 tok/s versus
+surrounding Q8 vector controls around 53.7/38.8/28.7. The tile choice is
+specific to KV format, head shape, and hardware. The
+[F16 KV ceiling](results/runtime_experiments/model_loading_sequences/qwen35-moe-f16-ceiling-16k32k50k-20261109/README.md)
+reached 68.3/59.9/49.7 tok/s at occupied 16K/32K/50K on one 1060 with a
+262K reservation, but allocated 5,120 MiB of KV on that card. Two separate
+F16 1060 chats also passed recall and ran near the same per-chat rate in
+their preparation run. These results sharpen the next trade-off: remove
+Q4_1's repeated conversion while retaining much of its smaller KV footprint
+and transfer cost. They do not establish quality equivalence between KV
+formats or deep-context speed.
+
+The [Q4_1 tile 50K–200K curve](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-tile-curve-50k100k150k200k-20261109/README.md)
+passed independent recall for two 1060 chats at every stage. Solo decode fell
+from 30.74 to 18.22, 13.04, and 10.13 tok/s; two simultaneous chats stayed
+near those per-chat rates, ending at 10.11/10.03 tok/s at 200K. Preparation
+already appends new tokens instead of recomputing earlier tokens, but each
+stage still restores and saves a complete growing state. The save/restore
+handoff grew from about 1 to 4 seconds between 50K and 200K; this timing is
+not a pure transfer measurement. GPU0 holds weights and a temporary one-chat
+preparation workspace, while each worker's chat state stays on its 1060.
+
+### Suggested next test: transient GPU0 append and delta handoff
+
+Keep the model weights on GPU0 and authoritative independent chats on their
+1060s. For a new turn, use GPU0 only as a temporary preparation workspace,
+then release it; do not retain GPU0 mirrors of all worker chats. Compare the
+current full-state restore/append/save/handoff with a format-aware delta
+handoff that copies only new KV and required recurrent state. Include a
+pinned-RAM checkpoint source if needed to avoid reading the full prior state
+over a 1060 x1 link. Start with one worker, then two and five after correctness
+and GPU0 headroom are measured. Record GPU0 high-water memory and occupancy
+time, bytes across each link, state restore/capture time, first-token and
+end-to-end turn latency, per-chat tok/s, and recall/isolation across repeated
+turns. Test both short and long increments at 16K/32K/50K first, then a long
+context point. Recurrent state cannot be treated as an append-only KV file;
+define and validate a compatible delta format before optimizing transfer.

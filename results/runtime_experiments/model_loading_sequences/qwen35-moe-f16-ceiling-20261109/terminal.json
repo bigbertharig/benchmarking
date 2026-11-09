@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T06:54:22+00:00",
+  "manifest_sha256": "6dbab7b8a0c99e9cb5f59d33e1bf9c5eaf3f7657fa84445b48cbe24971be464f",
+  "run_id": "qwen35-moe-f16-ceiling-20261109",
+  "stages": {
+    "prepare_f16": "passed",
+    "replay_f16": "passed"
+  },
+  "started_at": "2026-11-09T06:50:05+00:00",
+  "status": "passed"
+}
