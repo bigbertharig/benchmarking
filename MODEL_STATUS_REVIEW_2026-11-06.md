@@ -14,3 +14,7 @@ Source: `model_registry.json` and the selected rows in `results/model_library_sc
 | Qwen3.8 Flash Next Q2 | Strata speed and placement experiments; no selected comparable quality suite rows | Keep candidate. |
 
 The existing 22 active models were not demoted in this pass: their roles and availability need a separate replacement decision, and low scores in one suite alone do not invalidate a specialized role. This pass corrects stale candidate notes that still claimed integration phases had not run. The Q2 Strata pack is part of its model bundle, not general benchmark staging: 66,423,878,624 GGUF bytes + 35,469,412,079 pack bytes = **101,893,290,703 bytes** (94.9 GiB) of required files for the tested Strata runtime. The remaining staging bytes are Strata software, archives, and small probes.
+
+## Loading-stage update, 2026-11-08
+
+Qwen3.8 Flash-Next Q2_0 now has a linked `loading_stage` record in `model_registry.json`: `ready_for_benchmark` for its tested Strata recipe. The bundle, gateway route, 256K single-chat recall and short 8K concurrent chats have receipts. This does not change its candidate deployment status; a small application and harness quality sample is the next step when GPUs are available. See [MODEL_LOADING_GATE.md](MODEL_LOADING_GATE.md) for the new checkpoint.

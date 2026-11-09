@@ -73,7 +73,10 @@ investigation before calling a model weak; keep the original receipt.
 
 ## Promotion from screening
 
-After Phase R passes, run the existing integration lane and standard suites.
+After Phase R passes, use the existing integration lane to establish a tested
+loading recipe and record the checkpoint in
+[`MODEL_LOADING_GATE.md`](MODEL_LOADING_GATE.md) before interpreting capability
+smoke or starting full suites.
 Only then use workload-specific tests (`bench-dataimport`, `bench-geoimport`,
 `bench-agent`, DaedalMap, and eventually checkpoint tasks) and, where relevant,
 the separate `llm-harness` comparison playbook. Never merge different

@@ -23,6 +23,7 @@ What is current where:
 Companion docs:
 - [MODEL_LIBRARY.md](MODEL_LIBRARY.md): picking a model, prompt methodology
 - [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md): per-model runtime notes
+- [MODEL_LOADING_GATE.md](MODEL_LOADING_GATE.md): loading-stage evidence before benchmark smoke
 - [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md): debugging narratives
 - [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md): measured host RAM planning limit and split-placement evidence; use its live headroom gate for experimental RAM offload
 - [docker/README.md](docker/README.md): the suites; [scripts/integration/README.md](scripts/integration/README.md): the lane tools
@@ -46,15 +47,25 @@ Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/..
 | 3 | First load | the lane (`rigctl load-model` through the manager) | the model serves, every layer on the GPUs |
 | 4 | Litmus | the lane (`litmus.py`) | the 3 checks pass, or each failure is documented |
 | 5 | Runtime characterization | the lane (`runtime_char.py`) | a `results/runtime_experiments/` record |
+| L (before 6) | Loading readiness | `MODEL_LOADING_GATE.md`; record `loading_stage` in the registry | a tested serving recipe and receipt support a small quality smoke; limits recorded |
 | 6 | Smoke (limit 10) | the lane (`phase4.sh`) | every suite scores; raw answers read |
 | 7 | Settings experiments (optional) | operator's choice after reading Phase 6: the lane's thinking A/B (`LANE_START_AT=7`), experiments by hand | each Phase 6 problem tried against the options that could fix it |
 | 8 | Depth check | `capacity_run.py` at the validated compact and ceiling contexts | 10%/90% final-answer recall and speed recorded; deep-context claims only after a passing result |
 | 9 | Full run (limit 50 + full code) | a campaign | all blocks complete |
 | 10 | Finalize | registry status and notes, integration log | the model is discoverable with its settings |
 
-Phases 3-6 are one command (a lane), which stops after the smoke; Phase 2 sizes context before that lane,
+For simple llama.cpp models, Phases 3-6 remain one command: their ordinary load, litmus and runtime
+receipts satisfy Phase L without a separate experiment. For complex MoE, offload, split-runtime or
+multi-chat recipes, use `LANE_STOP_AFTER=5` or a managed experiment, record the loading decision,
+then start benchmark smoke for the tested recipe. Do not infer that one quant or runtime validates another.
+Phase 2 sizes context before the lane,
 Phase 7 is a separate settings decision, Phase 8 checks depth, and Phase 9 is one campaign. The manager
 does placement: say which cards a lane uses, and it checks the fit and picks context and split.
+
+For a recipe that uses a new runtime, quant, or placement, check its loading record before capability
+smoke or a full campaign: `python3 scripts/active/model_loading_status.py '<model-id>' --check-ready`.
+An absent field on a historical model means its loading evidence has not yet been summarized; it does
+not invalidate existing benchmark receipts. Add the summary when that model is next reviewed.
 
 Research Phase R precedes the existing whole-number sequence for new integrations. Historical entries in Part 2, existing receipts,
 run IDs, and helper filenames retain their old labels. The legacy mapping is 1.5→2, 2→3, 3→4,
