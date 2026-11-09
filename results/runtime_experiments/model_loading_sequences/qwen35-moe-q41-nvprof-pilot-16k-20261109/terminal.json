@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T05:55:53+00:00",
+  "manifest_sha256": "cde9164c28580e6834d9b8b028f7b7bc3bbd2019b8f04f2c32f760663b5df34f",
+  "reason": "exit 26; see fallback_16k.log",
+  "run_id": "qwen35-moe-q41-nvprof-pilot-16k-20261109",
+  "stages": {
+    "fallback_16k": "failed"
+  },
+  "started_at": "2026-11-09T05:55:49+00:00",
+  "status": "failed"
+}

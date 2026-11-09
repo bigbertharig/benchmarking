@@ -1,0 +1,15 @@
+{
+  "finished_at": "2026-11-09T06:01:41+00:00",
+  "manifest_sha256": "3771664224f4d3ac8acf13e387870c94aba94201619e1fe6189972eebb4499a3",
+  "run_id": "qwen35-moe-q41-decode-trace-16k32k50k-20261109",
+  "stages": {
+    "fallback_16k": "passed",
+    "fallback_32k": "passed",
+    "fallback_50k": "passed",
+    "native_16k": "passed",
+    "native_32k": "passed",
+    "native_50k": "passed"
+  },
+  "started_at": "2026-11-09T05:59:52+00:00",
+  "status": "passed"
+}

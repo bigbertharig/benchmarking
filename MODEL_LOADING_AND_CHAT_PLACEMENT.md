@@ -864,6 +864,31 @@ attention. The next worthwhile speed work should measure the 1060 attention
 and KV kernels more directly and test an explicit change to that path, while
 keeping end-to-end chat preparation and transfer time visible.
 
+The [native Q4_1 attention-kernel A/B/A](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-native-16k32k50k-20261109/README.md)
+tested a specific backend build change. The earlier build omitted the Q4_1
+FlashAttention vector template and logged an F16 attention fallback. Adding
+`q4_1-q4_1` removed that warning but **slowed** one 1060 worker from roughly
+49.5/34.4/24.2 to 36.0/24.8/17.9 tok/s at occupied 16K/32K/50K, with
+the same 262K reservation and saved histories. GPU1 peak memory stayed at
+2,197 MiB. The surrounding original-build controls closely agreed. Keep
+Q4_1 as a compact worker KV format, but do not enable its native vector
+kernel on Pascal based on this result. The next attention experiment should
+trace GPU1 decode kernels and stalls before changing kernel parallelism.
+
+The [decode-only Nsight traces](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-decode-trace-16k32k50k-20261109/README.md)
+locate the native Q4_1 regression on GPU1. Across 64 tokens, its vector
+attention kernel costs 679/1,241/1,710 ms more than the fallback F16 kernel
+at 16K/32K/50K; removing Q4_1 dequant saves only 241/477/729 ms. The net
+GPU1 kernel increase closely tracks the end-to-end slowdown. GPU0 graph time
+stays about 371 ms, and GPU1 host-to-device copy time stays about
+96/101/106 ms, in each paired run. The native attention instance uses
+255 registers per thread versus 220 for F16, with the same 128-thread block.
+The next controlled probe is a Pascal native-kernel launch-shape variant,
+starting with 256 threads and measuring kernel time, register use, and
+generation speed at the same three depths. A separate hot-F16-KV-cache idea
+could remove the fallback's recurrent conversion cost while retaining compact
+Q4_1 backing; that needs a distinct memory and setup-time budget.
+
 Near-term tests stay at occupied **16K, 32K, and 50K** on a 262K-cap worker.
 Use 100K only when a short result merits a targeted slope check. Do not run
 every format or placement through 150K/200K yet. Measure each change against

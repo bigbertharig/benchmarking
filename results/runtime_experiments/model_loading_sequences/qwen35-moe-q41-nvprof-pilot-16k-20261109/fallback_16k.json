@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen35_nvprof_trace.sh",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "16384",
+    "qwen35_moe_q41_nvprof_pilot_16k_20261109_fallback_16k",
+    "64"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "error": "exit 26; see fallback_16k.log",
+  "exit_code": 26,
+  "finished_at": "2026-11-09T05:55:53+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29880240,
+  "host_min_available_kib": 29847728,
+  "id": "fallback_16k",
+  "started_at": "2026-11-09T05:55:49+00:00",
+  "status": "failed",
+  "timeout_s": 1800
+}

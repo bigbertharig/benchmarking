@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-09T05:45:39+00:00",
+  "manifest_sha256": "bbab221a692fb719ecc420e8978c9d54b54de5f2f0d74942c3e1f0b573bfe569",
+  "run_id": "qwen35-moe-q41-native-16k32k50k-20261109",
+  "stages": {
+    "fallback_after": "passed",
+    "fallback_before": "passed",
+    "native_q41": "passed"
+  },
+  "started_at": "2026-11-09T05:44:28+00:00",
+  "status": "passed"
+}

@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T05:53:46+00:00",
+  "manifest_sha256": "3771664224f4d3ac8acf13e387870c94aba94201619e1fe6189972eebb4499a3",
+  "reason": "missing required output: /mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_q41_decode_trace_16k32k50k_20261109_fallback_16k.nsys-rep",
+  "run_id": "qwen35-moe-q41-decode-trace-16k32k50k-20261109",
+  "stages": {
+    "fallback_16k": "failed"
+  },
+  "started_at": "2026-11-09T05:53:28+00:00",
+  "status": "failed"
+}
