@@ -1,0 +1,14 @@
+{
+  "finished_at": "2026-11-09T04:31:01+00:00",
+  "manifest_sha256": "0bd8bc2eb4b50410b7724c1080b13c435be33e049a75bdc8b5e2a574e2539ccd",
+  "run_id": "qwen35-moe-worker-kv-variant-matrix-20261109",
+  "stages": {
+    "q4_1": "passed",
+    "q4_after": "passed",
+    "q4_before": "passed",
+    "q5_1": "passed",
+    "q8_reference": "passed"
+  },
+  "started_at": "2026-11-09T04:28:22+00:00",
+  "status": "passed"
+}

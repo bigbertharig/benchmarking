@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T04:28:10+00:00",
+  "manifest_sha256": "d84c771192f42b306084682548451bd9c7cbd89f5ee0b610be635b3b6a1b7c8a",
+  "run_id": "qwen35-moe-kv-variant-prep-20261109",
+  "stages": {
+    "q4_1_prep": "passed",
+    "q5_1_prep": "passed"
+  },
+  "started_at": "2026-11-09T04:20:48+00:00",
+  "status": "passed"
+}

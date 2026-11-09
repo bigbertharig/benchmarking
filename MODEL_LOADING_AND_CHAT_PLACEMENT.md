@@ -814,12 +814,18 @@ the same model, saved history, 262K reserved capacity, and one GPU1 worker,
 the [KV format matrix](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-kv-format-matrix-20261109/README.md)
 found Q4/Q4 at about 36/24/17 tok/s, either mixed Q8/Q4 or Q4/Q8 at about
 49/34/24 tok/s, and Q8/Q8 at about 53/39/29 tok/s for occupied 16K/32K/50K.
-Worker allocation rose from about 2.04 to 2.67 to 3.31 GiB. The higher
+Worker allocation rose from about 2,037 to 2,669 to 3,309 MiB. The higher
 precision cache being faster is an observed property of this attention path,
 not a claim that quantization generally makes execution slower. The separate
 [Q5 KV comparison](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-q5-matrix-20261109/README.md)
 placed Q5/Q5 between Q4/Q4 and mixed Q4/Q8: about 46/30/21 tok/s at the
-same depths, using about 2.36 GiB per worker. The separate
+same depths, using about 2,357 MiB per worker. The separate
+[Q4_1/Q5_1 variant matrix](results/runtime_experiments/model_loading_sequences/qwen35-moe-worker-kv-variant-matrix-20261109/README.md)
+found Q4_1/Q4_1 at about 50/35/24 tok/s using about 2,197 MiB per worker,
+less than Q5_0, while Q5_1/Q5_1 was slower at about 45/30/21 tok/s using
+about 2,517 MiB.
+Q4_1 is the current best measured middle tradeoff; full Q8 remains fastest.
+The separate
 [Q8 extension](results/runtime_experiments/model_loading_sequences/qwen35-moe-two-q8-curve-extend-20261109/README.md)
 showed about 15.3 tok/s per simultaneous chat at 100K versus Q4's 9.3, then
 was intentionally stopped before a complete 150K result.

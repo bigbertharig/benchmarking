@@ -55,7 +55,9 @@ static bool add_chat(chat & c, llama_model * model, const llama_vocab * vocab, i
     const auto cache_type = [](const char * name) {
         const std::string type = name && *name ? name : "q4_0";
         if (type == "q4_0") return GGML_TYPE_Q4_0;
+        if (type == "q4_1") return GGML_TYPE_Q4_1;
         if (type == "q5_0") return GGML_TYPE_Q5_0;
+        if (type == "q5_1") return GGML_TYPE_Q5_1;
         if (type == "q8_0") return GGML_TYPE_Q8_0;
         if (type == "f16") return GGML_TYPE_F16;
         std::fprintf(stderr, "unsupported KV type: %s\n", type.c_str());
