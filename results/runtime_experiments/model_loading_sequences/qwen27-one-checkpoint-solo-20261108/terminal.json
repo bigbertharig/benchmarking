@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T01:04:53+00:00",
+  "manifest_sha256": "b4c5aa2ed9635a3bf91f82c57f44492f784d0f76689d3c3c326e75100102f578",
+  "run_id": "qwen27-one-checkpoint-solo-20261108",
+  "stages": {
+    "one_checkpoint_solo": "passed"
+  },
+  "started_at": "2026-11-09T01:00:53+00:00",
+  "status": "passed"
+}

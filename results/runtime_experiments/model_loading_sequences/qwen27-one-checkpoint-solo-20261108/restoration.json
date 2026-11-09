@@ -1,0 +1,12 @@
+{
+  "run": "qwen27-one-checkpoint-solo-20261108",
+  "started_at": "2026-11-09T01:00:46+00:00",
+  "status": "restored",
+  "run_state": "finished",
+  "terminal_observed_at": "2026-11-09T01:05:20+00:00",
+  "attempt": 1,
+  "load_exit": 0,
+  "load_stdout": "{\n  \"profile\": \"chat-27b\",\n  \"port\": 11434,\n  \"state\": \"ready\"\n}\n",
+  "load_stderr": "",
+  "finished_at": "2026-11-09T01:05:39+00:00"
+}

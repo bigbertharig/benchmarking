@@ -1044,6 +1044,28 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "one_checkpoint_solo") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        if (!source_dir || pair_cap < 210000 || tokens < 2) return 120;
+        chat worker{"worker1", "", nullptr, "1"};
+        if (!add_chat(worker, model, vocab, pair_cap)) return 121;
+        for (int depth : {50000, 100000, 150000, 200000}) {
+            const std::string path = std::string(source_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            snapshot state;
+            if (!read_snapshot_file(path, state)) return 122;
+            for (int rep = 1; rep <= 3; ++rep) {
+                if (!restore(worker, state)) return 122;
+                const std::string phase = "depth" + std::to_string(depth) +
+                    "_true_solo_rep" + std::to_string(rep);
+                if (!measured_parallel(vocab, {&worker}, tokens, phase.c_str())) return 123;
+            }
+            std::fprintf(stderr, "TRUE_SOLO_DONE depth=%d starting_used=%d\n", depth, state.used);
+        }
+        destroy(worker);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "five_ongoing_depths") {
         const char * state_dir = std::getenv("KV_STATE_DIR");
         if (!state_dir || pair_cap < 210000 || tokens < 2) return 100;

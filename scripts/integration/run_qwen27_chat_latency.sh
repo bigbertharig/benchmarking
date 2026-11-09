@@ -53,6 +53,7 @@ trap 'exit 130' INT
 docker run --rm --gpus all --network none \
   -v "$build:/build:ro" -v "$model:/model.gguf:ro" \
   -v "$base:/state" -e "KV_STATE_DIR=/state/$label.states" \
+  -e "KV_STATE_SOURCE_DIR=${KV_STATE_SOURCE_DIR-}" \
   -e "KV_MODEL_DEVICES=${KV_MODEL_DEVICES-}" -e "KV_MODEL_SPLIT=${KV_MODEL_SPLIT-}" \
   -w /build/bin 4bfa1cb0a955 \
   /build/bin/llama-simple "$mode" /model.gguf "$local_cap" "$pair_cap" "$single_cap" "$tokens" > "$base/$label.log" 2>&1

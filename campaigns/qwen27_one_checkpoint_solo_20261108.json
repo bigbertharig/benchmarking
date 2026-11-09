@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "name": "qwen27_one_checkpoint_solo",
+  "stages": [
+    {
+      "id": "one_checkpoint_solo",
+      "state": "ready",
+      "gpus": [0, 1],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen27_five_ongoing_depths_20261108.states"
+      },
+      "command": ["/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh", "one_checkpoint_solo", "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf", "262144", "262144", "262144", "16", "qwen27_one_checkpoint_solo_20261108"],
+      "timeout_s": 1800,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen27_one_checkpoint_solo_20261108.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen27_one_checkpoint_solo_20261108.log"]
+    }
+  ]
+}

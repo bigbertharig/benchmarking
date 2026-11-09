@@ -1,0 +1,12 @@
+{
+  "run": "qwen27-five-ongoing-depths-20261108",
+  "started_at": "2026-11-08T23:59:18+00:00",
+  "status": "restored",
+  "run_state": "finished",
+  "terminal_observed_at": "2026-11-09T00:58:38+00:00",
+  "attempt": 1,
+  "load_exit": 0,
+  "load_stdout": "{\n  \"profile\": \"chat-27b\",\n  \"port\": 11434,\n  \"state\": \"ready\"\n}\n",
+  "load_stderr": "",
+  "finished_at": "2026-11-09T00:59:30+00:00"
+}

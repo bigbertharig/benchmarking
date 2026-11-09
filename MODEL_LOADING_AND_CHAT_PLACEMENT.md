@@ -669,4 +669,21 @@ preparing on GPU0, returning the updated state to GPU1, and answering there
 took 6.87, 7.52, and 8.19 seconds, including both transfers. All six GPU1
 private-code answers were correct. This proves repeated migration for the
 private 27B path at 8K–16K occupied depth; main-chat interference, long
-histories, and Nemotron recurrent-state compatibility remain unmeasured.
+histories for that direct comparison, and Nemotron recurrent-state compatibility remain unmeasured.
+
+The [five-chat 50K-200K continuation run](results/runtime_experiments/model_loading_sequences/qwen27-five-ongoing-depths-20261108/README.md)
+kept Qwen3.6 27B Q4 weights on GPU0 and five independent 262K-cap Q4 KV chats
+on GPUs1-5. Each chat received four continuing synthetic turns, with each
+new batch prepared on GPU0 and returned to its 1060. All 20 private-code
+recalls passed. A [one-context replay](results/runtime_experiments/model_loading_sequences/qwen27-one-checkpoint-solo-20261108/README.md)
+restored the same worker1 states with GPUs2-5 unused. At 50K/100K/150K/200K
+occupied positions, true solo medians were 6.74/3.75/2.57/1.98 tok/s. With
+five chats actively generating, each chat ran at 5.25-5.38/2.90-3.11/
+2.05-2.12/1.55-1.65 tok/s respectively. Four parked chats changed the
+worker1 solo rate only about 1-3%; active generation reduced worker1 to
+78-83% of true solo. The stronger speed effect was growing context. Each
+additional 50K tokens took about 75/99/123/146 seconds to prepare on GPU0
+at the successive depths, before transfer and checkpoint I/O. This establishes
+the five-chat capacity and per-chat generation tradeoff for this private
+llama.cpp path. It does not measure a main chat responding while GPU0 is
+preparing a new worker turn or natural long-conversation retrieval quality.
