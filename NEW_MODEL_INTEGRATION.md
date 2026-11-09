@@ -1,9 +1,16 @@
 # New Model Integration Playbook
 
-The process for taking a new model from download to published scores (Part 1, current), and the log of
+The process for taking a new model from research to published scores (Part 1, current), and the log of
 past integrations (Part 2, history). Rewritten 2026-10-23 for how the rig runs now: every load goes
 through the rig manager (llm-gateway), Phases 3-6 run as a lane, and Phase 9 as a campaign, both
 started as runs in the rig's report.
+
+**Required first step for a new model:** complete [MODEL_RESEARCH_GATE.md](MODEL_RESEARCH_GATE.md)
+and pass `python3 scripts/active/check_model_research.py <model-id>` **before Phase 0 downloads any
+weights**. A rumor, API-only release, or unverified quant remains `watch` and cannot pass this gate.
+This research decision screens candidates; it does not register, load, or promote a model. Historical
+models already in the registry keep their existing evidence and can receive retrospective research
+notes without repeating integration.
 
 What is current where:
 - How a model loads and which settings it uses: [model_registry.json](model_registry.json) (the one
@@ -32,6 +39,7 @@ Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/..
 
 | Phase | What | How | Gate |
 |-------|------|-----|------|
+| R (required before 0) | Public research and shortlist | `MODEL_RESEARCH_GATE.md`; record in `research/candidates/`; `check_model_research.py <model-id>` | Official weights and quant identified, public claims sourced, rig-fit estimate and local comparator recorded, trial decision passes |
 | 0 | Download | on the rig, to the NVMe hotset, then the shared library | download: size and SHA-256 match the source; library copy: size |
 | 1 | Register | registry entry, `model_library.py export`, `rigctl fit` | `check` ok, `fit` says it fits |
 | 2 | Context bounds | `run_model_context_bounds.py` on compact and ceiling GPU groups | manager min/max fits and real loads pass, full GPU offload, both contexts recorded |
@@ -48,7 +56,7 @@ Phases 3-6 are one command (a lane), which stops after the smoke; Phase 2 sizes 
 Phase 7 is a separate settings decision, Phase 8 checks depth, and Phase 9 is one campaign. The manager
 does placement: say which cards a lane uses, and it checks the fit and picks context and split.
 
-This whole-number sequence applies to new integrations. Historical entries in Part 2, existing receipts,
+Research Phase R precedes the existing whole-number sequence for new integrations. Historical entries in Part 2, existing receipts,
 run IDs, and helper filenames retain their old labels. The legacy mapping is 1.5→2, 2→3, 3→4,
 3.5→5, 4→6, 4.5→7, 4.7→8, 5→9, and 6→10. In particular, `phase3_` and `phase4_` receipt paths,
 `phase4.sh`, `suggest_p45.py`, and `_w_p45_` run IDs are stable artifact identifiers, not current
@@ -68,6 +76,13 @@ and version the rows, as extract v5 did: reasoning is scored leniently, a correc
 is written, and answers that cannot be read at all are counted separately).
 
 ## Phase 0: Download
+
+From the benchmarking repository on the Pi, pass the research gate for the
+exact candidate before starting any download. A nonzero exit means stop here:
+
+```bash
+python3 scripts/active/check_model_research.py <model-id>
+```
 
 Download on the rig (it has its own internet route), straight to the NVMe hotset, resumable, renamed into
 place only when complete:

@@ -1,0 +1,23 @@
+{
+  "model_id": "qwen4-family",
+  "reviewed_at": "2026-11-08",
+  "decision": "watch",
+  "decision_reason": "Alibaba says Qwen 4 is in training; no official Qwen 4 weight repository, exact local variant, release date, or verified quant is available. Recheck the official Qwen organization and Alibaba announcements before assigning a rig lane.",
+  "official_model_url": null,
+  "upstream_model_id": null,
+  "release_status": "in_training",
+  "license": null,
+  "weights_url": null,
+  "quant_url": null,
+  "quant_file": null,
+  "quant_size_gb": null,
+  "target_lane": null,
+  "fit_estimate": null,
+  "local_comparator": "qwen3.8:27b",
+  "test_question": "When an official open-weight Qwen 4 variant exists, does it improve the same coding and application tasks over the best fitting active Qwen model on this rig?",
+  "public_evidence": [],
+  "sources": [
+    {"url": "https://home.alibabagroup.com/en-US/document-2041268239081668608", "kind": "official_announcement", "finding": "Qwen 4 is in training; no release date or local model specification stated."},
+    {"url": "https://huggingface.co/Qwen", "kind": "official_model_catalog", "finding": "Check for an official weight repository and exact model ID before changing this decision."}
+  ]
+}

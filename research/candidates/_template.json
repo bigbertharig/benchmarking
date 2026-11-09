@@ -1,0 +1,21 @@
+{
+  "model_id": "example:replace-me",
+  "reviewed_at": "YYYY-MM-DD",
+  "decision": "watch",
+  "decision_reason": "What evidence is missing or why a trial is worthwhile.",
+  "official_model_url": null,
+  "upstream_model_id": null,
+  "release_status": "rumor",
+  "license": null,
+  "weights_url": null,
+  "quant_url": null,
+  "quant_file": null,
+  "quant_size_gb": null,
+  "target_lane": null,
+  "fit_estimate": null,
+  "local_comparator": null,
+  "test_question": null,
+  "public_evidence": [],
+  "no_public_scores_reason": null,
+  "sources": []
+}
