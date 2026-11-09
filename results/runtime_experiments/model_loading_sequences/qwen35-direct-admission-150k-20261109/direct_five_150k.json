@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_direct_admission_five",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "64",
+    "qwen35_direct_admission_five_150k_20261109"
+  ],
+  "env_keys": [
+    "KV_ADMISSION_TARGET",
+    "KV_BUILD_DIR",
+    "KV_KV_TYPE",
+    "KV_SAMPLE_DETAIL",
+    "KV_STATE_SOURCE_DIR",
+    "KV_WORKER_UBATCH"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-09T23:48:19+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29826952,
+  "host_min_available_kib": 26467800,
+  "id": "direct_five_150k",
+  "started_at": "2026-11-09T23:31:49+00:00",
+  "status": "passed",
+  "timeout_s": 7200
+}

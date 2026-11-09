@@ -266,37 +266,30 @@ in every receipt.
    depths. Report per-turn speed ranges for each working layout, including
    how concurrent worker chats affect the main chat.
 
-9. **Five-chat F16 preparation and contention.** The
-   [16K–200K five-chat curve](results/runtime_experiments/model_loading_sequences/qwen35-moe-f16-five-long-20261109/README.md)
-   keeps model weights on GPU0, no resident GPU0 main chat, and one F16
-   chat on each 1060. At 150K, temporary GPU0 F16 preparation failed a
-   3,040 MiB allocation; RAM-backed preparation can continue. Test compact
-   Q4_1 preparation KV on GPU0, then conversion or transfer to a worker's
-   F16 KV. Compare against RAM preparation at 150K and 200K, recording
-   preparation and transfer time, GPU0 peak VRAM, and first useful token.
-   With identical worker KV and occupied histories, trace GPU0 compute,
-   each x1 link, and 1060 attention during matched solo and five-chat
-   1,000-token windows. At 16K the five-chat rates fell from 76.5 solo to
-   about 40 tok/s per chat; at 100K, from 33 solo to about 27. Find the
-   shared bottleneck before trying another placement or buffer change.
-   **Admission concurrency comparison:** use the same 35B weights, five
-   distinct histories, F16 worker KV, reserved context, and occupied depth.
-   Measure (a) one direct 1060 fill, (b) five direct 1060 fills started
-   together, (c) sequential GPU0 preparation plus handoff, and (d) compact
-   GPU0 preparation or RAM fallback when needed. Record time until each
-   chat's first correct answer and until all five are ready, GPU0 occupancy,
-   1060/link utilization, and the continuing chats' delay. Start at a
-   modest depth before testing a deeper crossover; stop an arm once its
-   measured rate makes the remaining time uninformative. A direct 1060 fill
-   still uses GPU0 model weights, so parallel 1060 KV work may contend for
-   shared GPU0 compute. The separate 27B 102K result favored sequential
-   GPU0 preparation per chat, but it did not test five concurrent fills or
-   this 35B RAM-backed preparation boundary.
+9. **F16 chat admission and contention.** The
+   [matched 35B admission comparison](results/runtime_experiments/model_loading_sequences/qwen35-admission-paths-20261109/README.md)
+   extended saved 100K chats to 150K with GPU0 model weights and F16 worker
+   KV. One direct 1060 fill took 749.2 seconds; five simultaneous direct
+   fills took 866.4 seconds until all were ready, with recall correct for
+   every chat. Thus the five fills did not serialize on GPU0, although the
+   first five-way chat was slower than one solo fill. A dedicated GPU1
+   preparation helper made one GPU2 chat usable in 422.5 seconds after
+   source restore, leaving four worker slots on GPUs2–5. Four sequential
+   helper admissions and interference with active workers were not measured.
+   RAM-backed preparation took about 594 seconds per sequential chat in the
+   earlier partial run. These are workflow comparisons with different
+   temporary KV reservations and batch sizes, not raw memory-bandwidth
+   measurements.
 
-   The [partial five-chat F16 result](results/runtime_experiments/model_loading_sequences/qwen35-moe-f16-five-long-20261109/README.md)
-   completed 16K–100K decode and exposed a 150K admission boundary. The
-   RAM-backed 100K → 150K preparation took about 594 seconds per chat,
-   sequentially; the user canceled before 150K five-chat decode.
+   Next, test compact Q4_1 preparation KV on GPU0 and handoff to F16 worker
+   KV at up to 150K, measuring GPU0 peak VRAM and first useful token. Probe
+   the dedicated helper while an existing worker generates, and measure
+   time until each chat is ready and all four are ready. With identical
+   occupied histories, trace GPU0 compute, x1 links, and 1060 attention in
+   matched solo and five-chat 1,000-token decode windows. At 16K the
+   previous five-chat rates fell from 76.5 solo to about 40 tok/s per chat;
+   at 100K, from 33 solo to about 27. The new 150K comparison tested
+   admission and short recall, not sustained answer generation.
 
 ## Model and engine follow-ups
 

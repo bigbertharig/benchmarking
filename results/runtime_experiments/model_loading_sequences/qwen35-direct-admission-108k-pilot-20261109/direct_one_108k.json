@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_direct_admission_one",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "64",
+    "qwen35_direct_admission_one_108k_20261109"
+  ],
+  "env_keys": [
+    "KV_ADMISSION_TARGET",
+    "KV_BUILD_DIR",
+    "KV_KV_TYPE",
+    "KV_SAMPLE_DETAIL",
+    "KV_STATE_SOURCE_DIR"
+  ],
+  "error": "exit 139; see direct_one_108k.log",
+  "exit_code": 139,
+  "finished_at": "2026-11-09T22:46:55+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29852748,
+  "host_min_available_kib": 26676272,
+  "id": "direct_one_108k",
+  "started_at": "2026-11-09T22:45:46+00:00",
+  "status": "failed",
+  "timeout_s": 3600
+}

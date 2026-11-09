@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T22:46:55+00:00",
+  "manifest_sha256": "bb5cb44db783e4b81e45b6ee39a6b9686c1ea86c0256248b3f4ad1dbf22df76c",
+  "reason": "exit 139; see direct_one_108k.log",
+  "run_id": "qwen35-direct-admission-108k-pilot-20261109",
+  "stages": {
+    "direct_one_108k": "failed"
+  },
+  "started_at": "2026-11-09T22:45:46+00:00",
+  "status": "failed"
+}

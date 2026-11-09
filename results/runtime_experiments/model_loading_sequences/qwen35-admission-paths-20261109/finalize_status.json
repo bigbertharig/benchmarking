@@ -1,0 +1,5 @@
+{
+  "status": "passed",
+  "finished_at": "2026-11-09T23:48:21.327273+00:00",
+  "summary": "{\"direct_one_s\": 749.187949, \"direct_five_s\": 866.409345, \"dedicated_split_s\": 422.465651}"
+}

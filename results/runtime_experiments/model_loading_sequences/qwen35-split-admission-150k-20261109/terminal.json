@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T23:03:53+00:00",
+  "manifest_sha256": "82eaac57e5bedd05d2d8014062ebb80ee0a85c3860d599ed7a07dad94ca43cc3",
+  "run_id": "qwen35-split-admission-150k-20261109",
+  "stages": {
+    "split_gpu0_gpu1_150k": "passed"
+  },
+  "started_at": "2026-11-09T22:56:00+00:00",
+  "status": "passed"
+}

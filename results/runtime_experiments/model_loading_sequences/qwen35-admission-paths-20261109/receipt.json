@@ -1,0 +1,119 @@
+{
+  "status": "passed",
+  "model": "Qwen3.6-35B-A3B Q4_K_XL",
+  "source_occupied_tokens": 100036,
+  "target_occupied_tokens": 150000,
+  "direct_108k_ub8_one": {
+    "setup_seconds": 9.668422,
+    "first_ready_fill_seconds": 111.32144,
+    "all_ready_fill_seconds": 111.326022,
+    "ready_by_chat_seconds": {
+      "worker1": 111.32144
+    },
+    "recall_seconds": 0.605514,
+    "all_ready_from_saved_states_seconds": 120.99444399999999
+  },
+  "direct_108k_ub8_five": {
+    "setup_seconds": 115.728557,
+    "first_ready_fill_seconds": 125.414581,
+    "all_ready_fill_seconds": 128.949092,
+    "ready_by_chat_seconds": {
+      "worker1": 125.414581,
+      "worker3": 126.09803,
+      "worker2": 126.291225,
+      "worker5": 127.199389,
+      "worker4": 128.948941
+    },
+    "recall_seconds": 0.858752,
+    "all_ready_from_saved_states_seconds": 244.677649
+  },
+  "direct_108k_ub32_one": {
+    "setup_seconds": 8.539995,
+    "first_ready_fill_seconds": 105.619144,
+    "all_ready_fill_seconds": 105.61924,
+    "ready_by_chat_seconds": {
+      "worker1": 105.619144
+    },
+    "recall_seconds": 0.570004,
+    "all_ready_from_saved_states_seconds": 114.15923500000001
+  },
+  "direct_108k_ub32_five": {
+    "setup_seconds": 115.488318,
+    "first_ready_fill_seconds": 118.351388,
+    "all_ready_fill_seconds": 121.574166,
+    "ready_by_chat_seconds": {
+      "worker1": 118.351388,
+      "worker3": 119.514304,
+      "worker2": 119.959989,
+      "worker5": 120.137822,
+      "worker4": 121.574028
+    },
+    "recall_seconds": 0.799777,
+    "all_ready_from_saved_states_seconds": 237.062484
+  },
+  "direct_150k_ub32_one": {
+    "setup_seconds": 26.567425,
+    "first_ready_fill_seconds": 749.187807,
+    "all_ready_fill_seconds": 749.187949,
+    "ready_by_chat_seconds": {
+      "worker1": 749.187807
+    },
+    "recall_seconds": 0.739891,
+    "all_ready_from_saved_states_seconds": 775.755374
+  },
+  "direct_150k_ub32_five": {
+    "setup_seconds": 109.969763,
+    "first_ready_fill_seconds": 846.857925,
+    "all_ready_fill_seconds": 866.409345,
+    "ready_by_chat_seconds": {
+      "worker1": 846.857925,
+      "worker3": 847.41578,
+      "worker2": 854.705822,
+      "worker5": 855.61104,
+      "worker4": 866.409215
+    },
+    "recall_seconds": 1.020751,
+    "all_ready_from_saved_states_seconds": 976.3791080000001
+  },
+  "split_transient_150k": {
+    "prepare_seconds": 409.685954,
+    "handoff_seconds": 13.01554,
+    "usable_seconds_after_source_restore": 422.701494,
+    "state_bytes": 3141464701,
+    "destination_gpu": 1
+  },
+  "split_dedicated_150k": {
+    "prepare_seconds": 409.399734,
+    "handoff_seconds": 13.065916,
+    "usable_seconds_after_source_restore": 422.465651,
+    "state_bytes": 3141464701,
+    "destination_gpu": 2
+  },
+  "ram_150k_partial": {
+    "prepared_chats": [
+      "worker1",
+      "worker2",
+      "worker3",
+      "worker4"
+    ],
+    "usable_seconds": {
+      "worker1": 593.50351,
+      "worker2": 593.668317,
+      "worker3": 593.902362,
+      "worker4": 593.192508
+    },
+    "total_seconds": {
+      "worker1": 633.294971,
+      "worker2": 633.356292,
+      "worker3": 633.781811,
+      "worker4": 633.088507
+    },
+    "handoff_seconds": {
+      "worker1": 9.394707,
+      "worker2": 9.411423,
+      "worker3": 9.393114,
+      "worker4": 9.397662
+    },
+    "five_chat_decode_measured": false
+  }
+}

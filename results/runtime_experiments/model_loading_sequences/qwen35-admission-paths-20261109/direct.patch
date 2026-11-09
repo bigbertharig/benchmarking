@@ -1,0 +1,109 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -158,7 +158,7 @@
+     if (tokens.empty() || length < 0) return false;
+     std::vector<llama_token> block;
+     for (int pos = 0; pos < length;) {
+-        const int count = std::min(512, length - pos);
++        const int count = std::min(64, length - pos);
+         block.resize(count);
+         for (int j = 0; j < count; ++j) block[j] = tokens[(pos + j) % tokens.size()];
+         if (llama_decode(c.ctx, llama_batch_get_one(block.data(), count))) return false;
+@@ -1318,6 +1318,97 @@
+         }
+         llama_model_free(model);
+         return 0;
++    }
++    if (std::string(argv[1]) == "moe_direct_admission_one" ||
++        std::string(argv[1]) == "moe_direct_admission_five") {
++        const bool five = std::string(argv[1]) == "moe_direct_admission_five";
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        const char * target_env = std::getenv("KV_ADMISSION_TARGET");
++        const int target = target_env ? std::atoi(target_env) : 0;
++        if (!source_dir || !*source_dir || target < 100100 ||
++            target > pair_cap - 128 || pair_cap < 150000) return 220;
++        const char * codes[5] = {"4827", "6193", "7358", "2046", "8915"};
++        const char * cards[5] = {"1", "2", "3", "4", "5"};
++        chat w1{"worker1", "", nullptr, cards[0]};
++        chat w2{"worker2", "", nullptr, cards[1]};
++        chat w3{"worker3", "", nullptr, cards[2]};
++        chat w4{"worker4", "", nullptr, cards[3]};
++        chat w5{"worker5", "", nullptr, cards[4]};
++        std::vector<chat *> workers = five
++            ? std::vector<chat *>{&w1, &w2, &w3, &w4, &w5}
++            : std::vector<chat *>{&w1};
++        const auto setup_started = clock_type::now();
++        for (int i = 0; i < (int)workers.size(); ++i) {
++            if (!add_chat(*workers[i], model, vocab, pair_cap)) return 221;
++            const std::string path = std::string(source_dir) + "/worker" +
++                std::to_string(i+1) + "_depth100000.bin";
++            snapshot state;
++            if (!read_snapshot_file(path, state) || !restore(*workers[i], state)) return 222;
++            state.data.clear();
++            state.data.shrink_to_fit();
++        }
++        const double setup_seconds =
++            std::chrono::duration<double>(clock_type::now()-setup_started).count();
++        std::fprintf(stderr, "DIRECT_SETUP chats=%zu target=%d seconds=%.6f\n",
++                     workers.size(), target, setup_seconds);
++        const auto next_user = tokenize_text(vocab,
++            "\n<|im_start|>user\nHere is another batch of unrelated field notes.\n", false);
++        std::vector<std::vector<llama_token>> fillers;
++        for (int i = 0; i < (int)workers.size(); ++i) {
++            const std::string note = std::string(" Entry ") + std::to_string(i+1) +
++                " describes a blue bicycle beside a river, a quiet bridge, and mild weather.\n";
++            fillers.push_back(tokenize_text(vocab, note, false));
++        }
++        if (next_user.empty() || std::any_of(fillers.begin(), fillers.end(),
++                [](const auto & tokens) { return tokens.empty(); })) return 223;
++        std::atomic<bool> okay{true};
++        std::atomic<int> ready{0};
++        std::vector<std::thread> threads;
++        const auto started = clock_type::now();
++        for (int i = 0; i < (int)workers.size(); ++i) {
++            chat * item = workers[i];
++            threads.emplace_back([&, item, i]() {
++                bool passed = decode_raw(*item, item->next) &&
++                              decode_raw(*item, next_user) &&
++                              item->used < target &&
++                              decode_raw_progress(*item, fillers[i], target-item->used, target);
++                if (!passed) okay.store(false);
++                else {
++                    const double elapsed =
++                        std::chrono::duration<double>(clock_type::now()-started).count();
++                    ready.fetch_add(1);
++                    std::fprintf(stderr,
++                        "DIRECT_READY name=%s target=%d used=%d seconds=%.6f order=%d\n",
++                        item->name, target, item->used, elapsed, ready.load());
++                    std::fflush(stderr);
++                }
++            });
++        }
++        for (auto & thread : threads) thread.join();
++        const double all_seconds =
++            std::chrono::duration<double>(clock_type::now()-started).count();
++        std::fprintf(stderr, "DIRECT_ALL_READY chats=%zu target=%d seconds=%.6f okay=%d\n",
++                     workers.size(), target, all_seconds, okay.load() ? 1 : 0);
++        std::fflush(stderr);
++        if (!okay.load() || ready.load() != (int)workers.size()) return 224;
++        std::atomic<bool> recall_ok{true};
++        threads.clear();
++        const auto recall_started = clock_type::now();
++        for (int i = 0; i < (int)workers.size(); ++i) {
++            threads.emplace_back([&, i]() {
++                if (!recall_answer(*workers[i], vocab, codes[i], target, 64))
++                    recall_ok.store(false);
++            });
++        }
++        for (auto & thread : threads) thread.join();
++        std::fprintf(stderr, "DIRECT_RECALL chats=%zu target=%d seconds=%.6f pass=%d\n",
++                     workers.size(), target,
++                     std::chrono::duration<double>(clock_type::now()-recall_started).count(),
++                     recall_ok.load() ? 1 : 0);
++        std::fflush(stderr);
++        for (auto it = workers.rbegin(); it != workers.rend(); ++it) destroy(**it);
++        llama_model_free(model);
++        return recall_ok.load() ? 0 : 225;
+     }
+     if (std::string(argv[1]) == "five_ongoing_depths" ||
+         std::string(argv[1]) == "moe_five_f16_curve" ||

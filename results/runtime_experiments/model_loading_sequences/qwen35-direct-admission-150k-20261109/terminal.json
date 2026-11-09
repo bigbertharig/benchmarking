@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T23:48:19+00:00",
+  "manifest_sha256": "036d99a32e113a20b835c2a6e8452d8e49bcabf6d28bd5fbfc04d60bf4daf53e",
+  "run_id": "qwen35-direct-admission-150k-20261109",
+  "stages": {
+    "direct_five_150k": "passed",
+    "direct_one_150k": "passed"
+  },
+  "started_at": "2026-11-09T23:18:33+00:00",
+  "status": "passed"
+}

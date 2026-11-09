@@ -1,0 +1,56 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1318,6 +1318,53 @@
+         }
+         llama_model_free(model);
+         return 0;
++    }
++    if (std::string(argv[1]) == "moe_split_admission_one") {
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        const char * target_env = std::getenv("KV_ADMISSION_TARGET");
++        const int target = target_env ? std::atoi(target_env) : 0;
++        if (!source_dir || !*source_dir || target < 100100 ||
++            target > pair_cap - 128 || pair_cap < 150000) return 230;
++        const std::string path = std::string(source_dir) + "/worker1_depth100000.bin";
++        snapshot prior;
++        if (!read_snapshot_file(path, prior)) return 231;
++        const int temp_cap = std::min(pair_cap, ((target + 8191)/8192)*8192);
++        chat temp{"worker1", "", "0,1", nullptr};
++        if (!add_chat(temp, model, vocab, temp_cap, true) || !restore(temp, prior)) return 232;
++        prior.data.clear();
++        prior.data.shrink_to_fit();
++        const auto started = clock_type::now();
++        const auto next_user = tokenize_text(vocab,
++            "\n<|im_start|>user\nHere is another batch of unrelated field notes.\n", false);
++        const auto filler = tokenize_text(vocab,
++            " Entry 1 describes a blue bicycle beside a river, a quiet bridge, and mild weather.\n", false);
++        if (next_user.empty() || filler.empty() ||
++            !decode_raw(temp, temp.next) || !decode_raw(temp, next_user) ||
++            temp.used >= target ||
++            !decode_raw_progress(temp, filler, target-temp.used, target)) return 233;
++        const double prepare_seconds =
++            std::chrono::duration<double>(clock_type::now()-started).count();
++        const auto transfer_started = clock_type::now();
++        snapshot state;
++        if (!save(temp, state)) return 234;
++        destroy(temp);
++        chat worker{"worker1", "", nullptr, "1"};
++        if (!add_chat(worker, model, vocab, pair_cap) || !restore(worker, state)) return 235;
++        const double handoff_seconds =
++            std::chrono::duration<double>(clock_type::now()-transfer_started).count();
++        const double usable_seconds =
++            std::chrono::duration<double>(clock_type::now()-started).count();
++        std::fprintf(stderr,
++            "SPLIT_READY target=%d used=%d prepare_seconds=%.6f handoff_seconds=%.6f usable_seconds=%.6f state_bytes=%zu\n",
++            target, worker.used, prepare_seconds, handoff_seconds, usable_seconds,
++            state.data.size());
++        std::fflush(stderr);
++        state.data.clear();
++        state.data.shrink_to_fit();
++        const bool passed = recall_answer(worker, vocab, "4827", target, 64);
++        destroy(worker);
++        llama_model_free(model);
++        return passed ? 0 : 236;
+     }
+     if (std::string(argv[1]) == "five_ongoing_depths" ||
+         std::string(argv[1]) == "moe_five_f16_curve" ||

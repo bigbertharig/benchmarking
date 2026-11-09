@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T22:55:38+00:00",
+  "manifest_sha256": "bb5cb44db783e4b81e45b6ee39a6b9686c1ea86c0256248b3f4ad1dbf22df76c",
+  "run_id": "qwen35-direct-admission-108k-retry-20261109",
+  "stages": {
+    "direct_five_108k": "passed",
+    "direct_one_108k": "passed"
+  },
+  "started_at": "2026-11-09T22:49:09+00:00",
+  "status": "passed"
+}
