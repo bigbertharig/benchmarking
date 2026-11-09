@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T02:09:37+00:00",
+  "manifest_sha256": "5058faba636d77069d7293da3e5631dc773acd80d0496f13ef081f79f2c8303a",
+  "reason": "Manager stopped the sequence",
+  "run_id": "qwen35-moe-five-ongoing-depths-20261109",
+  "stages": {
+    "five_ongoing_depths": "failed"
+  },
+  "started_at": "2026-11-09T02:06:42+00:00",
+  "status": "failed"
+}

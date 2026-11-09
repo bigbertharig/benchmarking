@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T01:35:43+00:00",
+  "manifest_sha256": "e90e96f20e6b55ce789eb488bc1e9f2116f927bd53ba8e9e27c6ca18b7f0bd4d",
+  "run_id": "qwen27-main-gpu0-five-agents-20261109",
+  "stages": {
+    "main_gpu0_five_agents": "passed"
+  },
+  "started_at": "2026-11-09T01:22:54+00:00",
+  "status": "passed"
+}

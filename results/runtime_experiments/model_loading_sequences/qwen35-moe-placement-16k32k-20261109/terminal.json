@@ -1,0 +1,13 @@
+{
+  "finished_at": "2026-11-09T02:34:00+00:00",
+  "manifest_sha256": "54433004f45448c4204157132dc7463b19076602c7beddd06b6bd3d11e233867",
+  "run_id": "qwen35-moe-placement-16k32k-20261109",
+  "stages": {
+    "moe_two_replay_baseline": "passed",
+    "moe_two_replay_baseline_repeat": "passed",
+    "moe_two_replay_expert0_gpu1": "passed",
+    "moe_two_replay_gpu0_kv": "passed"
+  },
+  "started_at": "2026-11-09T02:31:44+00:00",
+  "status": "passed"
+}

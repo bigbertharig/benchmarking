@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-09T02:25:09+00:00",
+  "manifest_sha256": "1fb8a7cb3cae1935609e2cae6317116a9ceb4caa6fc4fb09db4e203406cfd78d",
+  "reason": "exit 137; see moe_two_depths.log",
+  "run_id": "qwen35-moe-two-depths-20261109",
+  "stages": {
+    "moe_two_depths": "failed"
+  },
+  "started_at": "2026-11-09T02:23:05+00:00",
+  "status": "failed"
+}

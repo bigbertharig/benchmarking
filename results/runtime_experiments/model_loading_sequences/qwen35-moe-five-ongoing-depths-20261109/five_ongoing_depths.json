@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "five_ongoing_depths",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "16",
+    "qwen35_moe_five_ongoing_depths_20261109"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "error": "Manager stopped the sequence",
+  "exit_code": -9,
+  "finished_at": "2026-11-09T02:09:37+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29873996,
+  "host_min_available_kib": 28029588,
+  "id": "five_ongoing_depths",
+  "started_at": "2026-11-09T02:06:42+00:00",
+  "status": "failed",
+  "timeout_s": 10800
+}

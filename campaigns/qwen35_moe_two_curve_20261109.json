@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "name": "qwen35_moe_two_curve",
+  "stages": [
+    {
+      "id": "moe_two_curve",
+      "state": "ready",
+      "gpus": [0, 1, 2],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {"KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build"},
+      "command": ["/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh", "moe_two_curve", "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf", "262144", "262144", "262144", "64", "qwen35_moe_two_curve_20261109"],
+      "timeout_s": 10800,
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_curve_20261109.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_curve_20261109.log"]
+    }
+  ]
+}

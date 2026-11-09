@@ -14,6 +14,7 @@
 #include <sstream>
 #include <deque>
 #include <fstream>
+#include <utility>
 
 using clock_type = std::chrono::steady_clock;
 
@@ -209,6 +210,7 @@ struct snapshot_header {
 };
 
 static bool write_snapshot_file(const std::string & path, const snapshot & state) {
+    const auto started = clock_type::now();
     const std::string pending = path + ".tmp";
     FILE * file = std::fopen(pending.c_str(), "wb");
     if (!file) return false;
@@ -223,12 +225,14 @@ static bool write_snapshot_file(const std::string & path, const snapshot & state
         return false;
     }
     if (std::rename(pending.c_str(), path.c_str()) != 0) return false;
-    std::fprintf(stderr, "STATE_FILE path=%s bytes=%zu hash=%016llx\n",
-                 path.c_str(), state.data.size(), (unsigned long long)header.hash);
+    std::fprintf(stderr, "STATE_FILE path=%s bytes=%zu hash=%016llx seconds=%.6f\n",
+                 path.c_str(), state.data.size(), (unsigned long long)header.hash,
+                 std::chrono::duration<double>(clock_type::now()-started).count());
     return true;
 }
 
 static bool read_snapshot_file(const std::string & path, snapshot & state) {
+    const auto started = clock_type::now();
     FILE * file = std::fopen(path.c_str(), "rb");
     if (!file) return false;
     snapshot_header header{};
@@ -244,8 +248,9 @@ static bool read_snapshot_file(const std::string & path, snapshot & state) {
     if (!ok) return false;
     state.used = header.used;
     state.next = header.next;
-    std::fprintf(stderr, "STATE_FILE_READ path=%s bytes=%zu hash=%016llx\n",
-                 path.c_str(), state.data.size(), (unsigned long long)header.hash);
+    std::fprintf(stderr, "STATE_FILE_READ path=%s bytes=%zu hash=%016llx seconds=%.6f\n",
+                 path.c_str(), state.data.size(), (unsigned long long)header.hash,
+                 std::chrono::duration<double>(clock_type::now()-started).count());
     return true;
 }
 
@@ -349,6 +354,32 @@ static bool measured_parallel(const llama_vocab * vocab, const std::vector<chat 
     return ok.load();
 }
 
+static bool measured_parallel_mixed(const llama_vocab * vocab, chat & main_chat,
+                                    const std::vector<chat *> & agents, int main_tokens,
+                                    int agent_tokens, const char * phase) {
+    std::atomic<int> ready{0};
+    std::atomic<bool> go{false};
+    std::atomic<bool> ok{true};
+    std::vector<std::thread> threads;
+    auto launch = [&](chat * item, int count) {
+        threads.emplace_back([&, item, count]() {
+            ready.fetch_add(1);
+            while (!go.load()) std::this_thread::yield();
+            if (!measured_generation(*item, vocab, count, phase)) ok.store(false);
+        });
+    };
+    launch(&main_chat, main_tokens);
+    for (chat * agent : agents) launch(agent, agent_tokens);
+    while (ready.load() != (int)threads.size()) std::this_thread::yield();
+    const auto started = clock_type::now();
+    go.store(true);
+    for (auto & thread : threads) thread.join();
+    const double elapsed = std::chrono::duration<double>(clock_type::now()-started).count();
+    std::fprintf(stderr, "GEN_MIXED phase=%s main_tokens=%d agent_tokens=%d seconds=%.6f ok=%d\n",
+                 phase, main_tokens, agent_tokens, elapsed, ok.load());
+    return ok.load();
+}
+
 static void destroy(chat & c) {
     if (c.sampler) llama_sampler_free(c.sampler);
     if (c.ctx) llama_free(c.ctx);
@@ -449,9 +480,11 @@ int main(int argc, char ** argv) {
         overrides.push_back({nullptr, nullptr});
         mp.tensor_buft_overrides = overrides.data();
     }
+    const auto model_started = clock_type::now();
     llama_model * model = llama_model_load_from_file(argv[2], mp);
     if (!model) return 3;
-    std::fprintf(stderr, "MODEL_READY one weight load\n");
+    std::fprintf(stderr, "MODEL_READY one weight load seconds=%.6f\n",
+                 std::chrono::duration<double>(clock_type::now()-model_started).count());
     const llama_vocab * vocab = llama_model_get_vocab(model);
     chat local{"local", "The capital of France is", nullptr, "0"};
     chat a{"pair12", "The capital of Japan is", "1,2", nullptr};
@@ -1044,6 +1077,126 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "five_right_size") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        if (!source_dir || tokens < 16) return 190;
+        for (const auto & point : std::vector<std::pair<int, int>>{
+                 {50000, 65536}, {100000, 114688}, {150000, 163840}, {200000, 212992}}) {
+            const int depth = point.first;
+            const int cap = point.second;
+            chat a1{"agent1", "", nullptr, "1"};
+            chat a2{"agent2", "", nullptr, "2"};
+            chat a3{"agent3", "", nullptr, "3"};
+            chat a4{"agent4", "", nullptr, "4"};
+            chat a5{"agent5", "", nullptr, "5"};
+            const std::vector<chat *> agents{&a1, &a2, &a3, &a4, &a5};
+            for (int i = 0; i < 5; ++i) {
+                if (!add_chat(*agents[i], model, vocab, cap)) return 191;
+                const std::string path = std::string(source_dir) + "/worker" +
+                    std::to_string(i+1) + "_depth" + std::to_string(depth) + ".bin";
+                snapshot state;
+                if (!read_snapshot_file(path, state) || !restore(*agents[i], state)) return 192;
+            }
+            const std::string phase = "depth" + std::to_string(depth) + "_right_size";
+            if (!measured_parallel(vocab, agents, tokens, phase.c_str())) return 193;
+            std::fprintf(stderr, "RIGHT_SIZE_DONE depth=%d cap=%d tokens=%d\n", depth, cap, tokens);
+            std::fflush(stderr);
+            for (auto it = agents.rbegin(); it != agents.rend(); ++it) destroy(**it);
+        }
+        llama_model_free(model);
+        return 0;
+    }
+    if (std::string(argv[1]) == "main_gpu0_sustained_five") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        if (!source_dir || pair_cap < 210000 || tokens < 16) return 180;
+        for (int depth : {50000, 100000, 150000, 200000}) {
+            chat a1{"agent1", "", nullptr, "1"};
+            chat a2{"agent2", "", nullptr, "2"};
+            chat a3{"agent3", "", nullptr, "3"};
+            chat a4{"agent4", "", nullptr, "4"};
+            chat a5{"agent5", "", nullptr, "5"};
+            const std::vector<chat *> agents{&a1, &a2, &a3, &a4, &a5};
+            auto restore_agents = [&]() {
+                for (int i = 0; i < 5; ++i) {
+                    const std::string path = std::string(source_dir) + "/worker" +
+                        std::to_string(i+1) + "_depth" + std::to_string(depth) + ".bin";
+                    snapshot state;
+                    if (!read_snapshot_file(path, state) || !restore(*agents[i], state)) return false;
+                }
+                return true;
+            };
+            for (chat * agent : agents) {
+                if (!add_chat(*agent, model, vocab, pair_cap)) return 181;
+            }
+            if (!restore_agents()) return 182;
+            const std::string prefix = "depth" + std::to_string(depth);
+            if (!measured_parallel(vocab, agents, tokens, (prefix + "_five_only").c_str())) return 183;
+            if (!restore_agents()) return 184;
+            chat main_chat{"main_gpu0", "", nullptr, "0"};
+            if (!add_chat(main_chat, model, vocab, pair_cap)) return 185;
+            const std::string main_path = std::string(source_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            snapshot main_state;
+            if (!read_snapshot_file(main_path, main_state) || !restore(main_chat, main_state)) return 186;
+            const int main_tokens = 512;
+            if (!measured_generation(main_chat, vocab, main_tokens,
+                                     (prefix + "_main_only").c_str()) ||
+                !restore(main_chat, main_state)) return 187;
+            main_state.data.clear();
+            main_state.data.shrink_to_fit();
+            if (!measured_parallel_mixed(vocab, main_chat, agents, main_tokens, tokens,
+                                         (prefix + "_main_plus_five").c_str())) return 188;
+            std::fprintf(stderr, "SUSTAINED_DONE depth=%d main_tokens=%d agent_tokens=%d\n",
+                         depth, main_tokens, tokens);
+            std::fflush(stderr);
+            destroy(main_chat);
+            for (auto it = agents.rbegin(); it != agents.rend(); ++it) destroy(**it);
+        }
+        llama_model_free(model);
+        return 0;
+    }
+    if (std::string(argv[1]) == "main_gpu0_five_agents") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        if (!source_dir || pair_cap < 210000 || tokens < 16) return 130;
+        chat main_chat{"main_gpu0", "", nullptr, "0"};
+        if (!add_chat(main_chat, model, vocab, pair_cap)) return 131;
+        for (int depth : {50000, 100000, 150000, 200000}) {
+            const std::string main_path = std::string(source_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            snapshot main_state;
+            if (!read_snapshot_file(main_path, main_state) ||
+                !restore(main_chat, main_state)) return 132;
+            const std::string solo_phase = "depth" + std::to_string(depth) + "_main_only";
+            if (!measured_parallel(vocab, {&main_chat}, tokens, solo_phase.c_str()) ||
+                !restore(main_chat, main_state)) return 133;
+            main_state.data.clear();
+            main_state.data.shrink_to_fit();
+            chat a1{"agent1", "", nullptr, "1"};
+            chat a2{"agent2", "", nullptr, "2"};
+            chat a3{"agent3", "", nullptr, "3"};
+            chat a4{"agent4", "", nullptr, "4"};
+            chat a5{"agent5", "", nullptr, "5"};
+            const std::vector<chat *> agents{&a1, &a2, &a3, &a4, &a5};
+            for (int i = 0; i < 5; ++i) {
+                if (!add_chat(*agents[i], model, vocab, pair_cap)) return 134;
+                const std::string path = std::string(source_dir) + "/worker" +
+                    std::to_string(i+1) + "_depth" + std::to_string(depth) + ".bin";
+                snapshot state;
+                if (!read_snapshot_file(path, state) || !restore(*agents[i], state)) return 135;
+            }
+            std::vector<chat *> active{&main_chat};
+            active.insert(active.end(), agents.begin(), agents.end());
+            const std::string active_phase = "depth" + std::to_string(depth) + "_main_plus_five";
+            if (!measured_parallel(vocab, active, tokens, active_phase.c_str())) return 136;
+            std::fprintf(stderr, "MAIN_AGENTS_DONE depth=%d chats=6 tokens_each=%d\n",
+                         depth, tokens);
+            std::fflush(stderr);
+            for (auto it = agents.rbegin(); it != agents.rend(); ++it) destroy(**it);
+        }
+        destroy(main_chat);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "one_checkpoint_solo") {
         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
         if (!source_dir || pair_cap < 210000 || tokens < 2) return 120;
@@ -1066,10 +1219,61 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
-    if (std::string(argv[1]) == "five_ongoing_depths") {
+    if (std::string(argv[1]) == "moe_two_replay") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        if (!source_dir || pair_cap < 40000 || tokens < 16) return 200;
+        const char * replay_gpus = std::getenv("KV_REPLAY_CHAT_GPUS");
+        const std::string gpu_pair = replay_gpus && *replay_gpus ? replay_gpus : "1,2";
+        const size_t comma = gpu_pair.find(',');
+        if (comma == std::string::npos) return 205;
+        const std::string first_gpu = gpu_pair.substr(0, comma);
+        const std::string second_gpu = gpu_pair.substr(comma+1);
+        for (int depth : {16384, 32768, 50000}) {
+            chat main_chat{"main", "", nullptr, first_gpu.c_str()};
+            chat secondary{"secondary", "", nullptr, second_gpu.c_str()};
+            if (!add_chat(main_chat, model, vocab, pair_cap) ||
+                !add_chat(secondary, model, vocab, pair_cap)) return 201;
+            const std::string first_path = std::string(source_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            const std::string second_path = std::string(source_dir) + "/worker2_depth" +
+                std::to_string(depth) + ".bin";
+            snapshot first_state, second_state;
+            if (!read_snapshot_file(first_path, first_state) ||
+                !read_snapshot_file(second_path, second_state) ||
+                !restore(main_chat, first_state) ||
+                !restore(secondary, second_state)) return 202;
+            const std::string prefix = "depth" + std::to_string(depth);
+            if (!measured_parallel(vocab, {&main_chat}, tokens,
+                                   (prefix + "_solo").c_str()) ||
+                !restore(main_chat, first_state)) return 203;
+            first_state.data.clear();
+            first_state.data.shrink_to_fit();
+            second_state.data.clear();
+            second_state.data.shrink_to_fit();
+            if (!measured_parallel(vocab, {&main_chat, &secondary}, tokens,
+                                   (prefix + "_two").c_str())) return 204;
+            std::fprintf(stderr, "TWO_REPLAY_DONE depth=%d chats=2 gpus=%s tokens_each=%d\n",
+                         depth, gpu_pair.c_str(), tokens);
+            std::fflush(stderr);
+            destroy(secondary);
+            destroy(main_chat);
+        }
+        llama_model_free(model);
+        return 0;
+    }
+    if (std::string(argv[1]) == "five_ongoing_depths" ||
+        std::string(argv[1]) == "moe_two_depths" ||
+        std::string(argv[1]) == "moe_two_short" ||
+        std::string(argv[1]) == "moe_two_curve") {
+        const bool two_chats = std::string(argv[1]) != "five_ongoing_depths";
+        const bool short_depths = std::string(argv[1]) == "moe_two_short";
+        const bool full_curve = std::string(argv[1]) == "moe_two_curve";
         const char * state_dir = std::getenv("KV_STATE_DIR");
-        if (!state_dir || pair_cap < 210000 || tokens < 2) return 100;
-        const int depths[4] = {50000, 100000, 150000, 200000};
+        if (!state_dir || pair_cap < (short_depths ? 40000 : 210000) || tokens < 2) return 100;
+        const std::vector<int> depths = full_curve
+            ? std::vector<int>{16384, 32768, 50000, 100000, 150000, 200000}
+            : short_depths ? std::vector<int>{16384, 32768, 50000}
+                           : std::vector<int>{50000, 100000, 150000, 200000};
         const char * codes[5] = {"4827", "6193", "7358", "2046", "8915"};
         const char * cards[5] = {"1", "2", "3", "4", "5"};
         chat w1{"worker1", "", nullptr, cards[0]};
@@ -1077,11 +1281,13 @@ int main(int argc, char ** argv) {
         chat w3{"worker3", "", nullptr, cards[2]};
         chat w4{"worker4", "", nullptr, cards[3]};
         chat w5{"worker5", "", nullptr, cards[4]};
-        const std::vector<chat *> workers{&w1, &w2, &w3, &w4, &w5};
+        const std::vector<chat *> workers = two_chats
+            ? std::vector<chat *>{&w1, &w2}
+            : std::vector<chat *>{&w1, &w2, &w3, &w4, &w5};
         for (chat * worker : workers) {
             if (!add_chat(*worker, model, vocab, pair_cap)) return 101;
         }
-        for (int stage = 0; stage < 4; ++stage) {
+        for (int stage = 0; stage < (int)depths.size(); ++stage) {
             const int depth = depths[stage];
             const std::string done_path = std::string(state_dir) + "/depth" +
                 std::to_string(depth) + ".done";
@@ -1089,7 +1295,7 @@ int main(int argc, char ** argv) {
                 std::fprintf(stderr, "DEPTH_REUSE depth=%d\n", depth);
                 continue;
             }
-            for (int i = 0; i < 5; ++i) {
+            for (int i = 0; i < (int)workers.size(); ++i) {
                 const std::string path = std::string(state_dir) + "/worker" +
                     std::to_string(i+1) + "_depth" + std::to_string(depth) + ".bin";
                 snapshot state;
@@ -1101,8 +1307,10 @@ int main(int argc, char ** argv) {
                 const std::string prompt = std::string("<|im_start|>user\n") +
                     "Remember my private four-digit code: " + codes[i] +
                     ". I will ask for it after several turns.\n";
+                const auto chat_started = clock_type::now();
                 chat temp{workers[i]->name, prompt.c_str(), nullptr, "0"};
-                if (!add_chat(temp, model, vocab, pair_cap, true)) return 103;
+                const int temp_cap = std::min(pair_cap, ((depth + 8191)/8192)*8192);
+                if (!add_chat(temp, model, vocab, temp_cap, true)) return 103;
                 if (stage == 0) {
                     if (!decode_raw(temp, temp.next)) return 104;
                 } else {
@@ -1122,15 +1330,26 @@ int main(int argc, char ** argv) {
                 const auto filler = tokenize_text(vocab, note, false);
                 if (filler.empty() || temp.used >= depth ||
                     !decode_raw_progress(temp, filler, depth-temp.used, depth)) return 108;
+                const auto transfer_started = clock_type::now();
                 if (!save(temp, state)) return 109;
                 destroy(temp);
                 if (!restore(*workers[i], state)) return 110;
+                const double transfer_seconds =
+                    std::chrono::duration<double>(clock_type::now()-transfer_started).count();
+                const double usable_seconds =
+                    std::chrono::duration<double>(clock_type::now()-chat_started).count();
                 state.data.clear();
                 state.data.shrink_to_fit();
                 if (!recall_answer(*workers[i], vocab, codes[i], depth, 64)) return 111;
                 if (!save(*workers[i], state) || !write_snapshot_file(path, state)) return 112;
                 std::fprintf(stderr, "PREP_DONE name=%s depth=%d used=%d\n",
                              workers[i]->name, depth, workers[i]->used);
+                std::fprintf(stderr,
+                    "CHAT_ADD_METRIC name=%s depth=%d cap=%d usable_seconds=%.6f total_seconds=%.6f gpu0_to_1060_seconds=%.6f\n",
+                    workers[i]->name, depth, temp_cap,
+                    usable_seconds,
+                    std::chrono::duration<double>(clock_type::now()-chat_started).count(),
+                    transfer_seconds);
                 std::fflush(stderr);
             }
             const std::string phase_solo = "depth" + std::to_string(depth) + "_solo";
@@ -1140,15 +1359,16 @@ int main(int argc, char ** argv) {
             snapshot first_state;
             if (!read_snapshot_file(first_path, first_state) ||
                 !restore(*workers[0], first_state)) return 114;
-            const std::string phase_five = "depth" + std::to_string(depth) + "_five";
+            const std::string phase_five = "depth" + std::to_string(depth) +
+                (two_chats ? "_two" : "_five");
             if (!measured_parallel(vocab, workers, tokens, phase_five.c_str())) return 115;
             std::ofstream done(done_path + ".tmp");
             done << "complete depth=" << depth << "\n";
             done.close();
             if (!done || std::rename((done_path + ".tmp").c_str(), done_path.c_str()) != 0)
                 return 116;
-            std::fprintf(stderr, "DEPTH_DONE depth=%d chats=5 solo_tokens=%d parallel_tokens=%d\n",
-                         depth, tokens, tokens);
+            std::fprintf(stderr, "DEPTH_DONE depth=%d chats=%zu solo_tokens=%d parallel_tokens=%d\n",
+                         depth, workers.size(), tokens, tokens);
             std::fflush(stderr);
         }
         for (auto it = workers.rbegin(); it != workers.rend(); ++it) destroy(**it);

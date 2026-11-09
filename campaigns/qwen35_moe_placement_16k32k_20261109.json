@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "name": "qwen35_moe_placement_16k32k",
+  "stages": [
+    {
+      "id": "moe_two_replay_baseline",
+      "state": "ready",
+      "gpus": [
+        0,
+        1,
+        2
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_short_20261109.states",
+        "KV_REPLAY_CHAT_GPUS": "1,2"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "65536",
+        "65536",
+        "65536",
+        "64",
+        "qwen35_moe_two_replay_baseline_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_baseline_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_baseline_20261109.log"
+      ]
+    },
+    {
+      "id": "moe_two_replay_expert0_gpu1",
+      "state": "ready",
+      "gpus": [
+        0,
+        1,
+        2
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_short_20261109.states",
+        "KV_REPLAY_CHAT_GPUS": "1,2",
+        "KV_TENSOR_OVERRIDES_FILE": "/state/qwen35_expert0_gpu1.tsv"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "65536",
+        "65536",
+        "65536",
+        "64",
+        "qwen35_moe_two_replay_expert0_gpu1_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_expert0_gpu1_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_expert0_gpu1_20261109.log"
+      ]
+    },
+    {
+      "id": "moe_two_replay_baseline_repeat",
+      "state": "ready",
+      "gpus": [
+        0,
+        1,
+        2
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_short_20261109.states",
+        "KV_REPLAY_CHAT_GPUS": "1,2"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "65536",
+        "65536",
+        "65536",
+        "64",
+        "qwen35_moe_two_replay_baseline_20261109_repeat"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_baseline_20261109_repeat.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_baseline_20261109_repeat.log"
+      ]
+    },
+    {
+      "id": "moe_two_replay_gpu0_kv",
+      "state": "ready",
+      "gpus": [
+        0
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_short_20261109.states",
+        "KV_REPLAY_CHAT_GPUS": "0,0"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "65536",
+        "65536",
+        "65536",
+        "64",
+        "qwen35_moe_two_replay_gpu0_kv_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_gpu0_kv_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_moe_two_replay_gpu0_kv_20261109.log"
+      ]
+    }
+  ]
+}

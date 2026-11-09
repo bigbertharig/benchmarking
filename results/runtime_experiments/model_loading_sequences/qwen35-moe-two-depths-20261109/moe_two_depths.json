@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_two_depths",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "16",
+    "qwen35_moe_two_depths_20261109"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "error": "exit 137; see moe_two_depths.log",
+  "exit_code": 137,
+  "finished_at": "2026-11-09T02:25:09+00:00",
+  "gpus": [
+    0,
+    1,
+    2
+  ],
+  "host_before_available_kib": 29898540,
+  "host_min_available_kib": 28164232,
+  "id": "moe_two_depths",
+  "started_at": "2026-11-09T02:23:05+00:00",
+  "status": "failed",
+  "timeout_s": 10800
+}

@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T02:51:15+00:00",
+  "manifest_sha256": "f51110e37b7882aae29e6334020ff6d10e2ded89b2561171b3a5466ebee50748",
+  "run_id": "qwen35-moe-two-curve-20261109",
+  "stages": {
+    "moe_two_curve": "passed"
+  },
+  "started_at": "2026-11-09T02:38:16+00:00",
+  "status": "passed"
+}

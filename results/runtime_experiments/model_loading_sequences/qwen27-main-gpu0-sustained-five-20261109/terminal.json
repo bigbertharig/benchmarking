@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-09T02:03:55+00:00",
+  "manifest_sha256": "78649b1dfcf3c580c4c1526ee69e7784e2a726ea432a365aa5c198ef4f44ff6a",
+  "run_id": "qwen27-main-gpu0-sustained-five-20261109",
+  "stages": {
+    "main_gpu0_sustained_five": "passed"
+  },
+  "started_at": "2026-11-09T01:37:54+00:00",
+  "status": "passed"
+}

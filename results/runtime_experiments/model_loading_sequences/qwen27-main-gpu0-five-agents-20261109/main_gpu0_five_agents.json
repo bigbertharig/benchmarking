@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "main_gpu0_five_agents",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "64",
+    "qwen27_main_gpu0_five_agents_20261109"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_STATE_SOURCE_DIR"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-09T01:35:43+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 29857780,
+  "host_min_available_kib": 23598228,
+  "id": "main_gpu0_five_agents",
+  "started_at": "2026-11-09T01:22:54+00:00",
+  "status": "passed",
+  "timeout_s": 3600
+}

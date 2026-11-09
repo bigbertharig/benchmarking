@@ -1,0 +1,12 @@
+{
+  "run": "qwen27-main-gpu0-five-agents-20261109",
+  "started_at": "2026-11-09T01:22:46+00:00",
+  "status": "restored",
+  "run_state": "finished",
+  "terminal_observed_at": "2026-11-09T01:35:58+00:00",
+  "attempt": 1,
+  "load_exit": 0,
+  "load_stdout": "{\n  \"profile\": \"chat-27b\",\n  \"port\": 11434,\n  \"state\": \"ready\"\n}\n",
+  "load_stderr": "",
+  "finished_at": "2026-11-09T01:36:17+00:00"
+}

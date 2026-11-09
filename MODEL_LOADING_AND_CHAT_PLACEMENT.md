@@ -687,3 +687,91 @@ at the successive depths, before transfer and checkpoint I/O. This establishes
 the five-chat capacity and per-chat generation tradeoff for this private
 llama.cpp path. It does not measure a main chat responding while GPU0 is
 preparing a new worker turn or natural long-conversation retrieval quality.
+
+## Five isolated agents: keeping GPU0 available
+
+The [64-token startup-overlap run](results/runtime_experiments/model_loading_sequences/qwen27-main-gpu0-five-agents-20261109/README.md)
+replayed the same 50K/100K/150K/200K Qwen27 checkpoints with a main Q4 KV
+chat on GPU0 and five independent Q4 KV agent chats, one per 1060. Main-only
+decode was 32.36/26.87/22.92/19.86 tok/s; during the first few seconds of
+six-way activity it was 24.93/20.63/19.41/17.28 tok/s. The agents ran at
+4.84–4.92/2.85–2.96/2.00–2.06/1.53–1.62 tok/s, but the main finished
+long before the agents, so those windows do not measure sustained overlap.
+
+The [matched sustained-overlap run](results/runtime_experiments/model_loading_sequences/qwen27-main-gpu0-sustained-five-20261109/README.md)
+compares five agents alone with the same five agents plus a continuously
+generating main chat. The five-agent-only condition is the immediate target
+layout: GPU0 holds the model and performs shared model work, while GPUs1–5
+each hold one independent chat state. The experiment separates the model's
+capacity benefit from the speed cost of a competing main turn. The working
+speed target is **30 tok/s per agent with five active chats** at 50K, 100K,
+150K, and 200K occupied context; current dense-model rates are far lower.
+Five-agent-only rates were 5.31–5.47/2.98–3.10/2.05–2.14/1.56–1.61 tok/s;
+with the main generating they were 2.86–2.95/2.21–2.22/1.65–1.72/
+1.34–1.37 tok/s. Main-only rates were 33.84/27.37/23.02/19.69 tok/s,
+versus 23.71/21.30/19.07/16.92 with agents. At deeper depths the main
+finishes before all agent tokens, so the measured wall-time penalty is partly
+diluted by the remaining agent-only period. Reserving GPU0 for shared model
+work helps five agents, but growing context is still the dominant loss.
+The 262K context caps are allocated, while correctness and decode have been
+measured through 200K occupied depth, not 250K.
+
+The [Qwen3.6 35B-A3B Q4 two-chat six-depth baseline](results/runtime_experiments/model_loading_sequences/qwen35-moe-two-curve-20261109/README.md)
+kept one NVMe-backed model load on GPU0 and independent 262K-cap Q4 KV chats
+on GPUs1 and 2. At occupied 16K/32K/50K/100K/150K/200K, concurrent per-chat
+decode was about 38.4/23.6/17.0/9.3/6.4/4.9 tok/s. Solo worker1 was
+37.2/23.3/16.9/9.3/6.4/4.9 tok/s. Both chats passed private-code recall at
+every depth. Each incremental chat preparation took 14-79 seconds to become
+usable, of which 0.35-3.64 seconds was GPU0 state capture and 1060 restore;
+the rest was mostly GPU0 context preparation. These are 64-token decode
+windows with synthetic histories, not whole-turn agent throughput. The full
+six-point MoE curve now anchors 16K/32K placement experiments and longer-chat
+estimates; changes to placement still need matched measurements.
+
+An earlier five-chat 50K MoE pilot had independent private-code recall on all
+five 1060s and about 12.9-13.8 tok/s per active chat in a 16-token window.
+It was intentionally stopped before the deeper points when the test priority
+shifted to the matched two-chat curve. Its failed terminal status records the
+stop, not a 50K capability failure; it does not establish five-chat speed
+through 200K.
+
+The [16K/32K placement sweep](results/runtime_experiments/model_loading_sequences/qwen35-moe-placement-16k32k-20261109/README.md)
+found no meaningful decode gain from moving block 0 experts to GPU1. Both KVs
+on GPU0 were 2.2x-3.1x faster per chat but consume scarce GPU0 memory. This
+reference suggests the 1060-side chat path, especially growing full-attention
+KV access, is the immediate decode limit in this layout. It does not prove
+which transfer or kernel dominates. Next probes should profile 1060 attention,
+state transfer, and PCIe traffic before moving more experts. A five-chat MoE
+capacity/speed test remains separate from this two-chat baseline. The 1060
+links are x1 Gen2 during active transfer; that observation alone does not
+identify the bottleneck.
+
+### Placement ideas to measure on this rig
+
+[m10dis architecture](https://github.com/crgregersen/m10dis/blob/main/docs/ARCHITECTURE.md)
+keeps attention, routing, and live KV on its fast RTX while distributing
+resident expert row slices across many slower M10 GPUs. Its
+[transport](https://github.com/crgregersen/m10dis/blob/main/docs/TRANSPORT.md)
+uses a PCIe switch, peer mappings, multicast, and persistent workers. Our
+five 1060s have x1 links and do not have that transport, so a row-sharded
+expert test here must measure crossings and reductions rather than assume
+the published timing transfers. The useful general rule is to distinguish
+attention and dense per-token work from sparsely selected expert work.
+
+[BigMoeOnEdge's hardware planner](https://github.com/Helldez/BigMoeOnEdge/blob/main/docs/hardware-planning.md)
+keeps tensors that fit on an accelerator resident there, then plans the
+experts left on the host or storage. Its
+[measured-planning notes](https://github.com/Helldez/BigMoeOnEdge/blob/main/docs/measured-planning.md)
+emphasize real-model, matched A/B timings, route traces, and accounting for
+context and compute buffers before giving memory to a cache. Those are
+directly useful here. For the 35B-A3B five-chat speed baseline, keep all
+weights on GPU0 while they fit. Later compare a routing-trace-selected cold
+expert set on 1060/RAM against that baseline, including both token time and
+chat setup/transfer time. A test that sends every token through all five
+1060s would exercise a different tradeoff and needs its own measured budget.
+
+The m10dis [host KV tier](https://github.com/crgregersen/m10dis/blob/main/docs/KV_TIER.md)
+relies on Qwen3.8's sparse QSA selecting roughly 2K tokens from a much larger
+history. It is an idea source for sparse-attention models, not evidence that
+Qwen3.6's full attention can skip most KV reads without a model or algorithm
+change.

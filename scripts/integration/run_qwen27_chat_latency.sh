@@ -27,7 +27,7 @@ if [ "$mode" = large_chat_latency ]; then
     exit 81
   }
 fi
-if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode" = five_ongoing_depths ]; then
+if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode" = five_ongoing_depths ] || [ "$mode" = moe_two_depths ] || [ "$mode" = moe_two_short ] || [ "$mode" = moe_two_curve ]; then
   mkdir -p "$base/$label.states"
 fi
 date -u +%FT%TZ > "$base/$label.start"
@@ -54,6 +54,8 @@ docker run --rm --gpus all --network none \
   -v "$build:/build:ro" -v "$model:/model.gguf:ro" \
   -v "$base:/state" -e "KV_STATE_DIR=/state/$label.states" \
   -e "KV_STATE_SOURCE_DIR=${KV_STATE_SOURCE_DIR-}" \
+  -e "KV_REPLAY_CHAT_GPUS=${KV_REPLAY_CHAT_GPUS-}" \
+  -e "KV_TENSOR_OVERRIDES_FILE=${KV_TENSOR_OVERRIDES_FILE-}" \
   -e "KV_MODEL_DEVICES=${KV_MODEL_DEVICES-}" -e "KV_MODEL_SPLIT=${KV_MODEL_SPLIT-}" \
   -w /build/bin 4bfa1cb0a955 \
   /build/bin/llama-simple "$mode" /model.gguf "$local_cap" "$pair_cap" "$single_cap" "$tokens" > "$base/$label.log" 2>&1
