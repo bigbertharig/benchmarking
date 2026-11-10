@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-10T01:53:52+00:00",
+  "manifest_sha256": "d3fdee47ef101f2b63de148ef6a379d26db96ebe2151fd9d2c2ff34ff1bf72f9",
+  "run_id": "qwen35-return-compact20-20261109",
+  "stages": {
+    "compact": "passed",
+    "none": "passed"
+  },
+  "started_at": "2026-11-10T01:51:19+00:00",
+  "status": "passed"
+}

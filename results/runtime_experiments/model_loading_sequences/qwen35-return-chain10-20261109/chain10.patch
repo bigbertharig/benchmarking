@@ -1,0 +1,8 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1392 +1392,4 @@
+-        for (int turn = 1; turn <= 2; ++turn) {
++        const char * turns_env = std::getenv("KV_RETURN_TURNS");
++        const int max_turns = turns_env ? std::atoi(turns_env) : 2;
++        if (max_turns < 1 || max_turns > 12) return 315;
++        for (int turn = 1; turn <= max_turns; ++turn) {

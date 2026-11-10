@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-10T01:47:06+00:00",
+  "manifest_sha256": "2885e7afbbd3b3621e07af28e21353005383b93f0616abcc9fd3b2d7e70053bc",
+  "run_id": "qwen35-return-chain10-20261109",
+  "stages": {
+    "return_chain10_200000": "passed"
+  },
+  "started_at": "2026-11-10T01:46:43+00:00",
+  "status": "passed"
+}

@@ -1,0 +1,110 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1342,0 +1343,107 @@
++    }
++    if (std::string(argv[1]) == "moe_return_delta") {
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        const char * depth_env = std::getenv("KV_DELTA_SOURCE_DEPTH");
++        if (!source_dir || !depth_env) return 300;
++        const int source_depth = std::atoi(depth_env);
++        const int temp_cap = std::min(pair_cap, ((source_depth + 8191)/8192 + 1)*8192);
++        const std::string source = std::string(source_dir) + "/worker1_depth" +
++            std::to_string(source_depth) + ".bin";
++        snapshot base;
++        if (!read_snapshot_file(source, base)) return 301;
++        chat worker{"worker", "", nullptr, "1"};
++        if (!add_chat(worker, model, vocab, pair_cap) || !restore(worker, base)) return 302;
++        const auto filler = tokenize_text(vocab,
++            " A quiet field note describes a blue bicycle by a river and a wooden bridge.\n", false);
++        const auto user = tokenize_text(vocab,
++            "\n<|im_start|>user\nHere are more unrelated notes.\n", false);
++        if (filler.empty() || user.empty()) return 303;
++
++        struct host_delta {
++            std::vector<uint8_t> data;
++            int cutoff;
++            int used;
++            llama_token next;
++        };
++        std::vector<host_delta> checkpoint;
++        auto export_delta = [&](chat & c, int cutoff, host_delta & update) {
++            const auto flags = LLAMA_STATE_SEQ_FLAGS_KV_APPEND | ((uint32_t)cutoff << 8);
++            select_chat(c);
++            update.data.resize(llama_state_seq_get_size_ext(c.ctx, 0, flags));
++            if (update.data.empty()) return false;
++            const size_t got = llama_state_seq_get_data_ext(c.ctx, update.data.data(), update.data.size(), 0, flags);
++            if (got == 0 || got > update.data.size()) return false;
++            update.data.resize(got);
++            update.cutoff = cutoff;
++            update.used = c.used;
++            update.next = c.next[0];
++            return true;
++        };
++        auto apply_delta = [&](chat & c, const host_delta & update) {
++            if (c.used != update.cutoff) return false;
++            const auto flags = LLAMA_STATE_SEQ_FLAGS_KV_APPEND | ((uint32_t)update.cutoff << 8);
++            select_chat(c);
++            if (llama_state_seq_set_data_ext(c.ctx, update.data.data(), update.data.size(), 0, flags) != update.data.size()) return false;
++            c.used = update.used;
++            c.next.assign(1, update.next);
++            return true;
++        };
++
++        for (int turn = 1; turn <= 2; ++turn) {
++            const auto request_start = clock_type::now();
++            chat temp{"prep", "", nullptr, "0"};
++            if (!add_chat(temp, model, vocab, temp_cap, true) || !restore(temp, base)) return 304;
++            for (const auto & update : checkpoint) {
++                if (!apply_delta(temp, update)) return 305;
++            }
++            const double rebuild_s = std::chrono::duration<double>(clock_type::now()-request_start).count();
++            if (temp.used != worker.used || temp.next != worker.next) return 306;
++            const int outbound_cutoff = worker.used;
++            const auto prep_start = clock_type::now();
++            if (!decode_raw(temp, temp.next) || !decode_raw(temp, user) ||
++                !decode_raw(temp, filler, 128)) return 307;
++            const double prep_s = std::chrono::duration<double>(clock_type::now()-prep_start).count();
++            const auto outbound_start = clock_type::now();
++            host_delta outbound;
++            if (!export_delta(temp, outbound_cutoff, outbound) || !apply_delta(worker, outbound)) return 308;
++            const size_t outbound_bytes = outbound.data.size();
++            checkpoint.push_back(std::move(outbound));
++            const double outbound_s = std::chrono::duration<double>(clock_type::now()-outbound_start).count();
++            destroy(temp);
++            const double workspace_s = std::chrono::duration<double>(clock_type::now()-request_start).count();
++            const int return_cutoff = worker.used;
++            double first_token_s = 0;
++            const auto response_start = clock_type::now();
++            if (!recall_answer(worker, vocab, "4827", source_depth, 64, &first_token_s)) return 309;
++            const double response_s = std::chrono::duration<double>(clock_type::now()-response_start).count();
++            const auto return_start = clock_type::now();
++            host_delta returned;
++            if (!export_delta(worker, return_cutoff, returned)) return 310;
++            const size_t return_bytes = returned.data.size();
++            checkpoint.push_back(std::move(returned));
++            const double return_s = std::chrono::duration<double>(clock_type::now()-return_start).count();
++            const double total_s = std::chrono::duration<double>(clock_type::now()-request_start).count();
++            std::fprintf(stderr,
++                "RETURN_DELTA depth=%d turn=%d rebuild_s=%.6f prep_s=%.6f outbound_bytes=%zu outbound_s=%.6f workspace_s=%.6f response_first_s=%.6f response_s=%.6f return_bytes=%zu return_s=%.6f total_s=%.6f checkpoint_updates=%zu recall=1\n",
++                source_depth, turn, rebuild_s, prep_s, outbound_bytes, outbound_s, workspace_s,
++                first_token_s, response_s, return_bytes, return_s, total_s, checkpoint.size());
++            std::fflush(stderr);
++        }
++
++        // Verification follows the timed turns. It deliberately performs a full
++        // worker capture so the experimental path can be compared byte for byte.
++        chat check{"check", "", nullptr, "0"};
++        if (!add_chat(check, model, vocab, temp_cap, true) || !restore(check, base)) return 311;
++        for (const auto & update : checkpoint) {
++            if (!apply_delta(check, update)) return 312;
++        }
++        snapshot reconstructed, actual;
++        if (!save(check, reconstructed) || !save(worker, actual)) return 313;
++        const bool equal = reconstructed.data == actual.data &&
++            reconstructed.used == actual.used && reconstructed.next == actual.next;
++        std::fprintf(stderr, "RETURN_VERIFY depth=%d updates=%zu bytes=%zu equal=%d\n",
++                     source_depth, checkpoint.size(), actual.data.size(), equal);
++        destroy(check);
++        destroy(worker);
++        llama_model_free(model);
++        return equal ? 0 : 314;

@@ -1,0 +1,34 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_return_delta",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "64",
+    "qwen35_return_compact20_compact_20261109"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_DELTA_COMPARE_MODE",
+    "KV_DELTA_SOURCE_DEPTH",
+    "KV_KV_TYPE",
+    "KV_RETURN_TURNS",
+    "KV_SAMPLE_DETAIL",
+    "KV_STATE_SOURCE_DIR"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-10T01:53:52+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29660840,
+  "host_min_available_kib": 24222600,
+  "id": "compact",
+  "started_at": "2026-11-10T01:52:37+00:00",
+  "status": "passed",
+  "timeout_s": 1800
+}

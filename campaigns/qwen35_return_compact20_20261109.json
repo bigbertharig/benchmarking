@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "name": "qwen35_return_compact20_20261109",
+  "stages": [
+    {
+      "id": "none",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-return-compact20-20261109-build",
+        "KV_KV_TYPE": "q4_1",
+        "KV_SAMPLE_DETAIL": "1",
+        "KV_DELTA_SOURCE_DEPTH": "200000",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+        "KV_RETURN_TURNS": "20",
+        "KV_DELTA_COMPARE_MODE": "none"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_return_delta",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_return_compact20_none_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_return_compact20_none_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_return_compact20_none_20261109.log"
+      ]
+    },
+    {
+      "id": "compact",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-return-compact20-20261109-build",
+        "KV_KV_TYPE": "q4_1",
+        "KV_SAMPLE_DETAIL": "1",
+        "KV_DELTA_SOURCE_DEPTH": "200000",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+        "KV_RETURN_TURNS": "20",
+        "KV_DELTA_COMPARE_MODE": "compact"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_return_delta",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_return_compact20_compact_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_return_compact20_compact_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_return_compact20_compact_20261109.log"
+      ]
+    }
+  ]
+}

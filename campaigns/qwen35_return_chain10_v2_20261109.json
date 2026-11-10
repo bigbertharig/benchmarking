@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "name": "qwen35_return_chain10_v2_20261109",
+  "stages": [
+    {
+      "id": "return_chain10_v2_200000",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-return-chain10-20261109-build",
+        "KV_KV_TYPE": "q4_1",
+        "KV_SAMPLE_DETAIL": "1",
+        "KV_DELTA_SOURCE_DEPTH": "200000",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+        "KV_RETURN_TURNS": "10"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_return_delta",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_return_chain10_v2_200000_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_return_chain10_v2_200000_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_return_chain10_v2_200000_20261109.log"
+      ]
+    }
+  ]
+}

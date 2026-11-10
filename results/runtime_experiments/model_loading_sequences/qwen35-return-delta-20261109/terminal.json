@@ -1,0 +1,16 @@
+{
+  "finished_at": "2026-11-10T01:44:39+00:00",
+  "manifest_sha256": "d6988c26f27a4a66451670d0384271fc216df6cf83ba8c0b82c312cb1ee2b788",
+  "run_id": "qwen35-return-delta-20261109",
+  "stages": {
+    "100000_control_after": "passed",
+    "100000_control_before": "passed",
+    "100000_return": "passed",
+    "200000_control_after": "passed",
+    "200000_control_before": "passed",
+    "200000_return": "passed",
+    "50000_return": "passed"
+  },
+  "started_at": "2026-11-10T01:41:36+00:00",
+  "status": "passed"
+}

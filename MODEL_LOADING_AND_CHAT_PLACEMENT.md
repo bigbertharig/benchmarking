@@ -1155,10 +1155,19 @@ worker-state capture over two turns. At 100K, full handoff took
 9.97/9.15 s versus 5.92/5.14 s. Request-to-first-token fell from roughly
 3.2 to 1.1 s at 100K and from 5.8 to 1.7 s at 200K. Full capture of the
 worker's post-response state remains 1.6–1.9 s at 100K and 3.1–3.7 s at
-200K. The next return-path experiment should transfer the worker's new KV
-and recurrent state to a host checkpoint without retaining a GPU0 chat
-mirror. Then test distinct worker chats and concurrent generation before
-five workers.
+200K. The [single-1060 return-state delta](results/runtime_experiments/model_loading_sequences/qwen35-return-delta-20261109/README.md)
+now exports the worker's new KV and recurrent state to a host checkpoint
+without a resident GPU0 mirror. At 100K/200K its ~66 MB return took about
+0.036 s versus 1.56–1.87/3.10–3.71 s for full worker capture. Complete
+two-turn latency fell to 1.49/1.29 s at 100K and 2.25/2.07 s at 200K;
+request-to-first-token and raw decode speed were essentially unchanged.
+Two-turn and 20-turn final states reconstructed byte for byte. The host
+update chain grows with turns: at 200K, temporary GPU0 rebuild rose from
+0.35 to 0.67 s over 20 turns. Compaction after turn 10 cost 1.44 s and
+saved about 0.61 s net through turn 20; it should be deferred when no
+further turns are expected. The next capability tests are atomic host
+checkpoint persistence, validation/rollback guards, distinct workers, and
+concurrent generation before five workers.
 
 The [resident mirror experiment](results/runtime_experiments/model_loading_sequences/qwen35-moe-resident-mirror-20261109/README.md)
 kept matched GPU0 and 1060 chat copies, exchanging only new KV and recurrent

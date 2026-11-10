@@ -1,0 +1,25 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1394 +1394 @@
+-        if (max_turns < 1 || max_turns > 12) return 315;
++        if (max_turns < 1 || max_turns > 20) return 315;
+@@ -1433,0 +1434,19 @@
++            const char * compact_env = std::getenv("KV_DELTA_COMPARE_MODE");
++            if (compact_env && std::string(compact_env) == "compact" && turn % 10 == 0) {
++                const auto compact_start = clock_type::now();
++                chat compact{"compact", "", nullptr, "0"};
++                if (!add_chat(compact, model, vocab, temp_cap, true) || !restore(compact, base)) return 316;
++                for (const auto & update : checkpoint) {
++                    if (!apply_delta(compact, update)) return 317;
++                }
++                snapshot next_base;
++                if (!save(compact, next_base)) return 318;
++                destroy(compact);
++                const size_t removed = checkpoint.size();
++                base = std::move(next_base);
++                checkpoint.clear();
++                const double compact_s = std::chrono::duration<double>(clock_type::now()-compact_start).count();
++                std::fprintf(stderr, "RETURN_COMPACT depth=%d turn=%d removed_updates=%zu base_bytes=%zu compact_s=%.6f\n",
++                             source_depth, turn, removed, base.data.size(), compact_s);
++                std::fflush(stderr);
++            }

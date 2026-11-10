@@ -20,9 +20,11 @@ The partial transfer stayed 66.8 MB while full state was 709–711 MB at
 100K and 1.35 GB at 200K. GPU0 preparation of the new material was
 matched at about 0.2–0.4 s. The full worker capture after its answer cost
 1.6–1.9 s at 100K and 3.1–3.7 s at 200K **in both paths**. This is now
-the dominant handoff cost for ongoing turns. A future return-path test
-should export only the worker's newly generated KV and current recurrent
-state into a host checkpoint, while keeping no persistent GPU0 chat mirror.
+the dominant handoff cost for ongoing turns. The [return-path follow-up](../qwen35-return-delta-20261109/README.md)
+now exports the worker's newly generated KV and current recurrent state
+into a host checkpoint with no persistent GPU0 chat mirror. The full
+worker-capture cost is removed from the timed turn; its in-memory update
+chain and periodic compaction have their own measured costs.
 
 Timers start after model load and after reading the first saved checkpoint
 from disk. They include GPU0 context creation and restore, prefill, handoff,
