@@ -7,6 +7,8 @@ speeds. We are exploring placements, chat behavior, tensor layouts, caching,
 and runtime designs; no single layout or Manager procedure is the target yet.
 The order of experiments can change when a result suggests a better question.
 
+For exact settings to reload the current Nemo two-chat and Qwen 35B five-chat baselines, see [MoE chat baseline reloads](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
+
 ## Current speed results (2026-11-09)
 
 For a model on GPU0 and one F16 chat on GPU1, the

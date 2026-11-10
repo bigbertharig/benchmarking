@@ -1,0 +1,23 @@
+# Reusable MoE chat placement baselines (2026-11-09)
+
+These are **experiment reload references**, not Manager serving recipes. Each points to a committed launcher or campaign. Use a fresh run label when repeating a campaign; existing labels and receipts are intentionally protected from overwrite. The model weights remain on the NVMe hotset.
+
+## Nemo 74B-A9B: two chat slots
+
+- Model: `/data/model-hotset/nemotron-3.5-bolt-74b-a9b/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-UD-Q3_K_XL.gguf`
+- Runtime: private b11669 llama build `/data/bench-staging/kvchat-b11669-build`; dual probe `/data/bench-staging/nemo-dual-20261109/nemo-single`; container `4bfa1cb0a955`.
+- Placement: `KV_MODEL_DEVICES=0,1,2,3,4`, `KV_MODEL_SPLIT=88,0,0,0,0`, [four-card tensor overrides](results/runtime_experiments/kv_expert_chat_20261107/nemo_experts_1234.tsv). Whole experts occupy GPUs1-4. GPU0 has the main F16 KV chat; GPU5 has the second independent F16 KV chat.
+- Both contexts reserve 262,144 tokens. The [dual launcher](results/runtime_experiments/nemo_chat3090_20261109/run_dual.sh) invokes `nemo-single dual_local0_worker5_depth /model.gguf 16384 32768 50000 128`; use `f16` as its KV argument. The script has a fixed date label and refuses an existing label, so make a new labeled copy for a rerun. Its [build](results/runtime_experiments/nemo_chat3090_20261109/build_dual.sh) and [receipt](results/runtime_experiments/nemo_chat3090_20261109/README.md) specify the binary and measurements.
+- Proven: two independent chats concurrently through 50K occupied, 33.93 tok/s on GPU0 and 27.61 on GPU5 at 50K. One separate GPU5 chat reached 250K occupied without a simultaneous GPU0 chat. Two chats at 250K occupied are untested.
+
+## Qwen3.6 35B-A3B MoE: five chat slots
+
+- Model: `/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf`.
+- Placement: all model weights on GPU0, no resident GPU0 chat; separate F16 K/V and attention on each GPU1-5, each reserving 262,144 positions.
+- Runtime: `KV_BUILD_DIR=/data/bench-staging/kvchat-f16-five-build`, `KV_KV_TYPE=f16`, `KV_SAMPLE_DETAIL=1`. The [campaign](campaigns/qwen35_moe_f16_five_16k200k_long_decode_20261109.json) calls [the chat runner](scripts/integration/run_qwen27_chat_latency.sh) in `moe_five_f16_curve` mode with five 262,144 reservations and 1,000-token decode windows. The [build](results/runtime_experiments/model_loading_sequences/qwen35-moe-f16-five-long-20261109/build.sh) applies the saved probe patch. To repeat, clone the campaign with a fresh name and output label; retain the model path, build, mode, KV format, and reservations.
+- Proven: five chats concurrently through 100K occupied, all passing recall. Per-chat decode was 39.55-40.46 tok/s at 16K and 26.94-27.49 at 100K. GPU0 F16 temporary preparation ran out of VRAM at 150K. Four 150K chats were prepared with RAM KV before the run was canceled; there is no valid five-chat decode measurement at 150K or 200K. See the [receipt](results/runtime_experiments/model_loading_sequences/qwen35-moe-f16-five-long-20261109/README.md).
+- A dedicated 1060 preparation helper leaves **four** 1060 chat slots. [Admission comparison](results/runtime_experiments/model_loading_sequences/qwen35-two-admission-small-20261109/README.md) measured this tradeoff at 16K/32K/50K; it is a distinct placement, not the five-chat decode baseline. The [Q4 KV pilot](results/runtime_experiments/model_loading_sequences/qwen35-moe-five-ongoing-timed-20261109/README.md) also admitted five chats through 50K, but its decode figures are not interchangeable with F16.
+
+## Strata-slim idea to revisit
+
+[LegendaryFire/strata-slim](https://github.com/LegendaryFire/strata-slim) at reviewed commit `aa776be` packages upstream Strata v0.2.13 (engine 0.1.59). It packages Strata's engine, server, and model preparation in a container with environment-based settings. It is useful as a reproducible configuration example. Its [optional patches](https://github.com/LegendaryFire/strata-slim/tree/main/patches) address VRAM capacity: skip redundant BF16 HC weights on split GPUs with HC Q8 (~600 MiB per GPU), pack dense projection matrices in one CUDA VMM arena to reduce allocation rounding, and release unused verify PCIe staging slots when `--pcie-frac 0` (~61 MiB per GPU on Q4_K_XL). These are **Strata-specific**, disabled in default images, and not measured on this rig. They may allow more expert cache or chat KV, but do not yet imply a tok/s improvement or apply directly to the llama-based baselines above. If Strata is tested here again, pin upstream/fork commits, build for both sm_86 and sm_61 where supported, and compare matched model, pack, context, KV, and placement with each patch enabled separately.
