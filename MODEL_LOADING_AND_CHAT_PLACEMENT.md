@@ -1095,6 +1095,15 @@ flat. A 64-thread tile was substantially slower. This suggests 1060 attention
 efficiency is a single-chat limit, alongside transfer cost. Keep 128 threads
 as an isolated candidate pending response-quality and wider-model checks;
 the return-state capture path remains a separate optimization experiment.
+The [matched dense 27B replay](results/runtime_experiments/model_loading_sequences/qwen27-dense-f16-tile128-64k-20261109/README.md)
+then used the same GPU0-weight/GPU1-F16-chat layout, occupied depths, and
+128-thread tile. It reached 23.2/18.6/14.8 tok/s at 16K/32K/50K versus
+70.5/62.5/52.6 for the MoE. The dense F16 262K reservation requested
+16 GiB on a 6 GB 1060 and failed before generation; the successful dense
+run reserved 64K. This limits the capacity match but makes the MoE speed
+advantage at equal occupied depths clear. A Qwen3.5-4B model fully on one
+1060 measured about 23.6 tok/s near 16.7K and 21.2 near 30.4K; that
+comparison uses different hardware for model compute.
 
 The [Q4_1 tile 50K–200K curve](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-tile-curve-50k100k150k200k-20261109/README.md)
 passed independent recall for two 1060 chats at every stage. Solo decode fell
@@ -1174,7 +1183,11 @@ corrupt records. At 100K, persisting each ~133 MB turn record took about
 0.52 s on rig NVMe versus 2.01–2.02 s on shared storage; complete measured
 turns on NVMe took 1.99–2.05 s. This is a one-worker process-restart
 prototype; atomic on-disk compaction, crash-time answer delivery, and
-power-loss recovery remain untested.
+power-loss recovery remain untested. The gateway dashboard's saved-chat
+list currently reopens a SQLite transcript and resends up to 16 recent
+messages; it does not restore this exact KV checkpoint. Its
+`docs/DASHBOARD.md` now names the future conversation-ID/model/turn binding.
+Keep runtime checkpoint integration separate from the current speed tests.
 
 The [resident mirror experiment](results/runtime_experiments/model_loading_sequences/qwen35-moe-resident-mirror-20261109/README.md)
 kept matched GPU0 and 1060 chat copies, exchanging only new KV and recurrent

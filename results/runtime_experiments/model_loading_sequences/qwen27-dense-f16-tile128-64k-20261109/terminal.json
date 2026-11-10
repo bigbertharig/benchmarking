@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-10T02:49:20+00:00",
+  "manifest_sha256": "8f4479a88284ae52b384ec43b28c05467047c7ac62d907ac817fa2d8cca77362",
+  "reason": "exit 210; see solo_replay.log",
+  "run_id": "qwen27-dense-f16-tile128-64k-20261109",
+  "stages": {
+    "prepare_f16": "passed",
+    "solo_replay": "failed"
+  },
+  "started_at": "2026-11-10T02:39:58+00:00",
+  "status": "failed"
+}

@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-10T02:38:49+00:00",
+  "manifest_sha256": "b16c169e8ce5e911c8dc322c249ac122e7fbcec9500e7b17e920ba49579b05af",
+  "reason": "exit 101; see prepare_f16.log",
+  "run_id": "qwen27-dense-f16-tile128-20261109",
+  "stages": {
+    "prepare_f16": "failed"
+  },
+  "started_at": "2026-11-10T02:38:04+00:00",
+  "status": "failed"
+}

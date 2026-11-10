@@ -1,0 +1,11 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -1245,7 +1245,7 @@
+     }
+     if (std::string(argv[1]) == "moe_one_replay") {
+         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+-        if (!source_dir || pair_cap < 210000 || tokens < 16) return 210;
++        if (!source_dir || pair_cap < 50000 || tokens < 16) return 210;
+         chat worker{"worker", "", nullptr, "1"};
+         if (!add_chat(worker, model, vocab, pair_cap)) return 211;
+         const char * trace_depth_env = std::getenv("KV_REPLAY_DEPTH");

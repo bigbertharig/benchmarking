@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-10T02:53:43+00:00",
+  "manifest_sha256": "13f9906adae51e7a6cddc4c1d9c54084c36559c04550a309a391c1770e2ef790",
+  "run_id": "qwen27-dense-f16-tile128-64k-solo-fix-20261109",
+  "stages": {
+    "solo_replay": "passed"
+  },
+  "started_at": "2026-11-10T02:52:24+00:00",
+  "status": "passed"
+}

@@ -1,0 +1,77 @@
+{
+  "dense_model": "Qwen3.6 27B Q4_K_M",
+  "moe_model": "Qwen3.6 35B-A3B Q4_K_XL",
+  "layout": "weights on GPU0 3090; one F16 KV worker on GPU1 GTX 1060; 128-thread Pascal head-256 attention tile",
+  "worker_context_cap_dense": 65536,
+  "worker_context_cap_moe": 262144,
+  "generated_tokens_per_depth": 64,
+  "dense": {
+    "16384": {
+      "seconds": 2.758238,
+      "tps": 23.203222,
+      "first_ms": 192.637,
+      "p50_ms": 40.674,
+      "p95_ms": 41.066,
+      "tokens": 64,
+      "used": 16484
+    },
+    "32768": {
+      "seconds": 3.448534,
+      "tps": 18.558613,
+      "first_ms": 77.532,
+      "p50_ms": 53.496,
+      "p95_ms": 53.731,
+      "tokens": 64,
+      "used": 32868
+    },
+    "50000": {
+      "seconds": 4.336476,
+      "tps": 14.758527,
+      "first_ms": 89.79,
+      "p50_ms": 67.441,
+      "p95_ms": 67.845,
+      "tokens": 64,
+      "used": 50100
+    }
+  },
+  "moe": {
+    "16384": {
+      "seconds": 0.90819,
+      "tps": 70.469853,
+      "first_ms": 105.439,
+      "p50_ms": 12.537,
+      "p95_ms": 12.933,
+      "tokens": 64,
+      "used": 16484
+    },
+    "32768": {
+      "seconds": 1.023744,
+      "tps": 62.515649,
+      "first_ms": 28.831,
+      "p50_ms": 15.763,
+      "p95_ms": 15.944,
+      "tokens": 64,
+      "used": 32868
+    },
+    "50000": {
+      "seconds": 1.215888,
+      "tps": 52.636435,
+      "first_ms": 32.618,
+      "p50_ms": 18.777,
+      "p95_ms": 18.871,
+      "tokens": 64,
+      "used": 50100
+    }
+  },
+  "moe_over_dense_tps": {
+    "16384": 3.037,
+    "32768": 3.369,
+    "50000": 3.567
+  },
+  "campaign_status": {
+    "full_reservation_probe": "failed",
+    "dense_state_preparation": "passed",
+    "first_solo_replay": "failed",
+    "guard_corrected_solo_replay": "passed"
+  }
+}
