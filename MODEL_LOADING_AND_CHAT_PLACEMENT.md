@@ -353,8 +353,8 @@ in every receipt.
    This has different runtime semantics from the private llama.cpp fork.
 7. **Placement and caching.** Use real expert-route traces to compare whole
    experts, selected hot experts, and row shards on 1060s against RAM and
-   storage misses. A full Strata-plus-1060 worker run needs the unbuilt bridge;
-   use the existing llama.cpp and real-expert controls first.
+   storage misses. The installed CUDA 12 engine exposes native helper-cache flags for Pascal;
+   verify a real 1060 load and measured helper work before claiming a gain.
 8. **Conversation speed curves.** Once the lifecycle and tier operations are
    mapped, run back-and-forth transcripts that grow through several occupied
    depths. Report per-turn speed ranges for each working layout, including

@@ -1,0 +1,31 @@
+{
+  "schema": 2,
+  "name": "strata_q4_onechat_depth_16_32_50_20261110",
+  "defaults": {
+    "state": "ready",
+    "gpus": [
+      0
+    ],
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "timeout_s": 5400,
+    "freeze": true,
+    "trace": true,
+    "placement": "campaigns/placements/qwen38_q4_strata_gpu0_64k_1slot.json"
+  },
+  "cases": [
+    {
+      "id": "depth_curve",
+      "label": "Q4 GPU0 8GiB RAM 64K slot, 16/32/50K one-chat depth",
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/depth_curve"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/depth_curve/terminal.json"
+      ]
+    }
+  ]
+}
