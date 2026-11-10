@@ -55,8 +55,11 @@ increase worker generation speed.
 This is an in-memory proof of concept. The partial-state format needs
 model/KV-format, sequence, position, and rollback validation; the host
 checkpoint chain needs atomic persistence and recovery before relying on
-it across process restarts. The timings cover one worker and short recall
-answers. Concurrent workers and longer answers remain separate tests.
+it across process restarts. The follow-up
+[durable single-chat checkpoint](../qwen35-return-durable-20261109/README.md)
+implements and tests that process-restart path with an atomic journal.
+The timings here cover one worker and short recall answers. Concurrent
+workers and longer answers remain separate tests.
 
 Evidence: [parsed receipt](receipt.json), [return patch](return_delta.patch),
 [build recipe](build.sh), [two-turn campaign](../../../../campaigns/qwen35_return_delta_20261109.json),

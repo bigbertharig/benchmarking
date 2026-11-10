@@ -1,0 +1,330 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -18,0 +19,5 @@
++#include <fcntl.h>
++#include <unistd.h>
++#include <sys/stat.h>
++#include <filesystem>
++
+@@ -439,0 +445,175 @@
++}
++
++struct durable_part_header {
++    uint64_t length;
++    uint64_t hash;
++    int32_t cutoff;
++    int32_t used;
++    int32_t next;
++    int32_t reserved;
++};
++
++struct durable_record_header {
++    uint64_t magic;
++    uint64_t version;
++    uint64_t turn;
++    uint64_t base_hash;
++    uint64_t model_size;
++    uint64_t kv_code;
++    uint64_t cap;
++    durable_part_header parts[2];
++};
++static_assert(sizeof(durable_record_header) == 120, "durable record layout changed");
++
++struct durable_record {
++    durable_record_header header{};
++    std::vector<uint8_t> data[2];
++};
++
++static uint64_t durable_hash(const std::vector<uint8_t> & data) {
++    uint64_t value = 1469598103934665603ULL;
++    for (uint8_t byte : data) value = (value ^ byte) * 1099511628211ULL;
++    return value;
++}
++
++static bool durable_write_all(int fd, const void * source, size_t length) {
++    const auto * bytes = (const uint8_t *)source;
++    while (length) {
++        const ssize_t wrote = ::write(fd, bytes, length);
++        if (wrote < 0 && errno == EINTR) continue;
++        if (wrote <= 0) return false;
++        bytes += wrote;
++        length -= (size_t)wrote;
++    }
++    return true;
++}
++
++static bool durable_sync_directory(const std::string & directory) {
++    const int fd = ::open(directory.c_str(), O_RDONLY | O_DIRECTORY);
++    if (fd < 0) return false;
++    const bool ok = ::fsync(fd) == 0;
++    return ::close(fd) == 0 && ok;
++}
++
++static std::string durable_record_path(const std::string & directory, int turn) {
++    char name[32];
++    std::snprintf(name, sizeof(name), "/turn-%06d.bin", turn);
++    return directory + name;
++}
++
++static std::string durable_expected_path(const std::string & directory, int turn) {
++    char name[32];
++    std::snprintf(name, sizeof(name), "/expected-%06d.bin", turn);
++    return directory + name;
++}
++
++static bool durable_copy_base(const std::string & source, const std::string & directory) {
++    const std::string final = directory + "/base.bin";
++    const std::string pending = final + ".pending." + std::to_string(::getpid()) + "." +
++        std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
++    std::ifstream input(source, std::ios::binary);
++    if (!input) return false;
++    const int fd = ::open(pending.c_str(), O_WRONLY | O_CREAT | O_EXCL, 0600);
++    if (fd < 0) return false;
++    std::vector<char> buffer(1 << 20);
++    bool ok = true;
++    while (input) {
++        input.read(buffer.data(), buffer.size());
++        const std::streamsize got = input.gcount();
++        if (got > 0 && !durable_write_all(fd, buffer.data(), (size_t)got)) { ok = false; break; }
++    }
++    if (!input.eof()) ok = false;
++    if (ok) ok = ::fsync(fd) == 0;
++    if (::close(fd) != 0) ok = false;
++    if (ok) ok = ::rename(pending.c_str(), final.c_str()) == 0;
++    if (ok) ok = durable_sync_directory(directory);
++    if (!ok) std::remove(pending.c_str());
++    return ok;
++}
++
++static bool durable_base_hash(const std::string & path, uint64_t & hash) {
++    FILE * file = std::fopen(path.c_str(), "rb");
++    if (!file) return false;
++    snapshot_header header{};
++    const bool ok = std::fread(&header, sizeof(header), 1, file) == 1 &&
++                    header.magic == 0x4b564348415431ULL;
++    std::fclose(file);
++    if (ok) hash = header.hash;
++    return ok;
++}
++
++static bool durable_write_record(const std::string & directory, durable_record & record, bool commit) {
++    record.header.magic = 0x4b5652455455524eULL;
++    record.header.version = 1;
++    for (int i = 0; i < 2; ++i) {
++        record.header.parts[i].length = record.data[i].size();
++        record.header.parts[i].hash = durable_hash(record.data[i]);
++    }
++    const std::string final = durable_record_path(directory, (int)record.header.turn);
++    const std::string pending = final + ".pending." + std::to_string(::getpid()) + "." +
++        std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
++    const int fd = ::open(pending.c_str(), O_WRONLY | O_CREAT | O_EXCL, 0600);
++    if (fd < 0) return false;
++    bool ok = durable_write_all(fd, &record.header, sizeof(record.header));
++    if (ok) {
++        for (int i = 0; i < 2; ++i) {
++            const size_t count = commit ? record.data[i].size() : std::min((size_t)4096, record.data[i].size());
++            if (!durable_write_all(fd, record.data[i].data(), count)) { ok = false; break; }
++            if (!commit) break;
++        }
++    }
++    if (ok) ok = ::fsync(fd) == 0;
++    if (::close(fd) != 0) ok = false;
++    if (ok && commit) {
++        ok = ::rename(pending.c_str(), final.c_str()) == 0;
++        if (ok) ok = durable_sync_directory(directory);
++    }
++    if (!ok) std::remove(pending.c_str());
++    return ok;
++}
++
++static bool durable_read_record(const std::string & path, int turn, uint64_t base_hash,
++                                uint64_t model_size, int cap, durable_record & record) {
++    FILE * file = std::fopen(path.c_str(), "rb");
++    if (!file) return false;
++    bool ok = std::fread(&record.header, sizeof(record.header), 1, file) == 1;
++    const auto & head = record.header;
++    ok = ok && head.magic == 0x4b5652455455524eULL && head.version == 1 &&
++         head.turn == (uint64_t)turn && head.base_hash == base_hash &&
++         head.model_size == model_size && head.kv_code == 1 && head.cap == (uint64_t)cap;
++    if (ok) {
++        const uint64_t expected = sizeof(head) + head.parts[0].length + head.parts[1].length;
++        ok = head.parts[0].length > 0 && head.parts[0].length < ((uint64_t)1 << 30) &&
++             head.parts[1].length > 0 && head.parts[1].length < ((uint64_t)1 << 30) &&
++             std::filesystem::file_size(path) == expected;
++    }
++    if (ok) {
++        for (int i = 0; i < 2; ++i) {
++            record.data[i].resize(head.parts[i].length);
++            if (std::fread(record.data[i].data(), 1, record.data[i].size(), file) != record.data[i].size()) {
++                std::fprintf(stderr, "DURABLE_REJECT reason=truncated_payload turn=%d part=%d\n", turn, i);
++                ok = false; break;
++            }
++            if (durable_hash(record.data[i]) != head.parts[i].hash) {
++                std::fprintf(stderr, "DURABLE_REJECT reason=checksum turn=%d part=%d\n", turn, i);
++                ok = false; break;
++            }
++        }
++    }
++    if (std::fclose(file) != 0) ok = false;
++    return ok;
++}
++
++static bool durable_list_records(const std::string & directory, std::vector<int> & turns, int & pending) {
++    pending = 0;
++    for (const auto & entry : std::filesystem::directory_iterator(directory)) {
++        const std::string name = entry.path().filename().string();
++        if (name.find(".pending.") != std::string::npos) { ++pending; continue; }
++        if (name.size() != 15 || name.compare(0, 5, "turn-") != 0 || name.compare(11, 4, ".bin") != 0) continue;
++        const std::string digits = name.substr(5, 6);
++        if (!std::all_of(digits.begin(), digits.end(), [](char c) { return c >= '0' && c <= '9'; })) return false;
++        turns.push_back(std::stoi(digits));
++    }
++    std::sort(turns.begin(), turns.end());
++    for (size_t i = 0; i < turns.size(); ++i) if (turns[i] != (int)i + 1) return false;
++    return true;
+@@ -1340,0 +1521,145 @@
++        llama_model_free(model);
++        return 0;
++    }
++    if (std::string(argv[1]) == "moe_durable_turn") {
++        const char * action_env = std::getenv("KV_DELTA_COMPARE_MODE");
++        const char * directory_env = std::getenv("KV_DURABLE_DIR");
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        const char * depth_env = std::getenv("KV_DELTA_SOURCE_DEPTH");
++        if (!action_env || !directory_env || !source_dir || !depth_env) return 320;
++        const std::string action(action_env), directory(directory_env);
++        if (directory.compare(0, 7, "/state/") != 0 ||
++            (action != "start" && action != "abort" && action != "resume" && action != "verify")) return 321;
++        const int source_depth = std::atoi(depth_env);
++        const int temp_cap = std::min(pair_cap, ((source_depth + 8191)/8192 + 1)*8192);
++        const std::string source = std::string(source_dir) + "/worker1_depth" +
++            std::to_string(source_depth) + ".bin";
++        const std::string base_path = directory + "/base.bin";
++        const char * kv_type = std::getenv("KV_KV_TYPE");
++        if (!kv_type || std::string(kv_type) != "q4_1") return 322;
++        struct stat model_stat{};
++        if (::stat(argv[2], &model_stat) != 0) return 323;
++        const uint64_t model_size = (uint64_t)model_stat.st_size;
++
++        snapshot base;
++        if (action == "start") {
++            if (!std::filesystem::exists(directory) && !std::filesystem::create_directory(directory)) return 324;
++            if (!std::filesystem::is_directory(directory)) return 324;
++            if (std::filesystem::exists(base_path)) {
++                if (!read_snapshot_file(base_path, base)) return 325;
++            } else {
++                if (!read_snapshot_file(source, base) || !durable_copy_base(source, directory)) return 325;
++            }
++        } else {
++            if (!std::filesystem::is_directory(directory) || !read_snapshot_file(base_path, base)) return 326;
++        }
++        uint64_t base_hash = 0;
++        if (!durable_base_hash(base_path, base_hash)) return 327;
++        std::vector<int> committed_turns;
++        int pending_count = 0;
++        if (!durable_list_records(directory, committed_turns, pending_count)) return 328;
++        if ((action == "start" && !committed_turns.empty()) ||
++            (action == "verify" && committed_turns.empty())) return 329;
++        std::vector<durable_record> records;
++        chat worker{"worker", "", nullptr, "1"};
++        if (!add_chat(worker, model, vocab, pair_cap) || !restore(worker, base)) return 330;
++        auto apply_part = [&](chat & c, const durable_part_header & part,
++                              const std::vector<uint8_t> & payload) {
++            if (c.used != part.cutoff || payload.size() != part.length) return false;
++            const auto flags = LLAMA_STATE_SEQ_FLAGS_KV_APPEND | ((uint32_t)part.cutoff << 8);
++            select_chat(c);
++            if (llama_state_seq_set_data_ext(c.ctx, payload.data(), payload.size(), 0, flags) != payload.size()) return false;
++            c.used = part.used;
++            c.next.assign(1, part.next);
++            return true;
++        };
++        const auto recovery_start = clock_type::now();
++        for (int turn : committed_turns) {
++            durable_record record;
++            if (!durable_read_record(durable_record_path(directory, turn), turn,
++                                     base_hash, model_size, pair_cap, record)) return 331;
++            if (!apply_part(worker, record.header.parts[0], record.data[0]) ||
++                !apply_part(worker, record.header.parts[1], record.data[1])) return 332;
++            records.push_back(std::move(record));
++        }
++        const double recovery_s = std::chrono::duration<double>(clock_type::now()-recovery_start).count();
++        std::fprintf(stderr, "DURABLE_RECOVER action=%s committed=%zu ignored_pending=%d used=%d recovery_s=%.6f\n",
++                     action.c_str(), records.size(), pending_count, worker.used, recovery_s);
++        if (!records.empty()) {
++            snapshot expected, actual;
++            if (!read_snapshot_file(durable_expected_path(directory, (int)records.size()), expected) ||
++                !save(worker, actual)) return 333;
++            const bool equal = expected.data == actual.data && expected.used == actual.used && expected.next == actual.next;
++            std::fprintf(stderr, "DURABLE_VERIFY turn=%zu equal=%d bytes=%zu\n",
++                         records.size(), equal, actual.data.size());
++            if (!equal) return 334;
++        }
++        if (action == "verify") {
++            destroy(worker);
++            llama_model_free(model);
++            return 0;
++        }
++
++        const auto filler = tokenize_text(vocab,
++            " A quiet field note describes a blue bicycle by a river and a wooden bridge.\n", false);
++        const auto user = tokenize_text(vocab,
++            "\n<|im_start|>user\nHere are more unrelated notes.\n", false);
++        if (filler.empty() || user.empty()) return 335;
++        const auto request_start = clock_type::now();
++        chat temp{"prep", "", nullptr, "0"};
++        if (!add_chat(temp, model, vocab, temp_cap, true) || !restore(temp, base)) return 336;
++        for (const auto & record : records) {
++            if (!apply_part(temp, record.header.parts[0], record.data[0]) ||
++                !apply_part(temp, record.header.parts[1], record.data[1])) return 337;
++        }
++        if (temp.used != worker.used || temp.next != worker.next) return 338;
++        const int outbound_cutoff = worker.used;
++        if (!decode_raw(temp, temp.next) || !decode_raw(temp, user) ||
++            !decode_raw(temp, filler, 128)) return 339;
++        durable_record next;
++        next.header.turn = records.size() + 1;
++        next.header.base_hash = base_hash;
++        next.header.model_size = model_size;
++        next.header.kv_code = 1;
++        next.header.cap = pair_cap;
++        auto export_part = [&](chat & c, int cutoff, int index) {
++            const auto flags = LLAMA_STATE_SEQ_FLAGS_KV_APPEND | ((uint32_t)cutoff << 8);
++            select_chat(c);
++            auto & payload = next.data[index];
++            payload.resize(llama_state_seq_get_size_ext(c.ctx, 0, flags));
++            if (payload.empty()) return false;
++            const size_t got = llama_state_seq_get_data_ext(c.ctx, payload.data(), payload.size(), 0, flags);
++            if (got == 0 || got > payload.size()) return false;
++            payload.resize(got);
++            auto & part = next.header.parts[index];
++            part.length = payload.size();
++            part.cutoff = cutoff;
++            part.used = c.used;
++            part.next = c.next[0];
++            return true;
++        };
++        if (!export_part(temp, outbound_cutoff, 0) ||
++            !apply_part(worker, next.header.parts[0], next.data[0])) return 340;
++        destroy(temp);
++        const int return_cutoff = worker.used;
++        double first_token_s = 0;
++        if (!recall_answer(worker, vocab, "4827", source_depth, 64, &first_token_s)) return 341;
++        const auto export_start = clock_type::now();
++        if (!export_part(worker, return_cutoff, 1)) return 342;
++        const double export_s = std::chrono::duration<double>(clock_type::now()-export_start).count();
++        const auto commit_start = clock_type::now();
++        if (!durable_write_record(directory, next, action != "abort")) return 343;
++        const double commit_s = std::chrono::duration<double>(clock_type::now()-commit_start).count();
++        const double total_s = std::chrono::duration<double>(clock_type::now()-request_start).count();
++        std::fprintf(stderr,
++            "DURABLE_TURN action=%s turn=%zu used=%d outbound_bytes=%zu return_bytes=%zu return_export_s=%.6f record_write_s=%.6f total_s=%.6f first_token_s=%.6f committed=%d recall=1\n",
++            action.c_str(), records.size()+1, worker.used, next.data[0].size(), next.data[1].size(),
++            export_s, commit_s, total_s, first_token_s, action != "abort");
++        if (action == "abort") {
++            std::fprintf(stderr, "DURABLE_ABORT pending_only=1 committed=%zu\n", records.size());
++        } else {
++            snapshot expected;
++            if (!save(worker, expected) ||
++                !write_snapshot_file(durable_expected_path(directory, (int)next.header.turn), expected)) return 344;
++        }
++        destroy(worker);

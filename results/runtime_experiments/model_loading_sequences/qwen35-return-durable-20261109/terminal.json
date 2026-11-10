@@ -1,0 +1,13 @@
+{
+  "finished_at": "2026-11-10T02:09:18+00:00",
+  "manifest_sha256": "022725ac23410e3b3c45ea06520b61f760ef2e0a474e04b1077745bf9d0a1a9b",
+  "reason": "exit 87; see resume.log",
+  "run_id": "qwen35-return-durable-20261109",
+  "stages": {
+    "abort": "passed",
+    "resume": "failed",
+    "start": "passed"
+  },
+  "started_at": "2026-11-10T02:07:47+00:00",
+  "status": "failed"
+}

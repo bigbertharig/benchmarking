@@ -1,0 +1,11 @@
+{
+  "finished_at": "2026-11-10T02:20:08+00:00",
+  "manifest_sha256": "708272f776baf83dedd23c3a97cf70ece1d911ce0c57ea41dd7235891765cfb5",
+  "run_id": "qwen35-return-durable-guards-20261109",
+  "stages": {
+    "base_only": "passed",
+    "corrupt_reject": "passed"
+  },
+  "started_at": "2026-11-10T02:19:39+00:00",
+  "status": "passed"
+}

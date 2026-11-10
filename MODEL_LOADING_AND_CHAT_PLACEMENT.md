@@ -1165,9 +1165,16 @@ Two-turn and 20-turn final states reconstructed byte for byte. The host
 update chain grows with turns: at 200K, temporary GPU0 rebuild rose from
 0.35 to 0.67 s over 20 turns. Compaction after turn 10 cost 1.44 s and
 saved about 0.61 s net through turn 20; it should be deferred when no
-further turns are expected. The next capability tests are atomic host
-checkpoint persistence, validation/rollback guards, distinct workers, and
-concurrent generation before five workers.
+further turns are expected. The next capability tests are distinct workers
+and concurrent generation before five workers. The
+[durable single-chat return checkpoint](results/runtime_experiments/model_loading_sequences/qwen35-return-durable-20261109/README.md)
+adds an atomic base-plus-turn journal and exact recovery after a fresh
+inference process loads the model. It ignores incomplete writes and rejects
+corrupt records. At 100K, persisting each ~133 MB turn record took about
+0.52 s on rig NVMe versus 2.01–2.02 s on shared storage; complete measured
+turns on NVMe took 1.99–2.05 s. This is a one-worker process-restart
+prototype; atomic on-disk compaction, crash-time answer delivery, and
+power-loss recovery remain untested.
 
 The [resident mirror experiment](results/runtime_experiments/model_loading_sequences/qwen35-moe-resident-mirror-20261109/README.md)
 kept matched GPU0 and 1060 chat copies, exchanging only new KV and recurrent

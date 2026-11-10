@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-10T02:15:00+00:00",
+  "manifest_sha256": "069e1ce34d9b343a80d2d049728eb1bcb52cede354815099fe308df544a01f10",
+  "run_id": "qwen35-return-durable-nvme-20261109",
+  "stages": {
+    "resume": "passed",
+    "start": "passed",
+    "verify": "passed"
+  },
+  "started_at": "2026-11-10T02:14:00+00:00",
+  "status": "passed"
+}

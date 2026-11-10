@@ -1,0 +1,269 @@
+{
+  "model": "Qwen3.6-35B-A3B Q4_K_XL",
+  "worker_kv": "Q4_1",
+  "context_reservation": 262144,
+  "checkpoint_format": "atomic base plus one fsynced outbound/return record per completed turn",
+  "campaigns": {
+    "shared_initial": {
+      "status": "failed",
+      "finished_at": "2026-11-10T02:09:18+00:00",
+      "stages": {
+        "abort": "passed",
+        "resume": "failed",
+        "start": "passed"
+      }
+    },
+    "shared_resume_fix": {
+      "status": "passed",
+      "finished_at": "2026-11-10T02:12:48+00:00",
+      "stages": {
+        "resume": "passed",
+        "verify": "passed"
+      }
+    },
+    "nvme": {
+      "status": "passed",
+      "finished_at": "2026-11-10T02:15:00+00:00",
+      "stages": {
+        "resume": "passed",
+        "start": "passed",
+        "verify": "passed"
+      }
+    },
+    "guards": {
+      "status": "passed",
+      "finished_at": "2026-11-10T02:20:08+00:00",
+      "stages": {
+        "base_only": "passed",
+        "corrupt_reject": "passed"
+      }
+    }
+  },
+  "shared": {
+    "start": {
+      "recover": [
+        {
+          "action": "start",
+          "committed": 0,
+          "ignored_pending": 0,
+          "used": 100036,
+          "recovery_s": 0.0
+        }
+      ],
+      "verify": [],
+      "turn": [
+        {
+          "action": "start",
+          "turn": 1,
+          "used": 100212,
+          "outbound_bytes": 66764052,
+          "return_bytes": 66095956,
+          "return_export_s": 0.036845,
+          "record_write_s": 2.018452,
+          "total_s": 3.48479,
+          "first_token_s": 0.535781,
+          "committed": 1,
+          "recall": 1
+        }
+      ]
+    },
+    "abort": {
+      "recover": [
+        {
+          "action": "abort",
+          "committed": 1,
+          "ignored_pending": 0,
+          "used": 100212,
+          "recovery_s": 1.334294
+        }
+      ],
+      "verify": [
+        {
+          "turn": 1,
+          "equal": 1,
+          "bytes": 709626589
+        }
+      ],
+      "turn": [
+        {
+          "action": "abort",
+          "turn": 2,
+          "used": 100388,
+          "outbound_bytes": 66764052,
+          "return_bytes": 66095956,
+          "return_export_s": 0.036127,
+          "record_write_s": 0.131751,
+          "total_s": 1.636265,
+          "first_token_s": 0.537772,
+          "committed": 0,
+          "recall": 1
+        }
+      ]
+    },
+    "resume_fix": {
+      "recover": [
+        {
+          "action": "resume",
+          "committed": 1,
+          "ignored_pending": 1,
+          "used": 100212,
+          "recovery_s": 0.219971
+        }
+      ],
+      "verify": [
+        {
+          "turn": 1,
+          "equal": 1,
+          "bytes": 709626589
+        }
+      ],
+      "turn": [
+        {
+          "action": "resume",
+          "turn": 2,
+          "used": 100388,
+          "outbound_bytes": 66764052,
+          "return_bytes": 66095956,
+          "return_export_s": 0.036169,
+          "record_write_s": 2.007675,
+          "total_s": 3.513321,
+          "first_token_s": 0.539804,
+          "committed": 1,
+          "recall": 1
+        }
+      ]
+    },
+    "verify_fix": {
+      "recover": [
+        {
+          "action": "verify",
+          "committed": 2,
+          "ignored_pending": 1,
+          "used": 100388,
+          "recovery_s": 1.551637
+        }
+      ],
+      "verify": [
+        {
+          "turn": 2,
+          "equal": 1,
+          "bytes": 710757213
+        }
+      ],
+      "turn": []
+    }
+  },
+  "nvme": {
+    "start": {
+      "recover": [
+        {
+          "action": "start",
+          "committed": 0,
+          "ignored_pending": 0,
+          "used": 100036,
+          "recovery_s": 0.0
+        }
+      ],
+      "verify": [],
+      "turn": [
+        {
+          "action": "start",
+          "turn": 1,
+          "used": 100212,
+          "outbound_bytes": 66764052,
+          "return_bytes": 66095956,
+          "return_export_s": 0.036038,
+          "record_write_s": 0.517654,
+          "total_s": 1.989646,
+          "first_token_s": 0.536926,
+          "committed": 1,
+          "recall": 1
+        }
+      ]
+    },
+    "resume": {
+      "recover": [
+        {
+          "action": "resume",
+          "committed": 1,
+          "ignored_pending": 0,
+          "used": 100212,
+          "recovery_s": 0.217072
+        }
+      ],
+      "verify": [
+        {
+          "turn": 1,
+          "equal": 1,
+          "bytes": 709626589
+        }
+      ],
+      "turn": [
+        {
+          "action": "resume",
+          "turn": 2,
+          "used": 100388,
+          "outbound_bytes": 66764052,
+          "return_bytes": 66095956,
+          "return_export_s": 0.03612,
+          "record_write_s": 0.523549,
+          "total_s": 2.047169,
+          "first_token_s": 0.539407,
+          "committed": 1,
+          "recall": 1
+        }
+      ]
+    },
+    "verify": {
+      "recover": [
+        {
+          "action": "verify",
+          "committed": 2,
+          "ignored_pending": 0,
+          "used": 100388,
+          "recovery_s": 1.254497
+        }
+      ],
+      "verify": [
+        {
+          "turn": 2,
+          "equal": 1,
+          "bytes": 710757213
+        }
+      ],
+      "turn": []
+    }
+  },
+  "guards": {
+    "base_only": {
+      "action": "resume",
+      "committed": 0,
+      "ignored_pending": 0,
+      "used": 100036,
+      "recovery_s": 0.0
+    },
+    "corrupt_reject": {
+      "reason": "checksum",
+      "turn": 1,
+      "part": 0
+    },
+    "corrupt_exit": 75
+  },
+  "checkpoint_files": {
+    "shared": {
+      "turn-000002.bin.pending.1": 4216,
+      "expected-000002.bin": 710757245,
+      "base.bin": 708495997,
+      "turn-000002.bin": 132860128,
+      "turn-000001.bin": 132860128,
+      "expected-000001.bin": 709626621
+    },
+    "nvme": {
+      "base.bin": 708495997,
+      "expected-000001.bin": 709626621,
+      "turn-000002.bin": 132860128,
+      "turn-000001.bin": 132860128,
+      "expected-000002.bin": 710757245
+    }
+  }
+}
