@@ -430,8 +430,8 @@ in every receipt.
     occupied tokens in the two-slot run. They do not establish a matched
     one-chat 16K/32K/50K speed curve. The
     [four-case 64K campaign](campaigns/strata_q4_onechat_tier_overnight_20261110.json)
-    keeps one slot, INT8 KV, an 8 GiB expert RAM budget, a 1,024-token
-    prefill setting, and the same additive conversation. Compare GPU0 only,
+    keeps one slot, INT8 KV, an 8 GiB expert RAM budget, automatic prefill
+    sizing, and the same additive conversation. Compare GPU0 only,
     GPU0+one 1060 layer split, all six GPUs, and all six with KV streamed
     from RAM above a 32K resident window. Record actual stage/layer order,
     per-card cache capacity, occupied prompt tokens, prompt and decode tok/s,

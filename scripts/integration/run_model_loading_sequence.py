@@ -267,6 +267,8 @@ def run_stage(stage, folder, run_id, claim=None):
     except BaseException as exc:
         record['status'] = 'failed'
         record['error'] = str(exc)
+        if isinstance(exc, KeyboardInterrupt):
+            record['interrupted'] = True
         if proc and proc.poll() is None:
             os.killpg(proc.pid, signal.SIGTERM)
             try:
@@ -374,6 +376,10 @@ def main():
         result = run_stage(stage, folder, args.run_id, claim)
         summary['stages'][name] = result['status']
         write_comparison(folder, source, manifest, summary)
+        if result.get('interrupted'):
+            summary['status'] = 'interrupted'
+            summary['reason'] = result.get('error')
+            break
         if result['status'] != 'passed':
             failures.append(name)
             summary['failures'] = failures
