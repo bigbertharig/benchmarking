@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "name": "strata_q4_two_32k_slots_16k_20261110",
+  "stages": [
+    {
+      "id": "two_32k_slots_16k",
+      "state": "ready",
+      "gpus": [
+        0
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_multichat.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/q4_two_chat_detail",
+        "--context",
+        "32768",
+        "--lines-a",
+        "1000",
+        "--lines-b",
+        "1000",
+        "--reuse-loaded"
+      ],
+      "timeout_s": 5400,
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/q4_two_chat_detail/terminal.json"
+      ],
+      "freeze": true,
+      "reuse_loaded": true
+    }
+  ]
+}

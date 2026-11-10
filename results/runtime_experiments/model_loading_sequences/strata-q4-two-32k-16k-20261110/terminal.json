@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-10T07:22:35+00:00",
+  "manifest_sha256": "4dec74e956afadd8750cd235f7e4bf25ad8530584905f448c168a1bbc9df0c02",
+  "run_id": "strata-q4-two-32k-16k-20261110",
+  "stages": {
+    "two_32k_slots_16k": "passed"
+  },
+  "started_at": "2026-11-10T07:10:27+00:00",
+  "status": "passed"
+}

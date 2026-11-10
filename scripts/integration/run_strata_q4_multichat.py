@@ -29,7 +29,7 @@ def first_prompt(word, line_count):
 def call(out, name, messages, expected):
     start = time.monotonic()
     response = request('/v1/chat/completions', {
-        'model': 'strata', 'messages': messages, 'max_tokens': 96, 'temperature': 0}, timeout=600)
+        'model': 'strata', 'messages': messages, 'max_tokens': 96, 'temperature': 0}, timeout=1200)
     wall = round(time.monotonic() - start, 3)
     save(out / f'{name}_response.json', response)
     choice = (response.get('choices') or [{}])[0]
@@ -46,20 +46,31 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--output', type=Path, required=True)
     ap.add_argument('--parallel', type=int, choices=(2,), default=2)
+    ap.add_argument('--context', type=int, choices=(8192, 32768), default=8192)
+    ap.add_argument('--lines-a', type=int, default=64)
+    ap.add_argument('--lines-b', type=int, default=192)
+    ap.add_argument('--stop-after', action='store_true', help='explicitly stop Strata after a successful run')
+    ap.add_argument('--reuse-loaded', action='store_true', help='use an already healthy matching Strata load')
     args = ap.parse_args()
+    if args.reuse_loaded and args.stop_after:
+        ap.error('--reuse-loaded cannot be combined with --stop-after')
     words = dict(list(WORDS.items())[:args.parallel])
+    lines = {'chat_a': args.lines_a, 'chat_b': args.lines_b}
+    if min(lines.values()) < 1 or max(lines.values()) > 1500:
+        ap.error('filler line counts must be between 1 and 1500')
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
-    state = {'model': str(MODEL), 'pack': str(PACK), 'context': 8192,
+    state = {'model': str(MODEL), 'pack': str(PACK), 'context': args.context,
              'parallel': args.parallel, 'gpu': 0, 'resident_experts_gib': 8,
              'admission_model': 'two slots reserved at launch; chats opened sequentially',
              'live_chat_state_location': 'not established by this runner',
-             'started_at': stamp(), 'status': 'running', 'requests': [], 'admissions': []}
+             'started_at': stamp(), 'status': 'running', 'requests': [], 'admissions': [],
+             'end_state_requested': 'stop' if args.stop_after else 'freeze'}
     save(out / 'checkpoint.json', state)
     env = dict(os.environ, STRATA_COMPONENTS_DIR=str(COMPONENTS), CUDA_DEVICE_ORDER='PCI_BUS_ID')
     common = [str(CONTROL), 'launch', '--family', 'unsloth', '--model', 'ud-q4_k_xl',
               '--model-path', str(MODEL), '--data-dir', str(DATA), '--gpu', '0',
-              '--backend', 'nvidia', '--context', '8192', '--kv', 'int8',
+              '--backend', 'nvidia', '--context', str(args.context), '--kv', 'int8',
               '--vision', 'off', '--parallel', str(args.parallel), '--mtp', 'off', '--drafting', 'off',
               '--set', 'resident-budget-gib=8', '--set', 'vram-reserve-mib=768',
               '--tune', 'skip', '--port', str(PORT), '--access', 'local',
@@ -81,39 +92,60 @@ def main():
         state['block_before'] = block()
         if state['host_before']['MemAvailable_kib'] < 8 * 1048576:
             raise RuntimeError('less than 8 GiB MemAvailable before load')
-        if state['gpu_before_mib'].get(0, 999999) > 1024:
-            raise RuntimeError('GPU0 is already occupied')
-        plan = subprocess.run(common + ['--plan'], env=env, capture_output=True,
-                              text=True, timeout=120)
-        (out / 'plan_stdout.json').write_text(plan.stdout)
-        (out / 'plan_stderr.txt').write_text(plan.stderr)
-        if plan.returncode:
-            raise RuntimeError(f'Strata plan exited {plan.returncode}')
-        plan_data = json.loads(plan.stdout)
-        download = plan_data.get('plan', {}).get('download', {})
-        state['plan'] = {'ok': plan_data.get('ok'), 'download': download,
-                         'warnings': plan_data.get('plan', {}).get('warnings', [])}
-        if not plan_data.get('ok') or not download.get('engine_usable') or download.get('gb') != 0:
-            raise RuntimeError('plan requires missing engine or model download')
-        save(out / 'checkpoint.json', state)
-        started = time.monotonic()
-        launched = True
-        launch = subprocess.run(common + ['--no-tui'], env=env, capture_output=True,
-                                text=True, timeout=1200)
-        state['launch_seconds'] = round(time.monotonic() - started, 3)
-        state['launch_exit'] = launch.returncode
-        (out / 'launch_stdout.txt').write_text(launch.stdout)
-        (out / 'launch_stderr.txt').write_text(launch.stderr)
-        if launch.returncode:
-            raise RuntimeError(f'Strata launch exited {launch.returncode}')
-        for _ in range(30):
-            try:
-                state['health'] = request('/health', timeout=2)
-                break
-            except (OSError, ValueError):
-                time.sleep(2)
+        if args.reuse_loaded:
+            if state['gpu_before_mib'].get(0, 0) < 1024:
+                raise RuntimeError('GPU0 has no resident Strata load to reuse')
+            config_path = Path.home() / '.local/state/strata/launch' / f'ud-q4_k_xl-{args.context // 1024}k.json'
+            config = json.loads(config_path.read_text())
+            engine_args = config.get('args', [])
+            expected = {'--pack': str(PACK), '--max-context': str(args.context),
+                        '--kv': 'int8', '--resident-budget-gib': '8', '--vram-reserve-mib': '768'}
+            for flag, value in expected.items():
+                if flag not in engine_args or engine_args[engine_args.index(flag) + 1] != value:
+                    raise RuntimeError(f'resident Strata config mismatch: {flag}')
+            if config.get('gpu') != 0 or config.get('port') != PORT or config.get('drafting') != 'off':
+                raise RuntimeError('resident Strata GPU, port, or drafting mismatch')
+            health = request('/health', timeout=5)
+            if (health.get('status') != 'ok' or not health.get('loaded')
+                    or health.get('max_context') != args.context
+                    or health.get('model') != 'qwen3.8-flash-next-unsloth-ud-q4_k_xl'):
+                raise RuntimeError('resident Strata health mismatch')
+            state['health'] = health
+            state['reused_loaded'] = True
         else:
-            raise RuntimeError('Strata did not become ready')
+            if state['gpu_before_mib'].get(0, 999999) > 1024:
+                raise RuntimeError('GPU0 is already occupied; use --reuse-loaded for a matching load')
+            plan = subprocess.run(common + ['--plan'], env=env, capture_output=True,
+                                  text=True, timeout=120)
+            (out / 'plan_stdout.json').write_text(plan.stdout)
+            (out / 'plan_stderr.txt').write_text(plan.stderr)
+            if plan.returncode:
+                raise RuntimeError(f'Strata plan exited {plan.returncode}')
+            plan_data = json.loads(plan.stdout)
+            download = plan_data.get('plan', {}).get('download', {})
+            state['plan'] = {'ok': plan_data.get('ok'), 'download': download,
+                             'warnings': plan_data.get('plan', {}).get('warnings', [])}
+            if not plan_data.get('ok') or not download.get('engine_usable') or download.get('gb') != 0:
+                raise RuntimeError('plan requires missing engine or model download')
+            save(out / 'checkpoint.json', state)
+            started = time.monotonic()
+            launched = True
+            launch = subprocess.run(common + ['--no-tui'], env=env, capture_output=True,
+                                    text=True, timeout=1200)
+            state['launch_seconds'] = round(time.monotonic() - started, 3)
+            state['launch_exit'] = launch.returncode
+            (out / 'launch_stdout.txt').write_text(launch.stdout)
+            (out / 'launch_stderr.txt').write_text(launch.stderr)
+            if launch.returncode:
+                raise RuntimeError(f'Strata launch exited {launch.returncode}')
+            for _ in range(30):
+                try:
+                    state['health'] = request('/health', timeout=2)
+                    break
+                except (OSError, ValueError):
+                    time.sleep(2)
+            else:
+                raise RuntimeError('Strata did not become ready')
         state['host_loaded'] = memory()
         state['gpu_loaded_mib'] = gpu()
         if state['host_loaded']['MemAvailable_kib'] < 4 * 1048576:
@@ -121,7 +153,7 @@ def main():
         histories = {}
         for chat, word in words.items():
             before = {'host': memory(), 'gpu_mib': gpu(), 'block': block()}
-            first = first_prompt(word, LINES[chat])
+            first = first_prompt(word, lines[chat])
             messages = [{'role': 'user', 'content': first}]
             result = call(out, f'{chat}_first', messages, word)
             state['requests'].append(result)
@@ -130,7 +162,7 @@ def main():
             histories[chat] = messages + [{'role': 'assistant', 'content': result['answer']},
                                          {'role': 'user', 'content': 'What is this conversation\'s private code word? Reply with only that uppercase word.'}]
             after = {'host': memory(), 'gpu_mib': gpu(), 'block': block()}
-            state['admissions'].append({'chat': chat, 'filler_lines': LINES[chat],
+            state['admissions'].append({'chat': chat, 'filler_lines': lines[chat],
                                         'prompt_chars': len(first), 'prompt_tokens': (result.get('usage') or {}).get('prompt_tokens'),
                                         'before': before, 'after': after})
             if after['host']['MemAvailable_kib'] < 4 * 1048576:
@@ -148,7 +180,9 @@ def main():
         state['status'] = 'failed'
         state['error'] = f'{type(exc).__name__}: {exc}'
     finally:
-        if launched:
+        if state['status'] == 'passed' and not args.stop_after:
+            state['kept_loaded'] = True
+        if launched and not state.get('kept_loaded'):
             try:
                 stopped = subprocess.run([str(CONTROL), 'launch', '--stop', '--output', 'json'],
                                          env=env, capture_output=True, text=True, timeout=120)

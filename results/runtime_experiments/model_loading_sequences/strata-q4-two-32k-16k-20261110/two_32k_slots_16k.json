@@ -1,0 +1,26 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_multichat.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/strata-q4-two-32k-16k-20261110/q4_two_chat_detail",
+    "--context",
+    "32768",
+    "--lines-a",
+    "1000",
+    "--lines-b",
+    "1000"
+  ],
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-10T07:22:35+00:00",
+  "gpus": [
+    0
+  ],
+  "host_before_available_kib": 29931912,
+  "host_min_available_kib": 15567328,
+  "id": "two_32k_slots_16k",
+  "started_at": "2026-11-10T07:10:27+00:00",
+  "status": "passed",
+  "timeout_s": 5400
+}

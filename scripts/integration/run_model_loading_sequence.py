@@ -61,6 +61,12 @@ def validate(manifest):
                 raise ValueError(f'{name}: positive timeout_s required')
             if not isinstance(stage.get('gpus', []), list) or any(x not in range(6) for x in stage.get('gpus', [])):
                 raise ValueError(f'{name}: gpus must be IDs 0..5')
+            if not isinstance(stage.get('freeze', False), bool) or not isinstance(stage.get('reuse_loaded', False), bool):
+                raise ValueError(f'{name}: freeze and reuse_loaded must be booleans')
+            if stage.get('reuse_loaded') and not stage.get('freeze'):
+                raise ValueError(f'{name}: reuse_loaded requires freeze')
+            if stage.get('reuse_loaded') and '--reuse-loaded' not in stage['command']:
+                raise ValueError(f'{name}: reuse_loaded stage must pass --reuse-loaded to its command')
             env = stage.get('env', {})
             if not isinstance(env, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in env.items()):
                 raise ValueError(f'{name}: env must be a string map')
@@ -74,6 +80,40 @@ def lease(action, *args):
     if result.returncode:
         raise RuntimeError(f'lease {action} failed: {(result.stderr or result.stdout).strip()[-500:]}')
     return result.stdout.strip()
+
+
+def manager(*args):
+    result = subprocess.run(['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=5', 'pi',
+                             'python3', '/home/bryan/llm-gateway/tools/rigctl.py', *map(str, args)],
+                            capture_output=True, text=True, timeout=30)
+    if result.returncode:
+        raise RuntimeError(f"Manager {' '.join(map(str, args[:2]))} failed: "
+                           f"{(result.stderr or result.stdout).strip()[-500:]}")
+    return json.loads(result.stdout)
+
+
+def session_claim(name, gpu_ids, purpose, create):
+    claims = manager('claims')['claims']
+    match = next((item for item in claims if item['name'] == name), None)
+    if create and not match:
+        manager('claim', name, '--gpus', ','.join(map(str, gpu_ids)), '--owner', name,
+                '--purpose', purpose, '--note', 'benchmark sequence; persists through frozen model state')
+        claims = manager('claims')['claims']
+        match = next((item for item in claims if item['name'] == name), None)
+    elif create and match and set(match['gpu_ids']) != set(gpu_ids):
+        if not set(match['gpu_ids']).issubset(gpu_ids):
+            raise RuntimeError(f'session claim {name} cannot shrink or switch GPUs')
+        manager('extend-claim', name, '--gpus', ','.join(map(str, gpu_ids)),
+                '--owner', match.get('owner') or name)
+        claims = manager('claims')['claims']
+        match = next((item for item in claims if item['name'] == name), None)
+    if not match:
+        raise RuntimeError(f'session claim {name} missing')
+    if create and set(match['gpu_ids']) != set(gpu_ids):
+        raise RuntimeError(f'session claim {name} GPU set does not match request')
+    if match.get('ttl_s') or match.get('expires_at'):
+        raise RuntimeError(f'session claim {name} has a TTL; use a persistent claim')
+    return match
 
 
 def renew_lease(lease_id, owner):
@@ -95,12 +135,13 @@ def expand_stage(stage, run_id):
     return expanded
 
 
-def run_stage(stage, folder, run_id):
+def run_stage(stage, folder, run_id, claim=None):
     name = stage['id']
     floor = int(stage.get('mem_floor_gib', 4)) * 1048576
     record = {'id': name, 'status': 'running', 'started_at': stamp(), 'command': stage['command'],
               'gpus': stage.get('gpus', []), 'timeout_s': stage['timeout_s'],
-              'env_keys': sorted(stage.get('env', {}))}
+              'env_keys': sorted(stage.get('env', {})), 'claim': claim,
+              'end_state_requested': 'freeze' if stage.get('freeze') else 'release'}
     receipt = folder / f'{name}.json'
     atomic_json(receipt, record)
     lease_id = ''
@@ -113,8 +154,10 @@ def run_stage(stage, folder, run_id):
         if host_before < floor:
             raise RuntimeError('host memory below floor before start')
         gpus = stage.get('gpus', [])
-        if gpus:
-            lease_id = lease('acquire', ','.join(map(str, gpus)), run_id, run_id, name)
+        if gpus and stage.get('reuse_loaded') and not claim:
+            raise RuntimeError('reuse_loaded requires a persistent session claim')
+        if gpus and not stage.get('reuse_loaded'):
+            lease_id = lease('acquire', ','.join(map(str, gpus)), run_id, run_id, name, claim or '')
             if not lease_id:  # harness_lease.sh permits offline runs; this sequence does not.
                 raise RuntimeError('Manager unreachable: lease ID missing')
         with (folder / f'{name}.log').open('w') as log:
@@ -146,6 +189,10 @@ def run_stage(stage, folder, run_id):
             if Path(output).exists():
                 raise RuntimeError(f'forbidden output exists: {output}')
         record['status'] = 'passed'
+        if stage.get('freeze'):
+            if not claim:
+                raise RuntimeError('freeze requires a persistent session claim')
+            record['frozen_claim'] = claim
     except BaseException as exc:
         record['status'] = 'failed'
         record['error'] = str(exc)
@@ -160,7 +207,10 @@ def run_stage(stage, folder, run_id):
     finally:
         if lease_id:
             try:
-                lease('release', lease_id, run_id)
+                if stage.get('freeze') and claim and record['status'] == 'passed':
+                    manager('release', lease_id, '--owner', run_id, '--force')
+                else:
+                    manager('release', lease_id, '--owner', run_id)
             except Exception as exc:
                 record['release_error'] = str(exc)
                 record['status'] = 'failed'
@@ -175,9 +225,20 @@ def main():
     ap.add_argument('--run-id', required=True)
     ap.add_argument('--check', action='store_true', help='show the sequence without creating receipts')
     ap.add_argument('--through', help='stop successfully after this stage; later queue stages remain pending')
+    ap.add_argument('--claim', help='use an existing persistent benchmark claim')
+    ap.add_argument('--session-gpus', help='reserve all planned cards for this run, e.g. 0,1,2; claim persists after run')
+    ap.add_argument('--session-purpose', default='model-loading benchmark', help='purpose shown to other sessions')
     args = ap.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]*', args.run_id):
         ap.error('unsafe run ID')
+    session_gpus = None
+    if args.session_gpus:
+        try:
+            session_gpus = sorted(set(int(g) for g in args.session_gpus.split(',')))
+        except ValueError:
+            ap.error('--session-gpus must be comma-separated GPU IDs')
+        if not session_gpus or any(g not in range(6) for g in session_gpus):
+            ap.error('--session-gpus must contain GPU IDs 0..5')
     raw = args.manifest.read_bytes()
     manifest = json.loads(raw)
     validate(manifest)
@@ -206,7 +267,16 @@ def main():
             raise SystemExit('manifest changed; use a fresh run ID')
     else:
         atomic_json(anchor, {'sha256': digest, 'manifest': str(args.manifest), 'created_at': stamp()})
-    summary = {'run_id': args.run_id, 'manifest_sha256': digest, 'started_at': stamp(), 'stages': {}}
+    claim = args.claim or (args.run_id if session_gpus else None)
+    if any(stage['state'] == 'ready' and stage.get('freeze') and stage.get('gpus') for stage in manifest['stages']) and not claim:
+        raise SystemExit('frozen GPU stages require --claim or --session-gpus before execution')
+    if claim:
+        held = session_claim(claim, session_gpus or [], args.session_purpose, bool(session_gpus))
+        for stage in manifest['stages']:
+            if stage['state'] == 'ready' and not set(stage.get('gpus', [])).issubset(held['gpu_ids']):
+                raise SystemExit(f"stage {stage['id']} uses GPUs outside session claim {claim}")
+    summary = {'run_id': args.run_id, 'manifest_sha256': digest, 'started_at': stamp(),
+               'session_claim': claim, 'reserved_gpus': held['gpu_ids'] if claim else [], 'stages': {}}
     terminal = folder / 'terminal.json'
     for raw_stage in manifest['stages']:
         stage = expand_stage(raw_stage, args.run_id)
@@ -225,7 +295,7 @@ def main():
             summary['status'] = 'blocked'
             summary['reason'] = stage['reason']
             break
-        result = run_stage(stage, folder, args.run_id)
+        result = run_stage(stage, folder, args.run_id, claim)
         summary['stages'][name] = result['status']
         if result['status'] != 'passed':
             summary['status'] = 'failed'

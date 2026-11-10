@@ -219,7 +219,7 @@ campaign preflight, not an automatic change to our test conclusions.
 | Nemotron 74B whole experts on GPU0-4, chat-only GPU5; also a GPU0-3 layer split with chats isolated on GPU4/5 | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md), [two isolated 32K chats](results/runtime_experiments/model_loading_sequences/nemotron-two-isolated-chat-depth-20261108/README.md) | Private fork; two GPU4/GPU5 chats each reserved 262K and reached 32K occupied history on one GPU0-3 weight load, decoding concurrently at about 11 tok/s each. The prior 131K paired chat was only shallowly occupied. Larger occupied depths, retrieval quality, and ongoing chat migration remain open. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
-| Qwen3.8 Q4 | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K baseline](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json), [two-chat probe](results/runtime_experiments/model_loading_sequences/strata-q4-two-chat-20261108/q4_two_chat_detail/terminal.json) | Strata 3090/RAM/NVMe served two interleaved chats at 1,044 and 2,964 prompt tokens on one 8K-capacity load. Slots were reserved at launch; deeper occupancy, third chat, and separate KV tiers are open. |
+| Qwen3.8 Q4, 3090/RAM/NVMe | [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md), [32K single chat](results/runtime_experiments/model_loading_sequences/q4-32k-baseline-20261108/q4_32k_detail/terminal.json), [two 32K slots at 15K](results/runtime_experiments/model_loading_sequences/strata-q4-two-32k-16k-20261110/README.md) | One 125B-class weight load served two independent, interleaved chats at 15,084 occupied tokens each, with 32K reserved per slot. Each first deep turn read about 100 GB from NVMe and took about four minutes; warm continuations were much quicker. Slots were reserved at launch and physical KV tier is unproven. |
 | Qwen3.8 on BigMoe | [same-file Q4 smoke](results/runtime_experiments/model_loading_sequences/bigmoe-q4-compat-20261108/bigmoe_q4_detail/terminal.json), [Q2 warm session](results/runtime_experiments/model_loading_sequences/bigmoe-q2-session-20261108/bigmoe_q2_session_detail/terminal.json) | Q4 32K CPU/flash correctness passed. One Q2 CLI session served five correct turns; clearing KV reset live context but retained a warming expert cache. Concurrent independent live KV remains untested. |
 
 The [Nemotron five-card expert / one-card chat follow-up](results/runtime_experiments/nemo_single_chat_20261109/README.md) keeps weights on GPU0-4 and one 262K-capacity chat on GPU5. At 16K/32K/50K occupied history, F16 KV improved solo decode from 32.10/27.15/22.56 to 38.05/34.40/32.50 tok/s versus Q4_0, at the cost of 2,048 versus 576 MiB GPU5 KV allocation. Preparing 16K/50K F16 histories on GPU0 then handing off to GPU5 took 34.89/107.40 seconds plus 0.38/1.07 seconds restore, compared with 115.36/411.31 seconds cumulative direct GPU5 fill. A 250K occupied F16 preparation and GPU5 handoff also passed: GPU0 peaked at 23,169/24,564 MiB, preparation took 559.66 seconds, restore took 5.24 seconds, and GPU5 decoded at 18.14 tok/s. This is synthetic-history, single-chat evidence; a matched layer-split control, long output, quality checks, and GPU0 contention remain to be measured.
@@ -389,27 +389,38 @@ in every receipt.
     first-token correctness, each chat's decode, and whether admitting the
     worker disrupts the main chat. A solo 250K GPU5 chat does not establish a
     two-chat 250K fit; stop at the first reproducible capacity boundary.
-11. **Qwen3.8 n-gram table-only swap.** First confirm a compatible engine and
-    artifact can bind different PLE table volumes without changing weights,
-    and check NVMe headroom. On the same prompts, routing, draft settings,
-    occupied context, and cache policy, compare the FP4-Local table with an
-    FP8 table. Record answer quality and perplexity alongside prefill, decode,
-    physical reads, host page cache, and the added storage bytes. The larger
-    FP8 table is not a free change just because it uses no extra VRAM. See the
-    [mixed-precision research lead](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md#research-lead-per-layer-precision-and-n-gram-table-2026-11-10).
-12. **Mixed expert precision by layer.** If the reported engine patch and
-    assembler become available, compare a fixed FP4-Local base with official
-    FP8 experts in early layers 0-11 and late layers 36-47 separately, then
-    both blocks. Keep GPU expert-cache *bytes*, not expert count, fixed and
-    measure routing hits, misses, bytes moved from RAM/NVMe, per-chat tok/s,
-    first-token time, and quality on more than one task type. The author's
-    5090 speed and KL figures are a hypothesis for this rig, not a baseline.
+11. **Separate lookup-table traffic from expert traffic.** Use the Qwen3.8
+    UD-Q4 model already on NVMe. At a fixed 16K or 32K context, compare a
+    cold request, a repeated request, and a different request while logging
+    physical reads and the model's table/expert access counters where the
+    engine exposes them. This tests whether the n-gram table or expert misses
+    dominate our storage tier. Only then try a different table format or
+    cache policy if the current runtime supports one; keep model weights
+    fixed and check quality as well as bytes and latency.
+12. **Layer-aware expert-cache placement.** From our existing Qwen3.8
+    routing traces, rank hot experts separately for early, middle, and late
+    layers on one prompt set, then check hit coverage on held-out prompts.
+    Compare equal-byte hot sets against uniform per-layer budgets and record
+    misses and estimated RAM/NVMe traffic. Test a real placement only if
+    held-out coverage predicts a material benefit. This applies the
+    Reddit post's lesson that layers may differ in value without requiring
+    its unpublished mixed-precision pack; [the precision branch](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md#research-lead-per-layer-precision-and-n-gram-table-2026-11-10)
+    remains a later quality experiment.
 13. **Strata-slim VRAM-reclamation controls.** If we revisit Strata on the
     rig, pin the [reviewed fork and optional patches](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md#strata-slim-idea-to-revisit),
     then compare the same pack and workload with each capacity patch enabled
     individually. Measure actual VRAM reclaimed, expert-cache hit rate,
     file-tier reads, and complete-turn speed. Confirm that a build supports
     the 3090 and 1060 architectures before using it for a mixed-card test.
+
+14. **Cache-budget crossover on the existing Qwen3.8 load.** Hold model,
+    prompt, occupied context, KV, and engine fixed while varying a safe
+    expert-resident budget around the current 8 GiB setting. Record cache
+    hit rate, NVMe read bytes, prefill, steady decode, first-token time,
+    GPU0 headroom, and host `MemAvailable`. This tests the transferable
+    question from the 5090 discussion: how much speed does one more GiB of
+    hot experts buy on *our* RAM and NVMe path? Use the rig's established
+    memory guard and stop when added residency displaces useful workspace.
 
 ## Model and engine follow-ups
 
@@ -472,7 +483,21 @@ It is for experimental engines outside the standard registry-backed suite
 runner described in [CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md). Each stage
 has an explicit command, timeout, expected outputs, and optional GPU set. A
 GPU stage requires a Manager benchmark lease and renews it; the sequence
-refuses an offline/no-lease run. Host `MemAvailable` must remain above 4 GiB.
+refuses an offline/no-lease run. A benchmark session can reserve its entire
+planned GPU set before its first stage with `--session-gpus`, including cards
+that are idle while a model loads. The persistent Manager claim has an owner
+and purpose visible to other sessions, is passed to each lease request, and
+survives stage boundaries and the end of the run. Use `--claim NAME` to reuse
+an existing persistent claim. Combine `--claim NAME --session-gpus 0,1,2`
+to extend that claim to additional cards before the next stage; Manager
+refuses a shrink or a claim owned by someone else. A stage marked `freeze: true` leaves its runtime
+loaded and releases its temporary lease only after the persistent claim is
+verified; `reuse_loaded: true` runs against an already loaded service under
+that claim without attempting a second GPU lease. The command must explicitly
+support `--reuse-loaded`. Older scripts that stop their own service must be
+updated before marking their stage frozen. End the session with `rigctl unclaim
+NAME` only after its loaded runtimes are stopped or another owner takes over.
+Host `MemAvailable` must remain above 4 GiB.
 The runner writes a log and atomic JSON receipt for every attempted stage,
 plus a terminal summary under
 `results/runtime_experiments/model_loading_sequences/<run-id>/`. Reusing the
@@ -497,6 +522,20 @@ python3 ~/llm-gateway/tools/rigctl.py run-start \
   -- python3 scripts/integration/run_model_loading_sequence.py \
   campaigns/model_loading_sequence.json --run-id model-loading-YYYYMMDD
 ```
+
+For a new multi-card session, reserve all anticipated cards up front:
+
+```bash
+python3 ~/llm-gateway/tools/rigctl.py run-start --run model-loading-YYYYMMDD --cwd /mnt/shared/plans/shoulders/benchmarking -- python3 scripts/integration/run_model_loading_sequence.py campaigns/model_loading_sequence.json --run-id model-loading-YYYYMMDD --session-gpus 0,1,2,3,4,5 --session-purpose "model loading and chat placement"
+```
+
+The claim name is the run ID. The terminal receipt records its card set; a
+rerun verifies the same claim rather than creating another. When a model is
+already frozen, use its existing claim instead. The current 125B-class Qwen3.8
+Q4 Strata load uses `qwen38-q4-frozen` on GPU0. Its 32K two-slot service is
+healthy, while the five 1060s remain unclaimed for other work. Reserve those
+cards in a separate planned session only if the next test actually needs them.
+The loaded Qwen model is not unloaded by these runner changes.
 
 The first stage now reuses the full SHA-256 receipt when each shard still has
 the verified size, digest in the manifest, and unchanged modification/change
@@ -661,6 +700,14 @@ prompt tokens. GPU0 use was 23,437 MiB after load, 23,577 MiB after A, and
 requests resent full histories and slots were reserved at launch, so this is a
 two-chat fit and prefix-reuse result; it does not establish dynamic chat
 allocation or physical KV separation.
+
+The [deeper Q4 two-chat run](results/runtime_experiments/model_loading_sequences/strata-q4-two-32k-16k-20261110/README.md)
+passed with two 32K slots and 15,084 prompt tokens per chat. A and B recalled
+their own codes after interleaving. The first deep turns took 246.5 and
+236.0 seconds, with about 105 and 101 GB NVMe reads during admission;
+later continuations took 5.5-16.1 seconds with cached prefixes. GPU0 used
+23,603 MiB and the 1060s were idle. This establishes deeper logical chat
+separation, not physical KV placement or a stable long-form decode rate.
 
 The [BigMoe Q2 warm-session probe](results/runtime_experiments/model_loading_sequences/bigmoe-q2-session-20261108/bigmoe_q2_session_detail/terminal.json)
 passed five turns on one model load (169 seconds). A first turn and its
