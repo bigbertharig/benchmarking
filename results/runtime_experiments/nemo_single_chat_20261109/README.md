@@ -15,12 +15,15 @@ The F16 chat's 262K-capacity KV allocation was 2,048 MiB on GPU5, versus 576 MiB
 
 ## 3090 preparation and GPU5 handoff
 
-The [handoff launcher](run_prep.sh) used the same F16 context type and model placement, first filling a temporary chat on GPU0, then saving its llama state and restoring it into a fresh GPU5 context. This tests the hybrid model's recurrent state as well as KV transfer. Both runs exited 0, restored the expected occupied count, and kept GPU5 decode speed after transfer.
+The [handoff launcher](run_prep.sh) used the same F16 context type and model placement, first filling a temporary chat on GPU0, then saving its llama state and restoring it into a fresh GPU5 context. This tests the hybrid model's recurrent state as well as KV transfer. All three runs exited 0, restored the expected occupied count, and kept GPU5 decode available after transfer.
 
 | Occupied history | Direct GPU5 F16 fill, cumulative | GPU0 F16 preparation, including save | State bytes | GPU5 restore | GPU5 decode after restore |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | 16,384 | 115.36 s | 34.89 s | 307,102,914 | 0.38 s | 38.12 tok/s |
 | 50,000 | 411.31 s | 107.40 s | 582,888,578 | 1.07 s | 32.22 tok/s |
+| 250,000 | Not measured | 559.66 s | 2,223,688,578 | 5.24 s | 18.14 tok/s |
+
+The 250K run reserved 262,144 positions and filled 250,000 of them on GPU0; it completed the save, GPU5 restore, and 128-token decode with exit 0. Sampled GPU0 peak was 23,169 MiB of 24,564 MiB, leaving 1,395 MiB nominal headroom. The F16 KV buffer on GPU0 was 2,048 MiB, allocated for full context capacity, which explains why peak GPU0 VRAM was almost unchanged from 50K. The 250K history was repeated synthetic tokens; this proves allocation and state handoff, not useful 250K recall or realistic conversation.
 
 The cumulative direct time sums the three F16 fill phases (115.36 + 136.92 + 159.02 seconds); the 50K preparation is a separate one-pass run, not an extension of the 16K handoff. Both exclude the common cold model load, context initialization, and output-generation window. The 3090 preparation itself used about 23,167 MiB peak sampled GPU0 memory, versus 21,099 MiB during direct fill. This leaves roughly 1.4 GiB below the 24,564 MiB nominal GPU0 total in this single-chat run. GPU0 preparation could delay another live chat; this experiment did not measure that interference. The handoff timings include the in-process state restore but not a durable disk write/read or a network transfer.
 
@@ -28,4 +31,4 @@ The cumulative direct time sums the three F16 fill phases (115.36 + 136.92 + 159
 
 F16 KV and 3090-side preparation both transfer to this larger hybrid MoE: the first improves *GPU5 decode*, and the second shortens *initial chat fill*. The 50K F16 path is about 32.5 tok/s when running alone on GPU5, with a roughly 108-second 3090 preparation-plus-restore if it starts at 50K. The earlier two-chat 32K layer-split result (about 11 tok/s per chat) is not a matched control: it uses only three weight 1060s and different weight placement.
 
-Useful next measurements are a matched one-chat layer-split versus whole-expert comparison, a 1,000-token decode window, 100K occupied F16 depth, a realistic multi-turn chat with correctness checks, and GPU0 preparation while another chat is generating. The prior 128-thread F16 attention tile was tuned for Qwen3.6's head-256 shape; Nemotron's attention key length is 128, so that patch is not assumed to apply. These are experiment results, not a Manager loading profile.
+Useful next measurements are a matched one-chat layer-split versus whole-expert comparison, a 1,000-token decode window, 250K retrieval and realistic multi-turn chats with correctness checks, and GPU0 preparation while another chat is generating. The prior 128-thread F16 attention tile was tuned for Qwen3.6's head-256 shape; Nemotron's attention key length is 128, so that patch is not assumed to apply. These are experiment results, not a Manager loading profile.
