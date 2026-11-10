@@ -1,0 +1,34 @@
+{
+  "claim": "qwen38-q4-frozen",
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-64k-peer-ramkv-20261110/g0_peer1",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "8",
+    "--gpu-set",
+    "0,1",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12",
+    "--peer-device"
+  ],
+  "end_state_requested": "freeze",
+  "env_keys": [],
+  "error": "exit 1; see g0_peer1.log",
+  "exit_code": 1,
+  "finished_at": "2026-11-10T18:15:44+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 14938220,
+  "host_min_available_kib": 14876020,
+  "id": "g0_peer1",
+  "started_at": "2026-11-10T18:12:46+00:00",
+  "status": "failed",
+  "timeout_s": 5400,
+  "trace": true,
+  "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-64k-peer-ramkv-20261110/g0_peer1_tier_trace_20261110T181246817373Z"
+}

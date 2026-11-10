@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "length",
+      "index": 0,
+      "message": {
+        "content": null,
+        "reasoning_content": "We need answer user's request. Need produce final answer starting with ORCHID, then numbered list of 200 short observations about a garden. Continue until stopped. Need likely exactly 200? User says write a numbered list of 200 short observations about a garden. Continue until stopped. We should output 200 items. Need start with ORCHID. Could be \"ORCHID\" then newline numbered list. Need ensure 200 short observations. Need maybe avoid too long. Need count 1-200. Need likely no extra text. Need maybe include private code word? They said start answer with ORCHID. Do that. Need ensure 200 observations. Let's craft concise. Need maybe each line \"1. ...\" etc. Need count accurately. Could generate 200 unique short garden observations. Need be careful numbering. Let's plan categories: soil, plants, insects, weather, tools, seasons, sensory. Need 200.\n\nNeed final only. Let's enumerate 1-200. Need ensure no missing. I can manually create 200 lines. Need maybe short. Let's draft in analysis and count.\n\n1. Morning dew",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794334057,
+  "id": "chatcmpl-0c6b8f093cce4387ba7f1ec3",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 33721,
+    "draft_n": 0,
+    "draft_n_accepted": 0,
+    "predicted_ms": 24608.6,
+    "predicted_n": 256,
+    "predicted_per_second": 10.4,
+    "predicted_per_token_ms": 96.127,
+    "prompt_ms": 282724.1,
+    "prompt_n": 19238,
+    "prompt_per_second": 68.0,
+    "prompt_per_token_ms": 14.696
+  },
+  "usage": {
+    "completion_tokens": 256,
+    "prompt_tokens": 52959,
+    "prompt_tokens_details": {
+      "cached_tokens": 33721
+    },
+    "total_tokens": 53215
+  }
+}

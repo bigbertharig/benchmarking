@@ -22,5 +22,6 @@ After the failed matrices, the 64K INT8 GPU0-only Q4 load was manually restored 
 
 1. Keep the working 64K GPU0 load and vary only the expert RAM budget (for example 4/8/12 GiB), measuring cache hit rate, actual NVMe reads, prompt latency, and decode rate on the same request.
 2. For a genuine multi-GPU stage test, reduce context and explicitly budget stage KV, prompt scratch, and expert cache on each 1060 before load. A 64K all-card INT8 split is beyond this build's observed fit boundary. If comparing at 50K occupied depth, preserve a cap above the actual 52,959-token prompt.
+   The native `--peer-device 1` expert-only cache was subsequently [loaded and measured](../q38-q4-64k-peer-retry-20261110/README.md); it is distinct from the failed `--gpu-roles` layer split and does not move the chat to GPU1.
 3. For user-visible speed/correctness, turn off thinking if the engine supports it or allocate enough output tokens for a final answer, and validate the marker. Keep that request separate from the 256-token timing series.
 4. Verify freeze through `/health` after the manager job exits, not only through the stage rollback exit code.

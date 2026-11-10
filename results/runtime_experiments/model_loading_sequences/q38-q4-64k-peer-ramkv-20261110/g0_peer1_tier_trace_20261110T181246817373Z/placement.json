@@ -1,0 +1,53 @@
+{
+  "chat_state": {
+    "kv_resident_cells": null,
+    "note": "One chat on GPU0; no independent 1060 chat",
+    "tier": "gpu_vram"
+  },
+  "context_cap_tokens_per_slot": 65536,
+  "drafting": "off",
+  "engine": "Strata 0.1.56 CUDA 12",
+  "gpu_set": [
+    0,
+    1
+  ],
+  "kv_format": "int8",
+  "kv_resident_cells": null,
+  "label": "g0 peer1",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "peer_device": 1,
+  "placement": [
+    {
+      "component": "shared model layers and GPU0 expert cache",
+      "devices": [
+        0
+      ],
+      "tier": "gpu"
+    },
+    {
+      "component": "adaptive expert-only peer cache",
+      "devices": [
+        1
+      ],
+      "tier": "gpu"
+    },
+    {
+      "budget_gib": 8,
+      "component": "resident expert complement",
+      "tier": "ram"
+    },
+    {
+      "component": "remaining experts and n-gram lookup",
+      "tier": "nvme"
+    }
+  ],
+  "prefill_chunk_tokens": "auto",
+  "reserved_idle_gpus": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "schema": 1,
+  "slots": 1
+}

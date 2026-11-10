@@ -1,0 +1,1 @@
+{"schema_version": 1, "ok": false, "error": {"code": 6, "message": "The engine stopped while it was loading the model (exit code 1): strata generate: peer experts: CUDA device 1 is not visible (1 devices; set CUDA_VISIBLE_DEVICES). Run it again; if it repeats, report the log. The engine's log: /home/bryan/.local/state/strata/launch/ud-q4_k_xl-64k.engine.log"}}

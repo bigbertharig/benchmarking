@@ -1,0 +1,291 @@
+{
+  "cases": [
+    {
+      "after": {
+        "block": {
+          "nvme": {
+            "read_bytes": 11315349255168,
+            "write_bytes": 305403871232
+          },
+          "sata": {
+            "read_bytes": 420716264448,
+            "write_bytes": 119543677952
+          }
+        },
+        "gpu_mib": {
+          "0": 23639,
+          "1": 5555,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "memory": {
+          "MemAvailable_kib": 16954236,
+          "SwapFree_kib": 20520024,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "before": {
+        "block": {
+          "nvme": {
+            "read_bytes": 11166006621184,
+            "write_bytes": 305403871232
+          },
+          "sata": {
+            "read_bytes": 420647963648,
+            "write_bytes": 119533298688
+          }
+        },
+        "gpu_mib": {
+          "0": 23471,
+          "1": 5555,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "memory": {
+          "MemAvailable_kib": 15781444,
+          "SwapFree_kib": 23524752,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "code_recalled": false,
+      "completion_tokens": 256,
+      "finish_reason": "length",
+      "lines_total": 1050,
+      "prompt_tokens": 16893,
+      "target_occupied_tokens": 16000,
+      "timings": {
+        "cache_n": 0,
+        "draft_n": 55,
+        "draft_n_accepted": 27,
+        "predicted_ms": 81646.3,
+        "predicted_n": 256,
+        "predicted_per_second": 3.1,
+        "predicted_per_token_ms": 318.931,
+        "prompt_ms": 287660.4,
+        "prompt_n": 16893,
+        "prompt_per_second": 58.7,
+        "prompt_per_token_ms": 17.028
+      },
+      "wall_seconds": 369.339
+    },
+    {
+      "after": {
+        "block": {
+          "nvme": {
+            "read_bytes": 11443026433024,
+            "write_bytes": 305403871232
+          },
+          "sata": {
+            "read_bytes": 420747889664,
+            "write_bytes": 119551575040
+          }
+        },
+        "gpu_mib": {
+          "0": 23639,
+          "1": 5555,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "memory": {
+          "MemAvailable_kib": 16040940,
+          "SwapFree_kib": 20825788,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "before": {
+        "block": {
+          "nvme": {
+            "read_bytes": 11315349259264,
+            "write_bytes": 305403871232
+          },
+          "sata": {
+            "read_bytes": 420716264448,
+            "write_bytes": 119543677952
+          }
+        },
+        "gpu_mib": {
+          "0": 23639,
+          "1": 5555,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "memory": {
+          "MemAvailable_kib": 16963260,
+          "SwapFree_kib": 20520344,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "code_recalled": false,
+      "completion_tokens": 256,
+      "finish_reason": "length",
+      "lines_total": 2100,
+      "prompt_tokens": 33726,
+      "target_occupied_tokens": 32000,
+      "timings": {
+        "cache_n": 16888,
+        "draft_n": 11,
+        "draft_n_accepted": 5,
+        "predicted_ms": 31259.8,
+        "predicted_n": 256,
+        "predicted_per_second": 8.2,
+        "predicted_per_token_ms": 122.109,
+        "prompt_ms": 269628.5,
+        "prompt_n": 16838,
+        "prompt_per_second": 62.4,
+        "prompt_per_token_ms": 16.013
+      },
+      "wall_seconds": 300.956
+    },
+    {
+      "after": {
+        "block": {
+          "nvme": {
+            "read_bytes": 11573371831296,
+            "write_bytes": 305403871232
+          },
+          "sata": {
+            "read_bytes": 420822404096,
+            "write_bytes": 119561020416
+          }
+        },
+        "gpu_mib": {
+          "0": 23639,
+          "1": 5555,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "memory": {
+          "MemAvailable_kib": 15312816,
+          "SwapFree_kib": 18880964,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "before": {
+        "block": {
+          "nvme": {
+            "read_bytes": 11443026433024,
+            "write_bytes": 305403871232
+          },
+          "sata": {
+            "read_bytes": 420747889664,
+            "write_bytes": 119551575040
+          }
+        },
+        "gpu_mib": {
+          "0": 23639,
+          "1": 5555,
+          "2": 5,
+          "3": 5,
+          "4": 5,
+          "5": 5
+        },
+        "memory": {
+          "MemAvailable_kib": 16022172,
+          "SwapFree_kib": 20825808,
+          "SwapTotal_kib": 24127028
+        }
+      },
+      "code_recalled": false,
+      "completion_tokens": 256,
+      "finish_reason": "length",
+      "lines_total": 3300,
+      "prompt_tokens": 52959,
+      "target_occupied_tokens": 50000,
+      "timings": {
+        "cache_n": 33721,
+        "draft_n": 0,
+        "draft_n_accepted": 0,
+        "predicted_ms": 36105.7,
+        "predicted_n": 256,
+        "predicted_per_second": 7.1,
+        "predicted_per_token_ms": 141.038,
+        "prompt_ms": 279291.3,
+        "prompt_n": 19238,
+        "prompt_per_second": 68.9,
+        "prompt_per_token_ms": 14.518
+      },
+      "wall_seconds": 315.467
+    }
+  ],
+  "chat_state_tier": "gpu_vram",
+  "context_cap": 65536,
+  "end_state_requested": "freeze",
+  "engine_components": "/data/bench-staging/strata-v0.2.10/components-cuda12",
+  "engine_log": "results/runtime_experiments/model_loading_sequences/q38-q4-64k-peer-retry-20261110/g0_peer1/engine.log",
+  "finished_at": "2026-11-10T18:48:49+00:00",
+  "gpu_before_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_final_mib": {
+    "0": 23639,
+    "1": 5555,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_loaded_mib": {
+    "0": 23471,
+    "1": 5555,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_roles": null,
+  "gpu_set": "0,1",
+  "health": {
+    "api_key": false,
+    "image_generation": false,
+    "images": false,
+    "loaded": true,
+    "max_context": 65536,
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "service": "strata",
+    "status": "ok"
+  },
+  "host_before": {
+    "MemAvailable_kib": 29890208,
+    "SwapFree_kib": 23524376,
+    "SwapTotal_kib": 24127028
+  },
+  "host_final": {
+    "MemAvailable_kib": 15270396,
+    "SwapFree_kib": 18881312,
+    "SwapTotal_kib": 24127028
+  },
+  "host_loaded": {
+    "MemAvailable_kib": 15797300,
+    "SwapFree_kib": 23524752,
+    "SwapTotal_kib": 24127028
+  },
+  "kv": "int8",
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl",
+  "peer_device": 1,
+  "prefill": null,
+  "resident_budget_gib": 8,
+  "slots": 1,
+  "started_at": "2026-11-10T18:30:07+00:00",
+  "status": "passed",
+  "targets": [
+    16000,
+    32000,
+    50000
+  ],
+  "vram_reserve_mib": 768
+}

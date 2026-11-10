@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "length",
+      "index": 0,
+      "message": {
+        "content": null,
+        "reasoning_content": "We need respond to user. User says private code word ORCHID. Remember it. Then many reference lines. Then: \"Start your answer with ORCHID, then write a numbered list of 200 short observations about a garden. Continue until stopped.\"\n\nWe need produce final answer starting with ORCHID, then numbered list of 200 short observations about a garden. \"Continue until stopped.\" likely means produce 200 observations. Need ensure starts with ORCHID. Could be \"ORCHID\" then newline then list. Need 200 items. Short observations. Need maybe no extra. Need count exactly 200? Let's craft 200 numbered observations. Need be careful numbering 1-200. Could be concise. Need maybe include code word at start exactly. \"ORCHID\" then newline. Then \"1. ...\" etc. Need ensure 200. Let's generate. Need avoid too long but 200 lines okay. Need maybe each short. Let's enumerate carefully. Could use pattern. Need count. I'll draft 200 observations. Need ensure no missing numbers. Let's create list:\n1. Morning dew clings to rose petals",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794336675,
+  "id": "chatcmpl-43dedf8f510843f5b79ea892",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 41,
+    "draft_n_accepted": 24,
+    "predicted_ms": 74287.1,
+    "predicted_n": 256,
+    "predicted_per_second": 3.4,
+    "predicted_per_token_ms": 290.184,
+    "prompt_ms": 288865.2,
+    "prompt_n": 16893,
+    "prompt_per_second": 58.5,
+    "prompt_per_token_ms": 17.1
+  },
+  "usage": {
+    "completion_tokens": 256,
+    "prompt_tokens": 16893,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 17149
+  }
+}

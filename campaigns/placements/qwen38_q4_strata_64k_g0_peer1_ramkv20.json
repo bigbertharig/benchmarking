@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "label": "g0 peer1 ramkv20",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "engine": "Strata 0.1.56 CUDA 12",
+  "context_cap_tokens_per_slot": 65536,
+  "slots": 1,
+  "kv_format": "int8",
+  "kv_resident_cells": 20480,
+  "prefill_chunk_tokens": "auto",
+  "drafting": "off",
+  "gpu_set": [
+    0,
+    1
+  ],
+  "peer_device": 1,
+  "placement": [
+    {
+      "component": "shared model layers and GPU0 expert cache",
+      "tier": "gpu",
+      "devices": [
+        0
+      ]
+    },
+    {
+      "component": "adaptive expert-only peer cache",
+      "tier": "gpu",
+      "devices": [
+        1
+      ]
+    },
+    {
+      "component": "resident expert complement",
+      "tier": "ram",
+      "budget_gib": 8
+    },
+    {
+      "component": "remaining experts and n-gram lookup",
+      "tier": "nvme"
+    }
+  ],
+  "chat_state": {
+    "tier": "gpu_vram_and_pinned_ram",
+    "kv_resident_cells": 20480,
+    "note": "One chat on GPU0; RAM streaming above resident window"
+  },
+  "reserved_idle_gpus": [
+    2,
+    3,
+    4,
+    5
+  ]
+}

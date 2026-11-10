@@ -441,6 +441,7 @@ in every receipt.
     a dedicated 1060-only chat. Test that layout with a compatible runtime
     separately. Park/revive on NVMe is a different operation from live NVMe KV.
     The [2026-11-10 results](results/runtime_experiments/model_loading_sequences/q38-q4-tier-cuda12-20261110/README.md) established the GPU0 16/32/50K baseline but **did not produce a multi-GPU speed comparison**. CUDA13 lacked GTX 1060 kernels; CUDA12 reached Strata's stage planner but 64K per-stage KV, expert cache, and prompt scratch did not fit on the 1060s. Q4_0 KV with a 128 MiB reserve and helper roles also failed at launch. The next fit probe must budget each 1060 stage explicitly, or compare GPU0-only expert RAM budgets first.
+    The [native peer result](results/runtime_experiments/model_loading_sequences/q38-q4-64k-peer-retry-20261110/README.md) did load 1,778 experts (5.21 GiB) on one 1060 without a layer split. At matched 16K/32K/50K depth, it added expert capacity but did not improve complete-request time; 50K generated-token speed fell from 11.9 to 7.1 tok/s in this single series. RAM-backed KV freed about 0.53 GiB for GPU0 experts with almost unchanged total latency. Neither option moves the chat to the 1060.
 
 ## Model and engine follow-ups
 

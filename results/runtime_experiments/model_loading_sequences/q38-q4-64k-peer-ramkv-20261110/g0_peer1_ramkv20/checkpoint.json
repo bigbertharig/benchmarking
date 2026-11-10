@@ -1,0 +1,23 @@
+{
+  "cases": [],
+  "chat_state_tier": "ram_streamed",
+  "context_cap": 65536,
+  "end_state_requested": "freeze",
+  "engine_components": "/data/bench-staging/strata-v0.2.10/components-cuda12",
+  "gpu_roles": null,
+  "gpu_set": "0,1",
+  "kv": "int8",
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl",
+  "peer_device": 1,
+  "prefill": null,
+  "resident_budget_gib": 8,
+  "slots": 1,
+  "started_at": "2026-11-10T18:15:45+00:00",
+  "status": "running",
+  "targets": [
+    16000,
+    32000,
+    50000
+  ],
+  "vram_reserve_mib": 768
+}

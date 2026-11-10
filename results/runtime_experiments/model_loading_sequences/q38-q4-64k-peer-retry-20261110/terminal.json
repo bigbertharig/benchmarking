@@ -1,0 +1,20 @@
+{
+  "finished_at": "2026-11-10T19:07:59+00:00",
+  "manifest_sha256": "c370955e3cf5975c63622519c8ffc7d0d4146b321deaf7ea1e551728b446611c",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-64k-peer-retry-20261110",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "g0_peer1": "passed",
+    "g0_peer1_ramkv20": "passed"
+  },
+  "started_at": "2026-11-10T18:30:07+00:00",
+  "status": "passed"
+}

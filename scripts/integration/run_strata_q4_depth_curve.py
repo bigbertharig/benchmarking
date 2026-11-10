@@ -33,14 +33,14 @@ def main():
     ap.add_argument('--gpu-set', choices=('0','0,1','0,1,2,3','0,1,2,3,4,5'), default='0')
     ap.add_argument('--gpu-roles', help='Strata card roles, e.g. 0=main,1=helper; replaces --gpu')
     ap.add_argument('--prefill', type=int, choices=(1024, 2048))
-    ap.add_argument('--kv-resident', type=int, choices=(32768,))
+    ap.add_argument('--kv-resident', type=int, choices=(20480, 32768))
     ap.add_argument('--kv-format', choices=('int8', 'q4_0'), default='int8')
     ap.add_argument('--vram-reserve-mib', type=int, default=768)
     ap.add_argument('--engine-components', type=Path, default=COMPONENTS,
                     help='Strata component directory; use CUDA 12 for GTX 1060 tests')
     args = ap.parse_args()
     if args.peer_device and args.gpu_set != '0,1':
-        ap.error('peer-device needs gpu-set 0,1')
+        ap.error('peer-device needs gpu-set 0,1 so the engine can see both GPUs')
     if args.reuse_loaded and args.restart_loaded:
         ap.error('reuse-loaded and restart-loaded are exclusive')
     out = args.output
@@ -179,7 +179,7 @@ def main():
                 if old_context == 32768:
                     old[old.index('--context') + 1] = '32768'
                     old[old.index('--parallel') + 1] = '2'
-                for removed in ('peer-device=1', 'kv-resident=32768'):
+                for removed in ('peer-device=1', 'kv-resident=20480', 'kv-resident=32768'):
                     if removed in old:
                         i = old.index(removed)
                         del old[i - 1:i + 1]

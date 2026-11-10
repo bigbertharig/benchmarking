@@ -1,0 +1,75 @@
+{
+  "schema": 2,
+  "name": "Qwen3.8 Q4 64K native peer retry with both GPUs visible",
+  "defaults": {
+    "state": "ready",
+    "timeout_s": 5400,
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "freeze": true,
+    "restart_loaded": true,
+    "trace": true
+  },
+  "cases": [
+    {
+      "id": "g0_peer1",
+      "label": "g0 peer1",
+      "baseline": null,
+      "hypothesis": "Free GPU0 KV space for more local expert cache and/or add an expert-only 1060 peer without layer splitting; compare matched 16/32/50K phases.",
+      "gpus": [
+        0,
+        1
+      ],
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_peer1",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "8",
+        "--gpu-set",
+        "0,1",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--peer-device"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_peer1/terminal.json"
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_peer1.json"
+    },
+    {
+      "id": "g0_peer1_ramkv20",
+      "label": "g0 peer1 ramkv20",
+      "baseline": null,
+      "hypothesis": "Free GPU0 KV space for more local expert cache and/or add an expert-only 1060 peer without layer splitting; compare matched 16/32/50K phases.",
+      "gpus": [
+        0,
+        1
+      ],
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_peer1_ramkv20",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "8",
+        "--gpu-set",
+        "0,1",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--kv-resident",
+        "20480",
+        "--peer-device"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_peer1_ramkv20/terminal.json"
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_peer1_ramkv20.json"
+    }
+  ]
+}

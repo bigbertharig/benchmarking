@@ -1,0 +1,132 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-64k-peer-ramkv-20261110/g0_peer1_ramkv20",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "8",
+    "--gpu-set",
+    "0,1",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12",
+    "--kv-resident",
+    "20480",
+    "--peer-device"
+  ],
+  "exit_code": 1,
+  "finished_at": "2026-11-10T18:18:24.142+00:00",
+  "interval_s": 1.0,
+  "placement": {
+    "chat_state": {
+      "kv_resident_cells": 20480,
+      "note": "One chat on GPU0; RAM streaming above resident window",
+      "tier": "gpu_vram_and_pinned_ram"
+    },
+    "context_cap_tokens_per_slot": 65536,
+    "drafting": "off",
+    "engine": "Strata 0.1.56 CUDA 12",
+    "gpu_set": [
+      0,
+      1
+    ],
+    "kv_format": "int8",
+    "kv_resident_cells": 20480,
+    "label": "g0 peer1 ramkv20",
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "peer_device": 1,
+    "placement": [
+      {
+        "component": "shared model layers and GPU0 expert cache",
+        "devices": [
+          0
+        ],
+        "tier": "gpu"
+      },
+      {
+        "component": "adaptive expert-only peer cache",
+        "devices": [
+          1
+        ],
+        "tier": "gpu"
+      },
+      {
+        "budget_gib": 8,
+        "component": "resident expert complement",
+        "tier": "ram"
+      },
+      {
+        "component": "remaining experts and n-gram lookup",
+        "tier": "nvme"
+      }
+    ],
+    "prefill_chunk_tokens": "auto",
+    "reserved_idle_gpus": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "schema": 1,
+    "slots": 1
+  },
+  "sample_errors": [],
+  "started_at": "2026-11-10T18:15:45.036+00:00",
+  "status": "failed",
+  "summary": {
+    "event_count": 2,
+    "phases": [
+      {
+        "begin_details": null,
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 23798964224,
+            "write_bytes": 94208
+          },
+          "sda": {
+            "read_bytes": 31846400,
+            "write_bytes": 3055616
+          }
+        },
+        "elapsed_s": 69.477,
+        "end_details": {
+          "launch_exit": 6
+        },
+        "ended_at": "2026-11-10T18:16:58.756+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23491,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 16264856,
+        "phase": "restart",
+        "started_at": "2026-11-10T18:15:49.279+00:00"
+      }
+    ],
+    "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+    "sample_count": 144,
+    "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+  }
+}

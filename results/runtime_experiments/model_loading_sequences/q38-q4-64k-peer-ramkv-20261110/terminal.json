@@ -1,0 +1,27 @@
+{
+  "failures": [
+    "g0_peer1",
+    "g0_peer1_ramkv20"
+  ],
+  "finished_at": "2026-11-10T18:18:24+00:00",
+  "manifest_sha256": "a808577b8a54b0371889d9962cb95d3a27ee760920e74d8ef71b95cdcada3c10",
+  "reason": "exit 1; see g0_peer1_ramkv20.log",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-64k-peer-ramkv-20261110",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "g0_base": "passed",
+    "g0_peer1": "failed",
+    "g0_peer1_ramkv20": "failed",
+    "g0_ramkv20": "passed"
+  },
+  "started_at": "2026-11-10T17:36:10+00:00",
+  "status": "completed_with_failures"
+}
