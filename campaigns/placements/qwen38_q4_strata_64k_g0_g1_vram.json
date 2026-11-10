@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_g1_vram",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "engine": "Strata 0.1.56 CUDA 12",
+  "context_cap_tokens_per_slot": 65536,
+  "slots": 1,
+  "kv_format": "int8",
+  "prefill_chunk_tokens": 1024,
+  "drafting": "off",
+  "gpu_set": [
+    0,
+    1
+  ],
+  "placement": [
+    {
+      "component": "model stages and per-stage expert caches",
+      "tier": "gpu",
+      "devices": [
+        0,
+        1
+      ],
+      "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots"
+    },
+    {
+      "component": "resident experts",
+      "tier": "ram",
+      "budget_gib": 8
+    },
+    {
+      "component": "remaining experts and n-gram lookup",
+      "tier": "nvme",
+      "note": "OS may cache hot pages in available RAM"
+    }
+  ],
+  "chat_state": {
+    "tier": "gpu_vram",
+    "kv_resident_cells": null,
+    "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat"
+  },
+  "reserved_idle_gpus": [
+    2,
+    3,
+    4,
+    5
+  ]
+}

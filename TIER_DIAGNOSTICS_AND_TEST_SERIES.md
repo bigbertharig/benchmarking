@@ -45,7 +45,12 @@ tok/s. Capture both first-token time and full-turn time when available.
 an ordered `cases` list. Case keys override defaults. GPU cases default to
 `freeze: true`, so reserve a persistent claim with `--claim` or
 `--session-gpus`. Specify `freeze: false` only when the next test truly
-requires release. The runner stops on failure or a blocked case, resumes passed
+requires release. A case with `restart_loaded: true` and `--restart-loaded`
+in its command may stop and replace a frozen service under the named persistent
+claim; it skips a new lease because the live service is already busy. Use this
+only for a controlled replacement of the claimed model.
+Set `continue_on_failure: true` on independent fit probes so later variants
+run even if one fails; the series still exits nonzero and lists failures. The runner stops on failure or a blocked case, resumes passed
 cases only under the same manifest hash, and writes a single
 `comparison.json` beside `terminal.json`. Each case retains its own stage
 receipt, log, and tier trace for audit. A new manifest requires a new run ID.
@@ -87,11 +92,18 @@ are retained rather than merged away.
 - 74B Nemo: record weight split, each card's VRAM, and which GPU holds each
   independent chat; distinguish preparation from per-token decode.
 - 125B Qwen Strata: record GPU expert cache, RAM resident complement, file-tier
-  reads, helper cache occupancy, cold prefill, and steady decode. One 1060
-  helper is the first placement candidate; compare it with the current GPU0
-  baseline at the same prompt and output length. The current loaded Q4 baseline
-  should remain frozen until a scheduled variant actually needs a restart.
+  reads, actual split layers and cache occupancy, cold prefill, and steady
+  decode. Compare one and five 1060 layer splits with the GPU0 control;
+  test native helper caches later as a distinct decode-only path. The Q4
+  service stays frozen after the final scheduled variant.
 
 See [main placement guide](MODEL_LOADING_AND_CHAT_PLACEMENT.md),
 [MoE baseline reloads](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md), and
 [Strata memory plan](STRATA_MEMORY_TEST_PLAN.md).
+
+The Qwen3.8 [tier campaign](campaigns/strata_q4_onechat_tier_overnight_20261110.json)
+is a concrete schema-2 example with four placements and
+`continue_on_failure: true`. It uses the persistent `qwen38-q4-frozen`
+claim to restart the frozen Strata model between cases. Its all-card RAM-KV
+case tests live RAM streaming, while NVMe remains the expert and n-gram
+backing tier. A stopped/parked chat file is not live NVMe attention.

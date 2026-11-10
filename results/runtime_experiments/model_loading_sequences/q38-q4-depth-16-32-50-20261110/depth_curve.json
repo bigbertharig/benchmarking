@@ -1,0 +1,24 @@
+{
+  "claim": "qwen38-q4-frozen",
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-depth-16-32-50-20261110/depth_curve"
+  ],
+  "end_state_requested": "freeze",
+  "env_keys": [],
+  "error": "lease acquire failed: harness_lease: manager refused GPU 0: GPU(s) not available: GPU 0 busy without a lease (23439 MB in use); claimed by qwen38-q4-frozen (owner benchmarking; purpose frozen-experiment)",
+  "exit_code": null,
+  "finished_at": "2026-11-10T08:22:40+00:00",
+  "gpus": [
+    0
+  ],
+  "host_before_available_kib": 15900556,
+  "host_min_available_kib": 15900556,
+  "id": "depth_curve",
+  "started_at": "2026-11-10T08:22:39+00:00",
+  "status": "failed",
+  "timeout_s": 5400,
+  "trace": true
+}

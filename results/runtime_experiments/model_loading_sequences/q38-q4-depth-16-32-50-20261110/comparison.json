@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0
+      ],
+      "hypothesis": null,
+      "id": "depth_curve",
+      "label": "Q4 GPU0 8GiB RAM 64K slot, 16/32/50K one-chat depth",
+      "placement": "campaigns/placements/qwen38_q4_strata_gpu0_64k_1slot.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-depth-16-32-50-20261110/depth_curve.json",
+      "stage_seconds": 1.0,
+      "status": "failed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "d7722f9e2d3f0d13c7e0973219fd6890c4e1c561e7177796ec0199d3a9d1facb",
+  "run_id": "q38-q4-depth-16-32-50-20261110",
+  "schema": 1,
+  "series_name": "strata_q4_onechat_depth_16_32_50_20261110",
+  "status": "failed",
+  "updated_at": "2026-11-10T08:22:40+00:00"
+}

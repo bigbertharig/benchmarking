@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import subprocess
+import shutil
 import time
 from pathlib import Path
 from run_strata_q4_smoke import CONTROL, COMPONENTS, DATA, MODEL, PACK, block, gpu, memory, request, save, stamp
@@ -26,23 +27,45 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--output', type=Path, required=True)
     ap.add_argument('--reuse-loaded', action='store_true')
+    ap.add_argument('--restart-loaded', action='store_true')
+    ap.add_argument('--resident-budget-gib', type=int, choices=(8, 12), default=8)
+    ap.add_argument('--peer-device', action='store_true')
+    ap.add_argument('--gpu-set', choices=('0','0,1','0,1,2,3','0,1,2,3,4,5'), default='0')
+    ap.add_argument('--prefill', type=int, choices=(1024, 2048))
+    ap.add_argument('--kv-resident', type=int, choices=(32768,))
     args = ap.parse_args()
+    if args.peer_device and args.gpu_set != '0,1':
+        ap.error('peer-device needs gpu-set 0,1')
+    if args.reuse_loaded and args.restart_loaded:
+        ap.error('reuse-loaded and restart-loaded are exclusive')
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     state = {'status': 'running', 'started_at': stamp(), 'model': str(MODEL),
-             'context_cap': 65536, 'slots': 1, 'kv': 'int8', 'resident_budget_gib': 8,
+             'context_cap': 65536, 'slots': 1, 'kv': 'int8',
+             'resident_budget_gib': args.resident_budget_gib, 'peer_device': 1 if args.peer_device else None,
+             'gpu_set': args.gpu_set, 'prefill': args.prefill,
+             'chat_state_tier': 'ram_streamed' if args.kv_resident else 'gpu_vram',
              'targets': TARGETS, 'cases': [], 'end_state_requested': 'freeze'}
     save(out / 'checkpoint.json', state)
     env = dict(os.environ, STRATA_COMPONENTS_DIR=str(COMPONENTS), CUDA_DEVICE_ORDER='PCI_BUS_ID')
     common = [str(CONTROL), 'launch', '--family', 'unsloth', '--model', 'ud-q4_k_xl',
-              '--model-path', str(MODEL), '--data-dir', str(DATA), '--gpu', '0',
+              '--model-path', str(MODEL), '--data-dir', str(DATA),
+              '--gpu', args.gpu_set,
               '--backend', 'nvidia', '--context', '65536', '--kv', 'int8',
               '--vision', 'off', '--parallel', '1', '--mtp', 'off', '--drafting', 'off',
-              '--set', 'resident-budget-gib=8', '--set', 'vram-reserve-mib=768',
+              '--set', f'resident-budget-gib={args.resident_budget_gib}',
+              '--set', 'vram-reserve-mib=768',
               '--tune', 'skip', '--port', str(PORT), '--access', 'local',
               '--no-api-key', '--yes', '--output', 'json']
+    if args.prefill:
+        common += ['--set', f'prefill={args.prefill}']
+    if args.kv_resident:
+        common += ['--set', f'kv-resident={args.kv_resident}']
+    if args.peer_device:
+        common += ['--set', 'peer-device=1']
     stopped_existing = False
     new_healthy = False
+    old_context = None
     try:
         if not (PACK / 'index.txt').is_file() or not (PACK / 'native_experts.txt').is_file():
             raise RuntimeError('Q4 pack markers missing')
@@ -63,11 +86,16 @@ def main():
             if (download := json.loads(plan.stdout)['plan']['download']).get('gb') != 0:
                 raise RuntimeError('64K plan requires a download')
             event('restart', 'begin')
-            stopped = subprocess.run([str(CONTROL), 'launch', '--stop', '--output', 'json'],
-                                     env=env, capture_output=True, text=True, timeout=120)
-            (out / 'stop_stdout.json').write_text(stopped.stdout)
-            if stopped.returncode:
-                raise RuntimeError('existing Strata service did not stop cleanly')
+            if state['gpu_before_mib'].get(0, 0) > 1024:
+                old_health = request('/health', timeout=5)
+                if old_health.get('model') != 'qwen3.8-flash-next-unsloth-ud-q4_k_xl':
+                    raise RuntimeError('GPU0 holds a different model')
+                old_context = old_health.get('max_context')
+                stopped = subprocess.run([str(CONTROL), 'launch', '--stop', '--output', 'json'],
+                                         env=env, capture_output=True, text=True, timeout=120)
+                (out / 'stop_stdout.json').write_text(stopped.stdout)
+                if stopped.returncode:
+                    raise RuntimeError('existing Strata service did not stop cleanly')
             stopped_existing = True
             launch = subprocess.run(common + ['--no-tui'], env=env,
                                     capture_output=True, text=True, timeout=1500)
@@ -84,6 +112,9 @@ def main():
         new_healthy = True
         state['host_loaded'] = memory()
         state['gpu_loaded_mib'] = gpu()
+        for device in map(int, args.gpu_set.split(',')):
+            if state['gpu_loaded_mib'].get(device, 0) < 512:
+                raise RuntimeError(f'GPU{device} requested but has no useful allocation')
         if state['host_loaded']['MemAvailable_kib'] < 4 * 1048576:
             raise RuntimeError('host memory below 4 GiB after launch')
         messages = []
@@ -129,8 +160,15 @@ def main():
                 subprocess.run([str(CONTROL), 'launch', '--stop', '--output', 'json'],
                                env=env, capture_output=True, text=True, timeout=120)
                 old = common.copy()
-                old[old.index('--context') + 1] = '32768'
-                old[old.index('--parallel') + 1] = '2'
+                old[old.index('--gpu') + 1] = '0'
+                old[old.index('--set') + 1] = 'resident-budget-gib=8'
+                if old_context == 32768:
+                    old[old.index('--context') + 1] = '32768'
+                    old[old.index('--parallel') + 1] = '2'
+                for removed in ('peer-device=1', 'kv-resident=32768'):
+                    if removed in old:
+                        i = old.index(removed)
+                        del old[i - 1:i + 1]
                 restored = subprocess.run(old + ['--no-tui'], env=env,
                                           capture_output=True, text=True, timeout=1500)
                 state['rollback_exit'] = restored.returncode
@@ -139,6 +177,10 @@ def main():
             except Exception as rollback_error:
                 state['rollback_error'] = f'{type(rollback_error).__name__}: {rollback_error}'
     finally:
+        engine_log = Path.home() / '.local/state/strata/launch/ud-q4_k_xl-64k.engine.log'
+        if engine_log.is_file():
+            shutil.copy2(engine_log, out / 'engine.log')
+            state['engine_log'] = str(out / 'engine.log')
         state['host_final'] = memory()
         state['gpu_final_mib'] = gpu()
         state['finished_at'] = stamp()

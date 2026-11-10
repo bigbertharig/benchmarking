@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Run a guarded, resumable sequence of experimental model-loading cases.
 
-Invoke on the rig through Manager's ``rigctl run-start``.  GPU cases acquire
-their own benchmark lease; a refusal or an unreachable Manager stops the queue.
+Invoke on the rig through Manager's ``rigctl run-start``.  GPU cases normally acquire
+their own benchmark lease. Frozen-service restarts require an existing persistent
+claim and use restart_loaded because a live service is busy without a lease.
 """
 from __future__ import annotations
 
@@ -104,8 +105,14 @@ def validate(manifest):
                 raise ValueError(f'{name}: positive timeout_s required')
             if not isinstance(stage.get('gpus', []), list) or any(x not in range(6) for x in stage.get('gpus', [])):
                 raise ValueError(f'{name}: gpus must be IDs 0..5')
-            if any(not isinstance(stage.get(flag, False), bool) for flag in ('freeze', 'reuse_loaded', 'trace')):
+            if any(not isinstance(stage.get(flag, False), bool) for flag in ('freeze', 'reuse_loaded', 'restart_loaded', 'trace', 'continue_on_failure')):
                 raise ValueError(f'{name}: freeze, reuse_loaded and trace must be booleans')
+            if stage.get('reuse_loaded') and stage.get('restart_loaded'):
+                raise ValueError(f'{name}: reuse_loaded and restart_loaded are exclusive')
+            if stage.get('restart_loaded') and not stage.get('freeze'):
+                raise ValueError(f'{name}: restart_loaded requires freeze')
+            if stage.get('restart_loaded') and '--restart-loaded' not in stage['command']:
+                raise ValueError(f'{name}: restart_loaded stage must pass --restart-loaded')
             if stage.get('reuse_loaded') and not stage.get('freeze'):
                 raise ValueError(f'{name}: reuse_loaded requires freeze')
             if stage.get('reuse_loaded') and '--reuse-loaded' not in stage['command']:
@@ -206,9 +213,9 @@ def run_stage(stage, folder, run_id, claim=None):
         if host_before < floor:
             raise RuntimeError('host memory below floor before start')
         gpus = stage.get('gpus', [])
-        if gpus and stage.get('reuse_loaded') and not claim:
+        if gpus and (stage.get('reuse_loaded') or stage.get('restart_loaded')) and not claim:
             raise RuntimeError('reuse_loaded requires a persistent session claim')
-        if gpus and not stage.get('reuse_loaded'):
+        if gpus and not (stage.get('reuse_loaded') or stage.get('restart_loaded')):
             lease_id = lease('acquire', ','.join(map(str, gpus)), run_id, run_id, name, claim or '')
             if not lease_id:  # harness_lease.sh permits offline runs; this sequence does not.
                 raise RuntimeError('Manager unreachable: lease ID missing')
@@ -343,6 +350,7 @@ def main():
     summary = {'run_id': args.run_id, 'manifest_sha256': digest, 'started_at': stamp(),
                'session_claim': claim, 'reserved_gpus': held['gpu_ids'] if claim else [], 'stages': {}}
     terminal = folder / 'terminal.json'
+    failures = []
     write_comparison(folder, source, manifest, summary)
     for raw_stage in manifest['stages']:
         stage = expand_stage(raw_stage, args.run_id)
@@ -367,14 +375,18 @@ def main():
         summary['stages'][name] = result['status']
         write_comparison(folder, source, manifest, summary)
         if result['status'] != 'passed':
+            failures.append(name)
+            summary['failures'] = failures
             summary['status'] = 'failed'
             summary['reason'] = result.get('error') or result.get('release_error')
+            if stage.get('continue_on_failure'):
+                continue
             break
         if name == args.through:
             summary['status'] = 'completed_to_stage'
             break
     else:
-        summary['status'] = 'passed'
+        summary['status'] = 'completed_with_failures' if failures else 'passed'
     summary['finished_at'] = stamp()
     atomic_json(terminal, summary)
     write_comparison(folder, source, manifest, summary)

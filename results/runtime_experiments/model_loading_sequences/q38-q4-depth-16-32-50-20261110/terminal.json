@@ -1,0 +1,20 @@
+{
+  "finished_at": "2026-11-10T08:22:40+00:00",
+  "manifest_sha256": "d7722f9e2d3f0d13c7e0973219fd6890c4e1c561e7177796ec0199d3a9d1facb",
+  "reason": "lease acquire failed: harness_lease: manager refused GPU 0: GPU(s) not available: GPU 0 busy without a lease (23439 MB in use); claimed by qwen38-q4-frozen (owner benchmarking; purpose frozen-experiment)",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-depth-16-32-50-20261110",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "depth_curve": "failed"
+  },
+  "started_at": "2026-11-10T08:22:39+00:00",
+  "status": "failed"
+}

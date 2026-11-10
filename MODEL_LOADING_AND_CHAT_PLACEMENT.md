@@ -425,6 +425,22 @@ in every receipt.
     hot experts buy on *our* RAM and NVMe path? Use the rig's established
     memory guard and stop when added residency displaces useful workspace.
 
+15. **Qwen3.8 Q4 model and chat tier matrix.** The existing Q4 results
+    establish GPU0-only 8K and 32K configured loads, with at most about 15K
+    occupied tokens in the two-slot run. They do not establish a matched
+    one-chat 16K/32K/50K speed curve. The
+    [four-case 64K campaign](campaigns/strata_q4_onechat_tier_overnight_20261110.json)
+    keeps one slot, INT8 KV, an 8 GiB expert RAM budget, a 1,024-token
+    prefill setting, and the same additive conversation. Compare GPU0 only,
+    GPU0+one 1060 layer split, all six GPUs, and all six with KV streamed
+    from RAM above a 32K resident window. Record actual stage/layer order,
+    per-card cache capacity, occupied prompt tokens, prompt and decode tok/s,
+    physical NVMe reads, memory, and whether all four placements fit.
+    The n-gram table stays file-backed with opportunistic OS page caching.
+    Strata's layer split duplicates stage KV on its cards; it does not give
+    a dedicated 1060-only chat. Test that layout with a compatible runtime
+    separately. Park/revive on NVMe is a different operation from live NVMe KV.
+
 ## Model and engine follow-ups
 
 These are promising directions, not a fixed order or a checklist to finish
