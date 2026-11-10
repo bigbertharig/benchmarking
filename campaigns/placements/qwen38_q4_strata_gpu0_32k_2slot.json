@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "label": "Qwen3.8 Flash-Next UD-Q4_K_XL Strata 32K two-slot",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "model_files": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl",
+  "engine": "Strata 0.1.56 CUDA",
+  "context_cap_tokens_per_slot": 32768,
+  "slots": 2,
+  "kv_format": "int8",
+  "drafting": "off",
+  "placement": [
+    {
+      "component": "dense weights, router, KV, expert cache",
+      "tier": "gpu",
+      "devices": [
+        0
+      ],
+      "note": "3090 Ti; startup reported 15.81 GiB expert cache and 1.12 GiB for two slot sessions"
+    },
+    {
+      "component": "resident expert complement",
+      "tier": "ram",
+      "budget_gib": 8
+    },
+    {
+      "component": "remaining experts and n-gram table",
+      "tier": "nvme",
+      "note": "startup reported 47.9 GiB file-tier experts; table is read from GGUF"
+    }
+  ],
+  "reserved_idle_gpus": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "source": "results/runtime_experiments/model_loading_sequences/strata-q4-two-32k-16k-20261110/README.md"
+}

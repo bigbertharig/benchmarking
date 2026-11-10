@@ -40,6 +40,49 @@ def mem_available_kib():
     raise RuntimeError('MemAvailable missing')
 
 
+def normalize_manifest(source):
+    """Expand schema 2 shared defaults into the existing stage contract."""
+    if source.get('schema') == 1:
+        return source
+    if source.get('schema') != 2 or not isinstance(source.get('defaults'), dict) or not isinstance(source.get('cases'), list):
+        raise ValueError('expected schema 1 stages or schema 2 defaults and cases')
+    defaults = source['defaults']
+    stages = []
+    for case in source['cases']:
+        if not isinstance(case, dict):
+            raise ValueError('each case must be an object')
+        stage = dict(defaults)
+        stage.update(case)
+        if stage.get('gpus') and 'freeze' not in stage:
+            stage['freeze'] = True
+        stages.append(stage)
+    return {'schema': 1, 'stages': stages}
+
+
+def write_comparison(folder, source, manifest, summary):
+    """One index for all cases, backed by the immutable stage and trace receipts."""
+    cases = []
+    for stage in manifest['stages']:
+        name = stage['id']
+        receipt = folder / f'{name}.json'
+        record = json.loads(receipt.read_text()) if receipt.exists() else {}
+        trace_path = Path(record['trace_dir']) if record.get('trace_dir') else None
+        trace_terminal = trace_path / 'terminal.json' if trace_path else None
+        trace = json.loads(trace_terminal.read_text()) if trace_terminal and trace_terminal.exists() else None
+        start, finish = record.get('started_at'), record.get('finished_at')
+        elapsed = (datetime.fromisoformat(finish) - datetime.fromisoformat(start)).total_seconds() if start and finish else None
+        cases.append({'id': name, 'label': stage.get('label'), 'hypothesis': stage.get('hypothesis'),
+                      'baseline': stage.get('baseline'), 'status': summary['stages'].get(name, 'pending'),
+                      'gpus': stage.get('gpus', []), 'placement': stage.get('placement'),
+                      'stage_seconds': elapsed, 'receipt': str(receipt) if receipt.exists() else None,
+                      'trace_dir': str(trace_path) if trace_path else None,
+                      'trace': trace})
+    atomic_json(folder / 'comparison.json',
+                {'schema': 1, 'run_id': summary['run_id'], 'manifest_sha256': summary['manifest_sha256'],
+                 'series_name': source.get('name'), 'updated_at': stamp(),
+                 'status': summary.get('status', 'running'), 'cases': cases})
+
+
 def validate(manifest):
     if manifest.get('schema') != 1 or not isinstance(manifest.get('stages'), list):
         raise ValueError('expected schema 1 and stages list')
@@ -61,12 +104,20 @@ def validate(manifest):
                 raise ValueError(f'{name}: positive timeout_s required')
             if not isinstance(stage.get('gpus', []), list) or any(x not in range(6) for x in stage.get('gpus', [])):
                 raise ValueError(f'{name}: gpus must be IDs 0..5')
-            if not isinstance(stage.get('freeze', False), bool) or not isinstance(stage.get('reuse_loaded', False), bool):
-                raise ValueError(f'{name}: freeze and reuse_loaded must be booleans')
+            if any(not isinstance(stage.get(flag, False), bool) for flag in ('freeze', 'reuse_loaded', 'trace')):
+                raise ValueError(f'{name}: freeze, reuse_loaded and trace must be booleans')
             if stage.get('reuse_loaded') and not stage.get('freeze'):
                 raise ValueError(f'{name}: reuse_loaded requires freeze')
             if stage.get('reuse_loaded') and '--reuse-loaded' not in stage['command']:
                 raise ValueError(f'{name}: reuse_loaded stage must pass --reuse-loaded to its command')
+            if 'placement' in stage:
+                placement = stage['placement']
+                local_root = ROOT if ROOT.is_dir() else Path(__file__).resolve().parents[2]
+                if (not isinstance(placement, str) or Path(placement).is_absolute()
+                        or not (local_root / placement).is_file()):
+                    raise ValueError(f'{name}: placement must be an existing repo-relative JSON path')
+                if not isinstance(json.loads((local_root / placement).read_text()), dict):
+                    raise ValueError(f'{name}: placement must contain a JSON object')
             env = stage.get('env', {})
             if not isinstance(env, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in env.items()):
                 raise ValueError(f'{name}: env must be a string map')
@@ -141,7 +192,8 @@ def run_stage(stage, folder, run_id, claim=None):
     record = {'id': name, 'status': 'running', 'started_at': stamp(), 'command': stage['command'],
               'gpus': stage.get('gpus', []), 'timeout_s': stage['timeout_s'],
               'env_keys': sorted(stage.get('env', {})), 'claim': claim,
-              'end_state_requested': 'freeze' if stage.get('freeze') else 'release'}
+              'end_state_requested': 'freeze' if stage.get('freeze') else 'release',
+              'trace': stage.get('trace', False)}
     receipt = folder / f'{name}.json'
     atomic_json(receipt, record)
     lease_id = ''
@@ -160,8 +212,18 @@ def run_stage(stage, folder, run_id, claim=None):
             lease_id = lease('acquire', ','.join(map(str, gpus)), run_id, run_id, name, claim or '')
             if not lease_id:  # harness_lease.sh permits offline runs; this sequence does not.
                 raise RuntimeError('Manager unreachable: lease ID missing')
+        command = stage['command']
+        if stage.get('trace'):
+            attempt = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
+            trace_dir = folder / f'{name}_tier_trace_{attempt}'
+            prefix = ['python3', str(ROOT / 'scripts/integration/tier_trace.py'), 'run',
+                      '--output', str(trace_dir)]
+            if stage.get('placement'):
+                prefix += ['--placement', str(ROOT / stage['placement'])]
+            command = [*prefix, '--', *command]
+            record['trace_dir'] = str(trace_dir)
         with (folder / f'{name}.log').open('w') as log:
-            proc = subprocess.Popen(stage['command'], cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
+            proc = subprocess.Popen(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
                                     env=dict(os.environ, **stage.get('env', {})), start_new_session=True)
             began = time.monotonic()
             next_renew = began + 120
@@ -182,6 +244,8 @@ def run_stage(stage, folder, run_id, claim=None):
         record['exit_code'] = proc.returncode
         if proc.returncode:
             raise RuntimeError(f'exit {proc.returncode}; see {name}.log')
+        if stage.get('trace') and not (trace_dir / 'terminal.json').is_file():
+            raise RuntimeError('missing tier trace terminal receipt')
         for output in stage.get('outputs', []):
             if not Path(output).exists():
                 raise RuntimeError(f'missing required output: {output}')
@@ -240,7 +304,8 @@ def main():
         if not session_gpus or any(g not in range(6) for g in session_gpus):
             ap.error('--session-gpus must contain GPU IDs 0..5')
     raw = args.manifest.read_bytes()
-    manifest = json.loads(raw)
+    source = json.loads(raw)
+    manifest = normalize_manifest(source)
     validate(manifest)
     if args.through and args.through not in {stage['id'] for stage in manifest['stages']}:
         ap.error(f'unknown --through stage: {args.through}')
@@ -278,6 +343,7 @@ def main():
     summary = {'run_id': args.run_id, 'manifest_sha256': digest, 'started_at': stamp(),
                'session_claim': claim, 'reserved_gpus': held['gpu_ids'] if claim else [], 'stages': {}}
     terminal = folder / 'terminal.json'
+    write_comparison(folder, source, manifest, summary)
     for raw_stage in manifest['stages']:
         stage = expand_stage(raw_stage, args.run_id)
         name = stage['id']
@@ -286,6 +352,7 @@ def main():
                 and all(Path(p).exists() for p in stage.get('outputs', []))
                 and all(not Path(p).exists() for p in stage.get('absent', []))):
             summary['stages'][name] = 'reused'
+            write_comparison(folder, source, manifest, summary)
             if name == args.through:
                 summary['status'] = 'completed_to_stage'
                 break
@@ -294,9 +361,11 @@ def main():
             summary['stages'][name] = 'blocked'
             summary['status'] = 'blocked'
             summary['reason'] = stage['reason']
+            write_comparison(folder, source, manifest, summary)
             break
         result = run_stage(stage, folder, args.run_id, claim)
         summary['stages'][name] = result['status']
+        write_comparison(folder, source, manifest, summary)
         if result['status'] != 'passed':
             summary['status'] = 'failed'
             summary['reason'] = result.get('error') or result.get('release_error')
@@ -308,6 +377,7 @@ def main():
         summary['status'] = 'passed'
     summary['finished_at'] = stamp()
     atomic_json(terminal, summary)
+    write_comparison(folder, source, manifest, summary)
     print(json.dumps(summary, indent=2), flush=True)
     return 0 if summary['status'] in ('passed', 'completed_to_stage') else 1
 

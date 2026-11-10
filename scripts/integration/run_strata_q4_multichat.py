@@ -10,6 +10,7 @@ import subprocess
 import time
 from pathlib import Path
 
+from tier_trace import mark as trace_mark
 from run_strata_q4_smoke import (CONTROL, COMPONENTS, DATA, MODEL, PACK,
                                   block, gpu, memory, request, save, stamp)
 
@@ -26,12 +27,20 @@ def first_prompt(word, line_count):
             'Reply with only that uppercase word.')
 
 
+def trace_event(phase, event, details=None):
+    directory = os.environ.get('TIER_TRACE_DIR')
+    if directory:
+        trace_mark(Path(directory), phase, event, details)
+
+
 def call(out, name, messages, expected):
+    trace_event(name, 'begin', {'chat_messages': len(messages)})
     start = time.monotonic()
     response = request('/v1/chat/completions', {
         'model': 'strata', 'messages': messages, 'max_tokens': 96, 'temperature': 0}, timeout=1200)
     wall = round(time.monotonic() - start, 3)
     save(out / f'{name}_response.json', response)
+    trace_event(name, 'end', {'usage': response.get('usage'), 'timings': response.get('timings')})
     choice = (response.get('choices') or [{}])[0]
     message = choice.get('message') or {}
     answer = (message.get('content') or '').strip()
@@ -128,11 +137,13 @@ def main():
             if not plan_data.get('ok') or not download.get('engine_usable') or download.get('gb') != 0:
                 raise RuntimeError('plan requires missing engine or model download')
             save(out / 'checkpoint.json', state)
+            trace_event('load', 'begin')
             started = time.monotonic()
             launched = True
             launch = subprocess.run(common + ['--no-tui'], env=env, capture_output=True,
                                     text=True, timeout=1200)
             state['launch_seconds'] = round(time.monotonic() - started, 3)
+            trace_event('load', 'end', {'launch_seconds': state['launch_seconds']})
             state['launch_exit'] = launch.returncode
             (out / 'launch_stdout.txt').write_text(launch.stdout)
             (out / 'launch_stderr.txt').write_text(launch.stderr)

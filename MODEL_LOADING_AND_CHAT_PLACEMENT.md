@@ -7,6 +7,9 @@ speeds. We are exploring placements, chat behavior, tensor layouts, caching,
 and runtime designs; no single layout or Manager procedure is the target yet.
 The order of experiments can change when a result suggests a better question.
 
+For common GPU/RAM/NVMe traces and back-to-back case scheduling, see
+[Tier diagnostics and test series](TIER_DIAGNOSTICS_AND_TEST_SERIES.md).
+
 For exact settings to reload the current Nemo two-chat and Qwen 35B five-chat baselines, see [MoE chat baseline reloads](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
 
 ## Current speed results (2026-11-09)
@@ -38,10 +41,10 @@ Strata demonstrates a software-managed GPU/RAM/storage hierarchy, and
 BigMoeOnEdge and m10dis supply ideas for caching, streaming, and placing routed
 experts. This is not a true unified memory pool: each tier has its own capacity,
 access cost, and supported runtime operations. The installed Strata path has
-run Qwen3.8 with GPU0, RAM, and NVMe; using the 1060s as dedicated expert
-workers in that engine would require a separate compatible bridge or engine
-change. The [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md)
-tracks that unbuilt combined path.
+run Qwen3.8 with GPU0, RAM, and NVMe. Strata also documents a helper-GPU
+path for routed expert decode, but 1060 helpers remain untested on this rig.
+The [expert placement plan](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md) tracks
+that next placement experiment.
 
 The practical goal is to keep a capable model resident as a main brain and
 admit more work without repeatedly loading its weights. A helper can be a new,

@@ -7,6 +7,8 @@ lanes load through the harness (llm-gateway `docs/MANAGER.md`, "Model loads").
 The playbook now uses whole-number phases for new imports. Helper filenames and old receipts retain
 their historical phase numbers; `LANE_START_AT=4.5` and `LANE_STOP_AFTER=3` remain accepted aliases.
 
+Shared measurement and ordered series setup: [Tier diagnostics and test series](../../TIER_DIAGNOSTICS_AND_TEST_SERIES.md).
+
 | Script | Phase | What it does |
 |---|---|---|
 | `litmus.py [port]` | 4 | The three litmus checks (555, JSON, code), no system prompt, temperature 0 |
