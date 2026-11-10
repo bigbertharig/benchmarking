@@ -1,0 +1,27 @@
+{
+  "failures": [
+    "g0_g1_q4kv",
+    "g0_all_q4kv",
+    "g0_all_q4kv_ram"
+  ],
+  "finished_at": "2026-11-10T10:15:50+00:00",
+  "manifest_sha256": "c595bf4ecc0b199dbc6d8074d34933313dd2a73740b37b6497eb6967c10442af",
+  "reason": "exit 1; see g0_all_q4kv_ram.log",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-64k-q4kv-fit-20261110",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "g0_all_q4kv": "failed",
+    "g0_all_q4kv_ram": "failed",
+    "g0_g1_q4kv": "failed"
+  },
+  "started_at": "2026-11-10T09:58:52+00:00",
+  "status": "completed_with_failures"
+}

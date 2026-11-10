@@ -1,0 +1,37 @@
+{
+  "claim": "qwen38-q4-frozen",
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_ramkv",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "8",
+    "--gpu-set",
+    "0,1,2,3,4,5",
+    "--kv-resident",
+    "32768"
+  ],
+  "end_state_requested": "freeze",
+  "env_keys": [],
+  "error": "exit 1; see g0_all_ramkv.log",
+  "exit_code": 1,
+  "finished_at": "2026-11-10T09:22:07+00:00",
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "host_before_available_kib": 16502564,
+  "host_min_available_kib": 16446688,
+  "id": "g0_all_ramkv",
+  "started_at": "2026-11-10T09:17:53+00:00",
+  "status": "failed",
+  "timeout_s": 5400,
+  "trace": true,
+  "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_ramkv_tier_trace_20261110T091753802305Z"
+}

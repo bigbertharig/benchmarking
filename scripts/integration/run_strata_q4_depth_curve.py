@@ -31,8 +31,13 @@ def main():
     ap.add_argument('--resident-budget-gib', type=int, choices=(8, 12), default=8)
     ap.add_argument('--peer-device', action='store_true')
     ap.add_argument('--gpu-set', choices=('0','0,1','0,1,2,3','0,1,2,3,4,5'), default='0')
+    ap.add_argument('--gpu-roles', help='Strata card roles, e.g. 0=main,1=helper; replaces --gpu')
     ap.add_argument('--prefill', type=int, choices=(1024, 2048))
     ap.add_argument('--kv-resident', type=int, choices=(32768,))
+    ap.add_argument('--kv-format', choices=('int8', 'q4_0'), default='int8')
+    ap.add_argument('--vram-reserve-mib', type=int, default=768)
+    ap.add_argument('--engine-components', type=Path, default=COMPONENTS,
+                    help='Strata component directory; use CUDA 12 for GTX 1060 tests')
     args = ap.parse_args()
     if args.peer_device and args.gpu_set != '0,1':
         ap.error('peer-device needs gpu-set 0,1')
@@ -41,22 +46,27 @@ def main():
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     state = {'status': 'running', 'started_at': stamp(), 'model': str(MODEL),
-             'context_cap': 65536, 'slots': 1, 'kv': 'int8',
+             'context_cap': 65536, 'slots': 1, 'kv': args.kv_format,
              'resident_budget_gib': args.resident_budget_gib, 'peer_device': 1 if args.peer_device else None,
-             'gpu_set': args.gpu_set, 'prefill': args.prefill,
+             'gpu_set': args.gpu_set, 'gpu_roles': args.gpu_roles, 'prefill': args.prefill,
+             'engine_components': str(args.engine_components),
+             'vram_reserve_mib': args.vram_reserve_mib,
              'chat_state_tier': 'ram_streamed' if args.kv_resident else 'gpu_vram',
              'targets': TARGETS, 'cases': [], 'end_state_requested': 'freeze'}
     save(out / 'checkpoint.json', state)
-    env = dict(os.environ, STRATA_COMPONENTS_DIR=str(COMPONENTS), CUDA_DEVICE_ORDER='PCI_BUS_ID')
+    env = dict(os.environ, STRATA_COMPONENTS_DIR=str(args.engine_components), CUDA_DEVICE_ORDER='PCI_BUS_ID')
     common = [str(CONTROL), 'launch', '--family', 'unsloth', '--model', 'ud-q4_k_xl',
               '--model-path', str(MODEL), '--data-dir', str(DATA),
-              '--gpu', args.gpu_set,
-              '--backend', 'nvidia', '--context', '65536', '--kv', 'int8',
+              '--backend', 'nvidia', '--context', '65536', '--kv', args.kv_format,
               '--vision', 'off', '--parallel', '1', '--mtp', 'off', '--drafting', 'off',
               '--set', f'resident-budget-gib={args.resident_budget_gib}',
-              '--set', 'vram-reserve-mib=768',
+              '--set', f'vram-reserve-mib={args.vram_reserve_mib}',
               '--tune', 'skip', '--port', str(PORT), '--access', 'local',
               '--no-api-key', '--yes', '--output', 'json']
+    if args.gpu_roles:
+        common += ['--gpu-roles', args.gpu_roles]
+    else:
+        common += ['--gpu', args.gpu_set]
     if args.prefill:
         common += ['--set', f'prefill={args.prefill}']
     if args.kv_resident:
@@ -160,7 +170,11 @@ def main():
                 subprocess.run([str(CONTROL), 'launch', '--stop', '--output', 'json'],
                                env=env, capture_output=True, text=True, timeout=120)
                 old = common.copy()
-                old[old.index('--gpu') + 1] = '0'
+                if '--gpu-roles' in old:
+                    i = old.index('--gpu-roles')
+                    old[i:i + 2] = ['--gpu', '0']
+                else:
+                    old[old.index('--gpu') + 1] = '0'
                 old[old.index('--set') + 1] = 'resident-budget-gib=8'
                 if old_context == 32768:
                     old[old.index('--context') + 1] = '32768'

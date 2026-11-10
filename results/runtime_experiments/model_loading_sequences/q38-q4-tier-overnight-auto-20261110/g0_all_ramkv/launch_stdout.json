@@ -1,0 +1,1 @@
+{"schema_version": 1, "ok": false, "error": {"code": 6, "message": "The engine stopped while it was loading the model (exit code 1): kv_stream: reset: no kernel image is available for execution on the device. This engine is too old for this model. Update it with `strata update` and start again. The engine's log: /home/bryan/.local/state/strata/launch/ud-q4_k_xl-64k.engine.log"}}

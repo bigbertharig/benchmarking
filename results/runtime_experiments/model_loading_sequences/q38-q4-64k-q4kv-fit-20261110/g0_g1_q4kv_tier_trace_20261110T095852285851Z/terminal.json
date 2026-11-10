@@ -1,0 +1,128 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-64k-q4kv-fit-20261110/g0_g1_q4kv",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "8",
+    "--gpu-set",
+    "0,1",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12",
+    "--kv-format",
+    "q4_0",
+    "--vram-reserve-mib",
+    "128"
+  ],
+  "exit_code": 1,
+  "finished_at": "2026-11-10T10:03:34.240+00:00",
+  "interval_s": 1.0,
+  "placement": {
+    "chat_state": {
+      "kv_resident_cells": null,
+      "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat; 128 MiB device reserve for fit probe",
+      "tier": "gpu_vram"
+    },
+    "context_cap_tokens_per_slot": 65536,
+    "drafting": "off",
+    "engine": "Strata 0.1.56 CUDA 12",
+    "gpu_set": [
+      0,
+      1
+    ],
+    "kv_format": "q4_0",
+    "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_g1_q4kv",
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "placement": [
+      {
+        "component": "model stages and per-stage expert caches",
+        "devices": [
+          0,
+          1
+        ],
+        "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+        "tier": "gpu"
+      },
+      {
+        "budget_gib": 8,
+        "component": "resident experts",
+        "tier": "ram"
+      },
+      {
+        "component": "remaining experts and n-gram lookup",
+        "note": "OS may cache hot pages in available RAM",
+        "tier": "nvme"
+      }
+    ],
+    "prefill_chunk_tokens": "auto",
+    "reserved_idle_gpus": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "schema": 1,
+    "slots": 1,
+    "vram_reserve_mib": 128
+  },
+  "sample_errors": [],
+  "started_at": "2026-11-10T09:58:52.442+00:00",
+  "status": "failed",
+  "summary": {
+    "event_count": 2,
+    "phases": [
+      {
+        "begin_details": null,
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 34114973696,
+            "write_bytes": 278528
+          },
+          "sda": {
+            "read_bytes": 2314240,
+            "write_bytes": 7241728
+          }
+        },
+        "elapsed_s": 161.891,
+        "end_details": {
+          "launch_exit": 6
+        },
+        "ended_at": "2026-11-10T10:01:38.725+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 24089,
+            "peak_util_pct": 38
+          },
+          "1": {
+            "peak_used_mib": 5995,
+            "peak_util_pct": 100
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 16944264,
+        "phase": "restart",
+        "started_at": "2026-11-10T09:58:56.834+00:00"
+      }
+    ],
+    "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+    "sample_count": 253,
+    "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+  }
+}

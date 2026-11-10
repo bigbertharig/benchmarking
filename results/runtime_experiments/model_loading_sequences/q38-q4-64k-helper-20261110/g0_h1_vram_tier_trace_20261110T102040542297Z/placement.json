@@ -1,0 +1,51 @@
+{
+  "chat_state": {
+    "note": "Single 64K chat on main GPU; helper does not own an independent chat",
+    "tier": "gpu_vram"
+  },
+  "context_cap_tokens_per_slot": 65536,
+  "drafting": "off",
+  "engine": "Strata 0.1.56 CUDA 12",
+  "gpu_roles": "0=main,1=helper",
+  "gpu_set": [
+    0,
+    1
+  ],
+  "kv_format": "int8",
+  "label": "3090 main with 1 1060 expert helper(s), VRAM KV",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "placement": [
+    {
+      "component": "model main stages and chat state",
+      "devices": [
+        0
+      ],
+      "tier": "gpu"
+    },
+    {
+      "component": "expert helper cache",
+      "devices": [
+        1
+      ],
+      "tier": "gpu"
+    },
+    {
+      "budget_gib": 8,
+      "component": "resident experts",
+      "tier": "ram"
+    },
+    {
+      "component": "remaining experts and n-gram lookup",
+      "tier": "nvme"
+    }
+  ],
+  "prefill_chunk_tokens": "auto",
+  "reserved_idle_gpus": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "schema": 1,
+  "slots": 1
+}

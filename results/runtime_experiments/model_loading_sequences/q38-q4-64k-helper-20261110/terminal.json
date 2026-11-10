@@ -1,0 +1,25 @@
+{
+  "failures": [
+    "g0_h1_vram",
+    "g0_h5_vram"
+  ],
+  "finished_at": "2026-11-10T10:28:10+00:00",
+  "manifest_sha256": "acb3db3ae4890dc4cd02db36f080499405415fd0f1f6c5c39bbc7f590f581ec7",
+  "reason": "exit 1; see g0_h5_vram.log",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-64k-helper-20261110",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "g0_h1_vram": "failed",
+    "g0_h5_vram": "failed"
+  },
+  "started_at": "2026-11-10T10:20:40+00:00",
+  "status": "completed_with_failures"
+}

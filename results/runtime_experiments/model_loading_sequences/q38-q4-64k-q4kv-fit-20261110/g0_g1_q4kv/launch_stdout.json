@@ -1,0 +1,1 @@
+{"schema_version": 1, "ok": false, "error": {"code": 6, "message": "The engine stopped while it was loading the model (exit code 1): strata serve: layer split, CUDA1 prompt path: prefill gemm: cublasCreate: cuBLAS status 1. Run it again; if it repeats, report the log. The engine's log: /home/bryan/.local/state/strata/launch/ud-q4_k_xl-64k.engine.log"}}

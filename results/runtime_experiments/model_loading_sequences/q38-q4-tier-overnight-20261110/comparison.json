@@ -1,0 +1,287 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_vram",
+      "label": "1 GPU model split, VRAM KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_vram.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-20261110/g0_vram.json",
+      "stage_seconds": 902.0,
+      "status": "failed",
+      "trace": {
+        "command": [
+          "python3",
+          "scripts/integration/run_strata_q4_depth_curve.py",
+          "--output",
+          "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-20261110/g0_vram",
+          "--restart-loaded",
+          "--resident-budget-gib",
+          "8",
+          "--gpu-set",
+          "0",
+          "--prefill",
+          "1024"
+        ],
+        "exit_code": -15,
+        "finished_at": "2026-11-10T08:49:33.895+00:00",
+        "interval_s": 1.0,
+        "placement": {
+          "chat_state": {
+            "kv_resident_cells": null,
+            "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat",
+            "tier": "gpu_vram"
+          },
+          "context_cap_tokens_per_slot": 65536,
+          "drafting": "off",
+          "engine": "Strata 0.1.56 CUDA 13",
+          "gpu_set": [
+            0
+          ],
+          "kv_format": "int8",
+          "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_vram",
+          "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+          "placement": [
+            {
+              "component": "model stages and per-stage expert caches",
+              "devices": [
+                0
+              ],
+              "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+              "tier": "gpu"
+            },
+            {
+              "budget_gib": 8,
+              "component": "resident experts",
+              "tier": "ram"
+            },
+            {
+              "component": "remaining experts and n-gram lookup",
+              "note": "OS may cache hot pages in available RAM",
+              "tier": "nvme"
+            }
+          ],
+          "prefill_chunk_tokens": 1024,
+          "reserved_idle_gpus": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "schema": 1,
+          "slots": 1
+        },
+        "sample_errors": [],
+        "started_at": "2026-11-10T08:34:31.290+00:00",
+        "status": "interrupted",
+        "summary": {
+          "event_count": 3,
+          "phases": [
+            {
+              "begin_details": null,
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 41996828672,
+                  "write_bytes": 184320
+                },
+                "sda": {
+                  "read_bytes": 35553280,
+                  "write_bytes": 7540736
+                }
+              },
+              "elapsed_s": 124.634,
+              "end_details": {
+                "launch_exit": 0
+              },
+              "ended_at": "2026-11-10T08:36:41.841+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23493,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 15909652,
+              "phase": "restart",
+              "started_at": "2026-11-10T08:34:37.207+00:00"
+            },
+            {
+              "error": "begin without end",
+              "phase": "depth_16000",
+              "started_at": "2026-11-10T08:36:42.168+00:00"
+            }
+          ],
+          "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+          "sample_count": 811,
+          "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+        }
+      },
+      "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-20261110/g0_vram_tier_trace_20261110T083431136953Z"
+    },
+    {
+      "baseline": "g0_vram",
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_g1_vram",
+      "label": "2 GPU model split, VRAM KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_g1_vram.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-20261110/g0_g1_vram.json",
+      "stage_seconds": 8.0,
+      "status": "failed",
+      "trace": {
+        "command": [
+          "python3",
+          "scripts/integration/run_strata_q4_depth_curve.py",
+          "--output",
+          "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-20261110/g0_g1_vram",
+          "--restart-loaded",
+          "--resident-budget-gib",
+          "8",
+          "--gpu-set",
+          "0,1",
+          "--prefill",
+          "1024"
+        ],
+        "exit_code": 1,
+        "finished_at": "2026-11-10T08:49:40.960+00:00",
+        "interval_s": 1.0,
+        "placement": {
+          "chat_state": {
+            "kv_resident_cells": null,
+            "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat",
+            "tier": "gpu_vram"
+          },
+          "context_cap_tokens_per_slot": 65536,
+          "drafting": "off",
+          "engine": "Strata 0.1.56 CUDA 12",
+          "gpu_set": [
+            0,
+            1
+          ],
+          "kv_format": "int8",
+          "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_g1_vram",
+          "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+          "placement": [
+            {
+              "component": "model stages and per-stage expert caches",
+              "devices": [
+                0,
+                1
+              ],
+              "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+              "tier": "gpu"
+            },
+            {
+              "budget_gib": 8,
+              "component": "resident experts",
+              "tier": "ram"
+            },
+            {
+              "component": "remaining experts and n-gram lookup",
+              "note": "OS may cache hot pages in available RAM",
+              "tier": "nvme"
+            }
+          ],
+          "prefill_chunk_tokens": 1024,
+          "reserved_idle_gpus": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "schema": 1,
+          "slots": 1
+        },
+        "sample_errors": [],
+        "started_at": "2026-11-10T08:49:34.113+00:00",
+        "status": "failed",
+        "summary": {
+          "event_count": 1,
+          "phases": [
+            {
+              "error": "begin without end",
+              "phase": "restart",
+              "started_at": "2026-11-10T08:49:40.755+00:00"
+            }
+          ],
+          "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+          "sample_count": 7,
+          "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+        }
+      },
+      "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-20261110/g0_g1_vram_tier_trace_20261110T084933962339Z"
+    },
+    {
+      "baseline": "g0_vram",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_all_vram",
+      "label": "6 GPU model split, VRAM KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_all_vram.json",
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": "g0_vram",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_all_ramkv",
+      "label": "6 GPU model split, RAM-streamed KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_all_ramkv.json",
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "abb9c9b6790952ef1c75f16becde0bb36b1b567f9c2331e7d4aaf326b967f1e2",
+  "run_id": "q38-q4-tier-overnight-20261110",
+  "schema": 1,
+  "series_name": "Qwen3.8 Q4 layer split and chat tier 16/32/50K",
+  "status": "failed",
+  "updated_at": "2026-11-10T08:49:41+00:00"
+}

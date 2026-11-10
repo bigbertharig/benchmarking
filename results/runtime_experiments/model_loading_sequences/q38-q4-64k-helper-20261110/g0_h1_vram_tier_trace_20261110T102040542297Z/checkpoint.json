@@ -1,0 +1,71 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-64k-helper-20261110/g0_h1_vram",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "8",
+    "--gpu-set",
+    "0,1",
+    "--gpu-roles",
+    "0=main,1=helper",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12"
+  ],
+  "interval_s": 1.0,
+  "placement": {
+    "chat_state": {
+      "note": "Single 64K chat on main GPU; helper does not own an independent chat",
+      "tier": "gpu_vram"
+    },
+    "context_cap_tokens_per_slot": 65536,
+    "drafting": "off",
+    "engine": "Strata 0.1.56 CUDA 12",
+    "gpu_roles": "0=main,1=helper",
+    "gpu_set": [
+      0,
+      1
+    ],
+    "kv_format": "int8",
+    "label": "3090 main with 1 1060 expert helper(s), VRAM KV",
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "placement": [
+      {
+        "component": "model main stages and chat state",
+        "devices": [
+          0
+        ],
+        "tier": "gpu"
+      },
+      {
+        "component": "expert helper cache",
+        "devices": [
+          1
+        ],
+        "tier": "gpu"
+      },
+      {
+        "budget_gib": 8,
+        "component": "resident experts",
+        "tier": "ram"
+      },
+      {
+        "component": "remaining experts and n-gram lookup",
+        "tier": "nvme"
+      }
+    ],
+    "prefill_chunk_tokens": "auto",
+    "reserved_idle_gpus": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "schema": 1,
+    "slots": 1
+  },
+  "started_at": "2026-11-10T10:20:40.695+00:00",
+  "status": "running"
+}

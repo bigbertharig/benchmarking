@@ -1,0 +1,50 @@
+{
+  "cases": [],
+  "chat_state_tier": "gpu_vram",
+  "context_cap": 65536,
+  "end_state_requested": "freeze",
+  "engine_log": "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_vram/engine.log",
+  "error": "RuntimeError: 64K Strata launch failed: ",
+  "finished_at": "2026-11-10T09:17:51+00:00",
+  "gpu_before_mib": {
+    "0": 23493,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_final_mib": {
+    "0": 23493,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_set": "0,1,2,3,4,5",
+  "host_before": {
+    "MemAvailable_kib": 16306924,
+    "SwapFree_kib": 23519004,
+    "SwapTotal_kib": 24127028
+  },
+  "host_final": {
+    "MemAvailable_kib": 16529356,
+    "SwapFree_kib": 23522848,
+    "SwapTotal_kib": 24127028
+  },
+  "kv": "int8",
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl",
+  "peer_device": null,
+  "prefill": null,
+  "resident_budget_gib": 8,
+  "rollback_exit": 0,
+  "slots": 1,
+  "started_at": "2026-11-10T09:13:37+00:00",
+  "status": "failed",
+  "targets": [
+    16000,
+    32000,
+    50000
+  ]
+}

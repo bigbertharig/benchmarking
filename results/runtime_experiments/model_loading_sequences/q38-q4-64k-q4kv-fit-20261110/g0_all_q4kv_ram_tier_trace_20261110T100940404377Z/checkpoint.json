@@ -1,0 +1,75 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-64k-q4kv-fit-20261110/g0_all_q4kv_ram",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "8",
+    "--gpu-set",
+    "0,1,2,3,4,5",
+    "--kv-resident",
+    "32768",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12",
+    "--kv-format",
+    "q4_0",
+    "--vram-reserve-mib",
+    "128"
+  ],
+  "interval_s": 1.0,
+  "placement": {
+    "chat_state": {
+      "kv_resident_cells": 32768,
+      "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat; 128 MiB device reserve for fit probe",
+      "tier": "ram_streamed"
+    },
+    "context_cap_tokens_per_slot": 65536,
+    "drafting": "off",
+    "engine": "Strata 0.1.56 CUDA 12",
+    "gpu_set": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "kv_format": "q4_0",
+    "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_all_q4kv_ram",
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "placement": [
+      {
+        "component": "model stages and per-stage expert caches",
+        "devices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+        "tier": "gpu"
+      },
+      {
+        "budget_gib": 8,
+        "component": "resident experts",
+        "tier": "ram"
+      },
+      {
+        "component": "remaining experts and n-gram lookup",
+        "note": "OS may cache hot pages in available RAM",
+        "tier": "nvme"
+      }
+    ],
+    "prefill_chunk_tokens": "auto",
+    "reserved_idle_gpus": [],
+    "schema": 1,
+    "slots": 1,
+    "vram_reserve_mib": 128
+  },
+  "started_at": "2026-11-10T10:09:40.560+00:00",
+  "status": "running"
+}

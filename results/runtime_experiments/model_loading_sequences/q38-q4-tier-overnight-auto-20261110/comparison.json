@@ -1,0 +1,775 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_vram",
+      "label": "1 GPU model split, VRAM KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_vram.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_vram.json",
+      "stage_seconds": 1104.0,
+      "status": "passed",
+      "trace": {
+        "command": [
+          "python3",
+          "scripts/integration/run_strata_q4_depth_curve.py",
+          "--output",
+          "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_vram",
+          "--restart-loaded",
+          "--resident-budget-gib",
+          "8",
+          "--gpu-set",
+          "0"
+        ],
+        "exit_code": 0,
+        "finished_at": "2026-11-10T09:10:48.538+00:00",
+        "interval_s": 1.0,
+        "placement": {
+          "chat_state": {
+            "kv_resident_cells": null,
+            "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat",
+            "tier": "gpu_vram"
+          },
+          "context_cap_tokens_per_slot": 65536,
+          "drafting": "off",
+          "engine": "Strata 0.1.56 CUDA 13",
+          "gpu_set": [
+            0
+          ],
+          "kv_format": "int8",
+          "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_vram",
+          "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+          "placement": [
+            {
+              "component": "model stages and per-stage expert caches",
+              "devices": [
+                0
+              ],
+              "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+              "tier": "gpu"
+            },
+            {
+              "budget_gib": 8,
+              "component": "resident experts",
+              "tier": "ram"
+            },
+            {
+              "component": "remaining experts and n-gram lookup",
+              "note": "OS may cache hot pages in available RAM",
+              "tier": "nvme"
+            }
+          ],
+          "prefill_chunk_tokens": "auto",
+          "reserved_idle_gpus": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "schema": 1,
+          "slots": 1
+        },
+        "sample_errors": [],
+        "started_at": "2026-11-10T08:52:25.680+00:00",
+        "status": "passed",
+        "summary": {
+          "event_count": 8,
+          "phases": [
+            {
+              "begin_details": null,
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 35998347264,
+                  "write_bytes": 94208
+                },
+                "sda": {
+                  "read_bytes": 10436608,
+                  "write_bytes": 4534272
+                }
+              },
+              "elapsed_s": 106.104,
+              "end_details": {
+                "launch_exit": 0
+              },
+              "ended_at": "2026-11-10T08:54:17.840+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23493,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 16406196,
+              "phase": "restart",
+              "started_at": "2026-11-10T08:52:31.735+00:00"
+            },
+            {
+              "begin_details": {
+                "lines_total": 1050
+              },
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 149256413184,
+                  "write_bytes": 0
+                },
+                "sda": {
+                  "read_bytes": 41549824,
+                  "write_bytes": 9998336
+                }
+              },
+              "elapsed_s": 354.182,
+              "end_details": {
+                "timings": {
+                  "cache_n": 0,
+                  "draft_n": 46,
+                  "draft_n_accepted": 19,
+                  "predicted_ms": 42157.2,
+                  "predicted_n": 256,
+                  "predicted_per_second": 6.1,
+                  "predicted_per_token_ms": 164.677,
+                  "prompt_ms": 311993.1,
+                  "prompt_n": 16893,
+                  "prompt_per_second": 54.1,
+                  "prompt_per_token_ms": 18.469
+                },
+                "usage": {
+                  "completion_tokens": 256,
+                  "prompt_tokens": 16893,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 0
+                  },
+                  "total_tokens": 17149
+                }
+              },
+              "ended_at": "2026-11-10T09:00:12.395+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23679,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 16203368,
+              "phase": "depth_16000",
+              "started_at": "2026-11-10T08:54:18.213+00:00"
+            },
+            {
+              "begin_details": {
+                "lines_total": 2100
+              },
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 131821355008,
+                  "write_bytes": 0
+                },
+                "sda": {
+                  "read_bytes": 51781632,
+                  "write_bytes": 9179136
+                }
+              },
+              "elapsed_s": 311.534,
+              "end_details": {
+                "timings": {
+                  "cache_n": 16888,
+                  "draft_n": 11,
+                  "draft_n_accepted": 5,
+                  "predicted_ms": 32238.3,
+                  "predicted_n": 256,
+                  "predicted_per_second": 7.9,
+                  "predicted_per_token_ms": 125.931,
+                  "prompt_ms": 279246.7,
+                  "prompt_n": 16838,
+                  "prompt_per_second": 60.3,
+                  "prompt_per_token_ms": 16.584
+                },
+                "usage": {
+                  "completion_tokens": 256,
+                  "prompt_tokens": 33726,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 16888
+                  },
+                  "total_tokens": 33982
+                }
+              },
+              "ended_at": "2026-11-10T09:05:24.250+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23679,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 16067704,
+              "phase": "depth_32000",
+              "started_at": "2026-11-10T09:00:12.716+00:00"
+            },
+            {
+              "begin_details": {
+                "lines_total": 3300
+              },
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 135537098752,
+                  "write_bytes": 0
+                },
+                "sda": {
+                  "read_bytes": 47329280,
+                  "write_bytes": 11878400
+                }
+              },
+              "elapsed_s": 323.59,
+              "end_details": {
+                "timings": {
+                  "cache_n": 33721,
+                  "draft_n": 12,
+                  "draft_n_accepted": 4,
+                  "predicted_ms": 37777.4,
+                  "predicted_n": 256,
+                  "predicted_per_second": 6.8,
+                  "predicted_per_token_ms": 147.568,
+                  "prompt_ms": 285750.4,
+                  "prompt_n": 19238,
+                  "prompt_per_second": 67.3,
+                  "prompt_per_token_ms": 14.853
+                },
+                "usage": {
+                  "completion_tokens": 256,
+                  "prompt_tokens": 52959,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 33721
+                  },
+                  "total_tokens": 53215
+                }
+              },
+              "ended_at": "2026-11-10T09:10:48.161+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23679,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 15629332,
+              "phase": "depth_50000",
+              "started_at": "2026-11-10T09:05:24.572+00:00"
+            }
+          ],
+          "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+          "sample_count": 987,
+          "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+        }
+      },
+      "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_vram_tier_trace_20261110T085225524074Z"
+    },
+    {
+      "baseline": "g0_vram",
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_g1_vram",
+      "label": "2 GPU model split, VRAM KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_g1_vram.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_g1_vram.json",
+      "stage_seconds": 168.0,
+      "status": "failed",
+      "trace": {
+        "command": [
+          "python3",
+          "scripts/integration/run_strata_q4_depth_curve.py",
+          "--output",
+          "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_g1_vram",
+          "--restart-loaded",
+          "--resident-budget-gib",
+          "8",
+          "--gpu-set",
+          "0,1"
+        ],
+        "exit_code": 1,
+        "finished_at": "2026-11-10T09:13:37.272+00:00",
+        "interval_s": 1.0,
+        "placement": {
+          "chat_state": {
+            "kv_resident_cells": null,
+            "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat",
+            "tier": "gpu_vram"
+          },
+          "context_cap_tokens_per_slot": 65536,
+          "drafting": "off",
+          "engine": "Strata 0.1.56 CUDA 12",
+          "gpu_set": [
+            0,
+            1
+          ],
+          "kv_format": "int8",
+          "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_g1_vram",
+          "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+          "placement": [
+            {
+              "component": "model stages and per-stage expert caches",
+              "devices": [
+                0,
+                1
+              ],
+              "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+              "tier": "gpu"
+            },
+            {
+              "budget_gib": 8,
+              "component": "resident experts",
+              "tier": "ram"
+            },
+            {
+              "component": "remaining experts and n-gram lookup",
+              "note": "OS may cache hot pages in available RAM",
+              "tier": "nvme"
+            }
+          ],
+          "prefill_chunk_tokens": "auto",
+          "reserved_idle_gpus": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "schema": 1,
+          "slots": 1
+        },
+        "sample_errors": [],
+        "started_at": "2026-11-10T09:10:49.855+00:00",
+        "status": "failed",
+        "summary": {
+          "event_count": 2,
+          "phases": [
+            {
+              "begin_details": null,
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 8561606656,
+                  "write_bytes": 61440
+                },
+                "sda": {
+                  "read_bytes": 23707648,
+                  "write_bytes": 2777088
+                }
+              },
+              "elapsed_s": 61.054,
+              "end_details": {
+                "launch_exit": 6
+              },
+              "ended_at": "2026-11-10T09:11:58.946+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23679,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "2": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 7,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 15697040,
+              "phase": "restart",
+              "started_at": "2026-11-10T09:10:57.891+00:00"
+            }
+          ],
+          "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+          "sample_count": 151,
+          "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+        }
+      },
+      "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_g1_vram_tier_trace_20261110T091049706404Z"
+    },
+    {
+      "baseline": "g0_vram",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_all_vram",
+      "label": "6 GPU model split, VRAM KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_all_vram.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_vram.json",
+      "stage_seconds": 256.0,
+      "status": "failed",
+      "trace": {
+        "command": [
+          "python3",
+          "scripts/integration/run_strata_q4_depth_curve.py",
+          "--output",
+          "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_vram",
+          "--restart-loaded",
+          "--resident-budget-gib",
+          "8",
+          "--gpu-set",
+          "0,1,2,3,4,5"
+        ],
+        "exit_code": 1,
+        "finished_at": "2026-11-10T09:17:51.839+00:00",
+        "interval_s": 1.0,
+        "placement": {
+          "chat_state": {
+            "kv_resident_cells": null,
+            "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat",
+            "tier": "gpu_vram"
+          },
+          "context_cap_tokens_per_slot": 65536,
+          "drafting": "off",
+          "engine": "Strata 0.1.56 CUDA 12",
+          "gpu_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "kv_format": "int8",
+          "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_all_vram",
+          "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+          "placement": [
+            {
+              "component": "model stages and per-stage expert caches",
+              "devices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+              "tier": "gpu"
+            },
+            {
+              "budget_gib": 8,
+              "component": "resident experts",
+              "tier": "ram"
+            },
+            {
+              "component": "remaining experts and n-gram lookup",
+              "note": "OS may cache hot pages in available RAM",
+              "tier": "nvme"
+            }
+          ],
+          "prefill_chunk_tokens": "auto",
+          "reserved_idle_gpus": [],
+          "schema": 1,
+          "slots": 1
+        },
+        "sample_errors": [],
+        "started_at": "2026-11-10T09:13:37.896+00:00",
+        "status": "failed",
+        "summary": {
+          "event_count": 2,
+          "phases": [
+            {
+              "begin_details": null,
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 8311181312,
+                  "write_bytes": 94208
+                },
+                "sda": {
+                  "read_bytes": 10326016,
+                  "write_bytes": 5074944
+                }
+              },
+              "elapsed_s": 143.913,
+              "end_details": {
+                "launch_exit": 6
+              },
+              "ended_at": "2026-11-10T09:16:07.687+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23493,
+                  "peak_util_pct": 59
+                },
+                "1": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "2": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "3": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "4": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "5": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                }
+              },
+              "min_mem_available_kib": 16260556,
+              "phase": "restart",
+              "started_at": "2026-11-10T09:13:43.774+00:00"
+            }
+          ],
+          "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+          "sample_count": 228,
+          "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+        }
+      },
+      "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_vram_tier_trace_20261110T091337749239Z"
+    },
+    {
+      "baseline": "g0_vram",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "id": "g0_all_ramkv",
+      "label": "6 GPU model split, RAM-streamed KV",
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_all_ramkv.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_ramkv.json",
+      "stage_seconds": 254.0,
+      "status": "failed",
+      "trace": {
+        "command": [
+          "python3",
+          "scripts/integration/run_strata_q4_depth_curve.py",
+          "--output",
+          "results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_ramkv",
+          "--restart-loaded",
+          "--resident-budget-gib",
+          "8",
+          "--gpu-set",
+          "0,1,2,3,4,5",
+          "--kv-resident",
+          "32768"
+        ],
+        "exit_code": 1,
+        "finished_at": "2026-11-10T09:22:06.857+00:00",
+        "interval_s": 1.0,
+        "placement": {
+          "chat_state": {
+            "kv_resident_cells": 32768,
+            "note": "Layer split duplicates its stage KV/state; no dedicated 1060-only chat",
+            "tier": "ram_streamed"
+          },
+          "context_cap_tokens_per_slot": 65536,
+          "drafting": "off",
+          "engine": "Strata 0.1.56 CUDA 12",
+          "gpu_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "kv_format": "int8",
+          "label": "Qwen3.8 Q4 one-chat 64K layer placement g0_all_ramkv",
+          "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+          "placement": [
+            {
+              "component": "model stages and per-stage expert caches",
+              "devices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "note": "Strata auto layer split for multiple GPUs; inspect actual stage order and cache slots",
+              "tier": "gpu"
+            },
+            {
+              "budget_gib": 8,
+              "component": "resident experts",
+              "tier": "ram"
+            },
+            {
+              "component": "remaining experts and n-gram lookup",
+              "note": "OS may cache hot pages in available RAM",
+              "tier": "nvme"
+            }
+          ],
+          "prefill_chunk_tokens": "auto",
+          "reserved_idle_gpus": [],
+          "schema": 1,
+          "slots": 1
+        },
+        "sample_errors": [],
+        "started_at": "2026-11-10T09:17:53.949+00:00",
+        "status": "failed",
+        "summary": {
+          "event_count": 2,
+          "phases": [
+            {
+              "begin_details": null,
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 7635951616,
+                  "write_bytes": 94208
+                },
+                "sda": {
+                  "read_bytes": 1421312,
+                  "write_bytes": 4317184
+                }
+              },
+              "elapsed_s": 141.485,
+              "end_details": {
+                "launch_exit": 6
+              },
+              "ended_at": "2026-11-10T09:20:21.299+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23493,
+                  "peak_util_pct": 40
+                },
+                "1": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "2": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "3": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "4": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                },
+                "5": {
+                  "peak_used_mib": 5623,
+                  "peak_util_pct": 100
+                }
+              },
+              "min_mem_available_kib": 16466336,
+              "phase": "restart",
+              "started_at": "2026-11-10T09:17:59.814+00:00"
+            }
+          ],
+          "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+          "sample_count": 227,
+          "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+        }
+      },
+      "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-tier-overnight-auto-20261110/g0_all_ramkv_tier_trace_20261110T091753802305Z"
+    }
+  ],
+  "manifest_sha256": "8494f3f55a3089145e99bdef4b514a5c8c77e88a7b181228b7f7c65bc1d63137",
+  "run_id": "q38-q4-tier-overnight-auto-20261110",
+  "schema": 1,
+  "series_name": "Qwen3.8 Q4 layer split and chat tier 16/32/50K",
+  "status": "completed_with_failures",
+  "updated_at": "2026-11-10T09:22:07+00:00"
+}

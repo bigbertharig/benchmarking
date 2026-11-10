@@ -440,6 +440,7 @@ in every receipt.
     Strata's layer split duplicates stage KV on its cards; it does not give
     a dedicated 1060-only chat. Test that layout with a compatible runtime
     separately. Park/revive on NVMe is a different operation from live NVMe KV.
+    The [2026-11-10 results](results/runtime_experiments/model_loading_sequences/q38-q4-tier-cuda12-20261110/README.md) established the GPU0 16/32/50K baseline but **did not produce a multi-GPU speed comparison**. CUDA13 lacked GTX 1060 kernels; CUDA12 reached Strata's stage planner but 64K per-stage KV, expert cache, and prompt scratch did not fit on the 1060s. Q4_0 KV with a 128 MiB reserve and helper roles also failed at launch. The next fit probe must budget each 1060 stage explicitly, or compare GPU0-only expert RAM budgets first.
 
 ## Model and engine follow-ups
 

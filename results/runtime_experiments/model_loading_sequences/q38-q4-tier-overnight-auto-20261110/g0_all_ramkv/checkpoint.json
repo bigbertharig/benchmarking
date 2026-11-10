@@ -1,0 +1,20 @@
+{
+  "cases": [],
+  "chat_state_tier": "ram_streamed",
+  "context_cap": 65536,
+  "end_state_requested": "freeze",
+  "gpu_set": "0,1,2,3,4,5",
+  "kv": "int8",
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl",
+  "peer_device": null,
+  "prefill": null,
+  "resident_budget_gib": 8,
+  "slots": 1,
+  "started_at": "2026-11-10T09:17:54+00:00",
+  "status": "running",
+  "targets": [
+    16000,
+    32000,
+    50000
+  ]
+}

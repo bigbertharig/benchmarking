@@ -1,0 +1,28 @@
+{
+  "failures": [
+    "g0_g1_vram",
+    "g0_all_vram",
+    "g0_all_ramkv"
+  ],
+  "finished_at": "2026-11-10T09:54:57+00:00",
+  "manifest_sha256": "edc93402f8c94f1aa5dfe2a958662d62dac0e697701cf3a134a8ebd403c403d7",
+  "reason": "exit 1; see g0_all_ramkv.log",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-tier-cuda12-20261110",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "g0_all_ramkv": "failed",
+    "g0_all_vram": "failed",
+    "g0_g1_vram": "failed",
+    "g0_vram": "passed"
+  },
+  "started_at": "2026-11-10T09:25:07+00:00",
+  "status": "completed_with_failures"
+}

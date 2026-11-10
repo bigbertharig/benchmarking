@@ -1,0 +1,1 @@
+{"schema_version": 1, "ok": false, "error": {"code": 6, "message": "The engine stopped while it was loading the model (exit code 1): strata generate: layer split, CUDA1 expert cache: no room. Run it again; if it repeats, report the log. The engine's log: /home/bryan/.local/state/strata/launch/ud-q4_k_xl-64k.engine.log"}}

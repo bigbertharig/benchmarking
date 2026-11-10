@@ -1,0 +1,121 @@
+{
+  "schema": 2,
+  "name": "Qwen3.8 Q4 64K compact-KV layer split fit probe",
+  "defaults": {
+    "state": "ready",
+    "timeout_s": 5400,
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "freeze": true,
+    "restart_loaded": true,
+    "trace": true
+  },
+  "cases": [
+    {
+      "id": "g0_g1_q4kv",
+      "label": "2 GPU model split, Q4 KV",
+      "baseline": null,
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "gpus": [
+        0,
+        1
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_g1_q4kv.json",
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_g1_q4kv",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "8",
+        "--gpu-set",
+        "0,1",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--kv-format",
+        "q4_0",
+        "--vram-reserve-mib",
+        "128"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_g1_q4kv/terminal.json"
+      ]
+    },
+    {
+      "id": "g0_all_q4kv",
+      "label": "6 GPU model split, Q4 KV",
+      "baseline": "g0_g1_q4kv",
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_all_q4kv.json",
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_all_q4kv",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "8",
+        "--gpu-set",
+        "0,1,2,3,4,5",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--kv-format",
+        "q4_0",
+        "--vram-reserve-mib",
+        "128"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_all_q4kv/terminal.json"
+      ]
+    },
+    {
+      "id": "g0_all_q4kv_ram",
+      "label": "6 GPU model split, Q4 KV with RAM streaming",
+      "baseline": "g0_g1_q4kv",
+      "hypothesis": "Does moving model stages and expert caches to more VRAM reduce file-tier work enough to offset slower GPU stages and links?",
+      "gpus": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_64k_g0_all_q4kv_ram.json",
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_all_q4kv_ram",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "8",
+        "--gpu-set",
+        "0,1,2,3,4,5",
+        "--kv-resident",
+        "32768",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--kv-format",
+        "q4_0",
+        "--vram-reserve-mib",
+        "128"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_all_q4kv_ram/terminal.json"
+      ]
+    }
+  ]
+}
