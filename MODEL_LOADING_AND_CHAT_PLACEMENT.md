@@ -81,6 +81,67 @@ worth generalizing and exposing to harnesses.
 | Live chat KV and other per-chat state | Grows with occupied history; attention architecture matters | Does it belong on the attention GPU, a dedicated 1060, or host RAM with a hot GPU block cache? |
 | Parked chat state | No decode until resumed | Is checkpoint-to-NVMe plus measured restore acceptable? |
 
+### Baseline: model work, chat work, and preparation
+
+For the current Qwen3.6-35B-A3B Q4_K_XL experiments, use **one model load
+with weights on GPU0 and independent chats with resident KV on separate
+1060s** as the placement baseline. Keep GPU0 free of a resident chat. The
+working two-chat reference has GPU1 for main-chat KV and GPU2 for
+secondary-chat KV, both reserving 262,144 positions. The labels main and
+secondary describe use, not a different priority or model. This baseline
+specifies *where* work runs; a speed comparison must also hold the model
+file/build, KV format, occupied depth, reservation, prompt, answer length,
+and active-chat count fixed. Record model cold load separately from chat
+admission and steady generation.
+
+| Work | Needs to be fast when | Current placement rule and measurement |
+| --- | --- | --- |
+| Model weights and repeated layer computation | Every prompt and generated token | Keep dense weights, router, and hot experts on GPU0 while they fit; measure GPU0 compute and any expert misses per token before moving weights. An inactive or rarely selected expert may be worth a slower tier only if measured transfer and cache behavior repay the space. |
+| Chat preparation | A new chat is admitted or existing history grows | Choose a temporary workspace by **time to a usable, correct chat**, including prefill, capture, handoff, and restore. GPU0 may use its own VRAM, a dedicated 1060, or RAM depending on headroom and contention. The 100K → 150K one-chat helper result is 422.5 s with GPU0+GPU1, versus about 594 s with GPU0+RAM and 749.2 s with direct 1060 fill; these paths differ in temporary cap and batch size. |
+| Live chat KV and attention | Every generated token, increasingly with occupied history | Keep the active KV beside the attention work on its assigned 1060. Avoid moving the full growing history every token. Compare per-chat tok/s, first-token delay, and interference with other chats at fixed depth; test compact KV only against matched F16 controls. |
+| Chat handoff or parked state | At admission, turn boundaries, or resume | Move a completed state in infrequent, measured transfers; use a validated delta when available. NVMe checkpoints are useful for parking and replay, but are not evidence that dense attention can efficiently read live KV from storage. |
+
+This is a tiered placement rule, not a fixed ranking that always chooses
+GPU0, then 1060, then RAM, then NVMe. Capacity, access pattern, supported
+kernels, and transfer frequency determine the fastest *whole workflow*.
+The x1 1060 link can make repeated cross-device traffic expensive; the
+recent GPU0+GPU1 admission win does not prove x1 bandwidth exceeds RAM
+bandwidth. We should minimize repeated transfers of weights, activations,
+and KV, while allowing a bounded state handoff when it saves more prefill
+time than it costs.
+
+The existing [Q4 two-chat curve](results/runtime_experiments/model_loading_sequences/qwen35-moe-two-curve-20261109/README.md)
+measured GPU0 preparation followed by independent GPU1/GPU2 chats, not
+GPU0+RAM preparation. The [Q4_1 two-chat replay](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-main-secondary-16k32k50k-20261109/README.md)
+did the same at 16K/32K/50K. F16 workers reached about 68/60/50 tok/s
+solo and 64/57–58/49–50 tok/s each with two active chats at those depths;
+this is the current short-depth F16 **decode reference**, not a matched
+GPU0+RAM versus GPU0+1060 admission comparison. The
+[150K admission test](results/runtime_experiments/model_loading_sequences/qwen35-admission-paths-20261109/README.md)
+compared one-chat preparation paths and five direct fills. It did not
+measure two sequential helper admissions or a new helper admission during
+another chat's generation.
+
+Five-way *admission* overlapped well: five direct 100K → 150K fills took
+866.4 s versus 749.2 s for one. Five-way *decode* has a separate cost:
+at 16K, a F16 worker fell from 76.5 tok/s solo to about 40 tok/s with
+five active; at 100K, from 33 to about 27. These are distinct workloads
+and neither number predicts whole-turn latency by itself.
+
+**Next matched two-chat comparison:** keep the same F16 saved histories,
+262K worker reservation, GPU0 model load, and two final worker chats.
+Compare (1) direct fill on GPUs1+2, (2) GPU0+RAM preparation then handoff
+to GPUs1+2, and (3) GPU0+GPU1 dedicated preparation then handoff to
+GPUs2+3. Prepare main and secondary in order, then repeat with the second
+admission while the first generates. Start with the saved 100K → 108K
+pilot to check setup and correctness; extend to 150K only if it answers
+the crossover question. Record first-chat and both-chat ready times,
+source restore, prep, handoff, first-token latency, per-chat sustained
+decode, and delay imposed on the continuing chat. The dedicated helper
+leaves four available worker cards in the maximal layout, while the RAM
+and direct paths leave five. Do not infer a two-chat win from one-chat
+admission alone.
+
 ### Prepare on fast hardware, then place on a slower tier
 
 The 3090 can act as a temporary preparation engine: create a chat history or
