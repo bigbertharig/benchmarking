@@ -382,6 +382,35 @@ in every receipt.
    at 100K, from 33 solo to about 27. The new 150K comparison tested
    admission and short recall, not sustained answer generation.
 
+10. **Two deep Nemo chats on the faster placement.** Reload the saved
+    [four-expert-card, GPU0-main/GPU5-worker baseline](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
+    Both chats reserve 262K, but simultaneous occupancy is proven only through
+    50K. Increase both histories in bounded steps, recording GPU0 peak memory,
+    first-token correctness, each chat's decode, and whether admitting the
+    worker disrupts the main chat. A solo 250K GPU5 chat does not establish a
+    two-chat 250K fit; stop at the first reproducible capacity boundary.
+11. **Qwen3.8 n-gram table-only swap.** First confirm a compatible engine and
+    artifact can bind different PLE table volumes without changing weights,
+    and check NVMe headroom. On the same prompts, routing, draft settings,
+    occupied context, and cache policy, compare the FP4-Local table with an
+    FP8 table. Record answer quality and perplexity alongside prefill, decode,
+    physical reads, host page cache, and the added storage bytes. The larger
+    FP8 table is not a free change just because it uses no extra VRAM. See the
+    [mixed-precision research lead](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md#research-lead-per-layer-precision-and-n-gram-table-2026-11-10).
+12. **Mixed expert precision by layer.** If the reported engine patch and
+    assembler become available, compare a fixed FP4-Local base with official
+    FP8 experts in early layers 0-11 and late layers 36-47 separately, then
+    both blocks. Keep GPU expert-cache *bytes*, not expert count, fixed and
+    measure routing hits, misses, bytes moved from RAM/NVMe, per-chat tok/s,
+    first-token time, and quality on more than one task type. The author's
+    5090 speed and KL figures are a hypothesis for this rig, not a baseline.
+13. **Strata-slim VRAM-reclamation controls.** If we revisit Strata on the
+    rig, pin the [reviewed fork and optional patches](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md#strata-slim-idea-to-revisit),
+    then compare the same pack and workload with each capacity patch enabled
+    individually. Measure actual VRAM reclaimed, expert-cache hit rate,
+    file-tier reads, and complete-turn speed. Confirm that a build supports
+    the 3090 and 1060 architectures before using it for a mixed-card test.
+
 ## Model and engine follow-ups
 
 These are promising directions, not a fixed order or a checklist to finish
