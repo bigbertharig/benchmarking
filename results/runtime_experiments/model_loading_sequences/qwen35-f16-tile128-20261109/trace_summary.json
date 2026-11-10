@@ -1,0 +1,166 @@
+{
+  "control": {
+    "gpu0_kernel_ms": 6.443,
+    "gpu0_graph_ms": 369.085,
+    "gpu0_tile_ms": 0.0,
+    "gpu0_combine_ms": 0.0,
+    "gpu0_copykind1": {
+      "count": 1088,
+      "MB": 12.061,
+      "ms": 1.83
+    },
+    "gpu0_copykind2": {
+      "count": 2624,
+      "MB": 96.993,
+      "ms": 9.574
+    },
+    "gpu1_kernel_ms": 640.391,
+    "gpu1_graph_ms": 0.0,
+    "gpu1_tile_ms": 631.859,
+    "gpu1_combine_ms": 2.252,
+    "gpu1_copykind1": {
+      "count": 2752,
+      "MB": 39.847,
+      "ms": 105.82
+    },
+    "gpu1_copykind2": {
+      "count": 640,
+      "MB": 10.486,
+      "ms": 18.755
+    },
+    "gpu1_tile_shape": [
+      1,
+      10,
+      2,
+      32,
+      8,
+      1,
+      128,
+      42240,
+      0
+    ]
+  },
+  "tile256": {
+    "gpu0_kernel_ms": 6.44,
+    "gpu0_graph_ms": 368.949,
+    "gpu0_tile_ms": 0.0,
+    "gpu0_combine_ms": 0.0,
+    "gpu0_copykind1": {
+      "count": 1088,
+      "MB": 12.061,
+      "ms": 1.827
+    },
+    "gpu0_copykind2": {
+      "count": 2624,
+      "MB": 96.993,
+      "ms": 9.602
+    },
+    "gpu1_kernel_ms": 641.32,
+    "gpu1_graph_ms": 0.0,
+    "gpu1_tile_ms": 632.626,
+    "gpu1_combine_ms": 2.291,
+    "gpu1_copykind1": {
+      "count": 2752,
+      "MB": 39.847,
+      "ms": 105.807
+    },
+    "gpu1_copykind2": {
+      "count": 640,
+      "MB": 10.486,
+      "ms": 18.748
+    },
+    "gpu1_tile_shape": [
+      1,
+      10,
+      2,
+      32,
+      8,
+      1,
+      128,
+      42240,
+      0
+    ]
+  },
+  "tile128": {
+    "gpu0_kernel_ms": 6.445,
+    "gpu0_graph_ms": 369.084,
+    "gpu0_tile_ms": 0.0,
+    "gpu0_combine_ms": 0.0,
+    "gpu0_copykind1": {
+      "count": 1088,
+      "MB": 12.061,
+      "ms": 1.813
+    },
+    "gpu0_copykind2": {
+      "count": 2624,
+      "MB": 96.993,
+      "ms": 9.581
+    },
+    "gpu1_kernel_ms": 568.518,
+    "gpu1_graph_ms": 0.0,
+    "gpu1_tile_ms": 558.192,
+    "gpu1_combine_ms": 2.77,
+    "gpu1_copykind1": {
+      "count": 2752,
+      "MB": 39.847,
+      "ms": 105.721
+    },
+    "gpu1_copykind2": {
+      "count": 640,
+      "MB": 10.486,
+      "ms": 18.777
+    },
+    "gpu1_tile_shape": [
+      1,
+      10,
+      2,
+      32,
+      4,
+      1,
+      116,
+      42240,
+      0
+    ]
+  },
+  "tile64": {
+    "gpu0_kernel_ms": 6.446,
+    "gpu0_graph_ms": 368.996,
+    "gpu0_tile_ms": 0.0,
+    "gpu0_combine_ms": 0.0,
+    "gpu0_copykind1": {
+      "count": 1088,
+      "MB": 12.061,
+      "ms": 1.825
+    },
+    "gpu0_copykind2": {
+      "count": 2624,
+      "MB": 96.993,
+      "ms": 9.607
+    },
+    "gpu1_kernel_ms": 1440.377,
+    "gpu1_graph_ms": 0.0,
+    "gpu1_tile_ms": 1429.935,
+    "gpu1_combine_ms": 2.71,
+    "gpu1_copykind1": {
+      "count": 2752,
+      "MB": 39.847,
+      "ms": 105.917
+    },
+    "gpu1_copykind2": {
+      "count": 640,
+      "MB": 10.486,
+      "ms": 18.77
+    },
+    "gpu1_tile_shape": [
+      1,
+      10,
+      2,
+      32,
+      2,
+      1,
+      166,
+      42240,
+      0
+    ]
+  }
+}

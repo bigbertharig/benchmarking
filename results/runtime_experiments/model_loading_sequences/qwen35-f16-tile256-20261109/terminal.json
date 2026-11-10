@@ -1,0 +1,14 @@
+{
+  "finished_at": "2026-11-10T01:17:35+00:00",
+  "manifest_sha256": "ba5981d6f622f74e9fd04b0d66dc05a6af9298005952b955de6e989e03c0f0af",
+  "run_id": "qwen35-f16-tile256-20261109",
+  "stages": {
+    "control_after": "passed",
+    "control_before": "passed",
+    "tile256": "passed",
+    "trace_control_50k": "passed",
+    "trace_tile256_50k": "passed"
+  },
+  "started_at": "2026-11-10T01:15:31+00:00",
+  "status": "passed"
+}

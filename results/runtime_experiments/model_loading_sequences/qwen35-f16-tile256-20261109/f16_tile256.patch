@@ -1,0 +1,5 @@
+--- a/ggml/src/ggml-cuda/fattn-tile.cuh
++++ b/ggml/src/ggml-cuda/fattn-tile.cuh
+@@ -295 +295 @@
+-    GGML_CUDA_FATTN_TILE_CONFIG_CASE(256, 256,  8, 128, 6,  32, 256)
++    GGML_CUDA_FATTN_TILE_CONFIG_CASE(256, 256,  8, 256, 3,  32, 256)

@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen35_f16_decode_trace.sh",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "50000",
+    "qwen35_f16_tile256_trace_control_50k_20261109",
+    "64"
+  ],
+  "env_keys": [
+    "KV_BUILD_DIR"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-10T01:17:15+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29766356,
+  "host_min_available_kib": 27055000,
+  "id": "trace_control_50k",
+  "started_at": "2026-11-10T01:16:56+00:00",
+  "status": "passed",
+  "timeout_s": 1800
+}

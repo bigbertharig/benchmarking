@@ -1085,6 +1085,17 @@ Q4_1's repeated conversion while retaining much of its smaller KV footprint
 and transfer cost. They do not establish quality equivalence between KV
 formats or deep-context speed.
 
+The [single-1060 F16 attention launch probe](results/runtime_experiments/model_loading_sequences/qwen35-f16-tile128-20261109/README.md)
+replayed the same 16K/32K/50K saved chats through unchanged–variant–unchanged
+builds. On this Qwen3.6 head-256, F16-KV, Pascal path, changing the tile from
+256 to 128 threads raised solo decode from bracketed controls near
+68.5/60.0/49.7 to 70.5/62.5/52.6 tok/s. At 50K the 1060 attention kernel
+fell 11.7% in summed time, while measured transfer time and GPU0 work stayed
+flat. A 64-thread tile was substantially slower. This suggests 1060 attention
+efficiency is a single-chat limit, alongside transfer cost. Keep 128 threads
+as an isolated candidate pending response-quality and wider-model checks;
+the return-state capture path remains a separate optimization experiment.
+
 The [Q4_1 tile 50K–200K curve](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-tile-curve-50k100k150k200k-20261109/README.md)
 passed independent recall for two 1060 chats at every stage. Solo decode fell
 from 30.74 to 18.22, 13.04, and 10.13 tok/s; two simultaneous chats stayed

@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "name": "qwen35_f16_tile128_20261109",
+  "stages": [
+    {
+      "id": "control_before",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_f16_16k32k50k_20261109.states",
+        "KV_KV_TYPE": "f16",
+        "KV_SAMPLE_DETAIL": "1"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_f16_tile128_control_before_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_control_before_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_control_before_20261109.log"
+      ]
+    },
+    {
+      "id": "tile128",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-f16-tile128-20261109-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_f16_16k32k50k_20261109.states",
+        "KV_KV_TYPE": "f16",
+        "KV_SAMPLE_DETAIL": "1"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_f16_tile128_tile128_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_tile128_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_tile128_20261109.log"
+      ]
+    },
+    {
+      "id": "control_after",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_two_f16_16k32k50k_20261109.states",
+        "KV_KV_TYPE": "f16",
+        "KV_SAMPLE_DETAIL": "1"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_one_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "64",
+        "qwen35_f16_tile128_control_after_20261109"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_control_after_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_control_after_20261109.log"
+      ]
+    },
+    {
+      "id": "trace_tile128_50k",
+      "state": "ready",
+      "gpus": [
+        0,
+        1
+      ],
+      "mem_floor_gib": 4,
+      "max_host_drop_gb": 26,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-f16-tile128-20261109-build"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen35_f16_decode_trace.sh",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "50000",
+        "qwen35_f16_tile128_trace_tile128_50k_20261109",
+        "64"
+      ],
+      "timeout_s": 1800,
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_trace_tile128_50k_20261109.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_trace_tile128_50k_20261109.log",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_trace_tile128_50k_20261109.nsys-rep"
+      ]
+    }
+  ]
+}
