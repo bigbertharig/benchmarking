@@ -42,12 +42,13 @@ and model compute. The 4B run keeps its whole model and chat on one 1060;
 these figures do not compare equal hardware use or model quality.
 
 The much larger dense active weight path and KV footprint are plausible
-sources of its slower rate and steeper curve. This experiment does not
-isolate their contributions. A dense 50K trace on the same kernel would
-separate 3090 model work, 1060 attention, and link transfers before trying
-another speed change. A Q4_0 or Q4_1 dense KV run at 262K is a different
-capacity/speed trade-off; earlier Q4_0 dense long-context runs were much
-slower and should not be compared as if only the model changed.
+sources of its slower rate and steeper curve. This replay does not
+isolate their contributions. The follow-up
+[dense 50K Nsight trace](../qwen27-dense-f16-trace-50k-20261109/README.md)
+measured substantially more GPU0 graph work, GPU1 attention, and link
+traffic than the matched MoE trace. A Q4_0 or Q4_1 dense KV run at 262K
+is a different capacity/speed trade-off; earlier Q4_0 dense long-context
+runs were much slower and should not be compared as if only the model changed.
 
 Evidence: [parsed receipt](receipt.json), [first full-cap campaign](../../../../campaigns/qwen27_dense_f16_tile128_20261109.json),
 [64K preparation campaign](../../../../campaigns/qwen27_dense_f16_tile128_64k_20261109.json),

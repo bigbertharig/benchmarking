@@ -1,0 +1,10 @@
+{
+  "finished_at": "2026-11-10T04:50:44+00:00",
+  "manifest_sha256": "9ead36f6a0b3eedeafcf81c2636dc176e4bb63f30f538b24c77bc93ab53266eb",
+  "run_id": "qwen27-dense-f16-trace-50k-20261109",
+  "stages": {
+    "trace_dense_50k": "passed"
+  },
+  "started_at": "2026-11-10T04:50:13+00:00",
+  "status": "passed"
+}

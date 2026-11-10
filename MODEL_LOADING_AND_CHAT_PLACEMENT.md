@@ -7,6 +7,27 @@ speeds. We are exploring placements, chat behavior, tensor layouts, caching,
 and runtime designs; no single layout or Manager procedure is the target yet.
 The order of experiments can change when a result suggests a better question.
 
+## Current speed results (2026-11-09)
+
+For a model on GPU0 and one F16 chat on GPU1, the
+[matched 16K/32K/50K replay](results/runtime_experiments/model_loading_sequences/qwen27-dense-f16-tile128-64k-20261109/README.md)
+measured **70.5/62.5/52.6 tok/s** for Qwen3.6 35B-A3B MoE versus
+**23.2/18.6/14.8 tok/s** for Qwen3.6 dense 27B. Both use the 128-thread
+Pascal attention tile and 64-token solo windows. Dense F16 fits only a 64K
+reservation on one 1060; MoE F16 fits 262K. An entire Qwen3.5 4B on one
+1060 previously measured about 23.6 tok/s near 16.7K and 21.2 near 30.4K.
+That 4B comparison uses different model-compute hardware.
+
+The [50K dense/MoE Nsight trace](results/runtime_experiments/model_loading_sequences/qwen27-dense-f16-trace-50k-20261109/README.md)
+found 2,473 versus 558 ms summed 1060 attention time, 1,324 versus 369 ms
+summed GPU0 graph time, and 89 versus 40 MB copied into the 1060 across
+64 generated tokens. The activities overlap; these are diagnostic totals,
+not additive wall time. Attention and model compute both deserve targeted
+speed tests. The [single-worker return-delta result](results/runtime_experiments/model_loading_sequences/qwen35-return-delta-20261109/README.md)
+addresses post-response state capture, and the
+[durable checkpoint result](results/runtime_experiments/model_loading_sequences/qwen35-return-durable-20261109/README.md)
+addresses process restart recovery. Neither raises raw generation tok/s.
+
 ## The big picture
 
 There are two linked goals. The systems goal is to use the rig's separate 3090
@@ -1101,8 +1122,11 @@ then used the same GPU0-weight/GPU1-F16-chat layout, occupied depths, and
 70.5/62.5/52.6 for the MoE. The dense F16 262K reservation requested
 16 GiB on a 6 GB 1060 and failed before generation; the successful dense
 run reserved 64K. This limits the capacity match but makes the MoE speed
-advantage at equal occupied depths clear. A Qwen3.5-4B model fully on one
-1060 measured about 23.6 tok/s near 16.7K and 21.2 near 30.4K; that
+advantage at equal occupied depths clear. The subsequent
+[50K Nsight trace](results/runtime_experiments/model_loading_sequences/qwen27-dense-f16-trace-50k-20261109/README.md)
+found both substantially longer dense GPU0 model work and 1060 attention,
+with more link traffic as well. A Qwen3.5-4B model fully on one 1060
+measured about 23.6 tok/s near 16.7K and 21.2 near 30.4K; that
 comparison uses different hardware for model compute.
 
 The [Q4_1 tile 50K–200K curve](results/runtime_experiments/model_loading_sequences/qwen35-moe-q41-tile-curve-50k100k150k200k-20261109/README.md)

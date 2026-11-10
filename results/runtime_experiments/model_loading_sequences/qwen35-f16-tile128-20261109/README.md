@@ -30,6 +30,11 @@ accidentally edited the AMD RDNA config and left the actual 1060 launch
 unchanged. Its no-change result is **not** a valid 256-vs-128 test. The normal
 Pascal baseline already uses 256 threads.
 
+The [dense 27B 50K trace](../qwen27-dense-f16-trace-50k-20261109/README.md)
+uses the same 128-thread tile and shows much larger 1060 attention,
+GPU0 graph, and x1 transfer totals at the same occupied depth. Its F16
+worker reserves 64K instead of this MoE worker's 262K.
+
 The candidate is a model-shape-specific launch choice, not yet a default.
 The replay checks that generation completes from the same saved states; it
 does not establish response-quality equivalence or behavior on other models,

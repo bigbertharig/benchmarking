@@ -1,0 +1,234 @@
+{
+  "dense": {
+    "gpu0": {
+      "kernel_ms_sum": 21.817,
+      "graph_ms_sum": 1323.815,
+      "attention_tile_ms_sum": 0.0,
+      "attention_combine_ms_sum": 0.0,
+      "copykind1": {
+        "count": 1472,
+        "MB": 29.1,
+        "ms_sum": 3.625
+      },
+      "copykind2": {
+        "count": 4160,
+        "MB": 146.407,
+        "ms_sum": 14.262
+      },
+      "top_kernels": [
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)12, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint",
+          "count": 111,
+          "ms_sum": 9.383
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)12, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint",
+          "count": 113,
+          "ms_sum": 2.803
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)14, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint",
+          "count": 32,
+          "ms_sum": 2.694
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)14, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint",
+          "count": 33,
+          "ms_sum": 2.314
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)13, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint",
+          "count": 48,
+          "ms_sum": 1.211
+        },
+        {
+          "name": "void rms_norm_f32<(int)1024, (bool)1, (bool)0, (bool)0>(const float *, float *, int, int, int, long, long, long, float, const float *, long, long, long, uint3, uint3, uin",
+          "count": 129,
+          "ms_sum": 0.641
+        },
+        {
+          "name": "quantize_q8_1(const float *, void *, long, long, long, long, long, unsigned int, uint3)",
+          "count": 337,
+          "ms_sum": 0.57
+        },
+        {
+          "name": "void mul_mat_vec_f<float, float, (int)1, (int)256, (bool)0, (bool)0>(const T1 *, const float *, const int *, ggml_cuda_mm_fusion_args_device, float *, int, uint3, int, in",
+          "count": 96,
+          "ms_sum": 0.383
+        }
+      ]
+    },
+    "gpu1": {
+      "kernel_ms_sum": 2488.403,
+      "graph_ms_sum": 0.0,
+      "attention_tile_ms_sum": 2472.536,
+      "attention_combine_ms_sum": 4.06,
+      "copykind1": {
+        "count": 4288,
+        "MB": 89.261,
+        "ms_sum": 237.361
+      },
+      "copykind2": {
+        "count": 1024,
+        "MB": 25.166,
+        "ms_sum": 50.324
+      },
+      "top_kernels": [
+        {
+          "name": "void flash_attn_tile<(int)256, (int)256, (int)1, (int)2, (bool)0>(const char *, const char *, const char *, const char *, const char *, const int *, float *, float2 *, fl",
+          "count": 1024,
+          "ms_sum": 2472.536
+        },
+        {
+          "name": "void cpy_scalar<&cpy_1_scalar<float, float>>(const char *, char *, long, long, long, long, long, long, long, long, long, long, long, long, long, long, long)",
+          "count": 1024,
+          "ms_sum": 5.631
+        },
+        {
+          "name": "void k_set_rows<float, long, __half>(const T1 *, const T2 *, T3 *, long, long, long, long, long, long, long, long, long, long, long, long, long, long, uint3, uint3, uint3",
+          "count": 2048,
+          "ms_sum": 4.119
+        },
+        {
+          "name": "void flash_attn_combine_results<(int)256>(const float *, const float2 *, float *, int)",
+          "count": 1024,
+          "ms_sum": 4.06
+        },
+        {
+          "name": "void unary_gated_op_kernel<&op_sigmoid, float>(const T2 *, const T2 *, T2 *, long, long, long, long)",
+          "count": 1024,
+          "ms_sum": 2.058
+        }
+      ]
+    },
+    "gpu1_tile_shape": [
+      1,
+      5,
+      12,
+      32,
+      4,
+      1,
+      168,
+      19472,
+      0
+    ]
+  },
+  "moe": {
+    "gpu0": {
+      "kernel_ms_sum": 6.445,
+      "graph_ms_sum": 369.084,
+      "attention_tile_ms_sum": 0.0,
+      "attention_combine_ms_sum": 0.0,
+      "copykind1": {
+        "count": 1088,
+        "MB": 12.061,
+        "ms_sum": 1.813
+      },
+      "copykind2": {
+        "count": 2624,
+        "MB": 96.993,
+        "ms_sum": 9.581
+      },
+      "top_kernels": [
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)8, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3",
+          "count": 122,
+          "ms_sum": 2.344
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)12, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint",
+          "count": 39,
+          "ms_sum": 0.583
+        },
+        {
+          "name": "quantize_q8_1(const float *, void *, long, long, long, long, long, unsigned int, uint3)",
+          "count": 291,
+          "ms_sum": 0.452
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)13, (int)1, (bool)0, (bool)1, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint",
+          "count": 37,
+          "ms_sum": 0.445
+        },
+        {
+          "name": "void mul_mat_vec_f<float, float, (int)1, (int)256, (bool)0, (bool)0>(const T1 *, const float *, const int *, ggml_cuda_mm_fusion_args_device, float *, int, uint3, int, in",
+          "count": 140,
+          "ms_sum": 0.419
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)8, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3",
+          "count": 49,
+          "ms_sum": 0.314
+        },
+        {
+          "name": "void rms_norm_f32<(int)1024, (bool)1, (bool)0, (bool)0>(const float *, float *, int, int, int, long, long, long, float, const float *, long, long, long, uint3, uint3, uin",
+          "count": 81,
+          "ms_sum": 0.269
+        },
+        {
+          "name": "void topk_moe_cuda<(int)256, (bool)0>(const float *, float *, int *, float *, int, int, float, float, topk_moe_config)",
+          "count": 40,
+          "ms_sum": 0.152
+        }
+      ]
+    },
+    "gpu1": {
+      "kernel_ms_sum": 568.518,
+      "graph_ms_sum": 0.0,
+      "attention_tile_ms_sum": 558.192,
+      "attention_combine_ms_sum": 2.77,
+      "copykind1": {
+        "count": 2752,
+        "MB": 39.847,
+        "ms_sum": 105.721
+      },
+      "copykind2": {
+        "count": 640,
+        "MB": 10.486,
+        "ms_sum": 18.777
+      },
+      "top_kernels": [
+        {
+          "name": "void flash_attn_tile<(int)256, (int)256, (int)1, (int)8, (bool)0>(const char *, const char *, const char *, const char *, const char *, const int *, float *, float2 *, fl",
+          "count": 640,
+          "ms_sum": 558.192
+        },
+        {
+          "name": "void cpy_scalar<&cpy_1_scalar<float, float>>(const char *, char *, long, long, long, long, long, long, long, long, long, long, long, long, long, long, long)",
+          "count": 640,
+          "ms_sum": 3.706
+        },
+        {
+          "name": "void flash_attn_combine_results<(int)256>(const float *, const float2 *, float *, int)",
+          "count": 640,
+          "ms_sum": 2.77
+        },
+        {
+          "name": "void k_set_rows<float, long, __half>(const T1 *, const T2 *, T3 *, long, long, long, long, long, long, long, long, long, long, long, long, long, long, uint3, uint3, uint3",
+          "count": 1280,
+          "ms_sum": 2.581
+        },
+        {
+          "name": "void unary_gated_op_kernel<&op_sigmoid, float>(const T2 *, const T2 *, T2 *, long, long, long, long)",
+          "count": 640,
+          "ms_sum": 1.27
+        }
+      ]
+    },
+    "gpu1_tile_shape": [
+      1,
+      10,
+      2,
+      32,
+      4,
+      1,
+      116,
+      42240,
+      0
+    ]
+  },
+  "source_reports": {
+    "dense": "/mnt/shared/experiments/kv-matrix-20261107/qwen27_dense_f16_tile128_trace_50k_20261109.sqlite",
+    "moe": "/mnt/shared/experiments/kv-matrix-20261107/qwen35_f16_tile128_trace_tile128_50k_20261109.sqlite"
+  }
+}
