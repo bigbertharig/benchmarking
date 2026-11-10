@@ -1,0 +1,584 @@
+{
+  "model": "Qwen3.6-35B-A3B Q4_K_XL",
+  "worker_kv": "F16",
+  "worker_reservation": 262144,
+  "generated_tokens_per_window": 512,
+  "paths": {
+    "direct": {
+      "depths": {
+        "16384": {
+          "admission": {
+            "worker1": {
+              "setup_s": 0.315582,
+              "fill_s": 62.133766,
+              "handoff_s": 0.0,
+              "usable_s": 62.602372,
+              "stage_elapsed_s": 62.602373
+            },
+            "worker2": {
+              "setup_s": 0.099464,
+              "fill_s": 63.114227,
+              "handoff_s": 0.0,
+              "usable_s": 63.412899,
+              "stage_elapsed_s": 134.496605
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 77.296214,
+                "seconds": 6.623869,
+                "first_ms": 28.494,
+                "p50_ms": 12.87,
+                "p95_ms": 13.077
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 57.142025,
+                "seconds": 8.96013,
+                "first_ms": 32.788,
+                "p50_ms": 18.218,
+                "p95_ms": 19.772
+              }
+            },
+            "two_ready": {
+              "worker1": {
+                "tps": 62.760353,
+                "seconds": 8.158017,
+                "first_ms": 49.044,
+                "p50_ms": 15.87,
+                "p95_ms": 16.208
+              },
+              "worker2": {
+                "tps": 62.711815,
+                "seconds": 8.164331,
+                "first_ms": 48.804,
+                "p50_ms": 15.867,
+                "p95_ms": 16.246
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 62.602373,
+          "both_ready_s": 134.496605
+        },
+        "32768": {
+          "admission": {
+            "worker1": {
+              "setup_s": 5.030052,
+              "fill_s": 86.095227,
+              "handoff_s": 0.0,
+              "usable_s": 91.362781,
+              "stage_elapsed_s": 91.362781
+            },
+            "worker2": {
+              "setup_s": 5.035816,
+              "fill_s": 87.233243,
+              "handoff_s": 0.0,
+              "usable_s": 92.489525,
+              "stage_elapsed_s": 195.943275
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 60.512904,
+                "seconds": 8.461005,
+                "first_ms": 30.72,
+                "p50_ms": 16.463,
+                "p95_ms": 16.572
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 49.353339,
+                "seconds": 10.374171,
+                "first_ms": 39.826,
+                "p50_ms": 16.932,
+                "p95_ms": 28.24
+              }
+            },
+            "two_ready": {
+              "worker1": {
+                "tps": 56.160183,
+                "seconds": 9.116779,
+                "first_ms": 53.874,
+                "p50_ms": 17.939,
+                "p95_ms": 19.289
+              },
+              "worker2": {
+                "tps": 56.090374,
+                "seconds": 9.128126,
+                "first_ms": 51.229,
+                "p50_ms": 17.943,
+                "p95_ms": 19.289
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 91.362781,
+          "both_ready_s": 195.943275
+        },
+        "50000": {
+          "admission": {
+            "worker1": {
+              "setup_s": 9.248822,
+              "fill_s": 117.554923,
+              "handoff_s": 0.0,
+              "usable_s": 126.997318,
+              "stage_elapsed_s": 126.997318
+            },
+            "worker2": {
+              "setup_s": 9.298301,
+              "fill_s": 118.521158,
+              "handoff_s": 0.0,
+              "usable_s": 128.023412,
+              "stage_elapsed_s": 270.777
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 49.890536,
+                "seconds": 10.262467,
+                "first_ms": 34.296,
+                "p50_ms": 19.943,
+                "p95_ms": 20.17
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 46.386752,
+                "seconds": 11.037634,
+                "first_ms": 42.754,
+                "p50_ms": 20.091,
+                "p95_ms": 37.418
+              }
+            },
+            "two_ready": {
+              "worker1": {
+                "tps": 49.310677,
+                "seconds": 10.383147,
+                "first_ms": 65.864,
+                "p50_ms": 19.996,
+                "p95_ms": 20.9
+              },
+              "worker2": {
+                "tps": 49.236086,
+                "seconds": 10.398877,
+                "first_ms": 68.424,
+                "p50_ms": 19.997,
+                "p95_ms": 21.333
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 126.997318,
+          "both_ready_s": 270.777
+        }
+      },
+      "sampled_gpu_peak_mib": {
+        "0": 21381,
+        "1": 5217,
+        "2": 5217,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      }
+    },
+    "ram": {
+      "depths": {
+        "16384": {
+          "admission": {
+            "worker1": {
+              "setup_s": 0.225935,
+              "fill_s": 37.739081,
+              "handoff_s": 1.276973,
+              "usable_s": 39.448536,
+              "stage_elapsed_s": 39.448536
+            },
+            "worker2": {
+              "setup_s": 0.072735,
+              "fill_s": 38.917488,
+              "handoff_s": 1.325667,
+              "usable_s": 40.526421,
+              "stage_elapsed_s": 88.472606
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 77.080436,
+                "seconds": 6.642412,
+                "first_ms": 44.659,
+                "p50_ms": 12.867,
+                "p95_ms": 13.115
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 59.170205,
+                "seconds": 8.653004,
+                "first_ms": 30.37,
+                "p50_ms": 16.867,
+                "p95_ms": 18.474
+              }
+            },
+            "two_ready": {
+              "worker1": {
+                "tps": 62.932429,
+                "seconds": 8.13571,
+                "first_ms": 42.441,
+                "p50_ms": 15.814,
+                "p95_ms": 16.232
+              },
+              "worker2": {
+                "tps": 62.903458,
+                "seconds": 8.139457,
+                "first_ms": 45.743,
+                "p50_ms": 15.82,
+                "p95_ms": 16.228
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 39.448536,
+          "both_ready_s": 88.472606
+        },
+        "32768": {
+          "admission": {
+            "worker1": {
+              "setup_s": 0.840803,
+              "fill_s": 58.294406,
+              "handoff_s": 2.27241,
+              "usable_s": 61.739254,
+              "stage_elapsed_s": 61.739254
+            },
+            "worker2": {
+              "setup_s": 0.845237,
+              "fill_s": 58.931919,
+              "handoff_s": 2.30277,
+              "usable_s": 62.426052,
+              "stage_elapsed_s": 136.255324
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 60.500842,
+                "seconds": 8.462692,
+                "first_ms": 31.368,
+                "p50_ms": 16.462,
+                "p95_ms": 16.603
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 53.451339,
+                "seconds": 9.578806,
+                "first_ms": 36.541,
+                "p50_ms": 18.736,
+                "p95_ms": 19.921
+              }
+            },
+            "two_ready": {
+              "worker2": {
+                "tps": 59.794427,
+                "seconds": 8.562671,
+                "first_ms": 52.899,
+                "p50_ms": 16.284,
+                "p95_ms": 18.541
+              },
+              "worker1": {
+                "tps": 59.771736,
+                "seconds": 8.565922,
+                "first_ms": 53.764,
+                "p50_ms": 16.288,
+                "p95_ms": 18.547
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 61.739254,
+          "both_ready_s": 136.255324
+        },
+        "50000": {
+          "admission": {
+            "worker1": {
+              "setup_s": 1.459753,
+              "fill_s": 83.639895,
+              "handoff_s": 3.359715,
+              "usable_s": 89.008437,
+              "stage_elapsed_s": 89.008437
+            },
+            "worker2": {
+              "setup_s": 1.588551,
+              "fill_s": 84.10776,
+              "handoff_s": 3.34886,
+              "usable_s": 89.595851,
+              "stage_elapsed_s": 194.392404
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 49.847964,
+                "seconds": 10.271232,
+                "first_ms": 38.698,
+                "p50_ms": 19.96,
+                "p95_ms": 20.137
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 45.948635,
+                "seconds": 11.142877,
+                "first_ms": 38.091,
+                "p50_ms": 21.882,
+                "p95_ms": 22.639
+              }
+            },
+            "two_ready": {
+              "worker1": {
+                "tps": 49.504738,
+                "seconds": 10.342444,
+                "first_ms": 57.767,
+                "p50_ms": 19.823,
+                "p95_ms": 21.647
+              },
+              "worker2": {
+                "tps": 49.464577,
+                "seconds": 10.350842,
+                "first_ms": 58.414,
+                "p50_ms": 19.831,
+                "p95_ms": 21.649
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 89.008437,
+          "both_ready_s": 194.392404
+        }
+      },
+      "sampled_gpu_peak_mib": {
+        "0": 21437,
+        "1": 5215,
+        "2": 5215,
+        "3": 71,
+        "4": 71,
+        "5": 71
+      }
+    },
+    "helper": {
+      "depths": {
+        "16384": {
+          "admission": {
+            "worker1": {
+              "setup_s": 0.230844,
+              "fill_s": 41.576103,
+              "handoff_s": 1.67728,
+              "usable_s": 43.606718,
+              "stage_elapsed_s": 43.606718
+            },
+            "worker2": {
+              "setup_s": 0.068908,
+              "fill_s": 41.740065,
+              "handoff_s": 1.652398,
+              "usable_s": 43.60019,
+              "stage_elapsed_s": 95.698419
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 77.152079,
+                "seconds": 6.636244,
+                "first_ms": 36.413,
+                "p50_ms": 12.862,
+                "p95_ms": 13.141
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 52.21888,
+                "seconds": 9.804883,
+                "first_ms": 45.244,
+                "p50_ms": 19.459,
+                "p95_ms": 23.921
+              }
+            },
+            "two_ready": {
+              "worker1": {
+                "tps": 64.479848,
+                "seconds": 7.940465,
+                "first_ms": 48.152,
+                "p50_ms": 15.252,
+                "p95_ms": 16.124
+              },
+              "worker2": {
+                "tps": 64.449213,
+                "seconds": 7.94424,
+                "first_ms": 52.375,
+                "p50_ms": 15.244,
+                "p95_ms": 16.098
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 43.606718,
+          "both_ready_s": 95.698419
+        },
+        "32768": {
+          "admission": {
+            "worker1": {
+              "setup_s": 4.62606,
+              "fill_s": 54.446708,
+              "handoff_s": 3.050458,
+              "usable_s": 62.296627,
+              "stage_elapsed_s": 62.296628
+            },
+            "worker2": {
+              "setup_s": 4.718264,
+              "fill_s": 54.458408,
+              "handoff_s": 3.045451,
+              "usable_s": 62.379376,
+              "stage_elapsed_s": 136.790285
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 60.348611,
+                "seconds": 8.484039,
+                "first_ms": 32.744,
+                "p50_ms": 16.499,
+                "p95_ms": 16.632
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 46.373812,
+                "seconds": 11.040714,
+                "first_ms": 54.623,
+                "p50_ms": 16.787,
+                "p95_ms": 33.718
+              }
+            },
+            "two_ready": {
+              "worker1": {
+                "tps": 60.595136,
+                "seconds": 8.449523,
+                "first_ms": 47.888,
+                "p50_ms": 16.342,
+                "p95_ms": 16.553
+              },
+              "worker2": {
+                "tps": 60.579652,
+                "seconds": 8.451683,
+                "first_ms": 50.91,
+                "p50_ms": 16.341,
+                "p95_ms": 16.563
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 62.296628,
+          "both_ready_s": 136.790285
+        },
+        "50000": {
+          "admission": {
+            "worker1": {
+              "setup_s": 4.53757,
+              "fill_s": 71.64875,
+              "handoff_s": 4.520704,
+              "usable_s": 80.902425,
+              "stage_elapsed_s": 80.902426
+            },
+            "worker2": {
+              "setup_s": 2.123696,
+              "fill_s": 72.294352,
+              "handoff_s": 4.542972,
+              "usable_s": 79.142675,
+              "stage_elapsed_s": 175.830062
+            }
+          },
+          "generation": {
+            "solo": {
+              "worker1": {
+                "tps": 49.760641,
+                "seconds": 10.289257,
+                "first_ms": 36.919,
+                "p50_ms": 19.991,
+                "p95_ms": 20.199
+              }
+            },
+            "during_second_admission": {
+              "worker1": {
+                "tps": 30.610914,
+                "seconds": 16.726061,
+                "first_ms": 54.874,
+                "p50_ms": 32.7,
+                "p95_ms": 44.859
+              }
+            },
+            "two_ready": {
+              "worker2": {
+                "tps": 49.739566,
+                "seconds": 10.293616,
+                "first_ms": 56.3,
+                "p50_ms": 19.85,
+                "p95_ms": 21.158
+              },
+              "worker1": {
+                "tps": 49.655344,
+                "seconds": 10.311075,
+                "first_ms": 59.012,
+                "p50_ms": 19.855,
+                "p95_ms": 20.979
+              }
+            }
+          },
+          "recall": {
+            "worker1": true,
+            "worker2": true
+          },
+          "first_ready_s": 80.902426,
+          "both_ready_s": 175.830062
+        }
+      },
+      "sampled_gpu_peak_mib": {
+        "0": 21923,
+        "1": 643,
+        "2": 5217,
+        "3": 5215,
+        "4": 71,
+        "5": 71
+      }
+    }
+  }
+}

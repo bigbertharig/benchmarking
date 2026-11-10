@@ -69,6 +69,7 @@ docker run --rm --gpus all --network none \
   -e "KV_MIRROR_CAP=${KV_MIRROR_CAP-}" \
   -e "KV_PREP_CPU_FROM_DEPTH=${KV_PREP_CPU_FROM_DEPTH-}" \
   -e "KV_ADMISSION_TARGET=${KV_ADMISSION_TARGET-}" \
+  -e "KV_ADMISSION_PATH=${KV_ADMISSION_PATH-}" \
   -e "KV_KV_TYPE=${KV_KV_TYPE-}" \
   -e "KV_K_TYPE=${KV_K_TYPE-}" -e "KV_V_TYPE=${KV_V_TYPE-}" \
   -e "KV_WORKER_UBATCH=${KV_WORKER_UBATCH-}" \

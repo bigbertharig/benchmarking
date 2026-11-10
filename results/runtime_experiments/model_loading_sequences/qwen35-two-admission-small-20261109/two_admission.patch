@@ -1,0 +1,126 @@
+--- a/examples/simple/simple.cpp
++++ b/examples/simple/simple.cpp
+@@ -158,7 +158,7 @@
+     if (tokens.empty() || length < 0) return false;
+     std::vector<llama_token> block;
+     for (int pos = 0; pos < length;) {
+-        const int count = std::min(512, length - pos);
++        const int count = std::min(64, length - pos);
+         block.resize(count);
+         for (int j = 0; j < count; ++j) block[j] = tokens[(pos + j) % tokens.size()];
+         if (llama_decode(c.ctx, llama_batch_get_one(block.data(), count))) return false;
+@@ -1312,6 +1312,114 @@
+                                    (prefix + "_two").c_str())) return 204;
+             std::fprintf(stderr, "TWO_REPLAY_DONE depth=%d chats=2 gpus=%s tokens_each=%d\n",
+                          depth, gpu_pair.c_str(), tokens);
++            std::fflush(stderr);
++            destroy(secondary);
++            destroy(main_chat);
++        }
++        llama_model_free(model);
++        return 0;
++    }
++    if (std::string(argv[1]) == "moe_two_admission_small") {
++        const char * path_env = std::getenv("KV_ADMISSION_PATH");
++        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
++        const std::string placement = path_env ? path_env : "";
++        if (!source_dir || !*source_dir || pair_cap < 262144 || tokens < 64 ||
++            (placement != "direct" && placement != "ram" && placement != "helper")) return 240;
++        const char * codes[2] = {"4827", "6193"};
++        const int depths[3] = {16384, 32768, 50000};
++        const char * first_card = placement == "helper" ? "2" : "1";
++        const char * second_card = placement == "helper" ? "3" : "2";
++        for (int stage = 0; stage < 3; ++stage) {
++            const int target = depths[stage];
++            const std::string prefix1 = std::string("<|im_start|>user\nRemember my private four-digit code: ") + codes[0] + ". I will ask for it after several turns.\n";
++            const std::string prefix2 = std::string("<|im_start|>user\nRemember my private four-digit code: ") + codes[1] + ". I will ask for it after several turns.\n";
++            chat main_chat{"worker1", prefix1.c_str(), nullptr, first_card};
++            chat secondary{"worker2", prefix2.c_str(), nullptr, second_card};
++            chat * workers[2] = {&main_chat, &secondary};
++            const auto stage_started = clock_type::now();
++            auto admit = [&](int i) -> bool {
++                chat & worker = *workers[i];
++                const auto started = clock_type::now();
++                const std::string prompt = i == 0 ? prefix1 : prefix2;
++                const std::string note = std::string(" Entry ") + std::to_string(i+1) +
++                    " describes a blue bicycle beside a river, a quiet bridge, and mild weather.\n";
++                const auto filler = tokenize_text(vocab, note, false);
++                const auto next_user = tokenize_text(vocab,
++                    "\n<|im_start|>user\nHere is another batch of unrelated field notes.\n", false);
++                if (filler.empty() || next_user.empty()) return false;
++                chat temp{worker.name, prompt.c_str(), placement == "helper" ? "0,1" : nullptr,
++                          placement == "ram" ? "-1" : placement == "direct" ? worker.single : nullptr};
++                chat & destination = placement == "direct" ? worker : temp;
++                const int temp_cap = placement == "direct" ? pair_cap : ((target + 8191)/8192)*8192;
++                if (!add_chat(destination, model, vocab, temp_cap, placement != "direct")) return false;
++                const auto restore_started = clock_type::now();
++                if (stage == 0) {
++                    if (!decode_raw(destination, destination.next, (int)destination.next.size())) return false;
++                } else {
++                    const std::string prior_path = std::string(source_dir) + "/worker" +
++                        std::to_string(i+1) + "_depth" + std::to_string(depths[stage-1]) + ".bin";
++                    snapshot prior;
++                    if (!read_snapshot_file(prior_path, prior) || !restore(destination, prior)) return false;
++                    prior.data.clear();
++                    prior.data.shrink_to_fit();
++                    if (!decode_raw(destination, destination.next,
++                                    (int)destination.next.size()) ||
++                        !decode_raw(destination, next_user, (int)next_user.size())) return false;
++                }
++                const double setup_s = std::chrono::duration<double>(clock_type::now()-restore_started).count();
++                const auto fill_started = clock_type::now();
++                if (destination.used >= target ||
++                    !decode_raw_progress(destination, filler, target-destination.used, target)) return false;
++                const double fill_s = std::chrono::duration<double>(clock_type::now()-fill_started).count();
++                select_chat(destination);
++                destination.next.assign(1, llama_sampler_sample(destination.sampler, destination.ctx, -1));
++                double handoff_s = 0;
++                if (placement != "direct") {
++                    const auto handoff_started = clock_type::now();
++                    snapshot state;
++                    if (!save(temp, state)) return false;
++                    destroy(temp);
++                    worker.prompt = "";
++                    if (!add_chat(worker, model, vocab, pair_cap) || !restore(worker, state)) return false;
++                    handoff_s = std::chrono::duration<double>(clock_type::now()-handoff_started).count();
++                }
++                const double usable_s = std::chrono::duration<double>(clock_type::now()-started).count();
++                std::fprintf(stderr,
++                    "TWO_ADMIT path=%s depth=%d name=%s used=%d setup_s=%.6f fill_s=%.6f handoff_s=%.6f usable_s=%.6f stage_elapsed_s=%.6f\n",
++                    placement.c_str(), target, worker.name, worker.used, setup_s, fill_s, handoff_s,
++                    usable_s, std::chrono::duration<double>(clock_type::now()-stage_started).count());
++                std::fflush(stderr);
++                return true;
++            };
++            if (!admit(0)) return 241;
++            snapshot main_before;
++            if (!save(main_chat, main_before)) return 242;
++            const std::string phase = std::string("depth") + std::to_string(target);
++            if (!measured_parallel(vocab, {&main_chat}, tokens, (phase+"_solo").c_str()) ||
++                !restore(main_chat, main_before)) return 243;
++            std::atomic<bool> generation_ok{true};
++            std::thread generating([&]() {
++                if (!measured_parallel(vocab, {&main_chat}, tokens,
++                                       (phase+"_during_second_admission").c_str()))
++                    generation_ok.store(false);
++            });
++            const bool second_ok = admit(1);
++            generating.join();
++            if (!second_ok || !generation_ok.load() ||
++                !restore(main_chat, main_before)) return 244;
++            main_before.data.clear();
++            main_before.data.shrink_to_fit();
++            snapshot before1, before2;
++            if (!save(main_chat, before1) || !save(secondary, before2)) return 245;
++            if (!measured_parallel(vocab, {&main_chat, &secondary}, tokens,
++                                   (phase+"_two_ready").c_str()) ||
++                !restore(main_chat, before1) || !restore(secondary, before2)) return 246;
++            before1.data.clear(); before2.data.clear();
++            if (!recall_answer(main_chat, vocab, codes[0], target, 64) ||
++                !recall_answer(secondary, vocab, codes[1], target, 64)) return 247;
++            std::fprintf(stderr, "TWO_STAGE_DONE path=%s depth=%d stage_total_s=%.6f recall=1\n",
++                placement.c_str(), target,
++                std::chrono::duration<double>(clock_type::now()-stage_started).count());
+             std::fflush(stderr);
+             destroy(secondary);
+             destroy(main_chat);

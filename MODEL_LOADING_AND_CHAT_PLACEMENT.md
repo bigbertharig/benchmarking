@@ -128,19 +128,22 @@ at 16K, a F16 worker fell from 76.5 tok/s solo to about 40 tok/s with
 five active; at 100K, from 33 to about 27. These are distinct workloads
 and neither number predicts whole-turn latency by itself.
 
-**Next matched two-chat comparison:** keep the same F16 saved histories,
-262K worker reservation, GPU0 model load, and two final worker chats.
-Compare (1) direct fill on GPUs1+2, (2) GPU0+RAM preparation then handoff
-to GPUs1+2, and (3) GPU0+GPU1 dedicated preparation then handoff to
-GPUs2+3. Prepare main and secondary in order, then repeat with the second
-admission while the first generates. Start with the saved 100K → 108K
-pilot to check setup and correctness; extend to 150K only if it answers
-the crossover question. Record first-chat and both-chat ready times,
-source restore, prep, handoff, first-token latency, per-chat sustained
-decode, and delay imposed on the continuing chat. The dedicated helper
-leaves four available worker cards in the maximal layout, while the RAM
-and direct paths leave five. Do not infer a two-chat win from one-chat
-admission alone.
+The [matched two-chat F16 comparison](results/runtime_experiments/model_loading_sequences/qwen35-two-admission-small-20261109/README.md)
+ran direct worker filling, GPU0+RAM preparation, and GPU0+dedicated-GPU1
+preparation for two final 1060 chats at 16K/32K/50K. All arms passed
+private-code recall. Both chats were ready in 134.5/195.9/270.8 seconds
+on the direct path, 88.5/136.3/194.4 seconds with RAM preparation, and
+95.7/136.8/175.8 seconds with the GPU1 helper. These measured stage
+intervals include a solo main-chat generation window between admissions.
+RAM won 16K readiness, RAM and helper were effectively tied at 32K, and
+helper won 50K readiness. During the early 50K secondary admission,
+the main chat ran at 45.9 tok/s with RAM preparation but only 30.6 tok/s
+with the helper, versus about 49.8 tok/s solo. The helper leaves four
+1060 worker slots; RAM leaves five. Preparation placement therefore needs
+an admission-time **and** active-chat-interference budget. Next repeat
+the 50K helper overlap with a longer, full-admission generation trace and
+GPU0/GPU1/x1 utilization before treating the 50K readiness win as useful
+for a busy main chat. Keep this follow-up at 16K/32K/50K.
 
 ### Prepare on fast hardware, then place on a slower tier
 

@@ -1,0 +1,12 @@
+{
+  "finished_at": "2026-11-10T00:44:41+00:00",
+  "manifest_sha256": "772ec43e91849e5f435e32f4db60ada528256eafce658da6cc364376da4a35ee",
+  "run_id": "qwen35-two-admission-small-20261109",
+  "stages": {
+    "two_admission_direct_16k32k50k": "passed",
+    "two_admission_helper_16k32k50k": "passed",
+    "two_admission_ram_16k32k50k": "passed"
+  },
+  "started_at": "2026-11-10T00:17:25+00:00",
+  "status": "passed"
+}
