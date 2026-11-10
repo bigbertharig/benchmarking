@@ -390,6 +390,36 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "dual_local0_worker5_depth") {
+        chat local0{"local0", "The capital of Germany is", nullptr, "0"};
+        chat worker5{"worker5", "The capital of Japan is", nullptr, "5"};
+        if (!add_chat(local0, model, vocab, 262144) || !decode(local0, vocab, true) ||
+            !add_chat(worker5, model, vocab, 262144) || !decode(worker5, vocab, true)) return 131;
+        if (!parallel_bench(vocab, {&local0, &worker5}, tokens, "short")) return 132;
+        for (int target : {local_cap, pair_cap, single_cap}) {
+            if (target <= local0.used || target <= worker5.used ||
+                !fill(local0, target, 64) || !fill(worker5, target, 64)) return 133;
+            const std::string phase = "depth" + std::to_string(target);
+            if (!parallel_bench(vocab, {&local0, &worker5}, tokens, phase.c_str())) return 134;
+        }
+        destroy(worker5);
+        destroy(local0);
+        llama_model_free(model);
+        return 0;
+    }
+    if (std::string(argv[1]) == "single_local0_depth") {
+        chat local0{"local0", "The capital of Germany is", nullptr, "0"};
+        if (!add_chat(local0, model, vocab, 262144) || !decode(local0, vocab, true)) return 121;
+        if (!bench(local0, vocab, tokens, "short")) return 122;
+        for (int target : {local_cap, pair_cap, single_cap}) {
+            if (target <= local0.used || !fill(local0, target, 64)) return 123;
+            const std::string phase = "depth" + std::to_string(target);
+            if (!bench(local0, vocab, tokens, phase.c_str())) return 124;
+        }
+        destroy(local0);
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "single_worker5_prep16") {
         chat temp{"prep0", "The capital of Germany is", nullptr, "0"};
         const auto prep_start = clock_type::now();
