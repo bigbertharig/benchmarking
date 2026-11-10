@@ -532,10 +532,11 @@ python3 ~/llm-gateway/tools/rigctl.py run-start --run model-loading-YYYYMMDD --c
 The claim name is the run ID. The terminal receipt records its card set; a
 rerun verifies the same claim rather than creating another. When a model is
 already frozen, use its existing claim instead. The current 125B-class Qwen3.8
-Q4 Strata load uses `qwen38-q4-frozen` on GPU0. Its 32K two-slot service is
-healthy, while the five 1060s remain unclaimed for other work. Reserve those
-cards in a separate planned session only if the next test actually needs them.
-The loaded Qwen model is not unloaded by these runner changes.
+Q4 Strata load uses `qwen38-q4-frozen` across GPUs 0?5. GPU0 holds the
+healthy 32K two-slot Strata service; the five 1060s are idle but reserved for
+follow-up benchmarks. The claim was extended through Manager on 2026-11-10
+and persists after the current run. The loaded Qwen model was not unloaded
+by the runner or gateway changes.
 
 The first stage now reuses the full SHA-256 receipt when each shard still has
 the verified size, digest in the manifest, and unchanged modification/change
