@@ -14,7 +14,7 @@ override_csv="$(IFS=,; echo "${overrides[*]}")"
 exec "$runtime" \
   --name coder-chat3090-30x5-11522 --model "$model" --port 11522 \
   --gpus device=0,1,2,3,4,5 --image llama-runtime:b11669 \
-  --ctx-size 250000 --batch-size 512 --parallel 1 --memory-limit 20g \
+  --ctx-size "${CODER_CHAT_CAP:-262144}" --batch-size 512 --parallel 1 --memory-limit 20g \
   --tensor-split 48,0,0,0,0,0 \
   --extra-arg --ubatch-size --extra-arg 32 \
   --extra-arg -ctk --extra-arg f16 --extra-arg -ctv --extra-arg f16 \

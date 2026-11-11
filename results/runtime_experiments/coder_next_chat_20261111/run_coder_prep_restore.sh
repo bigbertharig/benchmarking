@@ -47,7 +47,7 @@ trap 'exit 143' TERM
 trap 'exit 130' INT
 
 envs=(-e LD_LIBRARY_PATH=/build/bin -e KV_MODEL_DEVICES="$devices" -e KV_MODEL_SPLIT="$split"
-  -e KV_TENSOR_OVERRIDES_FILE="$overrides" -e NEMO_KV_TYPE=f16 -e CODER_CHAT_CAP=250000
+  -e KV_TENSOR_OVERRIDES_FILE="$overrides" -e NEMO_KV_TYPE=f16 -e CODER_CHAT_CAP="${CODER_CHAT_CAP:-250000}"
   -e CODER_TARGETS="$targets" -e CODER_STATE_DIR=/state)
 if [[ -n "$resume" ]]; then
   envs+=(-e CODER_RESUME_FILE="/state/$resume")
