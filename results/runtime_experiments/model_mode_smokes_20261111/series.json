@@ -1,0 +1,29 @@
+{
+  "schema": 2,
+  "name": "named_model_mode_smokes_20261111",
+  "defaults": {
+    "state": "ready",
+    "gpus": [],
+    "mem_floor_gib": 4,
+    "timeout_s": 10800
+  },
+  "cases": [
+    {
+      "id": "coder_existing_smoke",
+      "label": "Coder Next single-chat-fast against resident model",
+      "command": ["bash", "scripts/integration/run_mode_smoke_stage.sh", "wait", "coder_next_30x5_chat3090_smoke_20261111", "/mnt/shared/logs/benchmarks/placement_coder_next_30x5_smoke_20261111.log"]
+    },
+    {
+      "id": "nemo_single_chat_fast",
+      "label": "Nemotron Bolt single-chat-fast HTTP smoke",
+      "command": ["bash", "scripts/integration/run_mode_smoke_stage.sh", "run", "nemotron-3.5-bolt:74b-a9b", "single-chat-fast", "11523", "nemo_single_chat_fast_smoke_20261111", "--stop-container", "coder-chat3090-30x5-11522"],
+      "outputs": ["/mnt/shared/logs/benchmarks/placement_nemo_single_chat_fast_smoke_20261111.log"]
+    },
+    {
+      "id": "qwen35_single_chat_fast",
+      "label": "Qwen3.6 35B single-chat-fast HTTP smoke",
+      "command": ["bash", "scripts/integration/run_mode_smoke_stage.sh", "run", "qwen3.6:35b-a3b-xl", "single-chat-fast", "11524", "qwen35_single_chat_fast_smoke_20261111", "--stop-profile", "mode-nemotron-3.5-bolt-74b-a9b-single-chat-fast"],
+      "outputs": ["/mnt/shared/logs/benchmarks/placement_qwen35_single_chat_fast_smoke_20261111.log"]
+    }
+  ]
+}

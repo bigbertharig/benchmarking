@@ -88,8 +88,15 @@ establish useful logical separation, with physical state location still open.
 
 ## Research now, orchestration later
 
-Benchmarking owns experiments, scripts, observations, and raw receipts. The
-existing [`load_recipes.json`](load_recipes.json) handoff preserves information
+Benchmarking owns experiments, scripts, observations, and raw receipts.
+Executable experimental placements now have a single entry point in
+[`llm_orchestration` model modes](https://github.com/bigbertharig/llm_orchestration/blob/main/shared/scripts/rig/MODEL_MODES.md):
+callers request the canonical model ID plus a mode such as `single-chat-fast`.
+Orchestration owns the GPU map, KV flags, runtime image, launch, and readiness
+checks for that pair. A mode remains experimental until its HTTP server behavior
+is measured; it is not automatically a gateway offer.
+
+The existing [`load_recipes.json`](load_recipes.json) handoff preserves information
 for possible later use by the Pi gateway, whose
 [`MODEL_LIBRARY_HANDOFF.md`](https://github.com/bigbertharig/llm-gateway/blob/main/docs/MODEL_LIBRARY_HANDOFF.md)
 describes import. It is passive research metadata, not a requirement to turn
