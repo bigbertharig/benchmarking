@@ -29,6 +29,7 @@ def main():
     ap.add_argument('--reuse-loaded', action='store_true')
     ap.add_argument('--restart-loaded', action='store_true')
     ap.add_argument('--resident-budget-gib', type=int, choices=(8, 12), default=8)
+    ap.add_argument('--context-cap', type=int, choices=(65536, 131072, 262144), default=65536)
     ap.add_argument('--peer-device', action='store_true')
     ap.add_argument('--gpu-set', choices=('0','0,1','0,1,2,3','0,1,2,3,4,5'), default='0')
     ap.add_argument('--gpu-roles', help='Strata card roles, e.g. 0=main,1=helper; replaces --gpu')
@@ -46,7 +47,7 @@ def main():
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     state = {'status': 'running', 'started_at': stamp(), 'model': str(MODEL),
-             'context_cap': 65536, 'slots': 1, 'kv': args.kv_format,
+             'context_cap': args.context_cap, 'slots': 1, 'kv': args.kv_format,
              'resident_budget_gib': args.resident_budget_gib, 'peer_device': 1 if args.peer_device else None,
              'gpu_set': args.gpu_set, 'gpu_roles': args.gpu_roles, 'prefill': args.prefill,
              'engine_components': str(args.engine_components),
@@ -57,7 +58,7 @@ def main():
     env = dict(os.environ, STRATA_COMPONENTS_DIR=str(args.engine_components), CUDA_DEVICE_ORDER='PCI_BUS_ID')
     common = [str(CONTROL), 'launch', '--family', 'unsloth', '--model', 'ud-q4_k_xl',
               '--model-path', str(MODEL), '--data-dir', str(DATA),
-              '--backend', 'nvidia', '--context', '65536', '--kv', args.kv_format,
+              '--backend', 'nvidia', '--context', str(args.context_cap), '--kv', args.kv_format,
               '--vision', 'off', '--parallel', '1', '--mtp', 'off', '--drafting', 'off',
               '--set', f'resident-budget-gib={args.resident_budget_gib}',
               '--set', f'vram-reserve-mib={args.vram_reserve_mib}',
@@ -75,7 +76,6 @@ def main():
         common += ['--set', 'peer-device=1']
     stopped_existing = False
     new_healthy = False
-    old_context = None
     try:
         if not (PACK / 'index.txt').is_file() or not (PACK / 'native_experts.txt').is_file():
             raise RuntimeError('Q4 pack markers missing')
@@ -85,22 +85,21 @@ def main():
             raise RuntimeError('less than 8 GiB MemAvailable')
         if args.reuse_loaded:
             health = request('/health', timeout=5)
-            if health.get('max_context') != 65536 or not health.get('loaded'):
-                raise RuntimeError('existing service is not the 64K one-slot load')
+            if health.get('max_context') != args.context_cap or not health.get('loaded'):
+                raise RuntimeError('existing service is not the requested one-slot context load')
             state['reused_loaded'] = True
         else:
             plan = subprocess.run(common + ['--plan'], env=env, capture_output=True, text=True, timeout=120)
             (out / 'plan.json').write_text(plan.stdout)
             if plan.returncode or not json.loads(plan.stdout).get('ok'):
-                raise RuntimeError('64K launch plan refused')
+                raise RuntimeError('Strata launch plan refused')
             if (download := json.loads(plan.stdout)['plan']['download']).get('gb') != 0:
-                raise RuntimeError('64K plan requires a download')
+                raise RuntimeError('Strata plan requires a download')
             event('restart', 'begin')
             if state['gpu_before_mib'].get(0, 0) > 1024:
                 old_health = request('/health', timeout=5)
                 if old_health.get('model') != 'qwen3.8-flash-next-unsloth-ud-q4_k_xl':
                     raise RuntimeError('GPU0 holds a different model')
-                old_context = old_health.get('max_context')
                 stopped = subprocess.run([str(CONTROL), 'launch', '--stop', '--output', 'json'],
                                          env=env, capture_output=True, text=True, timeout=120)
                 (out / 'stop_stdout.json').write_text(stopped.stdout)
@@ -113,11 +112,11 @@ def main():
             (out / 'launch_stderr.txt').write_text(launch.stderr)
             event('restart', 'end', {'launch_exit': launch.returncode})
             if launch.returncode:
-                raise RuntimeError(f'64K Strata launch failed: {launch.stderr[-400:]}')
+                raise RuntimeError(f'Strata launch failed: {launch.stderr[-400:]}')
         health = request('/health', timeout=5)
-        if (not health.get('loaded') or health.get('max_context') != 65536
+        if (not health.get('loaded') or health.get('max_context') != args.context_cap
                 or health.get('model') != 'qwen3.8-flash-next-unsloth-ud-q4_k_xl'):
-            raise RuntimeError('64K health mismatch')
+            raise RuntimeError('Strata health mismatch')
         state['health'] = health
         new_healthy = True
         state['host_loaded'] = memory()
@@ -159,7 +158,7 @@ def main():
             save(out / 'checkpoint.json', state)
             if result['after']['memory']['MemAvailable_kib'] < 4 * 1048576:
                 raise RuntimeError(f'host memory below 4 GiB at {target}')
-            if result['prompt_tokens'] and result['prompt_tokens'] >= 65536:
+            if result['prompt_tokens'] and result['prompt_tokens'] >= args.context_cap:
                 raise RuntimeError(f'prompt exceeded context cap at {target}')
         state['status'] = 'passed'
     except BaseException as exc:
@@ -176,13 +175,15 @@ def main():
                 else:
                     old[old.index('--gpu') + 1] = '0'
                 old[old.index('--set') + 1] = 'resident-budget-gib=8'
-                if old_context == 32768:
-                    old[old.index('--context') + 1] = '32768'
-                    old[old.index('--parallel') + 1] = '2'
+                old[old.index('--context') + 1] = '65536'
+                old[old.index('--parallel') + 1] = '1'
+                old[old.index('--kv') + 1] = 'int8'
+                old[old.index('--gpu') + 1] = '0,1'
                 for removed in ('peer-device=1', 'kv-resident=20480', 'kv-resident=32768'):
                     if removed in old:
                         i = old.index(removed)
                         del old[i - 1:i + 1]
+                old += ['--set', 'peer-device=1', '--set', 'kv-resident=20480']
                 restored = subprocess.run(old + ['--no-tui'], env=env,
                                           capture_output=True, text=True, timeout=1500)
                 state['rollback_exit'] = restored.returncode
@@ -191,7 +192,7 @@ def main():
             except Exception as rollback_error:
                 state['rollback_error'] = f'{type(rollback_error).__name__}: {rollback_error}'
     finally:
-        engine_log = Path.home() / '.local/state/strata/launch/ud-q4_k_xl-64k.engine.log'
+        engine_log = Path.home() / f'.local/state/strata/launch/ud-q4_k_xl-{args.context_cap // 1024}k.engine.log'
         if engine_log.is_file():
             shutil.copy2(engine_log, out / 'engine.log')
             state['engine_log'] = str(out / 'engine.log')

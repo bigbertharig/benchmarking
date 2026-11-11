@@ -1,0 +1,331 @@
+{
+  "cases": [
+    {
+      "baseline": "g0_256k_q4kv_ram12",
+      "gpus": [
+        0
+      ],
+      "hypothesis": "At the native 256K cap with chat KV on GPU0, determine whether compact Q4_0 KV still wins without raising resident expert RAM to 12 GiB.",
+      "id": "g0_256k_q4kv_ram8",
+      "label": "g0 256k q4kv ram8",
+      "placement": "campaigns/placements/qwen38_q4_strata_256k_g0_q4kv_ram8.json",
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-256k-q4kv-ram8-20261111/g0_256k_q4kv_ram8.json",
+      "stage_seconds": 1114.0,
+      "status": "passed",
+      "trace": {
+        "command": [
+          "python3",
+          "scripts/integration/run_strata_q4_depth_curve.py",
+          "--output",
+          "results/runtime_experiments/model_loading_sequences/q38-q4-256k-q4kv-ram8-20261111/g0_256k_q4kv_ram8",
+          "--restart-loaded",
+          "--resident-budget-gib",
+          "8",
+          "--gpu-set",
+          "0",
+          "--engine-components",
+          "/data/bench-staging/strata-v0.2.10/components-cuda12",
+          "--context-cap",
+          "262144",
+          "--kv-format",
+          "q4_0"
+        ],
+        "exit_code": 0,
+        "finished_at": "2026-11-11T00:56:13.190+00:00",
+        "interval_s": 1.0,
+        "placement": {
+          "chat_state": {
+            "devices": [
+              0
+            ],
+            "tier": "gpu_vram"
+          },
+          "context_cap_tokens_per_slot": 262144,
+          "expert_peer_gpu": null,
+          "expert_ram_budget_gib": 8,
+          "gpu_set": [
+            0
+          ],
+          "kv_format": "q4_0",
+          "label": "g0 256k q4kv ram8",
+          "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+          "schema": 1,
+          "slots": 1,
+          "uncached_tier": "nvme"
+        },
+        "sample_errors": [],
+        "started_at": "2026-11-11T00:37:40.611+00:00",
+        "status": "passed",
+        "summary": {
+          "event_count": 8,
+          "phases": [
+            {
+              "begin_details": null,
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 38638665728,
+                  "write_bytes": 94208
+                },
+                "sda": {
+                  "read_bytes": 23699456,
+                  "write_bytes": 5132288
+                }
+              },
+              "elapsed_s": 111.49,
+              "end_details": {
+                "launch_exit": 0
+              },
+              "ended_at": "2026-11-11T00:39:37.867+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23661,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 11563464,
+              "phase": "restart",
+              "started_at": "2026-11-11T00:37:46.377+00:00"
+            },
+            {
+              "begin_details": {
+                "lines_total": 1050
+              },
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 153091121152,
+                  "write_bytes": 0
+                },
+                "sda": {
+                  "read_bytes": 31531008,
+                  "write_bytes": 10219520
+                }
+              },
+              "elapsed_s": 362.268,
+              "end_details": {
+                "timings": {
+                  "cache_n": 0,
+                  "draft_n": 52,
+                  "draft_n_accepted": 28,
+                  "predicted_ms": 48817.5,
+                  "predicted_n": 256,
+                  "predicted_per_second": 5.2,
+                  "predicted_per_token_ms": 190.693,
+                  "prompt_ms": 313416.9,
+                  "prompt_n": 16893,
+                  "prompt_per_second": 53.9,
+                  "prompt_per_token_ms": 18.553
+                },
+                "usage": {
+                  "completion_tokens": 256,
+                  "prompt_tokens": 16893,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 0
+                  },
+                  "total_tokens": 17149
+                }
+              },
+              "ended_at": "2026-11-11T00:45:40.450+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23679,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 15842564,
+              "phase": "depth_16000",
+              "started_at": "2026-11-11T00:39:38.182+00:00"
+            },
+            {
+              "begin_details": {
+                "lines_total": 2100
+              },
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 126570029056,
+                  "write_bytes": 0
+                },
+                "sda": {
+                  "read_bytes": 35418112,
+                  "write_bytes": 8306688
+                }
+              },
+              "elapsed_s": 299.311,
+              "end_details": {
+                "timings": {
+                  "cache_n": 16888,
+                  "draft_n": 13,
+                  "draft_n_accepted": 1,
+                  "predicted_ms": 28495.1,
+                  "predicted_n": 256,
+                  "predicted_per_second": 9.0,
+                  "predicted_per_token_ms": 111.309,
+                  "prompt_ms": 270750.4,
+                  "prompt_n": 16838,
+                  "prompt_per_second": 62.2,
+                  "prompt_per_token_ms": 16.08
+                },
+                "usage": {
+                  "completion_tokens": 256,
+                  "prompt_tokens": 33726,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 16888
+                  },
+                  "total_tokens": 33982
+                }
+              },
+              "ended_at": "2026-11-11T00:50:40.082+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23679,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 15491004,
+              "phase": "depth_32000",
+              "started_at": "2026-11-11T00:45:40.772+00:00"
+            },
+            {
+              "begin_details": {
+                "lines_total": 3300
+              },
+              "disks": {
+                "nvme0n1": {
+                  "read_bytes": 137728585728,
+                  "write_bytes": 0
+                },
+                "sda": {
+                  "read_bytes": 43847680,
+                  "write_bytes": 8474624
+                }
+              },
+              "elapsed_s": 332.403,
+              "end_details": {
+                "timings": {
+                  "cache_n": 33721,
+                  "draft_n": 15,
+                  "draft_n_accepted": 14,
+                  "predicted_ms": 43156.0,
+                  "predicted_n": 256,
+                  "predicted_per_second": 5.9,
+                  "predicted_per_token_ms": 168.578,
+                  "prompt_ms": 289175.0,
+                  "prompt_n": 19238,
+                  "prompt_per_second": 66.5,
+                  "prompt_per_token_ms": 15.031
+                },
+                "usage": {
+                  "completion_tokens": 256,
+                  "prompt_tokens": 52959,
+                  "prompt_tokens_details": {
+                    "cached_tokens": 33721
+                  },
+                  "total_tokens": 53215
+                }
+              },
+              "ended_at": "2026-11-11T00:56:12.808+00:00",
+              "gpus": {
+                "0": {
+                  "peak_used_mib": 23679,
+                  "peak_util_pct": 100
+                },
+                "1": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "2": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "3": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "4": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                },
+                "5": {
+                  "peak_used_mib": 5,
+                  "peak_util_pct": 0
+                }
+              },
+              "min_mem_available_kib": 15555872,
+              "phase": "depth_50000",
+              "started_at": "2026-11-11T00:50:40.405+00:00"
+            }
+          ],
+          "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+          "sample_count": 995,
+          "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+        }
+      },
+      "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-256k-q4kv-ram8-20261111/g0_256k_q4kv_ram8_tier_trace_20261111T003740456665Z"
+    }
+  ],
+  "manifest_sha256": "63ec7399acf7e4878fe15eb2274b9a6b3e0fa45d4ecc6eb623dc9717cb7b1cc1",
+  "run_id": "q38-q4-256k-q4kv-ram8-20261111",
+  "schema": 1,
+  "series_name": "Qwen3.8 Q4 256K cap compact KV expert RAM 8 GiB follow-up",
+  "status": "passed",
+  "updated_at": "2026-11-11T00:56:14+00:00"
+}

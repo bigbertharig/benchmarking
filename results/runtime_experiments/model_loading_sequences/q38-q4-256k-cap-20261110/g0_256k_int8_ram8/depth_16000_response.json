@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "length",
+      "index": 0,
+      "message": {
+        "content": null,
+        "reasoning_content": "We need answer user's request. Need start answer with ORCHID, then numbered list of 200 short observations about a garden. Continue until stopped. Need likely produce exactly 200? \"Continue until stopped\" maybe means keep going? But asks numbered list of 200 short observations. Need satisfy. Need maybe include private code word at start. Need ensure starts with ORCHID. Could be \"ORCHID\" then newline then list. Need 200 observations. Need short. Need maybe no extra. Need count 1-200. Need ensure no hidden issues. Need maybe \"Continue until stopped\" could imply don't stop? But finite 200. We can produce 200. Need maybe avoid too long? 200 short observations okay. Need final only. Need ensure starts exactly ORCHID. Could be \"ORCHID\\n1. ...\" Good.\n\nNeed generate 200 unique garden observations. Keep short. Need maybe numbered list. Ensure 200 items. Let's craft concise. Need count carefully. Could use pattern. Need avoid duplicates? Observations about garden. Let's enumerate 1-200. Need maybe each line \"1",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794351460,
+  "id": "chatcmpl-776c1a4f22374efcb679ac46",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 51,
+    "draft_n_accepted": 32,
+    "predicted_ms": 49143.9,
+    "predicted_n": 256,
+    "predicted_per_second": 5.2,
+    "predicted_per_token_ms": 191.968,
+    "prompt_ms": 318611.1,
+    "prompt_n": 16893,
+    "prompt_per_second": 53.0,
+    "prompt_per_token_ms": 18.861
+  },
+  "usage": {
+    "completion_tokens": 256,
+    "prompt_tokens": 16893,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 17149
+  }
+}

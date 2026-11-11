@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "label": "g0 256k int8 peer1 ram12",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "context_cap_tokens_per_slot": 262144,
+  "slots": 1,
+  "kv_format": "int8",
+  "gpu_set": [
+    0,
+    1
+  ],
+  "chat_state": {
+    "tier": "gpu_vram",
+    "devices": [
+      0
+    ]
+  },
+  "expert_ram_budget_gib": 12,
+  "expert_peer_gpu": 1,
+  "uncached_tier": "nvme"
+}

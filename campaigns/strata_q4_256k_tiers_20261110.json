@@ -1,0 +1,137 @@
+{
+  "schema": 2,
+  "name": "Qwen3.8 Q4 256K-cap GPU0 chat, expert RAM and 1060 peer comparison",
+  "defaults": {
+    "state": "ready",
+    "timeout_s": 5400,
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "freeze": true,
+    "restart_loaded": true,
+    "trace": true
+  },
+  "cases": [
+    {
+      "id": "g0_256k_int8_ram12",
+      "label": "g0 256k int8 ram12",
+      "baseline": "g0_256k_int8_ram8",
+      "hypothesis": "Keep one 256K-cap chat on GPU0; change expert RAM capacity, one adaptive 1060 expert peer, or compact GPU0 KV. Measure only 16/32/50K occupied depth, physical storage reads, memory and phase times.",
+      "gpus": [
+        0
+      ],
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_int8_ram12",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "12",
+        "--gpu-set",
+        "0",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--context-cap",
+        "262144"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_int8_ram12/terminal.json"
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_256k_g0_256k_int8_ram12.json"
+    },
+    {
+      "id": "g0_256k_int8_peer1_ram8",
+      "label": "g0 256k int8 peer1 ram8",
+      "baseline": "g0_256k_int8_ram8",
+      "hypothesis": "Keep one 256K-cap chat on GPU0; change expert RAM capacity, one adaptive 1060 expert peer, or compact GPU0 KV. Measure only 16/32/50K occupied depth, physical storage reads, memory and phase times.",
+      "gpus": [
+        0,
+        1
+      ],
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_int8_peer1_ram8",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "8",
+        "--gpu-set",
+        "0,1",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--context-cap",
+        "262144",
+        "--peer-device"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_int8_peer1_ram8/terminal.json"
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_256k_g0_256k_int8_peer1_ram8.json"
+    },
+    {
+      "id": "g0_256k_int8_peer1_ram12",
+      "label": "g0 256k int8 peer1 ram12",
+      "baseline": "g0_256k_int8_ram8",
+      "hypothesis": "Keep one 256K-cap chat on GPU0; change expert RAM capacity, one adaptive 1060 expert peer, or compact GPU0 KV. Measure only 16/32/50K occupied depth, physical storage reads, memory and phase times.",
+      "gpus": [
+        0,
+        1
+      ],
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_int8_peer1_ram12",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "12",
+        "--gpu-set",
+        "0,1",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--context-cap",
+        "262144",
+        "--peer-device"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_int8_peer1_ram12/terminal.json"
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_256k_g0_256k_int8_peer1_ram12.json"
+    },
+    {
+      "id": "g0_256k_q4kv_ram12",
+      "label": "g0 256k q4kv ram12",
+      "baseline": "g0_256k_int8_ram8",
+      "hypothesis": "Keep one 256K-cap chat on GPU0; change expert RAM capacity, one adaptive 1060 expert peer, or compact GPU0 KV. Measure only 16/32/50K occupied depth, physical storage reads, memory and phase times.",
+      "gpus": [
+        0
+      ],
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_q4kv_ram12",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "12",
+        "--gpu-set",
+        "0",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--context-cap",
+        "262144",
+        "--kv-format",
+        "q4_0"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_q4kv_ram12/terminal.json"
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_256k_g0_256k_q4kv_ram12.json"
+    }
+  ]
+}

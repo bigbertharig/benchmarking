@@ -1,0 +1,40 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-256k-tiers-20261110/g0_256k_int8_ram12",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "12",
+    "--gpu-set",
+    "0",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12",
+    "--context-cap",
+    "262144"
+  ],
+  "interval_s": 1.0,
+  "placement": {
+    "chat_state": {
+      "devices": [
+        0
+      ],
+      "tier": "gpu_vram"
+    },
+    "context_cap_tokens_per_slot": 262144,
+    "expert_peer_gpu": null,
+    "expert_ram_budget_gib": 12,
+    "gpu_set": [
+      0
+    ],
+    "kv_format": "int8",
+    "label": "g0 256k int8 ram12",
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "schema": 1,
+    "slots": 1,
+    "uncached_tier": "nvme"
+  },
+  "started_at": "2026-11-10T23:14:54.876+00:00",
+  "status": "running"
+}

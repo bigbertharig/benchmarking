@@ -1,0 +1,46 @@
+{
+  "schema": 2,
+  "name": "Qwen3.8 Q4 256K cap compact KV expert RAM 8 GiB follow-up",
+  "defaults": {
+    "state": "ready",
+    "timeout_s": 5400,
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "freeze": true,
+    "restart_loaded": true,
+    "trace": true
+  },
+  "cases": [
+    {
+      "id": "g0_256k_q4kv_ram8",
+      "label": "g0 256k q4kv ram8",
+      "baseline": "g0_256k_q4kv_ram12",
+      "hypothesis": "At the native 256K cap with chat KV on GPU0, determine whether compact Q4_0 KV still wins without raising resident expert RAM to 12 GiB.",
+      "gpus": [
+        0
+      ],
+      "continue_on_failure": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_strata_q4_depth_curve.py",
+        "--output",
+        "results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_q4kv_ram8",
+        "--restart-loaded",
+        "--resident-budget-gib",
+        "8",
+        "--gpu-set",
+        "0",
+        "--engine-components",
+        "/data/bench-staging/strata-v0.2.10/components-cuda12",
+        "--context-cap",
+        "262144",
+        "--kv-format",
+        "q4_0"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/{run_id}/g0_256k_q4kv_ram8/terminal.json"
+      ],
+      "placement": "campaigns/placements/qwen38_q4_strata_256k_g0_q4kv_ram8.json"
+    }
+  ]
+}

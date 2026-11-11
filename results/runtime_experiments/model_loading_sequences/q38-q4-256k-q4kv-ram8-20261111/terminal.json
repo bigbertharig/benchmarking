@@ -1,0 +1,19 @@
+{
+  "finished_at": "2026-11-11T00:56:14+00:00",
+  "manifest_sha256": "63ec7399acf7e4878fe15eb2274b9a6b3e0fa45d4ecc6eb623dc9717cb7b1cc1",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-256k-q4kv-ram8-20261111",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "g0_256k_q4kv_ram8": "passed"
+  },
+  "started_at": "2026-11-11T00:37:40+00:00",
+  "status": "passed"
+}

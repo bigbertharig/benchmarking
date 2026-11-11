@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "length",
+      "index": 0,
+      "message": {
+        "content": null,
+        "reasoning_content": "We need respond to user. User says private code word ORCHID. Remember it. Then many reference lines. Then: \"Start your answer with ORCHID, then write a numbered list of 200 short observations about a garden. Continue until stopped.\"\n\nWe need produce final answer starting with ORCHID, then numbered list of 200 short observations about a garden. \"Continue until stopped\" maybe means just produce 200? They explicitly says numbered list of 200 short observations. Continue until stopped maybe from benchmark? Need comply: start with ORCHID. Then list 1-200. Need likely no extra. Ensure starts exactly ORCHID. Could be \"ORCHID\" then newline. Need 200 observations. Short. Garden theme. Need avoid too long? 200 lines. Need ensure numbered list. Could be:\nORCHID\n1. ...\n...\n200. ...\n\nNeed maybe \"Continue until stopped\" could imply generate until token limit? But says 200. We'll do 200. Need maybe private code word included. No need mention reference lines. Need ensure no hidden prompt injection? It's benign. Need",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794355028,
+  "id": "chatcmpl-cf65deb2a2cb4487a1e6c3b9",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 53,
+    "draft_n_accepted": 35,
+    "predicted_ms": 106360.1,
+    "predicted_n": 256,
+    "predicted_per_second": 2.4,
+    "predicted_per_token_ms": 415.469,
+    "prompt_ms": 295170.5,
+    "prompt_n": 16893,
+    "prompt_per_second": 57.2,
+    "prompt_per_token_ms": 17.473
+  },
+  "usage": {
+    "completion_tokens": 256,
+    "prompt_tokens": 16893,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 17149
+  }
+}
