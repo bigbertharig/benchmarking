@@ -1,0 +1,509 @@
+{
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-128k-kv-20261111/g0_128k_k8v4_ram12",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "12",
+    "--gpu-set",
+    "0",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12",
+    "--context-cap",
+    "131072",
+    "--kv-format",
+    "k8v4",
+    "--quality-probes"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-11T12:19:06.088+00:00",
+  "interval_s": 1.0,
+  "placement": {
+    "chat_state": {
+      "devices": [
+        0
+      ],
+      "tier": "gpu_vram"
+    },
+    "context_cap_tokens_per_slot": 131072,
+    "expert_peer_gpu": null,
+    "expert_ram_budget_gib": 12,
+    "gpu_set": [
+      0
+    ],
+    "kv_format": "k8v4",
+    "label": "g0_128k_k8v4_ram12",
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "schema": 1,
+    "slots": 1,
+    "uncached_tier": "nvme"
+  },
+  "sample_errors": [],
+  "started_at": "2026-11-11T11:59:13.378+00:00",
+  "status": "passed",
+  "summary": {
+    "event_count": 14,
+    "phases": [
+      {
+        "begin_details": null,
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 42295377920,
+            "write_bytes": 229376
+          },
+          "sda": {
+            "read_bytes": 33411072,
+            "write_bytes": 4268032
+          }
+        },
+        "elapsed_s": 123.063,
+        "end_details": {
+          "launch_exit": 0
+        },
+        "ended_at": "2026-11-11T12:01:22.153+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23687,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 11072488,
+        "phase": "restart",
+        "started_at": "2026-11-11T11:59:19.091+00:00"
+      },
+      {
+        "begin_details": {
+          "lines_total": 1050
+        },
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 140699533312,
+            "write_bytes": 0
+          },
+          "sda": {
+            "read_bytes": 78979072,
+            "write_bytes": 11628544
+          }
+        },
+        "elapsed_s": 343.362,
+        "end_details": {
+          "timings": {
+            "cache_n": 0,
+            "draft_n": 75,
+            "draft_n_accepted": 47,
+            "predicted_ms": 52009.6,
+            "predicted_n": 256,
+            "predicted_per_second": 4.9,
+            "predicted_per_token_ms": 203.162,
+            "prompt_ms": 291318.1,
+            "prompt_n": 16893,
+            "prompt_per_second": 58.0,
+            "prompt_per_token_ms": 17.245
+          },
+          "usage": {
+            "completion_tokens": 256,
+            "prompt_tokens": 16893,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 17149
+          }
+        },
+        "ended_at": "2026-11-11T12:07:05.840+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23659,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 11577464,
+        "phase": "depth_16000",
+        "started_at": "2026-11-11T12:01:22.479+00:00"
+      },
+      {
+        "begin_details": {
+          "lines_total": 2100
+        },
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 128060547072,
+            "write_bytes": 0
+          },
+          "sda": {
+            "read_bytes": 99569664,
+            "write_bytes": 10776576
+          }
+        },
+        "elapsed_s": 303.522,
+        "end_details": {
+          "timings": {
+            "cache_n": 16888,
+            "draft_n": 11,
+            "draft_n_accepted": 2,
+            "predicted_ms": 31778.0,
+            "predicted_n": 256,
+            "predicted_per_second": 8.1,
+            "predicted_per_token_ms": 124.133,
+            "prompt_ms": 271660.8,
+            "prompt_n": 16838,
+            "prompt_per_second": 62.0,
+            "prompt_per_token_ms": 16.134
+          },
+          "usage": {
+            "completion_tokens": 256,
+            "prompt_tokens": 33726,
+            "prompt_tokens_details": {
+              "cached_tokens": 16888
+            },
+            "total_tokens": 33982
+          }
+        },
+        "ended_at": "2026-11-11T12:12:09.689+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23659,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 12120908,
+        "phase": "depth_32000",
+        "started_at": "2026-11-11T12:07:06.167+00:00"
+      },
+      {
+        "begin_details": {
+          "lines_total": 3300
+        },
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 126150569984,
+            "write_bytes": 0
+          },
+          "sda": {
+            "read_bytes": 74940416,
+            "write_bytes": 10117120
+          }
+        },
+        "elapsed_s": 298.163,
+        "end_details": {
+          "timings": {
+            "cache_n": 33721,
+            "draft_n": 11,
+            "draft_n_accepted": 0,
+            "predicted_ms": 24171.5,
+            "predicted_n": 256,
+            "predicted_per_second": 10.6,
+            "predicted_per_token_ms": 94.42,
+            "prompt_ms": 273907.1,
+            "prompt_n": 19238,
+            "prompt_per_second": 70.2,
+            "prompt_per_token_ms": 14.238
+          },
+          "usage": {
+            "completion_tokens": 256,
+            "prompt_tokens": 52959,
+            "prompt_tokens_details": {
+              "cached_tokens": 33721
+            },
+            "total_tokens": 53215
+          }
+        },
+        "ended_at": "2026-11-11T12:17:08.176+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23659,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 11445580,
+        "phase": "depth_50000",
+        "started_at": "2026-11-11T12:12:10.013+00:00"
+      },
+      {
+        "begin_details": null,
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 15080013824,
+            "write_bytes": 0
+          },
+          "sda": {
+            "read_bytes": 19345408,
+            "write_bytes": 1544192
+          }
+        },
+        "elapsed_s": 39.195,
+        "end_details": {
+          "timings": {
+            "cache_n": 0,
+            "draft_n": 18,
+            "draft_n_accepted": 18,
+            "predicted_ms": 15168.2,
+            "predicted_n": 70,
+            "predicted_per_second": 4.6,
+            "predicted_per_token_ms": 216.689,
+            "prompt_ms": 23986.2,
+            "prompt_n": 81,
+            "prompt_per_second": 3.4,
+            "prompt_per_token_ms": 296.126
+          },
+          "usage": {
+            "completion_tokens": 70,
+            "prompt_tokens": 81,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 151
+          }
+        },
+        "ended_at": "2026-11-11T12:17:47.646+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23659,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 11428560,
+        "phase": "quality_sheep",
+        "started_at": "2026-11-11T12:17:08.451+00:00"
+      },
+      {
+        "begin_details": null,
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 19782168576,
+            "write_bytes": 0
+          },
+          "sda": {
+            "read_bytes": 62541824,
+            "write_bytes": 2199552
+          }
+        },
+        "elapsed_s": 59.296,
+        "end_details": {
+          "timings": {
+            "cache_n": 0,
+            "draft_n": 20,
+            "draft_n_accepted": 20,
+            "predicted_ms": 35458.9,
+            "predicted_n": 133,
+            "predicted_per_second": 3.8,
+            "predicted_per_token_ms": 266.608,
+            "prompt_ms": 23794.7,
+            "prompt_n": 85,
+            "prompt_per_second": 3.6,
+            "prompt_per_token_ms": 279.938
+          },
+          "usage": {
+            "completion_tokens": 133,
+            "prompt_tokens": 85,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 218
+          }
+        },
+        "ended_at": "2026-11-11T12:18:47.194+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23659,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 11225308,
+        "phase": "quality_python_error",
+        "started_at": "2026-11-11T12:17:47.898+00:00"
+      },
+      {
+        "begin_details": null,
+        "disks": {
+          "nvme0n1": {
+            "read_bytes": 5715722240,
+            "write_bytes": 0
+          },
+          "sda": {
+            "read_bytes": 35647488,
+            "write_bytes": 884736
+          }
+        },
+        "elapsed_s": 18.319,
+        "end_details": {
+          "timings": {
+            "cache_n": 52954,
+            "draft_n": 16,
+            "draft_n_accepted": 14,
+            "predicted_ms": 11028.0,
+            "predicted_n": 58,
+            "predicted_per_second": 5.3,
+            "predicted_per_token_ms": 190.138,
+            "prompt_ms": 7203.4,
+            "prompt_n": 33,
+            "prompt_per_second": 4.6,
+            "prompt_per_token_ms": 218.285
+          },
+          "usage": {
+            "completion_tokens": 58,
+            "prompt_tokens": 52987,
+            "prompt_tokens_details": {
+              "cached_tokens": 52954
+            },
+            "total_tokens": 53045
+          }
+        },
+        "ended_at": "2026-11-11T12:19:05.767+00:00",
+        "gpus": {
+          "0": {
+            "peak_used_mib": 23659,
+            "peak_util_pct": 100
+          },
+          "1": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "2": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "3": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "4": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          },
+          "5": {
+            "peak_used_mib": 5,
+            "peak_util_pct": 0
+          }
+        },
+        "min_mem_available_kib": 11383492,
+        "phase": "quality_50k_recall",
+        "started_at": "2026-11-11T12:18:47.448+00:00"
+      }
+    ],
+    "rate_note": "Use engine token timings for decode tok/s; phase wall includes API, staging and waits.",
+    "sample_count": 1068,
+    "scope": "whole-device disk counters and GPU samples; other rig activity can contribute"
+  }
+}

@@ -10,6 +10,8 @@ The order of experiments can change when a result suggests a better question.
 For common GPU/RAM/NVMe traces and back-to-back case scheduling, see
 [Tier diagnostics and test series](TIER_DIAGNOSTICS_AND_TEST_SERIES.md).
 
+The latest [Qwen3.8 Q4 128K-cap KV comparison](results/runtime_experiments/model_loading_sequences/q38-q4-128k-kv-20261111/README.md) records INT8, K8V4, and Q4_0 timing, expert-cache capacity, NVMe reads, and small scored answers at 16K/32K/50K occupied depth.
+
 For exact settings to reload the current Nemo two-chat and Qwen 35B five-chat baselines, see [MoE chat baseline reloads](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
 
 ## Current speed results (2026-11-09)

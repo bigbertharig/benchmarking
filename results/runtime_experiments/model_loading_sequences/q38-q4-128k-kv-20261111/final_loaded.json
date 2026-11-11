@@ -1,0 +1,26 @@
+{
+  "verified_at": "2026-11-11T12:44:02+00:00",
+  "health": {
+    "status": "ok",
+    "max_context": 131072,
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "images": false,
+    "api_key": false,
+    "image_generation": false,
+    "loaded": true,
+    "service": "strata"
+  },
+  "gpu_used_mib": {
+    "0": 23501,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "engine_command": "[strata] 2026-11-11 05:41:34 engine started: /data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/packs/unsloth-ud-q4_k_xl --native /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf --expert-profile /data/bench-staging/strata-v0.2.10/control/data/expert-profile.bin --expert-cache auto --prefill auto --spec 4 --max-context 131072 --kv q4_0 --resident-budget-gib 12 --vram-reserve-mib 768",
+  "kv": "q4_0",
+  "context_cap": 131072,
+  "resident_budget_gib": 12,
+  "restore_method": "direct control launch after Manager job exit stopped final service"
+}

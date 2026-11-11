@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-11T12:39:27+00:00",
+  "manifest_sha256": "28ea2215311e66e67fac8a0c2938c1abed4f7c02205c0cd0a942f097c63f9e0a",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-q4-128k-kv-20261111",
+  "session_claim": "qwen38-q4-frozen",
+  "stages": {
+    "g0_128k_int8_ram12": "passed",
+    "g0_128k_k8v4_ram12": "passed",
+    "g0_128k_q4_0_ram12": "passed"
+  },
+  "started_at": "2026-11-11T11:38:38+00:00",
+  "status": "passed"
+}

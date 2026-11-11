@@ -1,0 +1,37 @@
+{
+  "claim": "qwen38-q4-frozen",
+  "command": [
+    "python3",
+    "scripts/integration/run_strata_q4_depth_curve.py",
+    "--output",
+    "results/runtime_experiments/model_loading_sequences/q38-q4-128k-kv-20261111/g0_128k_int8_ram12",
+    "--restart-loaded",
+    "--resident-budget-gib",
+    "12",
+    "--gpu-set",
+    "0",
+    "--engine-components",
+    "/data/bench-staging/strata-v0.2.10/components-cuda12",
+    "--context-cap",
+    "131072",
+    "--kv-format",
+    "int8",
+    "--quality-probes"
+  ],
+  "end_state_requested": "freeze",
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-11T11:59:13+00:00",
+  "frozen_claim": "qwen38-q4-frozen",
+  "gpus": [
+    0
+  ],
+  "host_before_available_kib": 15501260,
+  "host_min_available_kib": 11078976,
+  "id": "g0_128k_int8_ram12",
+  "started_at": "2026-11-11T11:38:38+00:00",
+  "status": "passed",
+  "timeout_s": 5400,
+  "trace": true,
+  "trace_dir": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-q4-128k-kv-20261111/g0_128k_int8_ram12_tier_trace_20261111T113838042927Z"
+}

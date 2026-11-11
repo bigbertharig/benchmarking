@@ -1,0 +1,20 @@
+{
+  "chat_state": {
+    "devices": [
+      0
+    ],
+    "tier": "gpu_vram"
+  },
+  "context_cap_tokens_per_slot": 131072,
+  "expert_peer_gpu": null,
+  "expert_ram_budget_gib": 12,
+  "gpu_set": [
+    0
+  ],
+  "kv_format": "k8v4",
+  "label": "g0_128k_k8v4_ram12",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "schema": 1,
+  "slots": 1,
+  "uncached_tier": "nvme"
+}

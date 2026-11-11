@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "9",
+        "reasoning_content": "We need answer user's riddle: \"A farmer has 17 sheep. All but 9 run away. How many remain? Reply with only the number. /no_think\" Need final only number. Need maybe obey /no_think? User says /no_think likely means no thinking? But we must produce final only number. Answer: 9. Ensure only number.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794400648,
+  "id": "chatcmpl-d215e5de108047468aa720ee",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 17,
+    "draft_n_accepted": 17,
+    "predicted_ms": 17646.6,
+    "predicted_n": 85,
+    "predicted_per_second": 4.8,
+    "predicted_per_token_ms": 207.607,
+    "prompt_ms": 24925.5,
+    "prompt_n": 81,
+    "prompt_per_second": 3.2,
+    "prompt_per_token_ms": 307.722
+  },
+  "usage": {
+    "completion_tokens": 85,
+    "prompt_tokens": 81,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 166
+  }
+}

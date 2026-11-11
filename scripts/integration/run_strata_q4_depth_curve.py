@@ -35,7 +35,8 @@ def main():
     ap.add_argument('--gpu-roles', help='Strata card roles, e.g. 0=main,1=helper; replaces --gpu')
     ap.add_argument('--prefill', type=int, choices=(1024, 2048))
     ap.add_argument('--kv-resident', type=int, choices=(20480, 32768))
-    ap.add_argument('--kv-format', choices=('int8', 'q4_0'), default='int8')
+    ap.add_argument('--kv-format', choices=('int8', 'k8v4', 'q4_0'), default='int8')
+    ap.add_argument('--quality-probes', action='store_true', help='score two short questions and recall from the 50K history')
     ap.add_argument('--vram-reserve-mib', type=int, default=768)
     ap.add_argument('--engine-components', type=Path, default=COMPONENTS,
                     help='Strata component directory; use CUDA 12 for GTX 1060 tests')
@@ -53,7 +54,8 @@ def main():
              'engine_components': str(args.engine_components),
              'vram_reserve_mib': args.vram_reserve_mib,
              'chat_state_tier': 'ram_streamed' if args.kv_resident else 'gpu_vram',
-             'targets': TARGETS, 'cases': [], 'end_state_requested': 'freeze'}
+             'targets': TARGETS, 'cases': [], 'quality_probes_requested': args.quality_probes,
+             'quality_probes': [], 'end_state_requested': 'freeze'}
     save(out / 'checkpoint.json', state)
     env = dict(os.environ, STRATA_COMPONENTS_DIR=str(args.engine_components), CUDA_DEVICE_ORDER='PCI_BUS_ID')
     common = [str(CONTROL), 'launch', '--family', 'unsloth', '--model', 'ud-q4_k_xl',
@@ -160,6 +162,34 @@ def main():
                 raise RuntimeError(f'host memory below 4 GiB at {target}')
             if result['prompt_tokens'] and result['prompt_tokens'] >= args.context_cap:
                 raise RuntimeError(f'prompt exceeded context cap at {target}')
+        if args.quality_probes:
+            probes = [
+                ('sheep', [{'role': 'user', 'content': 'A farmer has 17 sheep. All but 9 run away. How many remain? Reply with only the number. /no_think'}], '9', 768),
+                ('python_error', [{'role': 'user', 'content': 'In Python, what exception is raised by list(dict.fromkeys([[1], [2], [1]]))? Reply with only the exception name. /no_think'}], 'TypeError', 768),
+                ('50k_recall', messages + [{'role': 'user', 'content': 'What was the private code word near the beginning of this conversation? Reply with only that word. /no_think'}], 'ORCHID', 1024),
+            ]
+            for name, probe_messages, expected, limit in probes:
+                event('quality_' + name, 'begin')
+                start = time.monotonic()
+                response = request('/v1/chat/completions',
+                                   {'model': 'strata', 'messages': probe_messages,
+                                    'max_tokens': limit, 'temperature': 0}, timeout=1800)
+                wall = round(time.monotonic() - start, 3)
+                event('quality_' + name, 'end',
+                      {'usage': response.get('usage'), 'timings': response.get('timings')})
+                save(out / f'quality_{name}_response.json', response)
+                choice = (response.get('choices') or [{}])[0]
+                answer = ((choice.get('message') or {}).get('content') or '').strip()
+                verdict = {
+                    'id': name, 'expected': expected, 'answer': answer,
+                    'correct': answer.strip(' .\n\t').casefold() == expected.casefold(),
+                    'wall_seconds': wall, 'prompt_tokens': (response.get('usage') or {}).get('prompt_tokens'),
+                    'completion_tokens': (response.get('usage') or {}).get('completion_tokens'),
+                    'finish_reason': choice.get('finish_reason'),
+                    'reasoning_chars': len((choice.get('message') or {}).get('reasoning_content') or '')
+                }
+                state['quality_probes'].append(verdict)
+                save(out / 'checkpoint.json', state)
         state['status'] = 'passed'
     except BaseException as exc:
         state['status'] = 'failed'
@@ -199,6 +229,7 @@ def main():
         state['host_final'] = memory()
         state['gpu_final_mib'] = gpu()
         state['finished_at'] = stamp()
+        save(out / 'checkpoint.json', state)
         save(out / 'terminal.json', state)
         print(json.dumps({'status': state['status'], 'error': state.get('error'),
                           'receipt': str(out / 'terminal.json')}), flush=True)

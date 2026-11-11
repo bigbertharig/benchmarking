@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "TypeError",
+        "reasoning_content": "We need answer user's request: \"In Python, what exception is raised by list(dict.fromkeys([[1], [2], [1]]))? Reply with only the exception name. /no_think\"\n\nNeed produce final only exception name. Need determine exception. dict.fromkeys(iterable, value=None) creates dict with keys from iterable. Keys must be hashable. List is unhashable. In Python, dict.fromkeys([[1],[2],[1]]) raises TypeError: unhashable type: 'list'. list(...) around it doesn't change. Exception name: TypeError. Need only exception name. Ensure no extra.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794399467,
+  "id": "chatcmpl-715031198b544b598b926776",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 20,
+    "draft_n_accepted": 20,
+    "predicted_ms": 35458.9,
+    "predicted_n": 133,
+    "predicted_per_second": 3.8,
+    "predicted_per_token_ms": 266.608,
+    "prompt_ms": 23794.7,
+    "prompt_n": 85,
+    "prompt_per_second": 3.6,
+    "prompt_per_token_ms": 279.938
+  },
+  "usage": {
+    "completion_tokens": 133,
+    "prompt_tokens": 85,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 218
+  }
+}
