@@ -1,1 +1,0 @@
-{"api_state": "ready", "api_url": "http://127.0.0.1:18144", "bound_host": "127.0.0.1", "bound_port": 18144, "created_at": 1794409663.8313134, "instance_id": "59734992fa03475d904220339f95767d", "model_id": "qwen3.8-flash-next-unsloth-ud-q4_k_xl", "model_state": "ready", "pid": 2588344, "schema_version": 1}

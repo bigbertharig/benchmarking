@@ -191,3 +191,6 @@ ready: http://127.0.0.1:18144/v1  (OpenAI: /v1/chat/completions, Anthropic: /v1/
 [strata] thinking: 754 of max 768 tokens, 6.1 tok/s, 908 s
 [strata] done: 768 tokens in 909 s (6.1 tok/s) (length, cancel=False), expert cache 85.6% hit (+1.1% of the routed experts over PCIe)
 [strata] the reply reached max tokens while still thinking, so it has no answer: a thinking budget (reasoning_budget_tokens, in the request or in strata-<model>.json for every request) leaves room to answer
+
+[strata] stopping (Ctrl+C again to end the engine at once) ...
+[strata] stopped
