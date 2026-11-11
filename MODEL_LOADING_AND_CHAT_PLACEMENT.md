@@ -426,6 +426,11 @@ in every receipt.
     question from the 5090 discussion: how much speed does one more GiB of
     hot experts buy on *our* RAM and NVMe path? Use the rig's established
     memory guard and stop when added residency displaces useful workspace.
+    The [fixed 50K comparison](results/runtime_experiments/q38_fixed50k_speed_20261111/README.md)
+    found one promising 16 GiB K8V4 run: 783 seconds end to end versus
+    825–833 seconds for two 12 GiB K8V4 controls, mostly from faster
+    prefill and 20–23 GB fewer host NVMe reads. Repeat the budget contrast
+    in alternating order and check host headroom before setting a default.
 
 15. **Qwen3.8 Q4 model and chat tier matrix.** The existing Q4 results
     establish GPU0-only 8K and 32K configured loads, with at most about 15K
@@ -445,6 +450,7 @@ in every receipt.
     The [2026-11-10 results](results/runtime_experiments/model_loading_sequences/q38-q4-tier-cuda12-20261110/README.md) established the GPU0 16/32/50K baseline but **did not produce a multi-GPU speed comparison**. CUDA13 lacked GTX 1060 kernels; CUDA12 reached Strata's stage planner but 64K per-stage KV, expert cache, and prompt scratch did not fit on the 1060s. Q4_0 KV with a 128 MiB reserve and helper roles also failed at launch. The next fit probe must budget each 1060 stage explicitly, or compare GPU0-only expert RAM budgets first.
     The [native peer result](results/runtime_experiments/model_loading_sequences/q38-q4-64k-peer-retry-20261110/README.md) did load 1,778 experts (5.21 GiB) on one 1060 without a layer split. At matched 16K/32K/50K depth, it added expert capacity but did not improve complete-request time; 50K generated-token speed fell from 11.9 to 7.1 tok/s in this single series. RAM-backed KV freed about 0.53 GiB for GPU0 experts with almost unchanged total latency. Neither option moves the chat to the 1060.
     The [native 256K-cap tier series](results/runtime_experiments/model_loading_sequences/q38-q4-256k-tiers-20261110/README.md) kept one chat on GPU0 and measured the same occupied 16K/32K/50K prompts. The GGUF metadata gives 262,144 as the model context length; the 256K load passed, but only 52,959 occupied tokens were exercised. Q4_0 KV plus 12 GiB expert RAM recovered 1.41 GiB of GPU0 expert cache and had the shortest complete requests (344/296/325 s). Raising expert RAM alone and adding a 1060 peer did not consistently reduce NVMe reads or latency. Multi-1060 fixed expert cache remains a separate launcher-fit experiment. The [8 GiB Q4 KV follow-up](results/runtime_experiments/model_loading_sequences/q38-q4-256k-q4kv-ram8-20261111/README.md) was slower at 16K and 50K, close at 32K, and is the layout left loaded after testing.
+    The [128K-cap KV comparison](results/runtime_experiments/model_loading_sequences/q38-q4-128k-kv-20261111/README.md) did not establish a KV winner from 256-token outputs. Its [fixed 50K, 768-output-token follow-up](results/runtime_experiments/q38_fixed50k_speed_20261111/README.md) alternated INT8 and K8V4 twice: prefill stayed near 709–720 seconds, while decode varied between 6.0 and 7.7 tok/s across repeats. A 16 GiB expert RAM K8V4 load improved one end-to-end sample; an actually loaded MTP draft head accepted 70.5% of proposals but was slower, with fewer GPU expert slots and more file-tier traffic. The final MTP service remains loaded for the next experiment.
 
 ## Model and engine follow-ups
 

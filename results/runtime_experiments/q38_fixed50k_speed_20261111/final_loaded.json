@@ -1,0 +1,15 @@
+{
+  "at": "2026-11-11T15:31:29+00:00",
+  "engine": "2588374 /data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/packs/unsloth-ud-q4_k_xl --native /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf --expert-profile /data/bench-staging/strata-v0.2.10/control/data/expert-profile.bin --expert-cache auto --prefill auto --spec 4 --max-context 131072 --kv k8v4 --resident-budget-gib 12 --vram-reserve-mib 768 --mtp /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/mtp/rt --spec-min-p 0.5",
+  "frozen": true,
+  "health": {
+    "api_key": false,
+    "image_generation": false,
+    "images": false,
+    "loaded": true,
+    "max_context": 131072,
+    "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+    "service": "strata",
+    "status": "ok"
+  }
+}

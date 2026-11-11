@@ -1,0 +1,6 @@
+{"arm": "int8_a", "status": "passed", "error": null}
+{"arm": "k8v4_a", "status": "passed", "error": null}
+{"arm": "int8_b", "status": "passed", "error": null}
+{"arm": "k8v4_b", "status": "passed", "error": null}
+{"arm": "k8v4_ram16", "status": "passed", "error": null}
+{"arm": "k8v4_mtp", "status": "failed", "error": "RuntimeError: launch plan wants a download"}

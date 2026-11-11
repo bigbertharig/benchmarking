@@ -1,0 +1,93 @@
+{
+  "block_after": {
+    "nvme": {
+      "read_bytes": 19158238860288,
+      "write_bytes": 307128307712
+    },
+    "sata": {
+      "read_bytes": 426268052480,
+      "write_bytes": 121688933376
+    }
+  },
+  "block_before": {
+    "nvme": {
+      "read_bytes": 18768565076992,
+      "write_bytes": 307128307712
+    },
+    "sata": {
+      "read_bytes": 426141707264,
+      "write_bytes": 121664259072
+    }
+  },
+  "context_cap": 131072,
+  "engine": {
+    "cache_hit_percent": 85.6,
+    "cache_hits": 348219,
+    "cache_line": "strata serve: decode expert cache hit rate: 85.6% (348219 hits / 406764 lookups); 4515 more read by the GPU over PCIe or from another GPU (1.1% of all 411279 routed)",
+    "cache_lookups": 406764,
+    "decode_tps": 6.1,
+    "expert_cache_slots": 5147,
+    "generated_tokens": 768,
+    "prefill_ms": 783210,
+    "prompt_line": "strata serve: prompt 49694 tokens = 0 reused + 49694 read in 783210 ms (63.4 tok/s), 768 generated in 125579 ms (6.1 tok/s), drafts accepted 387 of 549, 4 checkpoints",
+    "prompt_tokens": 49694,
+    "reused_tokens": 0,
+    "slots_line": "strata generate: expert cache 5147 slots, 15.01 GiB of VRAM; policy is"
+  },
+  "engine_process": "2588374 /data/bench-staging/strata-v0.2.10/components-cuda12/engine/0.1.56-linux-x86_64-cuda-cuda12/strata --serve --pack /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/packs/unsloth-ud-q4_k_xl --native /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf --expert-profile /data/bench-staging/strata-v0.2.10/control/data/expert-profile.bin --expert-cache auto --prefill auto --spec 4 --max-context 131072 --kv k8v4 --resident-budget-gib 12 --vram-reserve-mib 768 --mtp /data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/runtime/strata-ud-q4_k_xl/mtp/rt --spec-min-p 0.5",
+  "finished_at": "2026-11-11T15:22:54+00:00",
+  "fixture_sha256": "c933220125cf0100cca2a29e59e499a62dcc78609be7b77e5de2ba9fff9f151f",
+  "gpu_after_mib": {
+    "0": 23697,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_loaded_mib": {
+    "0": 23407,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "kv": "k8v4",
+  "load_seconds": 98.029,
+  "max_tokens": 768,
+  "memory_after": {
+    "MemAvailable_kib": 13119436,
+    "SwapFree_kib": 21122720,
+    "SwapTotal_kib": 24127028
+  },
+  "memory_loaded": {
+    "MemAvailable_kib": 12568100,
+    "SwapFree_kib": 23560144,
+    "SwapTotal_kib": 24127028
+  },
+  "mtp": true,
+  "nvme_read_bytes": 389673783296,
+  "request_finished_at": "2026-11-11T15:22:54+00:00",
+  "request_started_at": "2026-11-11T15:07:45+00:00",
+  "resident_budget_gib": 12,
+  "serve_pid": 2588344,
+  "started_at": "2026-11-11T15:06:06+00:00",
+  "status": "passed",
+  "stream": {
+    "content_chars": 2983,
+    "content_chunks": 768,
+    "finish_reason": "length",
+    "first_content_seconds": 783.661,
+    "post_first_seconds": 125.174,
+    "usage": {
+      "completion_tokens": 768,
+      "prompt_tokens": 49694,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 50462
+    },
+    "wall_seconds": 908.836
+  }
+}

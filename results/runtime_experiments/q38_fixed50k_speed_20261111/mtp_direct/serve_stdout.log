@@ -1,0 +1,193 @@
+loading the model (the first start takes a minute or two) ...
+[strata] starting the engine: reading the model's weights ...
+[strata] loading the most-used experts into RAM (up to 12 GiB; the rest are read from the model files as needed) and locking part of them for the GPU.
+         YOUR PC CAN BE SLOW OR STOP RESPONDING FOR 1-3 MINUTES NOW - this is normal.
+         Please wait and don't close this window; the server says when it is ready.
+[strata] filling the GPU's expert cache (5147 experts, 15.01 GiB of VRAM) ...
+[strata] still starting (37 s) - please wait ...
+[strata] almost ready ...
+[strata] still starting (73 s) - please wait ...
+ready: http://127.0.0.1:18144/v1  (OpenAI: /v1/chat/completions, Anthropic: /v1/messages, context 131072 tokens)
+       open http://127.0.0.1:18144/ in a browser to chat; close this window to stop the model
+[strata] reading the prompt: 49,694 tokens, 10 s so far
+[strata] reading the prompt: 49,694 tokens, 20 s so far
+[strata] reading the prompt: 49,694 tokens, 30 s so far
+[strata] reading the prompt: 49,694 tokens, 40 s so far
+[strata] reading the prompt: 49,694 tokens, 50 s so far
+[strata] reading the prompt: 49,694 tokens, 60 s so far
+[strata] reading the prompt: 49,694 tokens, 70 s so far
+[strata] reading the prompt: 49,694 tokens, 80 s so far
+[strata] the engine has said nothing for 90 s but is still working; it is not ended (the limit is engine_silence_s). If it is stuck, "engine_silence_s" can be set lower.
+[strata] reading the prompt: 49,694 tokens, 90 s so far
+[strata] reading the prompt: 49,694 tokens, 100 s so far
+[strata] reading the prompt: 49,694 tokens, 110 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 115 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 125 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 135 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 145 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 155 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 165 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 175 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 185 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 195 s so far
+[strata] the engine has said nothing for 90 s but is still working; it is not ended (the limit is engine_silence_s). If it is stuck, "engine_silence_s" can be set lower.
+[strata] reading the prompt: 8,192 of 49,694 tokens, 205 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 215 s so far
+[strata] reading the prompt: 8,192 of 49,694 tokens, 225 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 229 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 239 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 249 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 259 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 269 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 279 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 289 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 299 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 309 s so far
+[strata] the engine has said nothing for 90 s but is still working; it is not ended (the limit is engine_silence_s). If it is stuck, "engine_silence_s" can be set lower.
+[strata] reading the prompt: 16,384 of 49,694 tokens, 319 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 329 s so far
+[strata] reading the prompt: 16,384 of 49,694 tokens, 339 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 344 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 354 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 364 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 374 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 384 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 394 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 404 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 414 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 424 s so far
+[strata] the engine has said nothing for 90 s but is still working; it is not ended (the limit is engine_silence_s). If it is stuck, "engine_silence_s" can be set lower.
+[strata] reading the prompt: 24,576 of 49,694 tokens, 434 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 444 s so far
+[strata] reading the prompt: 24,576 of 49,694 tokens, 454 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 459 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 469 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 479 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 489 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 499 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 509 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 519 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 529 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 539 s so far
+[strata] the engine has said nothing for 90 s but is still working; it is not ended (the limit is engine_silence_s). If it is stuck, "engine_silence_s" can be set lower.
+[strata] reading the prompt: 32,768 of 49,694 tokens, 549 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 559 s so far
+[strata] reading the prompt: 32,768 of 49,694 tokens, 569 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 573 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 583 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 593 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 603 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 613 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 623 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 633 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 643 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 653 s so far
+[strata] the engine has said nothing for 90 s but is still working; it is not ended (the limit is engine_silence_s). If it is stuck, "engine_silence_s" can be set lower.
+[strata] reading the prompt: 40,960 of 49,694 tokens, 663 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 673 s so far
+[strata] reading the prompt: 40,960 of 49,694 tokens, 683 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 688 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 698 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 708 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 718 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 728 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 738 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 748 s so far
+[strata] reading the prompt: 49,152 of 49,694 tokens, 758 s so far
+[strata] reading the prompt: 49,689 of 49,694 tokens, 763 s so far
+[strata] reading the prompt: 49,689 of 49,694 tokens, 773 s so far
+[strata] reading the prompt: 49,689 of 49,694 tokens, 783 s so far
+[strata] thinking: 2 of max 768 tokens, 2.0 tok/s, 785 s
+[strata] thinking: 4 of max 768 tokens, 1.8 tok/s, 786 s
+[strata] thinking: 12 of max 768 tokens, 2.5 tok/s, 789 s
+[strata] thinking: 14 of max 768 tokens, 2.3 tok/s, 790 s
+[strata] thinking: 16 of max 768 tokens, 1.8 tok/s, 792 s
+[strata] thinking: 24 of max 768 tokens, 2.4 tok/s, 794 s
+[strata] thinking: 26 of max 768 tokens, 2.3 tok/s, 795 s
+[strata] thinking: 30 of max 768 tokens, 2.3 tok/s, 796 s
+[strata] thinking: 34 of max 768 tokens, 2.3 tok/s, 798 s
+[strata] thinking: 37 of max 768 tokens, 2.2 tok/s, 801 s
+[strata] thinking: 40 of max 768 tokens, 2.2 tok/s, 802 s
+[strata] thinking: 43 of max 768 tokens, 2.1 tok/s, 804 s
+[strata] thinking: 46 of max 768 tokens, 2.0 tok/s, 806 s
+[strata] thinking: 49 of max 768 tokens, 2.0 tok/s, 809 s
+[strata] thinking: 55 of max 768 tokens, 2.0 tok/s, 811 s
+[strata] thinking: 66 of max 768 tokens, 2.3 tok/s, 812 s
+[strata] thinking: 74 of max 768 tokens, 2.5 tok/s, 814 s
+[strata] thinking: 82 of max 768 tokens, 2.6 tok/s, 815 s
+[strata] thinking: 96 of max 768 tokens, 2.9 tok/s, 816 s
+[strata] thinking: 108 of max 768 tokens, 3.2 tok/s, 818 s
+[strata] thinking: 119 of max 768 tokens, 3.4 tok/s, 819 s
+[strata] thinking: 126 of max 768 tokens, 3.5 tok/s, 820 s
+[strata] thinking: 138 of max 768 tokens, 3.7 tok/s, 821 s
+[strata] thinking: 150 of max 768 tokens, 3.9 tok/s, 822 s
+[strata] thinking: 167 of max 768 tokens, 4.2 tok/s, 823 s
+[strata] thinking: 171 of max 768 tokens, 4.2 tok/s, 824 s
+[strata] thinking: 182 of max 768 tokens, 4.3 tok/s, 826 s
+[strata] thinking: 190 of max 768 tokens, 4.4 tok/s, 827 s
+[strata] thinking: 202 of max 768 tokens, 4.5 tok/s, 828 s
+[strata] thinking: 215 of max 768 tokens, 4.6 tok/s, 830 s
+[strata] thinking: 222 of max 768 tokens, 4.7 tok/s, 831 s
+[strata] thinking: 232 of max 768 tokens, 4.8 tok/s, 832 s
+[strata] thinking: 239 of max 768 tokens, 4.8 tok/s, 834 s
+[strata] thinking: 249 of max 768 tokens, 4.9 tok/s, 835 s
+[strata] thinking: 259 of max 768 tokens, 4.9 tok/s, 836 s
+[strata] thinking: 274 of max 768 tokens, 5.1 tok/s, 837 s
+[strata] thinking: 284 of max 768 tokens, 5.2 tok/s, 839 s
+[strata] thinking: 300 of max 768 tokens, 5.3 tok/s, 840 s
+[strata] thinking: 305 of max 768 tokens, 5.3 tok/s, 841 s
+[strata] thinking: 316 of max 768 tokens, 5.4 tok/s, 842 s
+[strata] thinking: 317 of max 768 tokens, 5.3 tok/s, 843 s
+[strata] thinking: 319 of max 768 tokens, 5.3 tok/s, 844 s
+[strata] thinking: 327 of max 768 tokens, 5.3 tok/s, 846 s
+[strata] thinking: 338 of max 768 tokens, 5.3 tok/s, 847 s
+[strata] thinking: 350 of max 768 tokens, 5.4 tok/s, 849 s
+[strata] thinking: 357 of max 768 tokens, 5.4 tok/s, 850 s
+[strata] thinking: 365 of max 768 tokens, 5.4 tok/s, 851 s
+[strata] thinking: 372 of max 768 tokens, 5.4 tok/s, 853 s
+[strata] thinking: 382 of max 768 tokens, 5.4 tok/s, 854 s
+[strata] thinking: 390 of max 768 tokens, 5.4 tok/s, 856 s
+[strata] thinking: 402 of max 768 tokens, 5.5 tok/s, 857 s
+[strata] thinking: 415 of max 768 tokens, 5.6 tok/s, 858 s
+[strata] thinking: 419 of max 768 tokens, 5.5 tok/s, 859 s
+[strata] thinking: 428 of max 768 tokens, 5.5 tok/s, 861 s
+[strata] thinking: 437 of max 768 tokens, 5.6 tok/s, 862 s
+[strata] thinking: 444 of max 768 tokens, 5.5 tok/s, 864 s
+[strata] thinking: 454 of max 768 tokens, 5.6 tok/s, 865 s
+[strata] thinking: 466 of max 768 tokens, 5.7 tok/s, 866 s
+[strata] thinking: 472 of max 768 tokens, 5.6 tok/s, 867 s
+[strata] thinking: 486 of max 768 tokens, 5.7 tok/s, 869 s
+[strata] thinking: 494 of max 768 tokens, 5.7 tok/s, 870 s
+[strata] thinking: 509 of max 768 tokens, 5.8 tok/s, 871 s
+[strata] thinking: 512 of max 768 tokens, 5.8 tok/s, 872 s
+[strata] thinking: 522 of max 768 tokens, 5.8 tok/s, 873 s
+[strata] thinking: 537 of max 768 tokens, 5.9 tok/s, 874 s
+[strata] thinking: 546 of max 768 tokens, 6.0 tok/s, 875 s
+[strata] thinking: 555 of max 768 tokens, 6.0 tok/s, 876 s
+[strata] thinking: 570 of max 768 tokens, 6.1 tok/s, 878 s
+[strata] thinking: 577 of max 768 tokens, 6.0 tok/s, 879 s
+[strata] thinking: 585 of max 768 tokens, 6.1 tok/s, 880 s
+[strata] thinking: 591 of max 768 tokens, 6.1 tok/s, 881 s
+[strata] thinking: 604 of max 768 tokens, 6.1 tok/s, 883 s
+[strata] thinking: 609 of max 768 tokens, 6.0 tok/s, 885 s
+[strata] thinking: 619 of max 768 tokens, 6.1 tok/s, 886 s
+[strata] thinking: 629 of max 768 tokens, 6.1 tok/s, 887 s
+[strata] thinking: 635 of max 768 tokens, 6.1 tok/s, 888 s
+[strata] thinking: 645 of max 768 tokens, 6.1 tok/s, 889 s
+[strata] thinking: 651 of max 768 tokens, 6.1 tok/s, 891 s
+[strata] thinking: 654 of max 768 tokens, 6.0 tok/s, 892 s
+[strata] thinking: 661 of max 768 tokens, 6.0 tok/s, 893 s
+[strata] thinking: 669 of max 768 tokens, 6.0 tok/s, 894 s
+[strata] thinking: 675 of max 768 tokens, 6.0 tok/s, 896 s
+[strata] thinking: 685 of max 768 tokens, 6.1 tok/s, 897 s
+[strata] thinking: 696 of max 768 tokens, 6.1 tok/s, 898 s
+[strata] thinking: 699 of max 768 tokens, 6.0 tok/s, 899 s
+[strata] thinking: 703 of max 768 tokens, 6.0 tok/s, 901 s
+[strata] thinking: 709 of max 768 tokens, 6.0 tok/s, 902 s
+[strata] thinking: 717 of max 768 tokens, 6.0 tok/s, 903 s
+[strata] thinking: 723 of max 768 tokens, 6.0 tok/s, 905 s
+[strata] thinking: 731 of max 768 tokens, 6.0 tok/s, 906 s
+[strata] thinking: 742 of max 768 tokens, 6.0 tok/s, 907 s
+[strata] thinking: 754 of max 768 tokens, 6.1 tok/s, 908 s
+[strata] done: 768 tokens in 909 s (6.1 tok/s) (length, cancel=False), expert cache 85.6% hit (+1.1% of the routed experts over PCIe)
+[strata] the reply reached max tokens while still thinking, so it has no answer: a thinking budget (reasoning_budget_tokens, in the request or in strata-<model>.json for every request) leaves room to answer

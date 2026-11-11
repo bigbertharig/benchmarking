@@ -1,0 +1,16 @@
+{
+  "arms": [
+    {
+      "error": "RuntimeError: MTP requested but the live engine has no verified draft runtime path",
+      "name": "k8v4_mtp",
+      "status": "failed"
+    }
+  ],
+  "context_cap": 131072,
+  "end_state": "freeze",
+  "finished_at": "2026-11-11T15:01:45+00:00",
+  "fixture_sha256": "c933220125cf0100cca2a29e59e499a62dcc78609be7b77e5de2ba9fff9f151f",
+  "max_tokens": 768,
+  "started_at": "2026-11-11T14:59:37+00:00",
+  "status": "failed"
+}

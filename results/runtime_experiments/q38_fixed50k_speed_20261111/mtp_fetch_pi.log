@@ -1,0 +1,119 @@
+  MTP draft layer:   0.00 / 5.21 GB (0%)
+  MTP draft layer:   0.01 / 5.21 GB (0%)
+mtp.fc_embedding.weight done
+  MTP draft layer:   0.03 / 5.21 GB (0%)
+mtp.fc_hidden.weight done
+mtp.hyper_connection_mixer.hc_norm.weight done
+mtp.hyper_connection_mixer.input_mix_weight_down.weight done
+  MTP draft layer:   0.04 / 5.21 GB (0%)
+mtp.hyper_connection_mixer.input_mix_weight_up.weight done
+mtp.layers.0.attn_hyper_connection.block_inject_weight.weight done
+mtp.layers.0.attn_hyper_connection.hc_norm.weight done
+mtp.layers.0.attn_hyper_connection.input_mix_weight_down.weight done
+  MTP draft layer:   0.05 / 5.21 GB (1%)
+mtp.layers.0.attn_hyper_connection.input_mix_weight_up.weight done
+  MTP draft layer:   0.07 / 5.21 GB (1%)
+  MTP draft layer:   0.15 / 5.21 GB (2%)
+  MTP draft layer:   0.35 / 5.21 GB (6%)
+  MTP draft layer:   0.42 / 5.21 GB (8%)
+  MTP draft layer:   0.46 / 5.21 GB (8%)
+  MTP draft layer:   0.52 / 5.21 GB (10%)
+  MTP draft layer:   0.67 / 5.21 GB (12%)
+  MTP draft layer:   0.69 / 5.21 GB (13%)
+  MTP draft layer:   0.76 / 5.21 GB (14%)
+  MTP draft layer:   0.77 / 5.21 GB (14%)
+  MTP draft layer:   0.82 / 5.21 GB (15%)
+  MTP draft layer:   0.86 / 5.21 GB (16%)
+  MTP draft layer:   0.94 / 5.21 GB (18%)
+  MTP draft layer:   0.99 / 5.21 GB (19%)
+  MTP draft layer:   1.01 / 5.21 GB (19%)
+  MTP draft layer:   1.11 / 5.21 GB (21%)
+  MTP draft layer:   1.24 / 5.21 GB (23%)
+  MTP draft layer:   1.26 / 5.21 GB (24%)
+  MTP draft layer:   1.33 / 5.21 GB (25%)
+  MTP draft layer:   1.48 / 5.21 GB (28%)
+  MTP draft layer:   1.50 / 5.21 GB (28%)
+  MTP draft layer:   1.55 / 5.21 GB (29%)
+  MTP draft layer:   1.61 / 5.21 GB (30%)
+mtp.layers.0.mlp.experts.down_proj done
+  MTP draft layer:   1.75 / 5.21 GB (33%)
+  MTP draft layer:   2.00 / 5.21 GB (38%)
+  MTP draft layer:   2.02 / 5.21 GB (38%)
+  MTP draft layer:   2.03 / 5.21 GB (38%)
+  MTP draft layer:   2.07 / 5.21 GB (39%)
+  MTP draft layer:   2.28 / 5.21 GB (43%)
+  MTP draft layer:   2.35 / 5.21 GB (45%)
+  MTP draft layer:   2.42 / 5.21 GB (46%)
+  MTP draft layer:   2.50 / 5.21 GB (47%)
+  MTP draft layer:   2.54 / 5.21 GB (48%)
+  MTP draft layer:   2.55 / 5.21 GB (48%)
+  MTP draft layer:   2.60 / 5.21 GB (49%)
+  MTP draft layer:   2.74 / 5.21 GB (52%)
+  MTP draft layer:   2.82 / 5.21 GB (54%)
+  MTP draft layer:   2.84 / 5.21 GB (54%)
+  MTP draft layer:   2.87 / 5.21 GB (55%)
+  MTP draft layer:   2.89 / 5.21 GB (55%)
+  MTP draft layer:   2.90 / 5.21 GB (55%)
+  MTP draft layer:   2.96 / 5.21 GB (56%)
+  MTP draft layer:   2.99 / 5.21 GB (57%)
+  MTP draft layer:   3.06 / 5.21 GB (58%)
+  MTP draft layer:   3.12 / 5.21 GB (59%)
+  MTP draft layer:   3.21 / 5.21 GB (61%)
+  MTP draft layer:   3.26 / 5.21 GB (62%)
+  MTP draft layer:   3.27 / 5.21 GB (62%)
+  MTP draft layer:   3.29 / 5.21 GB (63%)
+  MTP draft layer:   3.31 / 5.21 GB (63%)
+  MTP draft layer:   3.41 / 5.21 GB (65%)
+  MTP draft layer:   3.48 / 5.21 GB (66%)
+  MTP draft layer:   3.56 / 5.21 GB (68%)
+  MTP draft layer:   3.69 / 5.21 GB (70%)
+  MTP draft layer:   3.71 / 5.21 GB (71%)
+  MTP draft layer:   3.78 / 5.21 GB (72%)
+  MTP draft layer:   3.79 / 5.21 GB (72%)
+  MTP draft layer:   3.84 / 5.21 GB (73%)
+  MTP draft layer:   3.91 / 5.21 GB (75%)
+  MTP draft layer:   3.94 / 5.21 GB (75%)
+  MTP draft layer:   3.98 / 5.21 GB (76%)
+  MTP draft layer:   4.00 / 5.21 GB (76%)
+  MTP draft layer:   4.03 / 5.21 GB (77%)
+  MTP draft layer:   4.11 / 5.21 GB (78%)
+  MTP draft layer:   4.15 / 5.21 GB (79%)
+  MTP draft layer:   4.35 / 5.21 GB (83%)
+  MTP draft layer:   4.45 / 5.21 GB (85%)
+  MTP draft layer:   4.48 / 5.21 GB (85%)
+  MTP draft layer:   4.50 / 5.21 GB (86%)
+  MTP draft layer:   4.67 / 5.21 GB (89%)
+  MTP draft layer:   4.68 / 5.21 GB (89%)
+  MTP draft layer:   4.80 / 5.21 GB (92%)
+  MTP draft layer:   4.82 / 5.21 GB (92%)
+  MTP draft layer:   4.85 / 5.21 GB (93%)
+  MTP draft layer:   4.87 / 5.21 GB (93%)
+  MTP draft layer:   5.05 / 5.21 GB (96%)
+mtp.layers.0.mlp.experts.gate_up_proj done
+  MTP draft layer:   5.09 / 5.21 GB (97%)
+mtp.layers.0.mlp.gate.weight done
+mtp.layers.0.mlp.shared_expert.down_proj.weight done
+mtp.layers.0.mlp.shared_expert.gate_proj.weight done
+  MTP draft layer:   5.10 / 5.21 GB (97%)
+mtp.layers.0.mlp.shared_expert.up_proj.weight done
+mtp.layers.0.mlp.shared_expert_gate.weight done
+mtp.layers.0.mlp_hyper_connection.block_inject_weight.weight done
+mtp.layers.0.mlp_hyper_connection.hc_norm.weight done
+  MTP draft layer:   5.10 / 5.21 GB (97%)
+mtp.layers.0.mlp_hyper_connection.input_mix_weight_down.weight done
+mtp.layers.0.mlp_hyper_connection.input_mix_weight_up.weight done
+  MTP draft layer:   5.11 / 5.21 GB (98%)
+mtp.layers.0.self_attn.indexer.index_qk_proj.weight done
+mtp.layers.0.self_attn.indexer.k_layernorm.weight done
+mtp.layers.0.self_attn.indexer.q_layernorm.weight done
+mtp.layers.0.self_attn.k_norm.weight done
+mtp.layers.0.self_attn.k_proj.weight done
+  MTP draft layer:   5.13 / 5.21 GB (98%)
+mtp.layers.0.self_attn.o_proj.weight done
+mtp.layers.0.self_attn.q_norm.weight done
+  MTP draft layer:   5.17 / 5.21 GB (99%)
+mtp.layers.0.self_attn.q_proj.weight done
+mtp.layers.0.self_attn.v_proj.weight done
+mtp.pre_fc_norm_embedding.weight done
+mtp.pre_fc_norm_hidden.weight done
+  MTP draft layer:   5.21 / 5.21 GB (100%)

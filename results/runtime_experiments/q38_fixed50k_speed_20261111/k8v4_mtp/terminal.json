@@ -1,0 +1,23 @@
+{
+  "arm": "k8v4_mtp",
+  "error": "RuntimeError: launch plan wants a download",
+  "finished_at": "2026-11-11T14:16:15+00:00",
+  "gpu_before_mib": {
+    "0": 23693,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "kv": "k8v4",
+  "memory_before": {
+    "MemAvailable_kib": 8511780,
+    "SwapFree_kib": 20844632,
+    "SwapTotal_kib": 24127028
+  },
+  "mtp": true,
+  "resident_budget_gib": 12,
+  "started_at": "2026-11-11T14:16:09+00:00",
+  "status": "failed"
+}

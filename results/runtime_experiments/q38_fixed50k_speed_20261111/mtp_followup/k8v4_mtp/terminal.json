@@ -1,0 +1,38 @@
+{
+  "arm": "k8v4_mtp",
+  "error": "Stopped during prefill after live engine command showed MTP was absent; not a valid MTP measurement.",
+  "finished_at": "2026-11-11T15:30:41+00:00",
+  "gpu_before_mib": {
+    "0": 23693,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_loaded_mib": {
+    "0": 23499,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "kv": "k8v4",
+  "load_seconds": 116.632,
+  "memory_before": {
+    "MemAvailable_kib": 8447920,
+    "SwapFree_kib": 20872964,
+    "SwapTotal_kib": 24127028
+  },
+  "memory_loaded": {
+    "MemAvailable_kib": 12309272,
+    "SwapFree_kib": 23554388,
+    "SwapTotal_kib": 24127028
+  },
+  "mtp": true,
+  "request_started_at": "2026-11-11T14:20:35+00:00",
+  "resident_budget_gib": 12,
+  "started_at": "2026-11-11T14:18:29+00:00",
+  "status": "aborted"
+}

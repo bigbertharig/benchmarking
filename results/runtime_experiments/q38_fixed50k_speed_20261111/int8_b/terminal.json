@@ -1,0 +1,102 @@
+{
+  "arm": "int8_b",
+  "block_after": {
+    "nvme": {
+      "read_bytes": 17778219893760,
+      "write_bytes": 305406824448
+    },
+    "sata": {
+      "read_bytes": 425439390720,
+      "write_bytes": 121471415296
+    }
+  },
+  "block_before": {
+    "nvme": {
+      "read_bytes": 17421741949952,
+      "write_bytes": 305406824448
+    },
+    "sata": {
+      "read_bytes": 425320975360,
+      "write_bytes": 121448068096
+    }
+  },
+  "engine": {
+    "cache_hit_percent": 86.9,
+    "cache_hits": 313758,
+    "cache_line": "strata serve: decode expert cache hit rate: 86.9% (313758 hits / 361230 lookups); 2451 more read by the GPU over PCIe or from another GPU (0.7% of all 363681 routed)",
+    "cache_lookups": 361230,
+    "decode_tps": 6.0,
+    "expert_cache_slots": null,
+    "generated_tokens": 768,
+    "prefill_ms": 713628,
+    "prompt_line": "strata serve: prompt 49694 tokens = 0 reused + 49694 read in 713628 ms (69.6 tok/s), 768 generated in 126971 ms (6.0 tok/s), drafts accepted 48 of 107, 4 checkpoints",
+    "prompt_tokens": 49694,
+    "reused_tokens": 0,
+    "slots_line": null
+  },
+  "finished_at": "2026-11-11T13:44:58+00:00",
+  "gpu_after_mib": {
+    "0": 23687,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_before_mib": {
+    "0": 23659,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "gpu_loaded_mib": {
+    "0": 23501,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "kv": "int8",
+  "load_seconds": 119.225,
+  "memory_after": {
+    "MemAvailable_kib": 12856744,
+    "SwapFree_kib": 20884328,
+    "SwapTotal_kib": 24127028
+  },
+  "memory_before": {
+    "MemAvailable_kib": 12814092,
+    "SwapFree_kib": 20824116,
+    "SwapTotal_kib": 24127028
+  },
+  "memory_loaded": {
+    "MemAvailable_kib": 12315660,
+    "SwapFree_kib": 23549876,
+    "SwapTotal_kib": 24127028
+  },
+  "mtp": false,
+  "nvme_read_bytes": 356477943808,
+  "request_finished_at": "2026-11-11T13:44:58+00:00",
+  "request_started_at": "2026-11-11T13:30:58+00:00",
+  "resident_budget_gib": 12,
+  "started_at": "2026-11-11T13:28:49+00:00",
+  "status": "passed",
+  "stream": {
+    "content_chars": 3080,
+    "content_chunks": 768,
+    "finish_reason": "length",
+    "first_content_seconds": 713.777,
+    "post_first_seconds": 126.867,
+    "usage": {
+      "completion_tokens": 768,
+      "prompt_tokens": 49694,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 50462
+    },
+    "wall_seconds": 840.644
+  }
+}

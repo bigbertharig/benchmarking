@@ -1,0 +1,24 @@
+{
+  "arm": "k8v4_mtp",
+  "error": "RuntimeError: MTP requested but the live engine has no verified draft runtime path",
+  "finished_at": "2026-11-11T15:01:45+00:00",
+  "gpu_before_mib": {
+    "0": 19,
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 5,
+    "5": 5
+  },
+  "kv": "k8v4",
+  "load_seconds": 121.323,
+  "memory_before": {
+    "MemAvailable_kib": 29896112,
+    "SwapFree_kib": 23561236,
+    "SwapTotal_kib": 24127028
+  },
+  "mtp": true,
+  "resident_budget_gib": 12,
+  "started_at": "2026-11-11T14:59:37+00:00",
+  "status": "failed"
+}

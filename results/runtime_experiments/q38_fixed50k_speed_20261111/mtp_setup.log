@@ -1,0 +1,43 @@
+Strata - Qwen3.8-Flash-Next on a normal PC (a GPU + system RAM + CPU)
+
+=== Step 1: checking your PC ===
+  Your NVIDIA GPUs:
+    GPU 0: NVIDIA GeForce RTX 3090 Ti, 24 GB VRAM - can be used
+    GPU 1: NVIDIA GeForce GTX 1060 6GB, 6 GB VRAM - not supported - older than the RTX 20 series (compute capability 6.1; Strata needs 7.5 or newer; experimental: choose it with --gpu 1 (the CUDA 12 engine, docs/OLDER_GPUS.md))
+    GPU 2: NVIDIA GeForce GTX 1060 6GB, 6 GB VRAM - not supported - older than the RTX 20 series (compute capability 6.1; Strata needs 7.5 or newer; experimental: choose it with --gpu 2 (the CUDA 12 engine, docs/OLDER_GPUS.md))
+    GPU 3: NVIDIA GeForce GTX 1060 6GB, 6 GB VRAM - not supported - older than the RTX 20 series (compute capability 6.1; Strata needs 7.5 or newer; experimental: choose it with --gpu 3 (the CUDA 12 engine, docs/OLDER_GPUS.md))
+    GPU 4: NVIDIA GeForce GTX 1060 6GB, 6 GB VRAM - not supported - older than the RTX 20 series (compute capability 6.1; Strata needs 7.5 or newer; experimental: choose it with --gpu 4 (the CUDA 12 engine, docs/OLDER_GPUS.md))
+    GPU 5: NVIDIA GeForce GTX 1060 6GB, 6 GB VRAM - not supported - older than the RTX 20 series (compute capability 6.1; Strata needs 7.5 or newer; experimental: choose it with --gpu 5 (the CUDA 12 engine, docs/OLDER_GPUS.md))
+  [ok] GPU: NVIDIA GeForce RTX 3090 Ti, 24.0 GB VRAM, compute capability 8.6, driver 580.159.03
+  [ok] RAM: 30 GB
+  [ok] CPU: Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz (AVX2)
+  [ok] PCIe: 3.0 x16 (the card supports 4.0, the board 3.0)
+
+=== Step 2: your choices ===
+  [ok] model: Qwen3.8-Flash-Next (Unsloth)
+
+  1) UD-IQ4_XS (recommended) ~4-bit i-quant (Unsloth Dynamic), between IQ3_S and UD-Q4_K_XL in quality; on a PC with less than ~80 GB of RAM part of its experts are read from the SSD; download 94 GB, keeps ~8 GB of its 60 GB of experts in RAM   <- needs 48 GB RAM, you have 30
+  2) UD-Q4_K_XL (recommended) 4-bit (Unsloth Dynamic): K-quant experts, between UD-IQ4_XS and UD-Q5_K_XL in quality; download 111 GB, keeps ~8 GB of its 77 GB of experts in RAM   <- needs 48 GB RAM, you have 30
+  3) UD-Q5_K_XL 5-bit (Unsloth Dynamic): Q5_K experts with Q8_0 downs, close to Q8_0 in quality; download 158 GB, keeps ~8 GB of its 98 GB of experts in RAM   <- needs 108 GB RAM, you have 30
+  4) UD-Q6_K_XL 6-bit (Unsloth Dynamic): Q6_K experts with Q8_0 downs; download 169 GB, keeps ~8 GB of its 109 GB of experts in RAM   <- needs 118 GB RAM, you have 30
+  5) Q8_0 8-bit, the reference quality (every expert Q8_0); for a 192 GB PC; download 188 GB, keeps ~8 GB of its 128 GB of experts in RAM   <- needs 136 GB RAM, you have 30
+  [!]  UD-Q4_K_XL needs 48 GB of RAM or more; this PC has 30 GB: it would keep 8 GiB of its 71 GiB of experts in RAM and read the other 63 GiB from the SSD while it answers (single-digit tokens/s on most SSDs), and it may run out of RAM
+  [!]  installing UD-Q4_K_XL with 30 GB of RAM, as you chose
+  [!]  a 12 GiB RAM budget is more than setup recommends for this PC (8 GiB: the RAM less 24 GB for the OS, the engine and the file cache that reads the other experts). Kept as you chose: the engine clamps it to the RAM it finds free at start (less 4 GB), and the file cache gets less room - it may be slower, or run the PC out of RAM under load
+  [ok] RAM budget: 12 GiB of UD-Q4_K_XL's experts in RAM, the rest read from the model files on the SSD
+  [ok] size: UD-Q4_K_XL
+  [ok] context: 131072 tokens
+  [ok] KV cache: 8-bit keys, 4-bit values
+  [ok] images: off
+
+=== Step 3: Python packages ===
+  Installing numpy, jinja2, regex, pyyaml, tqdm, requests, pillow, psutil, textual (the screens) ...
+  > /data/bench-staging/strata-v0.2.10/control/python/bin/python3.12 -m pip install --quiet --disable-pip-version-check numpy==2.5.3; python_version >= "3.12" numpy==2.4.6; python_version == "3.11" numpy==2.2.6; python_version < "3.11" jinja2==3.1.6 regex==2026.9.10 pyyaml==6.0.3 tqdm==4.70.1 requests==2.34.2 pillow==12.3.0 psutil==7.2.2 markupsafe==3.0.3 certifi==2026.10.19 truststore==0.10.5; python_version >= "3.10" charset-normalizer==3.5.1 idna==3.20 urllib3==2.8.0 colorama==0.4.6; sys_platform == "win32" textual==8.2.8
+  [ok] numpy, jinja2, regex, pyyaml, tqdm, requests, pillow, psutil, textual (the screens) installed
+
+=== Step 4: the Strata engine ===
+
+  [X]  cannot reach github.com (<urlopen error [Errno -3] Temporary failure in name resolution>)
+       check your internet connection and run it again; behind a company or school proxy, set HTTPS_PROXY (for example HTTPS_PROXY=http://host:port) in this terminal first
+
+Setup stopped. Fix the item above and run it again - everything already done is kept and skipped.

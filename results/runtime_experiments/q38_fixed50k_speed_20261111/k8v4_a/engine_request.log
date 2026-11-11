@@ -1,0 +1,16 @@
+strata serve: conversation cache: parked 53 tokens in 117.1 ms; parked=1 bytes=236765372 evictions=0 snapshot_bytes=236765372 reused_kv_bytes=0
+strata prefill: QSA layers: norm + rope in one pass on, attention gate in the attention epilogue off
+strata verify: capturing the 3-token window (521 MiB of VRAM free)
+strata verify: captured the 3-token window (upload no error, sync no error) in 16.9 ms
+strata verify: capturing the 5-token window (499 MiB of VRAM free)
+strata verify: captured the 5-token window (upload no error, sync no error) in 20.3 ms
+strata verify: capturing the 6-token window (475 MiB of VRAM free)
+strata verify: captured the 6-token window (upload no error, sync no error) in 12.8 ms
+strata serve: PCIe share: the CPU pool takes 189 us per missed expert (16.5 GB/s of expert bytes), the link 12.6 GB/s -> pcie_frac 0.30 (was 0.35; --pcie-frac N fixes it, STRATA_PCIE_FRAC_DEFAULT=old keeps the start-up rule)
+strata serve: prompt 49694 tokens = 0 reused + 49694 read in 709277 ms (70.1 tok/s), 768 generated in 123958 ms (6.2 tok/s), drafts accepted 34 of 66, 4 checkpoints
+strata serve: decode expert cache hit rate: 86.5% (302194 hits / 349283 lookups); 2266 more read by the GPU over PCIe or from another GPU (0.6% of all 351549 routed)
+strata serve: route tail skip: 35119 missed experts skipped (35708 entries) since the start
+strata serve: resident RAM: 12.00 GiB of experts in RAM, 3698 exchanged with the VRAM tier, 36457 blob reads from the file
+strata serve: expert tiers: GPU 302194 hits this request; since the start RAM 54985 blobs, files 36457 blobs 444404.0 MB read (the GGUF in place)
+strata serve: file tier I/O this request: the OS read 353182.1 MB from storage (130559 major faults) for 417013.9 MB of expert reads; page cache held 76314.1 MB at the read, not 340699.8 MB; io prefetch: 0 read ahead (323343.8 MB by pread), 0 used, 0 unused, 0 skipped (cached), 0 dropped; decode waited 119982.7 ms in 31943 fetches; decode gate: cache room 0.17 of the experts, read-ahead used 3%, page cache held 66% of the decode's reads (EWMA), closed, closed in 740 windows so far, 1 flips; read ahead 0.0 MB, 0.0 MB of it used; 0 late, 0 not admitted (confidence), 0 (budget 0 MB/window)
+strata serve: suffix drafts: 10 windows, 34 of 66 drafts accepted
