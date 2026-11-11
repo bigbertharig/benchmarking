@@ -22,6 +22,23 @@ The 262,144-capacity F16 attempt failed before generation: its 6,144 MiB KV allo
 | F16, 128K cap | 144.45 | 171.89 | 211.46 | 527.80 |
 | Q8_0, 262K cap | 150.64 | 190.00 | 241.31 | 581.95 |
 
+## 250K-capacity F16 chat: 3090 preparation and one-chat placement
+
+The follow-up reserved 250,000 F16 positions for **one** chat. In the usual 24x4 weight layout, GPU5 allocated 5,862 MiB of KV and had only about 124 MiB free. Direct filling on GPU5 took 530.02 seconds to reach 50K and another 797.60 seconds to reach 100K. It decoded at 32.40 and 23.22 tok/s there. We intentionally stopped this run during the 100K→150K phase; its exit 137 and incomplete 150K phase are cancellation evidence, not an OOM or a 150K result. The probe's printed `FILL_DONE tps` divides the *target depth* by the latest phase time and must not be used as an incremental fill rate.
+
+For faster preparation, a temporary **30x5** map put routed-expert tensors from 30 layers onto all five 1060s (six layers per card). The rest of the model occupied 16,946 MiB on GPU0, the 250K F16 KV occupied 5,862 MiB there, and sampled GPU0 use was about 23,285 MiB. The loader offloaded all 49 layers to GPUs and reported only a 166.92 MiB CPU-mapped model buffer. There was no live RAM or NVMe expert spill. The model was read from NVMe at load; saved chat states were written to NVMe between layouts. All rows below are synthetic repeated-token histories and 128-token generation windows, not long-context recall or real conversation turns.
+
+| Occupied depth | Added 50K on GPU0, s | GPU0 chat tok/s | GPU5 chat tok/s after state handoff | State file, GB | NVMe read + GPU5 restore, s |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 50K | 169.75 | 44.13 | 30.77 | 1.31 | 7.98 |
+| 100K | 172.67 | 47.64 | 22.40 | 2.54 | 15.59 |
+| 150K | 176.02 | 46.80 | 17.94 | 3.77 | 23.26 |
+| 200K | 181.31 | 42.24 | 14.83 | 5.00 | 30.91 |
+
+The 50K state was prepared in an initial pilot, saved, and restored into the 30x5 GPU0 context to continue the 100K–200K run. Each depth was saved **before** its 128-token generation measurement. We then reloaded the standard 24x4 weights, restored each saved state into GPU5, and measured its decode. The GPU5 result at 50K is close to direct filling (30.77 versus 32.40 tok/s); at 100K it is likewise close (22.40 versus 23.22). This validates the faster preparation/handoff path without claiming it makes GPU5 decode faster. Initial model load and the model reload between placements are excluded from the phase times and remain part of cold end-to-end latency. The four GPU0 fill phases total 699.75 seconds from empty to 200K, compared with 1,327.62 seconds for direct GPU5 fill only to 100K.
+
+For a single Coder chat, leaving it on GPU0 in the 30x5 expert layout is the faster measured choice: its 200K decode is 2.85 times the GPU5 worker rate. All six GPUs are occupied and there is no second isolated 1060 chat slot in this layout. A reusable [30x5 resident launcher](run_coder_30x5_chat3090.sh) and the [preparation/restore runner](run_coder_prep_restore.sh) are saved with their exact tensor map, probe source, logs, GPU samples, and terminal receipts. The resident `llama-server` passed `/health` and answered the short Germany prompt with `Berlin`; it reported a 250,112-position F16 context on GPU0, 5,862 MiB of GPU0 KV, and 866 MiB of GPU0 VRAM free. This is a fresh empty server chat, not a live restoration of the 200K probe state. A 250K reservation is proven; 250K **occupied** history, longer output, and deep retrieval have not been tested.
+
 ## Relation to Nemotron
 
 The saved [Nemotron single-chat probe](../nemo_single_chat_20261109/README.md) used a 39,027,158,016-byte Q3_K_XL model, a different architecture and quant. Its 262K-capacity dedicated-1060 chat reached 32.10/27.15/22.56 tok/s with Q4_0 KV at 16K/32K/50K, and 38.05/34.40/32.50 with F16 KV. Nemotron's F16 KV allocation was only 2,048 MiB at 262K. Coder's F16 speed approaches or exceeds Nemotron's across these depths, but Coder cannot reserve 262K F16 on one 1060. Coder's Q4_0 speed declines much more steeply with occupied history.
