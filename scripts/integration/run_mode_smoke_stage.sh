@@ -35,7 +35,11 @@ case "${1:-}" in
     model=$2 mode=$3 port=$4 tag=$5
     if [[ $# -eq 7 ]]; then
       case "$6" in
-        --stop-container) /home/bryan/llm_orchestration/shared/scripts/llama_runtime/stop_runtime.sh "$7" ;;
+        --stop-container)
+          if docker container inspect "$7" >/dev/null 2>&1; then
+            /home/bryan/llm_orchestration/shared/scripts/llama_runtime/stop_runtime.sh "$7"
+          fi
+          ;;
         --stop-profile) rig stop "$7" ;;
         *) echo "unknown stop option $6" >&2; exit 64 ;;
       esac
