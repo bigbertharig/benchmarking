@@ -1,0 +1,51 @@
+{
+  "schema": "qwen35-shared-kv-service/1",
+  "recorded_at_utc": "2026-11-12T04:20:49.026202+00:00",
+  "model": "qwen3.6:35b-a3b-xl",
+  "model_file": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+  "runtime_commit": "c4e3a7c",
+  "context_cap_each": 262144,
+  "kv_type": "q4_0 K and V",
+  "model_weights": "GPU0 only",
+  "lifecycle_checks": [
+    "parent start ready on GPU0",
+    "worker-a attached GPU1",
+    "worker-a first turn 3+4 returned 7",
+    "worker-a second turn recalled 7",
+    "worker-a detached and GPU1 reused by worker-b",
+    "worker-b answered 9+6 as 15",
+    "five worker chats attached on GPUs1-5",
+    "six chats generated concurrently",
+    "sixth worker admission rejected with no free 1060",
+    "parent stop removed all six claims",
+    "parent and one worker restarted and ready",
+    "global rig stop removed service and claims; parent and worker restarted"
+  ],
+  "concurrent_48_token_probe": {
+    "main_gpu0_tok_s": 83.6,
+    "worker_gpu1_tok_s": 41.6,
+    "worker_gpu2_tok_s": 39.4,
+    "worker_gpu3_tok_s": 41.0,
+    "worker_gpu4_tok_s": 40.8,
+    "worker_gpu5_tok_s": 41.1
+  },
+  "peak_observed_mib_after_six_chats": {
+    "gpu0": 23663,
+    "gpu1": 2039,
+    "gpu2": 2037,
+    "gpu3": 2037,
+    "gpu4": 2037,
+    "gpu5": 2037
+  },
+  "left_loaded": {
+    "main_gpu": 0,
+    "worker_a_gpu": 1,
+    "port": 11524
+  },
+  "limits": [
+    "short-turn checks only; no long-context service replay yet",
+    "loopback service; Gateway adapter not yet wired",
+    "no chat persistence after parent restart",
+    "rig mode state remains idle, while rig status reports the separate shared-KV service; claims reflect card occupancy"
+  ]
+}
