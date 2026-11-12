@@ -1,0 +1,20 @@
+{
+  "observed_at_utc": "2026-11-12T03:55:28.865019+00:00",
+  "model": "qwen3.6:35b-a3b-xl",
+  "mode": "gpu0-main-q4",
+  "model_file": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+  "runtime": "llama-runtime:b11669 HTTP server",
+  "gpu_ids": [
+    0
+  ],
+  "ctx_cap": 262144,
+  "kv_k": "q4_0",
+  "kv_v": "q4_0",
+  "status": "ready",
+  "health": "ok",
+  "gpu0_used_mib_after_load": 23431,
+  "short_answer": "4",
+  "short_answer_finish": "stop",
+  "short_answer_elapsed_s": 0.314,
+  "worker_attach_supported": false
+}
