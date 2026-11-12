@@ -1,0 +1,29 @@
+{
+  "observed_at_utc": "2026-11-12T03:00:54.389927+00:00",
+  "model": "qwen3.6:35b-a3b-xl",
+  "model_file": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+  "server_port": 11524,
+  "placement": "CUDA0 only; model and chat KV on RTX 3090",
+  "ctx_cap": 16384,
+  "kv_type": "q8_0 K and V",
+  "reasoning": "off",
+  "endpoint": "/completion",
+  "prompt_tokens_each": 37,
+  "generated_tokens_each": 384,
+  "temperature": 0,
+  "runs": [
+    {
+      "decode_tok_s": 152.06703972721633,
+      "decode_ms": 2518.626,
+      "prompt_ms": 85.486,
+      "wall_s": 2.61
+    },
+    {
+      "decode_tok_s": 152.04011636031046,
+      "decode_ms": 2519.072,
+      "prompt_ms": 66.694,
+      "wall_s": 2.59
+    }
+  ],
+  "comparison_note": "Older 137.62 tok/s short-prompt check used Q4_K_M, so quant and runtime settings differ."
+}

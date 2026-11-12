@@ -1305,6 +1305,48 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "moe_main_five_replay") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        if (!source_dir || pair_cap < 50000 || tokens < 16) return 220;
+        const char * names[6] = {"main_gpu0", "worker1", "worker2", "worker3", "worker4", "worker5"};
+        const char * cards[6] = {"0", "1", "2", "3", "4", "5"};
+        for (int depth : {16384, 32768, 50000}) {
+            chat c0{names[0], "", nullptr, cards[0]};
+            chat c1{names[1], "", nullptr, cards[1]};
+            chat c2{names[2], "", nullptr, cards[2]};
+            chat c3{names[3], "", nullptr, cards[3]};
+            chat c4{names[4], "", nullptr, cards[4]};
+            chat c5{names[5], "", nullptr, cards[5]};
+            const std::vector<chat *> chats{&c0, &c1, &c2, &c3, &c4, &c5};
+            for (size_t i = 0; i < chats.size(); ++i) {
+                if (!add_chat(*chats[i], model, vocab, pair_cap)) return 221;
+                // Two validated histories are cloned into separate contexts for
+                // workers 3-5. Their KV allocations and decode streams remain independent.
+                const int source_worker = i == 0 ? 1 : ((i-1)%2)+1;
+                const std::string path = std::string(source_dir) + "/worker" +
+                    std::to_string(source_worker) + "_depth" + std::to_string(depth) + ".bin";
+                snapshot state;
+                if (!read_snapshot_file(path, state) || !restore(*chats[i], state)) return 222;
+            }
+            const std::string prefix = "depth" + std::to_string(depth);
+            if (!measured_parallel(vocab, {&c0}, tokens,
+                                   (prefix + "_main_solo").c_str())) return 223;
+            snapshot main_state;
+            const std::string main_path = std::string(source_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            if (!read_snapshot_file(main_path, main_state) || !restore(c0, main_state)) return 224;
+            main_state.data.clear();
+            main_state.data.shrink_to_fit();
+            if (!measured_parallel(vocab, chats, tokens,
+                                   (prefix + "_main_plus_five").c_str())) return 225;
+            std::fprintf(stderr, "MAIN_FIVE_REPLAY_DONE depth=%d chats=6 tokens_each=%d\n",
+                         depth, tokens);
+            std::fflush(stderr);
+            for (auto it = chats.rbegin(); it != chats.rend(); ++it) destroy(**it);
+        }
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "five_ongoing_depths" ||
         std::string(argv[1]) == "moe_two_depths" ||
         std::string(argv[1]) == "moe_two_short" ||

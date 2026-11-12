@@ -1,0 +1,241 @@
+{
+  "schema": "qwen35-main-plus-five-replay/1",
+  "recorded_at_utc": "2026-11-12T03:13:13.146795+00:00",
+  "model": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+  "mode": "moe_main_five_replay",
+  "model_weights": "CUDA0 RTX 3090 Ti only",
+  "chat_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "context_cap_each": 262144,
+  "kv_type": "q4_0 K and V",
+  "source_states": "qwen35_moe_two_curve_20261109.states; worker1 and worker2 histories alternated across 1060 contexts",
+  "scope": "Independent KV allocations and decode streams; workers 3-5 start from cloned histories. Short 64-token simultaneous decode windows.",
+  "log": "/media/bryan/shared/experiments/kv-matrix-20261107/qwen35_gpu0_main_five_workers_20261112.log",
+  "exit_code": 0,
+  "peak_gpu_mib": {
+    "0": 23567,
+    "1": 2037,
+    "2": 2037,
+    "3": 2037,
+    "4": 2037,
+    "5": 2037
+  },
+  "runs": [
+    {
+      "depth": 16384,
+      "phase": "depth16384_main_solo",
+      "chat": "main_gpu0",
+      "used_tokens": 16484,
+      "generated_tokens": 64,
+      "seconds": 0.636054,
+      "decode_tok_s": 100.620411,
+      "first_ms": 150.141
+    },
+    {
+      "depth": 16384,
+      "phase": "depth16384_main_plus_five",
+      "chat": "main_gpu0",
+      "used_tokens": 16484,
+      "generated_tokens": 64,
+      "seconds": 0.650472,
+      "decode_tok_s": 98.39004,
+      "first_ms": 9.584
+    },
+    {
+      "depth": 16384,
+      "phase": "depth16384_main_plus_five",
+      "chat": "worker3",
+      "used_tokens": 16484,
+      "generated_tokens": 64,
+      "seconds": 2.436874,
+      "decode_tok_s": 26.26315,
+      "first_ms": 146.36
+    },
+    {
+      "depth": 16384,
+      "phase": "depth16384_main_plus_five",
+      "chat": "worker1",
+      "used_tokens": 16484,
+      "generated_tokens": 64,
+      "seconds": 2.460379,
+      "decode_tok_s": 26.012256,
+      "first_ms": 113.132
+    },
+    {
+      "depth": 16384,
+      "phase": "depth16384_main_plus_five",
+      "chat": "worker2",
+      "used_tokens": 16484,
+      "generated_tokens": 64,
+      "seconds": 2.506649,
+      "decode_tok_s": 25.532098,
+      "first_ms": 160.587
+    },
+    {
+      "depth": 16384,
+      "phase": "depth16384_main_plus_five",
+      "chat": "worker5",
+      "used_tokens": 16484,
+      "generated_tokens": 64,
+      "seconds": 2.510668,
+      "decode_tok_s": 25.491222,
+      "first_ms": 226.459
+    },
+    {
+      "depth": 16384,
+      "phase": "depth16384_main_plus_five",
+      "chat": "worker4",
+      "used_tokens": 16484,
+      "generated_tokens": 64,
+      "seconds": 2.512435,
+      "decode_tok_s": 25.473295,
+      "first_ms": 167.87
+    },
+    {
+      "depth": 32768,
+      "phase": "depth32768_main_solo",
+      "chat": "main_gpu0",
+      "used_tokens": 32868,
+      "generated_tokens": 64,
+      "seconds": 0.565119,
+      "decode_tok_s": 113.250571,
+      "first_ms": 27.378
+    },
+    {
+      "depth": 32768,
+      "phase": "depth32768_main_plus_five",
+      "chat": "main_gpu0",
+      "used_tokens": 32868,
+      "generated_tokens": 64,
+      "seconds": 0.72237,
+      "decode_tok_s": 88.597242,
+      "first_ms": 10.546
+    },
+    {
+      "depth": 32768,
+      "phase": "depth32768_main_plus_five",
+      "chat": "worker1",
+      "used_tokens": 32868,
+      "generated_tokens": 64,
+      "seconds": 3.401535,
+      "decode_tok_s": 18.815035,
+      "first_ms": 123.047
+    },
+    {
+      "depth": 32768,
+      "phase": "depth32768_main_plus_five",
+      "chat": "worker2",
+      "used_tokens": 32868,
+      "generated_tokens": 64,
+      "seconds": 3.430344,
+      "decode_tok_s": 18.657019,
+      "first_ms": 128.138
+    },
+    {
+      "depth": 32768,
+      "phase": "depth32768_main_plus_five",
+      "chat": "worker3",
+      "used_tokens": 32868,
+      "generated_tokens": 64,
+      "seconds": 3.440336,
+      "decode_tok_s": 18.602833,
+      "first_ms": 182.737
+    },
+    {
+      "depth": 32768,
+      "phase": "depth32768_main_plus_five",
+      "chat": "worker4",
+      "used_tokens": 32868,
+      "generated_tokens": 64,
+      "seconds": 3.520864,
+      "decode_tok_s": 18.177355,
+      "first_ms": 174.59
+    },
+    {
+      "depth": 32768,
+      "phase": "depth32768_main_plus_five",
+      "chat": "worker5",
+      "used_tokens": 32868,
+      "generated_tokens": 64,
+      "seconds": 3.529351,
+      "decode_tok_s": 18.133643,
+      "first_ms": 178.91
+    },
+    {
+      "depth": 50000,
+      "phase": "depth50000_main_solo",
+      "chat": "main_gpu0",
+      "used_tokens": 50100,
+      "generated_tokens": 64,
+      "seconds": 0.620519,
+      "decode_tok_s": 103.139432,
+      "first_ms": 25.336
+    },
+    {
+      "depth": 50000,
+      "phase": "depth50000_main_plus_five",
+      "chat": "main_gpu0",
+      "used_tokens": 50100,
+      "generated_tokens": 64,
+      "seconds": 0.743988,
+      "decode_tok_s": 86.022856,
+      "first_ms": 12.434
+    },
+    {
+      "depth": 50000,
+      "phase": "depth50000_main_plus_five",
+      "chat": "worker3",
+      "used_tokens": 50100,
+      "generated_tokens": 64,
+      "seconds": 4.604952,
+      "decode_tok_s": 13.898081,
+      "first_ms": 179.523
+    },
+    {
+      "depth": 50000,
+      "phase": "depth50000_main_plus_five",
+      "chat": "worker2",
+      "used_tokens": 50100,
+      "generated_tokens": 64,
+      "seconds": 4.618093,
+      "decode_tok_s": 13.858535,
+      "first_ms": 131.036
+    },
+    {
+      "depth": 50000,
+      "phase": "depth50000_main_plus_five",
+      "chat": "worker4",
+      "used_tokens": 50100,
+      "generated_tokens": 64,
+      "seconds": 4.635382,
+      "decode_tok_s": 13.806844,
+      "first_ms": 193.896
+    },
+    {
+      "depth": 50000,
+      "phase": "depth50000_main_plus_five",
+      "chat": "worker1",
+      "used_tokens": 50100,
+      "generated_tokens": 64,
+      "seconds": 4.687002,
+      "decode_tok_s": 13.654784,
+      "first_ms": 127.339
+    },
+    {
+      "depth": 50000,
+      "phase": "depth50000_main_plus_five",
+      "chat": "worker5",
+      "used_tokens": 50100,
+      "generated_tokens": 64,
+      "seconds": 4.751441,
+      "decode_tok_s": 13.469599,
+      "first_ms": 186.722
+    }
+  ]
+}

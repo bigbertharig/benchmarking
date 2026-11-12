@@ -85,3 +85,13 @@ After the corrected smoke, the 35B XL service remains ready on GPU0 at port
 11524 with a 16K context. The all-card benchmark claim and the later GPU0-only
 correction claim were released when their work ended. GPU availability should
 be read from the rig controller before starting a new model.
+
+## GPU0 short-decode confirmation
+
+The corrected 35B XL server was already running with weights and Q8 KV on CUDA0 (3090), 16K context cap, and reasoning off. Two 384-token `/completion` probes with a 37-token prompt measured **152.07 and 152.04 decode tok/s** (about 2.52 s of decode each). See [receipt](qwen35_gpu0_decode_probe_20261112.json). This confirms a 3090-resident chat can reach the same general short-context speed class as the earlier 137.62 tok/s result; the earlier result used Q4_K_M and is not an isolated placement comparison. These short probes do not describe 50K context or concurrent worker speeds.
+
+## GPU0 main plus five 1060 chats
+
+A 262K-cap Q4 main context on GPU0 and five 262K-cap Q4 worker contexts on GPUs1?5 ran with all Q4_K_XL model weights on GPU0. At 16K/32K/50K occupied context, the 64-token simultaneous decode windows measured main **98.39/88.60/86.02 tok/s** and workers **25.47?26.26 / 18.13?18.82 / 13.47?13.90 tok/s**. GPU0 peak was 23,567 MiB of 24,564 MiB; each 1060 peaked at 2,037 MiB of 6,144 MiB. The main solo windows in the same run were 100.62/113.25/103.14 tok/s. See [six-chat receipt](qwen35_gpu0_main_five_workers_20261112.json) and raw GPU samples/log.
+
+Two validated checkpoint histories were cloned into separate worker contexts for GPUs3?5. This proves six concurrent KV allocations and decode streams; distinct prior contents for all five workers were not checked in this replay. The short windows do not establish long-response or full-turn latency. The runner gains `moe_main_five_replay` for repeatability. The named single-chat-fast server was reloaded after the run.
