@@ -188,3 +188,7 @@ Runtime setup: [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) § "CPU Inferenc
 ## Model and n-gram size
 
 Each registry entry records `model_size_bytes` for the GGUF model file and `ngram_size_bytes` for a separate n-gram table. The latter is zero for ordinary models. The gateway import copies both fields and computes `total_size_bytes = model_size_bytes + ngram_size_bytes`. These are on-disk file sizes, not a prediction of VRAM or RAM use at a requested context; placement still needs runtime fit checks.
+
+## Subagent choices (experimental, 2026-11-12)
+
+[subagent_catalog.json](subagent_catalog.json) gives stable identifiers to the harness delegation tool. These are child **choices**, separate from model-weight load modes. `qwen35_shared_1060` attaches an independent Q4 KV chat on an available GTX 1060 to the already loaded `gpu0-main-q4` 35B model on the RTX 3090; it does not load another copy of the weights. The manager owns attachment and release. `codex_terra` and `codex_luna` use the online Codex models, consume no rig GPU, and are checked against the connected account's live model list before use. All three remain experimental; their presence in the catalog does not guarantee current capacity.

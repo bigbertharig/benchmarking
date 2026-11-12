@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "about": "Candidate child routes. The manager resolves local placement; the harness runs bounded child sessions. Ready state is checked at request time.",
+  "candidates": {
+    "qwen35_shared_1060": {
+      "provider": "rig_shared_chat",
+      "model": "qwen3.6:35b-a3b-xl",
+      "mode": "gpu1060-chat-q4",
+      "requires": {
+        "model": "qwen3.6:35b-a3b-xl",
+        "mode": "gpu0-main-q4"
+      },
+      "agent_types": [
+        "coding",
+        "research"
+      ],
+      "context_cap": 262144,
+      "status": "experimental",
+      "evidence": "results/runtime_experiments/qwen35_shared_kv_service_20261112/README.md"
+    },
+    "codex_terra": {
+      "provider": "codex",
+      "model": "gpt-5.6-terra",
+      "agent_types": [
+        "coding",
+        "research"
+      ],
+      "status": "candidate",
+      "availability": "check_codex_model_list",
+      "evidence": "Pi Codex app-server model/list, observed 2026-11-12"
+    },
+    "codex_luna": {
+      "provider": "codex",
+      "model": "gpt-5.6-luna",
+      "agent_types": [
+        "coding",
+        "research"
+      ],
+      "status": "candidate",
+      "availability": "check_codex_model_list",
+      "evidence": "Pi Codex app-server model/list, observed 2026-11-12"
+    }
+  }
+}
