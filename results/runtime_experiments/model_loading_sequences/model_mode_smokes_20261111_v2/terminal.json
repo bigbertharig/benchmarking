@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-12T00:48:34+00:00",
+  "manifest_sha256": "6f7d03ceb8281a839ad582af40222bf887df1190644bdbdd052faed014818c82",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "model_mode_smokes_20261111_v2",
+  "session_claim": "model-mode-smokes-v2-20261111",
+  "stages": {
+    "coder_existing_smoke": "reused",
+    "nemo_single_chat_fast": "passed",
+    "qwen35_single_chat_fast": "passed"
+  },
+  "started_at": "2026-11-11T22:52:19+00:00",
+  "status": "passed"
+}

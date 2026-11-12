@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "model": "qwen3.6:35b-a3b-xl",
+  "mode": "single-chat-fast",
+  "mode_commit": "aebd056",
+  "manager_job": "qwen35_mode_fix_smoke_20261112",
+  "run_tag": "qwen35_single_chat_fast_reasoningoff_smoke_20261112",
+  "port": 11524,
+  "pipeline": {
+    "start": "2026-11-12T00:56:57+00:00",
+    "end": "2026-11-12T00:57:27+00:00",
+    "passed": 6,
+    "failed": 0
+  },
+  "code": {
+    "start": "2026-11-12T00:57:32.528070",
+    "end": "2026-11-12T00:59:12.771900",
+    "completed_tasks": 1
+  },
+  "reasoning": {
+    "start": "2026-11-12T00:59:34.496558",
+    "end": "2026-11-12T01:17:00.866308",
+    "tasks": {
+      "gsm8k": "completed",
+      "bbh": "completed",
+      "drop": "completed",
+      "mmlu_pro": "completed",
+      "ifeval": "completed"
+    }
+  },
+  "scores": {
+    "humaneval_base": {
+      "score": 0.98,
+      "sample_count": 50
+    },
+    "bbh_flexible": {
+      "score": 0.9037037037037037,
+      "sample_count": 270
+    },
+    "drop_f1": {
+      "score": 0.8,
+      "sample_count": 10
+    },
+    "mmlu_pro_flexible": {
+      "score": 0.8071428571428572,
+      "sample_count": 140
+    }
+  },
+  "source_logs": "/mnt/shared/logs/benchmarks"
+}

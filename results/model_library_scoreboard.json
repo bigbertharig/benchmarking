@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T00:25:49.469030+00:00",
+  "generated_at": "2026-11-12T01:17:00.551184+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -570,11 +570,11 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-24T19:26:25+00:00",
+      "last_run_at": "2026-11-11T23:54:20+00:00",
       "model": "nemotron-3.5-bolt:74b-a9b",
-      "records": 54,
+      "records": 75,
       "selected_tests": 32,
-      "successes": 54,
+      "successes": 75,
       "suites": [
         "campaign_nemotron_bolt_code_full_nemotron-bolt-phase5",
         "campaign_nemotron_bolt_geoimport_nemotron-bolt-phase5",
@@ -582,6 +582,7 @@
         "campaign_nemotron_bolt_pipeline_nemotron-bolt-phase5",
         "campaign_nemotron_bolt_reasoning_l50_nemotron-bolt-phase5",
         "campaign_nemotron_bolt_runtime_nemotron-bolt-phase5",
+        "nemo_single_chat_fast_smoke_20261111",
         "nemotron-3_5-bolt_74b-a9b_w_smoke_v1"
       ]
     },
@@ -797,11 +798,11 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-25T07:22:06.754626+00:00",
+      "last_run_at": "2026-11-11T21:51:19+00:00",
       "model": "qwen3-coder-next:80b-a3b",
-      "records": 62,
+      "records": 83,
       "selected_tests": 32,
-      "successes": 62,
+      "successes": 83,
       "suites": [
         "campaign_qwen3_coder_next_code_full_qwen3-coder-next-phase5",
         "campaign_qwen3_coder_next_geoimport_qwen3-coder-next-phase5",
@@ -809,6 +810,7 @@
         "campaign_qwen3_coder_next_pipeline_qwen3-coder-next-phase5",
         "campaign_qwen3_coder_next_reasoning_l50_qwen3-coder-next-phase5",
         "campaign_qwen3_coder_next_runtime_qwen3-coder-next-phase5",
+        "coder_next_30x5_chat3090_smoke_20261111",
         "qwen3-coder-next_80b-a3b_w_p45_off",
         "qwen3-coder-next_80b-a3b_w_p45_think",
         "qwen3-coder-next_80b-a3b_w_smoke_v1"
@@ -979,11 +981,11 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-11-03T23:06:11.517654+00:00",
+      "last_run_at": "2026-11-12T01:17:00+00:00",
       "model": "qwen3.6:35b-a3b-xl",
-      "records": 53,
+      "records": 95,
       "selected_tests": 32,
-      "successes": 53,
+      "successes": 95,
       "suites": [
         "campaign_qwen36moexl_code_full_qwen36-xl-full-20261103",
         "campaign_qwen36moexl_geoimport_qwen36-xl-full-20261103",
@@ -991,6 +993,8 @@
         "campaign_qwen36moexl_pipeline_qwen36-xl-full-20261103",
         "campaign_qwen36moexl_reasoning_l50_qwen36-xl-full-20261103",
         "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103",
+        "qwen35_single_chat_fast_reasoningoff_smoke_20261112",
+        "qwen35_single_chat_fast_smoke_20261111",
         "qwen3_6_35b-a3b-xl_w_smoke_v1"
       ]
     },
@@ -1223,6 +1227,7 @@
     {
       "gguf_path": "/mnt/shared/models/mellum2.1-12b-a2.5b/Mellum2.1-12B-A2.5B-Thinking-Q4_K_M.gguf",
       "id": "mellum2.1:12b-a2.5b",
+      "in_testing": true,
       "placement": "split_gpu",
       "split_groups": [
         {
@@ -1252,6 +1257,7 @@
     {
       "gguf_path": "/mnt/shared/models/minicpm5-2b/MiniCPM5-2B-Q4_K_M.gguf",
       "id": "minicpm5:2b",
+      "in_testing": true,
       "placement": "single_gpu",
       "tags": [
         "small",
@@ -1323,6 +1329,7 @@
     {
       "gguf_path": "/mnt/shared/models/nex-n2.5-mini/nex-agi_Nex-N2.5-mini-Q4_K_M.gguf",
       "id": "nex-n2.5:mini",
+      "in_testing": true,
       "placement": "single_gpu",
       "tags": [
         "brain_candidate",
@@ -1503,6 +1510,7 @@
     {
       "gguf_path": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
       "id": "qwen3.8:27b",
+      "in_testing": true,
       "placement": "single_gpu",
       "tags": [
         "brain_candidate",
@@ -1561,6 +1569,7 @@
     {
       "gguf_path": "/mnt/shared/models/qwen3-coder-next/Qwen3-Coder-Next-Q4_K_S.gguf",
       "id": "qwen3-coder-next:80b-a3b",
+      "in_testing": true,
       "placement": "split_gpu",
       "split_groups": [
         {
@@ -1587,6 +1596,7 @@
     {
       "gguf_path": "/mnt/shared/models/k2-v2-instruct/k2v2-Q4_K_M.gguf",
       "id": "k2-v2-instruct:70b",
+      "in_testing": true,
       "placement": "split_gpu",
       "split_groups": [
         {
@@ -3689,7 +3699,7 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 3556,
+  "record_count": 3640,
   "schema_version": 3,
   "selected_count": 1617,
   "selected_per_model_test": [
@@ -84862,6 +84872,19 @@
         "bench-pipeline",
         "bench-reasoning"
       ],
+      "last_run_at": "2026-11-11T23:54:20+00:00",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "records": 21,
+      "successes": 21,
+      "suite": "nemo_single_chat_fast_smoke_20261111"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
       "last_run_at": "2026-10-23T21:49:43+00:00",
       "model": "nemotron-3.5-bolt:74b-a9b",
       "records": 22,
@@ -86049,6 +86072,19 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-11T21:51:19+00:00",
+      "model": "qwen3-coder-next:80b-a3b",
+      "records": 21,
+      "successes": 21,
+      "suite": "coder_next_30x5_chat3090_smoke_20261111"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-reasoning"
       ],
       "last_run_at": "2026-10-22T08:59:08+00:00",
@@ -87175,6 +87211,32 @@
       "records": 4,
       "successes": 4,
       "suite": "campaign_qwen36moexl_runtime_qwen36-xl-full-20261103"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-12T01:17:00+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 21,
+      "successes": 21,
+      "suite": "qwen35_single_chat_fast_reasoningoff_smoke_20261112"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-code",
+        "bench-pipeline",
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-12T00:48:32+00:00",
+      "model": "qwen3.6:35b-a3b-xl",
+      "records": 21,
+      "successes": 21,
+      "suite": "qwen35_single_chat_fast_smoke_20261111"
     },
     {
       "failures": 0,

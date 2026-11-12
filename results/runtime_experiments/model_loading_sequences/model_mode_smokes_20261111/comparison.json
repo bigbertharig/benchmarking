@@ -1,0 +1,49 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [],
+      "hypothesis": null,
+      "id": "coder_existing_smoke",
+      "label": "Coder Next single-chat-fast against resident model",
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/model_mode_smokes_20261111/coder_existing_smoke.json",
+      "stage_seconds": 166.0,
+      "status": "failed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [],
+      "hypothesis": null,
+      "id": "nemo_single_chat_fast",
+      "label": "Nemotron Bolt single-chat-fast HTTP smoke",
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [],
+      "hypothesis": null,
+      "id": "qwen35_single_chat_fast",
+      "label": "Qwen3.6 35B single-chat-fast HTTP smoke",
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "0a0b84f7f0ed8ad05d3405e82d9206a10a7aa76eabc63ff3be59fdce8f8602e3",
+  "run_id": "model_mode_smokes_20261111",
+  "schema": 1,
+  "series_name": "named_model_mode_smokes_20261111",
+  "status": "interrupted",
+  "updated_at": "2026-11-11T20:59:16+00:00"
+}

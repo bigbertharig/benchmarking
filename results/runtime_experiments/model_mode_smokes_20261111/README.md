@@ -15,11 +15,11 @@ load uses its named orchestration mode and is followed by the same Phase 4
 smoke. The wrapper logs are under `/mnt/shared/logs/benchmarks/placement_*.log`;
 the sequence receipt and per-stage logs are under
 `results/runtime_experiments/model_loading_sequences/model_mode_smokes_20261111_v2/`.
-The Manager job is `model_mode_smokes_20261111_v2`, and the all-card claim is
+The Manager job was `model_mode_smokes_20261111_v2`, with all-card claim
 `model-mode-smokes-v2-20261111`. The first queue was stopped before any model
 switch to correct the 35B registry ID from the older Q4_K_M entry to the active
-Q4_K_XL entry. A successful final stage leaves the 35B mode
-loaded. The claim must be reviewed and released when the sequence ends.
+Q4_K_XL entry. The completed series left the 35B mode loaded; the claim was
+released afterward.
 
 ## Comparison context
 
@@ -42,3 +42,46 @@ prefill, output length, scorer work, and code execution contribute separately.
 Saved broad quality reference: [MODEL_BENCHMARK_REFERENCE.md](../../MODEL_BENCHMARK_REFERENCE.md).
 The current smoke is a placement and basic-quality check, not a replacement
 for those full scores.
+
+## Results and correction
+
+The sequence terminal receipt reports `passed`: Coder, Nemotron, and the first
+35B XL load completed all Phase 4 stages. Coder used its already-resident
+30-layer server; Nemotron and 35B were loaded through the named orchestration
+command. The initial 35B stage was **invalid as a quality check despite its
+successful process exits**. Thinking filled short generation budgets and put
+text in `reasoning_content`, leaving ordinary answer `content` empty. A direct
+64-token arithmetic request reproduced the problem. Orchestration mode
+`single-chat-fast` now passes `--reasoning off`; after reloading, the same
+request returned `content: "4"`. The corrected 35B Phase 4 job is
+`qwen35_mode_fix_smoke_20261112`, using run tag
+`qwen35_single_chat_fast_reasoningoff_smoke_20261112`. Its pipeline passed
+6/6 stages, code completed 50/50 generations, and all five reasoning tasks
+completed. All 50 corrected HumanEval generations had nonempty answer text.
+
+| Load and smoke | Suite wall time, no cold load | HumanEval base (50) | BBH flexible (270) | MMLU-Pro flexible (140) | DROP F1 (10) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Coder 30x5, resident server | 75m44s | 98% | 72.2% | 81.4% | 38.5% |
+| Nemotron, GPU0 chat / four expert 1060s | 59m29s | 98% | 86.3% | 66.4% | 82.9% |
+| 35B XL, thinking enabled **invalid** | 52m58s | 4% | 42.2% | 24.3% | 0% |
+| 35B XL, thinking disabled | 20m03s | 98% | 90.4% | 80.7% | 80.0% |
+
+The corrected 35B result is much faster than its invalid thinking-enabled
+control on this smoke workload. Coder and Nemotron finished about 16% and 20%
+faster than their older Phase 4 smoke wall times; those older runs used other
+loading settings and are contextual comparisons. The older 35B wall time used
+the Q4_K_M quant, so it is not a matched speed baseline for this XL run.
+These limited smoke scores are not replacements for full model rankings.
+
+Nemotron's first named load read the 39.0 GB model from the NFS archive and
+timed out after 900 seconds before GPU allocation. The stopped Coder NVMe copy
+was removed after checking the archive copy remained the same size. Nemotron
+was copied sequentially to a hidden NVMe file, checked at the expected byte
+count, and promoted to the hotset. The retried load resolved that NVMe file and
+passed. No repeated whole-file hash was needed for this temporary hotset swap.
+The failed stage and successful retry remain in the sequence receipts.
+
+After the corrected smoke, the 35B XL service remains ready on GPU0 at port
+11524 with a 16K context. The all-card benchmark claim and the later GPU0-only
+correction claim were released when their work ended. GPU availability should
+be read from the rig controller before starting a new model.

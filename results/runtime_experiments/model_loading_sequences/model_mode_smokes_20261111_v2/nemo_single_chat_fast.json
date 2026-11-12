@@ -1,0 +1,26 @@
+{
+  "claim": "model-mode-smokes-v2-20261111",
+  "command": [
+    "bash",
+    "scripts/integration/run_mode_smoke_stage.sh",
+    "run",
+    "nemotron-3.5-bolt:74b-a9b",
+    "single-chat-fast",
+    "11523",
+    "nemo_single_chat_fast_smoke_20261111",
+    "--stop-container",
+    "coder-chat3090-30x5-11522"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-11T23:54:22+00:00",
+  "gpus": [],
+  "host_before_available_kib": 29809024,
+  "host_min_available_kib": 29809024,
+  "id": "nemo_single_chat_fast",
+  "started_at": "2026-11-11T22:52:19+00:00",
+  "status": "passed",
+  "timeout_s": 10800,
+  "trace": false
+}

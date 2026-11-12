@@ -1,0 +1,24 @@
+{
+  "claim": "model-mode-smokes-20261111",
+  "command": [
+    "bash",
+    "scripts/integration/run_mode_smoke_stage.sh",
+    "wait",
+    "coder_next_30x5_chat3090_smoke_20261111",
+    "/mnt/shared/logs/benchmarks/placement_coder_next_30x5_smoke_20261111.log"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [],
+  "error": "Manager stopped the sequence",
+  "exit_code": -15,
+  "finished_at": "2026-11-11T20:59:16+00:00",
+  "gpus": [],
+  "host_before_available_kib": 28011592,
+  "host_min_available_kib": 28011592,
+  "id": "coder_existing_smoke",
+  "interrupted": true,
+  "started_at": "2026-11-11T20:56:30+00:00",
+  "status": "failed",
+  "timeout_s": 10800,
+  "trace": false
+}

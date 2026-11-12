@@ -1,0 +1,22 @@
+{
+  "claim": "model-mode-smokes-v2-20261111",
+  "command": [
+    "bash",
+    "scripts/integration/run_mode_smoke_stage.sh",
+    "wait",
+    "coder_next_30x5_chat3090_smoke_20261111",
+    "/mnt/shared/logs/benchmarks/placement_coder_next_30x5_smoke_20261111.log"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-11T22:00:19+00:00",
+  "gpus": [],
+  "host_before_available_kib": 28057764,
+  "host_min_available_kib": 28057764,
+  "id": "coder_existing_smoke",
+  "started_at": "2026-11-11T21:00:19+00:00",
+  "status": "passed",
+  "timeout_s": 10800,
+  "trace": false
+}
