@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-13T22:51:47+00:00",
+  "manifest_sha256": "4980df21fa11b0bdd3b46683be917984a09f21cbb9256e1363a85330ed8a3c30",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "qwen27-1070-sustained-five-20261113",
+  "session_claim": "qwen27-1070-sustained-five-20261113",
+  "session_claim_released": true,
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-1070-sustained-five-20261113/session_hardware.json",
+  "stages": {
+    "main_1070_four_1060": "passed"
+  },
+  "started_at": "2026-11-13T22:23:08+00:00",
+  "status": "passed"
+}

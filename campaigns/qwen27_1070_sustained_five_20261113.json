@@ -1,0 +1,34 @@
+{
+  "schema": 2,
+  "name": "qwen27_1070_sustained_five_20261113",
+  "hardware_roles": {
+    "model": {"min_vram_mb": 20000},
+    "pascal8": {"min_vram_mb": 7500, "max_vram_mb": 12000, "name_contains": "1070"},
+    "pascal6_a": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"},
+    "pascal6_b": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"},
+    "pascal6_c": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"},
+    "pascal6_d": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"}
+  },
+  "defaults": {
+    "state": "ready",
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "timeout_s": 3600,
+    "freeze": false
+  },
+  "cases": [
+    {
+      "id": "main_1070_four_1060",
+      "gpus": ["{gpu:model}", "{gpu:pascal8}", "{gpu:pascal6_a}", "{gpu:pascal6_b}", "{gpu:pascal6_c}", "{gpu:pascal6_d}"],
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-b11669-six-build",
+        "KV_STATE_SOURCE_DIR": "/state/qwen27_five_ongoing_depths_20261108.states",
+        "KV_HOST_GPU_IDS": "{gpu:model},{gpu:pascal8},{gpu:pascal6_a},{gpu:pascal6_b},{gpu:pascal6_c},{gpu:pascal6_d}",
+        "KV_REPLAY_CHAT_HOST_GPUS": "{gpu:model},{gpu:pascal8},{gpu:pascal6_a},{gpu:pascal6_b},{gpu:pascal6_c},{gpu:pascal6_d}",
+        "KV_SAMPLE_DETAIL": "1"
+      },
+      "command": ["/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh", "main_gpu0_sustained_five", "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf", "262144", "262144", "262144", "64", "qwen27_1070_sustained_five_20261113"],
+      "outputs": ["/mnt/shared/experiments/kv-matrix-20261107/qwen27_1070_sustained_five_20261113.exit", "/mnt/shared/experiments/kv-matrix-20261107/qwen27_1070_sustained_five_20261113.log"]
+    }
+  ]
+}

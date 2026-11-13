@@ -1133,12 +1133,25 @@ int main(int argc, char ** argv) {
     if (std::string(argv[1]) == "main_gpu0_sustained_five") {
         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
         if (!source_dir || pair_cap < 210000 || tokens < 16) return 180;
+        const char * chat_gpu_spec = std::getenv("KV_REPLAY_CHAT_GPUS");
+        if (!chat_gpu_spec) return 189;
+        std::vector<std::string> chat_gpus;
+        std::stringstream chat_gpu_stream(chat_gpu_spec);
+        std::string chat_gpu;
+        while (std::getline(chat_gpu_stream, chat_gpu, ',')) {
+            if (chat_gpu.empty() || chat_gpus.size() >= 6) return 189;
+            chat_gpus.push_back(chat_gpu);
+        }
+        if (chat_gpus.size() != 6) return 189;
+        std::fprintf(stderr, "SIX_CHAT_GPUS main=%s agents=%s,%s,%s,%s,%s\n",
+                     chat_gpus[0].c_str(), chat_gpus[1].c_str(), chat_gpus[2].c_str(),
+                     chat_gpus[3].c_str(), chat_gpus[4].c_str(), chat_gpus[5].c_str());
         for (int depth : {50000, 100000, 150000, 200000}) {
-            chat a1{"agent1", "", nullptr, "1"};
-            chat a2{"agent2", "", nullptr, "2"};
-            chat a3{"agent3", "", nullptr, "3"};
-            chat a4{"agent4", "", nullptr, "4"};
-            chat a5{"agent5", "", nullptr, "5"};
+            chat a1{"agent1", "", nullptr, chat_gpus[1].c_str()};
+            chat a2{"agent2", "", nullptr, chat_gpus[2].c_str()};
+            chat a3{"agent3", "", nullptr, chat_gpus[3].c_str()};
+            chat a4{"agent4", "", nullptr, chat_gpus[4].c_str()};
+            chat a5{"agent5", "", nullptr, chat_gpus[5].c_str()};
             const std::vector<chat *> agents{&a1, &a2, &a3, &a4, &a5};
             auto restore_agents = [&]() {
                 for (int i = 0; i < 5; ++i) {
@@ -1156,7 +1169,7 @@ int main(int argc, char ** argv) {
             const std::string prefix = "depth" + std::to_string(depth);
             if (!measured_parallel(vocab, agents, tokens, (prefix + "_five_only").c_str())) return 183;
             if (!restore_agents()) return 184;
-            chat main_chat{"main_gpu0", "", nullptr, "0"};
+            chat main_chat{"main_gpu0", "", nullptr, chat_gpus[0].c_str()};
             if (!add_chat(main_chat, model, vocab, pair_cap)) return 185;
             const std::string main_path = std::string(source_dir) + "/worker1_depth" +
                 std::to_string(depth) + ".bin";
