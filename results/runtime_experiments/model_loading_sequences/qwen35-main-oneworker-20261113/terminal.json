@@ -1,0 +1,20 @@
+{
+  "finished_at": "2026-11-13T16:50:26+00:00",
+  "manifest_sha256": "cf8d8539656a68be69f2671093f39edb76cd9de6b8dbe74e10f0ea08dac6f2a8",
+  "reserved_gpus": [
+    0,
+    1,
+    2
+  ],
+  "run_id": "qwen35-main-oneworker-20261113",
+  "session_claim": "qwen35-main-oneworker-20261113",
+  "session_claim_released": true,
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-main-oneworker-20261113/session_hardware.json",
+  "stages": {
+    "main_1060_after": "passed",
+    "main_1060_before": "passed",
+    "main_1070": "passed"
+  },
+  "started_at": "2026-11-13T16:48:21+00:00",
+  "status": "passed"
+}

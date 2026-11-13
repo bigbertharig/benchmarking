@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-13T16:46:15+00:00",
+  "manifest_sha256": "88eee3bb82bd57880905da34a0e34b035aa01fc3f1e1dc3ff7ab01d52f51237f",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "run_id": "qwen35-1060-1070-threechat-20261113",
+  "session_claim": "qwen35-1060-1070-threechat-20261113",
+  "session_claim_released": true,
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-1060-1070-threechat-20261113/session_hardware.json",
+  "stages": {
+    "mixed_1070_first": "passed",
+    "two1060_after": "passed",
+    "two1060_before": "passed"
+  },
+  "started_at": "2026-11-13T16:42:44+00:00",
+  "status": "passed"
+}

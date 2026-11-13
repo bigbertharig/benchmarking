@@ -1305,6 +1305,52 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
+    if (std::string(argv[1]) == "moe_three_replay") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        const char * replay_gpus = std::getenv("KV_REPLAY_CHAT_GPUS");
+        if (!source_dir || !replay_gpus || pair_cap < 50000 || tokens < 16) return 230;
+        const std::string gpu_list(replay_gpus);
+        const size_t first_comma = gpu_list.find(',');
+        const size_t second_comma = gpu_list.find(',', first_comma == std::string::npos ? 0 : first_comma + 1);
+        if (first_comma == std::string::npos || second_comma == std::string::npos ||
+            gpu_list.find(',', second_comma + 1) != std::string::npos) return 231;
+        const std::string main_gpu = gpu_list.substr(0, first_comma);
+        const std::string first_gpu = gpu_list.substr(first_comma + 1, second_comma - first_comma - 1);
+        const std::string second_gpu = gpu_list.substr(second_comma + 1);
+        if (main_gpu.empty() || first_gpu.empty() || second_gpu.empty() ||
+            main_gpu == first_gpu || main_gpu == second_gpu || first_gpu == second_gpu) return 231;
+        for (int depth : {16384, 32768, 50000}) {
+            chat main_chat{"main_gpu", "", nullptr, main_gpu.c_str()};
+            chat worker1{"worker1", "", nullptr, first_gpu.c_str()};
+            chat worker2{"worker2", "", nullptr, second_gpu.c_str()};
+            const std::vector<chat *> chats{&main_chat, &worker1, &worker2};
+            for (size_t i = 0; i < chats.size(); ++i) {
+                if (!add_chat(*chats[i], model, vocab, pair_cap)) return 232;
+                const int source_worker = i == 2 ? 2 : 1;
+                const std::string path = std::string(source_dir) + "/worker" +
+                    std::to_string(source_worker) + "_depth" + std::to_string(depth) + ".bin";
+                snapshot state;
+                if (!read_snapshot_file(path, state) || !restore(*chats[i], state)) return 233;
+            }
+            const std::string prefix = "depth" + std::to_string(depth);
+            if (!measured_parallel(vocab, {&main_chat}, tokens,
+                                   (prefix + "_main_solo").c_str())) return 234;
+            snapshot main_state;
+            const std::string main_path = std::string(source_dir) + "/worker1_depth" +
+                std::to_string(depth) + ".bin";
+            if (!read_snapshot_file(main_path, main_state) || !restore(main_chat, main_state)) return 235;
+            main_state.data.clear();
+            main_state.data.shrink_to_fit();
+            if (!measured_parallel(vocab, chats, tokens,
+                                   (prefix + "_three").c_str())) return 236;
+            std::fprintf(stderr, "THREE_REPLAY_DONE depth=%d chats=3 gpus=%s tokens_each=%d\n",
+                         depth, gpu_list.c_str(), tokens);
+            std::fflush(stderr);
+            for (auto it = chats.rbegin(); it != chats.rend(); ++it) destroy(**it);
+        }
+        llama_model_free(model);
+        return 0;
+    }
     if (std::string(argv[1]) == "moe_main_five_replay") {
         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
         if (!source_dir || pair_cap < 50000 || tokens < 16) return 220;
