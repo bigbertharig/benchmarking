@@ -1,0 +1,22 @@
+{
+  "schema": 2,
+  "name": "q38_ple_bus_probe_20261113",
+  "hardware_roles": {
+    "pascal8": {"min_vram_mb": 7500, "max_vram_mb": 12000, "name_contains": "1070"},
+    "pascal6": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"}
+  },
+  "defaults": {"state": "ready", "mem_floor_gib": 4, "max_host_drop_gb": 26, "timeout_s": 900, "freeze": false},
+  "cases": [
+    {
+      "id": "one_1070_one_1060",
+      "gpus": ["{gpu:pascal8}", "{gpu:pascal6}"],
+      "env": {"KV_HOST_GPU_IDS": "{gpu:pascal8},{gpu:pascal6}"},
+      "command": ["/bin/bash", "scripts/integration/run_ple_bus_probe.sh", "q38_ple_bus_probe_20261113_v4"],
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_bus_probe_20261113_v4.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_bus_probe_20261113_v4.log",
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_bus_probe_20261113_v4.links.csv"
+      ]
+    }
+  ]
+}

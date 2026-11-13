@@ -1,0 +1,27 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        2,
+        1
+      ],
+      "hypothesis": null,
+      "id": "one_1070_one_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-bus-probe-v3-20261113/one_1070_one_1060.json",
+      "stage_seconds": 11.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "9b8ab998df1625f19b7845cb47117fe15c7e394b262ea6b2f5af651fc79da91b",
+  "run_id": "q38-ple-bus-probe-v3-20261113",
+  "schema": 1,
+  "series_name": "q38_ple_bus_probe_20261113",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-bus-probe-v3-20261113/session_hardware.json",
+  "status": "passed",
+  "updated_at": "2026-11-13T19:32:48+00:00"
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "ple-bus-probe-summary/1",
+  "measurements": [
+    {
+      "kind": "nvme_direct_4k",
+      "bytes": 4096,
+      "count": 1024,
+      "mean_us": 113.436,
+      "p50_us": 114.899,
+      "p95_us": 201.573,
+      "device": -1,
+      "bus": -1
+    },
+    {
+      "kind": "file_cached_90b",
+      "bytes": 90,
+      "count": 1024,
+      "mean_us": 0.915,
+      "p50_us": 0.863,
+      "p95_us": 1.192,
+      "device": -1,
+      "bus": -1
+    },
+    {
+      "kind": "gpu_sync_pageable_90b",
+      "bytes": 90,
+      "count": 1024,
+      "mean_us": 7.756,
+      "p50_us": 7.789,
+      "p95_us": 7.963,
+      "device": 0,
+      "bus": 13
+    },
+    {
+      "kind": "gpu_sync_pinned_90b",
+      "bytes": 90,
+      "count": 1024,
+      "mean_us": 6.66,
+      "p50_us": 6.559,
+      "p95_us": 7.067,
+      "device": 0,
+      "bus": 13
+    },
+    {
+      "kind": "gpu_sync_pinned_4k",
+      "bytes": 4096,
+      "count": 256,
+      "mean_us": 16.685,
+      "p50_us": 16.304,
+      "p95_us": 17.364,
+      "device": 0,
+      "bus": 13
+    },
+    {
+      "kind": "gpu_16_sync_rows",
+      "bytes": 1440,
+      "count": 128,
+      "mean_us": 108.012,
+      "p50_us": 105.219,
+      "p95_us": 130.014,
+      "device": 0,
+      "bus": 13
+    },
+    {
+      "kind": "gpu_16_gathered_rows",
+      "bytes": 1440,
+      "count": 128,
+      "mean_us": 18.328,
+      "p50_us": 15.658,
+      "p95_us": 23.443,
+      "device": 0,
+      "bus": 13
+    },
+    {
+      "kind": "gpu_bulk_d2h_32m",
+      "bytes": 33554432,
+      "count": 16,
+      "mean_us": 80270.146,
+      "p50_us": 80261.317,
+      "p95_us": 80336.469,
+      "device": 0,
+      "bus": 13,
+      "throughput_gib_s": 0.389
+    },
+    {
+      "kind": "gpu_bulk_h2d_32m",
+      "bytes": 33554432,
+      "count": 16,
+      "mean_us": 83937.977,
+      "p50_us": 83934.479,
+      "p95_us": 84000.346,
+      "device": 0,
+      "bus": 13,
+      "throughput_gib_s": 0.372
+    },
+    {
+      "kind": "gpu_local_d2d_32m",
+      "bytes": 33554432,
+      "count": 16,
+      "mean_us": 341.371,
+      "p50_us": 340.18,
+      "p95_us": 342.411,
+      "device": 0,
+      "bus": 13,
+      "throughput_gib_s": 91.543
+    },
+    {
+      "kind": "gpu_sync_pageable_90b",
+      "bytes": 90,
+      "count": 1024,
+      "mean_us": 7.773,
+      "p50_us": 7.576,
+      "p95_us": 7.999,
+      "device": 1,
+      "bus": 3
+    },
+    {
+      "kind": "gpu_sync_pinned_90b",
+      "bytes": 90,
+      "count": 1024,
+      "mean_us": 6.703,
+      "p50_us": 6.499,
+      "p95_us": 7.013,
+      "device": 1,
+      "bus": 3
+    },
+    {
+      "kind": "gpu_sync_pinned_4k",
+      "bytes": 4096,
+      "count": 256,
+      "mean_us": 16.537,
+      "p50_us": 16.239,
+      "p95_us": 17.509,
+      "device": 1,
+      "bus": 3
+    },
+    {
+      "kind": "gpu_16_sync_rows",
+      "bytes": 1440,
+      "count": 128,
+      "mean_us": 106.139,
+      "p50_us": 104.443,
+      "p95_us": 117.23,
+      "device": 1,
+      "bus": 3
+    },
+    {
+      "kind": "gpu_16_gathered_rows",
+      "bytes": 1440,
+      "count": 128,
+      "mean_us": 19.233,
+      "p50_us": 20.944,
+      "p95_us": 23.438,
+      "device": 1,
+      "bus": 3
+    },
+    {
+      "kind": "gpu_bulk_d2h_32m",
+      "bytes": 33554432,
+      "count": 16,
+      "mean_us": 80278.831,
+      "p50_us": 80265.348,
+      "p95_us": 80361.078,
+      "device": 1,
+      "bus": 3,
+      "throughput_gib_s": 0.389
+    },
+    {
+      "kind": "gpu_bulk_h2d_32m",
+      "bytes": 33554432,
+      "count": 16,
+      "mean_us": 84213.139,
+      "p50_us": 84187.518,
+      "p95_us": 84354.009,
+      "device": 1,
+      "bus": 3,
+      "throughput_gib_s": 0.371
+    },
+    {
+      "kind": "gpu_local_d2d_32m",
+      "bytes": 33554432,
+      "count": 16,
+      "mean_us": 446.839,
+      "p50_us": 445.435,
+      "p95_us": 447.093,
+      "device": 1,
+      "bus": 3,
+      "throughput_gib_s": 69.936
+    }
+  ],
+  "sampled_link_states": {
+    "00000000:03:00.0": {
+      "Gen1 x1": 48,
+      "Gen2 x1": 28
+    },
+    "00000000:0D:00.0": {
+      "Gen1 x1": 20,
+      "Gen2 x1": 56
+    }
+  }
+}
