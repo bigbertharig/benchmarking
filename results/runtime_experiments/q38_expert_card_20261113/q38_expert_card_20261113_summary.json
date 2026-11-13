@@ -1,0 +1,257 @@
+{
+  "schema": "q38-expert-card-comparison/1",
+  "experiment": "one real Qwen3.8 Q2_0 layer-0 expert, 20 warmups and 100 timed calls per mode and stage",
+  "physical_mapping": {
+    "3090": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+    "1060": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+    "1070": "GPU-cc6bc379-2f59-ec6e-00cf-4a9f02d57519"
+  },
+  "stages": {
+    "1060_before": {
+      "physical_card": "GTX 1060 6GB",
+      "modes": {
+        "gpu0": {
+          "mode": "gpu0",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 159.787,
+          "p50_us": 159.797,
+          "p95_us": 161.387,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "gpu0_ram": {
+          "mode": "gpu0_ram",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 278.001,
+          "p50_us": 277.267,
+          "p95_us": 286.055,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "gpu0_nvme": {
+          "mode": "gpu0_nvme",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 3525.44,
+          "p50_us": 3518.03,
+          "p95_us": 3610.1,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 166133760,
+          "verified": true
+        },
+        "resident": {
+          "mode": "resident",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 352.389,
+          "p50_us": 335.289,
+          "p95_us": 383.852,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "ram": {
+          "mode": "ram",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 3794.64,
+          "p50_us": 3795.42,
+          "p95_us": 3828.33,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "nvme": {
+          "mode": "nvme",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 7142.61,
+          "p50_us": 7130.8,
+          "p95_us": 7216.57,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 166133760,
+          "verified": true
+        }
+      }
+    },
+    "1070": {
+      "physical_card": "GTX 1070",
+      "modes": {
+        "gpu0": {
+          "mode": "gpu0",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 159.958,
+          "p50_us": 159.685,
+          "p95_us": 162.151,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "gpu0_ram": {
+          "mode": "gpu0_ram",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 277.982,
+          "p50_us": 277.367,
+          "p95_us": 285.819,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "gpu0_nvme": {
+          "mode": "gpu0_nvme",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 3606.23,
+          "p50_us": 3610.08,
+          "p95_us": 3633.56,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 166133760,
+          "verified": true
+        },
+        "resident": {
+          "mode": "resident",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 333.541,
+          "p50_us": 331.811,
+          "p95_us": 342.759,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "ram": {
+          "mode": "ram",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 3794.44,
+          "p50_us": 3786.14,
+          "p95_us": 3849.49,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "nvme": {
+          "mode": "nvme",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 7177.78,
+          "p50_us": 7178.3,
+          "p95_us": 7208.04,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 166133760,
+          "verified": true
+        }
+      }
+    },
+    "1060_after": {
+      "physical_card": "GTX 1060 6GB",
+      "modes": {
+        "gpu0": {
+          "mode": "gpu0",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 159.911,
+          "p50_us": 159.837,
+          "p95_us": 161.5,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "gpu0_ram": {
+          "mode": "gpu0_ram",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 278.426,
+          "p50_us": 277.913,
+          "p95_us": 285.188,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "gpu0_nvme": {
+          "mode": "gpu0_nvme",
+          "workers": 0,
+          "iterations": 100,
+          "mean_us": 3548.81,
+          "p50_us": 3530.17,
+          "p95_us": 3606.63,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 166133760,
+          "verified": true
+        },
+        "resident": {
+          "mode": "resident",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 348.691,
+          "p50_us": 337.102,
+          "p95_us": 381.416,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "ram": {
+          "mode": "ram",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 3798.48,
+          "p50_us": 3796.83,
+          "p95_us": 3851,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 0,
+          "verified": true
+        },
+        "nvme": {
+          "mode": "nvme",
+          "workers": 1,
+          "iterations": 100,
+          "mean_us": 7128.05,
+          "p50_us": 7121.55,
+          "p95_us": 7215.26,
+          "max_abs_error": 1.18744e-08,
+          "direct_disk_bytes": 166133760,
+          "verified": true
+        }
+      }
+    }
+  },
+  "comparison": {
+    "gpu0": {
+      "control_mean_us": 159.849,
+      "gtx1070_mean_us": 159.958,
+      "latency_reduction_pct": -0.07
+    },
+    "gpu0_ram": {
+      "control_mean_us": 278.213,
+      "gtx1070_mean_us": 277.982,
+      "latency_reduction_pct": 0.08
+    },
+    "gpu0_nvme": {
+      "control_mean_us": 3537.125,
+      "gtx1070_mean_us": 3606.23,
+      "latency_reduction_pct": -1.95
+    },
+    "resident": {
+      "control_mean_us": 350.54,
+      "gtx1070_mean_us": 333.541,
+      "latency_reduction_pct": 4.85
+    },
+    "ram": {
+      "control_mean_us": 3796.56,
+      "gtx1070_mean_us": 3794.44,
+      "latency_reduction_pct": 0.06
+    },
+    "nvme": {
+      "control_mean_us": 7135.33,
+      "gtx1070_mean_us": 7177.78,
+      "latency_reduction_pct": -0.59
+    }
+  },
+  "note": "Mean and percentile latency include host dispatch, PCIe transport, and compute; this probe does not identify their separate durations."
+}

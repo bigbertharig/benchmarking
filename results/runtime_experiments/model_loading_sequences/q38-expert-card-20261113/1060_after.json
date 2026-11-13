@@ -1,0 +1,26 @@
+{
+  "claim": "q38-expert-card-20261113",
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_q38_expert_card_probe.sh",
+    "q38_expert_card_20261113_1060_after"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [
+    "KV_HOST_GPU_IDS"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T17:28:09+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29483504,
+  "host_min_available_kib": 29142064,
+  "id": "1060_after",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-expert-card-20261113/session_hardware.json",
+  "started_at": "2026-11-13T17:28:00+00:00",
+  "status": "passed",
+  "timeout_s": 2400,
+  "trace": false
+}

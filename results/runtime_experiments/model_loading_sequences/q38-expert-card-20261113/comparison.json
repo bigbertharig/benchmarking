@@ -1,0 +1,59 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "1060_before",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-expert-card-20261113/1060_before.json",
+      "stage_seconds": 11.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "1070",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-expert-card-20261113/1070.json",
+      "stage_seconds": 10.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "1060_after",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-expert-card-20261113/1060_after.json",
+      "stage_seconds": 9.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "8572bdf628b1e7e26bf4a9c1e6e1896b1a4b72cc00e3ba6e055a3f0ad84cf7a2",
+  "run_id": "q38-expert-card-20261113",
+  "schema": 1,
+  "series_name": "q38_expert_card_20261113",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-expert-card-20261113/session_hardware.json",
+  "status": "passed",
+  "updated_at": "2026-11-13T17:28:10+00:00"
+}
