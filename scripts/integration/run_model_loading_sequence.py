@@ -19,7 +19,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from hardware_inventory import scan_cards, require_ids
+import benchmark_session
 
 ROOT = Path('/mnt/shared/plans/shoulders/benchmarking')
 LEASE = ROOT / 'scripts/integration/harness_lease.sh'
@@ -83,6 +83,7 @@ def write_comparison(folder, source, manifest, summary):
                       'trace': trace})
     atomic_json(folder / 'comparison.json',
                 {'schema': 1, 'run_id': summary['run_id'], 'manifest_sha256': summary['manifest_sha256'],
+                 'session_hardware': summary.get('session_hardware'),
                  'series_name': source.get('name'), 'updated_at': stamp(),
                  'status': summary.get('status', 'running'), 'cases': cases})
 
@@ -198,14 +199,15 @@ def expand_stage(stage, run_id):
     return expanded
 
 
-def run_stage(stage, folder, run_id, claim=None):
+def run_stage(stage, folder, run_id, claim=None, session_file=None):
     name = stage['id']
     floor = int(stage.get('mem_floor_gib', 4)) * 1048576
     record = {'id': name, 'status': 'running', 'started_at': stamp(), 'command': stage['command'],
               'gpus': stage.get('gpus', []), 'timeout_s': stage['timeout_s'],
               'env_keys': sorted(stage.get('env', {})), 'claim': claim,
               'end_state_requested': 'freeze' if stage.get('freeze') else 'release',
-              'trace': stage.get('trace', False)}
+              'trace': stage.get('trace', False),
+              'session_hardware': str(session_file) if session_file else None}
     receipt = folder / f'{name}.json'
     atomic_json(receipt, record)
     lease_id = ''
@@ -235,8 +237,11 @@ def run_stage(stage, folder, run_id, claim=None):
             command = [*prefix, '--', *command]
             record['trace_dir'] = str(trace_dir)
         with (folder / f'{name}.log').open('w') as log:
+            run_env = dict(os.environ, **stage.get('env', {}))
+            if session_file:
+                run_env['BENCHMARK_SESSION_FILE'] = str(session_file)
             proc = subprocess.Popen(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
-                                    env=dict(os.environ, **stage.get('env', {})), start_new_session=True)
+                                    env=run_env, start_new_session=True)
             began = time.monotonic()
             next_renew = began + 120
             while proc.poll() is None:
@@ -304,13 +309,13 @@ def main():
     ap.add_argument('--check', action='store_true', help='show the sequence without creating receipts')
     ap.add_argument('--through', help='stop successfully after this stage; later queue stages remain pending')
     ap.add_argument('--claim', help='use an existing persistent benchmark claim')
-    ap.add_argument('--session-gpus', help='reserve all planned cards for this run, e.g. 0,1,2; claim persists after run')
+    ap.add_argument('--session-gpus', help='reserve card IDs such as 0,1,2 or auto for every stage card; claim persists after run')
     ap.add_argument('--session-purpose', default='model-loading benchmark', help='purpose shown to other sessions')
     args = ap.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]*', args.run_id):
         ap.error('unsafe run ID')
     session_gpus = None
-    if args.session_gpus:
+    if args.session_gpus and args.session_gpus != 'auto':
         try:
             session_gpus = sorted(set(int(g) for g in args.session_gpus.split(',')))
         except ValueError:
@@ -319,22 +324,28 @@ def main():
             ap.error('--session-gpus must contain nonnegative GPU IDs')
     raw = args.manifest.read_bytes()
     source = json.loads(raw)
-    manifest = normalize_manifest(source)
-    validate(manifest)
-    if args.through and args.through not in {stage['id'] for stage in manifest['stages']}:
-        ap.error(f'unknown --through stage: {args.through}')
-    digest = hashlib.sha256(raw).hexdigest()
+    roles = source.get('hardware_roles', {})
+    if not isinstance(roles, dict):
+        ap.error('hardware_roles must be an object')
+    current_hardware = benchmark_session.scan() if roles or not args.check else None
     if args.check:
-        print(json.dumps({'manifest_sha256': digest, 'stages': [
+        if roles:
+            benchmark_session.assign_roles(current_hardware, roles)
+        resolved = benchmark_session.expand(source, current_hardware['roles']) if roles else source
+        manifest = normalize_manifest(resolved)
+        for stage in manifest['stages']:
+            stage['gpus'] = [int(g) if isinstance(g, str) and g.isdecimal() else g
+                             for g in stage.get('gpus', [])]
+        validate(manifest)
+        if args.through and args.through not in {stage['id'] for stage in manifest['stages']}:
+            ap.error(f'unknown --through stage: {args.through}')
+        digest = hashlib.sha256(raw).hexdigest()
+        print(json.dumps({'manifest_sha256': digest, 'hardware_roles': current_hardware['roles'] if roles else {},
+                          'stages': [
             {'id': s['id'], 'state': s['state'], 'reason': s.get('reason'), 'gpus': s.get('gpus', [])}
             for s in manifest['stages']]}, indent=2))
         return 0
-    cards = scan_cards()
-    requested = set(session_gpus or [])
-    for stage in manifest['stages']:
-        if stage['state'] == 'ready':
-            requested.update(stage.get('gpus', []))
-    require_ids(requested, cards)
+    digest = hashlib.sha256(raw).hexdigest()
     def stop(_signum, _frame):
         raise KeyboardInterrupt('Manager stopped the sequence')
     signal.signal(signal.SIGTERM, stop)
@@ -346,6 +357,32 @@ def main():
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         raise SystemExit(f'run ID {args.run_id} is already active')
+    session_file = folder / 'session_hardware.json'
+    if session_file.exists():
+        hardware = benchmark_session.load_snapshot(session_file)
+    else:
+        hardware = benchmark_session.assign_roles(current_hardware, roles)
+    resolved = benchmark_session.expand(source, hardware['roles']) if roles else source
+    manifest = normalize_manifest(resolved)
+    for stage in manifest['stages']:
+        stage['gpus'] = [int(g) if isinstance(g, str) and g.isdecimal() else g
+                         for g in stage.get('gpus', [])]
+    validate(manifest)
+    if args.through and args.through not in {stage['id'] for stage in manifest['stages']}:
+        ap.error(f'unknown --through stage: {args.through}')
+    stage_requested = set(session_gpus or [])
+    for stage in manifest['stages']:
+        if stage['state'] == 'ready':
+            stage_requested.update(stage.get('gpus', []))
+    requested = set(stage_requested)
+    requested.update(role['index'] for role in hardware['roles'].values())
+    if args.session_gpus == 'auto':
+        session_gpus = sorted(stage_requested)
+        if not session_gpus:
+            ap.error('--session-gpus auto needs at least one GPU stage')
+    benchmark_session.verify_saved(hardware, current_hardware, requested)
+    if not session_file.exists():
+        atomic_json(session_file, hardware)
     anchor = folder / 'manifest.json'
     if anchor.exists():
         if json.loads(anchor.read_text())['sha256'] != digest:
@@ -361,6 +398,7 @@ def main():
             if stage['state'] == 'ready' and not set(stage.get('gpus', [])).issubset(held['gpu_ids']):
                 raise SystemExit(f"stage {stage['id']} uses GPUs outside session claim {claim}")
     summary = {'run_id': args.run_id, 'manifest_sha256': digest, 'started_at': stamp(),
+               'session_hardware': str(session_file),
                'session_claim': claim, 'reserved_gpus': held['gpu_ids'] if claim else [], 'stages': {}}
     terminal = folder / 'terminal.json'
     failures = []
@@ -384,7 +422,7 @@ def main():
             summary['reason'] = stage['reason']
             write_comparison(folder, source, manifest, summary)
             break
-        result = run_stage(stage, folder, args.run_id, claim)
+        result = run_stage(stage, folder, args.run_id, claim, session_file)
         summary['stages'][name] = result['status']
         write_comparison(folder, source, manifest, summary)
         if result.get('interrupted'):

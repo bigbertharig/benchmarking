@@ -5,6 +5,10 @@ RAM, and NVMe. It adds a common measurement layer to the existing experiment
 scripts. Keep the engine-specific receipt: the shared trace cannot infer tensor
 residence, cache hits, token counts, or PCIe byte traffic by itself.
 
+For new sequence runs, [benchmark hardware sessions](BENCHMARK_HARDWARE_SESSIONS.md)
+freeze the rig scan and role assignments in one receipt. Select physical cards
+from that receipt; the Manager still owns live leases and admission.
+
 ## Physical GPU identity and reusable probes
 
 Host `nvidia-smi` indexes are physical selectors. Docker CUDA ordinals can differ
