@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-13T17:54:37+00:00",
+  "manifest_sha256": "e32f4a3154bf275b05aaa51de8c0fada9178f5bda8447d013e21b6851809ae01",
+  "reserved_gpus": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-ple-shard-probe-20261113",
+  "session_claim": "q38-ple-shard-probe-20261113",
+  "session_claim_released": true,
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-shard-probe-20261113/session_hardware.json",
+  "stages": {
+    "all_pascal": "passed",
+    "partial": "reused"
+  },
+  "started_at": "2026-11-13T17:52:12+00:00",
+  "status": "passed"
+}

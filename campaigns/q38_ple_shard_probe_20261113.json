@@ -1,0 +1,87 @@
+{
+  "schema": 2,
+  "name": "q38_ple_shard_probe_20261113",
+  "hardware_roles": {
+    "pascal8": {
+      "min_vram_mb": 7500,
+      "max_vram_mb": 12000,
+      "name_contains": "1070"
+    },
+    "pascal6_0": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    },
+    "pascal6_1": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    },
+    "pascal6_2": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    },
+    "pascal6_3": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    }
+  },
+  "defaults": {
+    "state": "ready",
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "timeout_s": 1800,
+    "freeze": false
+  },
+  "cases": [
+    {
+      "id": "partial",
+      "gpus": [
+        "{gpu:pascal8}",
+        "{gpu:pascal6_0}"
+      ],
+      "env": {
+        "KV_HOST_GPU_IDS": "{gpu:pascal8},{gpu:pascal6_0}"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_ple_shard_probe.sh",
+        "q38_ple_shard_probe_20261113_partial",
+        "512",
+        "512"
+      ],
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_shard_probe_20261113_partial.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_shard_probe_20261113_partial.log",
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_shard_probe_20261113_partial.uuids.txt"
+      ]
+    },
+    {
+      "id": "all_pascal",
+      "gpus": [
+        "{gpu:pascal8}",
+        "{gpu:pascal6_0}",
+        "{gpu:pascal6_1}",
+        "{gpu:pascal6_2}",
+        "{gpu:pascal6_3}"
+      ],
+      "env": {
+        "KV_HOST_GPU_IDS": "{gpu:pascal8},{gpu:pascal6_0},{gpu:pascal6_1},{gpu:pascal6_2},{gpu:pascal6_3}"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_ple_shard_probe.sh",
+        "q38_ple_shard_probe_20261113_all_pascal",
+        "5120",
+        "7168"
+      ],
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_shard_probe_20261113_all_pascal.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_shard_probe_20261113_all_pascal.log",
+        "/mnt/shared/experiments/kv-matrix-20261107/q38_ple_shard_probe_20261113_all_pascal.uuids.txt"
+      ]
+    }
+  ]
+}

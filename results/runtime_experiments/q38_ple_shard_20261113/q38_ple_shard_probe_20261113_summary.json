@@ -1,0 +1,99 @@
+{
+  "schema": "q38-ple-shard-result/1",
+  "table_gguf_shard": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+  "tensor": "per_layer_token_embd.weight",
+  "tensor_type": "IQ4_NL",
+  "shape": [
+    160,
+    320001536
+  ],
+  "tensor_offset_bytes": 682453280,
+  "table_bytes": 28800138240,
+  "stages": {
+    "partial": {
+      "summary": {
+        "schema": "ple-shard-probe/1",
+        "table_rows": 320001536,
+        "row_bytes": 90,
+        "gpu_rows": 11930464,
+        "nvme_rows": 308071072,
+        "checked": 508,
+        "check_errors": 0,
+        "checked_nvme_rows": 490,
+        "load_s": 5.202,
+        "row_p50_us": 116.502,
+        "row_p95_us": 240.281,
+        "sixteen_rows_mean_us": 1667.11
+      },
+      "shards": [
+        {
+          "cuda_device": 0,
+          "pci_bus_hex": "0d",
+          "rows": 5965232,
+          "bytes": 536870880,
+          "end_row_exclusive": 5965232
+        },
+        {
+          "cuda_device": 1,
+          "pci_bus_hex": "03",
+          "rows": 5965232,
+          "bytes": 536870880,
+          "end_row_exclusive": 11930464
+        }
+      ]
+    },
+    "all_pascal": {
+      "summary": {
+        "schema": "ple-shard-probe/1",
+        "table_rows": 320001536,
+        "row_bytes": 90,
+        "gpu_rows": 320001536,
+        "nvme_rows": 0,
+        "checked": 513,
+        "check_errors": 0,
+        "checked_nvme_rows": 0,
+        "load_s": 137.37,
+        "row_p50_us": 8.891,
+        "row_p95_us": 14.163,
+        "sixteen_rows_mean_us": 126.021
+      },
+      "shards": [
+        {
+          "cuda_device": 0,
+          "pci_bus_hex": "0d",
+          "rows": 83513252,
+          "bytes": 7516192680,
+          "end_row_exclusive": 83513252
+        },
+        {
+          "cuda_device": 1,
+          "pci_bus_hex": "03",
+          "rows": 59652323,
+          "bytes": 5368709070,
+          "end_row_exclusive": 143165575
+        },
+        {
+          "cuda_device": 2,
+          "pci_bus_hex": "10",
+          "rows": 59652323,
+          "bytes": 5368709070,
+          "end_row_exclusive": 202817898
+        },
+        {
+          "cuda_device": 3,
+          "pci_bus_hex": "11",
+          "rows": 59652323,
+          "bytes": 5368709070,
+          "end_row_exclusive": 262470221
+        },
+        {
+          "cuda_device": 4,
+          "pci_bus_hex": "12",
+          "rows": 57531315,
+          "bytes": 5177818350,
+          "end_row_exclusive": 320001536
+        }
+      ]
+    }
+  }
+}

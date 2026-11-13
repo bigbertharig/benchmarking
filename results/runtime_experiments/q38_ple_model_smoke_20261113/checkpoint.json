@@ -1,0 +1,125 @@
+{
+  "schema": "q38-ple-model-smoke/1",
+  "started_at": "2026-11-13T18:20:12+00:00",
+  "model": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+  "table": "/data/model-hotset/qwen3.8-flash-next-ud-q4_k_xl/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+  "build": "/data/bench-staging/ple-shard-llama-build-20261113",
+  "gpu_layers": 8,
+  "modes": {
+    "file": {
+      "started_at": "2026-11-13T18:20:12+00:00",
+      "status": "passed",
+      "host_available_mib_before": 28976,
+      "gpu_mib_before": [
+        19,
+        4,
+        6,
+        4,
+        4,
+        4
+      ],
+      "container_id": "e427023be3f5",
+      "load_s": 163.42,
+      "gpu_mib_ready": [
+        13477,
+        70,
+        92,
+        70,
+        70,
+        70
+      ],
+      "host_available_mib_ready": 27784,
+      "request_s": 34.96,
+      "content": "\n\n<think>\nThe user wants a single, concise sentence explaining a B-tree index",
+      "tokens_predicted": 16,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 11,
+        "prompt_ms": 17315.023,
+        "prompt_per_token_ms": 1574.093,
+        "prompt_per_second": 0.6352864792613905,
+        "predicted_n": 16,
+        "predicted_ms": 17622.989,
+        "predicted_per_token_ms": 1174.8659333333335,
+        "predicted_per_second": 0.8511609466475862
+      },
+      "gpu_mib_after": [
+        13493,
+        70,
+        92,
+        70,
+        70,
+        70
+      ],
+      "guard": {
+        "breached": false,
+        "lowest_available_mib": 27516.08203125
+      },
+      "container_state": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":39991,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-11-13T18:20:12.663213201Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}",
+      "finished_at": "2026-11-13T18:23:34+00:00"
+    },
+    "gpu": {
+      "started_at": "2026-11-13T18:23:34+00:00",
+      "status": "passed",
+      "host_available_mib_before": 29319,
+      "gpu_mib_before": [
+        19,
+        4,
+        6,
+        4,
+        4,
+        4
+      ],
+      "container_id": "3e2ae892cba8",
+      "load_s": 298.12,
+      "gpu_mib_ready": [
+        13477,
+        5190,
+        7260,
+        5190,
+        5190,
+        5008
+      ],
+      "host_available_mib_ready": 27813,
+      "request_s": 35.34,
+      "content": "\n\n<think>\nThe user wants a single, concise sentence explaining a B-tree index",
+      "tokens_predicted": 16,
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 11,
+        "prompt_ms": 18217.692,
+        "prompt_per_token_ms": 1656.153818181818,
+        "prompt_per_second": 0.6038086493063995,
+        "predicted_n": 16,
+        "predicted_ms": 17114.441,
+        "predicted_per_token_ms": 1140.9627333333333,
+        "predicted_per_second": 0.876452815490731
+      },
+      "gpu_mib_after": [
+        13493,
+        5190,
+        7260,
+        5190,
+        5190,
+        5008
+      ],
+      "guard": {
+        "breached": false,
+        "lowest_available_mib": 27542.69140625
+      },
+      "container_state": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":42102,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-11-13T18:23:34.387204852Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\"}",
+      "finished_at": "2026-11-13T18:29:09+00:00"
+    }
+  },
+  "status": "running",
+  "layout": {
+    "name": "per_layer_token_embd.weight",
+    "shape": [
+      160,
+      320001536
+    ],
+    "tensor_type": "IQ4_NL",
+    "n_bytes": 28800138240,
+    "data_offset": 682453280
+  }
+}

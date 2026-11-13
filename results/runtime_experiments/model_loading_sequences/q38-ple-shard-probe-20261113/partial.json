@@ -1,0 +1,28 @@
+{
+  "claim": "q38-ple-shard-probe-20261113",
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_ple_shard_probe.sh",
+    "q38_ple_shard_probe_20261113_partial",
+    "512",
+    "512"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [
+    "KV_HOST_GPU_IDS"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T17:51:48+00:00",
+  "gpus": [
+    2,
+    1
+  ],
+  "host_before_available_kib": 29756580,
+  "host_min_available_kib": 29172708,
+  "id": "partial",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-shard-probe-20261113/session_hardware.json",
+  "started_at": "2026-11-13T17:51:36+00:00",
+  "status": "passed",
+  "timeout_s": 1800,
+  "trace": false
+}

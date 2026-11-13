@@ -1,0 +1,24 @@
+0.00.111.736 I srv  llama_server: initializing ...
+0.00.111.762 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.112.390 W srv  llama_server: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.115.690 I srv    load_model: loading model '/models/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf'
+2.16.218.608 I cmn          init: llama threadpool init, n_threads = 4
+PLE_SHARD_LOADED cuda=1 bus=0d first=0 rows=83513252 bytes=7516192680
+PLE_SHARD_LOADED cuda=2 bus=03 first=83513252 rows=59652323 bytes=5368709070
+PLE_SHARD_LOADED cuda=3 bus=10 first=143165575 rows=59652323 bytes=5368709070
+PLE_SHARD_LOADED cuda=4 bus=11 first=202817898 rows=59652323 bytes=5368709070
+PLE_SHARD_LOADED cuda=5 bus=12 first=262470221 rows=57531315 bytes=5177818350
+PLE_SHARD_READY gpu_rows=320001536 file_rows=0
+4.55.644.499 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 8192, kv_unified = 'false'
+4.55.668.054 W srv          init: chat template supports preserving reasoning, it is enabled by default (may use more tokens, disable via --no-reasoning-preserve)
+4.55.668.836 I srv  llama_server: model loaded
+4.55.668.856 I srv  llama_server: listening on http://127.0.0.1:18124
+4.57.000.466 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+4.57.001.486 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+5.09.891.855 I slot print_timing: id  0 | task 0 | prompt processing, n_tokens =      7, progress = 0.64, t =  12.89 s / 0.54 tokens per second
+5.32.333.667 I slot print_timing: id  0 | task 0 | prompt eval time =   18217.69 ms /    11 tokens ( 1656.15 ms per token,     0.60 tokens per second)
+5.32.333.671 I slot print_timing: id  0 | task 0 |        eval time =   17114.44 ms /    16 tokens ( 1140.96 ms per token,     0.88 tokens per second)
+5.32.333.672 I slot print_timing: id  0 | task 0 |       total time =   35332.13 ms /    27 tokens
+5.32.333.676 I slot print_timing: id  0 | task 0 |    graphs reused =         15
+5.32.333.676 I slot print_timing: id  0 | task 0 |   graph reallocs =          2    /     0        (same size) / (changed size)
+5.32.333.701 I slot      release: id  0 | task 0 | stop processing: n_tokens = 26, truncated = 0

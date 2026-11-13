@@ -1,0 +1,46 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        2,
+        1
+      ],
+      "hypothesis": null,
+      "id": "partial",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-shard-probe-20261113/partial.json",
+      "stage_seconds": 12.0,
+      "status": "reused",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        2,
+        1,
+        3,
+        4,
+        5
+      ],
+      "hypothesis": null,
+      "id": "all_pascal",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-shard-probe-20261113/all_pascal.json",
+      "stage_seconds": 144.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "e32f4a3154bf275b05aaa51de8c0fada9178f5bda8447d013e21b6851809ae01",
+  "run_id": "q38-ple-shard-probe-20261113",
+  "schema": 1,
+  "series_name": "q38_ple_shard_probe_20261113",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-shard-probe-20261113/session_hardware.json",
+  "status": "passed",
+  "updated_at": "2026-11-13T17:54:37+00:00"
+}

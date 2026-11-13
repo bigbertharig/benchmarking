@@ -1,0 +1,25 @@
+{
+  "failures": [
+    "file_vs_gpu"
+  ],
+  "finished_at": "2026-11-13T18:19:36+00:00",
+  "manifest_sha256": "f5c06574c2edcf0c4359c54fa43a48315e362de17d52b83b22301e2d11204052",
+  "reason": "exit 1; see file_vs_gpu.log",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "run_id": "q38-ple-model-smoke-20261113",
+  "session_claim": "q38-ple-model-smoke-20261113",
+  "session_claim_released": true,
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/q38-ple-model-smoke-20261113/session_hardware.json",
+  "stages": {
+    "file_vs_gpu": "failed"
+  },
+  "started_at": "2026-11-13T18:19:32+00:00",
+  "status": "failed"
+}

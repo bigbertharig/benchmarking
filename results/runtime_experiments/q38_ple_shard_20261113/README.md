@@ -1,0 +1,14 @@
+# Qwen3.8 PLE row sharding across Pascal VRAM (2026-11-13)
+
+The Qwen3.8 UD-Q4_K_XL GGUF contains one `per_layer_token_embd.weight` tensor in shard 2. Its IQ4_NL shape is `[160, 320001536]`; each packed row is 90 bytes and the tensor occupies **28,800,138,240 bytes**. The header inspector records the exact file offset and geometry. The row-store prototype allocates contiguous ranges across the selected Pascal cards, reads the table in 32 MiB chunks, and retrieves individual exact packed rows from GPU memory. Any unallocated suffix is fetched from the GGUF file. The 3090 is excluded so it can hold model layers in a later combined test.
+
+| Placement | Table rows in Pascal VRAM | File-backed rows | Load time | Sampled row checks | Random 16-row lookup mean |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1070 + one 1060, 512 MiB per card | 11,930,464 | 308,071,072 | 5.2 s | 508/508 exact | 1,667 µs |
+| 1070 + four 1060s, 7 GiB + up to 5 GiB each | **320,001,536** | **0** | 137.4 s | 513/513 exact | **126 µs** |
+
+The full table fit with 7,516,192,680 bytes on the 1070, 5,368,709,070 bytes on each of three 1060s, and 5,177,818,350 bytes on the fourth 1060. Each card retained at least 512 MiB of free-VRAM reserve in the allocator. The managed run passed and released its claim. A second partial replay obtained geometry from the GGUF header dynamically and passed all 508 checks. Its file-backed timing differed sharply after the first run warmed the OS cache; neither partial timing is an isolated physical NVMe latency measurement.
+
+This verifies **storage capacity and exact row retrieval**, not a working model: the existing llama.cpp graph still has to consume these rows, and its original file-backed table remains the control. The experimental [source patch](../../../scripts/integration/patch_qwen4exp_ple.py), [runtime plugin](../../../scripts/integration/ple_shard_store.cu), and [isolated build script](../../../scripts/integration/build_ple_shard_runtime.sh) test that integration separately. The Strata engine installed on this rig is a binary and has no corresponding PLE-plugin hook in this experiment. Experts in bounded RAM with an NVMe remainder are therefore a later combined placement test, not established by this row-store result.
+
+[Header inspector](../../../scripts/analysis/inspect_ple_layout.py), [CUDA probe](../../../scripts/integration/ple_shard_probe.cu), [wrapper](../../../scripts/integration/run_ple_shard_probe.sh), [campaign](../../../campaigns/q38_ple_shard_probe_20261113.json), [managed receipt](../model_loading_sequences/q38-ple-shard-probe-20261113/terminal.json), and [compact timings](q38_ple_shard_probe_20261113_summary.json) preserve the test. The dynamic partial replay receipt is under `../model_loading_sequences/q38-ple-shard-dynamic-20261113/`. Raw logs and card UUID/inventory files are in `/mnt/shared/experiments/kv-matrix-20261107/q38_ple_shard_probe_20261113_*`.

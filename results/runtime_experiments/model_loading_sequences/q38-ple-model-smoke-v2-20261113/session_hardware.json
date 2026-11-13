@@ -1,0 +1,121 @@
+{
+  "cards": [
+    {
+      "bus": "01:00.0",
+      "index": 0,
+      "link_gen": 3,
+      "link_width": 16,
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "root_port": "00:01.0",
+      "total_mb": 24564,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "via": []
+    },
+    {
+      "bus": "03:00.0",
+      "index": 1,
+      "link_gen": 2,
+      "link_width": 1,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "root_port": "00:1b.5",
+      "total_mb": 6144,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "via": []
+    },
+    {
+      "bus": "0D:00.0",
+      "index": 2,
+      "link_gen": 2,
+      "link_width": 1,
+      "name": "NVIDIA GeForce GTX 1070",
+      "root_port": "00:1b.7",
+      "total_mb": 8192,
+      "uuid": "GPU-cc6bc379-2f59-ec6e-00cf-4a9f02d57519",
+      "via": []
+    },
+    {
+      "bus": "10:00.0",
+      "index": 3,
+      "link_gen": 2,
+      "link_width": 1,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "root_port": "00:1d.0",
+      "total_mb": 6144,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "via": []
+    },
+    {
+      "bus": "11:00.0",
+      "index": 4,
+      "link_gen": 2,
+      "link_width": 1,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "root_port": "00:1d.2",
+      "total_mb": 6144,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "via": []
+    },
+    {
+      "bus": "12:00.0",
+      "index": 5,
+      "link_gen": 2,
+      "link_width": 1,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "root_port": "00:1d.3",
+      "total_mb": 6144,
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "via": []
+    }
+  ],
+  "held_gpu_ids": [],
+  "observed_at": "2026-11-13T11:20:09",
+  "rig_host": "bryan-GPU-Rig",
+  "roles": {
+    "model": {
+      "bus": "01:00.0",
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb"
+    },
+    "pascal6_0": {
+      "bus": "03:00.0",
+      "index": 1,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c"
+    },
+    "pascal6_1": {
+      "bus": "10:00.0",
+      "index": 3,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436"
+    },
+    "pascal6_2": {
+      "bus": "11:00.0",
+      "index": 4,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225"
+    },
+    "pascal6_3": {
+      "bus": "12:00.0",
+      "index": 5,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57"
+    },
+    "pascal8": {
+      "bus": "0D:00.0",
+      "index": 2,
+      "name": "NVIDIA GeForce GTX 1070",
+      "uuid": "GPU-cc6bc379-2f59-ec6e-00cf-4a9f02d57519"
+    }
+  },
+  "schema": 1,
+  "source": "rig observe",
+  "used_mb": {
+    "0": 19,
+    "1": 4,
+    "2": 6,
+    "3": 4,
+    "4": 4,
+    "5": 4
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schema": 2,
+  "name": "q38_ple_model_smoke_20261113",
+  "hardware_roles": {
+    "model": {
+      "min_vram_mb": 20000
+    },
+    "pascal8": {
+      "min_vram_mb": 7500,
+      "max_vram_mb": 12000,
+      "name_contains": "1070"
+    },
+    "pascal6_0": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    },
+    "pascal6_1": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    },
+    "pascal6_2": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    },
+    "pascal6_3": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    }
+  },
+  "defaults": {
+    "state": "ready",
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "timeout_s": 2400,
+    "freeze": false
+  },
+  "cases": [
+    {
+      "id": "file_vs_gpu",
+      "gpus": [
+        "{gpu:model}",
+        "{gpu:pascal8}",
+        "{gpu:pascal6_0}",
+        "{gpu:pascal6_1}",
+        "{gpu:pascal6_2}",
+        "{gpu:pascal6_3}"
+      ],
+      "command": [
+        "python3",
+        "scripts/integration/run_q38_ple_model_smoke.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/q38_ple_model_smoke_20261113",
+        "--gpu-layers",
+        "8"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/q38_ple_model_smoke_20261113/terminal.json",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/q38_ple_model_smoke_20261113/file.log",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/q38_ple_model_smoke_20261113/gpu.log"
+      ]
+    }
+  ]
+}
