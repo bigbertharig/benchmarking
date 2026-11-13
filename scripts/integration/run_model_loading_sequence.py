@@ -12,11 +12,14 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import signal
 import subprocess
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+from hardware_inventory import scan_cards, require_ids
 
 ROOT = Path('/mnt/shared/plans/shoulders/benchmarking')
 LEASE = ROOT / 'scripts/integration/harness_lease.sh'
@@ -103,8 +106,10 @@ def validate(manifest):
                 raise ValueError(f'{name}: command must be an argv list')
             if not isinstance(stage.get('timeout_s'), int) or stage['timeout_s'] < 1:
                 raise ValueError(f'{name}: positive timeout_s required')
-            if not isinstance(stage.get('gpus', []), list) or any(x not in range(6) for x in stage.get('gpus', [])):
-                raise ValueError(f'{name}: gpus must be IDs 0..5')
+            if (not isinstance(stage.get('gpus', []), list)
+                    or any(type(x) is not int or x < 0 for x in stage.get('gpus', []))
+                    or len(set(stage.get('gpus', []))) != len(stage.get('gpus', []))):
+                raise ValueError(f'{name}: gpus must be distinct nonnegative GPU IDs')
             if any(not isinstance(stage.get(flag, False), bool) for flag in ('freeze', 'reuse_loaded', 'restart_loaded', 'trace', 'continue_on_failure')):
                 raise ValueError(f'{name}: freeze, reuse_loaded and trace must be booleans')
             if stage.get('reuse_loaded') and stage.get('restart_loaded'):
@@ -141,8 +146,8 @@ def lease(action, *args):
 
 
 def manager(*args):
-    result = subprocess.run(['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=5', 'pi',
-                             'python3', '/home/bryan/llm-gateway/tools/rigctl.py', *map(str, args)],
+    remote = shlex.join(['python3', '/home/bryan/llm-gateway/tools/rigctl.py', *map(str, args)])
+    result = subprocess.run(['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=5', 'pi', remote],
                             capture_output=True, text=True, timeout=30)
     if result.returncode:
         raise RuntimeError(f"Manager {' '.join(map(str, args[:2]))} failed: "
@@ -310,8 +315,8 @@ def main():
             session_gpus = sorted(set(int(g) for g in args.session_gpus.split(',')))
         except ValueError:
             ap.error('--session-gpus must be comma-separated GPU IDs')
-        if not session_gpus or any(g not in range(6) for g in session_gpus):
-            ap.error('--session-gpus must contain GPU IDs 0..5')
+        if not session_gpus or any(g < 0 for g in session_gpus):
+            ap.error('--session-gpus must contain nonnegative GPU IDs')
     raw = args.manifest.read_bytes()
     source = json.loads(raw)
     manifest = normalize_manifest(source)
@@ -324,6 +329,12 @@ def main():
             {'id': s['id'], 'state': s['state'], 'reason': s.get('reason'), 'gpus': s.get('gpus', [])}
             for s in manifest['stages']]}, indent=2))
         return 0
+    cards = scan_cards()
+    requested = set(session_gpus or [])
+    for stage in manifest['stages']:
+        if stage['state'] == 'ready':
+            requested.update(stage.get('gpus', []))
+    require_ids(requested, cards)
     def stop(_signum, _frame):
         raise KeyboardInterrupt('Manager stopped the sequence')
     signal.signal(signal.SIGTERM, stop)

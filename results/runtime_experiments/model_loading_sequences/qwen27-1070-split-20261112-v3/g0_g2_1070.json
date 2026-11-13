@@ -1,0 +1,38 @@
+{
+  "claim": "qwen27-1070-split-20261112-v3",
+  "command": [
+    "python3",
+    "scripts/integration/run_ram_offload_comparison.py",
+    "--output",
+    "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g2_1070",
+    "--model",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "--ctx",
+    "32768",
+    "--prompt-repeat",
+    "500",
+    "--only-mode",
+    "3090_full",
+    "--visible-gpus",
+    "0,2",
+    "--tensor-split",
+    "8,2",
+    "--load-timeout",
+    "300"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T00:26:00+00:00",
+  "gpus": [
+    0,
+    2
+  ],
+  "host_before_available_kib": 29731692,
+  "host_min_available_kib": 26474752,
+  "id": "g0_g2_1070",
+  "started_at": "2026-11-13T00:24:37+00:00",
+  "status": "passed",
+  "timeout_s": 1800,
+  "trace": false
+}

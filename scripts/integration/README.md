@@ -41,3 +41,9 @@ Notes:
   inside thinking text and return empty answers.
 - `p45.sh` removes every running runtime container before each load; do not run it while another
   benchmark is using the rig.
+
+## Live GPU inventory after the 1070 swap (2026-11-12)
+
+Generic benchmark admission now scans `nvidia-smi` at run time through `hardware_inventory.py`: GPU IDs, UUIDs, names, VRAM, use and power. The sequence runner validates requested IDs against that scan; `run_model_context_bounds.py` accepts any discovered nonnegative GPU ID. Power checks use the rig's model-based `hw_power.py` plan, so a 1070 keeps its own default cap. Direct Docker placement must use UUID device selection and confirm VRAM movement; host `nvidia-smi` indexes are not safe as `CUDA_VISIBLE_DEVICES` ordinals. `run_ram_offload_comparison.py` performs both checks and can retain the last successful container with `--keep-loaded`. The all-card Qwen3.8 helper now scans the available card set and uses UUID Docker selection too.
+
+Historical campaign manifests and named model recipes may intentionally pin specific GPU groups and tensor layouts. Those are experiment definitions, not a claim that every worker is a 1060 or that the rig always has six cards. Review their groups when hardware changes. The manager's general placement path uses observed VRAM; the shared-chat worker path now discovers any free card with at least 6,000 MiB instead of iterating fixed IDs.

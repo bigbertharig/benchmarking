@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-11-13T00:40:14+00:00",
+  "manifest_sha256": "74022049580a1b6dff1d29765e2f05dc4bc872e423f68ae926815926bb7ab71a",
+  "reserved_gpus": [
+    0,
+    1,
+    2
+  ],
+  "run_id": "qwen35-q41-1060-1070-matched-20261112",
+  "session_claim": "qwen35-q41-1060-1070-matched-20261112",
+  "stages": {
+    "1060_after": "passed",
+    "1060_before": "passed",
+    "1070": "passed"
+  },
+  "started_at": "2026-11-13T00:37:42+00:00",
+  "status": "passed"
+}

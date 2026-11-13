@@ -12,13 +12,11 @@ import argparse
 import json
 from pathlib import Path
 
-import run_context_capacity_matrix as depth
 import run_context_capacity_min_sizing as minimum
 import run_context_capacity_sizing as maximum
+from hardware_inventory import scan_cards, require_ids, check_planned_power
 
 ROOT = Path(__file__).resolve().parents[2]
-HARDWARE = {"brain": [0], "worker": [1, 2, 3, 4, 5],
-            "power_caps_w": {"0": 350, "1": 100, "2": 100, "3": 100, "4": 100, "5": 100}}
 
 
 def parse_cards(value: str) -> list[int]:
@@ -26,8 +24,8 @@ def parse_cards(value: str) -> list[int]:
         cards = [int(part) for part in value.split(",")]
     except ValueError as exc:
         raise argparse.ArgumentTypeError("GPU indices must be comma-separated integers") from exc
-    if not cards or len(set(cards)) != len(cards) or any(card not in range(6) for card in cards):
-        raise argparse.ArgumentTypeError("GPU indices must be unique and in 0..5")
+    if not cards or len(set(cards)) != len(cards) or any(card < 0 for card in cards):
+        raise argparse.ArgumentTypeError("GPU indices must be unique nonnegative integers")
     return cards
 
 
@@ -52,6 +50,8 @@ def main() -> int:
     args = parser.parse_args()
     if not set(args.compact_gpus).issubset(args.ceiling_gpus):
         parser.error("compact GPUs must be a subset of ceiling GPUs")
+    inventory = scan_cards()
+    require_ids(args.ceiling_gpus, inventory)
     registry = json.loads((ROOT / "model_registry.json").read_text(encoding="utf-8"))
     model = registry.get("models", {}).get(args.model)
     if not model:
@@ -77,7 +77,7 @@ def main() -> int:
         row = state["groups"].get(label, {})
         if row.get("status") == "passed":
             continue
-        depth.hardware_check(HARDWARE)
+        check_planned_power(args.ceiling_gpus)
         row = {"status": "running", "gpus": cards, "started_at": maximum.stamp()}
         state["groups"][label] = row
         maximum.write_json(checkpoint, state)
@@ -95,12 +95,12 @@ def main() -> int:
             if min_ctx == max_ctx:
                 row["min_load"] = {"shared_with_max": True}
             else:
-                depth.hardware_check(HARDWARE)
+                check_planned_power(args.ceiling_gpus)
                 row["min_load"] = minimum.run_case(case, max_ctx)
                 maximum.write_json(checkpoint, state)
                 if row["min_load"].get("error"):
                     raise RuntimeError(f"minimum load: {row['min_load']['error']}")
-            depth.hardware_check(HARDWARE)
+            check_planned_power(args.ceiling_gpus)
             row["max_load"] = maximum.check_case(case)
             maximum.write_json(checkpoint, state)
             if row["max_load"].get("error"):

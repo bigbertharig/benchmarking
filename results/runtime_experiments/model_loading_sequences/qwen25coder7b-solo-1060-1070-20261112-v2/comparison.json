@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        1
+      ],
+      "hypothesis": null,
+      "id": "1060_a",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen25coder7b-solo-1060-1070-20261112-v2/1060_a.json",
+      "stage_seconds": 42.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        2
+      ],
+      "hypothesis": null,
+      "id": "1070_b",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen25coder7b-solo-1060-1070-20261112-v2/1070_b.json",
+      "stage_seconds": 33.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        1
+      ],
+      "hypothesis": null,
+      "id": "1060_c",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen25coder7b-solo-1060-1070-20261112-v2/1060_c.json",
+      "stage_seconds": 40.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        2
+      ],
+      "hypothesis": null,
+      "id": "1070_d",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen25coder7b-solo-1060-1070-20261112-v2/1070_d.json",
+      "stage_seconds": 33.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "801ad854496d6ccbfe64a27b3fe5b5785f57a082cb58ac2d758f791f94d7df66",
+  "run_id": "qwen25coder7b-solo-1060-1070-20261112-v2",
+  "schema": 1,
+  "series_name": "qwen25coder7b_1060_1070_solo_20261112",
+  "status": "passed",
+  "updated_at": "2026-11-13T00:48:43+00:00"
+}

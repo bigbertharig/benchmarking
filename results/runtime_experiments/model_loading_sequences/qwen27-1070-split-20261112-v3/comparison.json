@@ -1,0 +1,59 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        3
+      ],
+      "hypothesis": null,
+      "id": "g0_g3_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-1070-split-20261112-v3/g0_g3_1060.json",
+      "stage_seconds": 100.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "g0_g2_1070",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-1070-split-20261112-v3/g0_g2_1070.json",
+      "stage_seconds": 83.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "hypothesis": null,
+      "id": "g0_g2_g3_1070_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-1070-split-20261112-v3/g0_g2_g3_1070_1060.json",
+      "stage_seconds": 88.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "65a57483e17fb2e96f5ce580a52e4ed9160f5758655c9400c07557d2b4475540",
+  "run_id": "qwen27-1070-split-20261112-v3",
+  "schema": 1,
+  "series_name": "qwen27_1070_split_uuid_long_20261112",
+  "status": "passed",
+  "updated_at": "2026-11-13T00:27:28+00:00"
+}

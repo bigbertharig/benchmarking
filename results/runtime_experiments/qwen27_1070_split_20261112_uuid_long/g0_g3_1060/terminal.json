@@ -1,0 +1,166 @@
+{
+  "model": "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+  "image": "llama-runtime:b11669",
+  "started_at": "2026-11-13T00:22:58+00:00",
+  "context": 32768,
+  "batch": 64,
+  "threads": 4,
+  "power_caps_w": [
+    350,
+    100,
+    151,
+    100,
+    100,
+    100
+  ],
+  "gpu_names": [
+    "NVIDIA GeForce RTX 3090 Ti",
+    "NVIDIA GeForce GTX 1060 6GB",
+    "NVIDIA GeForce GTX 1070",
+    "NVIDIA GeForce GTX 1060 6GB",
+    "NVIDIA GeForce GTX 1060 6GB",
+    "NVIDIA GeForce GTX 1060 6GB"
+  ],
+  "gpu_inventory": {
+    "0": {
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "total_mib": 24564
+    },
+    "1": {
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_mib": 6144
+    },
+    "2": {
+      "uuid": "GPU-cc6bc379-2f59-ec6e-00cf-4a9f02d57519",
+      "name": "NVIDIA GeForce GTX 1070",
+      "total_mib": 8192
+    },
+    "3": {
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_mib": 6144
+    },
+    "4": {
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_mib": 6144
+    },
+    "5": {
+      "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "total_mib": 6144
+    }
+  },
+  "prompt_repeat": 500,
+  "baseline_gpu_memory_mib": [
+    19,
+    4,
+    6,
+    4,
+    4,
+    4
+  ],
+  "modes": {
+    "3090_full": {
+      "started_at": "2026-11-13T00:22:59+00:00",
+      "gpu_visible": "0,3",
+      "gpu_uuids": [
+        "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+        "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436"
+      ],
+      "gpu_layers_requested": "all",
+      "status": "passed",
+      "host_memory_before": {
+        "MemAvailable_mib": 29050,
+        "SwapTotal_mib": 23561,
+        "SwapFree_mib": 23561
+      },
+      "gpu_memory_before_load_mib": [
+        19,
+        4,
+        6,
+        4,
+        4,
+        4
+      ],
+      "container_id": "d3da579ada51",
+      "load_seconds": 14.43,
+      "gpu_memory_after_load_mib": [
+        13707,
+        4,
+        6,
+        4338,
+        4,
+        4
+      ],
+      "gpu_memory_delta_mib": [
+        13688,
+        0,
+        0,
+        4334,
+        0,
+        0
+      ],
+      "pcie_links_after_load": [
+        "0, 3, 16",
+        "1, 1, 1",
+        "2, 1, 1",
+        "3, 2, 1",
+        "4, 1, 1",
+        "5, 1, 1"
+      ],
+      "host_memory_after_load": {
+        "MemAvailable_mib": 27759,
+        "SwapTotal_mib": 23561,
+        "SwapFree_mib": 23561
+      },
+      "server_log": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g3_1060/3090_full.log",
+      "repeat_1": {
+        "wall_seconds": 39.78,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 13002,
+          "prompt_ms": 32388.782,
+          "prompt_per_token_ms": 2.491061528995539,
+          "prompt_per_second": 401.4352870694551,
+          "predicted_n": 128,
+          "predicted_ms": 7364.962,
+          "predicted_per_token_ms": 57.99182677165355,
+          "predicted_per_second": 17.243809268805457
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 13002,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "repeat_2": {
+        "wall_seconds": 40.9,
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 13002,
+          "prompt_ms": 32460.456,
+          "prompt_per_token_ms": 2.49657406552838,
+          "prompt_per_second": 400.54890171598333,
+          "predicted_n": 128,
+          "predicted_ms": 7365.133,
+          "predicted_per_token_ms": 57.99317322834646,
+          "predicted_per_second": 17.24340891060623
+        },
+        "tokens_predicted": 128,
+        "tokens_evaluated": 13002,
+        "stopped_eos": null,
+        "stopped_limit": null
+      },
+      "host_memory_after_requests": {
+        "MemAvailable_mib": 26005,
+        "SwapTotal_mib": 23561,
+        "SwapFree_mib": 23561
+      },
+      "finished_at": "2026-11-13T00:24:34+00:00"
+    }
+  },
+  "finished_at": "2026-11-13T00:24:34+00:00",
+  "status": "passed"
+}

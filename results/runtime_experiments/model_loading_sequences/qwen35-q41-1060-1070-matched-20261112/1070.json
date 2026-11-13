@@ -1,0 +1,37 @@
+{
+  "claim": "qwen35-q41-1060-1070-matched-20261112",
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_two_replay",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "64",
+    "qwen35_q41_1060_1070_matched_20261112_1070"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_K_TYPE",
+    "KV_REPLAY_CHAT_GPUS",
+    "KV_SAMPLE_DETAIL",
+    "KV_STATE_SOURCE_DIR",
+    "KV_V_TYPE"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T00:39:45+00:00",
+  "gpus": [
+    0,
+    1,
+    2
+  ],
+  "host_before_available_kib": 29744724,
+  "host_min_available_kib": 27694280,
+  "id": "1070",
+  "started_at": "2026-11-13T00:39:15+00:00",
+  "status": "passed",
+  "timeout_s": 1800,
+  "trace": false
+}

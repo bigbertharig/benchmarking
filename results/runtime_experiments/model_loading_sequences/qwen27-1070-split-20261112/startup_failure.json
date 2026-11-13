@@ -1,0 +1,7 @@
+{
+  "status": "failed_before_model_load",
+  "run_id": "qwen27-1070-split-20261112",
+  "cause": "SSH re-split unquoted rigctl claim note with spaces",
+  "evidence": "journalctl -u rig-run-qwen27-1070-split-20261112.service",
+  "fix": "run_model_loading_sequence.py now uses shlex.join for remote rigctl command"
+}

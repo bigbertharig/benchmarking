@@ -1,0 +1,114 @@
+{
+  "schema": 2,
+  "name": "qwen27_1070_split_uuid_long_20261112",
+  "defaults": {},
+  "cases": [
+    {
+      "id": "g0_g3_1060",
+      "state": "ready",
+      "gpus": [
+        0,
+        3
+      ],
+      "mem_floor_gib": 8,
+      "max_host_drop_gb": 30,
+      "timeout_s": 1800,
+      "freeze": false,
+      "command": [
+        "python3",
+        "scripts/integration/run_ram_offload_comparison.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g3_1060",
+        "--model",
+        "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+        "--ctx",
+        "32768",
+        "--prompt-repeat",
+        "500",
+        "--only-mode",
+        "3090_full",
+        "--visible-gpus",
+        "0,3",
+        "--tensor-split",
+        "8,2",
+        "--load-timeout",
+        "300"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g3_1060/terminal.json"
+      ]
+    },
+    {
+      "id": "g0_g2_1070",
+      "state": "ready",
+      "gpus": [
+        0,
+        2
+      ],
+      "mem_floor_gib": 8,
+      "max_host_drop_gb": 30,
+      "timeout_s": 1800,
+      "freeze": false,
+      "command": [
+        "python3",
+        "scripts/integration/run_ram_offload_comparison.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g2_1070",
+        "--model",
+        "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+        "--ctx",
+        "32768",
+        "--prompt-repeat",
+        "500",
+        "--only-mode",
+        "3090_full",
+        "--visible-gpus",
+        "0,2",
+        "--tensor-split",
+        "8,2",
+        "--load-timeout",
+        "300"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g2_1070/terminal.json"
+      ]
+    },
+    {
+      "id": "g0_g2_g3_1070_1060",
+      "state": "ready",
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "mem_floor_gib": 8,
+      "max_host_drop_gb": 30,
+      "timeout_s": 1800,
+      "freeze": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_ram_offload_comparison.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g2_g3_1070_1060",
+        "--model",
+        "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+        "--ctx",
+        "32768",
+        "--prompt-repeat",
+        "500",
+        "--only-mode",
+        "3090_full",
+        "--visible-gpus",
+        "0,2,3",
+        "--tensor-split",
+        "8,1,1",
+        "--load-timeout",
+        "300",
+        "--keep-loaded"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen27_1070_split_20261112_uuid_long/g0_g2_g3_1070_1060/terminal.json"
+      ]
+    }
+  ]
+}

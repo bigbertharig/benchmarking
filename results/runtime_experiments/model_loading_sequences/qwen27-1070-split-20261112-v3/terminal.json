@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-11-13T00:27:28+00:00",
+  "manifest_sha256": "65a57483e17fb2e96f5ce580a52e4ed9160f5758655c9400c07557d2b4475540",
+  "reserved_gpus": [
+    0,
+    2,
+    3
+  ],
+  "run_id": "qwen27-1070-split-20261112-v3",
+  "session_claim": "qwen27-1070-split-20261112-v3",
+  "stages": {
+    "g0_g2_1070": "passed",
+    "g0_g2_g3_1070_1060": "passed",
+    "g0_g3_1060": "passed"
+  },
+  "started_at": "2026-11-13T00:22:57+00:00",
+  "status": "passed"
+}

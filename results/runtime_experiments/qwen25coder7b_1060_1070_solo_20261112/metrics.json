@@ -1,0 +1,94 @@
+{
+  "1060_a": {
+    "gpu": 1,
+    "load_seconds": 14.38,
+    "vram_delta_mib": [
+      0,
+      4712,
+      0,
+      0,
+      0,
+      0
+    ],
+    "prompt_tps": [
+      354.8174564735099,
+      355.25815340497536
+    ],
+    "decode_tps": [
+      20.767205998092358,
+      20.810883797268563
+    ],
+    "prompt_tokens": 2082,
+    "generated_tokens": 128,
+    "left_loaded": false
+  },
+  "1070_b": {
+    "gpu": 2,
+    "load_seconds": 12.41,
+    "vram_delta_mib": [
+      0,
+      0,
+      4734,
+      0,
+      0,
+      0
+    ],
+    "prompt_tps": [
+      512.4173843873658,
+      509.9700117057958
+    ],
+    "decode_tps": [
+      29.236831224751576,
+      29.225635715107583
+    ],
+    "prompt_tokens": 2082,
+    "generated_tokens": 128,
+    "left_loaded": false
+  },
+  "1060_c": {
+    "gpu": 1,
+    "load_seconds": 12.37,
+    "vram_delta_mib": [
+      0,
+      4712,
+      0,
+      0,
+      0,
+      0
+    ],
+    "prompt_tps": [
+      354.72744171148327,
+      353.379261321927
+    ],
+    "decode_tps": [
+      20.764279161508977,
+      20.812520812520813
+    ],
+    "prompt_tokens": 2082,
+    "generated_tokens": 128,
+    "left_loaded": false
+  },
+  "1070_d": {
+    "gpu": 2,
+    "load_seconds": 12.37,
+    "vram_delta_mib": [
+      0,
+      0,
+      4734,
+      0,
+      0,
+      0
+    ],
+    "prompt_tps": [
+      508.95461894650794,
+      506.44612016540987
+    ],
+    "decode_tps": [
+      29.171273966957905,
+      29.144757420381456
+    ],
+    "prompt_tokens": 2082,
+    "generated_tokens": 128,
+    "left_loaded": true
+  }
+}

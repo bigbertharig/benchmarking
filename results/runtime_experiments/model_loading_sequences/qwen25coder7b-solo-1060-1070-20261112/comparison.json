@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        1
+      ],
+      "hypothesis": null,
+      "id": "1060_a",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen25coder7b-solo-1060-1070-20261112/1060_a.json",
+      "stage_seconds": 3.0,
+      "status": "failed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        2
+      ],
+      "hypothesis": null,
+      "id": "1070_b",
+      "label": null,
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        1
+      ],
+      "hypothesis": null,
+      "id": "1060_c",
+      "label": null,
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        2
+      ],
+      "hypothesis": null,
+      "id": "1070_d",
+      "label": null,
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "ec5e8faaf7936447cdbdfa61d4d19634fc111695f102db4eca6db864019de180",
+  "run_id": "qwen25coder7b-solo-1060-1070-20261112",
+  "schema": 1,
+  "series_name": "qwen25coder7b_1060_1070_solo_20261112",
+  "status": "failed",
+  "updated_at": "2026-11-13T00:45:38+00:00"
+}

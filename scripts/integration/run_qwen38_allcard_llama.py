@@ -16,6 +16,8 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+from hardware_inventory import scan_cards, require_ids, docker_devices, check_planned_power
+
 IMAGE = "llama-runtime:b11669"
 MODEL = Path("/data/model-hotset/qwen3.5-4b/Qwen3.5-4B-Q4_K_M.gguf")
 PORT = 18123
@@ -110,7 +112,10 @@ def main() -> int:
         ap.error("--resident-ngram requires --memory-limit-gib")
     if args.ctx < 512:
         ap.error("--ctx must be at least 512")
+    cards = scan_cards()
     modes = tuple(mode for mode in MODES if not args.only_mode or mode[0] == args.only_mode)
+    modes = tuple((name, ",".join(map(str, sorted(cards))) if name == "all_gpus" else visible, layers)
+                  for name, visible, layers in modes)
     if args.gpu_layers is not None:
         if args.only_mode != "3090_full" or args.gpu_layers < 0:
             ap.error("--gpu-layers requires --only-mode 3090_full and a nonnegative count")
@@ -121,20 +126,20 @@ def main() -> int:
     containers = run("docker", "ps", "--format", "{{.Names}}").stdout.splitlines()
     if NAME in containers:
         raise RuntimeError(f"benchmark container {NAME} is already running")
-    selected = ([int(part) for part in modes[0][1].split(",")]
-                if args.only_mode else range(6))
-    if any(gpu_memory_mib()[index] > 1024 for index in selected):
+    selected = sorted({int(part) for _, visible, _ in modes
+                       for part in visible.split(",") if part != "-1"})
+    require_ids(selected, cards)
+    if any(cards[index]["used_mib"] > 1024 for index in selected):
         raise RuntimeError("selected GPU is in use")
-    power = run("nvidia-smi", "--query-gpu=index,power.limit", "--format=csv,noheader,nounits").stdout
-    actual = [round(float(line.split(",")[1])) for line in power.splitlines()]
-    if actual != [350, 100, 100, 100, 100, 100]:
-        raise RuntimeError(f"unexpected power caps {actual}")
+    check_planned_power(selected)
+    actual = {index: round(card["power_limit_w"]) for index, card in cards.items()}
     state: dict = {"model": str(args.model), "image": IMAGE, "started_at": stamp(),
                    "context": args.ctx, "batch": 64, "threads": 4,
                    "kv_type": args.kv_type, "depth_fractions": args.depth_fractions,
                    "resident_ngram": args.resident_ngram,
                    "memory_limit_gib": args.memory_limit_gib,
-                   "power_caps_w": actual, "baseline_gpu_memory_mib": gpu_memory_mib(),
+                   "power_caps_w": actual, "gpu_inventory": cards,
+                   "baseline_gpu_memory_mib": gpu_memory_mib(),
                    "host_before": memory(), "nvme_read_bytes_before": nvme_read_bytes(), "modes": {}}
     write(args.output / "checkpoint.json", state)
     prompt = ("Explain how a B-tree index serves searches, inserts, and deletes in a database. "
@@ -147,8 +152,11 @@ def main() -> int:
         state["modes"][mode] = row
         write(args.output / "checkpoint.json", state)
         run("docker", "rm", "-f", NAME, check=False)
-        cmd = ["docker", "run", "--detach", "--gpus", "all", "--network", "host",
-               "--name", NAME, "--env", f"CUDA_VISIBLE_DEVICES={visible}",
+        requested = [int(part) for part in visible.split(",")] if visible != "-1" else []
+        visibility = (["--gpus", docker_devices(requested, cards)] if requested
+                      else ["--gpus", "all", "--env", "CUDA_VISIBLE_DEVICES=-1"])
+        cmd = ["docker", "run", "--detach", *visibility, "--network", "host",
+               "--name", NAME,
                "--volume", f"{args.model.parent}:/models:ro", "--entrypoint", "/opt/llama/bin/llama-server",
                IMAGE, "--model", f"/models/{args.model.name}", "--host", "127.0.0.1",
                "--port", str(PORT), "--ctx-size", str(args.ctx), "--batch-size", "64",

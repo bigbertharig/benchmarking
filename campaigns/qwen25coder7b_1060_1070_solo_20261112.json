@@ -1,0 +1,136 @@
+{
+  "schema": 2,
+  "name": "qwen25coder7b_1060_1070_solo_20261112",
+  "defaults": {},
+  "cases": [
+    {
+      "id": "1060_a",
+      "state": "ready",
+      "gpus": [
+        1
+      ],
+      "mem_floor_gib": 3,
+      "max_host_drop_gb": 8,
+      "timeout_s": 1200,
+      "freeze": false,
+      "command": [
+        "python3",
+        "scripts/integration/run_ram_offload_comparison.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1060_a",
+        "--model",
+        "/data/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "--ctx",
+        "8192",
+        "--prompt-repeat",
+        "80",
+        "--only-mode",
+        "3090_full",
+        "--visible-gpus",
+        "1",
+        "--load-timeout",
+        "300"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1060_a/terminal.json"
+      ]
+    },
+    {
+      "id": "1070_b",
+      "state": "ready",
+      "gpus": [
+        2
+      ],
+      "mem_floor_gib": 3,
+      "max_host_drop_gb": 8,
+      "timeout_s": 1200,
+      "freeze": false,
+      "command": [
+        "python3",
+        "scripts/integration/run_ram_offload_comparison.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1070_b",
+        "--model",
+        "/data/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "--ctx",
+        "8192",
+        "--prompt-repeat",
+        "80",
+        "--only-mode",
+        "3090_full",
+        "--visible-gpus",
+        "2",
+        "--load-timeout",
+        "300"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1070_b/terminal.json"
+      ]
+    },
+    {
+      "id": "1060_c",
+      "state": "ready",
+      "gpus": [
+        1
+      ],
+      "mem_floor_gib": 3,
+      "max_host_drop_gb": 8,
+      "timeout_s": 1200,
+      "freeze": false,
+      "command": [
+        "python3",
+        "scripts/integration/run_ram_offload_comparison.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1060_c",
+        "--model",
+        "/data/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "--ctx",
+        "8192",
+        "--prompt-repeat",
+        "80",
+        "--only-mode",
+        "3090_full",
+        "--visible-gpus",
+        "1",
+        "--load-timeout",
+        "300"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1060_c/terminal.json"
+      ]
+    },
+    {
+      "id": "1070_d",
+      "state": "ready",
+      "gpus": [
+        2
+      ],
+      "mem_floor_gib": 3,
+      "max_host_drop_gb": 8,
+      "timeout_s": 1200,
+      "freeze": true,
+      "command": [
+        "python3",
+        "scripts/integration/run_ram_offload_comparison.py",
+        "--output",
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1070_d",
+        "--model",
+        "/data/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+        "--ctx",
+        "8192",
+        "--prompt-repeat",
+        "80",
+        "--only-mode",
+        "3090_full",
+        "--visible-gpus",
+        "2",
+        "--load-timeout",
+        "300",
+        "--keep-loaded"
+      ],
+      "outputs": [
+        "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1070_d/terminal.json"
+      ]
+    }
+  ]
+}

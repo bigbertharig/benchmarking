@@ -1,0 +1,35 @@
+{
+  "claim": "qwen25coder7b-solo-1060-1070-20261112-v2",
+  "command": [
+    "python3",
+    "scripts/integration/run_ram_offload_comparison.py",
+    "--output",
+    "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/qwen25coder7b_1060_1070_solo_20261112/1060_c",
+    "--model",
+    "/data/model-hotset/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf",
+    "--ctx",
+    "8192",
+    "--prompt-repeat",
+    "80",
+    "--only-mode",
+    "3090_full",
+    "--visible-gpus",
+    "1",
+    "--load-timeout",
+    "300"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T00:48:10+00:00",
+  "gpus": [
+    1
+  ],
+  "host_before_available_kib": 29725372,
+  "host_min_available_kib": 28966560,
+  "id": "1060_c",
+  "started_at": "2026-11-13T00:47:30+00:00",
+  "status": "passed",
+  "timeout_s": 1200,
+  "trace": false
+}

@@ -1,0 +1,18 @@
+{
+  "finished_at": "2026-11-13T00:48:43+00:00",
+  "manifest_sha256": "801ad854496d6ccbfe64a27b3fe5b5785f57a082cb58ac2d758f791f94d7df66",
+  "reserved_gpus": [
+    1,
+    2
+  ],
+  "run_id": "qwen25coder7b-solo-1060-1070-20261112-v2",
+  "session_claim": "qwen25coder7b-solo-1060-1070-20261112-v2",
+  "stages": {
+    "1060_a": "passed",
+    "1060_c": "passed",
+    "1070_b": "passed",
+    "1070_d": "passed"
+  },
+  "started_at": "2026-11-13T00:46:15+00:00",
+  "status": "passed"
+}
