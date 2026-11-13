@@ -1,6 +1,7 @@
 #include "llama.h"
 #include "ggml-backend.h"
 
+#include <dlfcn.h>
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
@@ -1244,10 +1245,24 @@ int main(int argc, char ** argv) {
     }
     if (std::string(argv[1]) == "moe_one_replay") {
         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
-        if (!source_dir || pair_cap < 210000 || tokens < 16) return 210;
-        chat worker{"worker", "", nullptr, "1"};
+        if (!source_dir || pair_cap < 50000 || tokens < 16) return 210;
+        const char * replay_gpu = std::getenv("KV_REPLAY_CHAT_GPU");
+        const char * worker_gpu = replay_gpu && *replay_gpu ? replay_gpu : "1";
+        const char * trace_depth_env = std::getenv("KV_REPLAY_DEPTH");
+        const int trace_depth = trace_depth_env && *trace_depth_env ? std::atoi(trace_depth_env) : 0;
+        if (trace_depth && trace_depth != 16384 && trace_depth != 32768 && trace_depth != 50000) return 214;
+        const bool trace_cuda = std::getenv("KV_TRACE_CUDA") &&
+            std::string(std::getenv("KV_TRACE_CUDA")) == "1";
+        if (trace_cuda && !trace_depth) return 215;
+        void * cudart = trace_cuda ? dlopen("libcudart.so.12", RTLD_NOW | RTLD_LOCAL) : nullptr;
+        using profiler_fn = int (*)();
+        const auto profiler_start = cudart ? reinterpret_cast<profiler_fn>(dlsym(cudart, "cudaProfilerStart")) : nullptr;
+        const auto profiler_stop = cudart ? reinterpret_cast<profiler_fn>(dlsym(cudart, "cudaProfilerStop")) : nullptr;
+        if (trace_cuda && (!profiler_start || !profiler_stop)) return 216;
+        chat worker{"worker", "", nullptr, worker_gpu};
         if (!add_chat(worker, model, vocab, pair_cap)) return 211;
         for (int depth : {16384, 32768, 50000}) {
+            if (trace_depth && depth != trace_depth) continue;
             const std::string path = std::string(source_dir) + "/worker1_depth" +
                 std::to_string(depth) + ".bin";
             snapshot state;
@@ -1255,10 +1270,15 @@ int main(int argc, char ** argv) {
             state.data.clear();
             state.data.shrink_to_fit();
             const std::string phase = "depth" + std::to_string(depth) + "_worker_solo";
-            if (!measured_parallel(vocab, {&worker}, tokens, phase.c_str())) return 213;
-            std::fprintf(stderr, "ONE_REPLAY_DONE depth=%d gpu=1 tokens=%d\n", depth, tokens);
+            if (trace_cuda && profiler_start() != 0) return 217;
+            const bool generated = measured_parallel(vocab, {&worker}, tokens, phase.c_str());
+            if (trace_cuda && profiler_stop() != 0) return 218;
+            if (!generated) return 213;
+            std::fprintf(stderr, "ONE_REPLAY_DONE depth=%d gpu=%s tokens=%d\n",
+                         depth, worker_gpu, tokens);
             std::fflush(stderr);
         }
+        if (cudart) dlclose(cudart);
         destroy(worker);
         llama_model_free(model);
         return 0;
@@ -1266,6 +1286,17 @@ int main(int argc, char ** argv) {
     if (std::string(argv[1]) == "moe_two_replay") {
         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
         if (!source_dir || pair_cap < 40000 || tokens < 16) return 200;
+        const char * trace_depth_env = std::getenv("KV_REPLAY_DEPTH");
+        const int trace_depth = trace_depth_env && *trace_depth_env ? std::atoi(trace_depth_env) : 0;
+        if (trace_depth && trace_depth != 16384 && trace_depth != 32768 && trace_depth != 50000) return 206;
+        const bool trace_cuda = std::getenv("KV_TRACE_CUDA") &&
+            std::string(std::getenv("KV_TRACE_CUDA")) == "1";
+        if (trace_cuda && !trace_depth) return 207;
+        void * cudart = trace_cuda ? dlopen("libcudart.so.12", RTLD_NOW | RTLD_LOCAL) : nullptr;
+        using profiler_fn = int (*)();
+        const auto profiler_start = cudart ? reinterpret_cast<profiler_fn>(dlsym(cudart, "cudaProfilerStart")) : nullptr;
+        const auto profiler_stop = cudart ? reinterpret_cast<profiler_fn>(dlsym(cudart, "cudaProfilerStop")) : nullptr;
+        if (trace_cuda && (!profiler_start || !profiler_stop)) return 208;
         const char * replay_gpus = std::getenv("KV_REPLAY_CHAT_GPUS");
         const std::string gpu_pair = replay_gpus && *replay_gpus ? replay_gpus : "1,2";
         const size_t comma = gpu_pair.find(',');
@@ -1273,6 +1304,7 @@ int main(int argc, char ** argv) {
         const std::string first_gpu = gpu_pair.substr(0, comma);
         const std::string second_gpu = gpu_pair.substr(comma+1);
         for (int depth : {16384, 32768, 50000}) {
+            if (trace_depth && depth != trace_depth) continue;
             chat main_chat{"main", "", nullptr, first_gpu.c_str()};
             chat secondary{"secondary", "", nullptr, second_gpu.c_str()};
             if (!add_chat(main_chat, model, vocab, pair_cap) ||
@@ -1294,14 +1326,18 @@ int main(int argc, char ** argv) {
             first_state.data.shrink_to_fit();
             second_state.data.clear();
             second_state.data.shrink_to_fit();
-            if (!measured_parallel(vocab, {&main_chat, &secondary}, tokens,
-                                   (prefix + "_two").c_str())) return 204;
+            if (trace_cuda && profiler_start() != 0) return 209;
+            const bool generated = measured_parallel(vocab, {&main_chat, &secondary}, tokens,
+                                                     (prefix + "_two").c_str());
+            if (trace_cuda && profiler_stop() != 0) return 210;
+            if (!generated) return 204;
             std::fprintf(stderr, "TWO_REPLAY_DONE depth=%d chats=2 gpus=%s tokens_each=%d\n",
                          depth, gpu_pair.c_str(), tokens);
             std::fflush(stderr);
             destroy(secondary);
             destroy(main_chat);
         }
+        if (cudart) dlclose(cudart);
         llama_model_free(model);
         return 0;
     }

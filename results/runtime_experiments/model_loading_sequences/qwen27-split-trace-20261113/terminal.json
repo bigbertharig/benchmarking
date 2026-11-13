@@ -1,0 +1,22 @@
+{
+  "finished_at": "2026-11-13T17:11:00+00:00",
+  "manifest_sha256": "5b339e8c2e6ebd9c525172c09e697eb74a215bb686f2a0059ad88d564b2fc41a",
+  "reserved_gpus": [
+    0,
+    1,
+    2
+  ],
+  "run_id": "qwen27-split-trace-20261113",
+  "session_claim": "qwen27-split-trace-20261113",
+  "session_claim_released": true,
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/session_hardware.json",
+  "stages": {
+    "large_1060": "passed",
+    "mid_1060": "passed",
+    "tiny_1060": "passed",
+    "two_after": "passed",
+    "two_before": "passed"
+  },
+  "started_at": "2026-11-13T17:07:10+00:00",
+  "status": "passed"
+}

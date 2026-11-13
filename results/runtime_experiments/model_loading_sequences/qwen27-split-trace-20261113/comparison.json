@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "two_before",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/two_before.json",
+      "stage_seconds": 98.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        1
+      ],
+      "hypothesis": null,
+      "id": "tiny_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/tiny_1060.json",
+      "stage_seconds": 37.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        1
+      ],
+      "hypothesis": null,
+      "id": "mid_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/mid_1060.json",
+      "stage_seconds": 32.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        1
+      ],
+      "hypothesis": null,
+      "id": "large_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/large_1060.json",
+      "stage_seconds": 31.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "two_after",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/two_after.json",
+      "stage_seconds": 31.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "5b339e8c2e6ebd9c525172c09e697eb74a215bb686f2a0059ad88d564b2fc41a",
+  "run_id": "qwen27-split-trace-20261113",
+  "schema": 1,
+  "series_name": "qwen27_split_trace_20261113",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/session_hardware.json",
+  "status": "passed",
+  "updated_at": "2026-11-13T17:11:00+00:00"
+}

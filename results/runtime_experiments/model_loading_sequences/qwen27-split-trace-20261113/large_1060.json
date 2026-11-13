@@ -1,0 +1,33 @@
+{
+  "claim": "qwen27-split-trace-20261113",
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_split_trace.sh",
+    "/data/model-hotset/qwen3.6-27b/Qwen3.6-27B-Q4_K_M.gguf",
+    "50000",
+    "qwen27_split_trace_20261113_large_1060",
+    "64"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_HOST_GPU_IDS",
+    "KV_MODEL_SPLIT",
+    "KV_STATE_SOURCE_DIR"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T17:10:28+00:00",
+  "gpus": [
+    0,
+    2,
+    1
+  ],
+  "host_before_available_kib": 29688640,
+  "host_min_available_kib": 25231696,
+  "id": "large_1060",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-split-trace-20261113/session_hardware.json",
+  "started_at": "2026-11-13T17:09:57+00:00",
+  "status": "passed",
+  "timeout_s": 1800,
+  "trace": false
+}

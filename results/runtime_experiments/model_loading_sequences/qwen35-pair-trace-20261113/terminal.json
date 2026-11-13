@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-13T16:58:17+00:00",
+  "manifest_sha256": "b3040a1f7646604fec960722c01e383ef443deded03e9d6cd6654dd838c3179c",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "run_id": "qwen35-pair-trace-20261113",
+  "session_claim": "qwen35-pair-trace-20261113",
+  "session_claim_released": true,
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-pair-trace-20261113/session_hardware.json",
+  "stages": {
+    "mixed_1070_first": "passed",
+    "two1060_after": "passed",
+    "two1060_before": "passed"
+  },
+  "started_at": "2026-11-13T16:57:13+00:00",
+  "status": "passed"
+}

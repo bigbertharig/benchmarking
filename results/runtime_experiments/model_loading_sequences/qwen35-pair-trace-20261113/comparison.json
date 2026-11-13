@@ -1,0 +1,62 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1,
+        3
+      ],
+      "hypothesis": null,
+      "id": "two1060_before",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-pair-trace-20261113/two1060_before.json",
+      "stage_seconds": 21.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        1
+      ],
+      "hypothesis": null,
+      "id": "mixed_1070_first",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-pair-trace-20261113/mixed_1070_first.json",
+      "stage_seconds": 21.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1,
+        3
+      ],
+      "hypothesis": null,
+      "id": "two1060_after",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-pair-trace-20261113/two1060_after.json",
+      "stage_seconds": 21.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "b3040a1f7646604fec960722c01e383ef443deded03e9d6cd6654dd838c3179c",
+  "run_id": "qwen35-pair-trace-20261113",
+  "schema": 1,
+  "series_name": "qwen35_pair_trace_20261113",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-pair-trace-20261113/session_hardware.json",
+  "status": "passed",
+  "updated_at": "2026-11-13T16:58:17+00:00"
+}

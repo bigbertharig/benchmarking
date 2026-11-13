@@ -1,0 +1,188 @@
+{
+  "chats": {
+    "main": {
+      "phase": "depth50000_two",
+      "used": 50100,
+      "tokens": 64,
+      "seconds": 2.20501,
+      "tps": 29.024818
+    },
+    "secondary": {
+      "phase": "depth50000_two",
+      "used": 50100,
+      "tokens": 64,
+      "seconds": 2.269959,
+      "tps": 28.194347
+    }
+  },
+  "aggregate": {
+    "phase": "depth50000_two",
+    "tokens_each": 64,
+    "seconds": 2.270158,
+    "tps": 56.383752
+  },
+  "devices": {
+    "0": {
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "bus": "0000:01:00.0",
+      "uuid": "409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "host_gpu": 0,
+      "activity_span_ms": 2267.936,
+      "activity_union_ms": 688.054,
+      "activity_gap_ms": 1579.882,
+      "kernels": {
+        "count": 1496,
+        "all_ms": 6.74,
+        "attention_tile_ms": 0.0,
+        "q41_dequant_ms": 0.0,
+        "model_graph_ms": 1124.686
+      },
+      "copies": {
+        "h2d": {
+          "count": 2432,
+          "MB": 59.773,
+          "duration_ms": 7.008
+        },
+        "d2h": {
+          "count": 5248,
+          "MB": 193.987,
+          "duration_ms": 19.174
+        },
+        "d2d": {
+          "count": 0,
+          "MB": 0.0,
+          "duration_ms": 0.0
+        }
+      }
+    },
+    "1": {
+      "name": "NVIDIA GeForce GTX 1070",
+      "bus": "0000:0d:00.0",
+      "uuid": "cc6bc379-2f59-ec6e-00cf-4a9f02d57519",
+      "host_gpu": 2,
+      "activity_span_ms": 2200.845,
+      "activity_union_ms": 1087.138,
+      "activity_gap_ms": 1113.707,
+      "kernels": {
+        "count": 5760,
+        "all_ms": 962.373,
+        "attention_tile_ms": 449.06,
+        "q41_dequant_ms": 499.567,
+        "model_graph_ms": 0.0
+      },
+      "copies": {
+        "h2d": {
+          "count": 2816,
+          "MB": 40.895,
+          "duration_ms": 105.973
+        },
+        "d2h": {
+          "count": 640,
+          "MB": 10.486,
+          "duration_ms": 18.792
+        },
+        "d2d": {
+          "count": 0,
+          "MB": 0.0,
+          "duration_ms": 0.0
+        }
+      }
+    },
+    "2": {
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "bus": "0000:03:00.0",
+      "uuid": "fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "host_gpu": 1,
+      "activity_span_ms": 2247.283,
+      "activity_union_ms": 1494.899,
+      "activity_gap_ms": 752.384,
+      "kernels": {
+        "count": 5760,
+        "all_ms": 1369.93,
+        "attention_tile_ms": 633.721,
+        "q41_dequant_ms": 722.919,
+        "model_graph_ms": 0.0
+      },
+      "copies": {
+        "h2d": {
+          "count": 2816,
+          "MB": 40.895,
+          "duration_ms": 106.21
+        },
+        "d2h": {
+          "count": 640,
+          "MB": 10.486,
+          "duration_ms": 18.759
+        },
+        "d2d": {
+          "count": 0,
+          "MB": 0.0,
+          "duration_ms": 0.0
+        }
+      }
+    }
+  },
+  "runtime_api_top": [
+    {
+      "name": "cudaStreamSynchronize_v3020",
+      "count": 11264,
+      "total_ms": 4071.448
+    },
+    {
+      "name": "cudaGraphLaunch_v10000",
+      "count": 1397,
+      "total_ms": 56.904
+    },
+    {
+      "name": "cudaMemcpyPeerAsync_v4000",
+      "count": 6400,
+      "total_ms": 53.603
+    },
+    {
+      "name": "cudaLaunchKernel_v7000",
+      "count": 14512,
+      "total_ms": 40.785
+    },
+    {
+      "name": "cudaGetDeviceProperties_v2_v12000",
+      "count": 30,
+      "total_ms": 12.296
+    },
+    {
+      "name": "cudaEventRecord_v3020",
+      "count": 6400,
+      "total_ms": 10.449
+    },
+    {
+      "name": "cudaStreamWaitEvent_v3020",
+      "count": 6400,
+      "total_ms": 10.361
+    },
+    {
+      "name": "cudaMemcpyAsync_v3020",
+      "count": 1792,
+      "total_ms": 6.263
+    },
+    {
+      "name": "cudaGraphInstantiate_v12000",
+      "count": 11,
+      "total_ms": 5.639
+    },
+    {
+      "name": "cuMemSetAccess",
+      "count": 2,
+      "total_ms": 0.226
+    },
+    {
+      "name": "cudaGraphExecUpdate_v10020",
+      "count": 11,
+      "total_ms": 0.141
+    },
+    {
+      "name": "cuMemCreate",
+      "count": 2,
+      "total_ms": 0.069
+    }
+  ],
+  "note": "CUDA activity intervals can overlap; kernel and copy duration sums are not a wall-time decomposition. Runtime API sums can also overlap across CPU threads."
+}

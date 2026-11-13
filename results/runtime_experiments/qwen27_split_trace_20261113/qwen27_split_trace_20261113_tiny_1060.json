@@ -1,0 +1,181 @@
+{
+  "model_placement": {
+    "cuda_devices": "0,1,2",
+    "split": "8,1.75,0.25"
+  },
+  "decode": {
+    "phase": "depth50000_worker_solo",
+    "chat": "worker",
+    "used": 50100,
+    "tokens": 64,
+    "seconds": 3.573886,
+    "tps": 17.907677,
+    "first_ms": 186.133,
+    "p50_ms": 53.542,
+    "p95_ms": 54.135
+  },
+  "devices": {
+    "0": {
+      "host_gpu": 0,
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "bus": "0000:01:00.0",
+      "uuid": "409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "model_buffer_mib": 11538.38,
+      "kernel_count": 1422,
+      "kernel_duration_ms": 19.997,
+      "top_kernels": [
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)12, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 95,
+          "duration_ms": 7.776
+        },
+        {
+          "name": "void flash_attn_ext_f16<(int)256, (int)256, (int)1, (int)8, (bool)0, (bool)0, (bool)0>(const char *, const char *, const char *, const char *, const char *, const int *, float *, float2 *, float, float, float, float, unsigned int, float, int, uint3, int, int, int, int, int, int, int, int, int, int, int, long, int, int, long, int, int, int, int, int, long)",
+          "count": 16,
+          "duration_ms": 3.555
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)12, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 95,
+          "duration_ms": 2.329
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)14, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 22,
+          "duration_ms": 1.824
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)13, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 39,
+          "duration_ms": 0.974
+        }
+      ],
+      "copies": {
+        "h2d": {
+          "count": 1344,
+          "MB": 25.89,
+          "duration_ms": 3.13
+        },
+        "d2h": {
+          "count": 256,
+          "MB": 6.029,
+          "duration_ms": 0.624
+        },
+        "d2d": {
+          "count": 0,
+          "MB": 0.0,
+          "duration_ms": 0.0
+        }
+      },
+      "d2h_993280_byte_copies": {
+        "count": 0,
+        "duration_ms": 0.0
+      }
+    },
+    "1": {
+      "host_gpu": 2,
+      "name": "NVIDIA GeForce GTX 1070",
+      "bus": "0000:0d:00.0",
+      "uuid": "cc6bc379-2f59-ec6e-00cf-4a9f02d57519",
+      "model_buffer_mib": 2812.63,
+      "kernel_count": 19840,
+      "kernel_duration_ms": 1249.416,
+      "top_kernels": [
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)12, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 1024,
+          "duration_ms": 473.456
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)14, (int)1, (bool)1, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 640,
+          "duration_ms": 317.836
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)12, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 1152,
+          "duration_ms": 142.479
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)14, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 640,
+          "duration_ms": 136.831
+        },
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)13, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 576,
+          "duration_ms": 75.497
+        }
+      ],
+      "copies": {
+        "h2d": {
+          "count": 448,
+          "MB": 6.031,
+          "duration_ms": 16.06
+        },
+        "d2h": {
+          "count": 832,
+          "MB": 16.843,
+          "duration_ms": 33.336
+        },
+        "d2d": {
+          "count": 0,
+          "MB": 0.0,
+          "duration_ms": 0.0
+        }
+      },
+      "d2h_993280_byte_copies": {
+        "count": 0,
+        "duration_ms": 0.0
+      }
+    },
+    "2": {
+      "host_gpu": 1,
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "bus": "0000:03:00.0",
+      "uuid": "fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "model_buffer_mib": 994.65,
+      "kernel_count": 192,
+      "kernel_duration_ms": 598.972,
+      "top_kernels": [
+        {
+          "name": "void mul_mat_vec_q<(ggml_type)14, (int)1, (bool)0, (bool)0, (bool)0>(const void *, const void *, const int *, ggml_cuda_mm_fusion_args_device, float *, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, uint3, unsigned int, unsigned int, unsigned int, unsigned int)",
+          "count": 64,
+          "duration_ms": 598.76
+        },
+        {
+          "name": "void k_bin_bcast<&op_mul, float, float, float, const float *>(const T2 *, const T3 *, T4 *, unsigned int, unsigned int, unsigned int, uint3, uint3, uint3, uint3, uint3, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, T5...)",
+          "count": 64,
+          "duration_ms": 0.116
+        },
+        {
+          "name": "quantize_q8_1(const float *, void *, long, long, long, long, long, unsigned int, uint3)",
+          "count": 64,
+          "duration_ms": 0.096
+        }
+      ],
+      "copies": {
+        "h2d": {
+          "count": 64,
+          "MB": 1.311,
+          "duration_ms": 3.427
+        },
+        "d2h": {
+          "count": 64,
+          "MB": 63.57,
+          "duration_ms": 151.369
+        },
+        "d2d": {
+          "count": 0,
+          "MB": 0.0,
+          "duration_ms": 0.0
+        }
+      },
+      "d2h_993280_byte_copies": {
+        "count": 64,
+        "duration_ms": 151.369
+      }
+    }
+  },
+  "note": "Kernel and copy durations are summed GPU activities, not a wall-time decomposition. D2H/H2D are CUPTI copy directions; a direct peer endpoint is not inferred."
+}

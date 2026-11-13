@@ -22,10 +22,14 @@ In the matched 35B worker trace, summed 50K worker attention time fell from **63
 
 The first [link pilot](../gpu_link_paths_20261112/) and first [worker trace pilot](../model_loading_sequences/qwen35-worker-card-trace-20261112/terminal.json) used CUDA ordinals as though they were host indexes; **do not cite their physical-card labels**. The UUID and PCI corrected v2 results above replace them. All receipts remain for audit.
 
-## Next focused questions
+## Follow-up traces (2026-11-13)
 
-1. Trace both workers **simultaneously** during the 1060+1070 pair. Compare GPU0 graph queueing, each worker kernel and copy timeline, and CPU scheduling with the two-1060 control. This isolates the shared-load penalty seen with the 1070 secondary.
-2. For the 27B weight split, measure actual bytes and launch count over the 1060 x1 link as its share grows. Distinguish extra transfer from compute before designing a placement rule.
+The [simultaneous 35B worker trace](../qwen35_pair_trace_20261113/README.md) answers question 1 below: a 1070 executes the tile and dequant kernels faster, but the mixed pair has longer activity gaps and finishes about 8.2% later than stable 1060+1060 controls. Worker copy volume is unchanged. The trace does not capture CPU scheduling, so the idle-time cause remains open. The [27B split trace](../qwen27_split_trace_20261113/README.md) answers question 2: 1060 kernel work and launch count grow with its weight share, while total worker D2H volume stays nearly fixed as transfers move from 1070 to 1060. Both runs passed and released their session claims; their raw profiles remain in the shared experiment directory.
+
+## Further focused questions
+
+1. Capture CPU scheduling and CUDA API correlation for the mixed 35B pair to identify the source of the longer activity gaps.
+2. Compare nonuniform 27B layer assignments at equal 1060 weight size to determine whether the first assigned layer, rather than total bytes, drives the entry cost.
 3. Keep CUDA kernel/build and saved state fixed when comparing card speed. The fallback and tile builds give different rankings, so a single card label is not a transferable performance rule. Use live UUID/PCI mapping for any swapped rig hardware.
 
 The shared [tier diagnostics](../../../TIER_DIAGNOSTICS_AND_TEST_SERIES.md) describes the reusable inventory, trace, series, and receipt workflow. These are capability and bottleneck measurements, not a Manager load policy.
