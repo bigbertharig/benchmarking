@@ -1,0 +1,23 @@
+{
+  "0": {
+    "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+    "name": "NVIDIA GeForce RTX 3090 Ti",
+    "total_mib": 24564,
+    "used_mib": 19,
+    "power_limit_w": 350.0
+  },
+  "1": {
+    "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+    "name": "NVIDIA GeForce GTX 1060 6GB",
+    "total_mib": 6144,
+    "used_mib": 4,
+    "power_limit_w": 100.0
+  },
+  "2": {
+    "uuid": "GPU-cc6bc379-2f59-ec6e-00cf-4a9f02d57519",
+    "name": "NVIDIA GeForce GTX 1070",
+    "total_mib": 8192,
+    "used_mib": 6,
+    "power_limit_w": 151.0
+  }
+}

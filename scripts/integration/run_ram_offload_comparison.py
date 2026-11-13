@@ -97,12 +97,16 @@ def main() -> int:
                     help="seconds to wait for server readiness (default: 240)")
     ap.add_argument("--visible-gpus", help="override visible GPU IDs for a selected placement")
     ap.add_argument("--tensor-split", help="explicit llama.cpp split for a multi-GPU placement")
+    ap.add_argument("--min-selected-vram-mib", type=int, default=512,
+                    help="minimum observed VRAM increase on every selected card (default: 512)")
     ap.add_argument("--keep-loaded", action="store_true", help="leave the successful sole mode container running")
     args = ap.parse_args()
     if args.ctx < 512:
         ap.error("--ctx must be at least 512")
     if args.prompt_repeat < 1:
         ap.error("--prompt-repeat must be positive")
+    if args.min_selected_vram_mib < 1:
+        ap.error("--min-selected-vram-mib must be positive")
     if args.keep_loaded and not args.only_mode:
         ap.error("--keep-loaded requires --only-mode")
     modes = tuple(mode for mode in MODES if not args.only_mode or mode[0] == args.only_mode)
@@ -191,7 +195,7 @@ def main() -> int:
                      zip(row["gpu_memory_before_load_mib"], row["gpu_memory_after_load_mib"])]
             row["gpu_memory_delta_mib"] = delta
             wrong = [index for index, change in enumerate(delta)
-                     if (index in requested and change < 512)
+                     if (index in requested and change < args.min_selected_vram_mib)
                      or (index not in requested and change > 256)]
             if wrong:
                 raise RuntimeError(f"loaded GPU placement differs from requested UUIDs at IDs {wrong}: {delta}")

@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-13T01:05:41+00:00",
+  "manifest_sha256": "7a5e1a7d9fd124275ffd5625bdf83996df4d41f95ab1f36c2e6e691ae85a7bce",
+  "reserved_gpus": [
+    0,
+    1,
+    2
+  ],
+  "run_id": "qwen35-worker-card-trace-20261112",
+  "session_claim": "qwen35-worker-card-trace-20261112",
+  "stages": {
+    "d16384_g1_1": "passed",
+    "d16384_g1_2": "passed",
+    "d16384_g2_1": "passed",
+    "d50000_g1_1": "passed",
+    "d50000_g1_2": "passed",
+    "d50000_g2_1": "passed"
+  },
+  "started_at": "2026-11-13T01:03:56+00:00",
+  "status": "passed"
+}

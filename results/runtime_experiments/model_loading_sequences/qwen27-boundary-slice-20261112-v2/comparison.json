@@ -1,0 +1,93 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "two_before",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-boundary-slice-20261112-v2/two_before.json",
+      "stage_seconds": 111.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "hypothesis": null,
+      "id": "small_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-boundary-slice-20261112-v2/small_1060.json",
+      "stage_seconds": 112.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "hypothesis": null,
+      "id": "mid_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-boundary-slice-20261112-v2/mid_1060.json",
+      "stage_seconds": 117.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "hypothesis": null,
+      "id": "large_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-boundary-slice-20261112-v2/large_1060.json",
+      "stage_seconds": 118.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "two_after",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-boundary-slice-20261112-v2/two_after.json",
+      "stage_seconds": 111.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "bb049ccc15056933be27ad7c53a8da2dbcdda433c0789f471b07fda2cf938ec0",
+  "run_id": "qwen27-boundary-slice-20261112-v2",
+  "schema": 1,
+  "series_name": "qwen27_boundary_slice_20261112_v2",
+  "status": "passed",
+  "updated_at": "2026-11-13T01:30:01+00:00"
+}

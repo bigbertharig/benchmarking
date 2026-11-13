@@ -1,0 +1,106 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "d16384_g1_1",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-trace-20261112/d16384_g1_1.json",
+      "stage_seconds": 17.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "d16384_g2_1",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-trace-20261112/d16384_g2_1.json",
+      "stage_seconds": 18.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "d16384_g1_2",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-trace-20261112/d16384_g1_2.json",
+      "stage_seconds": 15.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "d50000_g1_1",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-trace-20261112/d50000_g1_1.json",
+      "stage_seconds": 20.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "d50000_g2_1",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-trace-20261112/d50000_g2_1.json",
+      "stage_seconds": 17.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "d50000_g1_2",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-trace-20261112/d50000_g1_2.json",
+      "stage_seconds": 18.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "7a5e1a7d9fd124275ffd5625bdf83996df4d41f95ab1f36c2e6e691ae85a7bce",
+  "run_id": "qwen35-worker-card-trace-20261112",
+  "schema": 1,
+  "series_name": "qwen35_worker_card_trace_20261112",
+  "status": "passed",
+  "updated_at": "2026-11-13T01:05:41+00:00"
+}

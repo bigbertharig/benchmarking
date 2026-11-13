@@ -1,9 +1,34 @@
 # Tier diagnostics and test series
 
-Use this workflow to compare model and chat placement across the 3090, 1060s,
+Use this workflow to compare model and chat placement across the scanned GPUs,
 RAM, and NVMe. It adds a common measurement layer to the existing experiment
 scripts. Keep the engine-specific receipt: the shared trace cannot infer tensor
 residence, cache hits, token counts, or PCIe byte traffic by itself.
+
+## Physical GPU identity and reusable probes
+
+Host `nvidia-smi` indexes are physical selectors. Docker CUDA ordinals can differ
+even with `--gpus all`: on the November 12 rig, host GPU1 is a 1060 but CUDA1
+is the host GPU2 1070. Select cards by UUID and save the live index, UUID, and
+PCI bus ID for every run. `cuda_device_map.py` maps requested host GPUs to
+container CUDA ordinals by PCI bus; `hardware_inventory.py` scans the live
+cards. Treat a run labeled only by a CUDA number as physically ambiguous.
+
+The reusable [link probe](scripts/integration/run_cuda_link_probe.py) measures
+pinned host-to-device and device-to-host copies and reports peer capability.
+The [35B worker trace wrapper](scripts/integration/run_qwen35_decode_trace.sh)
+accepts `KV_MODEL_HOST_GPU` and `KV_REPLAY_CHAT_HOST_GPU`, selects their UUIDs,
+and profiles the worker kernels. `summarize_nsys_decode.py` reduces Nsight
+SQLite output to compact timing JSON. The [chat replay wrapper](scripts/integration/run_qwen27_chat_latency.sh)
+accepts `KV_HOST_GPU_IDS` and `KV_REPLAY_CHAT_HOST_GPUS`; use those for split
+weights and concurrent chats. `run_ram_offload_comparison.py` accepts
+`--min-selected-vram-mib` for deliberately small but real weight slices.
+The named 35B and 27B replay modes still require their model-specific build
+and saved states; these wrappers make hardware selection and diagnostics
+reusable without claiming a model-independent replay engine.
+
+See the [November 12 bottleneck study](results/runtime_experiments/gpu_bottleneck_study_20261112/README.md)
+for the matched examples and the corrected physical-card mapping.
 
 ## A measured case
 

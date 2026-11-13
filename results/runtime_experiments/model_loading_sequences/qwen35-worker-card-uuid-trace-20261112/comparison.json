@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "d16384_host1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-uuid-trace-20261112/d16384_host1060.json",
+      "stage_seconds": 15.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "d16384_host1070",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-uuid-trace-20261112/d16384_host1070.json",
+      "stage_seconds": 14.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "d50000_host1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-uuid-trace-20261112/d50000_host1060.json",
+      "stage_seconds": 15.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "d50000_host1070",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-card-uuid-trace-20261112/d50000_host1070.json",
+      "stage_seconds": 16.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "109c23046d11cb4a1fffabeec22a7b0ed297f065c8b7f020421eafe401d415e0",
+  "run_id": "qwen35-worker-card-uuid-trace-20261112",
+  "schema": 1,
+  "series_name": "qwen35_worker_card_uuid_trace_20261112",
+  "status": "passed",
+  "updated_at": "2026-11-13T01:14:39+00:00"
+}

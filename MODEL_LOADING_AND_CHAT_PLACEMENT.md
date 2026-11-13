@@ -1,14 +1,16 @@
 # Model loading and chat placement
 
 This is the entry point for open-ended experiments with model components and
-independent chats across the RTX 3090 Ti, five GTX 1060s, host RAM, and local
-storage. The broad goal is to load larger models and make them useful at better
+independent chats across the RTX 3090 Ti, GTX 1070, four GTX 1060s, host
+RAM, and local storage. The broad goal is to load larger models and make them useful at better
 speeds. We are exploring placements, chat behavior, tensor layouts, caching,
 and runtime designs; no single layout or Manager procedure is the target yet.
 The order of experiments can change when a result suggests a better question.
 
 For common GPU/RAM/NVMe traces and back-to-back case scheduling, see
 [Tier diagnostics and test series](TIER_DIAGNOSTICS_AND_TEST_SERIES.md).
+
+The [3090/1060/1070 bottleneck study](results/runtime_experiments/gpu_bottleneck_study_20261112/README.md) compares physical card compute, x1 links, split-model weight placement, and two-chat contention. It also corrects a CUDA-ordinal mismatch in an earlier 35B comparison.
 
 The latest [Qwen3.8 Q4 128K-cap KV comparison](results/runtime_experiments/model_loading_sequences/q38-q4-128k-kv-20261111/README.md) records INT8, K8V4, and Q4_0 timing, expert-cache capacity, NVMe reads, and small scored answers at 16K/32K/50K occupied depth.
 

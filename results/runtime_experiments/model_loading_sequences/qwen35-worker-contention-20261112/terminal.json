@@ -1,0 +1,19 @@
+{
+  "finished_at": "2026-11-13T01:32:38+00:00",
+  "manifest_sha256": "101b745982ba39e512fa5ee29ebe64802d729006871c56f2a2d07fd060e1e085",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "run_id": "qwen35-worker-contention-20261112",
+  "session_claim": "qwen35-worker-contention-20261112",
+  "stages": {
+    "mixed_1060_1070": "passed",
+    "two1060_after": "passed",
+    "two1060_before": "passed"
+  },
+  "started_at": "2026-11-13T01:31:02+00:00",
+  "status": "passed"
+}

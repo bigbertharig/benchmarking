@@ -1,0 +1,58 @@
+{
+  "phase": "depth50000_worker_solo",
+  "chat": "worker",
+  "occupied": 50100,
+  "tokens": 64,
+  "wall_seconds": 2.149044,
+  "tok_s": 29.780679,
+  "devices": {
+    "0": "NVIDIA GeForce RTX 3090 Ti",
+    "1": "NVIDIA GeForce GTX 1060 6GB"
+  },
+  "worker_cuda": 1,
+  "model_cuda": 0,
+  "worker_kernels_ms": {
+    "all": 1370.209,
+    "attention_tile": 633.613,
+    "attention_vector": 0.0,
+    "q41_dequant": 723.251
+  },
+  "model_graph_ms": 370.946,
+  "copies": {
+    "cuda0_h2d": {
+      "count": 1216,
+      "MB": 29.886,
+      "duration_ms": 3.306
+    },
+    "cuda0_d2h": {
+      "count": 2624,
+      "MB": 96.993,
+      "duration_ms": 9.546
+    },
+    "cuda0_d2d": {
+      "count": 0,
+      "MB": 0.0,
+      "duration_ms": 0.0
+    },
+    "cuda1_h2d": {
+      "count": 2816,
+      "MB": 40.895,
+      "duration_ms": 106.228
+    },
+    "cuda1_d2h": {
+      "count": 640,
+      "MB": 10.486,
+      "duration_ms": 18.789
+    },
+    "cuda1_d2d": {
+      "count": 0,
+      "MB": 0.0,
+      "duration_ms": 0.0
+    }
+  },
+  "device_activity_union_ms": {
+    "cuda0": 390.279,
+    "cuda1": 1495.226
+  },
+  "note": "Kernel, graph, and copy duration sums can overlap; activity union is per device, not a wall-time decomposition."
+}

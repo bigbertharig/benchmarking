@@ -32,6 +32,24 @@ if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode"
 fi
 date -u +%FT%TZ > "$base/$label.start"
 rm -f "$base/$label.exit"
+nvidia-smi --query-gpu=index,uuid,name,pci.bus_id,memory.total --format=csv,noheader > "$base/$label.host_inventory.csv"
+gpu_args=(--gpus all)
+if [ -n "${KV_HOST_GPU_IDS-}" ]; then
+  IFS=, read -ra host_gpu_ids <<< "$KV_HOST_GPU_IDS"
+  gpu_uuids=()
+  for host_gpu in "${host_gpu_ids[@]}"; do
+    uuid=$(nvidia-smi --id "$host_gpu" --query-gpu=uuid --format=csv,noheader) || exit 82
+    gpu_uuids+=("$uuid")
+  done
+  joined=$(IFS=,; echo "${gpu_uuids[*]}")
+  gpu_args=(--gpus "\"device=$joined\"")
+  printf '%s\n' "${host_gpu_ids[@]}" > "$base/$label.selected_host_gpus.txt"
+  printf '%s\n' "${gpu_uuids[@]}" > "$base/$label.selected_uuids.txt"
+  if [ -n "${KV_REPLAY_CHAT_HOST_GPUS-}" ]; then
+    chat_cuda=$(python3 scripts/integration/cuda_device_map.py --host-gpus "$KV_HOST_GPU_IDS" --chat-host-gpus "$KV_REPLAY_CHAT_HOST_GPUS" --output "$base/$label.cuda_map.json") || exit 86
+    export KV_REPLAY_CHAT_GPUS="$chat_cuda"
+  fi
+fi
 nvidia-smi --query-gpu=timestamp,index,memory.used,utilization.gpu --format=csv,noheader -l 1 > "$base/$label.gpu.csv" 2>&1 &
 sampler=$!
 nvidia-smi dmon -s t -d 1 > "$base/$label.pcie.txt" 2>&1 &
@@ -58,7 +76,7 @@ finish_run() {
 trap finish_run EXIT
 trap 'exit 143' TERM
 trap 'exit 130' INT
-docker run --rm --gpus all --network none \
+docker run --rm "${gpu_args[@]}" --network none \
   -v "$build:/build:ro" -v "$model:/model.gguf:ro" \
   -v "$base:/state" -e "KV_STATE_DIR=/state/$label.states" \
   -e "KV_STATE_SOURCE_DIR=${KV_STATE_SOURCE_DIR-}" \

@@ -1,0 +1,93 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "two_before",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-boundary-slice-20261112/two_before.json",
+      "stage_seconds": 112.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "hypothesis": null,
+      "id": "tiny_1060",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen27-boundary-slice-20261112/tiny_1060.json",
+      "stage_seconds": 47.0,
+      "status": "failed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "hypothesis": null,
+      "id": "mid_1060",
+      "label": null,
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2,
+        3
+      ],
+      "hypothesis": null,
+      "id": "large_1060",
+      "label": null,
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "two_after",
+      "label": null,
+      "placement": null,
+      "receipt": null,
+      "stage_seconds": null,
+      "status": "pending",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "2a4cc026acdc034683502d6b8643434dac6df510028ff6001524e5228e1fa383",
+  "run_id": "qwen27-boundary-slice-20261112",
+  "schema": 1,
+  "series_name": "qwen27_boundary_slice_20261112",
+  "status": "failed",
+  "updated_at": "2026-11-13T01:19:10+00:00"
+}

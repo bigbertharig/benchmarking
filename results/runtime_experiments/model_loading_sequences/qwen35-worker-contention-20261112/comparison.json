@@ -1,0 +1,61 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1,
+        3
+      ],
+      "hypothesis": null,
+      "id": "two1060_before",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-contention-20261112/two1060_before.json",
+      "stage_seconds": 41.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1,
+        2
+      ],
+      "hypothesis": null,
+      "id": "mixed_1060_1070",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-contention-20261112/mixed_1060_1070.json",
+      "stage_seconds": 27.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1,
+        3
+      ],
+      "hypothesis": null,
+      "id": "two1060_after",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-worker-contention-20261112/two1060_after.json",
+      "stage_seconds": 28.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "101b745982ba39e512fa5ee29ebe64802d729006871c56f2a2d07fd060e1e085",
+  "run_id": "qwen35-worker-contention-20261112",
+  "schema": 1,
+  "series_name": "qwen35_worker_contention_20261112",
+  "status": "passed",
+  "updated_at": "2026-11-13T01:32:38+00:00"
+}

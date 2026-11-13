@@ -1,0 +1,20 @@
+{
+  "finished_at": "2026-11-13T01:30:01+00:00",
+  "manifest_sha256": "bb049ccc15056933be27ad7c53a8da2dbcdda433c0789f471b07fda2cf938ec0",
+  "reserved_gpus": [
+    0,
+    2,
+    3
+  ],
+  "run_id": "qwen27-boundary-slice-20261112-v2",
+  "session_claim": "qwen27-boundary-slice-20261112-v2",
+  "stages": {
+    "large_1060": "passed",
+    "mid_1060": "passed",
+    "small_1060": "passed",
+    "two_after": "passed",
+    "two_before": "passed"
+  },
+  "started_at": "2026-11-13T01:20:32+00:00",
+  "status": "passed"
+}

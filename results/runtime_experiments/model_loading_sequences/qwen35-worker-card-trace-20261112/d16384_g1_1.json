@@ -1,0 +1,29 @@
+{
+  "claim": "qwen35-worker-card-trace-20261112",
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen35_decode_trace.sh",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "16384",
+    "qwen35_worker_card_trace_20261112_d16384_g1_1",
+    "64"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_REPLAY_CHAT_GPU"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T01:04:13+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29665624,
+  "host_min_available_kib": 27768680,
+  "id": "d16384_g1_1",
+  "started_at": "2026-11-13T01:03:56+00:00",
+  "status": "passed",
+  "timeout_s": 1800,
+  "trace": false
+}

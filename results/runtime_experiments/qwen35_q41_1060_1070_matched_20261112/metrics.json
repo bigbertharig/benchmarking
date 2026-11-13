@@ -328,5 +328,16 @@
       "p50_ms": 42.348,
       "p95_ms": 45.856
     }
-  ]
+  ],
+  "_physical_mapping_correction": {
+    "cuda_0": "host_0_3090",
+    "cuda_1": "host_2_1070",
+    "cuda_2": "host_1_1060",
+    "stages": {
+      "1060_before": "main_physically_1070",
+      "1070": "main_physically_1060",
+      "1060_after": "main_physically_1070"
+    },
+    "note": "Stage names are historical labels and must not be used as physical card identity."
+  }
 }

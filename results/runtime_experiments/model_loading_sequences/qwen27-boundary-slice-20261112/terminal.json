@@ -1,0 +1,21 @@
+{
+  "failures": [
+    "tiny_1060"
+  ],
+  "finished_at": "2026-11-13T01:19:10+00:00",
+  "manifest_sha256": "2a4cc026acdc034683502d6b8643434dac6df510028ff6001524e5228e1fa383",
+  "reason": "exit 1; see tiny_1060.log",
+  "reserved_gpus": [
+    0,
+    2,
+    3
+  ],
+  "run_id": "qwen27-boundary-slice-20261112",
+  "session_claim": "qwen27-boundary-slice-20261112",
+  "stages": {
+    "tiny_1060": "failed",
+    "two_before": "passed"
+  },
+  "started_at": "2026-11-13T01:16:31+00:00",
+  "status": "failed"
+}
