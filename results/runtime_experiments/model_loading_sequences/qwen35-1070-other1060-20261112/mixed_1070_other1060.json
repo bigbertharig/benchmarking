@@ -1,0 +1,39 @@
+{
+  "claim": "qwen35-1070-other1060-20261112",
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_two_replay",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "256",
+    "qwen35_1060_1070_longdecode_20261112_mixed_1070_other1060"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [
+    "KV_BUILD_DIR",
+    "KV_HOST_GPU_IDS",
+    "KV_K_TYPE",
+    "KV_REPLAY_CHAT_HOST_GPUS",
+    "KV_SAMPLE_DETAIL",
+    "KV_STATE_SOURCE_DIR",
+    "KV_V_TYPE"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-13T03:01:23+00:00",
+  "gpus": [
+    0,
+    2,
+    3
+  ],
+  "host_before_available_kib": 29690016,
+  "host_min_available_kib": 27978276,
+  "id": "mixed_1070_other1060",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-1070-other1060-20261112/session_hardware.json",
+  "started_at": "2026-11-13T03:00:28+00:00",
+  "status": "passed",
+  "timeout_s": 2400,
+  "trace": false
+}

@@ -442,6 +442,14 @@ def main():
             break
     else:
         summary['status'] = 'completed_with_failures' if failures else 'passed'
+    if (args.session_gpus == 'auto' and not args.claim and claim
+            and all(not stage.get('freeze') for stage in manifest['stages'])):
+        try:
+            manager('unclaim', claim)
+            summary['session_claim_released'] = True
+        except Exception as exc:
+            summary['status'] = 'failed'
+            summary['reason'] = f'failed to release session claim {claim}: {exc}'
     summary['finished_at'] = stamp()
     atomic_json(terminal, summary)
     write_comparison(folder, source, manifest, summary)

@@ -1,0 +1,21 @@
+{
+  "finished_at": "2026-11-13T02:53:38+00:00",
+  "manifest_sha256": "9feee110567fb11e47fb0330eba76ad57830eaf94ce14e2fe49c8625815fca3b",
+  "reserved_gpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "run_id": "qwen35-1060-1070-longdecode-20261112",
+  "session_claim": "qwen35-1060-1070-longdecode-20261112",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-1060-1070-longdecode-20261112/session_hardware.json",
+  "stages": {
+    "mixed_1060_first": "passed",
+    "mixed_1070_first": "passed",
+    "two1060_after": "passed",
+    "two1060_before": "passed"
+  },
+  "started_at": "2026-11-13T02:49:54+00:00",
+  "status": "passed"
+}

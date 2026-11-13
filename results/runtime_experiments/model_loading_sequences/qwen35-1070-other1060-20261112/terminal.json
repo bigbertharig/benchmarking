@@ -1,0 +1,17 @@
+{
+  "finished_at": "2026-11-13T03:01:23+00:00",
+  "manifest_sha256": "aa4987ca40799cc1f4ecd99ec98cc2e7b5e358e3550ea69cd98961259eb1a2e8",
+  "reserved_gpus": [
+    0,
+    2,
+    3
+  ],
+  "run_id": "qwen35-1070-other1060-20261112",
+  "session_claim": "qwen35-1070-other1060-20261112",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-1070-other1060-20261112/session_hardware.json",
+  "stages": {
+    "mixed_1070_other1060": "passed"
+  },
+  "started_at": "2026-11-13T03:00:28+00:00",
+  "status": "passed"
+}
