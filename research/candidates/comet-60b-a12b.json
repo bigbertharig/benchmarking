@@ -1,0 +1,70 @@
+{
+    "model_id": "comet:60b-a12b",
+    "reviewed_at": "2026-11-13",
+    "decision": "trial",
+    "decision_reason": "Released open weights and an obtainable 42.6 GB text-only Q4 GGUF; official BF16 results suggest a strong 60B-class capacity model worth comparing with local Nemotron 3.5 Bolt.",
+    "official_model_url": "https://huggingface.co/MultiverseComputingCAI/Comet_60B_A12B_BF16",
+    "upstream_model_id": "MultiverseComputingCAI/Comet_60B_A12B_BF16",
+    "release_status": "released_weights",
+    "license": "OpenMDW-1.1",
+    "weights_url": "https://huggingface.co/MultiverseComputingCAI/Comet_60B_A12B_BF16",
+    "quant_url": "https://huggingface.co/Felladrin/gguf-Q4_K_M-Comet-60B-A12B/resolve/main/Comet-60B-A12B-Q4_K_M.gguf",
+    "quant_file": "Comet-60B-A12B-Q4_K_M.gguf",
+    "quant_size_gb": 42.620073472,
+    "quant_size_bytes": 42620073472,
+    "quant_sha256": "94165975b1017ce0b0032d4c2be4f0ece94d429b53689e50c20cfeab27544081",
+    "target_lane": "capacity / independent multi-chat model candidate",
+    "fit_estimate": "Q4 file is 42.62 GB decimal (39.7 GiB) before KV and compute buffers. Requires a multi-card split on the current rig; proposed future eight 8GB GTX 1070s offer 64GB nominal distributed VRAM, but per-card fit and chat count remain unvalidated. Archive on the 4TB Pi shared drive has about 2.4TB free at review.",
+    "local_comparator": "nemotron-3.5-bolt:74b-a9b",
+    "test_question": "Can text-only Comet Q4 fully offload on the available rig GPUs, and how do its correctness, throughput and simultaneous-chat capacity compare with the installed Nemotron Q3 under matched local tests?",
+    "public_evidence": [
+        {
+            "benchmark": "GPQA Diamond",
+            "score": 88.64,
+            "variant": "Comet 60B BF16",
+            "source": "official model card",
+            "harness": "NeMo Gym",
+            "samples_repeats": "198 x 8",
+            "prompting_tools_reasoning": "See official model card; no tools reported",
+            "reported_at": "2026-10",
+            "comparability": "directional only for Q4 GGUF"
+        },
+        {
+            "benchmark": "Terminal-Bench 2.1",
+            "score": 55.76,
+            "variant": "Comet 60B BF16",
+            "source": "official model card",
+            "harness": "NeMo Gym, Terminus-2 agent",
+            "samples_repeats": "89 x 8",
+            "prompting_tools_reasoning": "Agent harness; see official model card",
+            "reported_at": "2026-10",
+            "comparability": "directional only for Q4 GGUF"
+        },
+        {
+            "benchmark": "SWE-bench Verified",
+            "score": 70.0,
+            "variant": "Comet 60B BF16",
+            "source": "official model card",
+            "harness": "NeMo Gym, OpenCode agent",
+            "samples_repeats": "500 x 3",
+            "prompting_tools_reasoning": "Agent harness; see official model card",
+            "reported_at": "2026-10",
+            "comparability": "directional only for Q4 GGUF"
+        }
+    ],
+    "no_public_scores_reason": null,
+    "sources": [
+        {
+            "kind": "official_model_card",
+            "url": "https://huggingface.co/MultiverseComputingCAI/Comet_60B_A12B_BF16"
+        },
+        {
+            "kind": "community_quant",
+            "url": "https://huggingface.co/Felladrin/gguf-Q4_K_M-Comet-60B-A12B"
+        },
+        {
+            "kind": "quant_metadata",
+            "url": "https://huggingface.co/api/models/Felladrin/gguf-Q4_K_M-Comet-60B-A12B/tree/main"
+        }
+    ]
+}
