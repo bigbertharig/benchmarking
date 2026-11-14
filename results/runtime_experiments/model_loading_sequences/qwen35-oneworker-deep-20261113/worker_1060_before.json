@@ -1,0 +1,39 @@
+{
+  "claim": "qwen35-oneworker-deep-20261113",
+  "command": [
+    "/bin/bash",
+    "scripts/integration/run_qwen27_chat_latency.sh",
+    "moe_two_deep_replay",
+    "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "262144",
+    "262144",
+    "262144",
+    "256",
+    "qwen35_oneworker_200k250k_20261113_worker_1060_before"
+  ],
+  "end_state_requested": "release",
+  "env_keys": [
+    "KV_200K_STATE_SOURCE_DIR",
+    "KV_BUILD_DIR",
+    "KV_HOST_GPU_IDS",
+    "KV_K_TYPE",
+    "KV_REPLAY_CHAT_HOST_GPUS",
+    "KV_SAMPLE_DETAIL",
+    "KV_STATE_SOURCE_DIR",
+    "KV_V_TYPE"
+  ],
+  "exit_code": 0,
+  "finished_at": "2026-11-14T00:34:42+00:00",
+  "gpus": [
+    0,
+    1
+  ],
+  "host_before_available_kib": 29939564,
+  "host_min_available_kib": 26015532,
+  "id": "worker_1060_before",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-oneworker-deep-20261113/session_hardware.json",
+  "started_at": "2026-11-14T00:32:10+00:00",
+  "status": "passed",
+  "timeout_s": 2400,
+  "trace": false
+}

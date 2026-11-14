@@ -1,0 +1,3 @@
+depth,worker_1060_before_tps,worker_1070_tps,worker_1060_after_tps,worker_1060_mean_tps,worker_1070_gain_percent,main_with_1060_before_tps,main_with_1070_tps,main_with_1060_after_tps
+200000,9.928293,13.384542,9.916493,9.922393,34.89,36.468438,36.205409,36.600766
+250000,8.086691,10.916682,8.073137,8.079914,35.11,30.873201,30.595957,30.863637

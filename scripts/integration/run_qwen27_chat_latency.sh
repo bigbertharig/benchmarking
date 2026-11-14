@@ -27,7 +27,7 @@ if [ "$mode" = large_chat_latency ]; then
     exit 81
   }
 fi
-if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode" = five_ongoing_depths ] || [ "$mode" = moe_five_f16_curve ] || [ "$mode" = moe_two_depths ] || [ "$mode" = moe_two_short ] || [ "$mode" = moe_two_curve ]; then
+if [ "$mode" = five_distinct_disk ] || [ "$mode" = recall_handoff ] || [ "$mode" = five_ongoing_depths ] || [ "$mode" = moe_five_f16_curve ] || [ "$mode" = moe_two_depths ] || [ "$mode" = moe_two_short ] || [ "$mode" = moe_two_curve ] || [ "$mode" = moe_prepare_250k ]; then
   mkdir -p "$base/$label.states"
 fi
 date -u +%FT%TZ > "$base/$label.start"
@@ -80,6 +80,7 @@ docker run --rm "${gpu_args[@]}" --network none \
   -v "$build:/build:ro" -v "$model:/model.gguf:ro" \
   -v "$base:/state" -e "KV_STATE_DIR=/state/$label.states" \
   -e "KV_STATE_SOURCE_DIR=${KV_STATE_SOURCE_DIR-}" \
+  -e "KV_200K_STATE_SOURCE_DIR=${KV_200K_STATE_SOURCE_DIR-}" \
   -e "KV_REPLAY_CHAT_GPUS=${KV_REPLAY_CHAT_GPUS-}" \
   -e "KV_DELTA_SOURCE_DEPTH=${KV_DELTA_SOURCE_DEPTH-}" \
   -e "KV_DELTA_COMPARE_MODE=${KV_DELTA_COMPARE_MODE-}" \

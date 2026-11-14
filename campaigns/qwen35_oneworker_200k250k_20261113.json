@@ -1,0 +1,157 @@
+{
+  "schema": 2,
+  "name": "qwen35_oneworker_200k250k_20261113",
+  "hardware_roles": {
+    "model": {
+      "min_vram_mb": 20000
+    },
+    "pascal6": {
+      "min_vram_mb": 6000,
+      "max_vram_mb": 7000,
+      "name_contains": "1060"
+    },
+    "pascal8": {
+      "min_vram_mb": 7500,
+      "max_vram_mb": 12000,
+      "name_contains": "1070"
+    }
+  },
+  "defaults": {
+    "state": "ready",
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "timeout_s": 2400,
+    "freeze": false
+  },
+  "cases": [
+    {
+      "id": "prepare_250k",
+      "gpus": [
+        "{gpu:model}"
+      ],
+      "timeout_s": 3600,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-deep-build",
+        "KV_K_TYPE": "q4_1",
+        "KV_V_TYPE": "q4_1",
+        "KV_SAMPLE_DETAIL": "1",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+        "KV_HOST_GPU_IDS": "{gpu:model}"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_prepare_250k",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "256",
+        "qwen35_deep_250k_prep_20261113"
+      ],
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_deep_250k_prep_20261113.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_deep_250k_prep_20261113.log"
+      ]
+    },
+    {
+      "id": "worker_1060_before",
+      "gpus": [
+        "{gpu:model}",
+        "{gpu:pascal6}"
+      ],
+      "timeout_s": 2400,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-deep-build",
+        "KV_K_TYPE": "q4_1",
+        "KV_V_TYPE": "q4_1",
+        "KV_SAMPLE_DETAIL": "1",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_deep_250k_prep_20261113.states",
+        "KV_200K_STATE_SOURCE_DIR": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+        "KV_HOST_GPU_IDS": "{gpu:model},{gpu:pascal6}",
+        "KV_REPLAY_CHAT_HOST_GPUS": "{gpu:model},{gpu:pascal6}"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_deep_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "256",
+        "qwen35_oneworker_200k250k_20261113_worker_1060_before"
+      ],
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_oneworker_200k250k_20261113_worker_1060_before.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_oneworker_200k250k_20261113_worker_1060_before.log"
+      ]
+    },
+    {
+      "id": "worker_1070",
+      "gpus": [
+        "{gpu:model}",
+        "{gpu:pascal8}"
+      ],
+      "timeout_s": 2400,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-deep-build",
+        "KV_K_TYPE": "q4_1",
+        "KV_V_TYPE": "q4_1",
+        "KV_SAMPLE_DETAIL": "1",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_deep_250k_prep_20261113.states",
+        "KV_200K_STATE_SOURCE_DIR": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+        "KV_HOST_GPU_IDS": "{gpu:model},{gpu:pascal8}",
+        "KV_REPLAY_CHAT_HOST_GPUS": "{gpu:model},{gpu:pascal8}"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_deep_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "256",
+        "qwen35_oneworker_200k250k_20261113_worker_1070"
+      ],
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_oneworker_200k250k_20261113_worker_1070.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_oneworker_200k250k_20261113_worker_1070.log"
+      ]
+    },
+    {
+      "id": "worker_1060_after",
+      "gpus": [
+        "{gpu:model}",
+        "{gpu:pascal6}"
+      ],
+      "timeout_s": 2400,
+      "env": {
+        "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-deep-build",
+        "KV_K_TYPE": "q4_1",
+        "KV_V_TYPE": "q4_1",
+        "KV_SAMPLE_DETAIL": "1",
+        "KV_STATE_SOURCE_DIR": "/state/qwen35_deep_250k_prep_20261113.states",
+        "KV_200K_STATE_SOURCE_DIR": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+        "KV_HOST_GPU_IDS": "{gpu:model},{gpu:pascal6}",
+        "KV_REPLAY_CHAT_HOST_GPUS": "{gpu:model},{gpu:pascal6}"
+      },
+      "command": [
+        "/bin/bash",
+        "scripts/integration/run_qwen27_chat_latency.sh",
+        "moe_two_deep_replay",
+        "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+        "262144",
+        "262144",
+        "262144",
+        "256",
+        "qwen35_oneworker_200k250k_20261113_worker_1060_after"
+      ],
+      "outputs": [
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_oneworker_200k250k_20261113_worker_1060_after.exit",
+        "/mnt/shared/experiments/kv-matrix-20261107/qwen35_oneworker_200k250k_20261113_worker_1060_after.log"
+      ]
+    }
+  ]
+}

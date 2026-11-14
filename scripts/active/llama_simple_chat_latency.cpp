@@ -1296,12 +1296,58 @@ int main(int argc, char ** argv) {
         llama_model_free(model);
         return 0;
     }
-    if (std::string(argv[1]) == "moe_two_replay") {
+    if (std::string(argv[1]) == "moe_prepare_250k") {
+        const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
+        const char * target_dir = std::getenv("KV_STATE_DIR");
+        if (!source_dir || !target_dir || pair_cap < 262144) return 240;
+        const char * codes[2] = {"4827", "6193"};
+        for (int i = 1; i <= 2; ++i) {
+            const std::string target = std::string(target_dir) + "/worker" +
+                std::to_string(i) + "_depth250000.bin";
+            if (std::ifstream(target).good()) {
+                std::fprintf(stderr, "DEEP_PREP_REUSE worker=%d path=%s\n", i, target.c_str());
+                continue;
+            }
+            const std::string source = std::string(source_dir) + "/worker" +
+                std::to_string(i) + "_depth200000.bin";
+            snapshot prior;
+            if (!read_snapshot_file(source, prior)) return 241;
+            chat temp{"deep_prep", "", nullptr, "0"};
+            const int temp_cap = 253952;
+            if (!add_chat(temp, model, vocab, temp_cap, true) || !restore(temp, prior)) return 242;
+            prior.data.clear();
+            prior.data.shrink_to_fit();
+            if (temp.next.empty() || !decode_raw(temp, temp.next)) return 243;
+            const auto next_user = tokenize_text(vocab,
+                "\n<|im_start|>user\nHere is another batch of unrelated field notes.\n", false);
+            const std::string note = std::string(" Entry ") + std::to_string(i) +
+                " describes a blue bicycle beside a river, a quiet bridge, and mild weather.\n";
+            const auto filler = tokenize_text(vocab, note, false);
+            if (next_user.empty() || filler.empty() || !decode_raw(temp, next_user) ||
+                temp.used >= 250000 ||
+                !decode_raw_progress(temp, filler, 250000 - temp.used, 250000) ||
+                !recall_answer(temp, vocab, codes[i-1], 250000, 64)) return 244;
+            snapshot state;
+            if (!save(temp, state) || !write_snapshot_file(target, state)) return 245;
+            std::fprintf(stderr, "DEEP_PREP_DONE worker=%d used=%d path=%s\n",
+                         i, temp.used, target.c_str());
+            std::fflush(stderr);
+            destroy(temp);
+        }
+        llama_model_free(model);
+        return 0;
+    }
+    if (std::string(argv[1]) == "moe_two_replay" ||
+        std::string(argv[1]) == "moe_two_deep_replay") {
         const char * source_dir = std::getenv("KV_STATE_SOURCE_DIR");
         if (!source_dir || pair_cap < 40000 || tokens < 16) return 200;
+        const bool deep = std::string(argv[1]) == "moe_two_deep_replay";
+        const char * old_source_dir = std::getenv("KV_200K_STATE_SOURCE_DIR");
+        if (deep && (!old_source_dir || pair_cap < 262144)) return 211;
         const char * trace_depth_env = std::getenv("KV_REPLAY_DEPTH");
         const int trace_depth = trace_depth_env && *trace_depth_env ? std::atoi(trace_depth_env) : 0;
-        if (trace_depth && trace_depth != 16384 && trace_depth != 32768 && trace_depth != 50000) return 206;
+        if (trace_depth && trace_depth != 16384 && trace_depth != 32768 &&
+            trace_depth != 50000 && trace_depth != 200000 && trace_depth != 250000) return 206;
         const bool trace_cuda = std::getenv("KV_TRACE_CUDA") &&
             std::string(std::getenv("KV_TRACE_CUDA")) == "1";
         if (trace_cuda && !trace_depth) return 207;
@@ -1316,15 +1362,19 @@ int main(int argc, char ** argv) {
         if (comma == std::string::npos) return 205;
         const std::string first_gpu = gpu_pair.substr(0, comma);
         const std::string second_gpu = gpu_pair.substr(comma+1);
-        for (int depth : {16384, 32768, 50000}) {
+        const std::vector<int> replay_depths = deep
+            ? std::vector<int>{200000, 250000}
+            : std::vector<int>{16384, 32768, 50000};
+        for (int depth : replay_depths) {
             if (trace_depth && depth != trace_depth) continue;
             chat main_chat{"main", "", nullptr, first_gpu.c_str()};
             chat secondary{"secondary", "", nullptr, second_gpu.c_str()};
             if (!add_chat(main_chat, model, vocab, pair_cap) ||
                 !add_chat(secondary, model, vocab, pair_cap)) return 201;
-            const std::string first_path = std::string(source_dir) + "/worker1_depth" +
+            const std::string state_dir = deep && depth == 200000 ? old_source_dir : source_dir;
+            const std::string first_path = state_dir + "/worker1_depth" +
                 std::to_string(depth) + ".bin";
-            const std::string second_path = std::string(source_dir) + "/worker2_depth" +
+            const std::string second_path = state_dir + "/worker2_depth" +
                 std::to_string(depth) + ".bin";
             snapshot first_state, second_state;
             if (!read_snapshot_file(first_path, first_state) ||

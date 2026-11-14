@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "baseline": null,
+      "gpus": [
+        0
+      ],
+      "hypothesis": null,
+      "id": "prepare_250k",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-oneworker-deep-20261113/prepare_250k.json",
+      "stage_seconds": 279.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "worker_1060_before",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-oneworker-deep-20261113/worker_1060_before.json",
+      "stage_seconds": 152.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        2
+      ],
+      "hypothesis": null,
+      "id": "worker_1070",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-oneworker-deep-20261113/worker_1070.json",
+      "stage_seconds": 117.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    },
+    {
+      "baseline": null,
+      "gpus": [
+        0,
+        1
+      ],
+      "hypothesis": null,
+      "id": "worker_1060_after",
+      "label": null,
+      "placement": null,
+      "receipt": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-oneworker-deep-20261113/worker_1060_after.json",
+      "stage_seconds": 132.0,
+      "status": "passed",
+      "trace": null,
+      "trace_dir": null
+    }
+  ],
+  "manifest_sha256": "59f4f6d82a07ee1e684c09a6725768d83533c22c41f329029b330bf3a9f3978e",
+  "run_id": "qwen35-oneworker-deep-20261113",
+  "schema": 1,
+  "series_name": "qwen35_oneworker_200k250k_20261113",
+  "session_hardware": "/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/model_loading_sequences/qwen35-oneworker-deep-20261113/session_hardware.json",
+  "status": "passed",
+  "updated_at": "2026-11-14T00:38:51+00:00"
+}
