@@ -58,6 +58,8 @@ def main():
     ap.add_argument('--context', type=int, choices=(8192, 32768), default=8192)
     ap.add_argument('--lines-a', type=int, default=64)
     ap.add_argument('--lines-b', type=int, default=192)
+    ap.add_argument('--resident-budget-gib', type=int, choices=(8, 12, 16), default=8)
+    ap.add_argument('--kv-format', choices=('int8', 'k8v4', 'q4_0'), default='int8')
     ap.add_argument('--stop-after', action='store_true', help='explicitly stop Strata after a successful run')
     ap.add_argument('--reuse-loaded', action='store_true', help='use an already healthy matching Strata load')
     args = ap.parse_args()
@@ -70,7 +72,7 @@ def main():
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     state = {'model': str(MODEL), 'pack': str(PACK), 'context': args.context,
-             'parallel': args.parallel, 'gpu': 0, 'resident_experts_gib': 8,
+             'parallel': args.parallel, 'gpu': 0, 'resident_experts_gib': args.resident_budget_gib, 'kv_format': args.kv_format,
              'admission_model': 'two slots reserved at launch; chats opened sequentially',
              'live_chat_state_location': 'not established by this runner',
              'started_at': stamp(), 'status': 'running', 'requests': [], 'admissions': [],
@@ -79,9 +81,9 @@ def main():
     env = dict(os.environ, STRATA_COMPONENTS_DIR=str(COMPONENTS), CUDA_DEVICE_ORDER='PCI_BUS_ID')
     common = [str(CONTROL), 'launch', '--family', 'unsloth', '--model', 'ud-q4_k_xl',
               '--model-path', str(MODEL), '--data-dir', str(DATA), '--gpu', '0',
-              '--backend', 'nvidia', '--context', str(args.context), '--kv', 'int8',
+              '--backend', 'nvidia', '--context', str(args.context), '--kv', args.kv_format,
               '--vision', 'off', '--parallel', str(args.parallel), '--mtp', 'off', '--drafting', 'off',
-              '--set', 'resident-budget-gib=8', '--set', 'vram-reserve-mib=768',
+              '--set', f'resident-budget-gib={args.resident_budget_gib}', '--set', 'vram-reserve-mib=768',
               '--tune', 'skip', '--port', str(PORT), '--access', 'local',
               '--no-api-key', '--yes', '--output', 'json']
     launched = False
@@ -108,7 +110,7 @@ def main():
             config = json.loads(config_path.read_text())
             engine_args = config.get('args', [])
             expected = {'--pack': str(PACK), '--max-context': str(args.context),
-                        '--kv': 'int8', '--resident-budget-gib': '8', '--vram-reserve-mib': '768'}
+                        '--kv': args.kv_format, '--resident-budget-gib': str(args.resident_budget_gib), '--vram-reserve-mib': '768'}
             for flag, value in expected.items():
                 if flag not in engine_args or engine_args[engine_args.index(flag) + 1] != value:
                     raise RuntimeError(f'resident Strata config mismatch: {flag}')

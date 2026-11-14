@@ -1,0 +1,38 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "ORCHID",
+        "reasoning_content": "We need answer user's request. User says private code word ORCHID. Remember it. Then many reference lines. Asks: What is this conversation's private code word? Reply with only that uppercase word. Need final only ORCHID. Ensure no extra.\n",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1794685618,
+  "id": "chatcmpl-a9a09415391045ffae701872",
+  "model": "qwen3.8-flash-next-unsloth-ud-q4_k_xl",
+  "object": "chat.completion",
+  "timings": {
+    "cache_n": 0,
+    "draft_n": 20,
+    "draft_n_accepted": 11,
+    "predicted_ms": 22095.3,
+    "predicted_n": 61,
+    "predicted_per_second": 2.8,
+    "predicted_per_token_ms": 362.218,
+    "prompt_ms": 218922.9,
+    "prompt_n": 15084,
+    "prompt_per_second": 68.9,
+    "prompt_per_token_ms": 14.514
+  },
+  "usage": {
+    "completion_tokens": 61,
+    "prompt_tokens": 15084,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 15145
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "arms": [
+    {
+      "error": null,
+      "name": "k8v4_ram16",
+      "status": "passed"
+    }
+  ],
+  "context_cap": 131072,
+  "end_state": "freeze",
+  "finished_at": "2026-11-14T19:16:01+00:00",
+  "fixture_sha256": "c933220125cf0100cca2a29e59e499a62dcc78609be7b77e5de2ba9fff9f151f",
+  "max_tokens": 768,
+  "started_at": "2026-11-14T19:00:52+00:00",
+  "status": "passed"
+}
