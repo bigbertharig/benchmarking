@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
 
@@ -40,8 +41,8 @@ def cards(gpus, details=None) -> str:
         if len(details) <= 2:
             return " + ".join(card_name(c) for c in details)
         slow = sorted({c.get("link_gen") for c in details if c.get("link_gen")})
-        big = sum(1 for c in details if "3090" in str(c.get("name")))
-        kinds = ", ".join(f"{n} x {k}" for n, k in ((big, "3090"), (len(details) - big, "1060")) if n)
+        counts = Counter(card_name(c).split()[0] for c in details)
+        kinds = ", ".join(f"{n} x {kind}" for kind, n in counts.items())
         return (f"{len(details)} cards ({kinds}"
                 + (f"; links gen {'/'.join(str(g) for g in slow)}" if slow else "") + ")")
     if gpus == [0]:
