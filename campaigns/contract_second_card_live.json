@@ -1,0 +1,9 @@
+{
+  "name": "contract_second_card_live",
+  "description": "Second model and GPU integration check for manager loading, profile projection, runtime reuse, and benchmark suites.",
+  "defaults": {"run_class": "smoke", "load_timeout_s": 300},
+  "blocks": [
+    {"id":"reasoning","model":"gemma-4:e4b","gpus":[2],"profile":"default","runtime_group":"gemma4e4b_g2","ctx_size":4096,"suite":"bench-reasoning","suite_args":["--tasks","gsm8k"],"limit":1},
+    {"id":"geoimport","model":"gemma-4:e4b","gpus":[2],"profile":"default","runtime_group":"gemma4e4b_g2","ctx_size":4096,"suite":"bench-geoimport","suite_args":["--tasks","classification"],"limit":1,"depends_on":["reasoning"]}
+  ]
+}

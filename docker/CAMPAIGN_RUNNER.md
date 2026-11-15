@@ -7,6 +7,10 @@ placed and loaded by the rig manager (`rigctl load-model --use benchmark`), whic
 puts the rig in bench mode (isolated modes, 2026-10-23; see
 [CAMPAIGN_RUNNER_REFACTOR.md](CAMPAIGN_RUNNER_REFACTOR.md)).
 
+Before a campaign, publish the benchmarking model export and run
+`python3 /mnt/shared/scripts/sync_model_library.py sync`. The runner reads the
+imported model snapshot and tuning profiles under `/mnt/shared/agents`.
+
 ## Commands
 
 ```bash
@@ -23,6 +27,10 @@ The final command resumes the same run. Additional controls:
 --limit BLOCK_ID=N
 --verbose
 ```
+
+The rig reaches the Pi manager through key-only SSH on the isolated
+10.0.0.0/24 Ethernet network. The Pi firewall admits SSH on that network;
+preflight should verify this route before scheduling model loads.
 
 Limit priority is block override, global override, manifest `limit`, then suite
 default. An override fails preflight for suites whose contract does not support
@@ -102,10 +110,12 @@ generic `--limit`. `bench-code` runs the selected EvalPlus problem sets in full.
 
 ## Profiles
 
-`model_tuning_profiles.json` is resolved through
-`scripts/active/model_profiles.py`. Aliases inherit the canonical profile, then
-apply explicit alias overrides. Ambiguous matches, missing alias targets, alias
-cycles, and missing required system prompts fail before a model is loaded.
+Benchmarking resolves `model_tuning_profiles.json` through
+`scripts/active/model_profiles.py` when it publishes the model export. The runner
+uses the imported resolved profiles under `/mnt/shared/agents`; suite containers
+receive the matching imported tuning file. Aliases inherit the canonical profile,
+then apply explicit alias overrides. Ambiguous matches, missing alias targets,
+alias cycles, and missing required system prompts fail before a model is loaded.
 
 The profile policy is suite-specific and declared in `suite_contracts.json`.
 Some frozen harnesses intentionally own their prompts and do not inject a model
@@ -151,6 +161,13 @@ Before loading a model the runner verifies:
 - suite image contract labels
 - writable result roots and `/mnt/shared/cache/benchmarks`
 
+`--dry-run` verifies the manifest and command contract, but does not probe the
+live control hop or the manager's GPU safety guard. On 2026-11-15 it passed while
+rig-to-Pi SSH was blocked, and again while four GPUs were unavailable after
+Xid 79 faults. Check the manager guard, selected cards, and direct rig-to-Pi
+SSH before a live campaign. A reusable campaign-readiness check belongs in
+benchmarking and could later be exposed through `rig_info` for agents.
+
 Containers receive an explicit temporary `HOME` and a persistent shared
 Hugging Face cache under `/mnt/shared/cache/benchmarks`. This avoids root-home
 permission failures and reuses frozen dataset downloads across model runs.
@@ -169,3 +186,34 @@ checkpoint.
 
 Follow `docker/SUITE_CREATION.md`. A suite is not campaign-compatible until it
 is registered and `python3 scripts/active/validate_suite_contract.py` passes.
+
+## Live contract checks (2026-11-15)
+
+The `contract_live_smoke.json` run `contract-live-smoke-20261115d` completed one
+Ministral 3B reasoning case on GPU 3 with the imported system prompt. The earlier
+`...a` and `...b` attempts exposed a blocked rig-to-Pi SSH path and GPU Xid 79
+faults. The `...c` suite completed but its prompt resolver failed because the
+imported tuning file was mounted outside `/benchmark-scripts`; do not compare its
+score with prompt-correct runs. The runner now mounts that file inside the suite
+source tree.
+
+`contract_bounded_suites_live.json` run `contract-bounded-live-20261115a`
+completed one case each in reasoning, knowledge, data import, geo import, agent,
+routing, and DaedalMap JSON discipline, reusing one manager-owned GPU 3 load.
+`contract_second_card_live.json` run `contract-second-card-20261115a` completed
+one reasoning and one geo import case using Gemma 4 E4B on GPU 2. Both campaigns
+verified the served GGUF before running suites and released their model lease.
+These limit-one runs establish integration behavior, not model performance.
+`contract_multicard_live.json` run `contract-multicard-20261115a` loaded
+Qwen3 Coder 30B A3B on GPUs 1–5, verified the GGUF and imported prompt, ran one
+reasoning case, and released all five cards. GPU 0's separate chat claim was
+left in place. Its 18 GB GGUF spent about four minutes loading from shared
+storage; that interval is startup evidence, not a benchmark score.
+`contract_operational_live.json` run `contract-operational-20261115a`
+completed the runtime stability, TTFT, throughput, and context probes with no
+request failures, then ran one `custom_json_schema_strict` pipeline test using
+the same load. That test executed all 13 checks and scored 0/13 for this model;
+the campaign status `completed` means the suite ran, not that the model met a
+quality threshold. `bench-code` was dry-run contract-checked but not run live:
+its smallest selectable task is the full 164-problem HumanEval set and the
+suite guide estimates 20–40 minutes.

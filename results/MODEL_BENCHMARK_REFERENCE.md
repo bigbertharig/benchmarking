@@ -1,10 +1,10 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-11-12T01:17:00.414662+00:00`
+- Generated at: `2026-11-15T21:43:05.526569+00:00`
 - Canonical records: `/mnt/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/benchmark-scripts/benchmark_status.json`
-- Total records: `3640`
-- Selected model/test results: `1617`
+- Total records: `3665`
+- Selected model/test results: `1618`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
@@ -412,6 +412,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gemma-4:e4b | drop_em | 0.76 | 76.0 | em,none | validated | 50 | unknown | 2026-10-26T08:40:13+00:00 | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 |
 | gemma-4:e4b | drop_f1 | 0.7834 | 78.34 | f1,none | validated | 50 | unknown | 2026-10-26T08:40:13+00:00 | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 |
 | gemma-4:e4b | drop_flexible | 0.8 | 80.0 | answer_contained | validated | 50 | degraded | 2026-10-26T08:40:14+00:00 | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 |
+| gemma-4:e4b | geoimport_prep_classify_australia_asgs_v2 | 0.9474 | 94.74000000000001 | classification | smoke | 1 | unknown | 2026-11-15T21:34:25.469467 | bench-geoimport | campaign_geoimport_contract-second-card-20261115a |
 | gemma-4:e4b | gsm8k_flexible | 0.8 | 80.0 | exact_match,flexible-extract | validated | 50 | degraded | 2026-10-26T08:39:37+00:00 | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 |
 | gemma-4:e4b | gsm8k_strict | 0.78 | 78.0 | exact_match,strict-match | validated | 50 | degraded | 2026-10-26T08:39:37+00:00 | bench-reasoning | campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026 |
 | gemma-4:e4b | humaneval_base | 0.7865853658536586 | 78.65853658536585 | pass@1_base | full | 164 | unknown | 2026-10-18T05:15:17+00:00 | bench-code | gemma-4_e4b_w_smoke_v1 |
@@ -674,7 +675,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:14b | runtime_throughput | 1.0 | 100.0 | request_success_rate | validated | 1 | compatible | 2026-08-21T05:12:32.621293+00:00 | bench-runtime | campaign_ministral3_14b_runtime_20260820_modern_validation_l50_retry3 |
 | ministral-3:14b | runtime_ttft | 1.0 | 100.0 | request_success_rate | validated | 3 | compatible | 2026-08-21T05:12:22.612848+00:00 | bench-runtime | campaign_ministral3_14b_runtime_20260820_modern_validation_l50_retry3 |
 | ministral-3:3b | agent_observation_use | 0.4 | 40.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:49.242227+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
-| ministral-3:3b | agent_plan_sequence | 0.125 | 12.5 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:38.868014+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
+| ministral-3:3b | agent_plan_sequence | 0.125 | 12.5 | agent_component_mean | smoke | 1 | compatible | 2026-11-15T21:27:12.073726+00:00 | bench-agent | campaign_agent_contract-bounded-live-20261115a |
 | ministral-3:3b | agent_tool_args | 0.6666666666666666 | 66.66666666666666 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:44.083201+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
 | ministral-3:3b | agent_tool_execute | 1.0 | 100.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:46.557012+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
 | ministral-3:3b | agent_tool_select | 0.4 | 40.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:41.665345+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
@@ -682,7 +683,7 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:3b | bbh_flexible | 0.4962962962962963 | 49.629629629629626 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-18T20:15:55+00:00 | bench-reasoning | ministral-3_3b_ab_plain |
 | ministral-3:3b | custom_ambiguity_handling | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-10-18T07:06:18+00:00 | bench-pipeline | ministral-3_3b_w_smoke_v1 |
 | ministral-3:3b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | smoke | 12 | unknown | 2026-10-18T07:06:08+00:00 | bench-pipeline | ministral-3_3b_w_smoke_v1 |
-| ministral-3:3b | custom_json_schema_strict | 0.0 | 0.0 | score | smoke | 13 | unknown | 2026-10-18T07:05:49+00:00 | bench-pipeline | ministral-3_3b_w_smoke_v1 |
+| ministral-3:3b | custom_json_schema_strict | 0.0 | 0.0 | score | smoke | 13 | unknown | 2026-11-15T21:43:05+00:00 | bench-pipeline | campaign_pipeline_contract-operational-20261115a |
 | ministral-3:3b | custom_long_context_extract | 0.8571428571428571 | 85.71428571428571 | score | smoke | 14 | unknown | 2026-10-18T07:06:44+00:00 | bench-pipeline | ministral-3_3b_w_smoke_v1 |
 | ministral-3:3b | custom_orchestration_tradeoff | 0.75 | 75.0 | score | smoke | 12 | unknown | 2026-10-18T07:06:32+00:00 | bench-pipeline | ministral-3_3b_w_smoke_v1 |
 | ministral-3:3b | custom_tool_plan_sequence | 0.8666666666666667 | 86.66666666666667 | score | smoke | 15 | unknown | 2026-10-18T07:06:23+00:00 | bench-pipeline | ministral-3_3b_w_smoke_v1 |
@@ -722,13 +723,13 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:3b | dataimport_reference_owid_co2 | 0.8571428571428571 | 85.71428571428571 | reference_quality | smoke | 1 | unknown | 2026-08-14T09:49:40+00:00 | bench-dataimport | campaign_ministral3_3b_dataimport_20260813_limit5_all |
 | ministral-3:3b | dataimport_reference_worldbank_wdi | 0.8 | 80.0 | reference_quality | smoke | 1 | unknown | 2026-08-14T09:50:05+00:00 | bench-dataimport | campaign_ministral3_3b_dataimport_20260813_limit5_all |
 | ministral-3:3b | dataimport_schema_aggregates | 0.0 | 0.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T09:50:25+00:00 | bench-dataimport | campaign_ministral3_3b_dataimport_20260813_limit5_all |
-| ministral-3:3b | dataimport_schema_loc_id | 1.0 | 100.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T09:50:16+00:00 | bench-dataimport | campaign_ministral3_3b_dataimport_20260813_limit5_all |
+| ministral-3:3b | dataimport_schema_loc_id | 1.0 | 100.0 | schema_understanding | smoke | 1 | unknown | 2026-11-15T21:26:53+00:00 | bench-dataimport | campaign_dataimport_contract-bounded-live-20261115a |
 | ministral-3:3b | dataimport_schema_type_coercion | 0.2 | 20.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T09:50:48+00:00 | bench-dataimport | campaign_ministral3_3b_dataimport_20260813_limit5_all |
 | ministral-3:3b | dataimport_schema_wide_to_long | 0.6 | 60.0 | schema_understanding | smoke | 1 | unknown | 2026-08-14T09:50:37+00:00 | bench-dataimport | campaign_ministral3_3b_dataimport_20260813_limit5_all |
 | ministral-3:3b | drop_em | 0.18 | 18.0 | em,none | validated | 50 | unknown | 2026-10-26T20:43:41+00:00 | bench-reasoning | campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026 |
 | ministral-3:3b | drop_f1 | 0.43559999999999993 | 43.559999999999995 | f1,none | validated | 50 | unknown | 2026-10-26T20:43:42+00:00 | bench-reasoning | campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026 |
 | ministral-3:3b | drop_flexible | 0.74 | 74.0 | answer_contained | validated | 50 | degraded | 2026-10-26T20:43:42+00:00 | bench-reasoning | campaign_ministral3_3b_drop_no_newline_l50_ministral3-drop-no-newline-l50-20261026 |
-| ministral-3:3b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-14T09:50:58.834516 | bench-geoimport | campaign_ministral3_3b_geoimport_20260813_limit5_all |
+| ministral-3:3b | geoimport_prep_classify_australia_asgs_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-11-15T21:27:01.977554 | bench-geoimport | campaign_geoimport_contract-bounded-live-20261115a |
 | ministral-3:3b | geoimport_prep_classify_brazil_ibge_v2 | 1.0 | 100.0 | classification | smoke | 1 | unknown | 2026-08-14T09:51:04.108930 | bench-geoimport | campaign_ministral3_3b_geoimport_20260813_limit5_all |
 | ministral-3:3b | geoimport_prep_handoff_local_check_failure_v2 | 1.0 | 100.0 | prep_handoff | smoke | 1 | unknown | 2026-08-14T09:51:23.416670 | bench-geoimport | campaign_ministral3_3b_geoimport_20260813_limit5_all |
 | ministral-3:3b | geoimport_prep_handoff_ready_v2 | 0.8095 | 80.95 | prep_handoff | smoke | 1 | unknown | 2026-08-14T09:51:27.163417 | bench-geoimport | campaign_ministral3_3b_geoimport_20260813_limit5_all |
@@ -1723,6 +1724,31 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-15T21:43:05+00:00 | ministral-3:3b | custom_json_schema_strict | success | smoke | 13 | 0.0 | score | bench-pipeline | campaign_pipeline_contract-operational-20261115a | b4cc8e62-d6ca-4202-b191-2b7bc316db5c |
+| 2026-11-15T21:42:50.768752+00:00 | ministral-3:3b | runtime_context_reliability | success | smoke | 2 | 1.0 | request_success_rate | bench-runtime | campaign_runtime_contract-operational-20261115a | 271f6a0a-0d91-48c0-af78-8132f2be1edb |
+| 2026-11-15T21:42:43.531807+00:00 | ministral-3:3b | runtime_throughput | success | smoke | 1 | 1.0 | request_success_rate | bench-runtime | campaign_runtime_contract-operational-20261115a | fab1cd2c-950a-434e-ab2b-5f2a5cbfbebc |
+| 2026-11-15T21:42:40.082559+00:00 | ministral-3:3b | runtime_ttft | success | smoke | 3 | 1.0 | request_success_rate | bench-runtime | campaign_runtime_contract-operational-20261115a | 22e6abdf-4318-481b-bf7c-03fd4937437e |
+| 2026-11-15T21:42:39.592357+00:00 | ministral-3:3b | runtime_stability | success | smoke | 5 | 1.0 | request_success_rate | bench-runtime | campaign_runtime_contract-operational-20261115a | 33a99f7c-62ab-4b41-95fb-dd291542c8b6 |
+| 2026-11-15T21:39:54+00:00 | qwen3-coder:30b-a3b | gsm8k_strict | success | smoke | 1 | 1.0 | exact_match,strict-match | bench-reasoning | campaign_reasoning_contract-multicard-20261115a | ac6ff4b0-a621-4e40-b5ff-738910ae9289 |
+| 2026-11-15T21:39:54+00:00 | qwen3-coder:30b-a3b | gsm8k_flexible | success | smoke | 1 | 1.0 | exact_match,flexible-extract | bench-reasoning | campaign_reasoning_contract-multicard-20261115a | 6e4fe0e9-bebb-4ef8-a736-9a3553f51772 |
+| 2026-11-15T21:34:25.469467 | gemma-4:e4b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 0.9474 | classification | bench-geoimport | campaign_geoimport_contract-second-card-20261115a | dc34c422-a555-4479-90bf-48926b2d21d5 |
+| 2026-11-15T21:34:18+00:00 | gemma-4:e4b | gsm8k_flexible | success | smoke | 1 | 1.0 | exact_match,flexible-extract | bench-reasoning | campaign_reasoning_contract-second-card-20261115a | 8315af24-a361-4d06-8fd5-7525646ba227 |
+| 2026-11-15T21:34:17+00:00 | gemma-4:e4b | gsm8k_strict | success | smoke | 1 | 1.0 | exact_match,strict-match | bench-reasoning | campaign_reasoning_contract-second-card-20261115a | 6e66548c-10f4-4047-8463-15679f814bb1 |
+| 2026-11-15T21:27:23+00:00 | ministral-3:3b | daedalmap_json_discipline_no_halluc_rate | success | smoke | 1 | 1.0 | no_halluc_rate | bench-daedalmap | campaign_daedalmap_contract-bounded-live-20261115a | 2923dcfb-0f44-4821-9764-a8848ef54d24 |
+| 2026-11-15T21:27:22+00:00 | ministral-3:3b | daedalmap_json_discipline_type_correct_rate | success | smoke | 1 | 0.0 | type_correct_rate | bench-daedalmap | campaign_daedalmap_contract-bounded-live-20261115a | 423ffc3c-1123-4534-819c-d608d00796c4 |
+| 2026-11-15T21:27:21+00:00 | ministral-3:3b | daedalmap_json_discipline_pass_rate | success | smoke | 1 | 0.0 | pass_rate | bench-daedalmap | campaign_daedalmap_contract-bounded-live-20261115a | 4bc9ead6-8f90-4b7e-b24f-67a0b2467bf6 |
+| 2026-11-15T21:27:21+00:00 | ministral-3:3b | daedalmap_json_discipline_json_valid_rate | success | smoke | 1 | 1.0 | json_valid_rate | bench-daedalmap | campaign_daedalmap_contract-bounded-live-20261115a | 200d4679-76b4-4271-a715-4d36f311d835 |
+| 2026-11-15T21:27:15.702621+00:00 | ministral-3:3b | routing_cost_awareness | success | smoke | 1 | 0.0 | routing_value | bench-routing | campaign_routing_contract-bounded-live-20261115a | c181461e-12fa-48f4-9efe-156ddf5aab26 |
+| 2026-11-15T21:27:12.073726+00:00 | ministral-3:3b | agent_plan_sequence | success | smoke | 1 | 0.125 | agent_component_mean | bench-agent | campaign_agent_contract-bounded-live-20261115a | cf1952dc-b455-4b56-a89b-188a351917a5 |
+| 2026-11-15T21:27:01.977554 | ministral-3:3b | geoimport_prep_classify_australia_asgs_v2 | success | smoke | 1 | 1.0 | classification | bench-geoimport | campaign_geoimport_contract-bounded-live-20261115a | 7f7deac5-a79f-438b-97a1-6c02b3296204 |
+| 2026-11-15T21:26:53+00:00 | ministral-3:3b | dataimport_schema_loc_id | success | smoke | 1 | 1.0 | schema_understanding | bench-dataimport | campaign_dataimport_contract-bounded-live-20261115a | 10aa10e7-0df9-4990-a1d8-d2597d2ea6e6 |
+| 2026-11-15T21:26:44.701227+00:00 | ministral-3:3b | knowledge_academic_probe_v1 | success | smoke | 1 | 1.0 | exact_match | bench-knowledge | campaign_knowledge_contract-bounded-live-20261115a | 03ec3b5a-3897-489c-8f0f-b27e9907c3aa |
+| 2026-11-15T21:26:40+00:00 | ministral-3:3b | gsm8k_flexible | success | smoke | 1 | 1.0 | exact_match,flexible-extract | bench-reasoning | campaign_reasoning_contract-bounded-live-20261115a | e2d5823c-5b60-49cb-aec7-84d05bf96dfb |
+| 2026-11-15T21:26:40+00:00 | ministral-3:3b | gsm8k_strict | success | smoke | 1 | 1.0 | exact_match,strict-match | bench-reasoning | campaign_reasoning_contract-bounded-live-20261115a | d8d47b9e-81b5-4740-9d04-0212510840e0 |
+| 2026-11-15T21:24:59+00:00 | ministral-3:3b | gsm8k_flexible | success | smoke | 1 | 1.0 | exact_match,flexible-extract | bench-reasoning | campaign_reasoning_contract-live-smoke-20261115d | c38b1542-3053-40e9-a1e4-d50e7353ec9f |
+| 2026-11-15T21:24:58+00:00 | ministral-3:3b | gsm8k_strict | success | smoke | 1 | 1.0 | exact_match,strict-match | bench-reasoning | campaign_reasoning_contract-live-smoke-20261115d | 930ad7e1-9a1b-4029-9108-0376bf3d8d2f |
+| 2026-11-15T21:21:39+00:00 | ministral-3:3b | gsm8k_flexible | success | smoke | 1 | 1.0 | exact_match,flexible-extract | bench-reasoning | campaign_reasoning_contract-live-smoke-20261115c | 20afcb84-c2dc-46b9-8a66-597a01b4e36f |
+| 2026-11-15T21:21:38+00:00 | ministral-3:3b | gsm8k_strict | success | smoke | 1 | 0.0 | exact_match,strict-match | bench-reasoning | campaign_reasoning_contract-live-smoke-20261115c | 6b9ae74f-6dd4-43dc-84c6-7eedcdf50158 |
 | 2026-11-12T01:17:00+00:00 | qwen3.6:35b-a3b-xl | ifeval_inst_level_loose_acc_none | success | smoke | 10 | 1.0 | inst_level_loose_acc,none | bench-reasoning | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 5b4b17b7-23fa-4495-bd7b-c48e5e4b82be |
 | 2026-11-12T01:16:59+00:00 | qwen3.6:35b-a3b-xl | ifeval_prompt_level_loose_acc_none | success | smoke | 10 | 1.0 | prompt_level_loose_acc,none | bench-reasoning | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | b463e6a6-b3ba-478d-9100-f8d41ae549a8 |
 | 2026-11-12T01:16:59+00:00 | qwen3.6:35b-a3b-xl | ifeval_inst_level_strict_acc_none | success | smoke | 10 | 1.0 | inst_level_strict_acc,none | bench-reasoning | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 82d3f3c7-d63d-4023-bb52-a5d8a319c5d8 |
@@ -1738,28 +1764,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-11-12T00:59:52+00:00 | qwen3.6:35b-a3b-xl | gsm8k_strict | success | smoke | 10 | 1.0 | exact_match,strict-match | bench-reasoning | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 4734db04-43c5-478b-b6b9-a4c9448be0fa |
 | 2026-11-12T00:59:12+00:00 | qwen3.6:35b-a3b-xl | humaneval_plus | success | smoke | 50 | 0.96 | pass@1_plus | bench-code | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 356eff4a-6bf8-4f4b-927b-a53a4db3ddb7 |
 | 2026-11-12T00:59:11+00:00 | qwen3.6:35b-a3b-xl | humaneval_base | success | smoke | 50 | 0.98 | pass@1_base | bench-code | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 92265530-3a70-421b-847c-55a356b64001 |
-| 2026-11-12T00:57:26+00:00 | qwen3.6:35b-a3b-xl | custom_long_context_extract | success | smoke | 14 | 1.0 | score | bench-pipeline | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | d72f6278-2195-4967-94b9-053526a59b77 |
-| 2026-11-12T00:57:22+00:00 | qwen3.6:35b-a3b-xl | custom_orchestration_tradeoff | success | smoke | 12 | 0.8333333333333334 | score | bench-pipeline | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 170fbad1-46f7-455b-a66b-62eb3b17c5ae |
-| 2026-11-12T00:57:18+00:00 | qwen3.6:35b-a3b-xl | custom_tool_plan_sequence | success | smoke | 15 | 0.9333333333333333 | score | bench-pipeline | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | d6b59ad3-f536-4ef5-aa0d-3f6df0572764 |
-| 2026-11-12T00:57:14+00:00 | qwen3.6:35b-a3b-xl | custom_ambiguity_handling | success | smoke | 13 | 0.46153846153846156 | score | bench-pipeline | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 162e031d-b524-43b4-81e1-721bad6bf71e |
-| 2026-11-12T00:57:10+00:00 | qwen3.6:35b-a3b-xl | custom_command_safety | success | smoke | 12 | 1.0 | score | bench-pipeline | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | 0d4298c3-bef7-41f7-95cb-a08cb07f6013 |
-| 2026-11-12T00:57:02+00:00 | qwen3.6:35b-a3b-xl | custom_json_schema_strict | success | smoke | 13 | 1.0 | score | bench-pipeline | qwen35_single_chat_fast_reasoningoff_smoke_20261112 | bdcd6f8f-d7c5-4595-aefb-157d223e1324 |
-| 2026-11-12T00:48:32+00:00 | qwen3.6:35b-a3b-xl | ifeval_inst_level_loose_acc_none | success | smoke | 10 | 0.2777777777777778 | inst_level_loose_acc,none | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 2615d8f3-1c54-4cb1-91cd-2bb7c0e09827 |
-| 2026-11-12T00:48:31+00:00 | qwen3.6:35b-a3b-xl | ifeval_inst_level_strict_acc_none | success | smoke | 10 | 0.2777777777777778 | inst_level_strict_acc,none | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 418d8448-9e71-4266-bd5b-d5f0fc03c16c |
-| 2026-11-12T00:48:31+00:00 | qwen3.6:35b-a3b-xl | ifeval_prompt_level_loose_acc_none | success | smoke | 10 | 0.4 | prompt_level_loose_acc,none | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 2ae63533-5cbe-448b-afd9-d2f346211168 |
-| 2026-11-12T00:48:30+00:00 | qwen3.6:35b-a3b-xl | ifeval_prompt_level_strict_acc_none | success | smoke | 10 | 0.4 | prompt_level_strict_acc,none | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | e8ee9c52-a374-4fa9-af92-aeda67a0056c |
-| 2026-11-12T00:47:10+00:00 | qwen3.6:35b-a3b-xl | mmlu_pro_exact_match_custom-extract | success | smoke | 140 | 0.24285714285714285 | exact_match,custom-extract | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | ce13d204-6671-4955-81a3-366c58a2069f |
-| 2026-11-12T00:47:10+00:00 | qwen3.6:35b-a3b-xl | mmlu_pro_flexible | success | smoke | 140 | 0.24285714285714285 | exact_match,flexible-extract | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 51d9d211-4762-4005-9fd3-f023ba06add8 |
-| 2026-11-12T00:27:58+00:00 | qwen3.6:35b-a3b-xl | drop_f1 | success | smoke | 10 | 0.0 | f1,none | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 69187f4d-37c2-4603-81a4-34d18c10a893 |
-| 2026-11-12T00:27:58+00:00 | qwen3.6:35b-a3b-xl | drop_flexible | success | smoke | 10 | 0.0 | answer_contained | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 25071906-d568-49ba-9f68-fc90bc215a6a |
-| 2026-11-12T00:27:57+00:00 | qwen3.6:35b-a3b-xl | drop_em | success | smoke | 10 | 0.0 | em,none | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | aa7ef34e-f773-40d2-8cff-8430c289aeb2 |
-| 2026-11-12T00:27:41+00:00 | qwen3.6:35b-a3b-xl | bbh_flexible | success | smoke | 270 | 0.4222222222222222 | exact_match,flexible-extract | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | adcb0e9f-d743-465a-b81f-112db6384b5c |
-| 2026-11-12T00:27:40+00:00 | qwen3.6:35b-a3b-xl | bbh | success | smoke | 270 | 0.3592592592592593 | exact_match,get-answer | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 0f7a4696-76bb-493f-9c67-35d1192b94e7 |
-| 2026-11-12T00:04:32+00:00 | qwen3.6:35b-a3b-xl | gsm8k_flexible | success | smoke | 10 | 0.5 | exact_match,flexible-extract | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | 85a10aa0-820d-4c60-86c9-a4fda3a60653 |
-| 2026-11-12T00:04:31+00:00 | qwen3.6:35b-a3b-xl | gsm8k_strict | success | smoke | 10 | 0.4 | exact_match,strict-match | bench-reasoning | qwen35_single_chat_fast_smoke_20261111 | dabb65c4-574d-4e35-912b-bfbbc672594d |
-| 2026-11-12T00:03:43+00:00 | qwen3.6:35b-a3b-xl | humaneval_base | success | smoke | 50 | 0.04 | pass@1_base | bench-code | qwen35_single_chat_fast_smoke_20261111 | 36e616bc-ed4d-46b9-86f9-c98010e8be7c |
-| 2026-11-12T00:03:43+00:00 | qwen3.6:35b-a3b-xl | humaneval_plus | success | smoke | 50 | 0.04 | pass@1_plus | bench-code | qwen35_single_chat_fast_smoke_20261111 | 00fcef22-0d4a-458f-9686-4157d59210cb |
-| 2026-11-11T23:58:47+00:00 | qwen3.6:35b-a3b-xl | custom_long_context_extract | success | smoke | 14 | 1.0 | score | bench-pipeline | qwen35_single_chat_fast_smoke_20261111 | d1a7684c-7dc8-4bab-b590-40fe72f44dee |
-| 2026-11-11T23:58:28+00:00 | qwen3.6:35b-a3b-xl | custom_orchestration_tradeoff | success | smoke | 12 | 0.9166666666666666 | score | bench-pipeline | qwen35_single_chat_fast_smoke_20261111 | ea9a9aa7-2b38-4d91-8e02-28c8bb0732df |
-| 2026-11-11T23:57:54+00:00 | qwen3.6:35b-a3b-xl | custom_tool_plan_sequence | success | smoke | 15 | 0.8666666666666667 | score | bench-pipeline | qwen35_single_chat_fast_smoke_20261111 | 8f31d632-bf37-4d58-b6f3-70db9d2ddac7 |
-| 2026-11-11T23:57:22+00:00 | qwen3.6:35b-a3b-xl | custom_ambiguity_handling | success | smoke | 13 | 0.9230769230769231 | score | bench-pipeline | qwen35_single_chat_fast_smoke_20261111 | eea073a1-9fd4-41f6-89b2-4a1d8b9fac91 |

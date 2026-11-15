@@ -1,5 +1,10 @@
 # Expert tensor placement experiment
 
+For a new placement request, use [EXPERT_TENSOR_RUNNER_GUIDE.md](EXPERT_TENSOR_RUNNER_GUIDE.md)
+to choose the proof class, placement mechanism and repeatable case. This plan
+preserves dated findings and receipts; its old one-off launch commands are
+historical evidence rather than the current execution path.
+
 Status: design and preflight, 2026-11-06. This experiment consumes the rig profile in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) and the [read-only hardware survey](results/runtime_experiments/expert_capacity_survey_20261106/README.md). Those sources own the rig specifications. This document owns the candidate model, placement matrix, measurement protocol, and admission gates. The broader cross-repository research is in [EXPERT_TENSOR_SHARDING_RESEARCH.md](EXPERT_TENSOR_SHARDING_RESEARCH.md).
 
 ## Resume here: Q4 Strata and expert placement

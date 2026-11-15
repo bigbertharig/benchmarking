@@ -1,0 +1,8 @@
+{
+  "name": "contract_multicard_live",
+  "description": "One bounded 30B MoE reasoning case across the five unclaimed GPUs; exercises manager placement and runtime identity without using GPU 0.",
+  "defaults": {"run_class": "smoke", "load_timeout_s": 600},
+  "blocks": [
+    {"id":"reasoning","model":"qwen3-coder:30b-a3b","gpus":[1,2,3,4,5],"profile":"default","ctx_size":4096,"suite":"bench-reasoning","suite_args":["--tasks","gsm8k"],"limit":1,"wait_s":120}
+  ]
+}

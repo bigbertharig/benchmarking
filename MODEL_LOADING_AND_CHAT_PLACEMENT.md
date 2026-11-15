@@ -526,18 +526,21 @@ has an explicit command, timeout, expected outputs, and optional GPU set. A
 GPU stage requires a Manager benchmark lease and renews it; the sequence
 refuses an offline/no-lease run. A benchmark session can reserve its entire
 planned GPU set before its first stage with `--session-gpus`, including cards
-that are idle while a model loads. The persistent Manager claim has an owner
-and purpose visible to other sessions, is passed to each lease request, and
-survives stage boundaries and the end of the run. Use `--claim NAME` to reuse
-an existing persistent claim. Combine `--claim NAME --session-gpus 0,1,2`
+that are idle while a model loads. The Manager claim has an owner and purpose
+visible to other sessions, is passed to each lease request, and survives stage
+boundaries. It expires after 15 minutes unless the active runner renews it;
+the runner renews every two minutes and stops renewing when the run ends.
+Use `--claim NAME` to reuse an existing claim. Combine `--claim NAME --session-gpus 0,1,2`
 to extend that claim to additional cards before the next stage; Manager
 refuses a shrink or a claim owned by someone else. A stage marked `freeze: true` leaves its runtime
-loaded and releases its temporary lease only after the persistent claim is
+loaded and releases its temporary lease only after the session claim is
 verified; `reuse_loaded: true` runs against an already loaded service under
 that claim without attempting a second GPU lease. The command must explicitly
 support `--reuse-loaded`. Older scripts that stop their own service must be
 updated before marking their stage frozen. End the session with `rigctl unclaim
-NAME` only after its loaded runtimes are stopped or another owner takes over.
+NAME` after its loaded runtimes are stopped. A frozen runtime that outlives
+the claim remains visible as busy; recreate and renew a session claim before
+another benchmark uses it.
 Host `MemAvailable` must remain above 4 GiB.
 The runner writes a log and atomic JSON receipt for every attempted stage,
 plus a terminal summary under
@@ -571,13 +574,11 @@ python3 ~/llm-gateway/tools/rigctl.py run-start --run model-loading-YYYYMMDD --c
 ```
 
 The claim name is the run ID. The terminal receipt records its card set; a
-rerun verifies the same claim rather than creating another. When a model is
-already frozen, use its existing claim instead. The current 125B-class Qwen3.8
-Q4 Strata load uses `qwen38-q4-frozen` across GPUs 0?5. GPU0 holds the
-healthy 32K two-slot Strata service; the five 1060s are idle but reserved for
-follow-up benchmarks. The claim was extended through Manager on 2026-11-10
-and persists after the current run. The loaded Qwen model was not unloaded
-by the runner or gateway changes.
+rerun renews an existing claim or creates it again if it expired. When a model
+is already frozen, pass its claim name and `--session-gpus` to recreate the
+reservation if needed. On 2026-11-10, the 125B-class Qwen3.8 Q4 Strata run
+used `qwen38-q4-frozen` across GPUs 0–5. That historical claim is not a
+permanent reservation under the current lease rules.
 
 The first stage now reuses the full SHA-256 receipt when each shard still has
 the verified size, digest in the manifest, and unchanged modification/change

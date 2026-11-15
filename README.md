@@ -21,6 +21,11 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 | [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | campaigns (Phase 5 at scale); [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md) is the planned move onto the rig manager |
 | [scripts/integration/README.md](scripts/integration/README.md) | the lane tools for Phases 3-4.5 |
 | [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) | how fast the rig runs models and why: card vs bus, splits, context capacity, PCIe; open questions; which tool measures what |
+| [RIG_LIMIT_TEST.md](RIG_LIMIT_TEST.md) | start here for the guarded small or deep rig survey and its starting-guidance report |
+| [SYNTHETIC_WORK_SCAN.md](SYNTHETIC_WORK_SCAN.md) | model-free weight, expert, KV, lookup, and shared-bus work classes; run presets and limits |
+| [REPEATABLE_RIG_EXPERIMENTS.md](REPEATABLE_RIG_EXPERIMENTS.md) | repeatable runner contract for depth, placement, Strata, expert tensor, and transfer tests |
+| [TEST_RUNNER_GUIDE.md](TEST_RUNNER_GUIDE.md) | how to create a new experiment runner, when to use a direct loader, and how to reuse the managed sequence |
+| [EXPERIMENT_RUNNER_INVENTORY.md](EXPERIMENT_RUNNER_INVENTORY.md) | the recent Strata, expert, PLE, and chat entry points and their internal runner destinations |
 | [EXPERT_TENSOR_SHARDING_RESEARCH.md](EXPERT_TENSOR_SHARDING_RESEARCH.md) | tiered expert execution evidence, repo boundaries, hardware/model analysis and full-model research gates |
 | [EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md) | model choice, admission gates and matched VRAM/RAM/storage placement controls |
 | [CONTEXT_PROFILE_AUDIT_2026-10-26.md](CONTEXT_PROFILE_AUDIT_2026-10-26.md) | active and candidate model context bounds, working defaults, and read-only card-fit projections |
@@ -37,13 +42,25 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 | **benchmarking** (this one) | which models are good: registry, roles, suites, campaigns, results | `NEW_MODEL_INTEGRATION.md` |
 | [llm-harness](https://github.com/bigbertharig/llm-harness) | one model in an interactive loop (no code yet) | `README.md` |
 
-Every load goes through the rig manager (llm-gateway): lanes and campaigns ask it for cards; nothing here
-starts a model on a card by itself. The suites run on the rig and read this repo from the shared drive
+Ordinary model loads go through the gateway Manager: it admits the request and
+the orchestration-owned rig layer executes the load and readiness checks.
+Experimental Strata and tensor probes may launch an unsupported engine directly
+under a Manager run and card claim; see [TEST_RUNNER_GUIDE.md](TEST_RUNNER_GUIDE.md).
+The suites run on the rig and read this repo from the shared drive
 (`/mnt/shared/plans/shoulders/benchmarking` today; moving beside the other repos).
+
+For a standalone `lm-eval` task, load the model through `rigctl load-model --use benchmark --json`
+first and use its ready route in `scripts/active/run_lm_eval_task.py --model-args`.
+Pass `--model-id` with the canonical key from `model_registry.json`; the served route may be a
+profile name and must not become the ledger's model ID. The runner rejects missing model or endpoint
+arguments and writes `run_context.json` beside its result with the canonical ID, served route,
+benchmark ID, registry hash, and imported tool-catalog source hash. The receipt excludes API keys.
 
 ## The model library
 
-Edit these source files, then run `scripts/active/model_library.py export` (and `check`):
+The [cross-repo contract](CROSS_REPO_CONTRACT.md) defines model, tool, and live-state
+ownership. Edit these source files, then run `scripts/active/model_library.py export`
+and `scripts/active/export_model_library.py sync` (and `check` for both):
 
 - `model_registry.json`: every tested model: status, archive GGUF, source URL, scheduling, named profiles
   (`default` = benchmark settings, `interactive` = gateway use, `orchestration`, and optional variants such
@@ -71,6 +88,19 @@ receipts behind them, rather than fixed card-count recipes in the registry.
 
 Generated from the registry (do not edit): `models.catalog.json`, `model_tuning_profiles.json`,
 `custom_tasks/model_prompt_profiles.json`.
+`model_library_export.json` is the versioned, hash-checked interchange artifact. Gateway,
+orchestration, and harness import it instead of importing benchmarking Python or reading
+its source files directly. Importing a model describes what can be planned; the gateway's
+ready roster and rig status APIs describe what is callable and running now.
+
+## Harness tool capability input
+
+The harness owns the versioned dashboard tool catalog. For model/tool trials, import its
+`tools/dashboard_tool_catalog.json` with `python3 scripts/active/sync_harness_tools.py --source PATH what-new|sync|check`.
+The local `tool_catalog.json` records the source hash and import time; tests and receipts
+should pin that hash alongside canonical model ID, served route, tool name, valid call,
+result, and answer quality. This snapshot is a test input, not a runtime tool registry.
+The gateway imports the same harness artifact independently for dashboard use.
 
 ## Running benchmarks
 

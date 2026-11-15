@@ -1,5 +1,10 @@
 # Memory-tier experiments and Strata comparisons
 
+For new Strata experiment requests, use [STRATA_RUNNER_GUIDE.md](STRATA_RUNNER_GUIDE.md)
+as the intake and runner contract. This document preserves dated plans,
+results, and receipts; its older launch examples are evidence for their
+recorded build and should not override the current managed-load boundary.
+
 Status: Qwen3.6 UD-Q4_K_XL placement sweep; Qwen3.8 Flash-Next Q2_0 download, 256K Strata recall, llama.cpp GPU splits, and matched SATA SSD/NVMe expert-file comparisons completed on 2026-11-03 UTC. Both model files were SHA-256 verified on rig NVMe; the temporary SATA pack copy was separately verified. The Strata 0.2.10 control and signed CUDA13 engine 0.1.56 were used. GPUs were leased per run and released after each engine stopped. These are inference-engine experiments, not harness tests.
 
 ## Qwen3.6 35B quantization replacement check (2026-11-04 UTC)

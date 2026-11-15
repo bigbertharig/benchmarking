@@ -1,0 +1,17 @@
+{
+  "name": "contract_live_smoke",
+  "defaults": {"run_class": "smoke"},
+  "blocks": [
+    {
+      "id": "reasoning",
+      "model": "ministral-3:3b",
+      "profile": "default",
+      "gpus": [3],
+      "ctx_size": 4096,
+      "suite": "bench-reasoning",
+      "suite_args": ["--tasks", "gsm8k"],
+      "limit": 1,
+      "wait_s": 60
+    }
+  ]
+}

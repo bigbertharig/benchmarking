@@ -6495,7 +6495,24 @@
       "test_id": "drop_flexible"
     },
     {
-      "attempt_count": 13,
+      "attempt_count": 1,
+      "comparison_group": "geoimport-capability-v2",
+      "failure_count": 0,
+      "methodology_id": "bench-geoimport/capability",
+      "methodology_versions": [
+        "2.0.0"
+      ],
+      "model": "gemma-4:e4b",
+      "selected_run_at": "2026-11-15T21:34:25.469467",
+      "selected_run_class": "smoke",
+      "selected_run_id": "dc34c422-a555-4479-90bf-48926b2d21d5",
+      "selected_sample_count": 1,
+      "selected_score": 0.9474,
+      "success_count": 1,
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "attempt_count": 14,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -6508,7 +6525,7 @@
       "selected_run_id": "241be5ae-1878-44ec-95d9-20b6cc99dad4",
       "selected_sample_count": 50,
       "selected_score": 0.8,
-      "success_count": 13,
+      "success_count": 14,
       "test_id": "gsm8k_flexible"
     },
     {
@@ -6529,7 +6546,7 @@
       "test_id": "gsm8k_flexible"
     },
     {
-      "attempt_count": 7,
+      "attempt_count": 8,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -6542,7 +6559,7 @@
       "selected_run_id": "ce68534e-499d-4e7a-858b-f6da1c189850",
       "selected_sample_count": 50,
       "selected_score": 0.78,
-      "success_count": 7,
+      "success_count": 8,
       "test_id": "gsm8k_strict"
     },
     {
@@ -11272,7 +11289,7 @@
       "test_id": "agent_observation_use"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 5,
       "comparison_group": "agent-execution-v1",
       "failure_count": 2,
       "methodology_id": "bench-agent/executable-tools",
@@ -11280,12 +11297,12 @@
         "1.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-08-14T09:51:38.868014+00:00",
+      "selected_run_at": "2026-11-15T21:27:12.073726+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "b770e5ed-9534-449a-9a4b-c0096c3fe2a3",
+      "selected_run_id": "cf1952dc-b455-4b56-a89b-188a351917a5",
       "selected_sample_count": 1,
       "selected_score": 0.125,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "agent_plan_sequence"
     },
     {
@@ -11425,7 +11442,7 @@
       "test_id": "custom_json_schema_strict"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 4,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -11433,12 +11450,12 @@
         "2.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-10-18T07:05:49+00:00",
+      "selected_run_at": "2026-11-15T21:43:05+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "2c2da620-97c9-48f0-a805-d6681078a95a",
+      "selected_run_id": "b4cc8e62-d6ca-4202-b191-2b7bc316db5c",
       "selected_sample_count": 13,
       "selected_score": 0.0,
-      "success_count": 3,
+      "success_count": 4,
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -11663,7 +11680,7 @@
       "test_id": "daedalmap_geographic_precision_type_correct_rate"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "daedalmap-llm-benchmark-v2",
       "failure_count": 0,
       "methodology_id": "bench-daedalmap/chat-isolation",
@@ -11676,11 +11693,11 @@
       "selected_run_id": "b15bf0c3-53fd-485c-b028-2ecea65f4dcd",
       "selected_sample_count": 5,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "daedalmap_json_discipline_json_valid_rate"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "daedalmap-llm-benchmark-v2",
       "failure_count": 0,
       "methodology_id": "bench-daedalmap/chat-isolation",
@@ -11693,11 +11710,11 @@
       "selected_run_id": "9410f543-7270-4ea3-9143-1a6d54710781",
       "selected_sample_count": 5,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "daedalmap_json_discipline_no_halluc_rate"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "daedalmap-llm-benchmark-v2",
       "failure_count": 0,
       "methodology_id": "bench-daedalmap/chat-isolation",
@@ -11710,11 +11727,11 @@
       "selected_run_id": "5e1332ae-fee1-4468-b201-50a831485668",
       "selected_sample_count": 5,
       "selected_score": 0.8,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "daedalmap_json_discipline_pass_rate"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "daedalmap-llm-benchmark-v2",
       "failure_count": 0,
       "methodology_id": "bench-daedalmap/chat-isolation",
@@ -11727,7 +11744,7 @@
       "selected_run_id": "b835e533-f22e-4ed3-b514-599ca14e29e2",
       "selected_sample_count": 5,
       "selected_score": 0.8,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "daedalmap_json_discipline_type_correct_rate"
     },
     {
@@ -12105,7 +12122,7 @@
       "test_id": "dataimport_schema_aggregates"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "dataimport-capability-v1",
       "failure_count": 0,
       "methodology_id": "bench-dataimport/capability",
@@ -12113,12 +12130,12 @@
         "1.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-08-14T09:50:16+00:00",
+      "selected_run_at": "2026-11-15T21:26:53+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "68936847-f9f0-4261-a631-50f0787d7772",
+      "selected_run_id": "10aa10e7-0df9-4990-a1d8-d2597d2ea6e6",
       "selected_sample_count": 1,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "dataimport_schema_loc_id"
     },
     {
@@ -12224,7 +12241,7 @@
       "test_id": "drop_flexible"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 5,
       "comparison_group": "geoimport-capability-v2",
       "failure_count": 0,
       "methodology_id": "bench-geoimport/capability",
@@ -12232,12 +12249,12 @@
         "2.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-08-14T09:50:58.834516",
+      "selected_run_at": "2026-11-15T21:27:01.977554",
       "selected_run_class": "smoke",
-      "selected_run_id": "ff19875f-a9c8-43ff-8059-6838c1fab871",
+      "selected_run_id": "7f7deac5-a79f-438b-97a1-6c02b3296204",
       "selected_sample_count": 1,
       "selected_score": 1.0,
-      "success_count": 4,
+      "success_count": 5,
       "test_id": "geoimport_prep_classify_australia_asgs_v2"
     },
     {
@@ -12326,7 +12343,7 @@
       "test_id": "gsm8k"
     },
     {
-      "attempt_count": 11,
+      "attempt_count": 14,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -12339,11 +12356,11 @@
       "selected_run_id": "40f97bb6-4579-466c-a871-a174b4d451a5",
       "selected_sample_count": 50,
       "selected_score": 0.72,
-      "success_count": 11,
+      "success_count": 14,
       "test_id": "gsm8k_flexible"
     },
     {
-      "attempt_count": 7,
+      "attempt_count": 10,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -12356,7 +12373,7 @@
       "selected_run_id": "fb304946-f154-4287-aabe-af9c7fdf6614",
       "selected_sample_count": 50,
       "selected_score": 0.66,
-      "success_count": 7,
+      "success_count": 10,
       "test_id": "gsm8k_strict"
     },
     {
@@ -12479,7 +12496,7 @@
       "test_id": "ifeval_prompt_level_strict_acc_none"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 5,
       "comparison_group": "knowledge-chat-mc-v1",
       "failure_count": 2,
       "methodology_id": "bench-knowledge/chat-mc",
@@ -12492,7 +12509,7 @@
       "selected_run_id": "6162046e-aa9a-4168-a4e7-0e271bf9755d",
       "selected_sample_count": 5,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "knowledge_academic_probe_v1"
     },
     {
@@ -12649,7 +12666,7 @@
       "test_id": "mmlu_pro_flexible"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 5,
       "comparison_group": "routing-cost-v1",
       "failure_count": 2,
       "methodology_id": "bench-routing/cost-awareness",
@@ -12662,11 +12679,11 @@
       "selected_run_id": "997028a1-8788-4b1f-9ebe-b119e21f70fc",
       "selected_sample_count": 5,
       "selected_score": 0.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "routing_cost_awareness"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 4,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12679,11 +12696,11 @@
       "selected_run_id": "f4e32de5-8c7a-4ea9-95fd-75ad6b70eb6f",
       "selected_sample_count": 2,
       "selected_score": 1.0,
-      "success_count": 3,
+      "success_count": 4,
       "test_id": "runtime_context_reliability"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 4,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12696,11 +12713,11 @@
       "selected_run_id": "ea347d62-2802-4e7a-81e8-0b05e639be20",
       "selected_sample_count": 5,
       "selected_score": 1.0,
-      "success_count": 3,
+      "success_count": 4,
       "test_id": "runtime_stability"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 4,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12713,11 +12730,11 @@
       "selected_run_id": "f98e0df4-691c-42d9-9f14-9de93c977960",
       "selected_sample_count": 1,
       "selected_score": 1.0,
-      "success_count": 3,
+      "success_count": 4,
       "test_id": "runtime_throughput"
     },
     {
-      "attempt_count": 3,
+      "attempt_count": 4,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12730,7 +12747,7 @@
       "selected_run_id": "12b657a1-9a87-48ea-b0dc-5a48d06bc58b",
       "selected_sample_count": 3,
       "selected_score": 1.0,
-      "success_count": 3,
+      "success_count": 4,
       "test_id": "runtime_ttft"
     },
     {
@@ -21948,7 +21965,7 @@
       "test_id": "geoimport_prep_plan_brazil_spine_v2"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 7,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -21961,11 +21978,11 @@
       "selected_run_id": "28b6c599-14fb-4c8d-8022-220474e5a47a",
       "selected_sample_count": 50,
       "selected_score": 0.92,
-      "success_count": 6,
+      "success_count": 7,
       "test_id": "gsm8k_flexible"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 7,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -21978,7 +21995,7 @@
       "selected_run_id": "10ff4572-f701-4ab3-9477-3f02997cf2ab",
       "selected_sample_count": 50,
       "selected_score": 0.92,
-      "success_count": 6,
+      "success_count": 7,
       "test_id": "gsm8k_strict"
     },
     {
@@ -29428,13 +29445,13 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "generated_at": "2026-11-12T01:17:00.791614+00:00",
-  "group_count": 1731,
+  "generated_at": "2026-11-15T21:43:05.903053+00:00",
+  "group_count": 1732,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 3640,
+  "record_count": 3665,
   "schema_version": 1
 }

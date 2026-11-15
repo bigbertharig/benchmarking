@@ -1,0 +1,66 @@
+{
+  "imported_at": "2026-11-15T01:06:07+00:00",
+  "schema_version": 1,
+  "servers": {
+    "local_agents": {
+      "purpose": "Discover agent roles and delegate bounded tasks from cloud or local models",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "list_local_agents"
+        },
+        {
+          "approval": "automatic",
+          "name": "delegate_task"
+        }
+      ]
+    },
+    "rig_info": {
+      "purpose": "Read-only rig, model, benchmark, and orchestration status through gateway APIs",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "get_rig_status"
+        },
+        {
+          "approval": "automatic",
+          "name": "check_rig_heartbeats"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_model_status"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_benchmark_status"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_orchestration_status"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_orchestration_diagnostics"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_orchestration_activity"
+        }
+      ]
+    },
+    "rig_search": {
+      "purpose": "Search public sources and fetch selected public pages on Pi CPUs",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "search_web"
+        },
+        {
+          "approval": "automatic",
+          "name": "fetch_page"
+        }
+      ]
+    }
+  },
+  "source_sha256": "c147bd4155cd5c23e963c9d640a7d12114de1d81820665cb79f3c6c6131d6853"
+}

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T01:17:00.551184+00:00",
+  "generated_at": "2026-11-15T21:43:05.661648+00:00",
   "model_rollup": [
     {
       "failures": 0,
@@ -341,15 +341,17 @@
     },
     {
       "failures": 0,
-      "last_run_at": "2026-10-26T08:49:35+00:00",
+      "last_run_at": "2026-11-15T21:34:25.469467",
       "model": "gemma-4:e4b",
-      "records": 118,
-      "selected_tests": 23,
-      "successes": 118,
+      "records": 121,
+      "selected_tests": 24,
+      "successes": 121,
       "suites": [
         "campaign_e4b_reasoning",
         "campaign_e4b_reasoning_20260608_141848",
         "campaign_gemma4_e4b_reasoning_l50_current-models-l50-gapfill-20261026",
+        "campaign_geoimport_contract-second-card-20261115a",
+        "campaign_reasoning_contract-second-card-20261115a",
         "e4b_tts_drop_l100",
         "gemma-4_e4b_ab_answer",
         "gemma-4_e4b_ab_plain",
@@ -488,16 +490,21 @@
     },
     {
       "failures": 30,
-      "last_run_at": "2026-10-26T20:43:42+00:00",
+      "last_run_at": "2026-11-15T21:43:05+00:00",
       "model": "ministral-3:3b",
-      "records": 217,
+      "records": 237,
       "selected_tests": 82,
-      "successes": 187,
+      "successes": 207,
       "suites": [
         "campaign_agent_20260813_contract_v1",
+        "campaign_agent_contract-bounded-live-20261115a",
         "campaign_daedalmap_20260813_contract_v1",
+        "campaign_daedalmap_contract-bounded-live-20261115a",
         "campaign_data_parallel_lane_20260813_contract_v1",
+        "campaign_dataimport_contract-bounded-live-20261115a",
+        "campaign_geoimport_contract-bounded-live-20261115a",
         "campaign_geometry_after_knowledge_20260813_contract_v1",
+        "campaign_knowledge_contract-bounded-live-20261115a",
         "campaign_knowledge_lane_20260813_contract_v1",
         "campaign_ministral3_3b_agent_20260813_limit5_all",
         "campaign_ministral3_3b_code_20260813_limit5_all",
@@ -517,9 +524,15 @@
         "campaign_ministral3_3b_runtime_20260813_limit5_all",
         "campaign_ministral3_3b_runtime_20260820_modern_validation_l50_retry3",
         "campaign_pipeline_20260813_contract_v1",
+        "campaign_pipeline_contract-operational-20261115a",
         "campaign_reasoning_20260813_contract_v1",
+        "campaign_reasoning_contract-bounded-live-20261115a",
+        "campaign_reasoning_contract-live-smoke-20261115c",
+        "campaign_reasoning_contract-live-smoke-20261115d",
         "campaign_routing_20260813_contract_v1",
+        "campaign_routing_contract-bounded-live-20261115a",
         "campaign_runtime_20260813_contract_v1",
+        "campaign_runtime_contract-operational-20261115a",
         "ministral-3_3b_ab_answer",
         "ministral-3_3b_ab_plain",
         "ministral-3_3b_ab_worker",
@@ -818,11 +831,11 @@
     },
     {
       "failures": 1,
-      "last_run_at": "2026-10-26T07:46:59.826252+00:00",
+      "last_run_at": "2026-11-15T21:39:54+00:00",
       "model": "qwen3-coder:30b-a3b",
-      "records": 176,
+      "records": 178,
       "selected_tests": 86,
-      "successes": 175,
+      "successes": 177,
       "suites": [
         "campaign_qwen3_coder_30b_a3b_code_full_20261022_024509",
         "campaign_qwen3_coder_30b_a3b_geoimport_20261022_024509",
@@ -844,6 +857,7 @@
         "campaign_qwen3coder_30b_routing_20260813_limit5_all",
         "campaign_qwen3coder_30b_runtime_20260813_limit5_all",
         "campaign_qwen3coder_30b_runtime_modern-brain-revalidate-20261025-r3",
+        "campaign_reasoning_contract-multicard-20261115a",
         "qwen3-coder_30b-a3b_w_p45_off",
         "qwen3-coder_30b-a3b_w_p45_think",
         "qwen3-coder_30b-a3b_w_smoke_v1"
@@ -3699,9 +3713,9 @@
       "test_id": "gsm8k"
     }
   ],
-  "record_count": 3640,
+  "record_count": 3665,
   "schema_version": 3,
-  "selected_count": 1617,
+  "selected_count": 1618,
   "selected_per_model_test": [
     {
       "efficiency": {},
@@ -19951,6 +19965,69 @@
         "kind": "",
         "message": ""
       },
+      "format_compatibility": "unknown",
+      "harness": "bench-geoimport",
+      "methodology": {
+        "comparison_group": "geoimport-capability-v2",
+        "id": "bench-geoimport/capability",
+        "version": "2.0.0"
+      },
+      "metric": "classification",
+      "model": "gemma-4:e4b",
+      "normalized_answer_score": null,
+      "notes": "",
+      "raw_harness_score": 0.9474,
+      "run_at": "2026-11-15T21:34:25.469467",
+      "run_class": "smoke",
+      "run_id": "dc34c422-a555-4479-90bf-48926b2d21d5",
+      "runtime": {
+        "config": {
+          "inference": {
+            "json_grammar": false,
+            "max_tokens": 512,
+            "repeat_penalty": null,
+            "stop_sequences": [],
+            "temperature": 0.0,
+            "thinking": null,
+            "top_k": null,
+            "top_p": 1.0
+          },
+          "model_profile": "gemma-4:e4b->gemma-4-e4b-it-Q4_K_M.gguf",
+          "operator": {},
+          "tuning_profiles": "/benchmark-scripts/model_tuning_profiles.json"
+        },
+        "config_hash": "ea5308fd0181c151a12e99800100940c5cda1f114add454cbf243417e86cdd32",
+        "config_id": "geoimport-v2:gemma-4:e4b->gemma-4-e4b-it-Q4_K_M.gguf",
+        "hardware_id": "",
+        "image": "",
+        "runtime_id": ""
+      },
+      "sample_count": 1,
+      "schema_version": 3,
+      "score": 0.9474,
+      "score_pct": 94.74000000000001,
+      "status": "success",
+      "suite": "campaign_geoimport_contract-second-card-20261115a",
+      "test_id": "geoimport_prep_classify_australia_asgs_v2"
+    },
+    {
+      "efficiency": {
+        "energy_wh": null,
+        "failed_request_count": 0,
+        "generation_tps": null,
+        "gpu_seconds": null,
+        "kv_cache_mb": null,
+        "peak_vram_mb": null,
+        "prompt_tps": null,
+        "timeout_count": 0,
+        "ttft_seconds": null,
+        "wall_time_seconds": null
+      },
+      "extractor_failure_count": 0,
+      "failure": {
+        "kind": "",
+        "message": ""
+      },
       "format_compatibility": "degraded",
       "harness": "bench-reasoning",
       "methodology": {
@@ -33526,7 +33603,7 @@
         "prompt_tps": null,
         "timeout_count": 0,
         "ttft_seconds": null,
-        "wall_time_seconds": 7.1989269879995845
+        "wall_time_seconds": 6.300048504000017
       },
       "extractor_failure_count": 0,
       "failure": {
@@ -33545,9 +33622,9 @@
       "normalized_answer_score": 0.0,
       "notes": "{\"final_task_success\": 0.0, \"plan_correctness\": 0.25}",
       "raw_harness_score": 0.125,
-      "run_at": "2026-08-14T09:51:38.868014+00:00",
+      "run_at": "2026-11-15T21:27:12.073726+00:00",
       "run_class": "smoke",
-      "run_id": "b770e5ed-9534-449a-9a4b-c0096c3fe2a3",
+      "run_id": "cf1952dc-b455-4b56-a89b-188a351917a5",
       "runtime": {
         "config": {
           "case_category": "planning",
@@ -33558,7 +33635,7 @@
         },
         "config_hash": "8973daf6dca727a78f07808755d39b6f9b7fd4cff3b66bd3e3f804af3754a080",
         "config_id": "agent_plan_sequence",
-        "hardware_id": "rig-gpu_1-gpu1",
+        "hardware_id": "rig-gpu_3-gpu3",
         "image": "",
         "runtime_id": ""
       },
@@ -33567,7 +33644,7 @@
       "score": 0.125,
       "score_pct": 12.5,
       "status": "success",
-      "suite": "campaign_ministral3_3b_agent_20260813_limit5_all",
+      "suite": "campaign_agent_contract-bounded-live-20261115a",
       "test_id": "agent_plan_sequence"
     },
     {
@@ -33977,17 +34054,14 @@
       "metric": "score",
       "model": "ministral-3:3b",
       "normalized_answer_score": null,
-      "notes": "passes=0; total=13; result_path=/results/custom_json_schema_strict_ministral-3_3b_20261018_070538_352034/result.json; regraded from responses",
+      "notes": "passes=0; total=13; result_path=/results/custom_json_schema_strict_ministral-3_3b_20261115_214255_188282/result.json",
       "raw_harness_score": 0.0,
-      "run_at": "2026-10-18T07:05:49+00:00",
+      "run_at": "2026-11-15T21:43:05+00:00",
       "run_class": "smoke",
-      "run_id": "2c2da620-97c9-48f0-a805-d6681078a95a",
+      "run_id": "b4cc8e62-d6ca-4202-b191-2b7bc316db5c",
       "runtime": {
-        "config": {
-          "grading": "json-schema-v2",
-          "rescored_from_responses": true
-        },
-        "config_hash": "bbd803f3d9ac1768807c9d5755d2fd83caf3e11f11a2163605614b87706f4c64",
+        "config": {},
+        "config_hash": "",
         "config_id": "",
         "hardware_id": "",
         "image": "",
@@ -33998,7 +34072,7 @@
       "score": 0.0,
       "score_pct": 0.0,
       "status": "success",
-      "suite": "ministral-3_3b_w_smoke_v1",
+      "suite": "campaign_pipeline_contract-operational-20261115a",
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -36087,9 +36161,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 1.0,
-      "run_at": "2026-08-14T09:50:16+00:00",
+      "run_at": "2026-11-15T21:26:53+00:00",
       "run_class": "smoke",
-      "run_id": "68936847-f9f0-4261-a631-50f0787d7772",
+      "run_id": "10aa10e7-0df9-4990-a1d8-d2597d2ea6e6",
       "runtime": {
         "config": {},
         "config_hash": "",
@@ -36103,7 +36177,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_ministral3_3b_dataimport_20260813_limit5_all",
+      "suite": "campaign_dataimport_contract-bounded-live-20261115a",
       "test_id": "dataimport_schema_loc_id"
     },
     {
@@ -36417,9 +36491,9 @@
       "normalized_answer_score": null,
       "notes": "",
       "raw_harness_score": 1.0,
-      "run_at": "2026-08-14T09:50:58.834516",
+      "run_at": "2026-11-15T21:27:01.977554",
       "run_class": "smoke",
-      "run_id": "ff19875f-a9c8-43ff-8059-6838c1fab871",
+      "run_id": "7f7deac5-a79f-438b-97a1-6c02b3296204",
       "runtime": {
         "config": {
           "inference": {
@@ -36447,7 +36521,7 @@
       "score": 1.0,
       "score_pct": 100.0,
       "status": "success",
-      "suite": "campaign_ministral3_3b_geoimport_20260813_limit5_all",
+      "suite": "campaign_geoimport_contract-bounded-live-20261115a",
       "test_id": "geoimport_prep_classify_australia_asgs_v2"
     },
     {
@@ -83394,6 +83468,28 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-11-15T21:34:25.469467",
+      "model": "gemma-4:e4b",
+      "records": 1,
+      "successes": 1,
+      "suite": "campaign_geoimport_contract-second-card-20261115a"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-15T21:34:18+00:00",
+      "model": "gemma-4:e4b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_reasoning_contract-second-card-20261115a"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-reasoning"
       ],
       "last_run_at": "2026-04-26T00:36:40+00:00",
@@ -84237,6 +84333,17 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-agent"
+      ],
+      "last_run_at": "2026-11-15T21:27:12.073726+00:00",
+      "model": "ministral-3:3b",
+      "records": 1,
+      "successes": 1,
+      "suite": "campaign_agent_contract-bounded-live-20261115a"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-daedalmap"
       ],
       "last_run_at": "2026-08-13T21:17:56+00:00",
@@ -84244,6 +84351,17 @@
       "records": 4,
       "successes": 4,
       "suite": "campaign_daedalmap_20260813_contract_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-daedalmap"
+      ],
+      "last_run_at": "2026-11-15T21:27:23+00:00",
+      "model": "ministral-3:3b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_daedalmap_contract-bounded-live-20261115a"
     },
     {
       "failures": 0,
@@ -84259,6 +84377,28 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-dataimport"
+      ],
+      "last_run_at": "2026-11-15T21:26:53+00:00",
+      "model": "ministral-3:3b",
+      "records": 1,
+      "successes": 1,
+      "suite": "campaign_dataimport_contract-bounded-live-20261115a"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-geoimport"
+      ],
+      "last_run_at": "2026-11-15T21:27:01.977554",
+      "model": "ministral-3:3b",
+      "records": 1,
+      "successes": 1,
+      "suite": "campaign_geoimport_contract-bounded-live-20261115a"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-geoimport"
       ],
       "last_run_at": "2026-08-13T21:14:10.849646",
@@ -84266,6 +84406,17 @@
       "records": 1,
       "successes": 1,
       "suite": "campaign_geometry_after_knowledge_20260813_contract_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-knowledge"
+      ],
+      "last_run_at": "2026-11-15T21:26:44.701227+00:00",
+      "model": "ministral-3:3b",
+      "records": 1,
+      "successes": 1,
+      "suite": "campaign_knowledge_contract-bounded-live-20261115a"
     },
     {
       "failures": 0,
@@ -84477,6 +84628,17 @@
       "suite": "campaign_pipeline_20260813_contract_v1"
     },
     {
+      "failures": 0,
+      "harnesses": [
+        "bench-pipeline"
+      ],
+      "last_run_at": "2026-11-15T21:43:05+00:00",
+      "model": "ministral-3:3b",
+      "records": 1,
+      "successes": 1,
+      "suite": "campaign_pipeline_contract-operational-20261115a"
+    },
+    {
       "failures": 1,
       "harnesses": [
         "bench-reasoning"
@@ -84486,6 +84648,39 @@
       "records": 3,
       "successes": 2,
       "suite": "campaign_reasoning_20260813_contract_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-15T21:26:40+00:00",
+      "model": "ministral-3:3b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_reasoning_contract-bounded-live-20261115a"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-15T21:21:39+00:00",
+      "model": "ministral-3:3b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_reasoning_contract-live-smoke-20261115c"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-15T21:24:59+00:00",
+      "model": "ministral-3:3b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_reasoning_contract-live-smoke-20261115d"
     },
     {
       "failures": 0,
@@ -84501,6 +84696,17 @@
     {
       "failures": 0,
       "harnesses": [
+        "bench-routing"
+      ],
+      "last_run_at": "2026-11-15T21:27:15.702621+00:00",
+      "model": "ministral-3:3b",
+      "records": 1,
+      "successes": 1,
+      "suite": "campaign_routing_contract-bounded-live-20261115a"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
         "bench-runtime"
       ],
       "last_run_at": "2026-08-13T21:17:47.225390+00:00",
@@ -84508,6 +84714,17 @@
       "records": 4,
       "successes": 4,
       "suite": "campaign_runtime_20260813_contract_v1"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-runtime"
+      ],
+      "last_run_at": "2026-11-15T21:42:50.768752+00:00",
+      "model": "ministral-3:3b",
+      "records": 4,
+      "successes": 4,
+      "suite": "campaign_runtime_contract-operational-20261115a"
     },
     {
       "failures": 0,
@@ -86336,6 +86553,17 @@
       "records": 4,
       "successes": 4,
       "suite": "campaign_qwen3coder_30b_runtime_modern-brain-revalidate-20261025-r3"
+    },
+    {
+      "failures": 0,
+      "harnesses": [
+        "bench-reasoning"
+      ],
+      "last_run_at": "2026-11-15T21:39:54+00:00",
+      "model": "qwen3-coder:30b-a3b",
+      "records": 2,
+      "successes": 2,
+      "suite": "campaign_reasoning_contract-multicard-20261115a"
     },
     {
       "failures": 0,

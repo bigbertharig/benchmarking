@@ -16,7 +16,6 @@ sys.modules[SPEC.name] = RUNNER
 SPEC.loader.exec_module(RUNNER)
 RUNNER.SHARED_ROOT = ROOT.parents[2]
 RUNNER.BENCHMARKING_SCRIPTS = ROOT
-RUNNER.TUNING_PROFILES_PATH = ROOT / "model_tuning_profiles.json"
 RUNNER.SUITE_CONTRACTS_PATH = ROOT / "docker" / "suite_contracts.json"
 RUNNER.load_suite_contracts()
 
@@ -68,12 +67,24 @@ class CampaignRunnerTests(unittest.TestCase):
                 self.assertNotIn("--gguf", command)
                 self.assertIn("HOME=/tmp/benchmark-home", command)
                 self.assertTrue(any(value.startswith("HF_HOME=") for value in command))
+                self.assertIn(
+                    f"{RUNNER.TUNING_PROFILES_PATH}:/benchmark-scripts/model_tuning_profiles.json:ro",
+                    command,
+                )
 
     def test_profile_alias_is_resolved_before_launch(self):
         profile = RUNNER._lookup_tuning("qwen3-coder:30b-a3b")
         self.assertIsNotNone(profile)
         self.assertTrue(profile["system_prompt"].strip())
         self.assertIn("ctx_size", profile["runtime"])
+        self.assertEqual(RUNNER.TUNING_PROFILES_PATH.name, "model_tuning_profiles.json")
+        self.assertEqual(RUNNER.TUNING_PROFILES_PATH.parent.name, "agents")
+
+    def test_registry_gguf_uses_imported_orchestration_model(self):
+        self.assertEqual(
+            RUNNER.registry_gguf("qwen3-coder:30b-a3b"),
+            RUNNER.model_library.resolve("qwen3-coder:30b-a3b")["gguf_path"],
+        )
 
     def test_multi_gpu_suite_command_quotes_device_list(self):
         config = {

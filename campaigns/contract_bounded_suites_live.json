@@ -1,0 +1,14 @@
+{
+  "name": "contract_bounded_suites_live",
+  "description": "Live one-case integration coverage of bounded benchmark suites, using one manager-owned model load.",
+  "defaults": {"run_class": "smoke", "load_timeout_s": 300},
+  "blocks": [
+    {"id":"reasoning","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-reasoning","suite_args":["--tasks","gsm8k"],"limit":1},
+    {"id":"knowledge","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-knowledge","suite_args":["--tasks","academic"],"limit":1,"depends_on":["reasoning"]},
+    {"id":"dataimport","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-dataimport","suite_args":["--tasks","schema_understanding"],"limit":1,"depends_on":["knowledge"]},
+    {"id":"geoimport","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-geoimport","suite_args":["--tasks","classification"],"limit":1,"depends_on":["dataimport"]},
+    {"id":"agent","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-agent","limit":1,"depends_on":["geoimport"]},
+    {"id":"routing","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-routing","limit":1,"depends_on":["agent"]},
+    {"id":"daedalmap","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-daedalmap","suite_args":["--tasks","json_discipline"],"limit":1,"depends_on":["routing"]}
+  ]
+}

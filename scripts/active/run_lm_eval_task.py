@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -119,12 +120,44 @@ def resolve_task_name(task_name: str, available_tasks: set[str]) -> str | None:
     return None
 
 
-def parse_model_id(model_args: str) -> str:
-    for part in model_args.split(","):
-        token = part.strip()
-        if token.startswith("model="):
-            return token.split("=", 1)[1].strip()
-    return ""
+def model_arg(model_args: str, key: str) -> str:
+    return next((part.strip().split("=", 1)[1].strip() for part in model_args.split(",")
+                 if part.strip().startswith(key + "=")), "")
+
+
+def validate_run_target(root: Path, canonical_model: str, model_args: str) -> tuple[str, str]:
+    """Reject ambiguous single-task runs before they can enter the score ledger."""
+    registry = json.loads((root / "model_registry.json").read_text(encoding="utf-8"))
+    if canonical_model not in registry.get("models", {}):
+        raise SystemExit(f"Unknown canonical model '{canonical_model}' in model_registry.json")
+    route = model_arg(model_args, "model")
+    base_url = model_arg(model_args, "base_url")
+    if not route or not base_url:
+        raise SystemExit("--model-args must give an explicit model= ready route and base_url=")
+    if not base_url.startswith(("http://", "https://")):
+        raise SystemExit("--model-args base_url must be HTTP(S)")
+    return route, base_url
+
+
+def write_run_context(root: Path, out_dir: Path, *, canonical_model: str, route: str,
+                      base_url: str, test_id: str, backend: str) -> None:
+    catalog = root / "tool_catalog.json"
+    tool_hash = None
+    if catalog.is_file():
+        tool_hash = json.loads(catalog.read_text(encoding="utf-8")).get("source_sha256")
+    registry = root / "model_registry.json"
+    context = {
+        "schema_version": 1,
+        "started_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "canonical_model_id": canonical_model,
+        "served_route": route,
+        "base_url": base_url,
+        "test_id": test_id,
+        "backend": backend,
+        "model_registry_sha256": hashlib.sha256(registry.read_bytes()).hexdigest(),
+        "tool_catalog_source_sha256": tool_hash,
+    }
+    (out_dir / "run_context.json").write_text(json.dumps(context, indent=2) + "\n", encoding="utf-8")
 
 
 def metric_priority(metric: str) -> tuple[int, str]:
@@ -221,16 +254,11 @@ def main() -> int:
         help="Python interpreter for lm-eval and benchmark helpers.",
     )
     ap.add_argument("--model", default="local-chat-completions", help="lm-eval model backend")
+    ap.add_argument("--model-id", required=True, help="Canonical ID from model_registry.json for the score ledger")
     ap.add_argument(
         "--model-args",
-        default=(
-            "model=qwen2.5-coder:7b,"
-            "base_url=http://localhost:11434/v1/chat/completions,"
-            "api_key=ollama,"
-            "tokenizer=Qwen/Qwen2.5-Coder-7B-Instruct,"
-            "eos_string=<|im_end|>"
-        ),
-        help="lm-eval model args for a llama-compatible endpoint",
+        required=True,
+        help="lm-eval args with explicit model= ready route and base_url=; load through rigctl first",
     )
     ap.add_argument("--device", default="cuda:0")
     ap.add_argument("--batch-size", default="auto")
@@ -258,6 +286,9 @@ def main() -> int:
     )
     args = ap.parse_args()
 
+    benchmark_root = Path(__file__).resolve().parents[2]
+    route, base_url = validate_run_target(benchmark_root, args.model_id, args.model_args)
+
     if not python_has_module(args.python, "lm_eval"):
         raise SystemExit(
             f"Selected python does not have lm_eval installed: {args.python}. "
@@ -265,7 +296,6 @@ def main() -> int:
         )
 
     this_dir = Path(__file__).resolve().parent
-    benchmark_root = Path(__file__).resolve().parents[2]
     catalog_path = (benchmark_root / args.catalog).resolve() if not Path(args.catalog).is_absolute() else Path(args.catalog)
     tests = load_tests(catalog_path)
 
@@ -311,14 +341,15 @@ def main() -> int:
                 "Run certify_benchmark_backend.py first or pass --allow-uncertified."
             )
 
-    model_id = parse_model_id(args.model_args)
-    tokenizer = required_tokenizer(status, model_id)
+    tokenizer = required_tokenizer(status, args.model_id)
     if tokenizer and "tokenizer=" not in args.model_args:
         sep = "," if args.model_args.strip() else ""
         args.model_args = f"{args.model_args}{sep}tokenizer={tokenizer}"
 
     out_dir = Path(args.output_dir).expanduser().resolve() / f"{args.id}_{now_stamp()}"
     out_dir.mkdir(parents=True, exist_ok=True)
+    write_run_context(benchmark_root, out_dir, canonical_model=args.model_id, route=route,
+                      base_url=base_url, test_id=args.id, backend=args.model)
 
     cmd = [
         args.python,
@@ -348,7 +379,7 @@ def main() -> int:
     proc = subprocess.run(cmd, check=False)
     if proc.returncode != 0:
         if not args.no_record:
-            failure_model = parse_model_id(args.model_args) or args.model
+            failure_model = args.model_id
             recorder = this_dir / "record_benchmark_result.py"
             failure_proc = subprocess.run(
                 [
@@ -368,7 +399,7 @@ def main() -> int:
         raise SystemExit(proc.returncode)
 
     if not args.no_record:
-        model_id = parse_model_id(args.model_args) or args.model
+        model_id = args.model_id
         recorder = this_dir / "record_benchmark_result.py"
         try:
             score, metric, sample_count = extract_score_from_lm_eval_output(out_dir, task_name)

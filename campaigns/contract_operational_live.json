@@ -1,0 +1,9 @@
+{
+  "name": "contract_operational_live",
+  "description": "Operational runtime telemetry and one worker-pipeline reliability case with a shared manager-owned 3B load.",
+  "defaults": {"run_class": "smoke", "load_timeout_s": 300},
+  "blocks": [
+    {"id":"runtime","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-runtime"},
+    {"id":"pipeline","model":"ministral-3:3b","gpus":[3],"profile":"default","runtime_group":"ministral3b_g3","ctx_size":4096,"suite":"bench-pipeline","suite_args":["--tests","custom_json_schema_strict"],"depends_on":["runtime"]}
+  ]
+}

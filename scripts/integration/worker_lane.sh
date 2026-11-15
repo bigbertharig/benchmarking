@@ -2,7 +2,7 @@
 # One lane: a card group (one GPU like 1, or several like 1+3) that takes models from a shared queue
 # file and runs Phases 3-6 for each, until the queue is empty. Several lanes share one queue, so each
 # group picks up the next model as soon as it frees up.
-# Loads go through the harness (llm-gateway rig manager, `rigctl load-model` over ssh): it checks the
+# Loads go through the llm-gateway rig manager (`rigctl load-model` over ssh): it checks the
 # model fits the group and picks the context and tensor split, the rig loads it and confirms every layer
 # is on the GPUs. A model that does not fit the group is skipped (LOAD FAILED with the reason).
 # The lane holds a rig claim on its cards for its whole run (`rigctl claim lane-<group>`), so they stay

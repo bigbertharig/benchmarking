@@ -2,7 +2,7 @@
 """Run a guarded, resumable sequence of experimental model-loading cases.
 
 Invoke on the rig through Manager's ``rigctl run-start``.  GPU cases normally acquire
-their own benchmark lease. Frozen-service restarts require an existing persistent
+their own benchmark lease. Frozen-service restarts require a renewable session
 claim and use restart_loaded because a live service is busy without a lease.
 """
 from __future__ import annotations
@@ -15,6 +15,7 @@ import re
 import shlex
 import signal
 import subprocess
+import threading
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -24,6 +25,8 @@ import benchmark_session
 ROOT = Path('/mnt/shared/plans/shoulders/benchmarking')
 LEASE = ROOT / 'scripts/integration/harness_lease.sh'
 RESULTS = ROOT / 'results/runtime_experiments/model_loading_sequences'
+SESSION_CLAIM_TTL_S = 900
+SESSION_CLAIM_RENEW_S = 120
 
 
 def stamp():
@@ -75,7 +78,10 @@ def write_comparison(folder, source, manifest, summary):
         trace = json.loads(trace_terminal.read_text()) if trace_terminal and trace_terminal.exists() else None
         start, finish = record.get('started_at'), record.get('finished_at')
         elapsed = (datetime.fromisoformat(finish) - datetime.fromisoformat(start)).total_seconds() if start and finish else None
-        cases.append({'id': name, 'label': stage.get('label'), 'hypothesis': stage.get('hypothesis'),
+        cases.append({'id': name, 'kind': stage.get('kind'), 'load_path': stage.get('load_path'),
+                      'experimental_reason': stage.get('experimental_reason'),
+                      'case_values': stage.get('case_values'),
+                      'label': stage.get('label'), 'hypothesis': stage.get('hypothesis'),
                       'baseline': stage.get('baseline'), 'status': summary['stages'].get(name, 'pending'),
                       'gpus': stage.get('gpus', []), 'placement': stage.get('placement'),
                       'stage_seconds': elapsed, 'receipt': str(receipt) if receipt.exists() else None,
@@ -84,7 +90,8 @@ def write_comparison(folder, source, manifest, summary):
     atomic_json(folder / 'comparison.json',
                 {'schema': 1, 'run_id': summary['run_id'], 'manifest_sha256': summary['manifest_sha256'],
                  'session_hardware': summary.get('session_hardware'),
-                 'series_name': source.get('name'), 'updated_at': stamp(),
+                 'series_name': source.get('name'), 'source_sha256': source.get('source_sha256'),
+                 'updated_at': stamp(),
                  'status': summary.get('status', 'running'), 'cases': cases})
 
 
@@ -161,7 +168,8 @@ def session_claim(name, gpu_ids, purpose, create):
     match = next((item for item in claims if item['name'] == name), None)
     if create and not match:
         manager('claim', name, '--gpus', ','.join(map(str, gpu_ids)), '--owner', name,
-                '--purpose', purpose, '--note', 'benchmark sequence; persists through frozen model state')
+                '--ttl', str(SESSION_CLAIM_TTL_S), '--purpose', purpose,
+                '--note', 'benchmark sequence; renewed while running')
         claims = manager('claims')['claims']
         match = next((item for item in claims if item['name'] == name), None)
     elif create and match and set(match['gpu_ids']) != set(gpu_ids):
@@ -175,9 +183,18 @@ def session_claim(name, gpu_ids, purpose, create):
         raise RuntimeError(f'session claim {name} missing')
     if create and set(match['gpu_ids']) != set(gpu_ids):
         raise RuntimeError(f'session claim {name} GPU set does not match request')
-    if match.get('ttl_s') or match.get('expires_at'):
-        raise RuntimeError(f'session claim {name} has a TTL; use a persistent claim')
+    manager('renew-claim', name, '--owner', match.get('owner') or name,
+            '--ttl', str(SESSION_CLAIM_TTL_S))
     return match
+
+
+def renew_session_claim(name, owner, stop, errors):
+    while not stop.wait(SESSION_CLAIM_RENEW_S):
+        try:
+            manager('renew-claim', name, '--owner', owner, '--ttl', str(SESSION_CLAIM_TTL_S))
+        except Exception as exc:
+            errors.append(str(exc))
+            return
 
 
 def renew_lease(lease_id, owner):
@@ -308,8 +325,8 @@ def main():
     ap.add_argument('--run-id', required=True)
     ap.add_argument('--check', action='store_true', help='show the sequence without creating receipts')
     ap.add_argument('--through', help='stop successfully after this stage; later queue stages remain pending')
-    ap.add_argument('--claim', help='use an existing persistent benchmark claim')
-    ap.add_argument('--session-gpus', help='reserve card IDs such as 0,1,2 or auto for every stage card; claim persists after run')
+    ap.add_argument('--claim', help='use an existing renewable benchmark claim')
+    ap.add_argument('--session-gpus', help='reserve card IDs such as 0,1,2 or auto for every stage card; claim expires after run')
     ap.add_argument('--session-purpose', default='model-loading benchmark', help='purpose shown to other sessions')
     args = ap.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9_-]*', args.run_id):
@@ -400,6 +417,13 @@ def main():
     summary = {'run_id': args.run_id, 'manifest_sha256': digest, 'started_at': stamp(),
                'session_hardware': str(session_file),
                'session_claim': claim, 'reserved_gpus': held['gpu_ids'] if claim else [], 'stages': {}}
+    claim_stop = threading.Event()
+    claim_errors = []
+    if claim:
+        claim_thread = threading.Thread(target=renew_session_claim,
+                                        args=(claim, held.get('owner') or claim, claim_stop, claim_errors),
+                                        daemon=True)
+        claim_thread.start()
     terminal = folder / 'terminal.json'
     failures = []
     write_comparison(folder, source, manifest, summary)
@@ -442,6 +466,12 @@ def main():
             break
     else:
         summary['status'] = 'completed_with_failures' if failures else 'passed'
+    claim_stop.set()
+    if claim:
+        claim_thread.join(timeout=5)
+    if claim_errors:
+        summary['status'] = 'failed'
+        summary['reason'] = f'session claim renewal failed: {claim_errors[-1]}'
     if (args.session_gpus == 'auto' and not args.claim and claim
             and all(not stage.get('freeze') for stage in manifest['stages'])):
         try:

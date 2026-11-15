@@ -1,0 +1,51 @@
+{
+  "schema": 3,
+  "name": "qwen35_oneworker_replay_example",
+  "hardware_roles": {
+    "model": {"min_vram_mb": 20000},
+    "pascal6": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"},
+    "pascal8": {"min_vram_mb": 7500, "max_vram_mb": 12000, "name_contains": "1070"}
+  },
+  "defaults": {
+    "state": "ready",
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 26,
+    "timeout_s": 2400,
+    "freeze": false
+  },
+  "parameters": {
+    "model_path": "/data/model-hotset/qwen3.6-35b-a3b-strata-xl/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+    "state_dir": "/state/qwen35_deep_250k_prep_20261113.states",
+    "state_200k_dir": "/state/qwen35_moe_q41_tile_curve_50k100k150k200k_20261109.states",
+    "output_prefix": "/mnt/shared/experiments/kv-matrix-20261107/qwen35_oneworker_repeatable"
+  },
+  "template": {
+    "kind": "paired_replay",
+    "load_path": "experimental",
+    "experimental_reason": "The saved-chat replay engine is not yet an orchestration load recipe",
+    "gpus": ["{gpu:model}", "${worker_gpu}"],
+    "env": {
+      "KV_BUILD_DIR": "/data/bench-staging/kvchat-q41-deep-build",
+      "KV_K_TYPE": "q4_1",
+      "KV_V_TYPE": "q4_1",
+      "KV_SAMPLE_DETAIL": "1",
+      "KV_STATE_SOURCE_DIR": "${state_dir}",
+      "KV_200K_STATE_SOURCE_DIR": "${state_200k_dir}",
+      "KV_HOST_GPU_IDS": "{gpu:model},${worker_gpu}",
+      "KV_REPLAY_CHAT_HOST_GPUS": "{gpu:model},${worker_gpu}"
+    },
+    "command": [
+      "/bin/bash", "scripts/integration/run_qwen27_chat_latency.sh",
+      "moe_two_deep_replay", "${model_path}", "262144", "262144", "262144",
+      "256", "qwen35_oneworker_repeatable_${case_id}"
+    ],
+    "outputs": ["${output_prefix}_${case_id}.exit", "${output_prefix}_${case_id}.log"]
+  },
+  "cases": [
+    {"id": "worker_1060_before", "values": {"worker_gpu": "{gpu:pascal6}"}},
+    {"id": "worker_1070", "values": {"worker_gpu": "{gpu:pascal8}"},
+     "stage": {"baseline": "worker_1060_before"}},
+    {"id": "worker_1060_after", "values": {"worker_gpu": "{gpu:pascal6}"},
+     "stage": {"baseline": "worker_1060_before"}}
+  ]
+}
