@@ -11,6 +11,7 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 
 | Doc | For |
 |---|---|
+| [EXTERNAL_REPOS.md](EXTERNAL_REPOS.md) | outside runtimes and source projects, local revisions, and update checks |
 | [MODEL_LOADING_AND_CHAT_PLACEMENT.md](MODEL_LOADING_AND_CHAT_PLACEMENT.md) | one entry point for GPU/RAM/storage model placement, independent chat state, measured layouts, and promotion to Manager |
 | [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) | the entry point for running anything: the phases from download to full run (2 load, 3 litmus, 3.5 runtime, 4 smoke, 4.5 optional settings experiments, 5 full run, 6 finalize), with decision trees for common failures |
 | [MODEL_LIBRARY.md](MODEL_LIBRARY.md) | picking a model: the library, latest scores, prompt methodology |
