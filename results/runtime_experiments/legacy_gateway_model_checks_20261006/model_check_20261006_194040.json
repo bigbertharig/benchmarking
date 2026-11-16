@@ -1,0 +1,52 @@
+{
+  "gateway": "http://127.0.0.1:8080",
+  "results": [
+    {
+      "model": "gpu-rig/chat-27b",
+      "advertised_ctx": 65536,
+      "first_request_s": 0.7,
+      "reply": "ok",
+      "thinking_leak": false,
+      "served_ctx": 65536,
+      "gpus": [
+        0,
+        2
+      ],
+      "ctx_matches": true,
+      "stream_ok": true,
+      "tool_call_ok": true,
+      "tokenize_ok": true,
+      "prompt_speed": {
+        "2048": {
+          "status": 200,
+          "wall_s": 5.3,
+          "prompt_n": 2030,
+          "prompt_tps": 425.9,
+          "gen_tps": 31.2
+        },
+        "8192": {
+          "status": 200,
+          "wall_s": 17.1,
+          "prompt_n": 7988,
+          "prompt_tps": 487.9,
+          "gen_tps": 30.3
+        },
+        "32768": {
+          "status": 200,
+          "wall_s": 79.3,
+          "prompt_n": 31792,
+          "prompt_tps": 406.1,
+          "gen_tps": 26.8
+        },
+        "55705": {
+          "status": 200,
+          "wall_s": 161.2,
+          "prompt_n": 54062,
+          "prompt_tps": 340.4,
+          "gen_tps": 24.8
+        }
+      },
+      "overflow_ok": true
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "gateway": "http://127.0.0.1:8080",
+  "results": [
+    {
+      "model": "gpu-rig/coder-7b",
+      "advertised_ctx": 16384,
+      "first_request_s": 0.2,
+      "reply": "ok",
+      "thinking_leak": false,
+      "served_ctx": 16384,
+      "gpus": [
+        1
+      ],
+      "ctx_matches": true,
+      "stream_ok": true,
+      "tool_call_ok": false,
+      "tool_call_detail": "200: {\"choices\": [{\"finish_reason\": \"stop\", \"index\": 0, \"message\": {\"role\": \"assistant\", \"content\": \"<tools>\\n  {\\\"name\\\": \\\"get_weather\\\", \\\"arguments\\\": {\\\"city\\\": \\\"Paris\\\"}}\\n</tools>\"}}], \"created\": 1791339907, \"model\": \"/mnt/shared/models/qwen2.5-coder-7b/Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf\", \"sy",
+      "tokenize_ok": true,
+      "prompt_speed": {
+        "2048": {
+          "status": 200,
+          "wall_s": 5.4,
+          "prompt_n": 2024,
+          "prompt_tps": 388.6,
+          "gen_tps": 42.4
+        },
+        "8192": {
+          "status": 200,
+          "wall_s": 26.6,
+          "prompt_n": 7980,
+          "prompt_tps": 307.2,
+          "gen_tps": 27.0
+        },
+        "13926": {
+          "status": 200,
+          "wall_s": 54.2,
+          "prompt_n": 13548,
+          "prompt_tps": 257.2,
+          "gen_tps": 23.7
+        }
+      },
+      "overflow_ok": true
+    },
+    {
+      "model": "gpu-rig/chat-27b",
+      "advertised_ctx": 65536,
+      "first_request_s": 1.2,
+      "reply": "ok",
+      "thinking_leak": false,
+      "served_ctx": 65536,
+      "gpus": [
+        0,
+        4
+      ],
+      "ctx_matches": true,
+      "stream_ok": true,
+      "tool_call_ok": true,
+      "tokenize_ok": true,
+      "prompt_speed": {
+        "2048": {
+          "status": 200,
+          "wall_s": 7.2,
+          "prompt_n": 2036,
+          "prompt_tps": 308.4,
+          "gen_tps": 31.0
+        },
+        "8192": {
+          "status": 200,
+          "wall_s": 26.3,
+          "prompt_n": 7984,
+          "prompt_tps": 311.7,
+          "gen_tps": 30.2
+        },
+        "32768": {
+          "status": 200,
+          "wall_s": 121.4,
+          "prompt_n": 31792,
+          "prompt_tps": 264.1,
+          "gen_tps": 27.3
+        },
+        "55705": {
+          "status": 200,
+          "wall_s": 237.6,
+          "prompt_n": 54065,
+          "prompt_tps": 229.9,
+          "gen_tps": 24.8
+        }
+      },
+      "overflow_ok": true
+    }
+  ]
+}
