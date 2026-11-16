@@ -1,0 +1,28 @@
+{
+  "direct_io": true,
+  "directory": "/data/bench-staging",
+  "duration_s": 3.126,
+  "finished_at": "2026-11-15T23:55:52+00:00",
+  "measurement": "O_DIRECT, queue depth 1",
+  "size_mib": 512,
+  "stages": {
+    "random_read": {
+      "iops": 9267.111756359895,
+      "mean_ms": 0.10790848608399628,
+      "operations": 4096,
+      "seconds": 0.44199315900004876
+    },
+    "sequential_read": {
+      "bytes": 536870912,
+      "gbps": 0.41754964256189553,
+      "seconds": 1.2857654690014897
+    },
+    "sequential_write": {
+      "bytes": 536870912,
+      "gbps": 0.3847164812281725,
+      "seconds": 1.39549756300039
+    }
+  },
+  "started_at": "2026-11-15T23:55:49+00:00",
+  "status": "passed"
+}

@@ -1,0 +1,114 @@
+{
+  "availability": {
+    "direct_io": true,
+    "docker": true,
+    "link_binary": true
+  },
+  "created_at": "2026-11-16T00:08:17+00:00",
+  "hardware": {
+    "cards": [
+      {
+        "bus": "01:00.0",
+        "index": 0,
+        "link_gen": 3,
+        "link_width": 16,
+        "name": "NVIDIA GeForce RTX 3090 Ti",
+        "root_port": "00:01.0",
+        "total_mb": 24564,
+        "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+        "via": []
+      },
+      {
+        "bus": "03:00.0",
+        "index": 1,
+        "link_gen": 2,
+        "link_width": 1,
+        "name": "NVIDIA GeForce GTX 1060 6GB",
+        "root_port": "00:1b.5",
+        "total_mb": 6144,
+        "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+        "via": []
+      },
+      {
+        "bus": "0D:00.0",
+        "index": 2,
+        "link_gen": 2,
+        "link_width": 1,
+        "name": "NVIDIA GeForce GTX 1070",
+        "root_port": "00:1b.7",
+        "total_mb": 8192,
+        "uuid": "GPU-cc6bc379-2f59-ec6e-00cf-4a9f02d57519",
+        "via": []
+      },
+      {
+        "bus": "10:00.0",
+        "index": 3,
+        "link_gen": 2,
+        "link_width": 1,
+        "name": "NVIDIA GeForce GTX 1060 6GB",
+        "root_port": "00:1d.0",
+        "total_mb": 6144,
+        "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+        "via": []
+      },
+      {
+        "bus": "11:00.0",
+        "index": 4,
+        "link_gen": 2,
+        "link_width": 1,
+        "name": "NVIDIA GeForce GTX 1060 6GB",
+        "root_port": "00:1d.2",
+        "total_mb": 6144,
+        "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+        "via": []
+      },
+      {
+        "bus": "12:00.0",
+        "index": 5,
+        "link_gen": 2,
+        "link_width": 1,
+        "name": "NVIDIA GeForce GTX 1060 6GB",
+        "root_port": "00:1d.3",
+        "total_mb": 6144,
+        "uuid": "GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57",
+        "via": []
+      }
+    ],
+    "held_gpu_ids": [],
+    "observed_at": "2026-11-15T17:08:17",
+    "rig_host": "bryan-GPU-Rig",
+    "roles": {},
+    "schema": 1,
+    "source": "rig observe",
+    "used_mb": {
+      "0": 19,
+      "1": 4,
+      "2": 6,
+      "3": 4,
+      "4": 4,
+      "5": 4
+    }
+  },
+  "link_binary": "/data/bench-staging/cuda-link-probe",
+  "link_probe": false,
+  "memory_before": {
+    "MemAvailable_kib": 29790232,
+    "MemTotal_kib": 31476852,
+    "SwapFree_kib": 24003824
+  },
+  "min_available_gib": 4,
+  "ram_probe": false,
+  "ram_target_gb_decimal": 25.14,
+  "schema": "rig-limit-plan/1",
+  "selected_gpu_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "storage_dir": "/data/bench-staging",
+  "storage_size_mib": 64,
+  "work_scan": "deep"
+}

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/probe_host_ram_budget.py",
+    "--output",
+    "results/runtime_experiments/rig_work_small_20261115_v1/ram",
+    "--target-gb-decimal",
+    "25.14",
+    "--min-available-gib",
+    "4"
+  ],
+  "duration_s": 12.235,
+  "exit_code": 0,
+  "finished_at": "2026-11-15T23:55:49+00:00",
+  "output": "results/runtime_experiments/rig_work_small_20261115_v1/ram_wrapper",
+  "started_at": "2026-11-15T23:55:36+00:00",
+  "status": "passed"
+}

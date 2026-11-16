@@ -1,0 +1,113 @@
+{
+  "schema": "rig-limit-test/1",
+  "selected_gpu_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "stages": {
+    "hardware_detail": {
+      "command": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/analysis/snapshot_expert_hardware.py",
+        "--output",
+        "results/runtime_experiments/rig_work_small_20261115_v1/hardware_detail.json"
+      ],
+      "duration_s": 0.196,
+      "exit_code": 0,
+      "finished_at": "2026-11-15T23:52:41+00:00",
+      "output": "results/runtime_experiments/rig_work_small_20261115_v1/hardware_detail",
+      "started_at": "2026-11-15T23:52:40+00:00",
+      "status": "passed"
+    },
+    "link": {
+      "command": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_cuda_link_probe.py",
+        "--output",
+        "results/runtime_experiments/rig_work_small_20261115_v1/link",
+        "--gpus",
+        "0,1,2,3,4,5",
+        "--binary",
+        "/data/bench-staging/cuda-link-probe"
+      ],
+      "duration_s": 163.287,
+      "exit_code": 0,
+      "finished_at": "2026-11-15T23:55:24+00:00",
+      "output": "results/runtime_experiments/rig_work_small_20261115_v1/link_wrapper",
+      "started_at": "2026-11-15T23:52:41+00:00",
+      "status": "passed"
+    },
+    "ram": {
+      "command": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/probe_host_ram_budget.py",
+        "--output",
+        "results/runtime_experiments/rig_work_small_20261115_v1/ram",
+        "--target-gb-decimal",
+        "25.14",
+        "--min-available-gib",
+        "4"
+      ],
+      "duration_s": 12.235,
+      "exit_code": 0,
+      "finished_at": "2026-11-15T23:55:49+00:00",
+      "output": "results/runtime_experiments/rig_work_small_20261115_v1/ram_wrapper",
+      "started_at": "2026-11-15T23:55:36+00:00",
+      "status": "passed"
+    },
+    "storage": {
+      "direct_io": true,
+      "directory": "/data/bench-staging",
+      "duration_s": 3.126,
+      "finished_at": "2026-11-15T23:55:52+00:00",
+      "measurement": "O_DIRECT, queue depth 1",
+      "size_mib": 512,
+      "stages": {
+        "random_read": {
+          "iops": 9267.111756359895,
+          "mean_ms": 0.10790848608399628,
+          "operations": 4096,
+          "seconds": 0.44199315900004876
+        },
+        "sequential_read": {
+          "bytes": 536870912,
+          "gbps": 0.41754964256189553,
+          "seconds": 1.2857654690014897
+        },
+        "sequential_write": {
+          "bytes": 536870912,
+          "gbps": 0.3847164812281725,
+          "seconds": 1.39549756300039
+        }
+      },
+      "started_at": "2026-11-15T23:55:49+00:00",
+      "status": "passed"
+    },
+    "work": {
+      "command": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_synthetic_work_probe.py",
+        "--output",
+        "results/runtime_experiments/rig_work_small_20261115_v1/synthetic",
+        "--preset",
+        "small",
+        "--gpus",
+        "0,1,2,3,4,5",
+        "--storage-dir",
+        "/data/bench-staging"
+      ],
+      "duration_s": 11.094,
+      "exit_code": 0,
+      "finished_at": "2026-11-15T23:55:36+00:00",
+      "output": "results/runtime_experiments/rig_work_small_20261115_v1/synthetic_wrapper",
+      "started_at": "2026-11-15T23:55:24+00:00",
+      "status": "passed"
+    }
+  },
+  "started_at": "2026-11-15T23:52:40+00:00",
+  "status": "running"
+}

@@ -1,0 +1,599 @@
+{
+  "started_at": "2026-11-16T00:01:33+00:00",
+  "status": "target_reached",
+  "target_gib": 23.3948,
+  "target_gb_decimal": 25.12,
+  "target_bytes": 25120000000,
+  "min_available_gib": 4.0,
+  "step_mib": 256,
+  "accounting_reserve_gib": 1,
+  "before": {
+    "MemTotal_kib": 31476852,
+    "MemAvailable_kib": 29369108,
+    "Cached_kib": 5246324,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 24003812
+  },
+  "samples": [
+    {
+      "at": "2026-11-16T00:01:33+00:00",
+      "allocated_mib": 256,
+      "mem_available_mib": 28421,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:33+00:00",
+      "allocated_mib": 512,
+      "mem_available_mib": 28162,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:33+00:00",
+      "allocated_mib": 768,
+      "mem_available_mib": 27911,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 1024,
+      "mem_available_mib": 27652,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 1280,
+      "mem_available_mib": 27385,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 1536,
+      "mem_available_mib": 27146,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 1792,
+      "mem_available_mib": 26887,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 2048,
+      "mem_available_mib": 26636,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 2304,
+      "mem_available_mib": 26377,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 2560,
+      "mem_available_mib": 26118,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 2816,
+      "mem_available_mib": 25867,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 3072,
+      "mem_available_mib": 25608,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 3328,
+      "mem_available_mib": 25349,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:34+00:00",
+      "allocated_mib": 3584,
+      "mem_available_mib": 25102,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 3840,
+      "mem_available_mib": 24827,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 4096,
+      "mem_available_mib": 24586,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 4352,
+      "mem_available_mib": 24335,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 4608,
+      "mem_available_mib": 24077,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 4864,
+      "mem_available_mib": 23825,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 5120,
+      "mem_available_mib": 23567,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 5376,
+      "mem_available_mib": 23300,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 5632,
+      "mem_available_mib": 23049,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 5888,
+      "mem_available_mib": 22790,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:35+00:00",
+      "allocated_mib": 6144,
+      "mem_available_mib": 22531,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 6400,
+      "mem_available_mib": 22289,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 6656,
+      "mem_available_mib": 22032,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 6912,
+      "mem_available_mib": 21781,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 7168,
+      "mem_available_mib": 21522,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 7424,
+      "mem_available_mib": 21262,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 7680,
+      "mem_available_mib": 21011,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 7936,
+      "mem_available_mib": 20751,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 8192,
+      "mem_available_mib": 20500,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 8448,
+      "mem_available_mib": 20243,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 8704,
+      "mem_available_mib": 19991,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:36+00:00",
+      "allocated_mib": 8960,
+      "mem_available_mib": 19732,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 9216,
+      "mem_available_mib": 19473,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 9472,
+      "mem_available_mib": 19224,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 9728,
+      "mem_available_mib": 18965,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 9984,
+      "mem_available_mib": 18713,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 10240,
+      "mem_available_mib": 18454,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 10496,
+      "mem_available_mib": 18202,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 10752,
+      "mem_available_mib": 17943,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 11008,
+      "mem_available_mib": 17686,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 11264,
+      "mem_available_mib": 17434,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:37+00:00",
+      "allocated_mib": 11520,
+      "mem_available_mib": 17175,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 11776,
+      "mem_available_mib": 16931,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 12032,
+      "mem_available_mib": 16672,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 12288,
+      "mem_available_mib": 16421,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 12544,
+      "mem_available_mib": 16162,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 12800,
+      "mem_available_mib": 15902,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 13056,
+      "mem_available_mib": 15650,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 13312,
+      "mem_available_mib": 15383,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 13568,
+      "mem_available_mib": 15242,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 13824,
+      "mem_available_mib": 14991,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 14080,
+      "mem_available_mib": 14731,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:38+00:00",
+      "allocated_mib": 14336,
+      "mem_available_mib": 14480,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 14592,
+      "mem_available_mib": 14225,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 14848,
+      "mem_available_mib": 13958,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 15104,
+      "mem_available_mib": 13722,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 15360,
+      "mem_available_mib": 13470,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 15616,
+      "mem_available_mib": 13211,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 15872,
+      "mem_available_mib": 12959,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 16128,
+      "mem_available_mib": 12700,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 16384,
+      "mem_available_mib": 12434,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 16640,
+      "mem_available_mib": 12168,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 16896,
+      "mem_available_mib": 11897,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:39+00:00",
+      "allocated_mib": 17152,
+      "mem_available_mib": 11653,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 17408,
+      "mem_available_mib": 11398,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 17664,
+      "mem_available_mib": 11146,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 17920,
+      "mem_available_mib": 10887,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 18176,
+      "mem_available_mib": 10635,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 18432,
+      "mem_available_mib": 10376,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 18688,
+      "mem_available_mib": 10117,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 18944,
+      "mem_available_mib": 9865,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 19200,
+      "mem_available_mib": 9606,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 19456,
+      "mem_available_mib": 9354,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:40+00:00",
+      "allocated_mib": 19712,
+      "mem_available_mib": 9095,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 19968,
+      "mem_available_mib": 8842,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 20224,
+      "mem_available_mib": 8567,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 20480,
+      "mem_available_mib": 8307,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 20736,
+      "mem_available_mib": 8056,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 20992,
+      "mem_available_mib": 7796,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 21248,
+      "mem_available_mib": 7545,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 21504,
+      "mem_available_mib": 7285,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 21760,
+      "mem_available_mib": 7034,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 22016,
+      "mem_available_mib": 6774,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 22272,
+      "mem_available_mib": 6522,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:41+00:00",
+      "allocated_mib": 22528,
+      "mem_available_mib": 6262,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:42+00:00",
+      "allocated_mib": 22784,
+      "mem_available_mib": 6003,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:42+00:00",
+      "allocated_mib": 23040,
+      "mem_available_mib": 5751,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:42+00:00",
+      "allocated_mib": 23296,
+      "mem_available_mib": 5489,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:42+00:00",
+      "allocated_mib": 23552,
+      "mem_available_mib": 5371,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:42+00:00",
+      "allocated_mib": 23808,
+      "mem_available_mib": 5109,
+      "swap_free_mib": 23441
+    },
+    {
+      "at": "2026-11-16T00:01:42+00:00",
+      "allocated_mib": 23956,
+      "mem_available_mib": 5158,
+      "swap_free_mib": 23441
+    }
+  ],
+  "max_allocated_mib": 23956,
+  "peak_allocation_meminfo": {
+    "MemTotal_kib": 31476852,
+    "MemAvailable_kib": 5282680,
+    "Cached_kib": 4926172,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 24003812
+  },
+  "after_release": {
+    "MemTotal_kib": 31476852,
+    "MemAvailable_kib": 29397516,
+    "Cached_kib": 4926156,
+    "SwapTotal_kib": 24127028,
+    "SwapFree_kib": 24003812
+  },
+  "finished_at": "2026-11-16T00:01:43+00:00"
+}

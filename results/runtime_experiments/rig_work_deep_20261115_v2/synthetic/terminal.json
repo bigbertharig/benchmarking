@@ -1,0 +1,44 @@
+{
+  "finished_at": "2026-11-16T00:09:15+00:00",
+  "preset": "deep",
+  "schema": "synthetic-work/1",
+  "selected_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "stages": {
+    "gpu": {
+      "duration_s": 51.555,
+      "exit_code": 0,
+      "measurements": 62,
+      "status": "passed"
+    },
+    "storage": {
+      "direct_4k_per_row": {
+        "mean_us": 1747.2845416666667,
+        "p50_us": 1698.848,
+        "p95_us": 1779.608,
+        "samples": 120
+      },
+      "directory": "/data/bench-staging",
+      "finished_at": "2026-11-16T00:09:15+00:00",
+      "row_bytes": 128,
+      "rows_per_call": 16,
+      "size_mib": 256,
+      "started_at": "2026-11-16T00:09:13+00:00",
+      "status": "passed",
+      "warm_buffered_128b_per_row": {
+        "mean_us": 16.251775,
+        "p50_us": 16.432,
+        "p95_us": 17.534,
+        "samples": 120
+      }
+    }
+  },
+  "started_at": "2026-11-16T00:08:19+00:00",
+  "status": "passed"
+}

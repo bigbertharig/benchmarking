@@ -1,0 +1,78 @@
+{
+  "finished_at": "2026-11-16T00:09:16+00:00",
+  "schema": "rig-limit-test/1",
+  "selected_gpu_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "stages": {
+    "hardware_detail": {
+      "command": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/analysis/snapshot_expert_hardware.py",
+        "--output",
+        "results/runtime_experiments/rig_work_deep_20261115_v2/hardware_detail.json"
+      ],
+      "duration_s": 0.191,
+      "exit_code": 0,
+      "finished_at": "2026-11-16T00:08:18+00:00",
+      "output": "results/runtime_experiments/rig_work_deep_20261115_v2/hardware_detail",
+      "started_at": "2026-11-16T00:08:18+00:00",
+      "status": "passed"
+    },
+    "storage": {
+      "direct_io": true,
+      "directory": "/data/bench-staging",
+      "duration_s": 0.814,
+      "finished_at": "2026-11-16T00:09:16+00:00",
+      "measurement": "O_DIRECT, queue depth 1",
+      "size_mib": 64,
+      "stages": {
+        "random_read": {
+          "iops": 8864.704290368232,
+          "mean_ms": 0.11280692138671,
+          "operations": 4096,
+          "seconds": 0.46205714999996417
+        },
+        "sequential_read": {
+          "bytes": 67108864,
+          "gbps": 0.4014020899507678,
+          "seconds": 0.16718613500052015
+        },
+        "sequential_write": {
+          "bytes": 67108864,
+          "gbps": 0.36946233489620206,
+          "seconds": 0.18163925699991523
+        }
+      },
+      "started_at": "2026-11-16T00:09:15+00:00",
+      "status": "passed"
+    },
+    "work": {
+      "command": [
+        "/usr/bin/python3",
+        "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_synthetic_work_probe.py",
+        "--output",
+        "results/runtime_experiments/rig_work_deep_20261115_v2/synthetic",
+        "--preset",
+        "deep",
+        "--gpus",
+        "0,1,2,3,4,5",
+        "--storage-dir",
+        "/data/bench-staging"
+      ],
+      "duration_s": 56.336,
+      "exit_code": 0,
+      "finished_at": "2026-11-16T00:09:15+00:00",
+      "output": "results/runtime_experiments/rig_work_deep_20261115_v2/synthetic_wrapper",
+      "started_at": "2026-11-16T00:08:18+00:00",
+      "status": "passed"
+    }
+  },
+  "started_at": "2026-11-16T00:08:17+00:00",
+  "status": "passed"
+}

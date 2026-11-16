@@ -1,0 +1,17 @@
+{
+  "started_at": "2026-11-15T23:58:00+00:00",
+  "finished_at": "2026-11-16T00:00:43+00:00",
+  "duration_s": 162.866,
+  "gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "binary": "/data/bench-staging/cuda-link-probe",
+  "exit_code": 0,
+  "status": "passed",
+  "measurement": "CPU wall median, pinned host, isolated idle GPUs"
+}

@@ -1,0 +1,22 @@
+{
+  "preset": "small",
+  "schema": "synthetic-work/1",
+  "selected_gpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "stages": {
+    "gpu": {
+      "duration_s": 6.822,
+      "exit_code": 0,
+      "measurements": 49,
+      "status": "passed"
+    }
+  },
+  "started_at": "2026-11-15T23:55:25+00:00",
+  "status": "running"
+}

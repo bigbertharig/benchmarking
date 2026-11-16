@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/mnt/shared/plans/shoulders/benchmarking/scripts/analysis/snapshot_expert_hardware.py",
+    "--output",
+    "results/runtime_experiments/rig_work_small_20261115_v1/hardware_detail.json"
+  ],
+  "duration_s": 0.196,
+  "exit_code": 0,
+  "finished_at": "2026-11-15T23:52:41+00:00",
+  "output": "results/runtime_experiments/rig_work_small_20261115_v1/hardware_detail",
+  "started_at": "2026-11-15T23:52:40+00:00",
+  "status": "passed"
+}

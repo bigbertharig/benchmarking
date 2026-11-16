@@ -26,11 +26,22 @@ Companion docs:
 - [MODEL_LOADING_GATE.md](MODEL_LOADING_GATE.md): loading-stage evidence before benchmark smoke
 - [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md): debugging narratives
 - [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md): measured host RAM planning limit and split-placement evidence; use its live headroom gate for experimental RAM offload
+- [RIG_LIMIT_TEST.md](RIG_LIMIT_TEST.md): one hardware survey and small/deep model simulation when a rig is new or its hardware changes; the result informs initial placement estimates
 - [docker/README.md](docker/README.md): the suites; [scripts/integration/README.md](scripts/integration/README.md): the lane tools
 - llm-gateway `docs/MANAGER.md`: model loads, fit, waits, runs (`rigctl`)
 
 `rigctl` below is llm-gateway's `tools/rigctl.py`, run on the Pi (`python3 ~/llm-gateway/tools/rigctl.py`).
 Commands it starts run on the rig, so their paths are the rig's (`/mnt/shared/...`).
+
+**Handoff from rig setup:** use the latest survey `START_HERE.md` to identify
+physical cards by UUID/PCI bus, available tier capacity, transfer costs, and
+model-free work-class costs. Put its receipt path and the initial fit reasoning
+in the research record's `fit_estimate` for a new candidate when relevant.
+The survey is a per-rig starting point, not another model gate. Phase R still
+decides whether to trial a specific model; Phase 1 `rigctl fit`, Phase 2 real
+context loads, and Phase L establish its actual loading recipe. Existing
+models do not need to repeat research or import merely because a new rig scan
+was run. Use the existing managed placement experiments for complex models.
 
 ---
 

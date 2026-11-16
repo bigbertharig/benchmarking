@@ -1,0 +1,106 @@
+# Rig limit survey: starting guidance
+
+Run: `rig_work_small_20261115_v1`; status: **passed**; observed: 2026-11-15T23:52:40+00:00
+
+## Hardware map
+
+| Host GPU | Card | VRAM MiB | PCI bus | UUID |
+|---:|---|---:|---|---|
+| 0 | NVIDIA GeForce RTX 3090 Ti | 24564 | 01:00.0 | `GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb` |
+| 1 | NVIDIA GeForce GTX 1060 6GB | 6144 | 03:00.0 | `GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c` |
+| 2 | NVIDIA GeForce GTX 1070 | 8192 | 0D:00.0 | `GPU-cc6bc379-2f59-ec6e-00cf-4a9f02d57519` |
+| 3 | NVIDIA GeForce GTX 1060 6GB | 6144 | 10:00.0 | `GPU-6073db94-dca6-ba6c-88fb-61f09ff11436` |
+| 4 | NVIDIA GeForce GTX 1060 6GB | 6144 | 11:00.0 | `GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225` |
+| 5 | NVIDIA GeForce GTX 1060 6GB | 6144 | 12:00.0 | `GPU-8d1110ae-1936-9251-92a8-ceebc6f39b57` |
+
+## Measured limits
+
+- Host RAM: 23.41 GiB touched; stop: `target_reached`; minimum guard 4.0 GiB. This is observed headroom during this run, not an allocation guarantee.
+- GPU copy paths: 128 MiB pinned-copy medians below. Physical labels come from saved PCI buses; unresolved labels retain CUDA IDs.
+
+| Path | Source | Destination | GB/s |
+|---|---|---|---:|
+| h2d | host RAM | host GPU 0 | 12.528 |
+| d2h | host GPU 0 | host RAM | 13.118 |
+| h2d | host RAM | host GPU 1 | 0.400 |
+| d2h | host GPU 1 | host RAM | 0.418 |
+| h2d | host RAM | host GPU 2 | 0.400 |
+| d2h | host GPU 2 | host RAM | 0.418 |
+| h2d | host RAM | host GPU 3 | 0.400 |
+| d2h | host GPU 3 | host RAM | 0.418 |
+| h2d | host RAM | host GPU 4 | 0.400 |
+| d2h | host GPU 4 | host RAM | 0.418 |
+| h2d | host RAM | host GPU 5 | 0.399 |
+| d2h | host GPU 5 | host RAM | 0.418 |
+| peer_staged | host GPU 0 | host GPU 1 | 0.386 |
+| peer_staged | host GPU 0 | host GPU 2 | 0.386 |
+| peer_staged | host GPU 0 | host GPU 3 | 0.386 |
+| peer_staged | host GPU 0 | host GPU 4 | 0.386 |
+| peer_staged | host GPU 0 | host GPU 5 | 0.385 |
+| peer_staged | host GPU 1 | host GPU 0 | 0.402 |
+| peer_staged | host GPU 1 | host GPU 2 | 0.396 |
+| peer_staged | host GPU 1 | host GPU 3 | 0.396 |
+| peer_staged | host GPU 1 | host GPU 4 | 0.396 |
+| peer_staged | host GPU 1 | host GPU 5 | 0.395 |
+| peer_staged | host GPU 2 | host GPU 0 | 0.402 |
+| peer_staged | host GPU 2 | host GPU 1 | 0.395 |
+| peer_staged | host GPU 2 | host GPU 3 | 0.396 |
+| peer_staged | host GPU 2 | host GPU 4 | 0.396 |
+| peer_staged | host GPU 2 | host GPU 5 | 0.395 |
+| peer_staged | host GPU 3 | host GPU 0 | 0.402 |
+| peer_staged | host GPU 3 | host GPU 1 | 0.396 |
+| peer_staged | host GPU 3 | host GPU 2 | 0.396 |
+| peer_staged | host GPU 3 | host GPU 4 | 0.396 |
+| peer_staged | host GPU 3 | host GPU 5 | 0.396 |
+| peer_staged | host GPU 4 | host GPU 0 | 0.402 |
+| peer_staged | host GPU 4 | host GPU 1 | 0.396 |
+| peer_staged | host GPU 4 | host GPU 2 | 0.396 |
+| peer_staged | host GPU 4 | host GPU 3 | 0.396 |
+| peer_staged | host GPU 4 | host GPU 5 | 0.396 |
+| peer_staged | host GPU 5 | host GPU 0 | 0.402 |
+| peer_staged | host GPU 5 | host GPU 1 | 0.395 |
+| peer_staged | host GPU 5 | host GPU 2 | 0.394 |
+| peer_staged | host GPU 5 | host GPU 3 | 0.395 |
+| peer_staged | host GPU 5 | host GPU 4 | 0.395 |
+
+- Storage sequential_write: 0.385 GB/s (direct I/O, 512 MiB file).
+- Storage sequential_read: 0.418 GB/s (direct I/O, 512 MiB file).
+- Storage random read: 9267 4 KiB IOPS at queue depth 1 (direct I/O).
+
+## Synthetic work scan (small)
+
+Patterned data, no model loaded. Times are median microseconds per operation and are not token-speed predictions. All samples and p95 values are in `synthetic/gpu.jsonl`.
+
+| GPU | Weight resident | Weight RAM upload | Long KV scan | 16-row GPU lookup |
+|---|---:|---:|---:|---:|
+| host GPU 0 | 79.5 | 2757.4 | 76.9 | 15.3 |
+| host GPU 1 | 450.0 | 84650.7 | 1368.5 | 16.7 |
+| host GPU 2 | 341.0 | 84430.6 | 1107.9 | 23.6 |
+| host GPU 3 | 437.9 | 84771.2 | 1335.3 | 16.9 |
+| host GPU 4 | 450.0 | 84481.3 | 1367.4 | 23.5 |
+| host GPU 5 | 438.3 | 84592.9 | 1336.8 | 16.7 |
+
+Weight arrays are 32/128 MiB in small/deep; the long one-head KV scan covers 32K/128K positions; the GPU lookup gathers sixteen 128-byte rows from a 64/256 MiB table.
+
+| GPU | Expert cache hit µs | RAM miss µs | Realized hit rate |
+|---|---:|---:|---:|
+| host GPU 0 | 5.4 | 93.8 | 64% |
+| host GPU 1 | 21.2 | 2655.9 | 64% |
+| host GPU 2 | 16.3 | 2639.5 | 64% |
+| host GPU 3 | 20.8 | 2642.6 | 64% |
+| host GPU 4 | 21.2 | 2659.9 | 64% |
+| host GPU 5 | 21.0 | 2655.3 | 64% |
+
+- Sixteen-row pinned RAM lookup: median 0.7 µs (p95 1.5 µs).
+- 16-row warm page-cache rows: median 14.0 µs; p95 14.8 µs. Direct reads use 4 KiB per row; buffered reads use 128 bytes per row.
+- 16-row direct storage rows: median 1711.1 µs; p95 1954.3 µs. Direct reads use 4 KiB per row; buffered reads use 128 bytes per row.
+
+Interpret weight results as resident compute versus upload on the same card. Expert timings use a synthetic 80%-hot route and an LRU cache; real models have different routes and kernels. KV scans are one-head access proxies. The next model-specific stage verifies actual placement.
+
+## Start here
+
+1. Start with the GPU that has enough **free** VRAM for the workload. Add other GPUs only when capacity or measured execution benefits justify them.
+2. For data that must cross devices repeatedly, use the measured copy paths above. A slow PCIe path can make helper VRAM expensive to access remotely.
+3. Keep the tested RAM headroom and a storage free-space margin. Retest after changing cards, slots, RAM, drives, or the runtime.
+
+These are hardware starting rules. Model fit, context, chat count, and tokens per second require the later model placement tests.

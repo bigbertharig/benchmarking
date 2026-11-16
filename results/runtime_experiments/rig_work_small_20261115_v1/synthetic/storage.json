@@ -1,0 +1,21 @@
+{
+  "direct_4k_per_row": {
+    "mean_us": 1769.921175,
+    "p50_us": 1711.108,
+    "p95_us": 1954.278,
+    "samples": 40
+  },
+  "directory": "/data/bench-staging",
+  "finished_at": "2026-11-15T23:55:35+00:00",
+  "row_bytes": 128,
+  "rows_per_call": 16,
+  "size_mib": 64,
+  "started_at": "2026-11-15T23:55:35+00:00",
+  "status": "passed",
+  "warm_buffered_128b_per_row": {
+    "mean_us": 14.700575,
+    "p50_us": 13.962,
+    "p95_us": 14.76,
+    "samples": 40
+  }
+}

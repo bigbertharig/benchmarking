@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "/mnt/shared/plans/shoulders/benchmarking/scripts/integration/run_synthetic_work_probe.py",
+    "--output",
+    "results/runtime_experiments/rig_work_deep_20261115_v1/synthetic",
+    "--preset",
+    "deep",
+    "--gpus",
+    "0,1,2,3,4,5",
+    "--storage-dir",
+    "/data/bench-staging"
+  ],
+  "duration_s": 49.577,
+  "exit_code": 0,
+  "finished_at": "2026-11-16T00:01:32+00:00",
+  "output": "results/runtime_experiments/rig_work_deep_20261115_v1/synthetic_wrapper",
+  "started_at": "2026-11-16T00:00:43+00:00",
+  "status": "passed"
+}
