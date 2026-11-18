@@ -1,13 +1,30 @@
 # Benchmarking
 
-Which models are good on the local rig, for which jobs, and at what cost. This repo holds the model
-registry (every model we test and how it loads), the roles other repos read (which model for which job),
-the benchmark suites, the integration process for a new model, campaigns, and the results.
+Evidence for deciding which local models and runtimes are useful, how they load, and what they cost. This repo owns the model registry, reviewed model roles and load recipes, evaluation suites, campaigns, and result records. Gateway imports the published evidence; Benchmarking does not schedule live user work or reserve hardware.
 
-The previous long README (procedure, inventory, runtime notes as of 2026-10-15) is kept at
-[archive/docs/README_pre_2026-10-23.md](archive/docs/README_pre_2026-10-23.md).
+The current `load_recipes.json` is evidence, not an executable Manager offer. Earlier procedural and inventory notes are preserved in [the archived README](archive/docs/README_pre_2026-10-23.md).
 
-## Start here
+## Project map
+
+This project runs local model and agent workloads across a Pi control host, an isolated GPU rig, and optional CPU workers. The four repositories have different jobs:
+
+| Repository | Responsibility |
+|---|---|
+| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Operator-facing dashboard, conversations, model API, tool policy, and work coordination. Its existing Manager code still bridges some hardware operations. |
+| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Hardware-facing admission, placement, reservations, model lifecycle, telemetry, and the existing parallel batch engine. |
+| [benchmarking](https://github.com/bigbertharig/benchmarking) | Measured model and runtime evidence, model registry and roles, load recipes, evaluation suites, and results. |
+| [llm-harness](https://github.com/bigbertharig/llm-harness) | Experimental agent loop, context and session contracts, tool adapters, and harness comparisons. No candidate harness has been promoted as the gateway's work engine. |
+
+Benchmarking publishes reviewed evidence; Gateway imports it and presents work to the operator; the rig-side Orchestration layer enforces hardware rules. Harness experiments consume prepared Gateway model routes. Gateway's current Manager still handles some admission and placement. Complete hardware reservations and placement are moving to Orchestration, so the target ownership and current code differ during the migration.
+
+## Read this repo
+
+- [Model library](MODEL_LIBRARY.md): registry, roles, model selection, and evidence status.
+- [New model integration](NEW_MODEL_INTEGRATION.md): the current validation path from candidate to promoted model.
+- [Cross-repo contract](CROSS_REPO_CONTRACT.md): what evidence is exported and what live state belongs elsewhere.
+- [Benchmark reference](results/MODEL_BENCHMARK_REFERENCE.md): generated model scores and their source records.
+
+## Documentation index
 
 | Doc | For |
 |---|---|
@@ -33,21 +50,14 @@ The previous long README (procedure, inventory, runtime notes as of 2026-10-15) 
 | [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md) | every speed, capacity and power measurement (generated from `results/runtime_experiments/`) |
 | [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md), [MODEL_SELECTION_GUIDE.md](MODEL_SELECTION_GUIDE.md), [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) | background |
 
-## The four repos
-
-| Repo | Owns | Start at |
-|---|---|---|
-| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | the machines and the API: rig manager (leases, placement, model loads, runs, waits), gateway, dashboard, `rigctl` | `docs/MANAGER.md` |
-| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | parallel batch work (brain, workers, plans), the rig hardware scripts, CPU workers | `shared/workspace/CONTEXT.md` |
-| **benchmarking** (this one) | which models are good: registry, roles, suites, campaigns, results | `NEW_MODEL_INTEGRATION.md` |
-| [llm-harness](https://github.com/bigbertharig/llm-harness) | one model in an interactive loop (no code yet) | `README.md` |
-
-Ordinary model loads go through the gateway Manager: it admits the request and
-the orchestration-owned rig layer executes the load and readiness checks.
+Ordinary model loads are requested through Gateway. Its current Manager still
+handles some admission and placement; the orchestration-owned rig layer enforces
+hardware rules and reports readiness. Complete-capacity reservations and placement
+are moving to that layer. Benchmarking never infers current availability from its
+static recipes.
 Experimental Strata and tensor probes may launch an unsupported engine directly
 under a Manager run and card claim; see [TEST_RUNNER_GUIDE.md](TEST_RUNNER_GUIDE.md).
-The suites run on the rig and read this repo from the shared drive
-(`/mnt/shared/plans/shoulders/benchmarking` today; moving beside the other repos).
+The suites run on the rig against a mounted copy of this repo; the mount path is deployment-specific.
 
 For a standalone `lm-eval` task, load the model through `rigctl load-model --use benchmark --json`
 first and use its ready route in `scripts/active/run_lm_eval_task.py --model-args`.

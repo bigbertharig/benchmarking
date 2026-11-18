@@ -12,6 +12,12 @@ This research decision screens candidates; it does not register, load, or promot
 models already in the registry keep their existing evidence and can receive retrospective research
 notes without repeating integration.
 
+## Scope and status
+
+Benchmarking owns candidate research, the model registry and roles, benchmark suites, and result evidence. Gateway's current Manager handles some admission, placement, and ready routes; orchestration enforces rig-side hardware rules. Complete reservations and placement are moving to orchestration. The [cross-repo contract](CROSS_REPO_CONTRACT.md) defines the published catalog and live-state handoff.
+
+Part 1 below is the current integration procedure; Part 2 is a historical log. Current job assignments come from `model_roles.json`, and measured scores come from the result ledger and its generated references. A candidate, fit estimate, or proposed placement does not by itself mean a model is validated, assigned, loaded, or available as a ready route. Complete the stated gates and publish explicit registry or role changes for those transitions.
+
 What is current where:
 - How a model loads and which settings it uses: [model_registry.json](model_registry.json) (the one
   source of truth), resolved by [scripts/active/model_library.py](scripts/active/model_library.py).
