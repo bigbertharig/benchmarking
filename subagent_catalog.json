@@ -15,8 +15,33 @@
         "research"
       ],
       "context_cap": 262144,
+      "context_allocation": "dynamic_at_attach",
+      "context_min": 16384,
+      "context_default": 65536,
+      "memory_estimate": {
+        "fixed_compute_mib": 1029,
+        "kv_mib_at_262144": 1009,
+        "admission_reserve_mib": 256,
+        "method": "linear_q4_kv_from_observed_262144_worker"
+      },
+      "max_attached_chats": 5,
       "status": "experimental",
       "evidence": "results/runtime_experiments/qwen35_shared_kv_service_20261112/README.md"
+    },
+    "nemotron74_shared_1060": {
+      "provider": "rig_shared_chat",
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "mode": "gpu1060-chat-f16",
+      "requires": {
+        "model": "nemotron-3.5-bolt:74b-a9b",
+        "mode": "gpu0-main-f16-experts1234"
+      },
+      "agent_types": ["coding", "research"],
+      "context_cap": 262144,
+      "context_allocation": "fixed_per_chat",
+      "max_attached_chats": 1,
+      "status": "experimental",
+      "evidence": "results/runtime_experiments/nemotron_shared_kv_http_20261116/README.md"
     },
     "codex_terra": {
       "provider": "codex",

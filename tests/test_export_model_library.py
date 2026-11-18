@@ -69,6 +69,22 @@ class ModelExportContractTest(unittest.TestCase):
             self.assertEqual(first["runtime"]["decode_tps"], 16.6)
             self.assertEqual(result["models"][-1]["model"], "old:7b")
 
+    def test_dynamic_subagent_requires_a_complete_memory_curve(self):
+        registry = {"models": {"m:9b": {}}}
+        valid = {"schema_version": 1, "candidates": {"shared_worker": {
+            "provider": "rig_shared_chat", "model": "m:9b",
+            "context_cap": 262144, "context_allocation": "dynamic_at_attach",
+            "context_min": 16384, "context_default": 65536,
+            "max_attached_chats": 2,
+            "memory_estimate": {"fixed_compute_mib": 100,
+                                "kv_mib_at_262144": 1000,
+                                "admission_reserve_mib": 256,
+                                "method": "measured"}}}}
+        exporter.validate_subagents(valid, registry)
+        del valid["candidates"]["shared_worker"]["memory_estimate"]["admission_reserve_mib"]
+        with self.assertRaisesRegex(ValueError, "invalid memory estimate"):
+            exporter.validate_subagents(valid, registry)
+
 
 if __name__ == "__main__":
     unittest.main()

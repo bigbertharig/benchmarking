@@ -86,6 +86,40 @@ def canonical_bytes(value: dict) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
 
 
+def validate_subagents(document: dict, registry: dict) -> None:
+    """Validate benchmark-owned capabilities before publishing them to consumers."""
+    if document.get("schema_version") != 1 or not isinstance(document.get("candidates"), dict):
+        raise ValueError("invalid subagent catalog")
+    for candidate_id, candidate in document["candidates"].items():
+        if not re.fullmatch(r"[a-z][a-z0-9_]*", candidate_id) or not isinstance(candidate, dict):
+            raise ValueError(f"invalid subagent candidate {candidate_id!r}")
+        if candidate.get("provider") != "rig_shared_chat":
+            continue
+        model = candidate.get("model")
+        if model not in registry["models"]:
+            raise ValueError(f"subagent {candidate_id} names unknown model")
+        if candidate.get("context_allocation") not in ("fixed_per_chat", "dynamic_at_attach"):
+            raise ValueError(f"subagent {candidate_id} has invalid context allocation")
+        context_cap = candidate.get("context_cap")
+        if type(context_cap) is not int or context_cap < 1:
+            raise ValueError(f"subagent {candidate_id} has invalid context cap")
+        if candidate.get("context_allocation") == "dynamic_at_attach":
+            context_min = candidate.get("context_min")
+            context_default = candidate.get("context_default")
+            if (type(context_min) is not int or type(context_default) is not int
+                    or not 1 <= context_min <= context_default <= context_cap):
+                raise ValueError(f"subagent {candidate_id} has invalid dynamic context range")
+            estimate = candidate.get("memory_estimate")
+            if (not isinstance(estimate, dict)
+                    or any(type(estimate.get(field)) is not int or estimate[field] < 0
+                           for field in ("fixed_compute_mib", "kv_mib_at_262144",
+                                         "admission_reserve_mib"))
+                    or not isinstance(estimate.get("method"), str) or not estimate["method"]):
+                raise ValueError(f"subagent {candidate_id} has invalid memory estimate")
+        if type(candidate.get("max_attached_chats")) is not int or candidate["max_attached_chats"] < 1:
+            raise ValueError(f"subagent {candidate_id} has invalid attached chat limit")
+
+
 def build() -> dict:
     registry = read("model_registry.json")
     roles = read("model_roles.json")
@@ -98,8 +132,7 @@ def build() -> dict:
         raise ValueError("invalid benchmarking model library: " + "; ".join(problems[:8]))
     if recipes.get("schema_version") != 1 or not isinstance(recipes.get("recipes"), dict):
         raise ValueError("invalid load recipes")
-    if subagents.get("schema_version") != 1 or not isinstance(subagents.get("candidates"), dict):
-        raise ValueError("invalid subagent catalog")
+    validate_subagents(subagents, registry)
     if not isinstance(tuning_profiles.get("models"), dict):
         raise ValueError("invalid tuning profiles")
     for name, recipe in recipes["recipes"].items():

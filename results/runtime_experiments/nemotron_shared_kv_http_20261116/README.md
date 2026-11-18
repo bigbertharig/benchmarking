@@ -1,0 +1,17 @@
+# Nemotron 3.5 Bolt shared-weight HTTP chat — 2026-11-16
+
+This is the validated serving recipe for `nemotron-3.5-bolt:74b-a9b`. The earlier `nemotron74_expert1060_chat1060_v1` recipe records a private probe and remains `research`; the dashboard offer and agent assignment use this separate HTTP-service recipe. The executable implementation and raw results are owned by orchestration commit `c54c12f`, in `shared/scripts/rig/NEMO_SHARED_CHAT_RECEIPT_2026-11-16.md` and `NEMO_SHARED_CHAT_PROBE_2026-11-16.jsonl` in the rig checkout.
+
+One model instance loaded on GPU0 with expert weights on GPUs1–4. The main chat used GPU0 and one attached worker used GPU5. Both advertised a 262,144-token context cap. The service rejected an attempted worker attach on GPU4 because that card was reserved for experts. The measured placement therefore supports **one attached worker**, not an arbitrary number of concurrent chats.
+
+The main and worker each reached about 37,280 occupied tokens from deterministic fills. Concurrent 16-token HTTP turns then completed at 33.54 and 28.73 decode tokens/s, respectively, with independent content and counters. Short turns also passed on each chat. A prior benchmark probe explored a roughly 50K occupied-token pair, but this new HTTP service was validated to about 37K per chat. Two near-250K chats, checkpoint persistence, and long-context answer quality were not validated here. The dashboard's current per-message input limit is 8K characters, so accumulating a large context requires multiple turns.
+
+The gateway exposes the main and worker as `gpu-rig/shared-nemo-main` and `gpu-rig/shared-nemo-<chat-id>`. The gateway manager assigns an agent child to an available worker of the already-loaded model; orchestration executes the named attach/turn/detach operations and enforces the placement. The same manager contract also covers the Qwen 35B shared service. The harness runs the child session against the assigned route and releases it afterward.
+
+Promotion checks: the recipe must be `validated`, the model must be active in the benchmark catalog, the rig must report a ready service, and the manager must receive a matching instance ID. A restarted service invalidates a conversation's old instance ID rather than silently sending its history to a fresh context. Additional worker placements and model families need their own runtime evidence and recipe entries before being offered.
+
+## Gateway and harness acceptance
+
+On 2026-11-16 the benchmark exporter `sync` and `check` completed, and the gateway importer `generate_profiles.py` and `--check` completed. The live gateway listed `shared-nemo` as ready. The manager attached and released a coding child on GPU5. The dashboard cold-loaded a fresh instance, served one turn on GPU0, attached a second chat on GPU5 and served its turn, then deleted both test-history conversations. Neither appeared in normal chat history. The harness CLI ran a bounded research child via the manager route, received a response, verified roster stability, and released the child.
+
+A separate natural-language dashboard turn asked Nemo to use `local_agents.delegate_task` for `2 plus 2`. The response included receipt `ff41da1169d74945b548582199a1c303`; its durable `summary.json` under the gateway's local-agent receipts confirms a research child on the Nemo GPU5 route, answer `2 + 2 = 4`, stable roster, and worker release. This verifies one real chat-to-tool-to-child path. Broader tool-call reliability, answer quality, and concurrent worker scaling remain unmeasured.
