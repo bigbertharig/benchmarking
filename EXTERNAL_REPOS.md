@@ -10,7 +10,7 @@ registry tracks model files and sources. Last checked: 2026-11-15.
 |---|---|---|
 | [Niko1221/Strata](https://github.com/Niko1221/Strata) | Alternative runtime and memory-placement comparison | Pi source `~/Strata` at `baf16363` (main, one commit after `v0.2.14.1` on 2026-11-15); rig release bundle `/data/bench-staging/strata-v0.2.10` with Control/engine 0.1.56. The source checkout is for review; the rig remains pinned. Start with [Strata memory test plan](STRATA_MEMORY_TEST_PLAN.md) and [placement guide](MODEL_LOADING_AND_CHAT_PLACEMENT.md). |
 | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) | Primary inference baseline | Runtime image/build ownership: [llm_orchestration](https://github.com/bigbertharig/llm_orchestration/blob/main/shared/scripts/llama_runtime/README.md). Each comparison must preserve its image digest and flags. |
-| [Helldez/BigMoeOnEdge](https://github.com/Helldez/BigMoeOnEdge) | Expert-placement research reference | Pi checkout `/media/bryan/shared/plans/shoulders/bigmoe-upstream` at `930b2c9` on 2026-11-15; [research gates](EXPERT_TENSOR_SHARDING_RESEARCH.md). |
+| [Helldez/BigMoeOnEdge](https://github.com/Helldez/BigMoeOnEdge) | Expert-placement research reference | Local research checkout at `930b2c9` on 2026-11-15; [research gates](EXPERT_TENSOR_SHARDING_RESEARCH.md). |
 | [crgregersen/m10dis](https://github.com/crgregersen/m10dis) | Within-expert sharding and peer-transfer research reference | Pi contribution checkout `~/m10dis-pr-work` at `71c69e3` on 2026-11-15; [research gates](EXPERT_TENSOR_SHARDING_RESEARCH.md). |
 
 ## Benchmark suite sources

@@ -5,7 +5,7 @@ endpoint (`/v1/chat/completions`).
 
 ## Quick Start
 
-All commands run on the rig (`ssh 10.0.0.3`). Model must already be loaded on the target port.
+All commands run on the rig (`ssh <rig-ip>`). Model must already be loaded on the target port.
 
 **7B smoke test (limit 5, ~10 min):**
 ```bash
@@ -93,7 +93,7 @@ docker run --rm --network host \
 ## Trimmed Suite
 
 Frozen config:
-- `/media/bryan/shared/plans/shoulders/benchmarking/suites/reasoning_lite_v1.json`
+- `<pi-shared-root>/plans/shoulders/benchmarking/suites/reasoning_lite_v1.json`
 
 Command:
 
@@ -172,7 +172,7 @@ Default behavior enforces model-specific prompts (`--require-model-prompt`).
 
 Every result should be traceable: what model, what prompt (if any), what score.
 Historical runs are archived in per-run result directories under
-`/media/bryan/shared/logs/benchmarks/bench-reasoning_*/`.
+`<pi-shared-root>/logs/benchmarks/bench-reasoning_*/`.
 
 ## Run History
 

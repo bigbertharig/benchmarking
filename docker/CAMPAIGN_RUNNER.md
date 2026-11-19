@@ -29,7 +29,7 @@ The final command resumes the same run. Additional controls:
 ```
 
 The rig reaches the Pi manager through key-only SSH on the isolated
-10.0.0.0/24 Ethernet network. The Pi firewall admits SSH on that network;
+<rig-subnet> Ethernet network. The Pi firewall admits SSH on that network;
 preflight should verify this route before scheduling model loads.
 
 Limit priority is block override, global override, manifest `limit`, then suite

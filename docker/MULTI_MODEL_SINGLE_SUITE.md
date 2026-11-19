@@ -82,7 +82,7 @@ Example:
 
 Reference file:
 
-- [`campaigns/daedalmap_small_models_full_example.json`](/media/bryan/shared/plans/shoulders/benchmarking/campaigns/daedalmap_small_models_full_example.json)
+- [`campaigns/daedalmap_small_models_full_example.json`](../campaigns/daedalmap_small_models_full_example.json)
 
 ## Run
 

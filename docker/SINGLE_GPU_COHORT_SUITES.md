@@ -15,7 +15,7 @@ This is not a new loader.
 
 Canonical load/verify path remains:
 
-- [`/media/bryan/shared/scripts/prepare_llm_runtimes.py`](/media/bryan/shared/scripts/prepare_llm_runtimes.py)
+- [`<pi-shared-root>/scripts/prepare_llm_runtimes.py`](https://github.com/bigbertharig/llm_orchestration/blob/main/shared/scripts/prepare_llm_runtimes.py)
 
 ## Current Cohorts
 
@@ -24,11 +24,11 @@ Canonical load/verify path remains:
 
 Model membership is derived from:
 
-- [`/media/bryan/shared/plans/shoulders/benchmarking/models.catalog.json`](/media/bryan/shared/plans/shoulders/benchmarking/models.catalog.json)
+- [`<pi-shared-root>/plans/shoulders/benchmarking/models.catalog.json`](../models.catalog.json)
 
 ## Runner
 
-- [`/media/bryan/shared/plans/shoulders/benchmarking/scripts/active/run_single_gpu_cohort_suite.py`](/media/bryan/shared/plans/shoulders/benchmarking/scripts/active/run_single_gpu_cohort_suite.py)
+- [`<pi-shared-root>/plans/shoulders/benchmarking/scripts/active/run_single_gpu_cohort_suite.py`](../scripts/active/run_single_gpu_cohort_suite.py)
 
 ## Flow
 
@@ -45,11 +45,11 @@ Multiple benchmark jobs may run in parallel on already-loaded workers.
 ## Dry Run
 
 ```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/scripts/active/run_single_gpu_cohort_suite.py \
+python3 <pi-shared-root>/plans/shoulders/benchmarking/scripts/active/run_single_gpu_cohort_suite.py \
   bench-daedalmap small_models \
-  --shared-root /media/bryan/shared \
+  --shared-root <pi-shared-root> \
   --suite-arg=--execute \
-  --env-file /media/bryan/shared/plans/shoulders/benchmarking/docker/bench-daedalmap/.env \
+  --env-file <pi-shared-root>/plans/shoulders/benchmarking/docker/bench-daedalmap/.env \
   --dry-run
 ```
 
@@ -61,22 +61,22 @@ Existing-score policy:
 ## Real Run
 
 ```bash
-python3 /media/bryan/shared/plans/shoulders/benchmarking/scripts/active/run_single_gpu_cohort_suite.py \
+python3 <pi-shared-root>/plans/shoulders/benchmarking/scripts/active/run_single_gpu_cohort_suite.py \
   bench-daedalmap small_models \
-  --shared-root /media/bryan/shared \
+  --shared-root <pi-shared-root> \
   --suite-arg=--execute \
-  --env-file /media/bryan/shared/plans/shoulders/benchmarking/docker/bench-daedalmap/.env
+  --env-file <pi-shared-root>/plans/shoulders/benchmarking/docker/bench-daedalmap/.env
 ```
 
 ## Status
 
 Campaign status is written under:
 
-- `/media/bryan/shared/logs/benchmarks/cohort_suite_runs/history/<run_name>/status.json`
+- `<pi-shared-root>/logs/benchmarks/cohort_suite_runs/history/<run_name>/status.json`
 
 Per-model suite logs are written under:
 
-- `/media/bryan/shared/logs/benchmarks/cohort_suite_runs/history/<run_name>/logs/`
+- `<pi-shared-root>/logs/benchmarks/cohort_suite_runs/history/<run_name>/logs/`
 
 This includes:
 

@@ -17,10 +17,12 @@ This project runs local model and agent workloads across a Pi control host, an i
 
 Benchmarking publishes reviewed evidence; Gateway imports it and presents work to the operator; the rig-side Orchestration layer enforces hardware rules. Harness experiments consume prepared Gateway model routes. Gateway's current Manager still handles some admission and placement. Complete hardware reservations and placement are moving to Orchestration, so the target ownership and current code differ during the migration.
 
+Examples use role placeholders for hostnames, addresses, and mount paths. Replace them from a private site inventory before running commands.
+
 ## Read this repo
 
-- [Model library](MODEL_LIBRARY.md): registry, roles, model selection, and evidence status.
-- [New model integration](NEW_MODEL_INTEGRATION.md): the current validation path from candidate to promoted model.
+- [New model integration](NEW_MODEL_INTEGRATION.md): registry, roles, validation gates, and evidence status.
+- [Model library](MODEL_LIBRARY.md): historical model selection notes; current roles and statuses are in the registry.
 - [Cross-repo contract](CROSS_REPO_CONTRACT.md): what evidence is exported and what live state belongs elsewhere.
 - [Benchmark reference](results/MODEL_BENCHMARK_REFERENCE.md): generated model scores and their source records.
 

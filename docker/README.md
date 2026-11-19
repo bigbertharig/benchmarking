@@ -48,13 +48,13 @@ Split pairs: GPUs 1+3 and GPUs 4+5 can each load one 14B model (qwen2.5-coder:14
 
 **Quick status check** (run this first in any session):
 ```bash
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
+ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
 ```
 Shows: GPU VRAM/util/temp, running containers + progress, chain logs, memory, earlyoom, recent OOM kills.
 
 **Deep status check** (use this when a run is active or looks suspicious):
 ```bash
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'
+ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'
 ```
 Adds:
 - direct runtime port probes for `11434..11439`
@@ -68,7 +68,7 @@ Operator rule:
 
 **Results status check** (use this when runs may have finished or partially completed):
 ```bash
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --results'
+ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --results'
 ```
 Adds:
 - recent benchmark result summaries grouped by run
@@ -105,9 +105,9 @@ Recommended operator flow:
 
 **Status checks are part of the standard workflow.** Use:
 ```bash
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --results'
+ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
+ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'
+ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --results'
 ```
 Do the fast check before launches. Use `--deep` during long-running `bench-code`,
 `bench-reasoning`, or any time a run feels stalled. Use `--results` when you need
@@ -164,7 +164,7 @@ and waste hours. Takes 30 seconds, saves potentially hours of wasted benchmarkin
 If you've changed any suite's `run.sh`, CLI flags, or defaults, rebuild first:
 
 ```bash
-ssh 10.0.0.3 'cd /mnt/shared/plans/shoulders/benchmarking/docker && \
+ssh <rig-ip> 'cd /mnt/shared/plans/shoulders/benchmarking/docker && \
   docker build -t bench-pipeline bench-pipeline && \
   docker build -t bench-code bench-code && \
   docker build -t bench-reasoning bench-reasoning && \
@@ -205,15 +205,15 @@ added in `model_tuning_profiles.json`.
 Each docker suite is self-contained:
 - its own README explaining what it tests, how prompts work, and how to run it
 - its own HISTORY file tracking every run with timestamps, prompts used, and scores
-- its own result archives in per-run directories under `/media/bryan/shared/logs/benchmarks/`
+- its own result archives in per-run directories under `<pi-shared-root>/logs/benchmarks/`
 
 The main `MODEL_LIBRARY.md` holds only the latest scores per model/test as a simple
 summary table. For full history and prompt traceability, check each suite's history file.
 
 Machine-readable score state:
-- canonical machine-readable ledger: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
-- quality-selected scoreboard view: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
-- markdown operator doc: `/media/bryan/shared/plans/shoulders/benchmarking/MODEL_LIBRARY.md`
+- canonical machine-readable ledger: `<pi-shared-root>/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
+- quality-selected scoreboard view: `<pi-shared-root>/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
+- markdown operator doc: `<pi-shared-root>/plans/shoulders/benchmarking/MODEL_LIBRARY.md`
 
 Current policy:
 - suites auto-append completed results into `model_benchmark_records.jsonl` as tests/tasks finish
@@ -347,11 +347,11 @@ Per-image docs:
 1. Confirm target worker endpoints are loaded:
    - `http://localhost:11435` .. `http://localhost:11439`
 2. Run the overview status check:
-   - `ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'`
+   - `ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'`
 3. If anything looks off or a long suite is already running, run the deep check:
-   - `ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'`
+   - `ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --deep'`
 4. If runs may have completed or partially completed, run the results check:
-   - `ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --results'`
+   - `ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh --results'`
 5. For strict-output custom tests, prefer the worker currently running
    `qwen2.5-coder:7b` (recently `11437`).
 6. Ensure benchmark workers stay loaded long enough for suite runs:
@@ -452,9 +452,9 @@ Resume behavior:
 ## Trimmed 50-Question Suites
 
 Frozen suite definitions:
-- `/media/bryan/shared/plans/shoulders/benchmarking/suites/reasoning_lite_v1.json`
-- `/media/bryan/shared/plans/shoulders/benchmarking/suites/knowledge_lite_v1.json`
-- `/media/bryan/shared/plans/shoulders/benchmarking/suites/coding_lite_v1.json`
+- `<pi-shared-root>/plans/shoulders/benchmarking/suites/reasoning_lite_v1.json`
+- `<pi-shared-root>/plans/shoulders/benchmarking/suites/knowledge_lite_v1.json`
+- `<pi-shared-root>/plans/shoulders/benchmarking/suites/coding_lite_v1.json`
 
 Reasoning lite (`5 tasks x limit 10 = 50`):
 
@@ -701,10 +701,10 @@ Live monitor commands:
 
 ```bash
 # container/process presence
-ssh 10.0.0.3 'ps -ef | grep -E "docker run|run_local_custom_task" | grep -v grep'
+ssh <rig-ip> 'ps -ef | grep -E "docker run|run_local_custom_task" | grep -v grep'
 
 # per-port stage transitions
-ssh 10.0.0.3 'for f in /mnt/shared/logs/benchmarks/bench-pipeline/history/<run_dir>/port_*.log; do echo "### $f"; grep -E "^--- Running|^--- .* done ---|^=== bench-pipeline COMPLETE ===|^Passed:|^Failed:" "$f"; done'
+ssh <rig-ip> 'for f in /mnt/shared/logs/benchmarks/bench-pipeline/history/<run_dir>/port_*.log; do echo "### $f"; grep -E "^--- Running|^--- .* done ---|^=== bench-pipeline COMPLETE ===|^Passed:|^Failed:" "$f"; done'
 ```
 
 ## Timed Snapshot Scheduler
@@ -724,7 +724,7 @@ Default schedule (from launch time):
 Launch in background:
 
 ```bash
-ssh 10.0.0.3 '/mnt/shared/plans/shoulders/benchmarking/docker/snapshot_scheduler.sh \
+ssh <rig-ip> '/mnt/shared/plans/shoulders/benchmarking/docker/snapshot_scheduler.sh \
   --run-root /mnt/shared/logs/benchmarks/bench-pipeline/history/<run_dir> \
   --background'
 ```
@@ -736,7 +736,7 @@ This writes:
 Custom schedule example:
 
 ```bash
-ssh 10.0.0.3 '/mnt/shared/plans/shoulders/benchmarking/docker/snapshot_scheduler.sh \
+ssh <rig-ip> '/mnt/shared/plans/shoulders/benchmarking/docker/snapshot_scheduler.sh \
   --run-root /mnt/shared/logs/benchmarks/bench-pipeline/history/<run_dir> \
   --specs "300:5m 900:15m 1800:30m" \
   --name progress \

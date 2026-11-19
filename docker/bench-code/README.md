@@ -5,7 +5,7 @@ llama-compatible worker endpoint.
 
 ## Quick Start
 
-All commands run on the rig (`ssh 10.0.0.3`). Model must already be loaded on the target port.
+All commands run on the rig (`ssh <rig-ip>`). Model must already be loaded on the target port.
 
 **7B on single worker (e.g. GPU 2, port 11436):**
 ```bash
@@ -74,7 +74,7 @@ docker run --rm --network host \
 ## Trimmed Suite Status
 
 Target file:
-- `/media/bryan/shared/plans/shoulders/benchmarking/suites/coding_lite_v1.json`
+- `<pi-shared-root>/plans/shoulders/benchmarking/suites/coding_lite_v1.json`
 
 Current blocker:
 - EvalPlus evaluate enforces full problem coverage and fails subset scoring
@@ -114,7 +114,7 @@ Current status:
 
 Every result should be traceable: what model, what configuration, what score.
 Historical runs are archived in per-run result directories under
-`/media/bryan/shared/logs/benchmarks/bench-code_*/`.
+`<pi-shared-root>/logs/benchmarks/bench-code_*/`.
 
 ## Run History
 

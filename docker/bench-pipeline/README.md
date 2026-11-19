@@ -5,7 +5,7 @@ Runs worker-facing custom reliability tests from
 
 ## Quick Start
 
-All commands run on the rig (`ssh 10.0.0.3`). Model must already be loaded on the target port.
+All commands run on the rig (`ssh <rig-ip>`). Model must already be loaded on the target port.
 
 **7B on single worker (e.g. GPU 2, port 11436):**
 ```bash

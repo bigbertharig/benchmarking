@@ -15,23 +15,23 @@ Central hub for model selection and benchmarking documentation.
 | [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md) | Debugging narratives, tuning histories, fix details |
 
 Machine-readable sources:
-- generated score ledger: `/media/bryan/shared/logs/benchmarks/MODEL_BENCHMARK_REFERENCE.md`
-- raw records: `/media/bryan/shared/logs/benchmarks/model_benchmark_records.jsonl`
-- scoreboard JSON: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
-- measured Pareto frontiers: `/media/bryan/shared/plans/shoulders/benchmarking/results/model_pareto_frontier.json`
-- model tuning profiles: `/media/bryan/shared/plans/shoulders/benchmarking/model_tuning_profiles.json`
-- task routing: [model_task_library.json](/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/model_task_library.json)
+- generated score ledger: `<pi-shared-root>/logs/benchmarks/MODEL_BENCHMARK_REFERENCE.md`
+- raw records: `<pi-shared-root>/logs/benchmarks/model_benchmark_records.jsonl`
+- scoreboard JSON: `<pi-shared-root>/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
+- measured Pareto frontiers: `<pi-shared-root>/plans/shoulders/benchmarking/results/model_pareto_frontier.json`
+- model tuning profiles: `<pi-shared-root>/plans/shoulders/benchmarking/model_tuning_profiles.json`
+- task routing: [model_roles.json](model_roles.json)
 
 Quick commands:
 ```bash
 # Check rig status (GPUs, running tests, memory, OOM kills)
-ssh 10.0.0.3 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
+ssh <rig-ip> 'bash /mnt/shared/scripts/benchmarks/bench_status.sh'
 
 # Run a benchmark campaign (multi-model, multi-suite, parallel GPU scheduling)
-ssh 10.0.0.3 'python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<manifest>.json'
+ssh <rig-ip> 'python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<manifest>.json'
 
 # Smoke run (limit 10 per task)
-ssh 10.0.0.3 'python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<manifest>.json --limit-override 10'
+ssh <rig-ip> 'python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<manifest>.json --limit-override 10'
 ```
 
 Rules:
@@ -172,7 +172,7 @@ Scores are identical on CPU vs GPU — same weights, same math, only speed diffe
 
 Measured: 3.3 tok/s (Pi 5 CPU) vs 38.4 tok/s (1060 GPU) for 3B models. Ratio worsens with model size.
 
-Full details: compute tiers, current CPU fleet specs, upgrade scenarios (8GB/16GB Pi swarm), use cases, economics, and hybrid architecture → [distributed_work_guide.md](/media/bryan/shared/workspace/distributed_work_guide.md)
+Full details: compute tiers, current CPU fleet specs, upgrade scenarios (8GB/16GB Pi swarm), use cases, economics, and hybrid architecture → [distributed_work_guide.md](https://github.com/bigbertharig/llm_orchestration/blob/main/shared/workspace/distributed_work_guide.md)
 
 Runtime setup: [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) § "CPU Inference (Pi 5)"
 
@@ -180,7 +180,7 @@ Runtime setup: [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) § "CPU Inferenc
 
 - For new model onboarding, follow [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) — the step-by-step playbook with decision trees and integration log.
 - For scored results, trust the generated reference first.
-- For model routing, trust [model_task_library.json](/home/bryan/llm_orchestration/shared/plans/shoulders/benchmarking/model_task_library.json).
+- For model routing, trust [model_roles.json](model_roles.json).
 - For runtime safety and practical limits, trust [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md).
 - When scores and operator reality disagree, update scores and re-run the benchmark.
 - For prompt history, check per-run result archives — never rely on current profiles to reconstruct past runs.
