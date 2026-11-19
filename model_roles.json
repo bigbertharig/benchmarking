@@ -9,7 +9,7 @@
       "lane": "3090",
       "why": "Running brain model; Qwen3.8-27B is the next candidate.",
       "good_for": ["general", "planning", "orchestration_brain"],
-      "evidence": "MODEL_BEST_OF 2026-08-22 (qwen3.5:27b provisional); operator choice 2026-10-15"
+      "evidence": "20260813_limit5_all provisional review; operator choice 2026-10-15"
     },
     "brain_code": {
       "model": "qwen3-coder:30b-a3b",

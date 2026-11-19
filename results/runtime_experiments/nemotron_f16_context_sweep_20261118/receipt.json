@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "model": "nemotron-3.5-bolt:74b-a9b",
+  "service_instance_id": "10f6faa879d84895bfa8f083411e9252",
+  "service_port": 11525,
+  "worker_gpu": 5,
+  "kv_type": "f16",
+  "baseline_used_mib": 78,
+  "rows": [
+    {"context_cap": 16384, "after_attach_used_mib": 206, "allocation_delta_mib": 130, "attach_s": 0.159, "decode_tok_s": 37.8094, "answer": "CTX-16384"},
+    {"context_cap": 32768, "after_attach_used_mib": 336, "allocation_delta_mib": 258, "attach_s": 0.109, "decode_tok_s": 38.2187, "answer": "CTX-32768"},
+    {"context_cap": 51200, "after_attach_used_mib": 480, "allocation_delta_mib": 402, "attach_s": 0.111, "decode_tok_s": 37.9509, "answer": "CTX-51200"},
+    {"context_cap": 102400, "after_attach_used_mib": 880, "allocation_delta_mib": 802, "attach_s": 0.112, "decode_tok_s": 41.0016, "answer": "CTX-102400"},
+    {"context_cap": 153600, "after_attach_used_mib": 1282, "allocation_delta_mib": 1204, "attach_s": 0.112, "decode_tok_s": 41.4410, "answer": "CTX-153600"},
+    {"context_cap": 204800, "after_attach_used_mib": 1682, "allocation_delta_mib": 1604, "attach_s": 0.121, "decode_tok_s": 41.7218, "answer": "CTX-204800"},
+    {"context_cap": 256000, "after_attach_used_mib": 2084, "allocation_delta_mib": 2006, "attach_s": 0.122, "decode_tok_s": 41.4226, "answer": "CTX-256000"},
+    {"context_cap": 262144, "after_attach_used_mib": 2132, "allocation_delta_mib": 2054, "attach_s": 0.126, "decode_tok_s": 41.8939, "answer": "CTX-262144"}
+  ],
+  "all_passed": true,
+  "cleanup_verified": true,
+  "final_chat_ids": ["main"]
+}

@@ -180,7 +180,7 @@ All historical results for this suite live in:
 - [BENCH_REASONING_HISTORY.md](BENCH_REASONING_HISTORY.md)
 
 Each entry records: model, tasks, scores, timestamp, and run path.
-The main MODEL_LIBRARY.md holds only the latest scores.
+The main MODEL_SELECTION.md holds only the latest scores.
 
 ## Common Issues
 

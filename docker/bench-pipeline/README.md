@@ -143,7 +143,7 @@ All historical results for this suite live in:
 - [BENCH_PIPELINE_HISTORY.md](BENCH_PIPELINE_HISTORY.md)
 
 Each entry records: model, score, prompt used, timestamp, and run path.
-The main MODEL_LIBRARY.md holds only the latest scores.
+The main MODEL_SELECTION.md holds only the latest scores.
 
 ## Common Issues
 

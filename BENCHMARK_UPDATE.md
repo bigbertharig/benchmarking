@@ -8,7 +8,7 @@ This is a planning and taxonomy document, not a score ledger.
 
 Use this with:
 - [README.md](README.md)
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md)
+- [MODEL_SELECTION.md](MODEL_SELECTION.md)
 - [custom_tasks/README.md](custom_tasks/README.md)
 - [docker/README.md](docker/README.md)
 
@@ -683,7 +683,7 @@ The suite taxonomy should become:
 
 ### Reference-only layer
 
-1. vendor-published cloud rows in `MODEL_LIBRARY.md`
+1. vendor-published cloud rows in `MODEL_SELECTION.md`
 
 This split keeps the benchmark repo usable for both:
 1. practical local hardware benchmarking
@@ -711,7 +711,7 @@ Recommended near-term actions:
 2. add `LiveCodeBench` as the first new frontier extension
 3. add `SWE-bench Verified` next
 4. document `Terminal-Bench 2.0` as planned but not default
-5. keep cloud model reference rows in `MODEL_LIBRARY.md`
+5. keep cloud model reference rows in `MODEL_SELECTION.md`
 
 If we follow that plan, the benchmark stack stays:
 1. cheap enough for local model screening

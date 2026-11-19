@@ -77,4 +77,4 @@ A/B prompt profile switch:
 Run history for custom pipeline tests is tracked in:
 - [bench-pipeline HISTORY](../docker/bench-pipeline/BENCH_PIPELINE_HISTORY.md)
 
-The main MODEL_LIBRARY.md holds only the latest scores.
+The main MODEL_SELECTION.md holds only the latest scores.

@@ -7,8 +7,8 @@ which tests and suites we run, how to run them, and where results live.
 
 ### Docs
 - This file: entry point, architecture, procedure, everything
-- [MODEL_BEST_OF.md](MODEL_BEST_OF.md): current best model by job and rig lane
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md): operator-facing model selection, latest scores, prompt methodology
+- [MODEL_SELECTION.md](MODEL_SELECTION.md): current best model by job and rig lane
+- [MODEL_SELECTION.md](MODEL_SELECTION.md): operator-facing model selection, latest scores, prompt methodology
 - [BENCHMARK_UPDATE.md](BENCHMARK_UPDATE.md): benchmark taxonomy update, small local vs frontier agentic vs cloud reference
 - [archive/docs/BENCHMARK_HISTORY_pre_archive.md](archive/docs/BENCHMARK_HISTORY_pre_archive.md): lessons learned and prior failures (archived 2026-03-10, run data moved to docker suite histories)
 - [custom_tasks/README.md](custom_tasks/README.md): local custom test definitions and prompt tuning
@@ -139,7 +139,7 @@ python3 ~/llm_orchestration/scripts/runtime_preflight.py --config config.benchma
 
 ## Prompt Configuration
 
-Prompts are managed in two layers. See [MODEL_LIBRARY.md](MODEL_LIBRARY.md) "Prompt Methodology" for full details.
+Prompts are managed in two layers. See [MODEL_SELECTION.md](MODEL_SELECTION.md) "Prompt Methodology" for full details.
 
 - **Universal system prompt** per model (deploys with the model):
   `model_tuning_profiles.json` → `system_prompt` field
@@ -492,7 +492,7 @@ python3 /media/bryan/shared/plans/shoulders/benchmarking/build_model_library_sco
 ```
 
 Update per-suite history files in `docker/bench-*/BENCH_*_HISTORY.md`.
-Update latest scores in [MODEL_LIBRARY.md](MODEL_LIBRARY.md).
+Update latest scores in [MODEL_SELECTION.md](MODEL_SELECTION.md).
 
 ### Step 7: Feed results back into plans
 
@@ -539,7 +539,7 @@ Do not treat `reset_gpu_runtime` as the operator reset path — that is an agent
 thermal recovery mechanism.
 
 Compatibility and runtime-limit status is maintained in the living model document:
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md) → `Known Compatibility Limits (Living)`
+- [MODEL_SELECTION.md](MODEL_SELECTION.md) → `Known Compatibility Limits (Living)`
 
 ## Rules
 

@@ -18,7 +18,7 @@ At Q8_0 the 250K cache is too large for a 1060. See the Pi gateway's
 `docs/PARALLEL_CONTEXT_EXPERIMENT_2026-11-06.md` for the original runtime
 measurements and the earlier layer-split results.
 
-The [capacity probe](scripts/active/kv_cache_residency_probe.py) held one
+The [capacity probe](../scripts/active/kv_cache_residency_probe.py) held one
 synthetic cache reservation and one workspace reservation on **each** 1060 at
 the same time. Results are in
 `results/runtime_experiments/kv_cache_residency_20261106/`.
@@ -33,7 +33,7 @@ The 250K/1,536-MiB case is an allocation edge, not an admissible serving
 profile. CUDA contexts and later attention allocations need room. Each process
 freed its allocations, and the five 1060s returned to 4 MiB reported use.
 
-The [attention worker probe](scripts/active/kv_attention_worker_probe.cu)
+The [attention worker probe](../scripts/active/kv_attention_worker_probe.cu)
 ran one real FP16 softmax attention head over a separate resident token array
 on each 1060. A query originated on GPU0, crossed via pinned host memory to
 all five workers, and all five outputs returned to GPU0. The final 250K
@@ -109,7 +109,7 @@ All five chats were resident at 32K capacity and produced distinct correct
 first answers. For the 27B run, GPU0 held a 15,346 MiB model buffer and peaked
 at 19,019 MiB; each 1060 held 2,048 MiB KV and peaked at 2,208 MiB.
 
-See [the full receipts and private patch](results/runtime_experiments/kv_chat_real_model_20261106/README.md).
+See [the full receipts and private patch](../results/runtime_experiments/kv_chat_real_model_20261106/README.md).
 The harness decodes chats sequentially and uses a process-global device
 selector; it is not a concurrent server. The 32K caches were allocated but
 only short prompts were filled. Long-context retrieval,
@@ -147,7 +147,7 @@ process and model object; this prototype does not grow or migrate an existing
 context's cache. Its process-global device selector and sequential decode are
 not suitable for concurrent serving. Manager integration remains open.
 
-See [patch, logs, GPU samples, and receipts](results/runtime_experiments/kv_pair_dynamic_20261107/README.md).
+See [patch, logs, GPU samples, and receipts](../results/runtime_experiments/kv_pair_dynamic_20261107/README.md).
 
 
 
@@ -200,7 +200,7 @@ continuations gave 104.0, 142.3, and 143.5 tok/s aggregate; the first
 included warmup. These state files remain experiment staging artifacts;
 their fingerprints are in the receipt, not committed as binary results.
 
-See [the matrix, raw receipts, PCIe samples, and private patch](results/runtime_experiments/kv_local_worker_matrix_20261107/README.md).
+See [the matrix, raw receipts, PCIe samples, and private patch](../results/runtime_experiments/kv_local_worker_matrix_20261107/README.md).
 The earlier process-global-selector and sequential-decode limitations above
 describe the historical prototypes; this experiment replaces those two
 mechanisms in the private fork. Manager load profiles and robust serving
@@ -209,7 +209,7 @@ remain to be implemented.
 ## Overnight distinct-chat, hybrid MoE, and RAM-KV campaign (2026-11-07)
 
 The five-case campaign finished with exit 0; all cases passed their explicit
-validators. [Receipts, source, and interpretation](results/runtime_experiments/kv_overnight_20261107/README.md)
+validators. [Receipts, source, and interpretation](../results/runtime_experiments/kv_overnight_20261107/README.md)
 are archived in the benchmarking repo.
 
 Qwen3.6 27B Q4_K_M used one model load on GPU0. Five **different** chats
@@ -243,7 +243,7 @@ the RAM-KV mode before it can select these layouts safely.
 
 ## Whole expert tensors with live 1060 chat caches (2026-11-07)
 
-The [matched Nemotron experiment](results/runtime_experiments/kv_expert_chat_20261107/README.md)
+The [matched Nemotron experiment](../results/runtime_experiments/kv_expert_chat_20261107/README.md)
 combined the prior four-group whole-expert placement with two 8K chats on
 GPUs4/5 and an additively created 131K-capacity chat split across them. With
 the same five weight cards, the normal layer split delivered 21.21 aggregate
@@ -268,7 +268,7 @@ It remains a private experiment, not a Manager profile.
 
 ## Byte-balanced expert group placement with live chats (2026-11-07)
 
-The [matched whole-expert placement test](results/runtime_experiments/kv_matched_placement_20261107/README.md)
+The [matched whole-expert placement test](../results/runtime_experiments/kv_matched_placement_20261107/README.md)
 held the Nemotron model, 3090 plus four expert 1060s, two 8K 1060 chats,
 optional paired chat, quantization, prompts, and output counts fixed. A
 header-only GGUF inventory allowed an interleaved layer assignment with the

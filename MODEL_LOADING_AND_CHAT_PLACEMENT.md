@@ -14,7 +14,7 @@ The [3090/1060/1070 bottleneck study](results/runtime_experiments/gpu_bottleneck
 
 The latest [Qwen3.8 Q4 128K-cap KV comparison](results/runtime_experiments/model_loading_sequences/q38-q4-128k-kv-20261111/README.md) records INT8, K8V4, and Q4_0 timing, expert-cache capacity, NVMe reads, and small scored answers at 16K/32K/50K occupied depth.
 
-For exact settings to reload the current Nemo two-chat and Qwen 35B five-chat baselines, see [MoE chat baseline reloads](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
+For exact settings to reload the current Nemo two-chat and Qwen 35B five-chat baselines, see [MoE chat baseline reloads](reports/MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
 
 ## Current speed results (2026-11-09)
 
@@ -229,7 +229,7 @@ campaign preflight, not an automatic change to our test conclusions.
 
 | Layout | Evidence | Current limit |
 | --- | --- | --- |
-| Qwen3.6 27B weights on GPU0, chats' KV on 1060s and/or RAM | [KV placement](KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md), [alternating chats](results/runtime_experiments/model_loading_sequences/qwen27-alternating-tiers-20261108/README.md), [mixed-tier chats](results/runtime_experiments/qwen27_mixed_ram_gpu_20261108/README.md) | Private llama.cpp fork; new chats were added without a second weight load. Five distinct 1060 chats reached 90% of 256K and passed recall; GPU1, RAM, and GPU2 chats also coexisted and decoded. Deep mixed-tier recall and practical admission speed remain open. |
+| Qwen3.6 27B weights on GPU0, chats' KV on 1060s and/or RAM | [KV placement](reports/KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md), [filled-depth campaign](results/runtime_experiments/kv_overnight_20261107/README.md), [alternating chats](results/runtime_experiments/model_loading_sequences/qwen27-alternating-tiers-20261108/README.md), [mixed-tier chats](results/runtime_experiments/qwen27_mixed_ram_gpu_20261108/README.md) | Private llama.cpp fork; new chats were added without a second weight load. Five distinct 1060 chats reached 90% of 256K and passed recall; GPU1, RAM, and GPU2 chats also coexisted and decoded. Deep mixed-tier recall and practical admission speed remain open. |
 | Nemotron 74B whole experts on GPU0-4, chat-only GPU5; also a GPU0-3 layer split with chats isolated on GPU4/5 | [live expert/chat test](results/runtime_experiments/kv_expert_chat_20261107/README.md), [matched placement](results/runtime_experiments/kv_matched_placement_20261107/README.md), [two isolated 32K chats](results/runtime_experiments/model_loading_sequences/nemotron-two-isolated-chat-depth-20261108/README.md) | Private fork; two GPU4/GPU5 chats each reserved 262K and reached 32K occupied history on one GPU0-3 weight load, decoding concurrently at about 11 tok/s each. The prior 131K paired chat was only shallowly occupied. Larger occupied depths, retrieval quality, and ongoing chat migration remain open. |
 | Llama 70B weights across six GPUs, host-RAM KV | [overnight campaign](results/runtime_experiments/kv_overnight_20261107/README.md) | Short 128K-capacity generation and separate 8K depth probe; 128K occupancy and useful serving speed unproved. |
 | Qwen3.8 Q2 Strata, GPU/RAM/NVMe | [memory plan](STRATA_MEMORY_TEST_PLAN.md), [three-chat gate](results/runtime_experiments/model_loading_sequences/strata-q2-three-chat-20261108/q2_three_chat_detail/terminal.json) | Logical separation: one loaded model served three distinct short chats at a common 8K configured limit. No mixed-size or occupied-depth multi-chat result, independent KV placement, or combined 1060 expert workers. |
@@ -399,7 +399,7 @@ in every receipt.
    admission and short recall, not sustained answer generation.
 
 10. **Two deep Nemo chats on the faster placement.** Reload the saved
-    [four-expert-card, GPU0-main/GPU5-worker baseline](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
+    [four-expert-card, GPU0-main/GPU5-worker baseline](reports/MOE_CHAT_BASELINE_RELOAD_2026-11-09.md).
     Both chats reserve 262K, but simultaneous occupancy is proven only through
     50K. Increase both histories in bounded steps, recording GPU0 peak memory,
     first-token correctness, each chat's decode, and whether admitting the
@@ -423,7 +423,7 @@ in every receipt.
     its unpublished mixed-precision pack; [the precision branch](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md#research-lead-per-layer-precision-and-n-gram-table-2026-11-10)
     remains a later quality experiment.
 13. **Strata-slim VRAM-reclamation controls.** If we revisit Strata on the
-    rig, pin the [reviewed fork and optional patches](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md#strata-slim-idea-to-revisit),
+    rig, pin the [reviewed fork and optional patches](reports/MOE_CHAT_BASELINE_RELOAD_2026-11-09.md#strata-slim-idea-to-revisit),
     then compare the same pack and workload with each capacity patch enabled
     individually. Measure actual VRAM reclaimed, expert-cache hit rate,
     file-tier reads, and complete-turn speed. Confirm that a build supports

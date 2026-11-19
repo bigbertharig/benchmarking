@@ -85,6 +85,17 @@ class ModelExportContractTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invalid memory estimate"):
             exporter.validate_subagents(valid, registry)
 
+    def test_shared_worker_evidence_must_be_published(self):
+        registry = {"models": {"m:9b": {}}}
+        row = {"schema_version": 1, "candidates": {"worker": {
+            "provider": "rig_shared_chat", "model": "m:9b",
+            "context_cap": 65536, "context_allocation": "fixed_per_chat",
+            "max_attached_chats": 1,
+            "evidence": "results/runtime_experiments/missing/README.md"}}}
+        with tempfile.TemporaryDirectory() as folder:
+            with self.assertRaisesRegex(ValueError, "evidence is missing"):
+                exporter.validate_subagents(row, registry, Path(folder))
+
 
 if __name__ == "__main__":
     unittest.main()

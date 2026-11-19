@@ -2,7 +2,7 @@
 
 Benchmarking measures local models and runtimes: quality, speed, memory, power, context, and concurrent chats. It owns the model registry, roles, load recipes, test suites, campaigns, and result records. Gateway imports its reviewed evidence for model offers; live scheduling and hardware reservations belong to Gateway and Orchestration.
 
-`load_recipes.json` records tested configurations. A recipe becomes a Manager offer after review and implementation. [Archived procedures and inventory](archive/docs/README_pre_2026-10-23.md) preserve earlier work.
+`load_recipes.json` records evidence-linked configurations. Reviewed model profiles become Gateway offers through its explicit offer generator and sync; a research recipe ID alone never launches a runtime.
 
 ## Project map
 
@@ -22,7 +22,7 @@ Private site configuration supplies host addresses, credentials, model files, an
 ## Read this repo
 
 - [New model integration](NEW_MODEL_INTEGRATION.md): registry, roles, validation gates, and evidence status.
-- [Model library](MODEL_LIBRARY.md): historical model selection notes; current roles and statuses are in the registry.
+- [Model selection](MODEL_SELECTION.md): one guide to the current registry, roles, scores, and recipes.
 - [Cross-repo contract](CROSS_REPO_CONTRACT.md): what evidence is exported and what live state belongs elsewhere.
 - [Benchmark reference](results/MODEL_BENCHMARK_REFERENCE.md): generated model scores and their source records.
 
@@ -30,9 +30,9 @@ Private site configuration supplies host addresses, credentials, model files, an
 
 | Task | First guide |
 |---|---|
-| Survey a different rig | [Rig limit test](RIG_LIMIT_TEST.md) with the Manager and rig installed, then [model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md) |
+| Survey a different rig | Run `rig scan` on the rig, then [rig limit test](RIG_LIMIT_TEST.md) with the Manager and rig installed, then [model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md) |
 | Add or validate a model | [New model integration](NEW_MODEL_INTEGRATION.md) |
-| Choose a tested model | [Current roles](model_roles.json), [registry](model_registry.json), then the [benchmark reference](results/MODEL_BENCHMARK_REFERENCE.md) |
+| Choose a tested model | [Model selection](MODEL_SELECTION.md) |
 | Understand an existing load recipe | [Model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md), then [cross-repo contract](CROSS_REPO_CONTRACT.md) |
 
 ## Documentation index
@@ -42,8 +42,7 @@ Private site configuration supplies host addresses, credentials, model files, an
 | [EXTERNAL_REPOS.md](EXTERNAL_REPOS.md) | outside runtimes and source projects, local revisions, and update checks |
 | [MODEL_LOADING_AND_CHAT_PLACEMENT.md](MODEL_LOADING_AND_CHAT_PLACEMENT.md) | GPU/RAM/storage model placement, independent chat state, measured layouts, and promotion to Manager |
 | [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) | model validation phases from download to full run (2 load, 3 litmus, 3.5 runtime, 4 smoke, 4.5 optional settings experiments, 5 full run, 6 finalize), with decision trees for common failures |
-| [MODEL_LIBRARY.md](MODEL_LIBRARY.md) | historical selection notes; current choices live in `model_roles.json` and `model_registry.json` |
-| [MODEL_BEST_OF.md](MODEL_BEST_OF.md) | historical best-model choices, superseded by `model_roles.json` |
+| [MODEL_SELECTION.md](MODEL_SELECTION.md) | current selection entry point and source map |
 | [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL_BENCHMARK_REFERENCE.md) | every model's scores (generated from the records) |
 | [docker/README.md](docker/README.md) | the suites; each `docker/bench-*/` has its README and run history |
 | [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | campaigns (Phase 5 at scale); [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md) is the planned move onto the rig manager |
@@ -56,10 +55,10 @@ Private site configuration supplies host addresses, credentials, model files, an
 | [EXPERIMENT_RUNNER_INVENTORY.md](EXPERIMENT_RUNNER_INVENTORY.md) | the recent Strata, expert, PLE, and chat entry points and their internal runner destinations |
 | [EXPERT_TENSOR_SHARDING_RESEARCH.md](EXPERT_TENSOR_SHARDING_RESEARCH.md) | tiered expert execution evidence, repo boundaries, hardware/model analysis and full-model research gates |
 | [EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md](EXPERT_TENSOR_PLACEMENT_TEST_PLAN.md) | model choice, admission gates and matched VRAM/RAM/storage placement controls |
-| [CONTEXT_PROFILE_AUDIT_2026-10-26.md](CONTEXT_PROFILE_AUDIT_2026-10-26.md) | active and candidate model context bounds, working defaults, and read-only card-fit projections |
-| [CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md](CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md) | compact baseline and trained-ceiling test matrix and receipts |
+| [CONTEXT_PROFILE_AUDIT_2026-10-26.md](reports/CONTEXT_PROFILE_AUDIT_2026-10-26.md) | active and candidate model context bounds, working defaults, and read-only card-fit projections |
+| [CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md](reports/CONTEXT_CAPACITY_CAMPAIGN_2026-10-26.md) | compact baseline and trained-ceiling test matrix and receipts |
 | [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md) | every speed, capacity and power measurement (generated from `results/runtime_experiments/`) |
-| [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md), [MODEL_SELECTION_GUIDE.md](MODEL_SELECTION_GUIDE.md), [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) | background |
+| [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md) | lessons from prior runs |
 
 Ordinary model loads are requested through Gateway. Its current Manager still
 handles some admission and placement; the orchestration-owned rig layer enforces

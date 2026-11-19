@@ -155,5 +155,5 @@ To swap sampling: modify inference parameters in tuning profile or pass via API 
 
 - Source: external research on llama.cpp structured output reliability (2026-03-14)
 - These experiments are lower priority than completing smoke tests across all models
-- Run these after all models have baseline scores in MODEL_LIBRARY.md
+- Run these after all models have baseline scores in MODEL_SELECTION.md
 - Document results back in this file, then fold winners into `model_tuning_profiles.json`

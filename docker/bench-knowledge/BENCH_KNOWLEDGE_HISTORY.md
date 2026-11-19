@@ -11,7 +11,7 @@
 
 Historical results for the lm-eval knowledge/loglikelihood suite (llama.cpp GGUF inside container).
 
-The main MODEL_LIBRARY.md holds only the latest score per model/test.
+The main MODEL_SELECTION.md holds only the latest score per model/test.
 This file holds the full history so we can track how config changes affect scores.
 
 ## How to read this table

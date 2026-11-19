@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "model": "nemotron-3.5-bolt:74b-a9b",
+  "kv_type": "f16",
+  "same_gpu": {
+    "gpu": 5,
+    "max_contexts": 2,
+    "context_cap_each": 262144,
+    "used_mib_before_turns": 4178,
+    "used_mib_after_turns": 4190,
+    "concurrent_decode_tok_s": [19.3062, 19.0843]
+  },
+  "third_context_sweep": [
+    {"context_cap": 16384, "peak_used_mib": 4320, "concurrent_replies_passed": true},
+    {"context_cap": 51200, "peak_used_mib": 4592, "concurrent_replies_passed": true},
+    {"context_cap": 102400, "peak_used_mib": 4992, "concurrent_replies_passed": true},
+    {"context_cap": 153600, "peak_used_mib": 5394, "concurrent_replies_passed": true},
+    {"context_cap": 204800, "peak_used_mib": 5794, "concurrent_replies_passed": true}
+  ],
+  "split_cards": {
+    "two_200k": {"physical_gpus": [1, 5], "decode_tok_s": [31.2355, 30.8271]},
+    "four_1060_aggregate_decode_tok_s": 78.611,
+    "four_mixed_aggregate_decode_tok_s": 75.0173
+  },
+  "shared_parent": {
+    "measured_mib_per_child": 182,
+    "max_safe_children": 4,
+    "fifth_child_runtime_failure_observed": true,
+    "production_policy_rejects_before_runtime": true
+  },
+  "production_validation": {
+    "service_instance_id": "33ae9673c3834a8d8c913d3cf90f95f0",
+    "placements": [
+      {"context_cap": 262144, "gpu": 2},
+      {"context_cap": 262144, "gpu": 5},
+      {"context_cap": 204800, "gpu": 3},
+      {"context_cap": 204800, "gpu": 1}
+    ],
+    "same_gpu_fallback_passed": true,
+    "pooled_claim_lifecycle_passed": true,
+    "cleanup_verified": true
+  }
+}

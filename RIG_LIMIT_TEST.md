@@ -9,7 +9,7 @@ sets and simultaneous GPU traffic. See [SYNTHETIC_WORK_SCAN.md](SYNTHETIC_WORK_S
 for the measurements and independent runner. The survey does not load a model
 or infer token speed, context quality or chat limits.
 
-First full survey: [prediction](RIG_LIMIT_PREDICTION_2026-11-15.md), [measured comparison](RIG_LIMIT_COMPARISON_2026-11-15.md), and [run receipt](results/runtime_experiments/rig_limits_20261115_v1/START_HERE.md).
+First full survey: [prediction](reports/RIG_LIMIT_PREDICTION_2026-11-15.md), [measured comparison](reports/RIG_LIMIT_COMPARISON_2026-11-15.md), and [run receipt](results/runtime_experiments/rig_limits_20261115_v1/START_HERE.md).
 
 ## Start here on a new or changed machine
 

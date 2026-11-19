@@ -1,8 +1,7 @@
 # Benchmark Lessons Learned
 
 Debugging narratives, tuning histories, and operational findings from benchmarking local models.
-This is the companion doc to [MODEL_LIBRARY.md](MODEL_LIBRARY.md) — scores and operational guidance
-live there; investigation details and fix histories live here.
+These are historical lessons from benchmark runs. For current model choices and score sources, use [MODEL_SELECTION.md](MODEL_SELECTION.md). Investigation details and fix histories live here.
 
 ## Think-Tag Issue Deep Dive
 
@@ -214,7 +213,7 @@ Qwen2.5-Coder and DeepSeek showed zero difference across all tasks. Mistral's de
 
 ### Qwen2.5-Coder knowledge scores (limit 5)
 
-32B knowledge scores are identical to 7B coder across all 5 tasks. At limit 5, this is almost certainly noise — both models are answering ~1 of 5 samples correctly. These are coder-family models; low knowledge scores are expected and not a concern (see Suite Selection Rationale in MODEL_LIBRARY.md).
+32B knowledge scores are identical to 7B coder across all 5 tasks. At limit 5, this is almost certainly noise — both models are answering ~1 of 5 samples correctly. These are coder-family models; low knowledge scores are expected and not a concern at this sample size.
 
 ## Operational Notes
 
@@ -335,7 +334,7 @@ Per-model score paragraphs from the reasoning table:
 `run_runtime.sh`, orchestration, remote mode and campaigns all default to it, and per-model images are
 rejected by `model_library.py check`. Upgrades go through `upgrade_runtime.sh` in llm_orchestration.
 
-**Lesson**: When scripting multi-model campaigns, explicitly specify the runtime image per block. Different model families may require different runtime builds. The default image is not guaranteed to support all architectures. This is documented in model_tuning_profiles.json notes and MODEL_RUNTIME_GUIDE.md but easy to miss in ad-hoc scripts.
+**Lesson**: When scripting multi-model campaigns, explicitly specify the runtime image per block. Different model families may require different runtime builds. The default image is not guaranteed to support all architectures. This historical note predates the current single runtime-image policy; use the registry and runtime receipts for current requirements.
 
 ## Split-Load Reference
 

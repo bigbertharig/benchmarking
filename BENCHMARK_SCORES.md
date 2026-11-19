@@ -3,8 +3,7 @@
 Pure score tables from local rig benchmarking. No commentary — just numbers.
 
 Companion docs:
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md) — model selection hub, best choices, inventory
-- [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md) — per-model runtime requirements and best practices
+- [MODEL_SELECTION.md](MODEL_SELECTION.md) — model selection hub, best choices, inventory
 - [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md) — debugging narratives and tuning histories
 
 Machine-readable sources:
@@ -127,7 +126,7 @@ All at limit 5. High variance at this sample size. Excluded from default campaig
 
 ## Archived Model Scores
 
-Historical scores for models no longer actively tested. See [MODEL_LIBRARY.md](MODEL_LIBRARY.md) for archive reasons.
+Historical scores for models no longer actively tested. The current status and reason are in [`model_registry.json`](model_registry.json).
 
 ### bench-pipeline (archived)
 

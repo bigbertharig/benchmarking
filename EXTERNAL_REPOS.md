@@ -1,7 +1,7 @@
 # External repositories
 
 This index follows outside runtimes and benchmark suites used or investigated
-by this repo. It complements the [model library](MODEL_LIBRARY.md), whose
+by this repo. It complements the [model library](MODEL_SELECTION.md), whose
 registry tracks model files and sources. Last checked: 2026-11-15.
 
 ## Runtimes and placement research

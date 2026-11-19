@@ -127,7 +127,7 @@ are retained rather than merged away.
   service stays frozen after the final scheduled variant.
 
 See [main placement guide](MODEL_LOADING_AND_CHAT_PLACEMENT.md),
-[MoE baseline reloads](MOE_CHAT_BASELINE_RELOAD_2026-11-09.md), and
+[MoE baseline reloads](reports/MOE_CHAT_BASELINE_RELOAD_2026-11-09.md), and
 [Strata memory plan](STRATA_MEMORY_TEST_PLAN.md).
 
 The Qwen3.8 [tier campaign](campaigns/strata_q4_onechat_tier_overnight_20261110.json)

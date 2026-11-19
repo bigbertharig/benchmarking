@@ -1,6 +1,6 @@
 # Per-chat 1060 cache worker receipts
 
-See [`KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md`](../../../KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md)
+See [`KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md`](../../../reports/KV_PER_CHAT_GPU_PLACEMENT_2026-11-06.md)
 for the interpretation, limitations, and next runtime gate.
 
 `cache_*_workspace_*.json` are simultaneous five-GPU CUDA allocation

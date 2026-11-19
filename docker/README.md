@@ -4,9 +4,8 @@ This is the operator guide for running the benchmark Docker suites against the
 live worker runtimes.
 
 Companion docs:
-- [MODEL_LIBRARY.md](../MODEL_LIBRARY.md) — model selection hub, best choices, inventory
+- [MODEL_SELECTION.md](../MODEL_SELECTION.md) — model selection hub, best choices, inventory
 - [BENCHMARK_SCORES.md](../BENCHMARK_SCORES.md) — pure score tables
-- [MODEL_RUNTIME_GUIDE.md](../MODEL_RUNTIME_GUIDE.md) — per-model runtime requirements and best practices
 - [BENCHMARK_LESSONS_LEARNED.md](../BENCHMARK_LESSONS_LEARNED.md) — debugging narratives and tuning histories
 - [NEW_MODEL_INTEGRATION.md](../NEW_MODEL_INTEGRATION.md) — step-by-step playbook for onboarding new models
 - [CAMPAIGN_RUNNER.md](CAMPAIGN_RUNNER.md) — unified multi-model multi-suite campaign runner
@@ -153,10 +152,10 @@ Fixes (apply to `run_runtime.sh` or docker run):
 - `-ctk q8_0 -ctv q8_0`: quantize KV cache from f16 to q8_0, halves KV cache memory. Small quality impact.
 - `-ctk q4_0 -ctv q4_0`: aggressive KV quantization, quarters KV cache. Bigger quality tradeoff.
 - Reduce `--ctx-size`: most benchmarks use short prompts, ctx_size=4096 is often enough for smoke tests and dramatically reduces KV cache size.
-See MODEL_LIBRARY.md "RAM vs VRAM" for per-model analysis.
+For measured memory and placement, use the [runtime reference](../results/RUNTIME_REFERENCE.md) and its receipts.
 
 **0b. Run the litmus test first.** Before committing to the full suite on a new model,
-run the 3 quick curl checks in MODEL_LIBRARY.md → "Pre-Flight Litmus Test". This catches
+run a short prompt, JSON, and tool-call smoke check with the target runtime. This catches
 `<think>` wrappers, broken JSON, and other output format issues that produce all-zero scores
 and waste hours. Takes 30 seconds, saves potentially hours of wasted benchmarking.
 
@@ -207,19 +206,18 @@ Each docker suite is self-contained:
 - its own HISTORY file tracking every run with timestamps, prompts used, and scores
 - its own result archives in per-run directories under `<pi-shared-root>/logs/benchmarks/`
 
-The main `MODEL_LIBRARY.md` holds only the latest scores per model/test as a simple
-summary table. For full history and prompt traceability, check each suite's history file.
+The [generated benchmark reference](../results/MODEL_BENCHMARK_REFERENCE.md) summarizes selected scores. For full history and prompt traceability, check the JSONL ledger and each suite's history file.
 
 Machine-readable score state:
 - canonical machine-readable ledger: `<pi-shared-root>/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl`
 - quality-selected scoreboard view: `<pi-shared-root>/plans/shoulders/benchmarking/results/model_library_scoreboard.json`
-- markdown operator doc: `<pi-shared-root>/plans/shoulders/benchmarking/MODEL_LIBRARY.md`
+- markdown operator doc: `<pi-shared-root>/plans/shoulders/benchmarking/MODEL_SELECTION.md`
 
 Current policy:
 - suites auto-append completed results into `model_benchmark_records.jsonl` as tests/tasks finish
-- `MODEL_LIBRARY.md` is still maintained separately for operator notes and curated summary rows
+- `MODEL_SELECTION.md` is the source map for model choice, not a score ledger
 - `build_model_library_scoreboard.py` and `build_benchmark_reference.py` derive their outputs exclusively from the JSONL ledger
-- `MODEL_LIBRARY.md` remains a curated operator/model-selection document, not a score source
+- `MODEL_SELECTION.md` points to the registry, generated references, and receipts
 
 Storage policy (do not mix suite outputs in one folder):
 - `bench-pipeline`: `/mnt/shared/logs/benchmarks/bench-pipeline/history`
@@ -251,7 +249,7 @@ Workflow:
 3. Record the run narrative in the suite's HISTORY file
 4. Compare across runs to learn what prompt changes helped
 5. Fold improvements back into the universal prompt in `model_tuning_profiles.json`
-6. Refresh derived reports from JSONL, then update `MODEL_LIBRARY.md` only when curated operator guidance changes
+6. Refresh derived reports from JSONL; update the model registry or roles only when reviewed model knowledge changes
 
 ## Result Recording
 

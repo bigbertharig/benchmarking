@@ -3,7 +3,7 @@
 Prediction was [written before the run](RIG_LIMIT_PREDICTION_2026-11-15.md).
 The managed survey `rig-limits-20261115-v1` ran on 2026-11-15 from
 23:21:29 to 23:24:40 UTC and **passed all four stages**. The complete local
-receipt is in [rig_limits_20261115_v1](results/runtime_experiments/rig_limits_20261115_v1/START_HERE.md).
+receipt is in [rig_limits_20261115_v1](../results/runtime_experiments/rig_limits_20261115_v1/START_HERE.md).
 The Pi has the same receipt under
 `/mnt/shared/plans/shoulders/benchmarking/results/runtime_experiments/rig_limits_20261115_v1`.
 
@@ -37,7 +37,7 @@ depth one; the 25.09 GB RAM result is guarded headroom during this run, not a
 promised model allocation. Use these figures as the starting hardware map for
 the later model-placement tests.
 
-Primary evidence: [run plan](results/runtime_experiments/rig_limits_20261115_v1/plan.json),
-[link copy CSV](results/runtime_experiments/rig_limits_20261115_v1/link/copies.csv),
-[RAM terminal receipt](results/runtime_experiments/rig_limits_20261115_v1/ram/terminal.json),
-and [storage stage](results/runtime_experiments/rig_limits_20261115_v1/storage/stage.json).
+Primary evidence: [run plan](../results/runtime_experiments/rig_limits_20261115_v1/plan.json),
+[link copy CSV](../results/runtime_experiments/rig_limits_20261115_v1/link/copies.csv),
+[RAM terminal receipt](../results/runtime_experiments/rig_limits_20261115_v1/ram/terminal.json),
+and [storage stage](../results/runtime_experiments/rig_limits_20261115_v1/storage/stage.json).

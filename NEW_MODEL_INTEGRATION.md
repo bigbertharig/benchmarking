@@ -27,8 +27,7 @@ What is current where:
 - Model choices, statuses and settings written in Part 2 are history; the registry wins where they differ.
 
 Companion docs:
-- [MODEL_LIBRARY.md](MODEL_LIBRARY.md): picking a model, prompt methodology
-- [MODEL_RUNTIME_GUIDE.md](MODEL_RUNTIME_GUIDE.md): per-model runtime notes
+- [MODEL_SELECTION.md](MODEL_SELECTION.md): current model choice and source map
 - [MODEL_LOADING_GATE.md](MODEL_LOADING_GATE.md): loading-stage evidence before benchmark smoke
 - [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md): debugging narratives
 - [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md): measured host RAM planning limit and split-placement evidence; use its live headroom gate for experimental RAM offload
@@ -437,8 +436,8 @@ other speed and PCIe tools, are in [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md).
 | Status `candidate` -> `active` once it completed the gates (roles may only point at active models); `tuning.status` and `last_tuned_at` | `model_registry.json`, then `model_library.py export` |
 | What was learned: chosen settings and why, known limits, speed | the profile `notes` in the registry |
 | An integration entry: phases, settings, known limits, run names | Part 2 of this file (template below) |
-| A role, if it is the best at a job | `model_roles.json`, and `MODEL_BEST_OF.md` |
-| Runtime notes worth keeping | `MODEL_RUNTIME_GUIDE.md` |
+| A role, if it is the best at a job | `model_roles.json` |
+| Runtime notes worth keeping | the named profile's `notes` in `model_registry.json` |
 | A debugging story worth keeping | `BENCHMARK_LESSONS_LEARNED.md` |
 
 Score tables are generated (`results/MODEL_BENCHMARK_REFERENCE.md`, the scoreboard, the dashboard); there
@@ -543,7 +542,7 @@ Runtime fails to start or gets OOM-killed
 |
 +-- "unknown model architecture" error
 |   -> Runtime image too old for this model family
-|   -> Check required image tag in MODEL_RUNTIME_GUIDE.md
+|   -> Check the named profile and runtime image in model_registry.json
 |   -> Rebuild/pull updated runtime image
 |
 +-- System RAM pressure
@@ -1125,8 +1124,8 @@ GGUF: `gemma-4-12B-it-Q4_K_M.gguf` | Size: 7.4 GB (Q4_K_M) | Source: HuggingFace
 
 ### Phase 6: Finalize
 - [x] BENCHMARK_SCORES.md updated — family summary, pipeline, code, reasoning tables + notes (updated with brain l50 BBH/DROP)
-- [x] MODEL_LIBRARY.md inventory updated — added to Active Model Inventory as 12B split
-- [x] MODEL_RUNTIME_GUIDE.md notes added — updated gemma-4 family section, thinking reference, context sizes
+- [x] Model inventory updated — added the 12B split to the model list used at the time
+- [x] Runtime notes added — recorded Gemma 4 thinking behavior and context sizes
 - [x] BENCHMARK_LESSONS_LEARNED.md updated — thinking A/B test results, split-load findings, runtime image mismatch lesson
 - Notes: BBH 0.807 at l50 confirms l5 A/B test. DROP F1 0.789 is competitive with 26B-A4B (0.785) and 31B (0.793). GSM8K format issue (0.10) remains — known Gemma 4 output format, not capability.
 
@@ -1199,8 +1198,8 @@ Architecture: MoE, 21B total params, 3.6B active. OpenAI's first open-weight mod
 
 ### Phase 6: Finalize
 - [x] BENCHMARK_SCORES.md updated (l100 reasoning scores, family summary)
-- [x] MODEL_LIBRARY.md inventory updated
-- [x] MODEL_RUNTIME_GUIDE.md notes added
+- [x] Model inventory updated in the guide used at the time
+- [x] Runtime notes added in the guide used at the time
 - [x] BENCHMARK_LESSONS_LEARNED.md updated (channel-based thinking narrative)
 
 ## Integration: Phi-4-mini-reasoning 3.8B (2026-06-12)
@@ -1273,6 +1272,6 @@ Has `<think>`/`</think>` reasoning tokens — similar to DeepSeek-R1 family.
 
 ### Phase 6: Finalize
 - [ ] BENCHMARK_SCORES.md updated
-- [ ] MODEL_LIBRARY.md inventory updated
-- [ ] MODEL_RUNTIME_GUIDE.md notes added
+- [ ] `model_registry.json` entry and status updated
+- [ ] Named profile notes updated in `model_registry.json`
 - [ ] BENCHMARK_LESSONS_LEARNED.md updated (if applicable)

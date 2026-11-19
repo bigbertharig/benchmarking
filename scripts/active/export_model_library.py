@@ -86,7 +86,7 @@ def canonical_bytes(value: dict) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
 
 
-def validate_subagents(document: dict, registry: dict) -> None:
+def validate_subagents(document: dict, registry: dict, evidence_root: Path | None = None) -> None:
     """Validate benchmark-owned capabilities before publishing them to consumers."""
     if document.get("schema_version") != 1 or not isinstance(document.get("candidates"), dict):
         raise ValueError("invalid subagent catalog")
@@ -98,6 +98,11 @@ def validate_subagents(document: dict, registry: dict) -> None:
         model = candidate.get("model")
         if model not in registry["models"]:
             raise ValueError(f"subagent {candidate_id} names unknown model")
+        evidence = candidate.get("evidence")
+        if evidence_root is not None and isinstance(evidence, str) and evidence.startswith("results/"):
+            path = (evidence_root / evidence).resolve()
+            if not path.is_relative_to(evidence_root.resolve()) or not path.is_file():
+                raise ValueError(f"subagent {candidate_id} evidence is missing: {evidence}")
         if candidate.get("context_allocation") not in ("fixed_per_chat", "dynamic_at_attach"):
             raise ValueError(f"subagent {candidate_id} has invalid context allocation")
         context_cap = candidate.get("context_cap")
@@ -132,7 +137,7 @@ def build() -> dict:
         raise ValueError("invalid benchmarking model library: " + "; ".join(problems[:8]))
     if recipes.get("schema_version") != 1 or not isinstance(recipes.get("recipes"), dict):
         raise ValueError("invalid load recipes")
-    validate_subagents(subagents, registry)
+    validate_subagents(subagents, registry, ROOT)
     if not isinstance(tuning_profiles.get("models"), dict):
         raise ValueError("invalid tuning profiles")
     for name, recipe in recipes["recipes"].items():

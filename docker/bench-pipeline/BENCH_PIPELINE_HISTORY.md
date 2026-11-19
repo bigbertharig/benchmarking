@@ -2,7 +2,7 @@
 
 Historical results for the worker-facing custom reliability suite.
 
-The main MODEL_LIBRARY.md holds only the latest score per model/test.
+The main MODEL_SELECTION.md holds only the latest score per model/test.
 This file holds the full history so we can track how prompt and config changes affect scores.
 
 ## How to read this table

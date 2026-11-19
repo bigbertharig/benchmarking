@@ -2,7 +2,7 @@
 
 Historical results for the lm-eval reasoning-focused suite.
 
-The main MODEL_LIBRARY.md holds only the latest score per model/test.
+The main MODEL_SELECTION.md holds only the latest score per model/test.
 This file holds the full history so we can track how prompt and config changes affect scores.
 
 ## 2026-10-26 Ministral DROP newline truncation
