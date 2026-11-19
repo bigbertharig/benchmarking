@@ -26,21 +26,30 @@ Private site configuration supplies host addresses, credentials, model files, an
 - [Cross-repo contract](CROSS_REPO_CONTRACT.md): what evidence is exported and what live state belongs elsewhere.
 - [Benchmark reference](results/MODEL_BENCHMARK_REFERENCE.md): generated model scores and their source records.
 
+## Start by task
+
+| Task | First guide |
+|---|---|
+| Survey a different rig | [Rig limit test](RIG_LIMIT_TEST.md) with the Manager and rig installed, then [model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md) |
+| Add or validate a model | [New model integration](NEW_MODEL_INTEGRATION.md) |
+| Choose a tested model | [Current roles](model_roles.json), [registry](model_registry.json), then the [benchmark reference](results/MODEL_BENCHMARK_REFERENCE.md) |
+| Understand an existing load recipe | [Model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md), then [cross-repo contract](CROSS_REPO_CONTRACT.md) |
+
 ## Documentation index
 
 | Doc | For |
 |---|---|
 | [EXTERNAL_REPOS.md](EXTERNAL_REPOS.md) | outside runtimes and source projects, local revisions, and update checks |
-| [MODEL_LOADING_AND_CHAT_PLACEMENT.md](MODEL_LOADING_AND_CHAT_PLACEMENT.md) | one entry point for GPU/RAM/storage model placement, independent chat state, measured layouts, and promotion to Manager |
-| [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) | the entry point for running anything: the phases from download to full run (2 load, 3 litmus, 3.5 runtime, 4 smoke, 4.5 optional settings experiments, 5 full run, 6 finalize), with decision trees for common failures |
-| [MODEL_LIBRARY.md](MODEL_LIBRARY.md) | picking a model: the library, latest scores, prompt methodology |
-| [MODEL_BEST_OF.md](MODEL_BEST_OF.md) | the current best model per job and rig lane |
+| [MODEL_LOADING_AND_CHAT_PLACEMENT.md](MODEL_LOADING_AND_CHAT_PLACEMENT.md) | GPU/RAM/storage model placement, independent chat state, measured layouts, and promotion to Manager |
+| [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) | model validation phases from download to full run (2 load, 3 litmus, 3.5 runtime, 4 smoke, 4.5 optional settings experiments, 5 full run, 6 finalize), with decision trees for common failures |
+| [MODEL_LIBRARY.md](MODEL_LIBRARY.md) | historical selection notes; current choices live in `model_roles.json` and `model_registry.json` |
+| [MODEL_BEST_OF.md](MODEL_BEST_OF.md) | historical best-model choices, superseded by `model_roles.json` |
 | [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL_BENCHMARK_REFERENCE.md) | every model's scores (generated from the records) |
 | [docker/README.md](docker/README.md) | the suites; each `docker/bench-*/` has its README and run history |
 | [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | campaigns (Phase 5 at scale); [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md) is the planned move onto the rig manager |
 | [scripts/integration/README.md](scripts/integration/README.md) | the lane tools for Phases 3-4.5 |
 | [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) | how fast the rig runs models and why: card vs bus, splits, context capacity, PCIe; open questions; which tool measures what |
-| [RIG_LIMIT_TEST.md](RIG_LIMIT_TEST.md) | start here for the guarded small or deep rig survey and its starting-guidance report |
+| [RIG_LIMIT_TEST.md](RIG_LIMIT_TEST.md) | guarded small or deep rig survey and its starting-guidance report |
 | [SYNTHETIC_WORK_SCAN.md](SYNTHETIC_WORK_SCAN.md) | model-free weight, expert, KV, lookup, and shared-bus work classes; run presets and limits |
 | [REPEATABLE_RIG_EXPERIMENTS.md](REPEATABLE_RIG_EXPERIMENTS.md) | repeatable runner contract for depth, placement, Strata, expert tensor, and transfer tests |
 | [TEST_RUNNER_GUIDE.md](TEST_RUNNER_GUIDE.md) | how to create a new experiment runner, when to use a direct loader, and how to reuse the managed sequence |
