@@ -27,6 +27,19 @@
         "results/runtime_experiments/kv_expert_chat_20261107/README.md",
         "results/runtime_experiments/kv_matched_placement_20261107/README.md"
       ]
+    },
+    "nemotron74_shared_kv_http_v1": {
+      "model": "nemotron-3.5-bolt:74b-a9b",
+      "status": "validated",
+      "procedure": "shared_kv_http_v1",
+      "placement": {
+        "weights": ["gpu0"],
+        "experts": ["gpu_workers"],
+        "chat_state": ["gpu0", "gpu_workers"]
+      },
+      "evidence": [
+        "results/runtime_experiments/nemotron_shared_kv_http_20261116/README.md"
+      ]
     }
   }
 }
