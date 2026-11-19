@@ -1,23 +1,23 @@
 # Benchmarking
 
-Evidence for deciding which local models and runtimes are useful, how they load, and what they cost. This repo owns the model registry, reviewed model roles and load recipes, evaluation suites, campaigns, and result records. Gateway imports the published evidence; Benchmarking does not schedule live user work or reserve hardware.
+Benchmarking measures local models and runtimes: quality, speed, memory, power, context, and concurrent chats. It owns the model registry, roles, load recipes, test suites, campaigns, and result records. Gateway imports its reviewed evidence for model offers; live scheduling and hardware reservations belong to Gateway and Orchestration.
 
-The current `load_recipes.json` is evidence, not an executable Manager offer. Earlier procedural and inventory notes are preserved in [the archived README](archive/docs/README_pre_2026-10-23.md).
+`load_recipes.json` records tested configurations. A recipe becomes a Manager offer after review and implementation. [Archived procedures and inventory](archive/docs/README_pre_2026-10-23.md) preserve earlier work.
 
 ## Project map
 
-This project runs local model and agent workloads across a Pi control host, an isolated GPU rig, and optional CPU workers. The four repositories have different jobs:
+Big Bertha runs across a Pi control host, an isolated GPU rig, and optional CPU workers. Four repositories divide the system's work:
 
 | Repository | Responsibility |
 |---|---|
-| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Operator-facing dashboard, conversations, model API, tool policy, and work coordination. Its existing Manager code still bridges some hardware operations. |
-| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Hardware-facing admission, placement, reservations, model lifecycle, telemetry, and the existing parallel batch engine. |
-| [benchmarking](https://github.com/bigbertharig/benchmarking) | Measured model and runtime evidence, model registry and roles, load recipes, evaluation suites, and results. |
-| [llm-harness](https://github.com/bigbertharig/llm-harness) | Experimental agent loop, context and session contracts, tool adapters, and harness comparisons. No candidate harness has been promoted as the gateway's work engine. |
+| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Serves the dashboard, conversations, model API, tool policy, and work coordination. Its Manager also coordinates some model placement and loading. |
+| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Observes and controls rig hardware, enforces admission and reservations, manages runtimes, and runs the legacy brain/worker batch engine. |
+| [benchmarking](https://github.com/bigbertharig/benchmarking) | Measures models and runtimes; publishes the model library, roles, load recipes, evaluation suites, and results. |
+| [llm-harness](https://github.com/bigbertharig/llm-harness) | Builds and tests shared tools, agent loops, context, sessions, delegation, and recovery. Harness selection for dashboard work remains open. |
 
-Benchmarking publishes reviewed evidence; Gateway imports it and presents work to the operator; the rig-side Orchestration layer enforces hardware rules. Harness experiments consume prepared Gateway model routes. Gateway's current Manager still handles some admission and placement. Complete hardware reservations and placement are moving to Orchestration, so the target ownership and current code differ during the migration.
+Benchmarking publishes a validated model library. Gateway imports it, serves model routes, and manages dashboard work. Harness supplies reviewed tool schemas and tests model interactions through Gateway routes. Orchestration enforces rig hardware rules and runs admitted model services. [The work-organization guide](https://github.com/bigbertharig/llm-gateway/blob/main/docs/WORK_ORGANIZATION_DIRECTION.md) tracks the remaining Manager-to-Orchestration migration.
 
-Examples use role placeholders for hostnames, addresses, and mount paths. Replace them from a private site inventory before running commands.
+Private site configuration supplies host addresses, credentials, model files, and mounts. The published examples use role placeholders. For another card mix, run a hardware survey and validate fit, context, concurrency, and speed before offering a load recipe. [Porting guide](https://github.com/bigbertharig/llm-gateway/blob/main/docs/PORTABILITY.md).
 
 ## Read this repo
 
@@ -190,11 +190,12 @@ and archived/invalid models.
 
 ## Sharing with the other repos
 
-Each of the four repos runs without the others. Benchmarking's lessons go out through the model library:
-every other repo has its own importer that reads `model_registry.json` and `model_roles.json` and writes its
-own copy (llm-gateway `tools/generate_profiles.py`; llm_orchestration and llm-harness to build). Their lessons
-come back through their `lessons/` folders, which `collect_lessons.py` copies here when wanted. Nothing here
-writes into another repo, and no other repo reads this one at runtime.
+Benchmarking publishes the validated `model_library_export.json` artifact with
+`python3 scripts/active/export_model_library.py sync`. Gateway, Orchestration, and Harness each explicitly
+import a hash-checked local projection; none reads Benchmarking's checkout during ordinary runtime.
+Gateway's importer turns reviewed evidence into model offers, while live fit and readiness remain separate.
+The other repos record their own lessons, which `collect_lessons.py` can copy here for review.
+See [the cross-repo contract](CROSS_REPO_CONTRACT.md) for the artifact, import commands, and live-state boundary.
 
 ## Layout
 
