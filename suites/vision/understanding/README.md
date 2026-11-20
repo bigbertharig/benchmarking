@@ -3,7 +3,7 @@
 The target is a compact model that can provide reliable, concise image evidence
 to another model. It is not primarily a chat-quality test.
 
-## Active offline battery
+## Active offline batteries
 
 `local-v1` contains 24 deterministic PNG cases, four in each category:
 
@@ -19,7 +19,15 @@ to another model. It is not primarily a chat-quality test.
 `smoke.jsonl` selects one case per category. `cases.jsonl` is the complete
 first-pass suite. `SHA256SUMS` freezes the exact manifest and image bytes.
 
-The builder and runner are `scripts/active/build_vision_understanding_suite.py` and
+`local-full-v1` contains 120 frozen cases: the original 24 plus 96 new
+deterministic PNGs, 20 per category. Its builder refuses to overwrite an
+existing suite. Use the same manifest and decoding settings for every model.
+The additional cases vary text fields, charts, interface states, absent
+objects, and spatial layouts; they are synthetic variants, so the score is a
+local screen rather than a broad real-world vision benchmark.
+
+The builders are `scripts/active/build_vision_understanding_suite.py` and
+`scripts/active/build_vision_full.py`; the runner is
 `scripts/active/run_vision_understanding.py`. The runner rejects non-loopback endpoints
 and never imports a dataset client. Set `HF_HUB_OFFLINE=1` and
 `TRANSFORMERS_OFFLINE=1` for every supervised run as an additional guard.
