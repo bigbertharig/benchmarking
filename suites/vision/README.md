@@ -33,3 +33,26 @@ python3 scripts/active/run_vision_understanding.py \
 
 See [understanding/README.md](understanding/README.md) for case coverage and
 [generation/README.md](generation/README.md) for the separate generation plan.
+
+## First full local understanding screen (2026-11-20)
+
+All runs used the same 120-image manifest (SHA-256
+`f9cd943f8f803af010f1625a5a5b0fe781dcff95bf5bd48af95bfc702f26250f`),
+temperature 0, and a 1,024-token response cap. Accuracy is exact answer match;
+schema compliance is reported separately. Times are per-case medians, including
+image handling and generation, on the stated card.
+
+| Local checkpoint | Card | Correct | Schema | OCR | Median case |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Gemma 4 12B Q6_K_L | RTX 3090 Ti | 115/120 | 98.3% | 17/20 | 4.06 s |
+| Qwen3.5 9B Q3_K_M | GTX 1070 | 80/120 | 97.5% | 0/20 | 6.82 s |
+| Qwen3.5 9B Q4_K_M | RTX 3090 Ti | 76/120 | 94.2% | 0/20 | 1.13 s |
+
+The full case-level receipts are in
+[`results/vision`](../../results/vision), under directories beginning
+`local-full120-`. These synthetic cases are a deployment screen, not public
+OCRBench or other external benchmark scores. The Qwen Q3 and Q4 runs used
+different GPUs, so their timing difference is not a quantization speed result.
+Both Qwen runs missed all 20 local OCR cases; review those case outputs before
+using either for OCR-heavy work. A 256-token diagnostic run truncated many
+Gemma answers; the table uses the corrected 1,024-token run.

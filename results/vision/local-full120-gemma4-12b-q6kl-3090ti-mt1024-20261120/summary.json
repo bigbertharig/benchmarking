@@ -1,0 +1,42 @@
+{
+  "suite": "local-understanding-full-v1",
+  "model": "/home/bryan/model-hotset/gemma-4-12b/gemma-4-12B-it-Q6_K_L.gguf",
+  "max_tokens": 1024,
+  "cases": 120,
+  "correct": 115,
+  "accuracy": 0.9583333333333334,
+  "schema_rate": 0.9833333333333333,
+  "categories": {
+    "chart": {
+      "correct": 20,
+      "total": 20,
+      "accuracy": 1.0
+    },
+    "document": {
+      "correct": 20,
+      "total": 20,
+      "accuracy": 1.0
+    },
+    "gui": {
+      "correct": 18,
+      "total": 20,
+      "accuracy": 0.9
+    },
+    "negative": {
+      "correct": 20,
+      "total": 20,
+      "accuracy": 1.0
+    },
+    "ocr": {
+      "correct": 17,
+      "total": 20,
+      "accuracy": 0.85
+    },
+    "spatial": {
+      "correct": 20,
+      "total": 20,
+      "accuracy": 1.0
+    }
+  },
+  "cloud_dependencies": false
+}

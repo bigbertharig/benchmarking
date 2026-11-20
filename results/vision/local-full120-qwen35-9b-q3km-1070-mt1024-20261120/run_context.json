@@ -1,0 +1,13 @@
+{
+  "started_at": "2026-11-20T09:10:05.335566+00:00",
+  "status": "complete",
+  "model": "/mnt/shared/models/qwen3.5-9b/Qwen3.5-9B-Q3_K_M.gguf",
+  "base_url": "http://127.0.0.1:11436/v1",
+  "manifest": "/home/bryan/benchmarking/suites/vision/understanding/local-full-v1/cases.jsonl",
+  "manifest_sha256": "f9cd943f8f803af010f1625a5a5b0fe781dcff95bf5bd48af95bfc702f26250f",
+  "planned_cases": 120,
+  "max_tokens": 1024,
+  "temperature": 0,
+  "finished_at": "2026-11-20T09:26:42.583554+00:00",
+  "completed_cases": 120
+}
