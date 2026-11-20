@@ -17,6 +17,24 @@ Keep generated images and one receipt per prompt/seed under `results/vision`.
 Image quality still requires blind review against the requirements checklist;
 the runner records performance and failures, not a fabricated quality score.
 
+The first local baselines are SDXL base 1.0 for `text_to_image` and Instruct
+Pix2Pix for `image_editing`. The shared model archive pins their downloaded
+revisions in `generation-baseline-download-20261120.json`. They test two
+different capabilities; compare models within a track when additional
+checkpoints are added. A full local run contains 144 text-to-image outputs or
+48 editing outputs. Verify the source manifest against `SHA256SUMS` before
+running either track.
+
+After a run, `scripts/active/build_vision_generation_review.py --manifest
+suites/vision/generation/local-full-v1/cases.jsonl --run RESULTS_DIRECTORY
+--output NEW_REVIEW_DIRECTORY` creates a portable gallery and blank CSV score
+sheet. Score each output 0–3 for prompt requirements and visual quality:
+0 = failed or absent, 1 = major errors, 2 = mostly met with minor errors,
+3 = fully met. For editing, also score preservation of unrequested content on
+the same scale; leave that column blank for text-to-image. The CSV keeps
+the prompt, checklist, seed, source, output, and notes together. Treat these
+scores as reviewer judgments, not automatic measurements.
+
 ## Public benchmark battery
 
 Use GenEditEvalKit's official task implementations where available:
