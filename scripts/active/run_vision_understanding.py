@@ -41,7 +41,10 @@ def main() -> None:
     parser.add_argument("--manifest", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--limit", type=int)
+    parser.add_argument("--max-tokens", type=int, default=1024)
     args = parser.parse_args()
+    if args.max_tokens < 1:
+        parser.error("--max-tokens must be positive")
 
     host = urlparse(args.base_url).hostname
     if host not in {"127.0.0.1", "localhost", "::1"}:
@@ -69,6 +72,8 @@ def main() -> None:
         "manifest": str(args.manifest),
         "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
         "planned_cases": len(cases),
+        "max_tokens": args.max_tokens,
+        "temperature": 0,
     }
     context_file.write_text(json.dumps(context, indent=2) + "\n", encoding="utf-8")
     results_file.touch()
@@ -84,7 +89,7 @@ def main() -> None:
         payload = {
             "model": args.model,
             "temperature": 0,
-            "max_tokens": 256,
+            "max_tokens": args.max_tokens,
             "messages": [
                 {
                     "role": "user",
@@ -139,8 +144,9 @@ def main() -> None:
             "accuracy": sum(item["correct"] for item in group) / len(group),
         }
     summary = {
-        "suite": "local-understanding-v1",
+        "suite": "local-understanding-full-v1" if suite.name == "local-full-v1" else "local-understanding-v1",
         "model": args.model,
+        "max_tokens": args.max_tokens,
         "cases": len(results),
         "correct": sum(item["correct"] for item in results),
         "accuracy": sum(item["correct"] for item in results) / len(results) if results else 0,
