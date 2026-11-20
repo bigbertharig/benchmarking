@@ -11,6 +11,54 @@ Before a campaign, publish the benchmarking model export and run
 `python3 /mnt/shared/scripts/sync_model_library.py sync`. The runner reads the
 imported model snapshot and tuning profiles under `/mnt/shared/agents`.
 
+## Simple model-and-suite request
+
+Use the Benchmarking request compiler when you want a set of registered models
+to run the same tests without hand-authoring card placement or block order:
+
+```json
+{
+  "name": "candidate_screen",
+  "models": ["ministral-3:3b", "qwen3.5:4b"],
+  "tests": [
+    {"suite": "bench-reasoning", "tasks": ["gsm8k", "drop"], "limit": 10},
+    {"suite": "bench-knowledge", "tasks": ["academic"], "limit": 10}
+  ],
+  "run_class": "smoke"
+}
+```
+
+```bash
+python3 scripts/active/submit_campaign_request.py request.json \
+  --pi-shared-root /media/bryan/shared --rig-shared-root /mnt/shared \
+  --rigctl /home/bryan/llm-gateway/tools/rigctl.py
+```
+
+The submit command reads `model_registry.json` and `suite_contracts.json`. It accepts
+active and candidate models, refuses an explicitly unfinished `loading_stage`,
+and checks suite task selectors and limit support. Existing registry models
+without a loading-stage record remain available for explicit tests. It emits
+consecutive suites in one runtime group per model so the runner reuses a load;
+different model groups may run concurrently if the rig admits them. The
+request contains no GPU IDs. It writes the compiled manifest and a submission
+receipt under the shared `plans/shoulders/benchmarking/campaigns/requests/`
+directory, then calls Gateway's `rigctl run-start --auto-resume`. The output is
+a normal campaign-v1 manifest, so the checkpoint and resume behavior below
+applies unchanged. The manager's run
+record reports one terminal outcome; the runner writes an atomic `status.json`
+and raw suite receipts. `scripts/integration/wait_for_campaign_completion.py`
+can deliver a single completion alert from the receipt's `pi_status` without
+repeated LLM status calls:
+
+```bash
+python3 scripts/integration/wait_for_campaign_completion.py \
+  /media/bryan/shared/logs/benchmarks/campaigns/history/candidate_screen/RUN_ID/status.json
+```
+
+Start the waiter after the run creates its status directory. Gateway does not
+yet expose this simple request as one submission API or push its terminal alert
+to the dashboard.
+
 ## Commands
 
 ```bash

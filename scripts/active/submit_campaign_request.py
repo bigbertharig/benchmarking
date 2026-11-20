@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""Submit a simple benchmark request as one managed, resumable rig run."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+
+from build_campaign_request import ROOT, compile_request
+
+
+def _write_atomic(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    tmp.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    tmp.replace(path)
+
+
+def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
+           rigctl: Path, run_id: str, dry_run: bool = False) -> dict:
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}", run_id):
+        raise ValueError("run_id must be 1-64 letters, digits, dots, underscores or dashes")
+    request = json.loads(request_path.read_text(encoding="utf-8"))
+    registry = json.loads((ROOT / "model_registry.json").read_text(encoding="utf-8"))
+    contracts = json.loads((ROOT / "docker" / "suite_contracts.json").read_text(encoding="utf-8"))
+    source = json.loads((ROOT / "model_library_export.json").read_text(encoding="utf-8"))
+    imported = json.loads((pi_shared_root / "agents" / "model_library.json").read_text(encoding="utf-8"))
+    source_hash = source.get("source_sha256")
+    if not source_hash or source_hash != imported.get("source_sha256"):
+        raise ValueError("model library import is stale; publish and sync the Benchmarking export first")
+    relative_dir = Path("plans/shoulders/benchmarking/campaigns/requests")
+    shared_contracts = pi_shared_root / "plans/shoulders/benchmarking/docker/suite_contracts.json"
+    if json.loads(shared_contracts.read_text(encoding="utf-8")) != contracts:
+        raise ValueError("rig-visible suite contracts differ from the Benchmarking checkout")
+    campaign = compile_request(request, registry, contracts)
+    pi_campaign_dir = pi_shared_root / relative_dir
+    rig_campaign_dir = rig_shared_root / relative_dir
+    manifest_name = f"{run_id}.json"
+    local_manifest = pi_campaign_dir / manifest_name
+    rig_manifest = rig_campaign_dir / manifest_name
+    status_relative = Path("logs/benchmarks/campaigns/history") / campaign["name"] / run_id / "status.json"
+    rig_status = rig_shared_root / status_relative
+    pi_status = pi_shared_root / status_relative
+    base = {"schema": "benchmark-submission/1", "run_id": run_id, "campaign": campaign["name"],
+            "model_library_sha256": source_hash,
+            "blocks": len(campaign["blocks"]), "manifest": str(local_manifest),
+            "rig_manifest": str(rig_manifest), "rig_status": str(rig_status),
+            "pi_status": str(pi_status),
+            "submitted_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+    if dry_run:
+        return {**base, "state": "dry_run", "compiled_campaign": campaign}
+    if local_manifest.exists():
+        prior = json.loads(local_manifest.read_text(encoding="utf-8"))
+        if prior != campaign:
+            raise ValueError(f"run_id {run_id} already has a different manifest")
+    else:
+        _write_atomic(local_manifest, campaign)
+    command = [sys.executable, str(rigctl), "run-start", "--run", run_id, "--auto-resume", "--",
+               "python3", str(rig_shared_root / "scripts" / "benchmarks" / "run_campaign.py"),
+               str(rig_manifest), "--run-id", run_id]
+    result = subprocess.run(command, capture_output=True, text=True, check=False)
+    try:
+        manager = json.loads(result.stdout)
+    except ValueError:
+        manager = {"stdout": result.stdout[-1000:], "stderr": result.stderr[-1000:]}
+    receipt = {**base, "state": "submitted" if result.returncode == 0 else "submission_failed",
+               "manager_exit_code": result.returncode, "manager": manager}
+    _write_atomic(pi_campaign_dir / f"{run_id}.submission.json", receipt)
+    return receipt
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("request", type=Path)
+    parser.add_argument("--pi-shared-root", type=Path, required=True,
+                        help="shared storage root as seen by the controller")
+    parser.add_argument("--rig-shared-root", type=Path, required=True,
+                        help="same shared storage root as seen by the rig")
+    parser.add_argument("--rigctl", type=Path, required=True, help="Gateway rigctl.py on this controller")
+    parser.add_argument("--run-id", default=None)
+    parser.add_argument("--dry-run", action="store_true", help="compile and print; do not write or submit")
+    args = parser.parse_args()
+    run_id = args.run_id or datetime.now(timezone.utc).strftime("bench-%Y%m%dT%H%M%SZ-") + uuid.uuid4().hex[:6]
+    try:
+        receipt = submit(args.request, pi_shared_root=args.pi_shared_root,
+                         rig_shared_root=args.rig_shared_root, rigctl=args.rigctl,
+                         run_id=run_id, dry_run=args.dry_run)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        parser.error(str(exc))
+    print(json.dumps(receipt, indent=2))
+    return 0 if receipt["state"] != "submission_failed" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

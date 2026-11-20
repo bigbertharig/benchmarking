@@ -12,6 +12,45 @@ This research decision screens candidates; it does not register, load, or promot
 models already in the registry keep their existing evidence and can receive retrospective research
 notes without repeating integration.
 
+## Default path: onboarding, then suites
+
+Treat these as separate jobs. **Onboarding** establishes an exact model/quant's
+working load profile; **benchmarking** measures its capabilities using that
+profile. A suite request should not have to name GPUs or choose sequential
+versus parallel execution.
+
+1. Research and register the candidate, then publish the model-library export.
+   A rig survey is needed when hardware changes; it is not repeated for every
+   model. Candidate status is valid for explicit tests.
+2. Establish a basic profile with real loads: a useful working context,
+   placement and memory headroom, a short answer check, and load/decode timing.
+   Probe compact and larger contexts and split placement where the model needs
+   them. Run a deeper context curve only when the intended use or initial
+   measurements warrant it. Record the chosen settings in `profiles` and the
+   evidence summary in `loading_stage`; mark `ready_for_benchmark` only after
+   the route answers at its stated context. `MODEL_LOADING_GATE.md` defines this
+   handoff. An explicitly unfinished loading stage cannot enter a suite request.
+3. Submit models and suites. `scripts/active/submit_campaign_request.py`
+   compiles a small request into the existing campaign-v1 blocks and starts a
+   managed, resumable run. It groups
+   suites by model so the runner can reuse one load, and leaves card choice to
+   rig admission. The campaign runner schedules separate model groups against
+   available capacity, checkpoints results, and resumes interrupted blocks.
+   See `docker/CAMPAIGN_RUNNER.md` for the current command path.
+4. Review scored receipts, then deliberately update registry status, roles,
+   and offers. A passing load or benchmark does not auto-promote a model.
+
+Onboarding is the judgment-heavy stage. After that, suite execution is a
+deterministic managed run: preflight, load, execute, save results, and emit one
+terminal receipt. The existing completion watcher waits on that receipt with
+filesystem events rather than asking an LLM to poll model or GPU state.
+
+The submit command is the current CLI bridge. Gateway still lacks a single
+user-facing “models + suites” submission endpoint; adding that endpoint should
+reuse this request shape and the existing runner rather than create another
+scheduler. The detailed phases below remain the evidence procedures for each
+stage, not a fixed requirement to run every experiment on every model.
+
 ## Scope and status
 
 Benchmarking owns candidate research, the model registry and roles, benchmark suites, and result evidence. Gateway's current Manager handles some admission, placement, and ready routes; orchestration enforces rig-side hardware rules. Complete reservations and placement are moving to orchestration. The [cross-repo contract](CROSS_REPO_CONTRACT.md) defines the published catalog and live-state handoff.
