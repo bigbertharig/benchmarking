@@ -11,7 +11,11 @@ prompts and 12 editing instructions, each with four fixed seeds. The editing
 cases include 12 synthetic source PNGs. `SHA256SUMS` covers the manifest and
 source images. The generator refuses to overwrite an existing suite. This
 bank is ready for runtime integration; no generation model result exists yet.
+`scripts/active/run_vision_generation.py` accepts a local Diffusers checkpoint,
+refuses network model fetches, and writes each output and receipt as it finishes.
 Keep generated images and one receipt per prompt/seed under `results/vision`.
+Image quality still requires blind review against the requirements checklist;
+the runner records performance and failures, not a fabricated quality score.
 
 ## Public benchmark battery
 
