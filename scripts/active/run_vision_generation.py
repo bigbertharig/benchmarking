@@ -76,6 +76,7 @@ def main() -> None:
             str(args.model_dir), torch_dtype=torch.float16, variant="fp16",
             use_safetensors=True, local_files_only=True,
         ).to("cuda")
+        pipe.set_progress_bar_config(disable=True)
         context.update(status="running", load_seconds=round(time.monotonic()-load_started, 3),
                        torch_version=torch.__version__,
                        diffusers_version=__import__("diffusers").__version__,
@@ -86,7 +87,7 @@ def main() -> None:
         context_file.write_text(json.dumps(context, indent=2) + "\n", encoding="utf-8")
         raise
     receipt_path = args.output / "results.jsonl"
-    complete = failed = consecutive_failures = 0
+    complete = failed = blocked = consecutive_failures = 0
     rows = []
     with receipt_path.open("x", encoding="utf-8") as receipt:
         for case in cases:
@@ -117,6 +118,8 @@ def main() -> None:
                     os.replace(temp, file)
                     image_sha256 = hashlib.sha256(file.read_bytes()).hexdigest()
                     complete += 1
+                    if safety_flag:
+                        blocked += 1
                     consecutive_failures = 0
                 except Exception as exc:
                     error = f"{type(exc).__name__}: {exc}"
@@ -141,7 +144,9 @@ def main() -> None:
                     break
             if consecutive_failures >= 3:
                 break
-    status = "failed" if consecutive_failures >= 3 else "complete_with_failures" if failed else "complete"
+    status = ("failed" if consecutive_failures >= 3 else
+              "complete_with_failures" if failed else
+              "complete_with_blocks" if blocked else "complete")
     summary = {
         "track": args.track,
         "model_dir": str(args.model_dir.resolve()),
@@ -149,6 +154,7 @@ def main() -> None:
         "planned_outputs": context["planned_outputs"],
         "completed_outputs": complete,
         "failed_outputs": failed,
+        "blocked_outputs": blocked,
         "median_output_seconds": round(statistics.median(row["seconds"] for row in rows), 3) if rows else None,
         "peak_cuda_allocated_mib": max((row["peak_cuda_allocated_mib"] for row in rows), default=None),
         "status": status,
@@ -156,7 +162,8 @@ def main() -> None:
     }
     (args.output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     context.update(status=status,
-                   finished_at=stamp(), completed_outputs=complete, failed_outputs=failed)
+                   finished_at=stamp(), completed_outputs=complete, failed_outputs=failed,
+                   blocked_outputs=blocked)
     if consecutive_failures >= 3:
         context["error"] = "stopped after three consecutive image-generation failures"
     context_file.write_text(json.dumps(context, indent=2) + "\n", encoding="utf-8")

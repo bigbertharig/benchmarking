@@ -56,7 +56,8 @@ def main() -> None:
             "case_id": row["id"], "seed": row["seed"], "category": case["category"],
             "prompt": case["prompt"], "requirements": checklist,
             "source": source_relative, "output": image_relative,
-            "error": row["error"] or "", "requirements_met_0_to_3": "",
+            "error": row["error"] or "", "safety_blocked": bool(row.get("safety_flag")),
+            "requirements_met_0_to_3": "",
             "visual_quality_0_to_3": "", "edit_preservation_0_to_3": "",
             "notes": "",
         })
@@ -67,6 +68,7 @@ def main() -> None:
             '<p><b>Prompt:</b> ' + html.escape(case["prompt"]) + '</p>'
             '<p><b>Check:</b> ' + html.escape(checklist) + '</p>'
             '<div class="pair">' + source + preview + '</div>'
+            + ('<p><b>Safety checker blocked this output.</b></p>' if row.get('safety_flag') else '')
             + ("<p>" + html.escape(row["error"]) + "</p>" if row["error"] else "")
             + '</article>'
         )
