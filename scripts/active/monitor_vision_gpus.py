@@ -29,6 +29,30 @@ def main() -> None:
                 capture_output=True, text=True, timeout=15,
             )
             sample = {"at": datetime.now(timezone.utc).isoformat(), "gpus": []}
+            memory = {}
+            for line in Path('/proc/meminfo').read_text(encoding='utf-8').splitlines():
+                key, _, value = line.partition(':')
+                if key in {'MemTotal', 'MemAvailable'}:
+                    memory[key] = round(int(value.split()[0]) / 1024)
+            sample['host_memory_mib'] = memory
+            sample['watched_processes'] = []
+            for run in args.watch:
+                context_path = run / 'run_context.json'
+                if not context_path.exists():
+                    continue
+                try:
+                    pid = int(json.loads(context_path.read_text(encoding='utf-8')).get('pid', 0))
+                    status_path = Path('/proc') / str(pid) / 'status'
+                    if pid and status_path.is_file():
+                        values = {}
+                        for line in status_path.read_text(encoding='utf-8').splitlines():
+                            key, _, value = line.partition(':')
+                            if key in {'VmRSS', 'VmHWM'}:
+                                values[key] = round(int(value.split()[0]) / 1024)
+                        sample['watched_processes'].append({'run': str(run), 'pid': pid,
+                                                             'memory_mib': values})
+                except (OSError, ValueError):
+                    pass
             if proc.returncode:
                 sample["error"] = proc.stderr.strip()[-300:]
             else:

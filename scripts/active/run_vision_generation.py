@@ -51,7 +51,7 @@ def main() -> None:
     images = args.output / "images"
     images.mkdir()
     context = {
-        "started_at": stamp(), "status": "loading", "track": args.track,
+        "started_at": stamp(), "status": "loading", "pid": os.getpid(), "track": args.track,
         "manifest": str(args.manifest),
         "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
         "model_dir": str(args.model_dir.resolve()),

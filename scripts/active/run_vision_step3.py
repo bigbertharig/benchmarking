@@ -47,7 +47,7 @@ def main() -> None:
             parser.error(f"missing image for {case['id']}")
     args.output.mkdir(parents=True)
     context_file = args.output / "run_context.json"
-    context = {"started_at": stamp(), "status": "loading", "backend": "transformers",
+    context = {"started_at": stamp(), "status": "loading", "pid": os.getpid(), "backend": "transformers",
                "model_dir": str(args.model_dir.resolve()),
                "manifest": str(args.manifest.resolve()),
                "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
