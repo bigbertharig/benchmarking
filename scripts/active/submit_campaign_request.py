@@ -35,7 +35,7 @@ def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
     source_hash = source.get("source_sha256")
     if not source_hash or source_hash != imported.get("source_sha256"):
         raise ValueError("model library import is stale; publish and sync the Benchmarking export first")
-    relative_dir = Path("plans/shoulders/benchmarking/campaigns/requests")
+    relative_dir = Path("logs/benchmarks/campaigns/requests")
     shared_contracts = pi_shared_root / "plans/shoulders/benchmarking/docker/suite_contracts.json"
     if json.loads(shared_contracts.read_text(encoding="utf-8")) != contracts:
         raise ValueError("rig-visible suite contracts differ from the Benchmarking checkout")

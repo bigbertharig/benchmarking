@@ -84,7 +84,7 @@ class CampaignRequestTests(unittest.TestCase):
                           receipt["rig_status"])
             self.assertEqual(receipt["pi_status"], str(root / "pi/logs/benchmarks/campaigns/history/two_models/unit/status.json"))
             self.assertTrue(Path(receipt["manifest"]).is_file())
-            self.assertTrue((root / "pi/plans/shoulders/benchmarking/campaigns/requests/unit.submission.json").is_file())
+            self.assertTrue((root / "pi/logs/benchmarks/campaigns/requests/unit.submission.json").is_file())
             command = run.call_args.args[0]
             self.assertIn("--auto-resume", command)
             self.assertIn("/rig/shared/scripts/benchmarks/run_campaign.py", command)

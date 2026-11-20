@@ -41,8 +41,8 @@ without a loading-stage record remain available for explicit tests. It emits
 consecutive suites in one runtime group per model so the runner reuses a load;
 different model groups may run concurrently if the rig admits them. The
 request contains no GPU IDs. It writes the compiled manifest and a submission
-receipt under the shared `plans/shoulders/benchmarking/campaigns/requests/`
-directory, then calls Gateway's `rigctl run-start --auto-resume`. The output is
+receipt under shared runtime state at `logs/benchmarks/campaigns/requests/`
+without modifying the Benchmarking source checkout, then calls Gateway's `rigctl run-start --auto-resume`. The output is
 a normal campaign-v1 manifest, so the checkpoint and resume behavior below
 applies unchanged. The manager's run
 record reports one terminal outcome; the runner writes an atomic `status.json`

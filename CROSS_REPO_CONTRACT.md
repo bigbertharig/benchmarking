@@ -9,7 +9,7 @@ Version 1, 2026-11-15. This document defines two kinds of shared information: **
 | Benchmarking | `model_library_export.json`, schema `gpu-rig-model-library/1` | Gateway, orchestration, harness |
 | Harness | `tools/dashboard_tool_catalog.json`, schema version 1, generated from `tools/tool_registry.json` | Gateway, benchmarking |
 | Gateway | OpenAI-compatible inference and model discovery; `/v1/manager` admission; `/v1/rig/status` and `/v1/rig/ready-roster` | Dashboard, harness, benchmarking, other clients |
-| Orchestration | Prepared-plan execution; private versioned status, diagnostics and activity API | Gateway and its read-only `rig_info` tools |
+| Orchestration | Rig scan, physical admission, leases/claims, runtime execution and observation; private legacy batch status, diagnostics and activity API | Gateway, benchmarking and harness through Gateway |
 
 Orchestration does not import the tool catalog. Gateway and benchmarking hold their own hash-pinned tool snapshots. Tool names in an inventory are *candidates* until the harness export enables them. A live MCP `tools/list` supplies schemas at use time; if it conflicts with the approved gateway snapshot, the tool is unavailable.
 
@@ -48,7 +48,7 @@ These are explicit sync steps. Each repo keeps a hash-verified local snapshot so
 ## Live model request and observation
 
 1. A client names a canonical model ID or task capability and requirements such as context and chat count. Gateway resolves a reviewed profile and asks Manager for fit/admission using its imported catalog **and current rig observation**.
-2. In the current implementation, Gateway's Manager selects a reviewed profile and coordinates the load, while the rig-side Orchestration layer enforces hardware admission, reservations, and runtime constraints. Gateway still contains some placement and lease policy during the migration. The rig executes the admitted command and readiness check. The separate legacy plan path submits prepared work through `submit_prepared`; it is not the new Gateway work-organization design.
+2. In the current implementation, Gateway's Manager selects a reviewed profile and coordinates the load, while the rig-side Orchestration layer enforces hardware admission, reservations, and runtime constraints. Gateway still contains some placement and lease policy during the migration. The rig executes the admitted command and readiness check. Gateway's old plan-start/resume routes and Orchestration's paired `submit_prepared` action have been retired; new work must use direct requests, not shared plan files as a command channel.
 3. Gateway publishes a route only when the rig reports a matching ready profile, served context, and port. `/v1/rig/ready-roster` lists those routes. `/v1/rig/status` and `/v1/manager/status` describe current rig and admission state. `/v1/models` is an OpenAI-compatible **offer list** and may include cold profiles. Clients must not interpret it as the loaded roster.
 4. Requests to `/v1/chat/completions` or `/v1/responses` name the selected route. `X-Require-Ready: true` asks gateway to refuse a cold route rather than preparing it. Benchmark and harness receipts should record canonical model ID, route ID, profile/recipe, served context, catalog hash and relevant tool-catalog hash. Route ID is an endpoint identity; it is not a replacement canonical model ID.
 
