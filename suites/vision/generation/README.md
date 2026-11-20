@@ -2,9 +2,16 @@
 
 Generation and editing are recorded as separate tracks even when one checkpoint supports both.
 
-The downloaded Qwen3.5, Gemma 4, and Step3-VL vision checkpoints are not
-generation candidates. This track needs a separate diffusion or autoregressive
-image-generator shortlist.
+The downloaded Qwen3.5, Gemma 4, and Step3-VL vision checkpoints accept images
+and produce text; they are not image-generation candidates. This track needs
+separate text-to-image and instruction-editing models.
+
+`local-full-v1/cases.jsonl` is the frozen local input bank: 36 text-to-image
+prompts and 12 editing instructions, each with four fixed seeds. The editing
+cases include 12 synthetic source PNGs. `SHA256SUMS` covers the manifest and
+source images. The generator refuses to overwrite an existing suite. This
+bank is ready for runtime integration; no generation model result exists yet.
+Keep generated images and one receipt per prompt/seed under `results/vision`.
 
 ## Public benchmark battery
 

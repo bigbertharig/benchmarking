@@ -3,7 +3,8 @@
 Benchmarking owns the frozen vision suite, its runner, and its result receipts.
 The original dashboard research workspace was the preparation area. Run new
 comparisons from this repository so checkpoints use the same frozen images and
-answer keys. The image-generation track is a separate planned suite.
+answer keys. The generation/editing input bank is frozen separately; it needs
+generation runtimes and output scoring before it yields results.
 
 The installed rig at the first smoke run has one RTX 3090 Ti, one GTX 1070,
 and four GTX 1060s. The five-1070 layout in [BENCHMARK_PLAN.md](BENCHMARK_PLAN.md)
