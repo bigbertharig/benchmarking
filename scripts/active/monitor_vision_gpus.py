@@ -52,7 +52,7 @@ def main() -> None:
                         states.append("running")
                 else:
                     states.append("waiting")
-            if states and all(state == "complete" for state in states):
+            if states and all(state in {"complete", "complete_with_failures", "failed"} for state in states):
                 break
             time.sleep(args.interval)
 
