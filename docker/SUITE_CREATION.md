@@ -2,7 +2,7 @@
 
 All campaign-compatible suites implement `campaign-v1`. The machine-readable
 source of truth is `docker/suite_contracts.json`; the only scheduler is
-`/mnt/shared/scripts/benchmarks/run_campaign.py`.
+`scripts/active/run_campaign.py`.
 
 ## 1. Choose the Contract
 

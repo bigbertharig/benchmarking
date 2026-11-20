@@ -2,7 +2,7 @@
 # Install only when you need these suites.
 #
 # Install:
-#   pip install -r /mnt/shared/scripts/benchmarks/requirements-optional.txt
+#   pip install -r requirements-optional.txt
 
 # Includes core by default
 -r requirements-core.txt

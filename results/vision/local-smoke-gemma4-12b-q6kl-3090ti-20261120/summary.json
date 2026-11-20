@@ -1,0 +1,41 @@
+{
+  "suite": "local-understanding-v1",
+  "model": "/data/model-hotset/gemma-4-12b/gemma-4-12B-it-Q6_K_L.gguf",
+  "cases": 6,
+  "correct": 6,
+  "accuracy": 1.0,
+  "schema_rate": 1.0,
+  "categories": {
+    "chart": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "document": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "gui": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "negative": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "ocr": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "spatial": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    }
+  },
+  "cloud_dependencies": false
+}

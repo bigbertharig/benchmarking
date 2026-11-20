@@ -325,7 +325,7 @@ CATALOG="${SCRIPTS_DIR}/benchmark_catalog.json"
 
 if [ ! -f "$RUNNER" ]; then
     echo "ERROR: Custom test runner not found: $RUNNER"
-    echo "Mount the benchmarks scripts dir with -v /mnt/shared/scripts/benchmarks:/benchmark-scripts:ro"
+    echo "Mount the benchmarks scripts dir with -v /path/to/benchmarking/scripts/active:/benchmark-scripts:ro"
     exit 1
 fi
 if [ ! -f "$RECORD_RESULT_SCRIPT" ]; then

@@ -7,7 +7,7 @@
 # Run:
 #   docker run --network host \
 #     -v /mnt/shared/logs/benchmarks:/results \
-#     -v /mnt/shared/scripts/benchmarks:/benchmark-scripts:ro \
+#     -v /path/to/benchmarking/scripts/active:/benchmark-scripts:ro \
 #     bench-pipeline --model qwen2.5-coder:7b
 
 FROM python:3.12-slim

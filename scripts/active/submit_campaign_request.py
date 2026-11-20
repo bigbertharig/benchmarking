@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from build_campaign_request import ROOT, compile_request
+from export_model_library import build as build_export
 
 
 def _write_atomic(path: Path, data: dict) -> None:
@@ -24,21 +25,20 @@ def _write_atomic(path: Path, data: dict) -> None:
 
 
 def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
-           rigctl: Path, run_id: str, dry_run: bool = False) -> dict:
+           rigctl: Path, run_id: str, rig_benchmarking_root: Path,
+           dry_run: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}", run_id):
         raise ValueError("run_id must be 1-64 letters, digits, dots, underscores or dashes")
     request = json.loads(request_path.read_text(encoding="utf-8"))
     registry = json.loads((ROOT / "model_registry.json").read_text(encoding="utf-8"))
     contracts = json.loads((ROOT / "docker" / "suite_contracts.json").read_text(encoding="utf-8"))
     source = json.loads((ROOT / "model_library_export.json").read_text(encoding="utf-8"))
-    imported = json.loads((pi_shared_root / "agents" / "model_library.json").read_text(encoding="utf-8"))
     source_hash = source.get("source_sha256")
-    if not source_hash or source_hash != imported.get("source_sha256"):
-        raise ValueError("model library import is stale; publish and sync the Benchmarking export first")
+    if not source_hash:
+        raise ValueError("Benchmarking model export has no source hash; regenerate it before submitting")
+    if build_export()["source_sha256"] != source_hash:
+        raise ValueError("Benchmarking model export is stale; regenerate it before submitting")
     relative_dir = Path("logs/benchmarks/campaigns/requests")
-    shared_contracts = pi_shared_root / "plans/shoulders/benchmarking/docker/suite_contracts.json"
-    if json.loads(shared_contracts.read_text(encoding="utf-8")) != contracts:
-        raise ValueError("rig-visible suite contracts differ from the Benchmarking checkout")
     campaign = compile_request(request, registry, contracts)
     pi_campaign_dir = pi_shared_root / relative_dir
     rig_campaign_dir = rig_shared_root / relative_dir
@@ -63,7 +63,7 @@ def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
     else:
         _write_atomic(local_manifest, campaign)
     command = [sys.executable, str(rigctl), "run-start", "--run", run_id, "--auto-resume", "--",
-               "python3", str(rig_shared_root / "scripts" / "benchmarks" / "run_campaign.py"),
+               "python3", str(rig_benchmarking_root / "scripts" / "active" / "run_campaign.py"),
                str(rig_manifest), "--run-id", run_id]
     result = subprocess.run(command, capture_output=True, text=True, check=False)
     try:
@@ -83,6 +83,8 @@ def main() -> int:
                         help="shared storage root as seen by the controller")
     parser.add_argument("--rig-shared-root", type=Path, required=True,
                         help="same shared storage root as seen by the rig")
+    parser.add_argument("--rig-benchmarking-root", type=Path, required=True,
+                        help="Benchmarking checkout path on the rig")
     parser.add_argument("--rigctl", type=Path, required=True, help="Gateway rigctl.py on this controller")
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--dry-run", action="store_true", help="compile and print; do not write or submit")
@@ -91,7 +93,8 @@ def main() -> int:
     try:
         receipt = submit(args.request, pi_shared_root=args.pi_shared_root,
                          rig_shared_root=args.rig_shared_root, rigctl=args.rigctl,
-                         run_id=run_id, dry_run=args.dry_run)
+                         run_id=run_id, rig_benchmarking_root=args.rig_benchmarking_root,
+                         dry_run=args.dry_run)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         parser.error(str(exc))
     print(json.dumps(receipt, indent=2))

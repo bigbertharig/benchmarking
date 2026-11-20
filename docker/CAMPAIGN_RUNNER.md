@@ -1,15 +1,17 @@
-# Unified Campaign Runner
+# Benchmark campaign runner
 
-`/mnt/shared/scripts/benchmarks/run_campaign.py` is the only production
-benchmark scheduler. It uses `docker/suite_contracts.json` to run sequential or
-parallel suite blocks with one model-loading and checkpoint contract. Models are
-placed and loaded by the rig manager (`rigctl load-model --use benchmark`), which
-puts the rig in bench mode (isolated modes, 2026-10-23; see
-[CAMPAIGN_RUNNER_REFACTOR.md](CAMPAIGN_RUNNER_REFACTOR.md)).
+`scripts/active/run_campaign.py` is the Benchmarking-owned deterministic
+campaign scheduler. It reads `docker/suite_contracts.json` and the local
+Benchmarking model registry, groups suites by model, asks Gateway to load each
+model, and writes checkpoints and terminal receipts. Orchestration admits the
+requested hardware and runs the model. The runner no longer reads a model
+library mirror under `/mnt/shared/agents`.
 
-Before a campaign, publish the benchmarking model export and run
-`python3 /mnt/shared/scripts/sync_model_library.py sync`. The runner reads the
-imported model snapshot and tuning profiles under `/mnt/shared/agents`.
+Before submission, run `python3 scripts/active/export_model_library.py check`
+and sync the reviewed export to Gateway and Orchestration through their normal
+import commands. The rig must have a Benchmarking checkout available. Pass
+its path explicitly with `submit_campaign_request.py --rig-benchmarking-root`;
+a mounted shared checkout and a rig-local checkout are both supported.
 
 ## Simple model-and-suite request
 
@@ -30,8 +32,9 @@ to run the same tests without hand-authoring card placement or block order:
 
 ```bash
 python3 scripts/active/submit_campaign_request.py request.json \
-  --pi-shared-root /media/bryan/shared --rig-shared-root /mnt/shared \
-  --rigctl /home/bryan/llm-gateway/tools/rigctl.py
+  --pi-shared-root /path/on/controller --rig-shared-root /path/on/rig \
+  --rig-benchmarking-root /path/to/rig/benchmarking \
+  --rigctl /path/to/gateway/tools/rigctl.py
 ```
 
 The submit command reads `model_registry.json` and `suite_contracts.json`. It accepts
@@ -62,9 +65,9 @@ to the dashboard.
 ## Commands
 
 ```bash
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --dry-run --verbose
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --run-id run_001
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaign.json --run-id run_001
+python3 scripts/active/run_campaign.py campaign.json --dry-run --verbose
+python3 scripts/active/run_campaign.py campaign.json --run-id run_001
+python3 scripts/active/run_campaign.py campaign.json --run-id run_001
 ```
 
 The final command resumes the same run. Additional controls:
@@ -76,9 +79,9 @@ The final command resumes the same run. Additional controls:
 --verbose
 ```
 
-The rig reaches the Pi manager through key-only SSH on the isolated
-<rig-subnet> Ethernet network. The Pi firewall admits SSH on that network;
-preflight should verify this route before scheduling model loads.
+The runner reaches the configured Gateway controller over SSH.
+Set `BENCHMARK_GATEWAY_HOST` and `HARNESS_RIGCTL` for the deployment, then
+verify that route before scheduling model loads.
 
 Limit priority is block override, global override, manifest `limit`, then suite
 default. An override fails preflight for suites whose contract does not support
@@ -160,8 +163,8 @@ generic `--limit`. `bench-code` runs the selected EvalPlus problem sets in full.
 
 Benchmarking resolves `model_tuning_profiles.json` through
 `scripts/active/model_profiles.py` when it publishes the model export. The runner
-uses the imported resolved profiles under `/mnt/shared/agents`; suite containers
-receive the matching imported tuning file. Aliases inherit the canonical profile,
+resolves profiles from Benchmarking's own model registry; suite containers
+receive its generated `model_tuning_profiles.json`. Aliases inherit the canonical profile,
 then apply explicit alias overrides. Ambiguous matches, missing alias targets,
 alias cycles, and missing required system prompts fail before a model is loaded.
 

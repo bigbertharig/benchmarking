@@ -3,5 +3,5 @@
 
 raise SystemExit(
     "This launcher is retired. Convert the manifest to campaign-v1 and run "
-    "/mnt/shared/scripts/benchmarks/run_campaign.py. See docker/CAMPAIGN_RUNNER.md."
+    "scripts/active/run_campaign.py. See docker/CAMPAIGN_RUNNER.md."
 )

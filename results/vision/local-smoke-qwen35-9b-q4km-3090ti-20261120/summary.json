@@ -1,0 +1,41 @@
+{
+  "suite": "local-understanding-v1",
+  "model": "/data/model-hotset/qwen3.5-9b/Qwen3.5-9B-Q4_K_M.gguf",
+  "cases": 6,
+  "correct": 4,
+  "accuracy": 0.6666666666666666,
+  "schema_rate": 1.0,
+  "categories": {
+    "chart": {
+      "correct": 0,
+      "total": 1,
+      "accuracy": 0.0
+    },
+    "document": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "gui": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "negative": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "ocr": {
+      "correct": 0,
+      "total": 1,
+      "accuracy": 0.0
+    },
+    "spatial": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    }
+  },
+  "cloud_dependencies": false
+}

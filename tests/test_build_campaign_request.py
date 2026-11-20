@@ -60,12 +60,6 @@ class CampaignRequestTests(unittest.TestCase):
             (root / "model_registry.json").write_text(json.dumps(REGISTRY), encoding="utf-8")
             (root / "docker/suite_contracts.json").write_text(json.dumps(CONTRACTS), encoding="utf-8")
             (root / "model_library_export.json").write_text(json.dumps({"source_sha256": "same"}), encoding="utf-8")
-            imported = root / "pi/agents/model_library.json"
-            imported.parent.mkdir(parents=True)
-            imported.write_text(json.dumps({"source_sha256": "same"}), encoding="utf-8")
-            shared_contracts = root / "pi/plans/shoulders/benchmarking/docker/suite_contracts.json"
-            shared_contracts.parent.mkdir(parents=True)
-            shared_contracts.write_text(json.dumps(CONTRACTS), encoding="utf-8")
             request = root / "request.json"
             request.write_text(json.dumps({"name": "Two Models", "models": ["model:a", "model:b"],
                                            "tests": ["bench-reasoning", "bench-runtime"]}), encoding="utf-8")
@@ -73,10 +67,11 @@ class CampaignRequestTests(unittest.TestCase):
                 returncode = 0
                 stdout = '{"run":"unit"}'
                 stderr = ""
-            with patch.object(submitter, "ROOT", root), patch.object(submitter.subprocess, "run", return_value=Result()) as run:
+            with patch.object(submitter, "ROOT", root), patch.object(submitter, "build_export", return_value={"source_sha256": "same"}), patch.object(submitter.subprocess, "run", return_value=Result()) as run:
                 receipt = submitter.submit(request, pi_shared_root=root / "pi",
                                            rig_shared_root=Path("/rig/shared"),
-                                           rigctl=root / "rigctl.py", run_id="unit")
+                                           rigctl=root / "rigctl.py", run_id="unit",
+                                           rig_benchmarking_root=Path("/rig/benchmarking"))
             self.assertEqual(receipt["state"], "submitted")
             self.assertEqual(receipt["blocks"], 4)
             self.assertEqual(receipt["model_library_sha256"], "same")
@@ -87,26 +82,41 @@ class CampaignRequestTests(unittest.TestCase):
             self.assertTrue((root / "pi/logs/benchmarks/campaigns/requests/unit.submission.json").is_file())
             command = run.call_args.args[0]
             self.assertIn("--auto-resume", command)
-            self.assertIn("/rig/shared/scripts/benchmarks/run_campaign.py", command)
+            self.assertIn("/rig/benchmarking/scripts/active/run_campaign.py", command)
             self.assertNotIn("--gpus", command)
 
-    def test_submission_rejects_stale_import_before_manager_call(self) -> None:
+    def test_submission_rejects_export_without_source_hash_before_manager_call(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "docker").mkdir()
             (root / "model_registry.json").write_text(json.dumps(REGISTRY), encoding="utf-8")
             (root / "docker/suite_contracts.json").write_text(json.dumps(CONTRACTS), encoding="utf-8")
-            (root / "model_library_export.json").write_text(json.dumps({"source_sha256": "new"}), encoding="utf-8")
-            imported = root / "pi/agents/model_library.json"
-            imported.parent.mkdir(parents=True)
-            imported.write_text(json.dumps({"source_sha256": "old"}), encoding="utf-8")
+            (root / "model_library_export.json").write_text(json.dumps({"schema": "gpu-rig-model-library/1"}), encoding="utf-8")
             request = root / "request.json"
             request.write_text(json.dumps({"name": "stale", "models": ["model:a"],
                                            "tests": ["bench-reasoning"]}), encoding="utf-8")
             with patch.object(submitter, "ROOT", root), patch.object(submitter.subprocess, "run") as run:
-                with self.assertRaisesRegex(ValueError, "import is stale"):
+                with self.assertRaisesRegex(ValueError, "no source hash"):
                     submitter.submit(request, pi_shared_root=root / "pi",
-                                     rig_shared_root=Path("/rig/shared"), rigctl=root / "rigctl.py", run_id="unit")
+                                     rig_shared_root=Path("/rig/shared"), rigctl=root / "rigctl.py", run_id="unit",
+                                     rig_benchmarking_root=Path("/rig/benchmarking"))
+            run.assert_not_called()
+
+    def test_submission_rejects_stale_benchmarking_export(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docker").mkdir()
+            (root / "model_registry.json").write_text(json.dumps(REGISTRY), encoding="utf-8")
+            (root / "docker/suite_contracts.json").write_text(json.dumps(CONTRACTS), encoding="utf-8")
+            (root / "model_library_export.json").write_text(json.dumps({"source_sha256": "old"}), encoding="utf-8")
+            request = root / "request.json"
+            request.write_text(json.dumps({"name": "stale", "models": ["model:a"],
+                                           "tests": ["bench-reasoning"]}), encoding="utf-8")
+            with patch.object(submitter, "ROOT", root), patch.object(submitter, "build_export", return_value={"source_sha256": "new"}), patch.object(submitter.subprocess, "run") as run:
+                with self.assertRaisesRegex(ValueError, "export is stale"):
+                    submitter.submit(request, pi_shared_root=root / "pi",
+                                     rig_shared_root=Path("/rig/shared"), rigctl=root / "rigctl.py", run_id="unit",
+                                     rig_benchmarking_root=Path("/rig/benchmarking"))
             run.assert_not_called()
 
 

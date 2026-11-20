@@ -404,14 +404,18 @@ MBPP, 542 problems), geoimport, pipeline and runtime, with the Phase 7 settings.
 one manifest, any number of models, started as a run so a reboot is recoverable.
 
 ```bash
-# Manifest: one block per suite per model (see campaigns/overnight_phase5_20261022.json for the shape;
-# no placement: the rig manager picks the cards; gpus: [..] pins them; ctx from the registry profile)
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/<name>.json --dry-run      # on the rig
-rigctl run-start --run <name> \
-  --resume "python3 /mnt/shared/scripts/benchmarks/run_campaign.py /mnt/shared/plans/shoulders/benchmarking/campaigns/<name>.json --run-id <name>" -- \
-  python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
-  /mnt/shared/plans/shoulders/benchmarking/campaigns/<name>.json --run-id <name> --max-active-models 3
+# Manifest: one block per suite per model. Omit gpus for manager placement.
+RIG_BENCHMARKING_ROOT=/path/to/benchmarking
+python3 "$RIG_BENCHMARKING_ROOT/scripts/active/run_campaign.py" \
+  "$RIG_BENCHMARKING_ROOT/campaigns/NAME.json" --dry-run
+rigctl run-start --run NAME --auto-resume -- \
+  python3 "$RIG_BENCHMARKING_ROOT/scripts/active/run_campaign.py" \
+  "$RIG_BENCHMARKING_ROOT/campaigns/NAME.json" --run-id NAME
 ```
+
+For a simple model-and-suite request, use `scripts/active/submit_campaign_request.py`
+with the controller and rig paths passed explicitly. It compiles the same
+campaign manifest and submits one managed run.
 
 For a long campaign, attach one completion wait after `run-start` instead of checking `rigctl runs` repeatedly:
 
@@ -426,7 +430,7 @@ Placement: omit it and the rig manager picks the cards (the fewest that hold the
 context, across the 3090 and the 1060s alike), or pin them with `gpus: [0, 1, 2, 3]` (`brain` is GPU 0).
 The campaign puts the rig in bench mode; busy cards are waited for. `--max-active-models` caps how many
 models run at once. See [CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) and
-[CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md).
+[CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md).
 
 Time to expect (2026-10-22, at the standing power caps): mixture-of-experts models on the 3090 about 1-1.5 h;
 dense 24-31B on the 3090 2.5-4.5 h; 12-14B models on a 1060 pair 5.5 h (MoE) to 17 h (dense).

@@ -20,7 +20,7 @@ python3 build_runtime_matrix_campaign.py \
 Validate the schedule on the rig before execution:
 
 ```bash
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py \
+python3 scripts/active/run_campaign.py \
   /mnt/shared/plans/shoulders/benchmarking/campaigns/qwen35_4b_structured_worker_matrix.json \
   --dry-run
 ```

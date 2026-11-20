@@ -44,8 +44,9 @@ Private site configuration supplies host addresses, credentials, model files, an
 | [NEW_MODEL_INTEGRATION.md](NEW_MODEL_INTEGRATION.md) | model validation phases from download to full run (2 load, 3 litmus, 3.5 runtime, 4 smoke, 4.5 optional settings experiments, 5 full run, 6 finalize), with decision trees for common failures |
 | [MODEL_SELECTION.md](MODEL_SELECTION.md) | current selection entry point and source map |
 | [results/MODEL_BENCHMARK_REFERENCE.md](results/MODEL_BENCHMARK_REFERENCE.md) | every model's scores (generated from the records) |
-| [docker/README.md](docker/README.md) | the suites; each `docker/bench-*/` has its README and run history |
-| [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | campaigns (Phase 5 at scale); [CAMPAIGN_RUNNER_REFACTOR.md](docker/CAMPAIGN_RUNNER_REFACTOR.md) is the planned move onto the rig manager |
+| [docker/README.md](docker/README.md) | the main evaluation suites; each `docker/bench-*/` has its README and run history |
+| [suites/vision/README.md](suites/vision/README.md) | frozen local image-understanding smoke/full cases and the separate generation track |
+| [docker/CAMPAIGN_RUNNER.md](docker/CAMPAIGN_RUNNER.md) | Benchmarking-owned deterministic campaign runner and managed submission |
 | [scripts/integration/README.md](scripts/integration/README.md) | the lane tools for Phases 3-4.5 |
 | [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) | how fast the rig runs models and why: card vs bus, splits, context capacity, PCIe; open questions; which tool measures what |
 | [RIG_LIMIT_TEST.md](RIG_LIMIT_TEST.md) | guarded small or deep rig survey and its starting-guidance report |
@@ -136,15 +137,19 @@ rigctl run-start --run lanes-NAME -- /bin/bash /mnt/shared/plans/shoulders/bench
 # After a smoke: what Phase 4.5 might fix (the lanes print this themselves)
 python3 scripts/integration/suggest_p45.py MODEL RUN_NAME
 
-# Phase 5: a campaign manifest, dry run first
-python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/NAME.json --dry-run
-rigctl run-start --run NAME --resume "python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/NAME.json --run-id NAME" -- \
-    python3 /mnt/shared/scripts/benchmarks/run_campaign.py campaigns/NAME.json --run-id NAME --max-active-models 3
+# Phase 5: a campaign manifest, dry run first. Set this to the checkout path
+# visible on the rig; a local checkout works as well as a shared-drive mount.
+RIG_BENCHMARKING_ROOT=/path/to/benchmarking
+python3 "$RIG_BENCHMARKING_ROOT/scripts/active/run_campaign.py" \
+  "$RIG_BENCHMARKING_ROOT/campaigns/NAME.json" --dry-run
+rigctl run-start --run NAME --auto-resume -- \
+  python3 "$RIG_BENCHMARKING_ROOT/scripts/active/run_campaign.py" \
+  "$RIG_BENCHMARKING_ROOT/campaigns/NAME.json" --run-id NAME
 ```
 
-Placements in a campaign: `brain` (the 3090), `single` (any free worker card), `split` (any free pair),
-or pinned cards (`gpu_3`, `gpu_2_4`). Reasoning is scored leniently (extract v5: a correct answer counts
-however it is written; unreadable answers are counted separately), see
+Campaign blocks omit `gpus` for manager placement or use explicit `gpus: [0, 2]`
+for a pinned experiment. The current rig inventory comes from `rig scan`.
+Reasoning scoring and prior campaign receipts are in
 `docker/bench-reasoning/BENCH_REASONING_HISTORY.md`.
 
 ## Results

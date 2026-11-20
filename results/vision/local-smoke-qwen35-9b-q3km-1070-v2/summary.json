@@ -1,0 +1,41 @@
+{
+  "suite": "local-understanding-v1",
+  "model": "/mnt/shared/models/qwen3.5-9b/Qwen3.5-9B-Q3_K_M.gguf",
+  "cases": 6,
+  "correct": 5,
+  "accuracy": 0.8333333333333334,
+  "schema_rate": 1.0,
+  "categories": {
+    "chart": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "document": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "gui": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "negative": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    },
+    "ocr": {
+      "correct": 0,
+      "total": 1,
+      "accuracy": 0.0
+    },
+    "spatial": {
+      "correct": 1,
+      "total": 1,
+      "accuracy": 1.0
+    }
+  },
+  "cloud_dependencies": false
+}

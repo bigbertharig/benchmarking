@@ -1,6 +1,6 @@
 {
   "name": "nemotron_bolt_phase5_20261023",
-  "description": "NEW_MODEL_INTEGRATION Phase 5 for nemotron-3.5-bolt:74b-a9b (limit 50 reasoning, MMLU-Pro 20, full EvalPlus code, geoimport, pipeline, runtime) with its registry default profile (thinking off; Phase 4 showed nothing to fix and 4.5 was skipped). No placement: the rig manager picks the cards at the profile's context (bench mode). First campaign on the manager-placed runner (CAMPAIGN_RUNNER_REFACTOR.md).",
+  "description": "NEW_MODEL_INTEGRATION Phase 5 for nemotron-3.5-bolt:74b-a9b (limit 50 reasoning, MMLU-Pro 20, full EvalPlus code, geoimport, pipeline, runtime) with its registry default profile (thinking off; Phase 4 showed nothing to fix and 4.5 was skipped). No placement: the rig manager picks the cards at the profile's context (bench mode). First campaign on the manager-placed runner (CAMPAIGN_RUNNER.md).",
   "defaults": {
     "run_class": "validated"
   },

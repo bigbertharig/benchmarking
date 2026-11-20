@@ -1,6 +1,6 @@
 # Core benchmark dependencies (safe default install on rig)
 # Install:
-#   pip install -r /mnt/shared/scripts/benchmarks/requirements-core.txt
+#   pip install -r requirements-core.txt
 
 # Main harness + dataset access
 lm-eval>=0.4.0

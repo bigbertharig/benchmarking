@@ -1,0 +1,1 @@
+{"id":"generation-example-001","split":"smoke","track":"text_to_image","category":"typography","prompt":"A clean enamel storefront sign reading exactly NORTH STAR REPAIRS, photographed straight-on in daylight.","requirements":["exact text NORTH STAR REPAIRS","single storefront sign","straight-on viewpoint","daylight"],"seeds":[17,104729],"width":1024,"height":1024}

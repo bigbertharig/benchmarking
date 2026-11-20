@@ -8,13 +8,13 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNNER_PATH = ROOT.parents[2] / "scripts" / "benchmarks" / "run_campaign.py"
+RUNNER_PATH = ROOT / "scripts" / "active" / "run_campaign.py"
 SPEC = importlib.util.spec_from_file_location("benchmark_campaign_runner", RUNNER_PATH)
 RUNNER = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader is not None
 sys.modules[SPEC.name] = RUNNER
 SPEC.loader.exec_module(RUNNER)
-RUNNER.SHARED_ROOT = ROOT.parents[2]
+RUNNER.SHARED_ROOT = ROOT
 RUNNER.BENCHMARKING_SCRIPTS = ROOT
 RUNNER.SUITE_CONTRACTS_PATH = ROOT / "docker" / "suite_contracts.json"
 RUNNER.load_suite_contracts()
@@ -78,7 +78,7 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertTrue(profile["system_prompt"].strip())
         self.assertIn("ctx_size", profile["runtime"])
         self.assertEqual(RUNNER.TUNING_PROFILES_PATH.name, "model_tuning_profiles.json")
-        self.assertEqual(RUNNER.TUNING_PROFILES_PATH.parent.name, "agents")
+        self.assertEqual(RUNNER.TUNING_PROFILES_PATH.parent, ROOT)
 
     def test_registry_gguf_uses_imported_orchestration_model(self):
         self.assertEqual(
@@ -119,18 +119,15 @@ class CampaignRunnerTests(unittest.TestCase):
         gpu_ids_index = command.index("--gpu-ids")
         self.assertEqual(command[gpu_ids_index + 1], "0")
 
-    # Placement: omitted (the manager picks), pinned cards, or the old slot names for pinned cards.
+    # Placement: omitted (the manager picks) or explicit pinned cards.
 
     def test_placement_is_pinned_cards_or_the_managers_choice(self):
         self.assertIsNone(RUNNER.block_gpus({}))
         self.assertEqual(RUNNER.block_gpus({"gpus": [3, 0, 1, 2]}), [0, 1, 2, 3])
-        self.assertEqual(RUNNER.block_gpus({"placement": "brain"}), [0])
-        self.assertEqual(RUNNER.block_gpus({"placement": "gpu_1_3"}), [1, 3])
-        self.assertEqual(RUNNER.block_gpus({"placement": "gpu_4"}), [4])
-        for gone in ("single", "split"):
+        for gone in ("single", "split", "brain", "gpu_1_3"):
             with self.assertRaises(ValueError) as raised:
                 RUNNER.block_gpus({"placement": gone})
-            self.assertIn("omit placement", str(raised.exception))
+            self.assertIn("use gpus", str(raised.exception))
 
     def test_load_request_names_only_what_the_block_sets(self):
         block = RUNNER.BlockState("b", {"id": "b", "model": "nemotron-3.5-bolt:74b-a9b"})
@@ -258,7 +255,7 @@ class CampaignRunnerTests(unittest.TestCase):
 
     def _brain_block(self, block_id="brain-lane", gguf="/models/Qwen3.5-27B-Q4_K_M.gguf"):
         config = {
-            "id": block_id, "model": "qwen3.5:27b", "gguf": gguf, "placement": "brain",
+            "id": block_id, "model": "qwen3.5:27b", "gguf": gguf, "gpus": [0],
             "suite": "bench-pipeline", "runtime_args": [], "suite_args": [], "run_class": "smoke",
             "_run_id": "unit",
         }
@@ -333,7 +330,7 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertEqual(block.identity["profile"], "qwen3.5-27b-g0")
         status = RUNNER.build_status_dict(scheduler.state)
         self.assertEqual(status["blocks"]["brain-lane"]["runtime_identity"]["port"], 11434)
-        self.assertEqual(status["blocks"]["brain-lane"]["gpu_slot"], "brain")
+        self.assertEqual(status["blocks"]["brain-lane"]["gpu_slot"], "gpu_0")
 
     def test_runtime_group_does_not_reuse_runtime_with_wrong_identity(self):
         first = self._brain_block("first")
@@ -393,7 +390,7 @@ class CampaignRunnerTests(unittest.TestCase):
     def test_runtime_group_requires_identical_runtime_settings(self):
         with tempfile.NamedTemporaryFile() as gguf:
             common = {
-                "model": "qwen3-coder:30b-a3b", "gguf": gguf.name, "placement": "brain",
+                "model": "qwen3-coder:30b-a3b", "gguf": gguf.name, "gpus": [0],
                 "runtime_args": [], "suite_args": [], "run_class": "smoke", "runtime_group": "model-a",
             }
             blocks = {

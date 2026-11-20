@@ -1,0 +1,1 @@
+{"id":"understanding-example-001","split":"smoke","category":"negative_unanswerable","image":"images/example-001.png","prompt":"What serial number is visible on the device? If none is readable, answer unavailable.","expected":{"answer":"unavailable","visible_text":[]},"scoring":{"type":"exact_normalized"}}

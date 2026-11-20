@@ -476,8 +476,7 @@ formula (or the first measured load), pass 2 from what pass 1 measured (`capacit
 | Prefill and memory by micro-batch | `capacity_run.py ... --ctx N --batch-size B` | `*_capacity_*_b<B>_*.json` |
 | Which slot and link each card is on now | `ssh rig rig status` (notes on slow links), rig-local `brain/hw/gpu_layout.json` | the scan |
 
-`context_window_benchmark.py` predates the manager (it probes orchestration's configured workers) and is kept
-for that path only. Raw tool output on the Pi (`~/rig_stress`) is outside the repos: a result that answers a
+The retired worker-slot context probe has been removed. Raw tool output on the controller (`~/rig_stress`) is outside the repos: a result that answers a
 question goes into `results/runtime_experiments/` and its finding into the table above.
 
 ## When adding a finding

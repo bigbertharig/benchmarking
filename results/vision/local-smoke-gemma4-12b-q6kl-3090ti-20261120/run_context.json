@@ -1,0 +1,11 @@
+{
+  "started_at": "2026-11-20T07:53:20.656576+00:00",
+  "status": "complete",
+  "model": "/data/model-hotset/gemma-4-12b/gemma-4-12B-it-Q6_K_L.gguf",
+  "base_url": "http://127.0.0.1:11434/v1",
+  "manifest": "suites/vision/understanding/local-v1/smoke.jsonl",
+  "manifest_sha256": "a19f7aec9d113e5d4124e2894f7d0a9f179a5ecd8f5912aedad7ad84a68aab6f",
+  "planned_cases": 6,
+  "finished_at": "2026-11-20T07:53:27.183573+00:00",
+  "completed_cases": 6
+}
