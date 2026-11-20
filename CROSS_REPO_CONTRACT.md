@@ -69,3 +69,22 @@ For sharing outside the rig, offer the OpenAI-compatible inference facade and MC
 - A new executable recipe requires orchestration implementation and a Manager admission path. A research recipe in the artifact remains passive.
 - A new production tool starts in harness registry, passes its review/tests, enters the generated enabled catalog, and is explicitly synced into gateway and benchmarking. Test fixtures and external observations stay out of the enabled projection until promoted.
 - Keep receipts and old result context, but retire old one-off runners. If a new adapter replaces a historical procedure, note that the old test used another runner and results may vary.
+
+## Implementation status and compatibility work
+
+Use these labels when a cross-repository claim affects an operator or consumer:
+
+- **Deployed** means the behavior is present in the published artifact or live interface and has a maintained verification path.
+- **Experimental** means an implementation and evidence exist, but it is not a supported default.
+- **Proposed** means the contract or acceptance criteria are recorded but the implementation must not be assumed.
+- **Retired** means the path is historical or compatibility-only and must not be selected for new work.
+
+The hash-verified model-library export, explicit consumer sync, local projections, and separation between cold offers and the ready roster are **deployed**. Candidate models, research recipes, and individually labelled trial runtimes remain **experimental** or passive evidence; their presence in an artifact does not promote them.
+
+The following reliability work is **proposed** and is not part of version 1 of this contract:
+
+1. Use one Benchmarking evidence selector for the scoreboard and model-library export. Each selected summary should identify the chosen measurement record, methodology version, and configuration hash so consumers can explain the selection.
+2. Publish a compatibility manifest containing the four repository revisions tested together plus the model-library and reviewed tool-catalog hashes. The manifest should distinguish a visible mismatch that still permits offline planning from one that blocks live execution. Until that policy and its tests land, the individual schema and hash checks above remain authoritative; no compatible four-repository set should be inferred from repository HEADs alone.
+3. Publish normalized reviewed tool-schema digests from Harness and have Gateway disable only the mismatched tool. Live schema discovery and name-based grants do not by themselves establish reviewed schema compatibility.
+
+Evidence-selection changes must preserve historical measurement records. Compatibility work must add a versioned fixture and consumer test before this section can label it deployed.
