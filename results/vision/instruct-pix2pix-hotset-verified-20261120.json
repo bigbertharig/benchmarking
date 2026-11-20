@@ -1,0 +1,28 @@
+{
+  "model_dir": "/home/bryan/model-hotset/instruct-pix2pix",
+  "verified_at": "2026-11-20T10:40:48.724723+00:00",
+  "status": "complete",
+  "verified_files": [
+    {
+      "file": "safety_checker/model.fp16.safetensors",
+      "bytes": 608018440,
+      "sha256": "08902f19b1cfebd7c989f152fc0507bef6898c706a91d666509383122324b511"
+    },
+    {
+      "file": "text_encoder/model.fp16.safetensors",
+      "bytes": 246144864,
+      "sha256": "77795e2023adcf39bc29a884661950380bd093cf0750a966d473d1718dc9ef4e"
+    },
+    {
+      "file": "unet/diffusion_pytorch_model.fp16.safetensors",
+      "bytes": 1719148344,
+      "sha256": "0d6bbc0a95dd125196d327a660b43d24c56f433eb30d2776f1327fb86bd38f78"
+    },
+    {
+      "file": "vae/diffusion_pytorch_model.fp16.safetensors",
+      "bytes": 167335342,
+      "sha256": "4fbcf0ebe55a0984f5a5e00d8c4521d52359af7229bb4d81890039d2aa16dd7c"
+    }
+  ],
+  "total_bytes": 2740646990
+}

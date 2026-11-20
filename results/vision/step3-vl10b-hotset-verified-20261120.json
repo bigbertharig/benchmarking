@@ -1,0 +1,33 @@
+{
+  "model_dir": "/home/bryan/model-hotset/step3-vl-10b",
+  "verified_at": "2026-11-20T10:40:30.015567+00:00",
+  "status": "complete",
+  "verified_files": [
+    {
+      "file": "model-00001.safetensors",
+      "bytes": 4286778640,
+      "sha256": "77ef493b63ead8e839fc9c6c571c46bc66e79ef00786d997635f6741fb5fc4af"
+    },
+    {
+      "file": "model-00002.safetensors",
+      "bytes": 4286779488,
+      "sha256": "fdac52288992220ff7d1ae0d5fbdac34025b4bdab78aa35c5fc34bf526b20bdb"
+    },
+    {
+      "file": "model-00003.safetensors",
+      "bytes": 4244835480,
+      "sha256": "0dd5a1e07d2ffdc22e37a57df2cea8dc415b476f3e1017bf5edd009344e6234f"
+    },
+    {
+      "file": "model-00004.safetensors",
+      "bytes": 4270911400,
+      "sha256": "0c312999eae77dd980b9b90d849e0fc94ab8a65db4c21b22a38ad4932b3d1306"
+    },
+    {
+      "file": "model-00005.safetensors",
+      "bytes": 3254325800,
+      "sha256": "f446627314fe886221710a95bca668ab7ac4249613b68e6f608ad1011dd687ad"
+    }
+  ],
+  "total_bytes": 20343630808
+}
