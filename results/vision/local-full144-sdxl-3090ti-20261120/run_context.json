@@ -1,0 +1,22 @@
+{
+  "started_at": "2026-11-20T10:27:53.318940+00:00",
+  "status": "complete",
+  "track": "text_to_image",
+  "manifest": "/home/bryan/benchmarking/suites/vision/generation/local-full-v1/cases.jsonl",
+  "manifest_sha256": "b55e62700a15879229a0047834086d2eac7352e2679adbce8700d4dc0fbb2e99",
+  "model_dir": "/mnt/shared/models/sdxl-base-1.0",
+  "steps": 30,
+  "guidance_scale": 7.5,
+  "image_guidance_scale": 1.5,
+  "width_override": null,
+  "height_override": null,
+  "planned_prompts": 36,
+  "planned_outputs": 144,
+  "load_seconds": 1.798,
+  "torch_version": "2.11.0+cu128",
+  "diffusers_version": "0.39.0",
+  "gpu_name": "NVIDIA GeForce RTX 3090 Ti",
+  "finished_at": "2026-11-20T10:47:13.229989+00:00",
+  "completed_outputs": 144,
+  "failed_outputs": 0
+}

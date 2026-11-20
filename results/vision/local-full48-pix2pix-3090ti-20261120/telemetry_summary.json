@@ -1,0 +1,14 @@
+{
+  "receipt": "/home/bryan/benchmarking/results/vision/local-full48-pix2pix-3090ti-20261120-gpu.jsonl",
+  "gpu_index": 0,
+  "samples": 19,
+  "first_sample_at": "2026-11-20T10:52:10.629542+00:00",
+  "last_sample_at": "2026-11-20T10:53:41.909417+00:00",
+  "peak_gpu_memory_mib": 3897,
+  "mean_gpu_util_pct": 65.11,
+  "peak_power_w": 345.56,
+  "mean_power_w": 242.94,
+  "peak_temperature_c": 64,
+  "minimum_host_available_mib": 26988,
+  "peak_watched_process_rss_mib": 2512
+}

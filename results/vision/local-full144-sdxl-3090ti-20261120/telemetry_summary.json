@@ -1,0 +1,14 @@
+{
+  "receipt": "/home/bryan/benchmarking/results/vision/local-full144-sdxl-3090ti-20261120-gpu.jsonl",
+  "gpu_index": 0,
+  "samples": 224,
+  "first_sample_at": "2026-11-20T10:27:25.792572+00:00",
+  "last_sample_at": "2026-11-20T10:47:16.587414+00:00",
+  "peak_gpu_memory_mib": 14811,
+  "mean_gpu_util_pct": 91.5,
+  "peak_power_w": 362.19,
+  "mean_power_w": 324.09,
+  "peak_temperature_c": 65,
+  "minimum_host_available_mib": null,
+  "peak_watched_process_rss_mib": null
+}

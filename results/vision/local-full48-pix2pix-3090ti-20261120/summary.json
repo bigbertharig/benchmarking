@@ -1,0 +1,13 @@
+{
+  "track": "image_editing",
+  "model_dir": "/home/bryan/model-hotset/instruct-pix2pix",
+  "manifest_sha256": "b55e62700a15879229a0047834086d2eac7352e2679adbce8700d4dc0fbb2e99",
+  "planned_outputs": 48,
+  "completed_outputs": 48,
+  "failed_outputs": 0,
+  "blocked_outputs": 3,
+  "median_output_seconds": 1.311,
+  "peak_cuda_allocated_mib": 3258,
+  "status": "complete_with_blocks",
+  "quality_review": "pending_blind_human_review"
+}

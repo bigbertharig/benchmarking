@@ -109,7 +109,11 @@ def main() -> None:
                     ids = model.generate(**inputs, max_new_tokens=args.max_tokens, do_sample=False)
                 raw = processor.decode(ids[0, inputs["input_ids"].shape[-1]:],
                                        skip_special_tokens=True)
-                answer, schema_ok = parse_answer(raw)
+                # Step3 emits a reasoning segment before its final answer.
+                # Score only the final segment while retaining the full raw
+                # response in the case receipt for audit.
+                final_text = raw.rsplit("</think>", 1)[-1] if "</think>" in raw else raw
+                answer, schema_ok = parse_answer(final_text)
                 correct = normalize(answer) in {normalize(v) for v in case["expected"]["answers"]}
                 error = None
             except Exception as exc:

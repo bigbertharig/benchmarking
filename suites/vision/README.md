@@ -3,8 +3,9 @@
 Benchmarking owns the frozen vision suite, its runner, and its result receipts.
 The original dashboard research workspace was the preparation area. Run new
 comparisons from this repository so checkpoints use the same frozen images and
-answer keys. The generation/editing input bank is frozen separately; it needs
-generation runtimes and output scoring before it yields results.
+answer keys. The generation/editing input bank is frozen separately and has
+completed SDXL and Instruct Pix2Pix runtime baselines. Image quality review
+remains a separate step.
 
 The installed rig at the first smoke run has one RTX 3090 Ti, one GTX 1070,
 and four GTX 1060s. The five-1070 layout in [BENCHMARK_PLAN.md](BENCHMARK_PLAN.md)
@@ -56,3 +57,23 @@ different GPUs, so their timing difference is not a quantization speed result.
 Both Qwen runs missed all 20 local OCR cases; review those case outputs before
 using either for OCR-heavy work. A 256-token diagnostic run truncated many
 Gemma answers; the table uses the corrected 1,024-token run.
+
+## First full local generation runs (2026-11-20)
+
+The frozen generation manifest has 36 text-to-image prompts and 12 edit
+prompts, each at four fixed seeds. These are separate tracks. Both baselines
+used the RTX 3090 Ti; times are medians for individual completed outputs.
+
+| Track | Checkpoint | Outputs | Blocked | Median output | Peak observed VRAM | Review |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| Text-to-image | SDXL base 1.0 fp16 | 144/144 | 0 | 7.765 s | 14,811 MiB | Pending |
+| Image editing | Instruct Pix2Pix fp16 | 48/48 files | 3 safety replacements | 1.311 s | 3,897 MiB | Pending |
+
+The Pix2Pix safety checker returned black images for three ordinary edit
+requests. Those files are retained for audit and flagged as blocked in the
+receipt and review gallery. File completion does not imply edit success.
+Each result directory under [`results/vision`](../../results/vision) contains
+the case-level JSONL, summary, runtime context and telemetry summary. The PNGs,
+raw GPU samples and portable review galleries live outside Git under the
+shared archive at `benchmark-results/vision/2026-11-20/` (`sdxl-full144` and
+`pix2pix-full48`). No image-quality score has been assigned yet.

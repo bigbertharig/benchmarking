@@ -9,13 +9,22 @@ separate text-to-image and instruction-editing models.
 `local-full-v1/cases.jsonl` is the frozen local input bank: 36 text-to-image
 prompts and 12 editing instructions, each with four fixed seeds. The editing
 cases include 12 synthetic source PNGs. `SHA256SUMS` covers the manifest and
-source images. The generator refuses to overwrite an existing suite. This
-bank is ready for runtime integration; no generation model result exists yet.
+source images. The generator refuses to overwrite an existing suite. Full
+runtime baselines for SDXL and Instruct Pix2Pix are recorded in
+[`results/vision`](../../../results/vision); image-quality scoring is pending.
 `scripts/active/run_vision_generation.py` accepts a local Diffusers checkpoint,
 refuses network model fetches, and writes each output and receipt as it finishes.
-Keep generated images and one receipt per prompt/seed under `results/vision`.
+Keep the compact receipts under `results/vision` and the generated images in a
+referenced artifact archive.
 Image quality still requires blind review against the requirements checklist;
 the runner records performance and failures, not a fabricated quality score.
+
+The completed 2026-11-20 output archives, raw GPU telemetry, and review
+galleries are under `benchmark-results/vision/2026-11-20/` on the shared drive
+(`sdxl-full144` and `pix2pix-full48`). The Pix2Pix safety checker replaced
+three generated edits with black images; the case-level receipts and gallery
+mark them as blocked. Review the 144 SDXL and 48 Pix2Pix outputs in their
+separate track galleries before drawing image-quality conclusions.
 
 The first local baselines are SDXL base 1.0 for `text_to_image` and Instruct
 Pix2Pix for `image_editing`. The shared model archive pins their downloaded

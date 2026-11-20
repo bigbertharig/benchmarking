@@ -1,0 +1,12 @@
+{
+  "track": "text_to_image",
+  "model_dir": "/mnt/shared/models/sdxl-base-1.0",
+  "manifest_sha256": "b55e62700a15879229a0047834086d2eac7352e2679adbce8700d4dc0fbb2e99",
+  "planned_outputs": 144,
+  "completed_outputs": 144,
+  "failed_outputs": 0,
+  "median_output_seconds": 7.765,
+  "peak_cuda_allocated_mib": 10740,
+  "status": "complete",
+  "quality_review": "pending_blind_human_review"
+}
