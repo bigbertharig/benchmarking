@@ -11,7 +11,7 @@ Big Bertha runs across a Pi control host, an isolated GPU rig, and optional CPU 
 | Repository | Responsibility |
 |---|---|
 | [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Serves the dashboard, conversations, model API, tool policy, and work coordination. Its Manager also coordinates some model placement and loading. |
-| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Observes and controls rig hardware, enforces admission and reservations, manages runtimes, and runs the legacy brain/worker batch engine. |
+| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Observes and controls rig hardware, enforces admission and reservations, and manages model runtimes. |
 | [benchmarking](https://github.com/bigbertharig/benchmarking) | Measures models and runtimes; publishes the model library, roles, load recipes, evaluation suites, and results. |
 | [llm-harness](https://github.com/bigbertharig/llm-harness) | Builds and tests shared tools, agent loops, context, sessions, delegation, and recovery. Harness selection for dashboard work remains open. |
 
@@ -99,8 +99,7 @@ baseline is the highest validated context on the smallest preferred
 homogeneous GPU group. See the context audit and gateway MANAGER.md. Context is a
 request or profile target; the manager derives memory and chooses cards and
 `tensor_split` at load time. It does not read the registry's legacy
-`schedule.placement` label for fit. That label still feeds the generated
-orchestration catalog and dashboard until their placement path is untangled.
+`schedule.placement` label for fit. That label remains in imported model metadata; it is not a hardware admission rule.
 Keep measured load time and memory observations in
 [RIG_PERFORMANCE.md](RIG_PERFORMANCE.md) and
 [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md), with the JSON
