@@ -227,6 +227,12 @@ def validate(registry: dict[str, Any], roles: dict[str, Any], archive_root: Path
             if type(value) is not int or value < (1 if field == "model_size_bytes" else 0):
                 errors.append(f"{mid}: {field} must be a nonnegative integer (model size must be positive)")
         strata = entry.get("strata") or {}
+        if strata and entry.get("status") in {"active", "candidate"}:
+            validated = strata.get("validated_gpu_ids")
+            if (not isinstance(validated, list) or not validated or
+                    any(type(gpu) is not int or gpu < 0 for gpu in validated) or
+                    len(validated) != len(set(validated))):
+                errors.append(f"{mid}: strata.validated_gpu_ids must list distinct tested GPU indices")
         if "prepared_pack_size_bytes" in strata or "bundle_size_bytes" in strata:
             pack_bytes = strata.get("prepared_pack_size_bytes")
             bundle_bytes = strata.get("bundle_size_bytes")
