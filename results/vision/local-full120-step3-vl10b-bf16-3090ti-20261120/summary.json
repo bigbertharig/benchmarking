@@ -1,0 +1,34 @@
+{
+  "suite": "local-understanding-full-v1",
+  "model": "/home/bryan/model-hotset/step3-vl-10b",
+  "cases": 120,
+  "correct": 108,
+  "schema_rate": 0.9833333333333333,
+  "categories": {
+    "chart": {
+      "correct": 19,
+      "total": 20
+    },
+    "document": {
+      "correct": 20,
+      "total": 20
+    },
+    "gui": {
+      "correct": 20,
+      "total": 20
+    },
+    "negative": {
+      "correct": 9,
+      "total": 20
+    },
+    "ocr": {
+      "correct": 20,
+      "total": 20
+    },
+    "spatial": {
+      "correct": 20,
+      "total": 20
+    }
+  },
+  "cloud_dependencies": false
+}

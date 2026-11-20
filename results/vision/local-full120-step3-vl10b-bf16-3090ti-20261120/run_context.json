@@ -1,0 +1,22 @@
+{
+  "started_at": "2026-11-20T11:01:30.276164+00:00",
+  "status": "complete",
+  "pid": 1356660,
+  "backend": "transformers",
+  "model_dir": "/home/bryan/model-hotset/step3-vl-10b",
+  "manifest": "/home/bryan/benchmarking/suites/vision/understanding/local-full-v1/cases.jsonl",
+  "manifest_sha256": "f9cd943f8f803af010f1625a5a5b0fe781dcff95bf5bd48af95bfc702f26250f",
+  "planned_cases": 120,
+  "max_tokens": 1024,
+  "requested_gpu_max_gib": null,
+  "requested_cpu_max_gib": null,
+  "temperature": 0,
+  "load_seconds": 7.58,
+  "gpu_max_gib": 20,
+  "cpu_max_gib": 23,
+  "torch_version": "2.11.0+cu128",
+  "transformers_version": "4.57.3",
+  "gpu_name": "NVIDIA GeForce RTX 3090 Ti",
+  "completed_cases": 120,
+  "finished_at": "2026-11-20T11:16:16.405441+00:00"
+}

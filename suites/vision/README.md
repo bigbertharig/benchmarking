@@ -48,6 +48,7 @@ image handling and generation, on the stated card.
 | Gemma 4 12B Q6_K_L | RTX 3090 Ti | 115/120 | 98.3% | 17/20 | 4.06 s |
 | Qwen3.5 9B Q3_K_M | GTX 1070 | 80/120 | 97.5% | 0/20 | 6.82 s |
 | Qwen3.5 9B Q4_K_M | RTX 3090 Ti | 76/120 | 94.2% | 0/20 | 1.13 s |
+| Step3-VL-10B BF16 | RTX 3090 Ti (20 GiB cap) | 108/120 | 98.3% | 20/20 | 5.71 s |
 
 The full case-level receipts are in
 [`results/vision`](../../results/vision), under directories beginning
@@ -57,6 +58,13 @@ different GPUs, so their timing difference is not a quantization speed result.
 Both Qwen runs missed all 20 local OCR cases; review those case outputs before
 using either for OCR-heavy work. A 256-token diagnostic run truncated many
 Gemma answers; the table uses the corrected 1,024-token run.
+Step3 used a 20 GiB GPU placement cap with host RAM available; its observed
+peak GPU memory was 20,875 MiB. It passed all document, GUI, OCR, and spatial
+cases, 19/20 charts, and 9/20 negative cases. Its native reasoning text is
+retained in the raw receipt, while scoring uses the final answer after
+`</think>`. One chart case exhausted the 1,024-token answer budget without a
+final answer. The corrected six-case smoke was 5/6; the earlier uncorrected
+zero-score smoke was a parser diagnostic, not model evidence.
 
 ## First full local generation runs (2026-11-20)
 

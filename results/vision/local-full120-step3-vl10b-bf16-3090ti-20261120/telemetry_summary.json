@@ -1,0 +1,14 @@
+{
+  "receipt": "/home/bryan/benchmarking/results/vision/local-full120-step3-vl10b-bf16-3090ti-20261120-gpu.jsonl",
+  "gpu_index": 0,
+  "samples": 180,
+  "first_sample_at": "2026-11-20T11:01:11.038711+00:00",
+  "last_sample_at": "2026-11-20T11:16:20.957979+00:00",
+  "peak_gpu_memory_mib": 20875,
+  "mean_gpu_util_pct": 72.39,
+  "peak_power_w": 345.63,
+  "mean_power_w": 282.69,
+  "peak_temperature_c": 62,
+  "minimum_host_available_mib": 27053,
+  "peak_watched_process_rss_mib": 5051
+}
