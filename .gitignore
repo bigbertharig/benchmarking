@@ -21,6 +21,10 @@ venv/
 *.pth
 *.onnx
 
+# Generated vision outputs are archived outside Git; commit receipts only.
+results/vision/**/images/
+results/vision/**/review/
+
 # Logs and archives
 docker/logs/archive/
 *.log
