@@ -1,9 +1,124 @@
 {
-  "imported_at": "2026-11-15T01:06:07+00:00",
+  "imported_at": "2026-11-21T06:35:08+00:00",
   "schema_version": 1,
   "servers": {
+    "gateway_reset": {
+      "family": "internal",
+      "origin": "internal",
+      "purpose": "Durably restart the dashboard gateway and resume the invoking saved Codex conversation",
+      "source_bundle": "internal",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "restart_gateway_and_resume"
+        }
+      ]
+    },
+    "github_public": {
+      "family": "github",
+      "origin": "external",
+      "purpose": "Read bounded public GitHub repository metadata, tree paths, and source files at a pinned commit",
+      "source_bundle": "github",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "inspect_github_repo"
+        },
+        {
+          "approval": "automatic",
+          "name": "list_github_directory"
+        },
+        {
+          "approval": "automatic",
+          "name": "find_github_files"
+        },
+        {
+          "approval": "automatic",
+          "name": "read_github_file"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_github_commit"
+        },
+        {
+          "approval": "automatic",
+          "name": "compare_github_revisions"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_github_file_history"
+        }
+      ]
+    },
+    "google_workspace": {
+      "family": "google",
+      "origin": "external",
+      "purpose": "Read and perform explicit, receipted writes in the dedicated rig Gmail, Drive, Docs, and Sheets account through Gateway-owned OAuth",
+      "source_bundle": "google",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "search_mail"
+        },
+        {
+          "approval": "automatic",
+          "name": "read_mail"
+        },
+        {
+          "approval": "automatic",
+          "name": "send_email"
+        },
+        {
+          "approval": "automatic",
+          "name": "search_drive"
+        },
+        {
+          "approval": "automatic",
+          "name": "read_drive_text"
+        },
+        {
+          "approval": "automatic",
+          "name": "create_drive_folder"
+        },
+        {
+          "approval": "automatic",
+          "name": "upload_drive_text"
+        },
+        {
+          "approval": "automatic",
+          "name": "upload_drive_image"
+        },
+        {
+          "approval": "automatic",
+          "name": "create_google_doc"
+        },
+        {
+          "approval": "automatic",
+          "name": "append_google_doc_text"
+        },
+        {
+          "approval": "automatic",
+          "name": "create_google_sheet"
+        },
+        {
+          "approval": "automatic",
+          "name": "read_google_sheet"
+        },
+        {
+          "approval": "automatic",
+          "name": "update_google_sheet"
+        },
+        {
+          "approval": "automatic",
+          "name": "append_google_sheet_rows"
+        }
+      ]
+    },
     "local_agents": {
+      "family": "internal",
+      "origin": "internal",
       "purpose": "Discover agent roles and delegate bounded tasks from cloud or local models",
+      "source_bundle": "internal",
       "tools": [
         {
           "approval": "automatic",
@@ -15,16 +130,39 @@
         }
       ]
     },
+    "local_control": {
+      "family": "internal",
+      "origin": "internal",
+      "purpose": "Broad Pi, rig, and named CPU worker commands for trusted local models",
+      "source_bundle": "internal",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "run_local_command"
+        }
+      ]
+    },
+    "private_control": {
+      "family": "internal",
+      "origin": "internal",
+      "purpose": "SSH commands to other trusted 10.0.0.0/24 hosts in Full mode",
+      "source_bundle": "internal",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "run_private_command"
+        }
+      ]
+    },
     "rig_info": {
+      "family": "internal",
+      "origin": "internal",
       "purpose": "Read-only rig, model, benchmark, and orchestration status through gateway APIs",
+      "source_bundle": "internal",
       "tools": [
         {
           "approval": "automatic",
           "name": "get_rig_status"
-        },
-        {
-          "approval": "automatic",
-          "name": "check_rig_heartbeats"
         },
         {
           "approval": "automatic",
@@ -49,7 +187,10 @@
       ]
     },
     "rig_search": {
+      "family": "internal",
+      "origin": "internal",
       "purpose": "Search public sources and fetch selected public pages on Pi CPUs",
+      "source_bundle": "internal",
       "tools": [
         {
           "approval": "automatic",
@@ -60,7 +201,67 @@
           "name": "fetch_page"
         }
       ]
+    },
+    "workspace_git": {
+      "family": "internal",
+      "origin": "internal",
+      "purpose": "Read bounded Git status, log, and per-file diff in the selected Coding workspace",
+      "source_bundle": "internal",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "get_workspace_git_status"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_workspace_git_log"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_workspace_git_diff"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_workspace_git_commit"
+        },
+        {
+          "approval": "automatic",
+          "name": "compare_workspace_git_revisions"
+        },
+        {
+          "approval": "automatic",
+          "name": "read_workspace_file_at_revision"
+        },
+        {
+          "approval": "automatic",
+          "name": "get_workspace_file_history"
+        }
+      ]
+    },
+    "workspace_read": {
+      "family": "internal",
+      "origin": "internal",
+      "purpose": "Bounded read-only access to the selected Coding workspace",
+      "source_bundle": "internal",
+      "tools": [
+        {
+          "approval": "automatic",
+          "name": "list_workspace_files"
+        },
+        {
+          "approval": "automatic",
+          "name": "find_workspace_files"
+        },
+        {
+          "approval": "automatic",
+          "name": "read_workspace_file"
+        },
+        {
+          "approval": "automatic",
+          "name": "search_workspace_text"
+        }
+      ]
     }
   },
-  "source_sha256": "c147bd4155cd5c23e963c9d640a7d12114de1d81820665cb79f3c6c6131d6853"
+  "source_sha256": "4d333e4b85c55a828ce96008b56f3330e8620742aef7e225fca0288cf4ffba57"
 }
