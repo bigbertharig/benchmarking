@@ -62,6 +62,22 @@ Start the waiter after the run creates its status directory. Gateway does not
 yet expose this simple request as one submission API or push its terminal alert
 to the dashboard.
 
+To preview ordering and parallelism without reserving or loading hardware, emit
+Gateway's narrow planning projection beside the normal campaign:
+
+```bash
+python3 scripts/active/build_campaign_request.py request.json \
+  --output /tmp/campaign.json \
+  --gateway-plan-output /tmp/campaign-plan.json
+python3 ~/llm-gateway/tools/rigctl.py campaign-preview /tmp/campaign-plan.json
+```
+
+Benchmarking retains suite arguments, methodology, scoring, and receipts. The
+projection contains only model/runtime groups, dependencies, fit intent, and
+optional duration evidence. Gateway asks Orchestration for revisioned placement
+alternatives and simulates them; neither command changes rig state. Orchestration
+still rechecks all hardware rules when a future accepted plan is executed.
+
 ## Commands
 
 ```bash

@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "active"))
-from build_campaign_request import compile_request  # noqa: E402
+from build_campaign_request import compile_gateway_plan, compile_request  # noqa: E402
 import submit_campaign_request as submitter  # noqa: E402
 
 
@@ -34,6 +34,30 @@ class CampaignRequestTests(unittest.TestCase):
         self.assertEqual(blocks[0]["limit"], 10)
         self.assertTrue(all("gpus" not in block and "placement" not in block for block in blocks))
         self.assertEqual(campaign["defaults"], {"run_class": "smoke"})
+
+    def test_gateway_projection_contains_work_intent_not_suite_execution_details(self) -> None:
+        campaign = compile_request({"name": "two_models", "models": ["model:a", "model:b"],
+                                    "tests": [{"suite": "bench-reasoning", "tasks": ["drop"],
+                                               "limit": 10}]}, REGISTRY, CONTRACTS)
+        campaign["blocks"][0].update({"ctx_size": 8192, "estimated_duration_s": 90,
+                                      "runtime_args": ["--reasoning", "on"], "gpus": [1]})
+        plan = compile_gateway_plan(campaign)
+        self.assertEqual(plan["schema"], "benchmark-campaign-plan/1")
+        self.assertEqual(plan["planning_mode"], "after_current_work")
+        self.assertEqual(plan["blocks"][0]["ctx"], 8192)
+        self.assertEqual(plan["blocks"][0]["estimated_duration_s"], 90)
+        self.assertNotIn("suite_args", plan["blocks"][0])
+        self.assertNotIn("runtime_args", plan["blocks"][0])
+        self.assertNotIn("gpus", plan["blocks"][0])
+
+    def test_existing_parallel_sequential_fixture_projects_without_old_placement_policy(self) -> None:
+        campaign = json.loads((Path(__file__).resolve().parents[1] / "campaigns" /
+                               "harness_sequential_parallel_smoke.json").read_text(encoding="utf-8"))
+        plan = compile_gateway_plan(campaign)
+        self.assertEqual([row["id"] for row in plan["blocks"]],
+                         ["knowledge_lane", "data_parallel_lane", "geometry_after_knowledge"])
+        self.assertEqual(plan["blocks"][2]["depends_on"], ["knowledge_lane"])
+        self.assertTrue(all("placement" not in row and "gpus" not in row for row in plan["blocks"]))
 
     def test_rejects_unsupported_limit_before_campaign(self) -> None:
         request = {"name": "bad", "models": ["model:a"],

@@ -14,6 +14,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+GATEWAY_FIT_FIELDS = ("use", "profile", "ctx_size", "ctx_min", "context_mode",
+                      "margin_mb", "batch_size", "engine", "placement_policy")
 
 
 def _id(value: str) -> str:
@@ -84,10 +86,33 @@ def compile_request(request: dict, registry: dict, contracts: dict) -> dict:
     return {"name": name, "defaults": {"run_class": run_class}, "blocks": blocks}
 
 
+def compile_gateway_plan(campaign: dict) -> dict:
+    """Project campaign-v1 onto Gateway's read-only scheduling contract.
+
+    Benchmarking keeps suite arguments and scoring details. Gateway receives only
+    dependencies, runtime reuse, fit intent, and optional duration evidence.
+    """
+    blocks = []
+    for raw in campaign.get("blocks") or []:
+        block = {key: raw[key] for key in
+                 ("id", "model", "suite", "depends_on", "runtime_group", "estimated_duration_s")
+                 if key in raw}
+        for key in GATEWAY_FIT_FIELDS:
+            if key not in raw:
+                continue
+            gateway_key = "ctx" if key == "ctx_size" else key
+            block[gateway_key] = raw[key]
+        blocks.append(block)
+    return {"schema": "benchmark-campaign-plan/1", "name": campaign["name"], "blocks": blocks,
+            "planning_mode": "after_current_work"}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("request", type=Path)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--gateway-plan-output", type=Path,
+                        help="also write the read-only Gateway campaign planning projection")
     parser.add_argument("--registry", type=Path, default=ROOT / "model_registry.json")
     parser.add_argument("--contracts", type=Path, default=ROOT / "docker" / "suite_contracts.json")
     args = parser.parse_args()
@@ -102,6 +127,12 @@ def main() -> int:
         parser.error(str(exc))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(campaign, indent=2) + "\n", encoding="utf-8")
+    if args.gateway_plan_output:
+        if args.gateway_plan_output.resolve() in (args.request.resolve(), args.output.resolve()):
+            parser.error("gateway plan output must differ from request and campaign output")
+        args.gateway_plan_output.parent.mkdir(parents=True, exist_ok=True)
+        args.gateway_plan_output.write_text(
+            json.dumps(compile_gateway_plan(campaign), indent=2) + "\n", encoding="utf-8")
     print(f"{len(campaign['blocks'])} blocks written to {args.output}")
     return 0
 
