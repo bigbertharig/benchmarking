@@ -124,6 +124,14 @@ The gateway imports the same harness artifact independently for dashboard use.
 
 ## Running benchmarks
 
+For code changes, use the repository environment and the smallest relevant named suite. The full suite remains the release check:
+
+```bash
+.venv/bin/python tools/run_test_suite.py --list
+.venv/bin/python tools/run_test_suite.py model_library campaigns
+.venv/bin/python -m pytest -q
+```
+
 `rigctl` is llm-gateway's `tools/rigctl.py` and runs on the Pi; the commands it starts run on the rig,
 so their paths are the rig's (`/mnt/shared/...`).
 

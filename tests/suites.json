@@ -1,0 +1,56 @@
+{
+  "result_records": {
+    "purpose": "Append-only benchmark measurements, session receipts, and reasoning-result normalization",
+    "tests": [
+      "tests/test_benchmark_records.py",
+      "tests/test_benchmark_session.py",
+      "tests/test_reasoning_results.py"
+    ]
+  },
+  "model_library": {
+    "purpose": "Canonical model registry, profiles, exports, role routing, campaign requests, and imported tool provenance",
+    "tests": [
+      "tests/test_model_library.py",
+      "tests/test_model_profiles.py",
+      "tests/test_export_model_library.py",
+      "tests/test_routing_pareto.py",
+      "tests/test_build_campaign_request.py",
+      "tests/test_tool_catalog_sync.py"
+    ]
+  },
+  "campaigns": {
+    "purpose": "Campaign compilation and execution, runtime matrices, lane suggestions, suite contracts, and lm-eval targets",
+    "tests": [
+      "tests/test_campaign_runner.py",
+      "tests/test_compile_experiment.py",
+      "tests/test_runtime_matrix.py",
+      "tests/test_suggest_p45.py",
+      "tests/test_suite_contract.py",
+      "tests/test_run_lm_eval_target.py"
+    ]
+  },
+  "capacity": {
+    "purpose": "Context-depth calculations, capacity matrices, and hardware-inventory boundaries",
+    "tests": [
+      "tests/test_capacity_run.py",
+      "tests/test_context_capacity_matrix.py",
+      "tests/test_hardware_inventory.py"
+    ]
+  },
+  "evaluation_suites": {
+    "purpose": "Agent, data import, geographic import, knowledge, and runtime evaluation contracts",
+    "tests": [
+      "tests/test_agent_harness.py",
+      "tests/test_dataimport_suite.py",
+      "tests/test_geoimport_suite.py",
+      "tests/test_knowledge_suite.py",
+      "tests/test_runtime_suite.py"
+    ]
+  },
+  "test_infrastructure": {
+    "purpose": "Named-suite manifest coverage and runner contracts",
+    "tests": [
+      "tests/test_test_suites.py"
+    ]
+  }
+}
