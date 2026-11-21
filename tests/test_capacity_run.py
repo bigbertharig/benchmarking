@@ -34,9 +34,9 @@ class CapacityRunTests(unittest.TestCase):
         self.assertEqual(CAP.repeats_for(10, 50, 100), 1)
 
     def test_reference_depths_skip_what_the_loaded_context_cannot_hold(self):
-        self.assertTrue(CAP.fits_depth(131072, 0.9, 126976))
-        self.assertFalse(CAP.fits_depth(131072, 0.9, 110000))
-        self.assertTrue(CAP.fits_depth(131072, 0.5, 110000))
+        self.assertTrue(CAP.fits_depth(131072, 0.9, 126976, CAP.DECODE_TOKENS))
+        self.assertFalse(CAP.fits_depth(131072, 0.9, 110000, CAP.DECODE_TOKENS))
+        self.assertTrue(CAP.fits_depth(131072, 0.5, 110000, CAP.DECODE_TOKENS))
 
     def test_record_names_the_model_and_cards(self):
         self.assertEqual(CAP.slug("nemotron-3.5-bolt:74b-a9b"), "nemotron-3_5-bolt_74b-a9b")

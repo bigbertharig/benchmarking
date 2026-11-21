@@ -63,12 +63,12 @@ class SuggestTests(unittest.TestCase):
         self.assertEqual(sorted(rows), ["bbh_flexible"])
         self.assertEqual(rows["bbh_flexible"]["extractor_failure_count"], 2)
 
-    def test_lane_runs_the_suggester_after_phase_4_then_pauses(self):
+    def test_lane_runs_the_suggester_after_phase_6_then_pauses(self):
         lane = (ROOT / "scripts" / "integration" / "worker_lane.sh").read_text(encoding="utf-8")
         call = '"$HERE/suggest_p45.py"'
-        pause = "PAUSED after Phase 4"
+        pause = "PAUSED after Phase 6"
         self.assertIn(call, lane)
-        self.assertLess(lane.index('say "Phase 4 smoke"'), lane.index(call))
+        self.assertLess(lane.index('say "Phase 6 smoke"'), lane.index(call))
         self.assertLess(lane.index(call), lane.index(pause))
         # The pause leaves the model loaded: no unload between the suggester and the breakpoint.
         self.assertNotIn("unload", lane[lane.index(call):lane.index(pause)])

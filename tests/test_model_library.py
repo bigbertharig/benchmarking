@@ -49,7 +49,7 @@ class ModelLibraryTests(unittest.TestCase):
         roles = copy.deepcopy(self.roles)
         roles["roles"]["brain"]["model"] = "qwen3:8b"
         errors = ML.validate(self.registry, roles)
-        self.assertTrue(any("roles may only use active models" in e for e in errors), errors)
+        self.assertTrue(any("is not approved for runtime roles" in e for e in errors), errors)
 
     def test_remote_profiles_belong_to_the_gateway(self):
         roles = copy.deepcopy(self.roles)
