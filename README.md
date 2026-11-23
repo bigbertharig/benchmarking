@@ -13,11 +13,11 @@ Big Bertha runs across a Pi control host, an isolated GPU rig, and optional CPU 
 | [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Serves the dashboard, conversations, model API, tool policy, and work coordination. Its Manager also coordinates some model placement and loading. |
 | [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Observes and controls rig hardware, enforces admission and reservations, and manages model runtimes. |
 | [benchmarking](https://github.com/bigbertharig/benchmarking) | Measures models and runtimes; publishes the model library, roles, load recipes, evaluation suites, and results. |
-| [llm-harness](https://github.com/bigbertharig/llm-harness) | Builds and tests shared tools, agent loops, context, sessions, delegation, and recovery. Harness selection for dashboard work remains open. |
+| [llm-harness](https://github.com/bigbertharig/llm-harness) | Builds the default project-owned tool and agent layer and defines the integration contract for additional harness engines. |
 
 Benchmarking publishes a validated model library. Gateway imports it, serves model routes, and manages dashboard work. Harness supplies reviewed tool schemas and tests model interactions through Gateway routes. Orchestration enforces rig hardware rules and runs admitted model services. [The work-organization guide](https://github.com/bigbertharig/llm-gateway/blob/main/docs/WORK_ORGANIZATION_DIRECTION.md) tracks the remaining Manager-to-Orchestration migration.
 
-Private site configuration supplies host addresses, credentials, model files, and mounts. The published examples use role placeholders. For another card mix, run a hardware survey and validate fit, context, concurrency, and speed before offering a load recipe. [Porting guide](https://github.com/bigbertharig/llm-gateway/blob/main/docs/PORTABILITY.md).
+Private site configuration supplies host addresses, credentials, model files, and mounts. The published examples use role placeholders. For another card mix, run a hardware survey and validate fit, context, concurrency, and speed before offering a load recipe. The four repositories are joined by versioned artifacts and APIs rather than cross-repo code imports; [the cross-repo contract](CROSS_REPO_CONTRACT.md#portability-and-replaceable-implementations) defines the extension boundaries and the [porting guide](https://github.com/bigbertharig/llm-gateway/blob/main/docs/PORTABILITY.md) gives installation steps.
 
 ## Read this repo
 

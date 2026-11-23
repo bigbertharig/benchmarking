@@ -1,6 +1,6 @@
 # GPU Rig cross-repo contract
 
-Version 1, 2026-11-15. This document defines two kinds of shared information: **published knowledge** (model and tool catalogs) and **live state** (admission, loaded routes, execution, diagnostics). A catalog entry never implies that a model is loaded or that a tool server is running.
+Version 1, updated 2026-11-22. This document defines two kinds of shared information: **published knowledge** (model and tool catalogs) and **live state** (admission, loaded routes, execution, diagnostics). A catalog entry never implies that a model is loaded or that a tool server is running. This documentation update does not change the version 1 wire schemas.
 
 ## Ownership and handoff
 
@@ -61,6 +61,36 @@ Keep the client-facing `GET /v1/models`, Chat Completions and Responses shapes w
 MCP is the portable protocol for tool discovery and calls. Harness's registry is the ownership/approval record; gateway's imported projection is the grant; live MCP `tools/list` supplies the JSON argument schema. [OpenAI Responses](https://developers.openai.com/api/reference/resources/responses/methods/create) can declare function or MCP tools, but that request-time declaration is not a cross-repo source of truth for tool ownership or approval. External services are discovered and enabled deliberately; they do not become dashboard tools merely because `tools/list` returns them.
 
 For sharing outside the rig, offer the OpenAI-compatible inference facade and MCP servers first. Publish the versioned GPU Rig model artifact only to consumers that need planning or reproducible model metadata, with a stable schema and its own compatibility policy. Never expose local GGUF paths, rig credentials or hardware-control endpoints as if they were required by an OpenAI-compatible client.
+
+## Portability and replaceable implementations
+
+The four repositories are product boundaries, not deployment topology. They may run on one host or
+several hosts and communicate through versioned artifacts, requests, events, and receipts. They must
+not import another repository's private Python modules or require another repository's checkout at
+runtime. Site addresses, mount roots, credentials, model paths, and service identities are private
+configuration. A portable installation supplies those values and remeasures its own hardware; it does
+not edit a published contract to describe one machine.
+
+The stable extension points are:
+
+| Replaceable part | Stable consumer boundary | Authority that cannot move with the replacement |
+|---|---|---|
+| Accelerator/runtime implementation | Orchestration inventory, capability, admission, lifecycle, observation, and receipt contract | Orchestration remains final authority for physical admission and observed state. |
+| Harness engine | Gateway task envelope and ready route in; ordered Harness events and terminal receipt out | Gateway grants and operator policy, plus Harness tool validation and approval checks, cannot be expanded by an engine. |
+| Inference runtime | Reviewed Orchestration runtime adapter and Benchmarking recipe/evidence | A runtime cannot self-publish a model offer or bypass admission. |
+| Tool provider | MCP plus a reviewed, digest-bound Harness catalog entry | Discovery does not grant permission; Gateway policy and Harness execution checks still apply. |
+
+Orchestration is NVIDIA/CUDA-focused today. AMD/ROCm and Apple Silicon/Metal integrations are planned.
+The expansion path keeps one Orchestration control plane with versioned backend adapters, allowing each
+backend to represent its own memory and topology model through normalized capabilities and lifecycle
+outcomes. An adapter may become an external package later if its release, licensing, dependencies, or
+maintainership require that split.
+
+Portable benchmark records and recipes identify the hardware/runtime backend and measured environment.
+Gateway requests capabilities and desired outcomes rather than selecting cards through a vendor API.
+Harness consumes a ready route and remains accelerator neutral. The project-owned Harness is the
+default engine, and the versioned engine boundary supports additional implementations without moving
+tool authority or Gateway conversation ownership.
 
 ## Change rules
 
