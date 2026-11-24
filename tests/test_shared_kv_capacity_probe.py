@@ -29,6 +29,16 @@ class SharedKvCapacityProbeTests(unittest.TestCase):
         with self.assertRaises(Exception):
             probe.parse_ints("1,1")
 
+    def test_affordable_context_preserves_reserve_and_alignment(self):
+        model = {"fixed_mib": 1.442, "mib_per_token": 0.02150048}
+
+        result = probe.affordable_context(2378, 272, model, 262144)
+
+        self.assertEqual(result % 1024, 0)
+        self.assertGreaterEqual(result, 95000)
+        predicted = model["fixed_mib"] + model["mib_per_token"] * result
+        self.assertLessEqual(predicted + 272, 2378)
+
 
 if __name__ == "__main__":
     unittest.main()

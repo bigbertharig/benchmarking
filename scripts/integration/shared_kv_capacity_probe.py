@@ -80,6 +80,17 @@ def fit_line(rows: list[dict]) -> dict:
     }
 
 
+def affordable_context(free_mib: int, reserve_mib: int, memory_model: dict,
+                       maximum: int, *, quantum: int = 1024) -> int:
+    """Largest aligned context predicted to fit while preserving the reserve."""
+    slope = float(memory_model["mib_per_token"])
+    fixed = float(memory_model["fixed_mib"])
+    if slope <= 0 or free_mib <= reserve_mib + fixed:
+        return 0
+    tokens = math.floor((free_mib - reserve_mib - fixed) / slope)
+    return min(maximum, tokens // quantum * quantum)
+
+
 def attach(port: int, chat_id: str, gpu: int, context_cap: int) -> dict:
     code, value = request(port, "/chats", "POST", {
         "chat_id": chat_id, "gpu": gpu, "context_cap": context_cap})
@@ -150,6 +161,8 @@ def main() -> int:
     parser.add_argument("--parent-reserve-mib", type=int, default=512)
     parser.add_argument("--max-chats", type=int, default=16)
     parser.add_argument("--turn-tokens", type=int, default=48)
+    parser.add_argument("--gap-fill", action="store_true",
+                        help="after full contexts, validate smaller contexts in remaining worker memory")
     args = parser.parse_args()
     if not args.model.is_file():
         parser.error(f"model is missing: {args.model}")
@@ -244,6 +257,34 @@ def main() -> int:
             active.append({"chat_id": chat_id, "gpu": selected, "context_cap": args.context_cap})
             receipt.setdefault("admissions", []).append({
                 **active[-1], "gpu_memory_after": gpu_memory()})
+
+        receipt["max_full_context_chats"] = len(active)
+        if args.gap_fill:
+            while len(active) < args.max_chats:
+                memory = gpu_memory()
+                if memory[args.parent_gpu]["free_mib"] < args.parent_reserve_mib:
+                    receipt["gap_fill_reason"] = "parent reserve reached"
+                    break
+                choices = []
+                for gpu in args.worker_gpus:
+                    context_cap = affordable_context(
+                        memory[gpu]["free_mib"], args.worker_reserve_mib,
+                        receipt["memory_model"], args.context_cap)
+                    if context_cap >= 16384:
+                        choices.append((context_cap, gpu))
+                if not choices:
+                    receipt["gap_fill_reason"] = "no worker has room for the minimum context"
+                    break
+                context_cap, selected = max(choices)
+                chat_id = f"gap_{len(active) + 1:02d}_{context_cap}"
+                try:
+                    attach(args.port, chat_id, selected, context_cap)
+                except Exception as exc:
+                    receipt["gap_fill_reason"] = f"runtime attach rejected: {exc}"
+                    break
+                active.append({"chat_id": chat_id, "gpu": selected, "context_cap": context_cap})
+                receipt.setdefault("gap_fill_admissions", []).append({
+                    **active[-1], "gpu_memory_after": gpu_memory()})
 
         levels = sorted(set(level for level in (1, len(args.worker_gpus), len(active))
                             if 0 < level <= len(active)))

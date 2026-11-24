@@ -1,0 +1,53 @@
+{
+  "schema": 2,
+  "name": "qwen38_27b_all_worker_capacity_20261124",
+  "hardware_roles": {
+    "parent": {"min_vram_mb": 20000, "name_contains": "3090"},
+    "worker_1070": {"min_vram_mb": 7500, "max_vram_mb": 12000, "name_contains": "1070"},
+    "worker_a": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"},
+    "worker_b": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"},
+    "worker_c": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"},
+    "worker_d": {"min_vram_mb": 6000, "max_vram_mb": 7000, "name_contains": "1060"}
+  },
+  "defaults": {
+    "state": "ready",
+    "mem_floor_gib": 4,
+    "max_host_drop_gb": 8,
+    "timeout_s": 7200,
+    "freeze": false
+  },
+  "cases": [
+    {
+      "id": "qwen38_27b_all_worker_capacity",
+      "gpus": ["{gpu:parent}", "{gpu:worker_1070}", "{gpu:worker_a}", "{gpu:worker_b}", "{gpu:worker_c}", "{gpu:worker_d}"],
+      "command": [
+        "python3",
+        "/home/bryan/qwen38_gate_benchmarking/scripts/integration/shared_kv_capacity_probe.py",
+        "--model",
+        "/data/model-hotset/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+        "--parent-gpu",
+        "{gpu:parent}",
+        "--worker-gpus",
+        "{gpu:worker_1070},{gpu:worker_a},{gpu:worker_b},{gpu:worker_c},{gpu:worker_d}",
+        "--curve-contexts",
+        "16384,65536,262144",
+        "--context-cap",
+        "262144",
+        "--worker-reserve-mib",
+        "272",
+        "--parent-reserve-mib",
+        "512",
+        "--max-chats",
+        "12",
+        "--turn-tokens",
+        "48",
+        "--gap-fill",
+        "--output",
+        "/home/bryan/benchmarking/results/runtime_experiments/qwen38_27b_all_worker_capacity_20261124.json"
+      ],
+      "outputs": [
+        "/home/bryan/benchmarking/results/runtime_experiments/qwen38_27b_all_worker_capacity_20261124.json"
+      ]
+    }
+  ]
+}
