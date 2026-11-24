@@ -1976,6 +1976,18 @@
             "max": 262144,
             "max_basis": "gguf_train"
           }
+        },
+        "interactive": {
+          "runtime": {
+            "ctx_size": 65536,
+            "batch_size": 128,
+            "parallel": 1
+          },
+          "extra_args": [
+            "--reasoning",
+            "on"
+          ],
+          "notes": "Experimental 65K Harness/subagent route. This stays out of the dashboard chatbot catalog; the measured single-GPU capacity ceiling is 190720 positions."
         }
       },
       "model_size_bytes": 16464440224,

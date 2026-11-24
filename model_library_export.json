@@ -1,5 +1,5 @@
 {
-  "source_sha256": "24cea2dd69d155a535f15e88be065993c9eb5f60d6f98a4687521a49ccdd9e76",
+  "source_sha256": "94da02206aa0a431b53680cedfcf62e15e18259688c0cdc8d303e18fcc16645b",
   "schema": "gpu-rig-model-library/1",
   "registry": {
     "schema": "model-registry/1",
@@ -1987,6 +1987,18 @@
               "max": 262144,
               "max_basis": "gguf_train"
             }
+          },
+          "interactive": {
+            "runtime": {
+              "ctx_size": 65536,
+              "batch_size": 128,
+              "parallel": 1
+            },
+            "extra_args": [
+              "--reasoning",
+              "on"
+            ],
+            "notes": "Experimental 65K Harness/subagent route. This stays out of the dashboard chatbot catalog; the measured single-GPU capacity ceiling is 190720 positions."
           }
         },
         "model_size_bytes": 16464440224,
@@ -7134,6 +7146,47 @@
           "max": 262144,
           "max_basis": "gguf_train"
         }
+      },
+      "interactive": {
+        "model": "qwen3.8:27b",
+        "profile": "interactive",
+        "status": "active",
+        "gguf_path": "/mnt/shared/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
+        "schedule": {
+          "tier": 3,
+          "placement": "single_gpu",
+          "tags": [
+            "brain_candidate",
+            "dense"
+          ]
+        },
+        "system_prompt": "You are a worker assistant. Never output <think> tags, chain-of-thought, or internal reasoning. Respond with only the final answer in the exact format requested. When JSON is requested, return raw JSON with no markdown or extra text. When a short answer is requested, give only that answer.",
+        "inference": {
+          "temperature": 0.0,
+          "top_p": 1.0,
+          "max_tokens": 8192
+        },
+        "runtime": {
+          "ctx_size": 65536,
+          "batch_size": 128,
+          "parallel": 1,
+          "n_gpu_layers": 999
+        },
+        "extra_args": [
+          "--reasoning",
+          "on"
+        ],
+        "tuning": {
+          "status": "tuned",
+          "last_tuned_at": "2026-10-17T00:00:00+00:00",
+          "benchmark_suite": "phase4_5_settings"
+        },
+        "notes": "Experimental 65K Harness/subagent route. This stays out of the dashboard chatbot catalog; the measured single-GPU capacity ceiling is 190720 positions.",
+        "context_bounds": {
+          "min": 8192,
+          "max": 262144,
+          "max_basis": "gguf_train"
+        }
       }
     },
     "qwen3:1.7b": {
@@ -11093,7 +11146,8 @@
         "placement": "single_gpu",
         "tier": 3,
         "profiles": [
-          "default"
+          "default",
+          "interactive"
         ],
         "roles": [],
         "source_url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF/resolve/main/Qwen3.8-27B-UD-Q4_K_M.gguf",
