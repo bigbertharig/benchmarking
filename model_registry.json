@@ -1935,8 +1935,8 @@
         "runtime": "llama.cpp/b11669",
         "recipe": "GPU 0, full GPU offload, one slot",
         "default_context": 16384,
-        "context_limit": 190720,
-        "context_basis": "Provisional legacy evidence only: single-GPU receipt qwen3_8_27b__compact reached 190720 positions and the three-GPU trained-ceiling run reached 262144. Refresh with the current Phase 2 and Phase 8 runners before promotion.",
+        "context_limit": 262144,
+        "context_basis": "Unvalidated candidate test target from the GGUF trained bound. Legacy evidence reached 190720 positions on one GPU and 262144 on three GPUs; the current Phase 2 and Phase 8 runners must refresh both before promotion.",
         "limits": "Modern min/max loads, 10%/90% recall, speed, and practical chat-capacity checks are in progress. Thinking-on reasoning can be roughly 3x slower than thinking-off and may exhaust the 8192-token output budget."
       },
       "schedule": {
