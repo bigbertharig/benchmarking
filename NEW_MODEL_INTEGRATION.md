@@ -98,7 +98,7 @@ was run. Use the existing managed placement experiments for complex models.
 | R (required before 0) | Public research and shortlist | `MODEL_RESEARCH_GATE.md`; record in `research/candidates/`; `check_model_research.py <model-id>` | Official weights and quant identified, public claims sourced, rig-fit estimate and local comparator recorded, trial decision passes |
 | 0 | Download | on the rig, to the NVMe hotset, then the shared library | download: size and SHA-256 match the source; library copy: size |
 | 1 | Register | registry entry, `model_library.py export`, `rigctl fit` | `check` ok, `fit` says it fits |
-| 2 | Context bounds | `run_model_context_bounds.py` on compact and ceiling GPU groups | manager min/max fits and real loads pass, full GPU offload, both contexts recorded |
+| 2 | Context bounds and serving capacity | `run_model_context_bounds.py` on compact and ceiling GPU groups; for shared-weight candidates, `shared_kv_capacity_probe.py` | manager min/max fits and real loads pass; intended multi-chat models also have a measured context-memory curve, safe chat count, and concurrent speed |
 | 3 | First load | the lane (`rigctl load-model` through the manager) | the model serves, every layer on the GPUs |
 | 4 | Litmus | the lane (`litmus.py`) | the 3 checks pass, or each failure is documented |
 | 5 | Runtime characterization | the lane (`runtime_char.py`) | a `results/runtime_experiments/` record |
@@ -274,6 +274,38 @@ alone; a claimed deployment maximum also requires deep-context recall evidence.
 **Gate**: the terminal receipt passes every distinct group, with min and max loads fully offloaded and
 unloaded. Record the observed bounds in the model's registry notes; keep the trained ceiling in
 `context_bounds.max` even when this rig cannot reach it.
+
+### Shared-weight chat capacity (when the intended deployment shares weights)
+
+A split load that adds a worker card to reach the trained context ceiling is not evidence for multiple
+independent chats. For a model intended to serve several chats from one weight load, complete this hardware
+check before the quality campaign:
+
+1. Measure the largest single-card parent context and its speed.
+2. Add the smallest intended worker card and verify the trained ceiling with a real load and Phase 8 recall.
+3. Run `shared_kv_capacity_probe.py` in a managed hardware session. It creates Q4 worker contexts at several
+   capacities, measures direct worker and parent allocation, fits `fixed MiB + MiB/token`, and verifies that
+   detach returns memory to baseline.
+4. Let the probe pack full-size chats only while direct NVIDIA free-memory telemetry retains the configured
+   parent and worker reserves. Measure labeled concurrent turns at one chat, one chat per worker card, and
+   the safe saturation count.
+
+The probe is benchmark-only and must run inside a session that owns every named card; do not launch its
+Docker runtime against unreserved hardware. Preserve the raw allocation rows as well as the fitted formula.
+The formula predicts admission, but the measured saturation receipt decides the published maximum. Keep the
+ordinary split-model placement and the shared-weight worker-pool placement as separate recipes.
+
+```bash
+python3 scripts/integration/shared_kv_capacity_probe.py \
+  --model /data/model-hotset/<model-dir>/<model>.gguf \
+  --worker-gpus 1,3,4,5 \
+  --output results/runtime_experiments/<slug>_shared_kv_capacity_<date>.json
+```
+
+**Additional gate for shared-weight offers**: the memory curve has at least three distinct context sizes,
+all labeled turns pass, safe saturation is measured with cleanup verified, and the registry records KV type,
+per-chat formula, reserves, placement, maximum chats, and concurrent speed. A conventional one-slot model
+does not need this additional gate.
 
 ## Phases 3-6: the lane
 
