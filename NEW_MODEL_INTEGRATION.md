@@ -820,7 +820,13 @@ BBH 0.454 came from the thinking-control problem below, not the model.
 - [x] bench-code: Phase 4 full run stands (HumanEval 0.878 / 0.823, MBPP 0.794 / 0.648)
 
 ### Phase 6: Finalize
-- [ ] pending
+- [x] Promoted to `active` on 2026-11-24 after auditing the existing full-suite receipts. The earlier
+  status note compared strict BBH extraction (41.6%) with another model's flexible score; the matched
+  flexible Qwen3.8 score is 91.0%. The exact quant is available as the experimental
+  `qwen38_27b_separate` Harness/subagent candidate without replacing the production brain role.
+- [x] Single-GPU loading stage records the measured 190,720-position capacity receipt; the separate
+  three-GPU trained-ceiling experiment reached 262,144. Thinking-on latency and empty-answer failures
+  remain explicit limitations.
 
 ## Integration: Ornith-1.5 35B-A3B (2026-10-16)
 

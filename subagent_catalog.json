@@ -2,6 +2,16 @@
   "schema_version": 1,
   "about": "Candidate child routes. The manager resolves local placement; the harness runs bounded child sessions. Ready state is checked at request time.",
   "candidates": {
+    "qwen38_27b_separate": {
+      "provider": "gateway_profile",
+      "model": "qwen3.8:27b",
+      "agent_types": [
+        "coding",
+        "research"
+      ],
+      "status": "experimental",
+      "evidence": "results/MODEL_BENCHMARK_REFERENCE.md"
+    },
     "qwen35_shared_1060": {
       "provider": "rig_shared_chat",
       "model": "qwen3.6:35b-a3b-xl",
