@@ -1985,9 +1985,9 @@
           },
           "extra_args": [
             "--reasoning",
-            "on"
+            "off"
           ],
-          "notes": "Validated 65K Harness/subagent route on GPU0. The measured ordinary single-GPU capacity ceiling is 226048 positions; shared-weight multi-chat placement remains a separate experimental recipe."
+          "notes": "Validated 65K Harness/subagent route on GPU0 with reasoning off for bounded, visible tool-task finalization. Two reasoning-on supervised runs consumed the 1536-token terminal budget without visible answer text; the Harness correctly failed closed after its one repair. The benchmark default keeps reasoning on for maximum quality scores. The measured ordinary single-GPU capacity ceiling is 226048 positions; shared-weight multi-chat placement remains a separate experimental recipe."
         }
       },
       "model_size_bytes": 16464440224,
