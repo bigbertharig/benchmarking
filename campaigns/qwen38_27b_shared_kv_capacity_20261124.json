@@ -21,7 +21,7 @@
       "gpus": ["{gpu:parent}", "{gpu:worker_a}", "{gpu:worker_b}", "{gpu:worker_c}", "{gpu:worker_d}"],
       "command": [
         "python3",
-        "scripts/integration/shared_kv_capacity_probe.py",
+        "/home/bryan/qwen38_gate_benchmarking/scripts/integration/shared_kv_capacity_probe.py",
         "--model",
         "/data/model-hotset/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_M.gguf",
         "--parent-gpu",
