@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Capacity run: the most a model can do on a set of cards (NEW_MODEL_INTEGRATION.md, "Capacity run").
 
-The rig manager plans the largest context that fits on the cards (`rigctl fit --use chat --profile default`,
+The rig manager plans the largest context that fits on the cards (`rigctl fit --use benchmark --profile default`,
 its largest-that-fits rule), the model is loaded at exactly that context as a benchmark load (bench mode),
 and two probes measure it: a short prompt (decode speed, power) and a prompt filling about --fraction of the
 context with a code planted at its start, repeated at several depths (--fractions): prefill speed, time to
@@ -68,7 +68,7 @@ def fit_args(model: str, gpus: list[int] | None, cards: int | None, margin_mb: i
              ctx: int | None = None, batch_size: int | None = None) -> list[str]:
     """`rigctl fit` for the largest context on the chosen cards (the default profile's batch and args, or
     batch_size), or for exactly ctx."""
-    args = ["fit", model, "--use", "chat", "--profile", "default", "--json"]
+    args = ["fit", model, "--use", "benchmark", "--profile", "default", "--json"]
     if ctx:
         args += ["--ctx", str(ctx)]
     else:
@@ -339,7 +339,7 @@ def base_record(a, gpus: list[int], plan: dict) -> dict:
         "recorded_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
         "methodology": {"id": "llama-server/capacity", "version": "1.1.0", "sampling_interval_seconds": 1,
-                        "plan": ("rigctl fit --use chat --profile default "
+                        "plan": ("rigctl fit --use benchmark --profile default "
                                  + (f"--ctx {a.ctx} (fixed)" if a.ctx else "--context-mode max (largest that fits)")),
                         "depth_fractions": [float(f) for f in a.fractions.split(",")],
                         "depth_of_ctx": a.depth_of,

@@ -31,7 +31,7 @@ def write_json(path: Path, obj: dict) -> None:
 
 
 def fit(model: str, gpus: list[int], mode: str) -> tuple[int, dict]:
-    return capacity.rigctl("fit", model, "--use", "chat", "--profile", "default",
+    return capacity.rigctl("fit", model, "--use", "benchmark", "--profile", "default",
                            "--gpus", ",".join(map(str, gpus)), "--context-mode", mode, "--json")
 
 
