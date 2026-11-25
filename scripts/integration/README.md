@@ -7,7 +7,7 @@ dependencies are explicit migration work, not prerequisites for all Benchmarking
 Benchmarking owns experiment definitions, measurements and results. Orchestration owns
 physical admission, power policy, leases and runtime effects. Private imports and direct
 sibling-script calls must become supported operations; managed failures must not silently
-fall back to unleased execution. See [the cleanup plan](../../REPOSITORY_CLEANUP_PLAN.md).
+fall back to unleased execution. See [implementation status](../../README.md#implementation-status).
 Endpoint-only evaluation and hardware experiments have separate prerequisites and receipts.
 
 Small tools for NEW_MODEL_INTEGRATION.md Phases 4-7, written during the October 2026 brain
@@ -45,7 +45,7 @@ Shared measurement and ordered series setup: [Tier diagnostics and test series](
 | `wait_for_campaign_completion.py <history>/<campaign>/<run>/status.json` | campaign completion | Waits for the managed campaign's atomic terminal status using Linux inotify, with a 30-minute filesystem fallback. Prints a `CAMPAIGN_COMPLETION_ALERT` JSON receipt and exits 0 only when every block completed; no model or GPU polling. Keep one active tool cell waiting on this command to deliver the alert to the agent. |
 | `wait_for_campaign_completion.py --kind terminal <run-dir>/terminal.json` | experiment completion | Uses the same event-driven 30-minute-fallback wait for a benchmark runner's atomic `terminal.json`; emits `BENCHMARK_TERMINAL_ALERT` and exits nonzero on failure. |
 | `capacity_run.py <model> [--gpus ..|--cards N]` | 8 | Probe the validated compact and ceiling contexts at 10%/90% depth (prefill and decode speed, first token, power, final-answer recall); writes a `results/runtime_experiments/` record and unloads. Start it with `rigctl run-start` |
-| `resolve_model.py <model>` | - | Registry settings as shell assignments (hot-set path, ctx, batch, extra args, thinking budget) |
+| `resolve_model.py <model>` | - | Registry settings as shell assignments; explicit `--runtime-path` asks Orchestration for a host-resolved path |
 | `probe_template.py <samples.jsonl>` | 6 | Shows how the loaded model's chat template ends the prompt and what it generates first (thinking-control diagnosis) |
 
 Notes:
@@ -59,3 +59,31 @@ Notes:
 Generic benchmark admission now scans `nvidia-smi` at run time through `hardware_inventory.py`: GPU IDs, UUIDs, names, VRAM, use and power. The sequence runner validates requested IDs against that scan; `run_model_context_bounds.py` accepts any discovered nonnegative GPU ID. Power checks use the rig's model-based `hw_power.py` plan, so a 1070 keeps its own default cap. Direct Docker placement must use UUID device selection and confirm VRAM movement; host `nvidia-smi` indexes are not safe as `CUDA_VISIBLE_DEVICES` ordinals. `run_ram_offload_comparison.py` performs both checks and can retain the last successful container with `--keep-loaded`. The all-card Qwen3.8 helper now scans the available card set and uses UUID Docker selection too.
 
 Historical campaign manifests and named model recipes may intentionally pin specific GPU groups and tensor layouts. Those are experiment definitions, not a claim that every worker is a 1060 or that the rig always has six cards. Review their groups when hardware changes. The manager's general placement path uses observed VRAM; the shared-chat worker path now discovers any free card with at least 6,000 MiB instead of iterating fixed IDs.
+
+## Installed Orchestration inspection client
+
+Implemented 2026-11-24. `orchestration_client.py` consumes the public
+[inspection CLI](https://github.com/bigbertharig/llm_orchestration/blob/main/docs/CLI_INSPECTION.md).
+`hardware_inventory.check_planned_power` invokes `rig inspect power`; it no longer runs
+another checkout's `hw_power.py`. Missing telemetry, unknown versions, wrong identities,
+incomplete GPU coverage and nonzero exits fail the benchmark preflight. No repair or
+unleased fallback is attempted. GPU inventory sampling remains Benchmarking telemetry;
+Orchestration supplies the authoritative power-plan comparison.
+
+The default command is `["rig"]`. `BENCHMARK_ORCHESTRATION_COMMAND` accepts a nonempty JSON
+argv array for an installed local executable/wrapper, for example `["/opt/rig/bin/rig"]`.
+It is invoked without a shell with a 20-second deadline. A custom remote wrapper must own
+SSH argument quoting/authentication and preserve the response/exit contract. Do not supply
+credentials in the command or rely on a sibling source-tree path as an installation contract.
+
+`resolve_model.py MODEL` uses the Benchmarking registry path and requires no runtime service.
+`resolve_model.py MODEL --runtime-path` explicitly resolves that path on the configured
+runtime. It no longer discovers a shared-tree `agents/config.json` or imports `brain_core`.
+The managed `prompt_ab.sh` caller selects runtime resolution and propagates failure before
+shell assignments are evaluated. Other managed launchers still have separate portability
+work; this change does not claim all integration scripts are standalone.
+
+The registered `capacity` and `test_infrastructure` suites passed 32 tests. A real
+producer/consumer roundtrip verified existing and missing paths with separate environments.
+Update the runtime CLI before deploying these consumer helpers on a host; an older CLI
+fails explicitly rather than falling back to private script paths.

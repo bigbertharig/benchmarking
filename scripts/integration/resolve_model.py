@@ -2,22 +2,20 @@
 """Print one registry model's runtime settings as shell assignments for the integration lanes.
 
 usage: eval "$(python3 resolve_model.py <model-id>)"
-Sets GGUF (hot-set copy when present), CTX, BATCH, PARALLEL, NGL, EXTRA (registry extra args),
+Sets GGUF (registry path, or runtime-resolved path with --runtime-path), CTX, BATCH, PARALLEL, NGL, EXTRA (registry extra args),
 BASE_EXTRA (extra args without reasoning flags) and THINK_TOKS (thinking budget that fits ctx).
 """
 
 from __future__ import annotations
 
-import json
+import argparse
 import shlex
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 BENCH = HERE.parents[1]
-TREE = BENCH.parents[2]  # <tree>/plans/shoulders/benchmarking -> <tree>
 sys.path.insert(0, str(BENCH / "scripts" / "active"))
-sys.path.insert(0, str(TREE / "agents"))
 import model_library  # noqa: E402
 
 REASONING_FLAGS = {"--reasoning", "--reasoning-budget"}
@@ -37,13 +35,16 @@ def strip_reasoning(args: list[str]) -> list[str]:
 
 
 def main() -> int:
-    r = model_library.resolve(sys.argv[1])
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("model")
+    parser.add_argument("--runtime-path", action="store_true",
+                        help="resolve the GGUF path using the installed Orchestration CLI")
+    args = parser.parse_args()
+    r = model_library.resolve(args.model)
     gguf = r["gguf_path"]
-    config_path = TREE / "agents" / "config.json"
-    if config_path.is_file():
-        from brain_core import resolve_hotset_gguf
-
-        gguf = str(resolve_hotset_gguf(gguf, json.loads(config_path.read_text(encoding="utf-8"))))
+    if args.runtime_path:
+        from orchestration_client import resolve_model_path
+        gguf = resolve_model_path(gguf)
     rt = r.get("runtime", {})
     ctx = int(rt.get("ctx_size", 4096))
     extra = [str(a) for a in r.get("extra_args", [])]

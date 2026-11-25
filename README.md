@@ -4,30 +4,18 @@ Benchmarking owns evaluation tasks, comparative experiments and reproducible evi
 
 `load_recipes.json` records evidence-linked configurations. Reviewed model profiles become Gateway offers through its explicit offer generator and sync; a research recipe ID alone never launches a runtime.
 
-## Project map
+## Product boundary
 
-The [cross-repo contract](https://github.com/bigbertharig/benchmarking/blob/master/CROSS_REPO_CONTRACT.md) owns the product division. These are accepted
-responsibilities; the [cleanup plan](https://github.com/bigbertharig/benchmarking/blob/master/REPOSITORY_CLEANUP_PLAN.md) separates active code from pending migration.
-Each product must support a useful standalone workflow with optional integrations.
-
-| Repository | Responsibility |
-|---|---|
-| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Dashboard, conversations, remote access, cloud accounts/connectors, connection configuration, operator approvals and work coordination. |
-| [llm-harness](https://github.com/bigbertharig/llm-harness) | Agent loop, model-facing tools, bounded execution, context, delegation, execution journals and receipts. |
-| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Local executable model profiles, hardware discovery, physical admission, reservations, runtime lifecycle and observation. |
-| [benchmarking](https://github.com/bigbertharig/benchmarking) | Evaluation tasks, comparative experiments, measurements, scores, result history and published model evidence. |
-
-Gateway coordinates the connected deployment. Direct clients and standalone callers are
-part of the accepted design. Product state stays with its owner; versioned requests,
-events, receipts and optional artifact imports connect the products. Private site
-configuration supplies addresses, credentials, model files and mounts. The current
-checkout dependencies are tracked in the cleanup plan, not a supported installation contract.
+Benchmarking owns evaluation tasks, experiment definitions, comparative measurements and
+published evidence. Local models and provider endpoints are supplied through explicit
+adapters; managed hardware operations remain with their runtime owner. The
+[model-library contract](MODEL_LIBRARY_CONTRACT.md) defines the optional exported artifact.
 
 ## Read this repo
 
 - [New model integration](NEW_MODEL_INTEGRATION.md): registry, roles, validation gates, and evidence status.
 - [Model selection](MODEL_SELECTION.md): one guide to the current registry, roles, scores, and recipes.
-- [Cross-repo contract](CROSS_REPO_CONTRACT.md): what evidence is exported and what live state belongs elsewhere.
+- [model-library contract](MODEL_LIBRARY_CONTRACT.md): what evidence is exported and what live state belongs elsewhere.
 - [Benchmark reference](results/MODEL_BENCHMARK_REFERENCE.md): generated model scores and their source records.
 
 ## Start by task
@@ -37,7 +25,7 @@ checkout dependencies are tracked in the cleanup plan, not a supported installat
 | Survey a different rig | Run `rig scan` on the rig, then [rig limit test](RIG_LIMIT_TEST.md) with the Manager and rig installed, then [model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md) |
 | Add or validate a model | [New model integration](NEW_MODEL_INTEGRATION.md) |
 | Choose a tested model | [Model selection](MODEL_SELECTION.md) |
-| Understand an existing load recipe | [Model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md), then [cross-repo contract](CROSS_REPO_CONTRACT.md) |
+| Understand an existing load recipe | [Model loading and chat placement](MODEL_LOADING_AND_CHAT_PLACEMENT.md), then [model-library contract](MODEL_LIBRARY_CONTRACT.md) |
 
 ## Documentation index
 
@@ -83,7 +71,7 @@ benchmark ID, registry hash, and imported tool-catalog source hash. The receipt 
 
 ## The model library
 
-The [cross-repo contract](CROSS_REPO_CONTRACT.md) defines model, tool, and live-state
+The [model-library contract](MODEL_LIBRARY_CONTRACT.md) defines model, tool, and live-state
 ownership. Edit these source files, then run `scripts/active/model_library.py export`
 and `scripts/active/export_model_library.py sync` (and `check` for both):
 
@@ -219,7 +207,7 @@ Benchmarking publishes the validated `model_library_export.json` artifact with
 import a hash-checked local projection; none reads Benchmarking's checkout during ordinary runtime.
 Gateway's importer turns reviewed evidence into model offers, while live fit and readiness remain separate.
 The other repos record their own lessons, which `collect_lessons.py` can copy here for review.
-See [the cross-repo contract](CROSS_REPO_CONTRACT.md) for the artifact, import commands, and live-state boundary.
+See [model-library contract](MODEL_LIBRARY_CONTRACT.md) for the artifact, import commands, and live-state boundary.
 
 ## Layout
 
@@ -229,3 +217,17 @@ See [the cross-repo contract](CROSS_REPO_CONTRACT.md) for the artifact, import c
 - `campaigns/`: campaign manifests; `runtime_matrices/`: controlled runtime definitions
 - `custom_tasks/`: local custom tests; `tests/`: unit tests (`python3 -m unittest discover tests`)
 - `repos/`: cached upstream benchmark repos; `archive/`: older docs, reports and scripts
+
+## Implementation status
+
+Implemented: the [inspection client](scripts/integration/README.md#installed-orchestration-inspection-client)
+uses the public runtime CLI for power checks and explicit path resolution, removing those
+private imports/script paths. Capacity/infrastructure suites pass 32 tests. Remaining
+managed launchers, standalone lifecycle integration and script relocation are still pending.
+
+The following cleanup is Planned until its tests and receipts are recorded:
+
+- Separate endpoint-only evaluation from managed hardware adapters.
+- Replace private imports and sibling-script calls with supported runtime operations.
+- Move comparative experiment runners here with their callers, tests and historical evidence.
+- Verify an isolated install using a fake provider before live measurements.

@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 import subprocess
-from pathlib import Path
-
-POWER_CHECK = Path("/home/bryan/llm_orchestration/shared/scripts/rig/hw_power.py")
+from orchestration_client import check_power
 
 
 def scan_cards() -> dict[int, dict]:
@@ -49,12 +47,5 @@ def docker_devices(gpus, cards: dict[int, dict]) -> str:
 
 
 def check_planned_power(gpus) -> None:
-    selected = sorted(set(gpus))
-    if not selected:
-        return
-    result = subprocess.run(
-        ["python3", str(POWER_CHECK), "check", "--gpus", ",".join(map(str, selected))],
-        capture_output=True, text=True, timeout=20)
-    if result.returncode:
-        raise RuntimeError("GPU power caps differ from discovered card plan: "
-                           + (result.stderr or result.stdout).strip())
+    """Require a successful versioned runtime power check; never repair or fall back."""
+    check_power(gpus)

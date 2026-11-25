@@ -21,7 +21,8 @@ PLAIN_PROMPT="You are a helpful assistant."
 EXAMPLES_PROMPT="You are a strict worker assistant. Follow the instructions and any examples exactly, including the answer format they show, and keep output minimal. Answer in plain text. Return JSON only when JSON is explicitly requested, and then raw JSON with no code blocks."
 say() { echo "$(date +%T) [gpu$GPU $MODEL] $*"; }
 
-eval "$(python3 "$HERE/resolve_model.py" "$MODEL")"   # GGUF CTX BATCH PARALLEL NGL EXTRA ...
+resolved_model_settings=$(python3 "$HERE/resolve_model.py" "$MODEL" --runtime-path) || exit $?
+eval "$resolved_model_settings"   # GGUF CTX BATCH PARALLEL NGL EXTRA ...
 OWNER="ab-gpu$GPU"
 LEASE=$("$HERE/harness_lease.sh" acquire "$GPU" "$OWNER" "$TAG" "$MODEL") || { say "REFUSED: no lease for GPU $GPU"; exit 2; }
 renewer=""
