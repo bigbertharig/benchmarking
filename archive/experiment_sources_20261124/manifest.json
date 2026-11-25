@@ -1,0 +1,50 @@
+[
+  {
+    "source_repository": "llm-gateway",
+    "source_path": "tools/power_cap_sweep.py",
+    "sha256": "1766ff5b98562c7e8d501f4548db6e5f7011940c5f2ec3ec920202e4938220d4",
+    "archived_path": "archive/experiment_sources_20261124/llm-gateway/power_cap_sweep.py.txt"
+  },
+  {
+    "source_repository": "llm-gateway",
+    "source_path": "tools/pcie_split_test.py",
+    "sha256": "2c1ffd83097b77a215d03b21cbbdfcc32fa73efe01ab86d5aa57fda1db1cf513",
+    "archived_path": "archive/experiment_sources_20261124/llm-gateway/pcie_split_test.py.txt"
+  },
+  {
+    "source_repository": "llm-gateway",
+    "source_path": "tools/split_sweep.py",
+    "sha256": "52c00d1fbe2b0b967cb0cbbd0a89964b6b739c2695c6c3372a17ad85a175b6a9",
+    "archived_path": "archive/experiment_sources_20261124/llm-gateway/split_sweep.py.txt"
+  },
+  {
+    "source_repository": "llm-gateway",
+    "source_path": "tools/rig_stress.py",
+    "sha256": "416e37ca6e6c583f3f26fcf605c3302348a1aa98cbcde68baf2852b77cf5627e",
+    "archived_path": "archive/experiment_sources_20261124/llm-gateway/rig_stress.py.txt"
+  },
+  {
+    "source_repository": "llm-gateway",
+    "source_path": "tools/dual_rig_bench.sh",
+    "sha256": "9d95f8eedfe06f4e85e285b1953fc7ce32a1e32ce6b7214c246e371999ff60ab",
+    "archived_path": "archive/experiment_sources_20261124/llm-gateway/dual_rig_bench.sh.txt"
+  },
+  {
+    "source_repository": "llm_orchestration",
+    "source_path": "shared/scripts/rig/experiments/nemotron_bolt_expert_sweep.py",
+    "sha256": "fb4849685d430d32851d9516fdb9b36f668dc2fc11b30d65432c7234110b754c",
+    "archived_path": "archive/experiment_sources_20261124/llm_orchestration/nemotron_bolt_expert_sweep.py.txt"
+  },
+  {
+    "source_repository": "llm_orchestration",
+    "source_path": "shared/scripts/rig/experiments/qwen3_coder_next_expert_sweep.py",
+    "sha256": "06fb5f81f8343ae96f43d0151f51e8fd8b8fc73aadb9c8c510358c2660946da3",
+    "archived_path": "archive/experiment_sources_20261124/llm_orchestration/qwen3_coder_next_expert_sweep.py.txt"
+  },
+  {
+    "source_repository": "llm_orchestration",
+    "source_path": "shared/scripts/rig/experiments/qwen3_coder_next_expert_split.sh",
+    "sha256": "b69d972578b49eb986dfa25f9c7ab7430e6bf37a62c3ce70634a3e078e62b285",
+    "archived_path": "archive/experiment_sources_20261124/llm_orchestration/qwen3_coder_next_expert_split.sh.txt"
+  }
+]

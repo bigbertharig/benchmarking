@@ -1,5 +1,5 @@
 {
-  "imported_at": "2026-11-21T06:35:08+00:00",
+  "imported_at": "2026-11-25T07:27:19+00:00",
   "schema_version": 1,
   "servers": {
     "gateway_reset": {
@@ -10,6 +10,35 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmation": {
+                "enum": [
+                  "restart gateway",
+                  "restart pi-gateway"
+                ],
+                "type": "string"
+              },
+              "recovery_note": {
+                "maxLength": 1000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "request_id": {
+                "description": "Reuse the same ID when reconciling an interrupted request.",
+                "pattern": "^[A-Za-z0-9]{1,64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "confirmation",
+              "recovery_note",
+              "request_id"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "affc0f22a956c71f5e2a23796599b95f0ee545e6e6255ada751cb71e3c63e9db",
           "name": "restart_gateway_and_resume"
         }
       ]
@@ -22,30 +51,214 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "repository": {
+                "maxLength": 250,
+                "minLength": 3,
+                "type": "string"
+              }
+            },
+            "required": [
+              "repository"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "812ca72dfabef9e8427b83682492b609bc354e885404e944dff05385eec7ddef",
           "name": "inspect_github_repo"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "maxLength": 300,
+                "type": "string"
+              },
+              "repository": {
+                "maxLength": 250,
+                "minLength": 3,
+                "type": "string"
+              },
+              "revision": {
+                "maxLength": 40,
+                "minLength": 40,
+                "type": "string"
+              }
+            },
+            "required": [
+              "repository",
+              "revision"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "cd07fc5d4eb58c7be8db83e1670507d9ef16711aa6ba1a69f15b7ea3e0793b52",
           "name": "list_github_directory"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "name_contains": {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              "repository": {
+                "maxLength": 250,
+                "minLength": 3,
+                "type": "string"
+              },
+              "revision": {
+                "maxLength": 40,
+                "minLength": 40,
+                "type": "string"
+              }
+            },
+            "required": [
+              "repository",
+              "revision",
+              "name_contains"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "6deb33d16fb88990286781bce0fcfc7517ddfbb8e7098a59d9282c486e6a4771",
           "name": "find_github_files"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "max_lines": {
+                "maximum": 300,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              },
+              "repository": {
+                "maxLength": 250,
+                "minLength": 3,
+                "type": "string"
+              },
+              "revision": {
+                "maxLength": 40,
+                "minLength": 40,
+                "type": "string"
+              },
+              "start_line": {
+                "maximum": 50000,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "repository",
+              "revision",
+              "path"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "f9b252a42047f3c6b5a4a699dc251c783d61767b339944fbad5ed91db3787741",
           "name": "read_github_file"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "repository": {
+                "maxLength": 250,
+                "minLength": 3,
+                "type": "string"
+              },
+              "revision": {
+                "maxLength": 40,
+                "minLength": 40,
+                "type": "string"
+              }
+            },
+            "required": [
+              "repository",
+              "revision"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "ce5ab3c8b0c97fbc89248b97cbd86ec7a2c893c447a85d600cf609d235d28bae",
           "name": "get_github_commit"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "base": {
+                "maxLength": 40,
+                "minLength": 40,
+                "type": "string"
+              },
+              "head": {
+                "maxLength": 40,
+                "minLength": 40,
+                "type": "string"
+              },
+              "repository": {
+                "maxLength": 250,
+                "minLength": 3,
+                "type": "string"
+              }
+            },
+            "required": [
+              "repository",
+              "base",
+              "head"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "f959cc9a079105b45be8d6cbeb9b2bb1e7136b9b331b3b4e73b55c9efd584caa",
           "name": "compare_github_revisions"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "limit": {
+                "maximum": 20,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              },
+              "repository": {
+                "maxLength": 250,
+                "minLength": 3,
+                "type": "string"
+              },
+              "revision": {
+                "maxLength": 40,
+                "minLength": 40,
+                "type": "string"
+              }
+            },
+            "required": [
+              "repository",
+              "revision",
+              "path"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "397b10b94f1f11af127fbb4a2dc4a7ce23af2767fba3d31ca075f31e843fe7a4",
           "name": "get_github_file_history"
         }
       ]
@@ -58,58 +271,536 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "limit": {
+                "maximum": 20,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "query": {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "218daf139fc347873f7e2e76b0267573859be9162616474c6a27cf9b15785c6e",
           "name": "search_mail"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "message_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "message_id"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "9759ca21ffd6d90a179ffd99010687973fb7248074e328e64143d342b8d4f1a4",
           "name": "read_mail"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "body": {
+                "maxLength": 50000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              },
+              "subject": {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              "to": {
+                "maxLength": 320,
+                "minLength": 3,
+                "type": "string"
+              }
+            },
+            "required": [
+              "to",
+              "subject",
+              "body",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "e0537e34ce9bc6ea39f755d83afe38954daabb16eafedbedd4d2aa6ace42ce64",
           "name": "send_email"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "limit": {
+                "maximum": 20,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "query": {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "218daf139fc347873f7e2e76b0267573859be9162616474c6a27cf9b15785c6e",
           "name": "search_drive"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "file_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "file_id"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "083a6cb1f2d414910d3baf4fb07402c9b7eda0e2720f6393013fd4007724f7c0",
           "name": "read_drive_text"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string"
+              },
+              "parent_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "bafa58c7ae78b47961cc552436a266be6b387bb73ce8f8492ef0b68a4951290f",
           "name": "create_drive_folder"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "content": {
+                "maxLength": 50000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "folder_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "mime_type": {
+                "enum": [
+                  "text/plain",
+                  "text/markdown",
+                  "text/csv",
+                  "application/json"
+                ],
+                "type": "string"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "content",
+              "mime_type",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "b4626f0bdc4352c78adb3c4c62e6a97a97f8e71797aa60efe4c55c77bf35e53a",
           "name": "upload_drive_text"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "folder_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "mime_type": {
+                "enum": [
+                  "image/png",
+                  "image/jpeg",
+                  "image/webp"
+                ],
+                "type": "string"
+              },
+              "name": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string"
+              },
+              "path": {
+                "maxLength": 4096,
+                "minLength": 1,
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "name",
+              "mime_type",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "38e41bcd52a08e819c885cbc388beda0de07c6f858c9fce5f6921cdf5deb9498",
           "name": "upload_drive_image"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "folder_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "initial_text": {
+                "maxLength": 50000,
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              },
+              "title": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "0d1896c8ac9870bbc55f624d9e485939d329fe8bf977c19bc88320b3de74a800",
           "name": "create_google_doc"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "document_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              },
+              "text": {
+                "maxLength": 50000,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "document_id",
+              "text",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "1d249a05c1b6f45063420abc6b4cd116b57a092bc2c40ab4d19366bded023f2b",
           "name": "append_google_doc_text"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "folder_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              },
+              "sheet_title": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              "title": {
+                "maxLength": 255,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "55cb7def0ba85bb6c59b3432be720ebf9fda3750aa273b782e2afca14cf91e05",
           "name": "create_google_sheet"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "range": {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              "spreadsheet_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "spreadsheet_id",
+              "range"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "e0b2ba6c9fb0bd3172706bea0393c8de1b890bcd1c74b4142cd0e751ed897560",
           "name": "read_google_sheet"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "range": {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              },
+              "spreadsheet_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "values": {
+                "items": {
+                  "items": {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "maxItems": 30,
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "maxItems": 100,
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "spreadsheet_id",
+              "range",
+              "values",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "1585af58872fb262a7e099d235d1afbc2e9d7404566bc10059dd1340de010c1c",
           "name": "update_google_sheet"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "confirmed": {
+                "const": true,
+                "type": "boolean"
+              },
+              "range": {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              "request_id": {
+                "maxLength": 128,
+                "minLength": 8,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+                "type": "string"
+              },
+              "spreadsheet_id": {
+                "maxLength": 128,
+                "minLength": 4,
+                "pattern": "^[A-Za-z0-9_-]{4,128}$",
+                "type": "string"
+              },
+              "values": {
+                "items": {
+                  "items": {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "maxItems": 30,
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "maxItems": 100,
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "spreadsheet_id",
+              "range",
+              "values",
+              "request_id",
+              "confirmed"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "1585af58872fb262a7e099d235d1afbc2e9d7404566bc10059dd1340de010c1c",
           "name": "append_google_sheet_rows"
         }
       ]
@@ -122,10 +813,133 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          },
+          "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
           "name": "list_local_agents"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "candidate_id": {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              "confirmation": {
+                "enum": [
+                  "swap local agent model"
+                ],
+                "type": "string"
+              },
+              "expected_candidate_id": {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              "expected_instance_id": {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "candidate_id",
+              "expected_candidate_id",
+              "expected_instance_id",
+              "confirmation"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "fcd388617e759d44dabe3c2e8638a47e1ffebc52d3ce24854ea4fb7a257e5e2f",
+          "name": "swap_local_agent_model"
+        },
+        {
+          "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "acceptance_criteria": {
+                "description": "Concrete conditions the child result must satisfy.",
+                "maxLength": 2000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "agent_type": {
+                "description": "Choose coding for repository work and research for evidence gathering.",
+                "enum": [
+                  "coding",
+                  "research"
+                ],
+                "type": "string"
+              },
+              "candidate_id": {
+                "description": "Optional candidate returned by list_local_agents; omit to use the loaded shared model.",
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              "context_tokens": {
+                "description": "Requested capacity for a newly attached shared-model chat. Omit to use that candidate's default.",
+                "maximum": 262144,
+                "minimum": 16384,
+                "type": "integer"
+              },
+              "max_tool_calls": {
+                "description": "Maximum tool calls for this task. Use the smallest evidence budget that can complete it.",
+                "maximum": 12,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "minimum_context_tokens": {
+                "description": "Minimum acceptable context capacity.",
+                "maximum": 262144,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "task": {
+                "description": "One bounded, self-contained goal. Include relevant paths, constraints, and the desired output.",
+                "maxLength": 4000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "tool_profile": {
+                "description": "Use workspace_read for current repository files, workspace_git for local history and diffs, public_research for public web evidence, or google_workspace for the dedicated rig account.",
+                "enum": [
+                  "none",
+                  "public_research",
+                  "google_workspace"
+                ],
+                "type": "string"
+              },
+              "verification": {
+                "description": "Checks the child should perform or evidence it should return.",
+                "maxLength": 1000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "worker_strategy": {
+                "description": "auto lets Gateway choose; shared_model requires another context in the loaded model; separate_model requests an independently loaded small model.",
+                "enum": [
+                  "auto",
+                  "shared_model",
+                  "separate_model"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "agent_type",
+              "task"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "c4f9ad5889fc2cec258b1af756b61a90d40630311b0d1d0c2375c9359b7ba55a",
           "name": "delegate_task"
         }
       ]
@@ -138,6 +952,41 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "command": {
+                "maxLength": 4000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "target": {
+                "enum": [
+                  "pi",
+                  "rig",
+                  "worker-11",
+                  "worker-12",
+                  "worker-13",
+                  "worker-14",
+                  "worker-15",
+                  "worker-16",
+                  "worker-17"
+                ],
+                "type": "string"
+              },
+              "timeout_seconds": {
+                "maximum": 120,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "target",
+              "command"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "2c1b06b5dd3bca34a2105dcaa91a50fed612cbd9bae9752805111e133a4855ac",
           "name": "run_local_command"
         }
       ]
@@ -150,6 +999,31 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "command": {
+                "maxLength": 4000,
+                "minLength": 1,
+                "type": "string"
+              },
+              "host": {
+                "description": "IPv4 address in the configured private network",
+                "type": "string"
+              },
+              "timeout_seconds": {
+                "maximum": 120,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "host",
+              "command"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "6922a35c14b9b2e38f34e20e6d9b0838a2a579961e7268899a7ca78ab72787bb",
           "name": "run_private_command"
         }
       ]
@@ -162,26 +1036,75 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          },
+          "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
           "name": "get_rig_status"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          },
+          "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
           "name": "get_model_status"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          },
+          "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
           "name": "get_benchmark_status"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          },
+          "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
           "name": "get_orchestration_status"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          },
+          "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
           "name": "get_orchestration_diagnostics"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "after": {
+                "description": "Cursor from a previous page",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "batch_id": {
+                "description": "Active or recently finished batch ID",
+                "type": "string"
+              }
+            },
+            "required": [
+              "batch_id"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "b5f8cce71278c204bac5ce1257b6ed194bdb1029320aa827819fd9c84186e873",
           "name": "get_orchestration_activity"
         }
       ]
@@ -194,10 +1117,67 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "max_results": {
+                "maximum": 10,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "min_results": {
+                "maximum": 10,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "provider": {
+                "enum": [
+                  "auto",
+                  "searxng",
+                  "duckduckgo",
+                  "tavily",
+                  "exa",
+                  "firecrawl",
+                  "serpapi"
+                ],
+                "type": "string"
+              },
+              "query": {
+                "maxLength": 300,
+                "minLength": 3,
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "6a2790e04cef1675836e0ebece5d28cf6ac50a6263939840264498993afa461d",
           "name": "search_web"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "max_chars": {
+                "maximum": 20000,
+                "minimum": 500,
+                "type": "integer"
+              },
+              "url": {
+                "maxLength": 2048,
+                "minLength": 12,
+                "type": "string"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "9e1a1bc9950562c247c7e224db91bad06adce47e029cd0b22a0c4c22935e5926",
           "name": "fetch_page"
         }
       ]
@@ -210,30 +1190,155 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          },
+          "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
           "name": "get_workspace_git_status"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "limit": {
+                "maximum": 20,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "input_schema_sha256": "e852597f6b748bcc74c22e1b588453189270a04e37de72b4eafcbdd611075588",
           "name": "get_workspace_git_log"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              },
+              "staged": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "079527ed5fc0dc5b81d8b0c15e32f41eb0797cc22e9dc90bb1ddc0a8664fb2d4",
           "name": "get_workspace_git_diff"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "revision": {
+                "maxLength": 40,
+                "minLength": 4,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "input_schema_sha256": "8d4e4086baa9f31e510c921d1a8a263d992d8798630f4f3ee88cde703486c4f2",
           "name": "get_workspace_git_commit"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "base": {
+                "maxLength": 40,
+                "minLength": 4,
+                "type": "string"
+              },
+              "head": {
+                "maxLength": 40,
+                "minLength": 4,
+                "type": "string"
+              },
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "base",
+              "head"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "d58ff0927294194a15231149eecc335b5ae53422e47ab9f67977f079431ad8bd",
           "name": "compare_workspace_git_revisions"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "max_lines": {
+                "maximum": 300,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "maxLength": 40,
+                "minLength": 4,
+                "type": "string"
+              },
+              "start_line": {
+                "maximum": 50000,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "revision",
+              "path"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "f9cc85d62efb60b67c8f97e42875ce1f2943116742dbfd56b92e438891981ab5",
           "name": "read_workspace_file_at_revision"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "limit": {
+                "maximum": 20,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "3f42c5e23c3f74b1fa49c8e09dc80b6bee5c2003f684276910de915e6b48d775",
           "name": "get_workspace_file_history"
         }
       ]
@@ -246,22 +1351,144 @@
       "tools": [
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "max_entries": {
+                "maximum": 100,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "path": {
+                "maxLength": 300,
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "input_schema_sha256": "17d72aa42a86e0f36f7e6ccd86a2c85c0dafd3442aa19808e0fda79c60977082",
           "name": "list_workspace_files"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "max_results": {
+                "maximum": 100,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "name_contains": {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              "path": {
+                "maxLength": 300,
+                "type": "string"
+              }
+            },
+            "required": [
+              "name_contains"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "ed18081c3f301ccf6938dd61137979a741c230943d34cb292d2adbf15c5d0cdc",
           "name": "find_workspace_files"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "max_chars": {
+                "maximum": 12000,
+                "minimum": 100,
+                "type": "integer"
+              },
+              "max_lines": {
+                "maximum": 500,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              },
+              "start_line": {
+                "maximum": 50000,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "725e5675a0ee64d2a4d51e9ebf4224eeb203d8796e40eecb280937b3b8ae1e50",
           "name": "read_workspace_file"
         },
         {
           "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "cursor": {
+                "maximum": 1000000,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "max_chars": {
+                "maximum": 12000,
+                "minimum": 100,
+                "type": "integer"
+              },
+              "path": {
+                "maxLength": 300,
+                "minLength": 1,
+                "type": "string"
+              },
+              "snapshot_sha256": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "3ab00e1b89608d6071fdf40860e0f79bd00ff1c7be465b25287baaae59a44156",
+          "name": "read_workspace_document_chunk"
+        },
+        {
+          "approval": "automatic",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "maxLength": 300,
+                "type": "string"
+              },
+              "query": {
+                "maxLength": 100,
+                "minLength": 2,
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "type": "object"
+          },
+          "input_schema_sha256": "b6465a262d96a0666b4d40afb12b198ea1297e2eb937c689d7a9e8c9a8195f8c",
           "name": "search_workspace_text"
         }
       ]
     }
   },
-  "source_sha256": "4d333e4b85c55a828ce96008b56f3330e8620742aef7e225fca0288cf4ffba57"
+  "source_sha256": "5d94c30b3229f4358a02875d066f11928c231dc6468dc6bbe1763f99abfe6191"
 }

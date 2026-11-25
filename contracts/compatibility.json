@@ -1,0 +1,16 @@
+{
+  "schema": "product-compatibility/1",
+  "standalone_requires_other_products": false,
+  "provides": [
+    "benchmark-endpoint/1",
+    "benchmark-exact-match/1",
+    "benchmark-runtime-campaign/1"
+  ],
+  "optional_consumes": [
+    "rig-lifecycle/1",
+    "rig-power-check/1",
+    "rig-model-path/1",
+    "OpenAI-compatible chat completions",
+    "rig_search package"
+  ]
+}

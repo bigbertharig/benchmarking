@@ -62,3 +62,17 @@ def resolve_model_path(path: str) -> str:
             or not Path(resolved).is_absolute()):
         raise RuntimeError("Orchestration returned invalid model-path identity")
     return resolved
+
+
+def lifecycle(operation: str, *, request_id: str, controller: str, **fields) -> dict:
+    command = json.loads(os.environ.get('BENCHMARK_ORCHESTRATION_COMMAND', '["rig"]'))
+    if not isinstance(command, list) or not command or not all(isinstance(v,str) and v and '\x00' not in v for v in command):
+        raise ValueError('BENCHMARK_ORCHESTRATION_COMMAND must be a nonempty JSON argv array')
+    packet = dict(schema='rig-lifecycle/1', operation=operation, request_id=request_id, controller=controller, **fields)
+    result = subprocess.run([*command,'api','--request',json.dumps(packet)],capture_output=True,text=True,timeout=1200)
+    payload = json.loads(result.stdout)
+    if not isinstance(payload,dict) or payload.get('schema') != 'rig-lifecycle/1' or payload.get('operation') != operation or type(payload.get('ok')) is not bool:
+        raise RuntimeError('unsupported lifecycle receipt')
+    if result.returncode or not payload['ok']:
+        raise RuntimeError('Orchestration refused '+operation+': '+str(payload.get('kind'))+' '+str(payload.get('message')))
+    return payload

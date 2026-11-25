@@ -26,7 +26,8 @@
       "tests/test_runtime_matrix.py",
       "tests/test_suggest_p45.py",
       "tests/test_suite_contract.py",
-      "tests/test_run_lm_eval_target.py"
+      "tests/test_run_lm_eval_target.py",
+      "tests/test_runtime_campaign_boundary.py"
     ]
   },
   "capacity": {
@@ -46,7 +47,8 @@
       "tests/test_dataimport_suite.py",
       "tests/test_geoimport_suite.py",
       "tests/test_knowledge_suite.py",
-      "tests/test_runtime_suite.py"
+      "tests/test_runtime_suite.py",
+      "tests/test_endpoint_suite.py"
     ]
   },
   "test_infrastructure": {

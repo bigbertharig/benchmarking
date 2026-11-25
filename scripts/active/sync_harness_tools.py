@@ -29,8 +29,12 @@ def load_source(path: Path) -> dict:
             raise ValueError(f"invalid tools for {server}")
         names = []
         for tool in entry["tools"]:
-            if not isinstance(tool, dict) or set(tool) != {"name", "approval"}:
+            if not isinstance(tool, dict) or set(tool) not in ({"name", "approval"}, {"name", "approval", "input_schema", "input_schema_sha256"}):
                 raise ValueError(f"invalid tool entry for {server}")
+            if 'input_schema' in tool:
+                digest = hashlib.sha256(json.dumps(tool['input_schema'],sort_keys=True,separators=(',',':')).encode()).hexdigest()
+                if not isinstance(tool['input_schema'],dict) or tool.get('input_schema_sha256') != digest:
+                    raise ValueError(f'invalid schema digest for {server}')
             name = tool["name"]
             if not isinstance(name, str) or not name.isidentifier() or tool["approval"] not in VALID_APPROVALS:
                 raise ValueError(f"invalid tool name or approval for {server}")

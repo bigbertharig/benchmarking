@@ -24,3 +24,16 @@ def test_tool_catalog_validates_and_reports_changes(tmp_path):
     assert imported["source_sha256"]
     imported["servers"]["rig_search"]["tools"][0]["approval"] = "automatic"
     assert sync.changed(sync.projection(source), imported)["changed"] == ["rig_search.search_web"]
+
+
+def test_invalid_schema_digest_preserves_last_valid_snapshot(tmp_path, monkeypatch):
+    import pytest
+    destination = tmp_path / 'current.json'
+    destination.write_text('{"last_valid":true}')
+    source = tmp_path / 'invalid.json'
+    source.write_text(json.dumps({'schema_version':1,'servers':{'fixture':{'tools':[
+        {'name':'read','approval':'automatic','input_schema':{'type':'object'},'input_schema_sha256':'wrong'}]}}}))
+    monkeypatch.setattr(sync, 'DESTINATION', destination)
+    monkeypatch.setattr('sys.argv', ['sync', '--source', str(source), 'sync'])
+    with pytest.raises(SystemExit): sync.main()
+    assert destination.read_text() == '{"last_valid":true}'

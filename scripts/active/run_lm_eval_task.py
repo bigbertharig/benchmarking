@@ -38,25 +38,11 @@ def default_benchmark_python() -> str:
     configured = os.environ.get("BENCHMARK_PYTHON", "").strip()
     if configured:
         return configured
-    candidates = [
-        Path.home() / "llm-orchestration-venv" / "bin" / "python",
-    ]
-    for candidate in candidates:
-        if candidate.exists() and python_has_module(str(candidate), "lm_eval"):
-            return str(candidate)
-    for candidate in candidates:
-        if candidate.exists():
-            return str(candidate)
-    if python_has_module(sys.executable, "lm_eval"):
-        return sys.executable
     return sys.executable
 
 
 def default_output_dir() -> str:
-    media_path = Path("/media/bryan/shared/logs/benchmarks")
-    if media_path.exists():
-        return str(media_path)
-    return "/mnt/shared/logs/benchmarks"
+    return str(Path(os.environ.get('BENCHMARK_OUTPUT_DIR', 'results/lm-eval')).resolve())
 
 
 def load_tests(path: Path) -> dict[str, dict[str, str]]:

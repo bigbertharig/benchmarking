@@ -2,9 +2,10 @@
 # Reusable smoke stage: wait for an existing Phase 4 run, or load a named mode and run it.
 set -euo pipefail
 
-repo=/mnt/shared/plans/shoulders/benchmarking
-logs=/mnt/shared/logs/benchmarks
-mode_cli=/home/bryan/llm_orchestration/shared/scripts/rig/model_modes.py
+repo=$(cd "$(dirname "$0")/../.." && pwd)
+logs="${BENCHMARK_OUTPUT_DIR:-$repo/results/mode-smoke}"
+control="$repo/scripts/integration/local_runtime.py"
+mkdir -p "$logs"
 
 check_stages() {
   local wrapper=$1 stage
@@ -35,16 +36,18 @@ case "${1:-}" in
     model=$2 mode=$3 port=$4 tag=$5
     if [[ $# -eq 7 ]]; then
       case "$6" in
-        --stop-container)
-          if docker container inspect "$7" >/dev/null 2>&1; then
-            /home/bryan/llm_orchestration/shared/scripts/llama_runtime/stop_runtime.sh "$7"
-          fi
-          ;;
-        --stop-profile) rig stop "$7" ;;
+        --stop-container) echo 'Container control belongs to Orchestration; supply --stop-profile ID' >&2; exit 64 ;;
+        --stop-profile) python3 "$control" stop --profile "$7" ;;
         *) echo "unknown stop option $6" >&2; exit 64 ;;
       esac
     fi
-    python3 "$mode_cli" start "$model" "$mode" --port "$port"
+    [[ -f "$mode" ]] || { echo 'MODE must be an explicit local profile JSON file' >&2; exit 64; }
+    profile="smoke-${tag}-$(date +%s)"
+    python3 "$control" register --profile "$profile" --spec "$mode"
+    python3 "$control" load --profile "$profile" > "$logs/${profile}.load.json"
+    actual_port=$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(next(p["port"] for p in d["observation"]["profiles"] if p["id"]==sys.argv[2]))' "$logs/${profile}.load.json" "$profile")
+    trap 'python3 "$control" stop --profile "$profile"' EXIT
+    [[ "$actual_port" == "$port" ]] || { echo 'Requested port differs from admitted port' >&2; exit 1; }
     wrapper="$logs/placement_${tag}.log"
     [[ ! -e "$wrapper" ]] || { echo "smoke log already exists: $wrapper" >&2; exit 1; }
     cd "$repo"

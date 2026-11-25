@@ -220,14 +220,9 @@ See [model-library contract](MODEL_LIBRARY_CONTRACT.md) for the artifact, import
 
 ## Implementation status
 
-Implemented: the [inspection client](scripts/integration/README.md#installed-orchestration-inspection-client)
-uses the public runtime CLI for power checks and explicit path resolution, removing those
-private imports/script paths. Capacity/infrastructure suites pass 32 tests. Remaining
-managed launchers, standalone lifecycle integration and script relocation are still pending.
-
-The following cleanup is Planned until its tests and receipts are recorded:
-
-- Separate endpoint-only evaluation from managed hardware adapters.
-- Replace private imports and sibling-script calls with supported runtime operations.
-- Move comparative experiment runners here with their callers, tests and historical evidence.
-- Verify an isolated install using a fake provider before live measurements.
+Implemented and tested: endpoint-only evaluation with local model provenance, strict public
+runtime inspection/lifecycle clients, fail-closed managed leases, owned-profile launcher cleanup,
+portable runtime campaigns and relocated search comparisons. The full registered suites pass
+179 tests plus 58 subtests. Endpoint acceptance uses a fresh HOME, a fake HTTP provider and a
+model absent from the registry. Historical site-specific experiment source is archived with
+hashes; measurements were not relabeled. See [standalone operations](docs/STANDALONE.md).
