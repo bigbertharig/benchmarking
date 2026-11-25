@@ -54,3 +54,8 @@ The model export and local projections are Active. Unified evidence selection, r
 tool-schema digests and integrated release compatibility records remain Planned.
 Benchmarking correctness tests belong in this repository; comparative evaluations also
 record provider/runtime identity, settings, test revision and durable results.
+
+For managed campaigns, the scheduler passes the exact suite Docker launch argv to each
+recording process through `BENCHMARK_REPRODUCE_COMMAND_JSON`; an explicit
+`--reproduce-command-json` still overrides it. Direct runs must supply a replay argv
+if they want one displayed. Historical records without a command remain unknown.

@@ -635,6 +635,10 @@ def build_suite_cmd(block: BlockState, runtime: Runtime) -> List[str]:
     else:
         raise ValueError(f"Unsupported suite: {suite}")
 
+    # Preserve the exact managed launch before adding the provenance environment
+    # variable, so the recorded command is replayable and cannot contain itself.
+    replay_argv = json.dumps(cmd, separators=(",", ":"))
+    cmd[2:2] = ["-e", f"BENCHMARK_REPRODUCE_COMMAND_JSON={replay_argv}"]
     return cmd
 
 

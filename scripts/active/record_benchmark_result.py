@@ -102,7 +102,8 @@ def main() -> int:
     ap.add_argument("--config-id", default="")
     ap.add_argument("--config-json", default="{}")
     ap.add_argument("--hardware-id", default="")
-    ap.add_argument("--reproduce-command-json", default="", help="Exact reviewed argv for replay; omit when unavailable")
+    ap.add_argument("--reproduce-command-json", default=os.environ.get("BENCHMARK_REPRODUCE_COMMAND_JSON", ""),
+                    help="Exact reviewed argv for replay; omit when unavailable")
     add_optional_float(ap, "--prompt-tps", "Prompt processing tokens/second")
     add_optional_float(ap, "--generation-tps", "Generation tokens/second")
     add_optional_float(ap, "--ttft-seconds", "Time to first token")

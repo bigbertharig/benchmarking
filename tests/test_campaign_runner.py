@@ -66,6 +66,9 @@ class CampaignRunnerTests(unittest.TestCase):
                 self.assertIn("http://localhost:11434", command)
                 self.assertNotIn("--gguf", command)
                 self.assertIn("HOME=/tmp/benchmark-home", command)
+                self.assertEqual(command[2], "-e")
+                replay = json.loads(command[3].removeprefix("BENCHMARK_REPRODUCE_COMMAND_JSON="))
+                self.assertEqual(replay, command[:2] + command[4:])
                 self.assertTrue(any(value.startswith("HF_HOME=") for value in command))
                 self.assertIn(
                     f"{RUNNER.TUNING_PROFILES_PATH}:/benchmark-scripts/model_tuning_profiles.json:ro",

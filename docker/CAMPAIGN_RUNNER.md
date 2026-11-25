@@ -25,7 +25,8 @@ before submission; the model-library source hash is checked against its canonica
 contents. Use `--rig-campaign-package-root /opt/benchmarking-campaign` when
 submitting from the controller package. The existing `--rig-benchmarking-root`
 alias remains available for source checkouts. Managed campaigns still require
-configured rig control and installed suite container images on the target rig.
+configured rig control and installed suite container images on the target rig. The scheduler
+records each suite's exact Docker argv in new benchmark evidence for replay.
 
 ## Simple model-and-suite request
 
