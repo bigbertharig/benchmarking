@@ -42,6 +42,20 @@ class ModelLibraryTests(unittest.TestCase):
         self.assertEqual(r["system_prompt"], default["system_prompt"])
         self.assertEqual(r["tensor_split"], "4,1")
 
+    def test_qwen_interactive_sampler_is_in_startup_profile_only(self):
+        interactive = ML.resolve("qwen3.8:27b", "interactive", self.registry)
+        baseline = ML.resolve("qwen3.8:27b", "default", self.registry)
+        args = interactive["extra_args"]
+        values = dict(zip(args[::2], args[1::2]))
+        self.assertEqual(values["--reasoning"], "off")
+        for field, flag in [("temperature", "--temp"), ("top_p", "--top-p"),
+                            ("top_k", "--top-k"), ("min_p", "--min-p"),
+                            ("presence_penalty", "--presence-penalty"),
+                            ("repeat_penalty", "--repeat-penalty")]:
+            self.assertEqual(float(values[flag]), interactive["inference"][field])
+        self.assertEqual(baseline["inference"]["temperature"], 0.0)
+        self.assertEqual(baseline["extra_args"], ["--reasoning", "on"])
+
     def test_alias_lookup_returns_canonical_model(self):
         self.assertEqual(ML.resolve("qwen2.5:14b", registry=self.registry)["model"], "qwen2.5-coder:14b")
 

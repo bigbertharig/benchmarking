@@ -1985,9 +1985,29 @@
           },
           "extra_args": [
             "--reasoning",
-            "off"
+            "off",
+            "--temp",
+            "0.7",
+            "--top-p",
+            "0.8",
+            "--top-k",
+            "20",
+            "--min-p",
+            "0",
+            "--presence-penalty",
+            "1.5",
+            "--repeat-penalty",
+            "1"
           ],
-          "notes": "Validated 65K Harness/subagent route on GPU0 with reasoning off for bounded, visible tool-task finalization. Two reasoning-on supervised runs consumed the 1536-token terminal budget without visible answer text; the Harness correctly failed closed after its one repair. The benchmark default keeps reasoning on for maximum quality scores. The measured ordinary single-GPU capacity ceiling is 226048 positions; shared-weight multi-chat placement remains a separate experimental recipe."
+          "notes": "Validated 65K Harness/subagent route on GPU0 with reasoning off for bounded, visible tool-task finalization. Two reasoning-on supervised runs consumed the 1536-token terminal budget without visible answer text; the Harness correctly failed closed after its one repair. The benchmark default keeps reasoning on for maximum quality scores. The measured ordinary single-GPU capacity ceiling is 226048 positions; shared-weight multi-chat placement remains a separate experimental recipe. Sampling defaults are owned by this Benchmarking profile and passed as llama-server startup arguments: temperature 0.7, top-p 0.8, top-k 20, min-p 0, presence penalty 1.5, repeat penalty 1. Evidence: llm-harness/docs/research/qwen38_sampler_and_tool_contract_2026-11-24.md; a bounded interactive trial, not a universal quality claim. Harness requests inherit runtime defaults.",
+          "inference": {
+            "temperature": 0.7,
+            "top_p": 0.8,
+            "top_k": 20,
+            "min_p": 0.0,
+            "presence_penalty": 1.5,
+            "repeat_penalty": 1.0
+          }
         }
       },
       "model_size_bytes": 16464440224,
