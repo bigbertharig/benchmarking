@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -14,6 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from build_campaign_request import ROOT, compile_request
+from build_campaign_bundle import verify as verify_bundle
 from export_model_library import build as build_export
 
 
@@ -36,7 +38,14 @@ def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
     source_hash = source.get("source_sha256")
     if not source_hash:
         raise ValueError("Benchmarking model export has no source hash; regenerate it before submitting")
-    if build_export()["source_sha256"] != source_hash:
+    if (ROOT / "campaign_bundle.json").exists():
+        verify_bundle(ROOT)
+        payload = {key: value for key, value in source.items() if key != "source_sha256"}
+        canonical_hash = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                                                   ensure_ascii=True).encode("utf-8")).hexdigest()
+        if canonical_hash != source_hash:
+            raise ValueError("Benchmarking model export has an invalid source hash")
+    elif build_export()["source_sha256"] != source_hash:
         raise ValueError("Benchmarking model export is stale; regenerate it before submitting")
     relative_dir = Path("logs/benchmarks/campaigns/requests")
     campaign = compile_request(request, registry, contracts)
@@ -83,8 +92,8 @@ def main() -> int:
                         help="shared storage root as seen by the controller")
     parser.add_argument("--rig-shared-root", type=Path, required=True,
                         help="same shared storage root as seen by the rig")
-    parser.add_argument("--rig-benchmarking-root", type=Path, required=True,
-                        help="Benchmarking checkout path on the rig")
+    parser.add_argument("--rig-benchmarking-root", "--rig-campaign-package-root", type=Path, required=True,
+                        help="Benchmarking campaign package or checkout path on the rig")
     parser.add_argument("--rigctl", type=Path, required=True, help="Gateway rigctl.py on this controller")
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--dry-run", action="store_true", help="compile and print; do not write or submit")

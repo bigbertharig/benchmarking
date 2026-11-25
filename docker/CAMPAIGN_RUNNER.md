@@ -7,11 +7,25 @@ through Gateway's `rigctl` facade, and writes checkpoints and terminal receipts.
 Orchestration resolves the local model, admits hardware and runs the model. The runner no longer reads a model
 library mirror under `/mnt/shared/agents`.
 
-Before submission, run `python3 scripts/active/export_model_library.py check`
-and sync the reviewed export to Gateway and Orchestration through their normal
-import commands. The rig must have a Benchmarking checkout available. Pass
-its path explicitly with `submit_campaign_request.py --rig-benchmarking-root`;
-a mounted shared checkout and a rig-local checkout are both supported.
+Before submission from a source checkout, run `python3 scripts/active/export_model_library.py check`
+and sync the reviewed export to any optional consumers through their normal import commands.
+For a rig without a Benchmarking checkout, build the portable campaign package and
+copy the zip to both the controller and rig, then extract it into a stable directory:
+
+```bash
+python3 scripts/active/build_campaign_bundle.py build /tmp/benchmarking-campaign.zip
+python3 -m zipfile -e /tmp/benchmarking-campaign.zip /opt
+python3 /opt/benchmarking-campaign/scripts/active/build_campaign_bundle.py verify /opt/benchmarking-campaign
+```
+
+The package contains the runner, submission entry point, registry, suite contracts,
+model-library snapshot, and container-mounted suite inputs. It does not need Git
+history or sibling source trees. The installed package verifies its own file hashes
+before submission; the model-library source hash is checked against its canonical
+contents. Use `--rig-campaign-package-root /opt/benchmarking-campaign` when
+submitting from the controller package. The existing `--rig-benchmarking-root`
+alias remains available for source checkouts. Managed campaigns still require
+configured rig control and installed suite container images on the target rig.
 
 ## Simple model-and-suite request
 

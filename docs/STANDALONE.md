@@ -74,3 +74,5 @@ stopped after `power.set`; `recover_runtime_campaign.py` restored 350 W from the
 recorded session ID, stopped the loaded profile and wrote `recovery.json`. The rig
 returned to idle without leases. The registered campaigns suite passed 53 tests and
 10 subtests after the recovery command was added.
+
+Portable managed campaigns can run from an extracted package without a Benchmarking checkout. See [campaign runner](../docker/CAMPAIGN_RUNNER.md) for build, install, verification, and rig-control requirements.
