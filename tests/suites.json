@@ -34,7 +34,8 @@
     "tests": [
       "tests/test_capacity_run.py",
       "tests/test_context_capacity_matrix.py",
-      "tests/test_hardware_inventory.py"
+      "tests/test_hardware_inventory.py",
+      "tests/test_shared_kv_capacity_probe.py"
     ]
   },
   "evaluation_suites": {
