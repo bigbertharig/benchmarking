@@ -2,9 +2,9 @@
 
 `scripts/active/run_campaign.py` is the Benchmarking-owned deterministic
 campaign scheduler. It reads `docker/suite_contracts.json` and the local
-Benchmarking model registry, groups suites by model, asks Gateway to load each
-model, and writes checkpoints and terminal receipts. Orchestration admits the
-requested hardware and runs the model. The runner no longer reads a model
+Benchmarking model registry, groups suites by model, submits load requests
+through Gateway's `rigctl` facade, and writes checkpoints and terminal receipts.
+Orchestration resolves the local model, admits hardware and runs the model. The runner no longer reads a model
 library mirror under `/mnt/shared/agents`.
 
 Before submission, run `python3 scripts/active/export_model_library.py check`
@@ -47,8 +47,7 @@ request contains no GPU IDs. It writes the compiled manifest and a submission
 receipt under shared runtime state at `logs/benchmarks/campaigns/requests/`
 without modifying the Benchmarking source checkout, then calls Gateway's `rigctl run-start --auto-resume`. The output is
 a normal campaign-v1 manifest, so the checkpoint and resume behavior below
-applies unchanged. The manager's run
-record reports one terminal outcome; the runner writes an atomic `status.json`
+applies unchanged. Orchestration's run record reports one terminal outcome; the runner writes an atomic `status.json`
 and raw suite receipts. `scripts/integration/wait_for_campaign_completion.py`
 can deliver a single completion alert from the receipt's `pi_status` without
 repeated LLM status calls:
@@ -95,7 +94,8 @@ The final command resumes the same run. Additional controls:
 --verbose
 ```
 
-The runner reaches the configured Gateway controller over SSH.
+The runner reaches the configured Gateway request facade over SSH. Gateway
+forwards local-runtime operations to the Orchestration controller.
 Set `BENCHMARK_GATEWAY_HOST` and `HARNESS_RIGCTL` for the deployment, then
 verify that route before scheduling model loads.
 
@@ -105,9 +105,10 @@ bounded runs.
 
 ## Manifest
 
-A block names a registry model; the manager loads it from `model_registry.json` (its GGUF, the
-library's one runtime image, the profile's context, batch and extra args). A manifest carries only what
-it overrides. Campaign blocks supply model IDs and optional profile/context/placement overrides; GGUF paths live in the registry.
+A block names a Benchmarking registry model. The runner uses `model_registry.json`
+for its GGUF, runtime image, profile context, batch and extra args. Orchestration
+resolves the corresponding imported profile and owns admission and loading. A
+manifest carries only what it overrides. Campaign blocks supply model IDs and optional profile/context/placement overrides; GGUF paths live in the registry.
 
 ```json
 {
@@ -140,7 +141,7 @@ Required block fields are `id`, `model`, and `suite`. Optional fields:
 
 | Field | Default | Meaning |
 | --- | --- | --- |
-| `gpus` | none: the manager picks | Pinned cards, e.g. `[0, 1, 2, 3]`; `placement: brain` (GPU 0) and `placement: gpu_1_3` mean the same. `single` and `split` are gone |
+| `gpus` | none: Orchestration picks | Pinned cards, e.g. `[0, 1, 2, 3]`; `placement: brain` (GPU 0) and `placement: gpu_1_3` mean the same. `single` and `split` are gone |
 | `suite_args` | `[]` | Suite-owned flags only |
 | `run_class` | default or `provisional` | Evidence class; no score gate is imposed |
 | `limit` | suite default | Bounded sample count where supported |
@@ -148,7 +149,7 @@ Required block fields are `id`, `model`, and `suite`. Optional fields:
 | `ctx_size` | the registry profile's | Exact context to load at (bench mode loads the profile's otherwise) |
 | `profile` | `default` | Registry profile to load (e.g. a `thinking` variant) |
 | `runtime_args` | none | llama-server arguments after the profile's own `extra_args` |
-| `wait_s` | 7200 | How long the load may wait for busy cards (the manager collects them); -1 waits forever |
+| `wait_s` | 7200 | How long the load may wait for busy cards (Orchestration collects them); -1 waits forever |
 | `hardware_id` | derived from the cards | Optional explicit hardware identity |
 | `env_file` | none | Optional, only for suites that declare support |
 | `runtime_group` | none | Keep one compatible model runtime loaded across consecutive suite blocks |
@@ -203,18 +204,19 @@ model once at its first unfinished block.
 
 ## Scheduling
 
-The runner keeps no model of the rig. For each runtime group it asks the manager to load the model
+The runner keeps no model of the rig. For each runtime group it requests an
+Orchestration-owned model load through Gateway's `rigctl` facade
 (`rigctl load-model MODEL --use benchmark --json --owner campaign-<run-id> --wait <wait_s>`, plus `--gpus`,
 `--ctx`, `--profile`, `--args` only when the block sets them) and runs the group's suites against the port
-the manager answers with. With no cards named the manager picks the fewest that hold the model at its
+Orchestration answers with. With no cards named Orchestration picks the fewest that hold the model at its
 profile's context (it placed Nemotron 3.5 Bolt on GPUs 0-3); busy cards are waited for and collected as
-they free. A refusal (won't fit, the rig busy in another mode, cards never freed) fails the block with the
-manager's reason. The group's model is unloaded (`rigctl unload <profile>`) after its last block, and a
+they free. A refusal (won't fit, the rig busy in another mode, cards never freed) fails the block with
+Orchestration's reason. The group's model is unloaded (`rigctl unload <profile>`) after its last block, and a
 finished or stopped campaign runs `rigctl cancel-owner campaign-<run-id>` so nothing it asked for remains.
 
 One load request is in flight at a time: the rig loads one model at a time anyway, and two multi-card loads
 collecting cards together could each hold cards the other needs. Loaded groups run side by side on
-whatever cards the manager gave them; `--max-active-models` caps how many. `depends_on` supplies strict
+whatever cards Orchestration admitted; `--max-active-models` caps how many. `depends_on` supplies strict
 ordering when required.
 
 ## Preflight and Resume
