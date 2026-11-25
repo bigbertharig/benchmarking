@@ -58,3 +58,19 @@ Orchestration search module is imported.
 Validation: use registered native suites. `evaluation_suites` exercises an isolated copy with
 fresh HOME, a real fake-provider HTTP call and a model absent from the registry. `campaigns`
 checks cleanup and failure receipts; `capacity` checks strict owner inspection consumption.
+
+
+An interrupted power campaign leaves a durable `receipt.json` with original request IDs.
+Run `python scripts/experiments/recover_runtime_campaign.py --receipt PATH` after the
+runner has stopped. Recovery restores its owned power session before stopping its model,
+records a separate `recovery.json`, and refuses to replay an unresolved cleanup request.
+Check the returned power limit and idle runtime before starting new work.
+
+
+November 25 live acceptance: the portable campaign ran five Ministral 3B endpoint
+requests with GPU 0 at 300 W, then restored the configured 350 W cap and stopped its
+model. An injected endpoint failure also restored and stopped. A separate run was
+stopped after `power.set`; `recover_runtime_campaign.py` restored 350 W from the
+recorded session ID, stopped the loaded profile and wrote `recovery.json`. The rig
+returned to idle without leases. The registered campaigns suite passed 53 tests and
+10 subtests after the recovery command was added.

@@ -41,3 +41,27 @@ def test_search_campaign_uses_installed_provider(monkeypatch):
     monkeypatch.setitem(sys.modules,'rig_search',types.ModuleType('rig_search'))
     monkeypatch.setitem(sys.modules,'rig_search.duckduckgo',module)
     assert search.ddg_search('test',1)[0]==[{'url':'https://example.test'}]
+
+
+def test_interrupted_power_campaign_recovery_restores_then_stops(tmp_path):
+    import importlib.util
+    import sys
+    sys.path.insert(0,str(ROOT/'scripts/experiments'))
+    import recover_runtime_campaign as recovery
+    path=tmp_path/'receipt.json'
+    path.write_text(json.dumps({'schema':'benchmark-runtime-campaign-receipt/1','state':'running',
+        'config':{'schema':'benchmark-runtime-campaign/1','controller':'orchestration',
+                  'runtime_command':['rig'],'cases':[{'id':'one','profile_id':'small','gpu_ids':[0]}]},
+        'cases':[{'id':'one'}],
+        'requests':[{'operation':'profile.register','fields':{'profile_id':'small'},'state':'completed'},
+                    {'operation':'load','fields':{'profile_id':'small'},'state':'completed'},
+                    {'operation':'power.set','request_id':'set-one','fields':{'gpu_id':0},'state':'completed'}]}))
+    calls=[]
+    def control(command,operation,controller,**fields):
+        calls.append((operation,fields));return {'ok':True}
+    result=recovery.run(path,control=control)
+    assert result['state']=='complete'
+    assert calls[0][0]=='power.restore' and calls[0][1]['power_session_id']=='set-one'
+    assert calls[1][0]=='stop' and calls[1][1]['profile_id']=='small'
+    assert recovery.run(path,control=control)==result
+    assert len(calls)==2
