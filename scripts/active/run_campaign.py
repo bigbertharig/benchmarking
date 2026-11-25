@@ -224,6 +224,7 @@ class CampaignState:
     started_at: str
     status: str = "running"
     ended_at: Optional[str] = None
+    guard_telemetry: Optional[dict] = None
 
 
 # ---------------------------------------------------------------------------
@@ -678,6 +679,40 @@ def start_suite(block: BlockState, runtime: Runtime) -> subprocess.Popen:
 # Status & Checkpoint
 # ---------------------------------------------------------------------------
 
+GUARD_SAMPLE_INTERVAL_S = 10
+
+
+def sample_owner_guard(state: CampaignState) -> dict:
+    """Keep the owner's policy decision and observed power/temperature in an append-only trail."""
+    sample = {"sampled_at": now_iso(), "source": "rigctl status --json"}
+    try:
+        result = subprocess.run(rigctl_cmd("status", "--json"), capture_output=True,
+                                text=True, check=False, timeout=15)
+        if result.returncode:
+            raise ValueError(f"rigctl status exited {result.returncode}")
+        response = json.loads(result.stdout)
+        guard = response.get("guard")
+        if not isinstance(guard, dict) or guard.get("level") not in ("ok", "warn", "critical"):
+            raise ValueError("owner guard state unavailable")
+        sample.update({"owner_observed_at": response.get("observed_at"),
+                       "from_copy": response.get("from_copy") is True,
+                       "level": guard["level"], "why": guard.get("why"),
+                       "gpu_power_total_w": guard.get("gpu_power_total_w"),
+                       "gpu_temp_max_c": guard.get("gpu_temp_max_c"),
+                       "cpu_package_c": guard.get("cpu_package_c")})
+    except (OSError, ValueError, subprocess.SubprocessError) as exc:
+        sample["level"] = "unavailable"
+        sample["error"] = str(exc)
+    path = HISTORY_ROOT / state.name / state.run_id / "guard_samples.jsonl"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as stream:
+        stream.write(json.dumps(sample, sort_keys=True) + "\n")
+        stream.flush()
+        os.fsync(stream.fileno())
+    state.guard_telemetry = {"latest": sample, "samples": str(path)}
+    return sample
+
+
 def build_status_dict(state: CampaignState) -> Dict[str, Any]:
     """Build the status.json representation."""
     blocks_status = {}
@@ -725,6 +760,7 @@ def build_status_dict(state: CampaignState) -> Dict[str, Any]:
         "started_at": state.started_at,
         "blocks": blocks_status,
         "last_updated": now_iso(),
+        "guard_telemetry": state.guard_telemetry,
     }
 
 
@@ -819,6 +855,7 @@ class Scheduler:
         self.loading_block: Optional[str] = None
         self.load_proc: Optional[subprocess.Popen] = None
         self._shutdown = False
+        self._last_guard_sample = 0.0
 
     def _runtime_group_members(self, group: str) -> List[BlockState]:
         return [
@@ -1103,7 +1140,7 @@ class Scheduler:
             # Unload after the final suite in a group.
             self._end_runtime(bs)
 
-    def shutdown(self) -> None:
+    def shutdown(self, *, reason: str = "campaign shutdown", status: str = "interrupted") -> None:
         """Stop suites, unload runtimes, cancel what the run still owns in the manager, write final state."""
         self._shutdown = True
         log("Shutting down campaign...")
@@ -1130,15 +1167,15 @@ class Scheduler:
 
             if bs.status in (LOADING, RUNNING_SUITE):
                 bs.status = FAILED
-                bs.error = "campaign shutdown"
+                bs.error = reason
                 bs.ended_at = now_iso()
 
         if self.load_proc is not None and self.load_proc.poll() is None:
             self.load_proc.terminate()  # the request only; the manager's own wait is cancelled below
         self.load_proc = self.loading_block = None
         if not self.dry_run:
-            cancel_owner(self.owner, "campaign shutdown")
-        self.state.status = "interrupted"
+            cancel_owner(self.owner, reason)
+        self.state.status = status
         self.state.ended_at = now_iso()
         write_status(self.state)
         write_checkpoint(self.state)
@@ -1162,6 +1199,14 @@ class Scheduler:
         log("")
 
         while not self._shutdown:
+            if not self.dry_run and time.monotonic() - self._last_guard_sample >= GUARD_SAMPLE_INTERVAL_S:
+                sample = sample_owner_guard(self.state)
+                self._last_guard_sample = time.monotonic()
+                if sample.get("level") == "critical" and not sample.get("from_copy"):
+                    reason = "owner hardware guard critical: " + str(sample.get("why") or "unspecified")
+                    log(reason)
+                    self.shutdown(reason=reason, status="thermal_aborted")
+                    break
             self.reap_finished()
 
             if self._all_done():
@@ -1186,7 +1231,9 @@ class Scheduler:
             if not self.dry_run:
                 time.sleep(TICK_INTERVAL)
 
-        if not self.dry_run and not self._shutdown:
+        if self._shutdown:
+            return 1
+        if not self.dry_run:
             cancel_owner(self.owner, "campaign finished")  # nothing should remain; this makes sure
 
         # Final status

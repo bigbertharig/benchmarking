@@ -100,7 +100,17 @@ python3 scripts/active/run_campaign.py campaign.json --run-id run_001
 python3 scripts/active/run_campaign.py campaign.json --run-id run_001
 ```
 
-The final command resumes the same run. Additional controls:
+The final command resumes the same run. A live managed campaign samples the
+Orchestration-owned hardware guard through `rigctl status --json` every 10 seconds.
+Samples are appended with fsync to `guard_samples.jsonl` beside `status.json`,
+and the latest sample is included in status. A fresh owner-reported `critical`
+level stops the campaign, releases its owned work, and writes
+`thermal_aborted` as the terminal status; cached controller copies do not
+trigger this decision. Missing guard data is recorded as `unavailable`, so
+operators can distinguish missing telemetry from an observed safe state.
+Orchestration owns the power and temperature thresholds.
+
+Additional controls:
 
 ```text
 --on-failure continue|stop

@@ -44,6 +44,43 @@ class CampaignRunnerTests(unittest.TestCase):
             setattr(RUNNER, name, value)
         self.addCleanup(lambda: [setattr(RUNNER, n, v) for n, v in originals.items()])
 
+    def test_owner_guard_sample_is_durable_and_visible_in_status(self):
+        with tempfile.TemporaryDirectory() as directory:
+            class Result:
+                returncode = 0
+                stdout = json.dumps({"observed_at": "2026-11-25T00:00:00Z",
+                                     "guard": {"level": "warn", "why": "hot",
+                                               "gpu_power_total_w": 720,
+                                               "gpu_temp_max_c": 83}})
+            self._patch(HISTORY_ROOT=Path(directory))
+            from unittest.mock import patch
+            with patch.object(RUNNER.subprocess, "run", return_value=Result()):
+                state = self._state()
+                sample = RUNNER.sample_owner_guard(state)
+            self.assertEqual(sample["level"], "warn")
+            self.assertEqual(sample["gpu_power_total_w"], 720)
+            self.assertEqual(json.loads(Path(state.guard_telemetry["samples"]).read_text()
+                                        .splitlines()[0])["level"], "warn")
+            self.assertEqual(RUNNER.build_status_dict(state)["guard_telemetry"]["latest"], sample)
+
+    def test_owner_critical_stops_campaign_with_cleanup_receipt(self):
+        block = RUNNER.BlockState("a", {**self._common(), "id": "a",
+                                        "suite": "bench-pipeline"})
+        block.status = RUNNER.WAITING_GPU
+        state = self._state(block)
+        cancelled = []
+        statuses = []
+        self._patch(sample_owner_guard=lambda _: {"level": "critical", "why": "GPU 90 C"},
+                    cancel_owner=lambda owner, reason: cancelled.append((owner, reason)),
+                    write_status=lambda state: statuses.append(state.status),
+                    write_checkpoint=lambda _: None)
+        scheduler = RUNNER.Scheduler(state)
+        self.assertEqual(scheduler.run(), 1)
+        self.assertEqual(state.status, "thermal_aborted")
+        self.assertEqual(statuses[-1], "thermal_aborted")
+        self.assertEqual(cancelled[0][0], "campaign-unit")
+        self.assertIn("critical", cancelled[0][1])
+
     def test_registry_drives_command_for_every_suite(self):
         for suite in sorted(RUNNER.SUPPORTED_SUITES):
             with self.subTest(suite=suite):

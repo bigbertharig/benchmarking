@@ -45,8 +45,10 @@ profile/placement variants through the public lifecycle API. Its configuration s
 `workers`, `max_tokens`, `generation`, and single-GPU `power_watts`.
 Each case loads, measures and stops its own profile. Explicit power experiments are scoped to
 an owned lease and restored by Orchestration. Receipts retain operation evidence and failure
-progress. This runner does not claim historical stress-driver thermal aborts or continuous
-power sampling; these require separate owner telemetry and site acceptance before live use.
+progress. Managed campaigns now sample Orchestration's guard and stop on a fresh owner-reported
+critical level. The separate runtime comparison runner still does not claim
+historical stress-driver thermal aborts or continuous power sampling; those require
+site acceptance before live use.
 
 Former hardcoded hardware experiment source is preserved byte-for-byte with hashes under
 `archive/experiment_sources_20261124`; it is retired executable code, not new measurement
