@@ -1,6 +1,9 @@
 # Standalone products and integration audit
 
-Audited 2026-11-24. Status: **standalone acceptance is proposed; not yet passed**.
+Audited 2026-11-24. Status: **standalone acceptance is Planned; not yet passed**.
+The [accepted ownership contract](../CROSS_REPO_CONTRACT.md) and
+[cleanup plan](../REPOSITORY_CLEANUP_PLAN.md) now govern implementation; findings below
+remain the historical source audit at the listed revisions.
 This is a source and documentation audit, not an isolated installation test. Existing
 integrated test passes do not prove operation without sibling repositories or services.
 
@@ -73,13 +76,13 @@ it must not become a mandatory live service or mandatory source for every user m
 - **MCP: appropriate tool transport; packaging and approval still need work.** A local
   stdio executable is a valid MCP deployment. Requiring a sibling source checkout for
   core behavior is a separate problem. Imported tool-name grants and live schemas exist;
-  reviewed normalized schema digests remain proposed in the cross-repo contract.
-- **Harness task/event/receipt adapter: proposed substitution boundary.**
+  reviewed normalized schema digests were proposed in the audited contract and are now Planned.
+- **Harness task/event/receipt adapter: Planned substitution boundary.**
   `docs/ENGINE_ADAPTERS.md` describes the launch envelope and conformance milestone.
   The active loop has journaling and receipts, but this audit found no completed generic
   engine adapter/conformance layer. Do not advertise interchangeable engines as proven.
 - **Whole-system compatibility: not yet established.** The tested-revision/artifact
-  compatibility manifest is explicitly proposed in `CROSS_REPO_CONTRACT.md`. Shared
+  compatibility manifest was proposed in the audited `CROSS_REPO_CONTRACT.md` and is now Planned. Shared
   `/v1` route prefixes and passing tests at individual HEADs are insufficient evidence.
 
 ## Acceptance work, in order

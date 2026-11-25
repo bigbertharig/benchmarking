@@ -1,23 +1,27 @@
 # Benchmarking
 
-Benchmarking measures local models and runtimes: quality, speed, memory, power, context, and concurrent chats. It owns the model registry, roles, load recipes, test suites, campaigns, and result records. Gateway imports its reviewed evidence for model offers; live scheduling and hardware reservations belong to Gateway and Orchestration.
+Benchmarking owns evaluation tasks, comparative experiments and reproducible evidence for models, runtimes, tools and harnesses. Active suites primarily measure local-model quality, speed, memory, power, context and concurrency. Its registry, roles and recipes describe its published evidence; Orchestration owns executable runtime configuration and physical admission. Broader standalone provider coverage remains Planned.
 
 `load_recipes.json` records evidence-linked configurations. Reviewed model profiles become Gateway offers through its explicit offer generator and sync; a research recipe ID alone never launches a runtime.
 
 ## Project map
 
-Big Bertha runs across a Pi control host, an isolated GPU rig, and optional CPU workers. Four repositories divide the system's work:
+The [cross-repo contract](https://github.com/bigbertharig/benchmarking/blob/master/CROSS_REPO_CONTRACT.md) owns the product division. These are accepted
+responsibilities; the [cleanup plan](https://github.com/bigbertharig/benchmarking/blob/master/REPOSITORY_CLEANUP_PLAN.md) separates active code from pending migration.
+Each product must support a useful standalone workflow with optional integrations.
 
 | Repository | Responsibility |
 |---|---|
-| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Serves the dashboard, conversations, model API, tool policy, and work coordination. Its Manager also coordinates some model placement and loading. |
-| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Observes and controls rig hardware, enforces admission and reservations, and manages model runtimes. |
-| [benchmarking](https://github.com/bigbertharig/benchmarking) | Measures models and runtimes; publishes the model library, roles, load recipes, evaluation suites, and results. |
-| [llm-harness](https://github.com/bigbertharig/llm-harness) | Builds the default project-owned tool and agent layer and defines the integration contract for additional harness engines. |
+| [llm-gateway](https://github.com/bigbertharig/llm-gateway) | Dashboard, conversations, remote access, cloud accounts/connectors, connection configuration, operator approvals and work coordination. |
+| [llm-harness](https://github.com/bigbertharig/llm-harness) | Agent loop, model-facing tools, bounded execution, context, delegation, execution journals and receipts. |
+| [llm_orchestration](https://github.com/bigbertharig/llm_orchestration) | Local executable model profiles, hardware discovery, physical admission, reservations, runtime lifecycle and observation. |
+| [benchmarking](https://github.com/bigbertharig/benchmarking) | Evaluation tasks, comparative experiments, measurements, scores, result history and published model evidence. |
 
-Benchmarking publishes a validated model library. Gateway imports it, serves model routes, and manages dashboard work. Harness supplies reviewed tool schemas and tests model interactions through Gateway routes. Orchestration enforces rig hardware rules and runs admitted model services. [The work-organization guide](https://github.com/bigbertharig/llm-gateway/blob/main/docs/WORK_ORGANIZATION_DIRECTION.md) tracks the remaining Manager-to-Orchestration migration.
-
-Private site configuration supplies host addresses, credentials, model files, and mounts. The published examples use role placeholders. For another card mix, run a hardware survey and validate fit, context, concurrency, and speed before offering a load recipe. The four repositories are joined by versioned artifacts and APIs rather than cross-repo code imports; [the cross-repo contract](CROSS_REPO_CONTRACT.md#portability-and-replaceable-implementations) defines the extension boundaries and the [porting guide](https://github.com/bigbertharig/llm-gateway/blob/main/docs/PORTABILITY.md) gives installation steps.
+Gateway coordinates the connected deployment. Direct clients and standalone callers are
+part of the accepted design. Product state stays with its owner; versioned requests,
+events, receipts and optional artifact imports connect the products. Private site
+configuration supplies addresses, credentials, model files and mounts. The current
+checkout dependencies are tracked in the cleanup plan, not a supported installation contract.
 
 ## Read this repo
 
@@ -61,7 +65,7 @@ Private site configuration supplies host addresses, credentials, model files, an
 | [results/RUNTIME_REFERENCE.md](results/RUNTIME_REFERENCE.md) | every speed, capacity and power measurement (generated from `results/runtime_experiments/`) |
 | [BENCHMARK_LESSONS_LEARNED.md](BENCHMARK_LESSONS_LEARNED.md) | lessons from prior runs |
 
-Ordinary model loads are requested through Gateway. Its current Manager still
+In the active Big Bertha deployment, ordinary model loads are requested through Gateway. Its current Manager still
 handles some admission and placement; the orchestration-owned rig layer enforces
 hardware rules and reports readiness. Complete-capacity reservations and placement
 are moving to that layer. Benchmarking never infers current availability from its
@@ -70,7 +74,7 @@ Experimental Strata and tensor probes may launch an unsupported engine directly
 under a Manager run and card claim; see [TEST_RUNNER_GUIDE.md](TEST_RUNNER_GUIDE.md).
 The suites run on the rig against a mounted copy of this repo; the mount path is deployment-specific.
 
-For a standalone `lm-eval` task, load the model through `rigctl load-model --use benchmark --json`
+For a single `lm-eval` task on the managed rig, load the model through `rigctl load-model --use benchmark --json`
 first and use its ready route in `scripts/active/run_lm_eval_task.py --model-args`.
 Pass `--model-id` with the canonical key from `model_registry.json`; the served route may be a
 profile name and must not become the ledger's model ID. The runner rejects missing model or endpoint

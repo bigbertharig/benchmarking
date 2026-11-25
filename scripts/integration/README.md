@@ -1,5 +1,15 @@
 # Model integration helpers
 
+## Ownership and portability
+
+These scripts are the active managed-rig experiment adapters. Their Gateway/Orchestration
+dependencies are explicit migration work, not prerequisites for all Benchmarking suites.
+Benchmarking owns experiment definitions, measurements and results. Orchestration owns
+physical admission, power policy, leases and runtime effects. Private imports and direct
+sibling-script calls must become supported operations; managed failures must not silently
+fall back to unleased execution. See [the cleanup plan](../../REPOSITORY_CLEANUP_PLAN.md).
+Endpoint-only evaluation and hardware experiments have separate prerequisites and receipts.
+
 Small tools for NEW_MODEL_INTEGRATION.md Phases 4-7, written during the October 2026 brain
 candidate integration. Run them on the rig (they talk to rig-local runtime ports and read
 `/mnt/shared`). Model loads go through `run_runtime.sh`, which holds the rig-wide load lock; the
