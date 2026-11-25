@@ -9,7 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from benchmark_records import SCHEMA_VERSION, best_by_model_test, load_records, now_iso, write_json_atomic
+from benchmark_records import SCHEMA_VERSION, latest_validated_by_model_test, load_records, now_iso, write_json_atomic
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -97,7 +97,20 @@ def main() -> int:
     catalog_path = Path(args.models_catalog).expanduser().resolve()
     output_path = Path(args.output).expanduser().resolve()
     rows = load_records(records_path)
-    selected = best_by_model_test(rows)
+    def with_provenance(row: dict[str, Any]) -> dict[str, Any]:
+        return {
+            **row,
+            "selection_provenance": {
+                "measurement_id": row["run_id"],
+                "methodology_version": (row.get("methodology") or {}).get("version") or "unversioned",
+                "config_hash": (row.get("runtime") or {}).get("config_hash") or None,
+                "suite": row.get("suite"),
+                "runtime_config": (row.get("runtime") or {}).get("config") or {},
+                "command": row.get("command"),
+            },
+        }
+
+    selected = [with_provenance(row) for row in latest_validated_by_model_test(rows)]
     if not selected and not args.allow_empty:
         raise SystemExit(f"refusing to write empty scoreboard from {records_path}")
 
@@ -115,6 +128,7 @@ def main() -> int:
         "record_count": len(rows),
         "selected_count": len(selected),
         "models": load_model_catalog(catalog_path),
+        "selection_policy": "Latest validated/full result per model/test; lower run classes are fallback only. Historical groups remain separate.",
         "selected_per_model_test": selected,
         "model_rollup": build_model_rollup(rows, selected),
         "suite_rollup": build_suite_rollup(rows),

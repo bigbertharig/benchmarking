@@ -43,7 +43,7 @@ class ModelExportContractTest(unittest.TestCase):
                  "run_class": "smoke", "run_at": "2026-10-19T01:00:09Z",
                  "runtime": {"config_id": "reasoning-extract-v4"}},
                 {"model": "m:9b", "test_id": "drop_flexible", "score": 0.6,
-                 "run_class": "smoke", "run_at": "2026-10-19T01:00:00Z",
+                 "run_class": "validated", "run_at": "2026-10-19T01:00:00Z",
                  "runtime": {"config_id": "reasoning-extract-v5"},
                  "extractor_failure_count": 2, "sample_count": 10},
             ]
@@ -68,6 +68,46 @@ class ModelExportContractTest(unittest.TestCase):
             self.assertEqual(first["scores"]["drop"]["unreadable"], 2)
             self.assertEqual(first["runtime"]["decode_tps"], 16.6)
             self.assertEqual(result["models"][-1]["model"], "old:7b")
+
+    def test_summary_labels_incomparable_scores_and_provenance(self):
+        with tempfile.TemporaryDirectory() as work:
+            root = Path(work)
+            (root / "results").mkdir()
+            records = [
+                {"model": "m:9b", "test_id": "bbh_flexible", "score": 0.38,
+                 "run_id": "old", "run_class": "validated", "sample_count": 100,
+                 "run_at": "2026-01-01", "status": "success",
+                 "methodology": {"id": "reasoning", "version": "1.0.0",
+                                 "comparison_group": "extract-v1"},
+                 "runtime": {"config_hash": "hash-old"}},
+                {"model": "m:9b", "test_id": "bbh_flexible", "score": 1.0,
+                 "run_id": "new", "run_class": "validated", "sample_count": 100,
+                 "run_at": "2026-02-01", "status": "success",
+                 "methodology": {"id": "reasoning", "version": "2.0.0",
+                                 "comparison_group": "extract-v2"},
+                 "runtime": {"config_hash": "hash-new"}},
+            ]
+            (root / "results/model_benchmark_records.jsonl").write_text(
+                "\n".join(json.dumps(row) for row in records) + "\n")
+            original = exporter.ROOT
+            try:
+                exporter.ROOT = root
+                result = exporter.summary(
+                    {"models": {"m:9b": {"status": "active", "profiles": {}}}},
+                    {"roles": {}})
+            finally:
+                exporter.ROOT = original
+            model = result["models"][0]
+            self.assertEqual(model["scores"]["bbh"]["score"], 1.0)
+            self.assertEqual(model["scores"]["bbh"]["run_id"], "new")
+            self.assertEqual(model["scores"]["bbh"]["config_hash"], "hash-new")
+            self.assertIsNone(model["scores"]["bbh"]["reproduction"]["command"])
+            groups = model["score_groups"]["bbh"]
+            self.assertEqual([item["run_id"] for item in groups], ["old", "new"])
+            self.assertEqual([item["config_hash"] for item in groups],
+                             ["hash-old", "hash-new"])
+            self.assertEqual([item["methodology"]["version"] for item in groups],
+                             ["1.0.0", "2.0.0"])
 
     def test_dynamic_subagent_requires_a_complete_memory_curve(self):
         registry = {"models": {"m:9b": {}}}

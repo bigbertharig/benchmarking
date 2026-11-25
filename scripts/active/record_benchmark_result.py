@@ -39,6 +39,19 @@ def optional_json(value: str, field: str) -> dict[str, Any]:
     return decoded
 
 
+def command_argv(value: str) -> list[str] | None:
+    if not value.strip():
+        return None
+    try:
+        decoded = json.loads(value)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"--reproduce-command-json must be valid JSON: {exc}") from exc
+    if (not isinstance(decoded, list) or not decoded
+            or any(not isinstance(part, str) or not part for part in decoded)):
+        raise SystemExit("--reproduce-command-json must be a nonempty JSON array of argv strings")
+    return decoded
+
+
 def add_optional_float(ap: argparse.ArgumentParser, name: str, help_text: str) -> None:
     ap.add_argument(name, type=float, default=None, help=help_text)
 
@@ -89,6 +102,7 @@ def main() -> int:
     ap.add_argument("--config-id", default="")
     ap.add_argument("--config-json", default="{}")
     ap.add_argument("--hardware-id", default="")
+    ap.add_argument("--reproduce-command-json", default="", help="Exact reviewed argv for replay; omit when unavailable")
     add_optional_float(ap, "--prompt-tps", "Prompt processing tokens/second")
     add_optional_float(ap, "--generation-tps", "Generation tokens/second")
     add_optional_float(ap, "--ttft-seconds", "Time to first token")
@@ -170,6 +184,7 @@ def main() -> int:
             "comparison_group": args.comparison_group.strip(),
         },
         "notes": args.notes.strip(),
+        "command": command_argv(args.reproduce_command_json),
     }
 
     records_path = Path(args.records).expanduser().resolve()

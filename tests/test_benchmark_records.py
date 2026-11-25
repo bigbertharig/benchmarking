@@ -15,12 +15,15 @@ sys.path.insert(0, str(ACTIVE))
 from benchmark_records import (  # noqa: E402
     RecordValidationError,
     best_by_model_test,
+    best_by_model_test_group,
+    latest_validated_by_model_test,
     load_records,
     normalize_record,
     selection_key,
     validate_record,
 )
 from build_methodology_history import build_history  # noqa: E402
+from record_benchmark_result import command_argv  # noqa: E402
 
 
 def record(*, run_id: str, run_class: str, sample_count: int, score: float, run_at: str) -> dict:
@@ -66,6 +69,43 @@ class BenchmarkRecordTests(unittest.TestCase):
                    methodology={"id": "m", "version": "2.0.0", "comparison_group": "g"})
         new = dict(old, run_id="a-new", score=0.9, methodology={"id": "m", "version": "2.1.0", "comparison_group": "g"})
         self.assertEqual(best_by_model_test([old, new]), [new])
+
+    def test_replay_command_is_explicit_argv_or_unknown(self) -> None:
+        self.assertEqual(command_argv('["rig", "load", "--profile", "qwen"]'),
+                         ["rig", "load", "--profile", "qwen"])
+        self.assertIsNone(command_argv(""))
+        with self.assertRaises(SystemExit):
+            command_argv('["rig", 4]')
+        row = record(run_id="with-command", run_class="validated", sample_count=10,
+                     score=0.8, run_at="2026-01-01T00:00:00Z")
+        row["command"] = ["rig", "load", "--profile", "qwen"]
+        validate_record(row)
+        row["command"] = "rig load"
+        with self.assertRaisesRegex(RecordValidationError, "command"):
+            validate_record(row)
+
+    def test_latest_validated_headline_ignores_newer_smoke_and_older_larger_sample(self) -> None:
+        older = record(run_id="older", run_class="validated", sample_count=1000,
+                       score=0.8, run_at="2026-01-01T00:00:00Z")
+        current = record(run_id="current", run_class="validated", sample_count=50,
+                         score=0.7, run_at="2026-02-01T00:00:00Z")
+        smoke = record(run_id="smoke", run_class="smoke", sample_count=10,
+                       score=0.99, run_at="2026-03-01T00:00:00Z")
+        self.assertEqual(latest_validated_by_model_test([smoke, older, current]), [current])
+
+    def test_methodology_groups_keep_distinct_selected_results(self) -> None:
+        old = record(run_id="old-method", run_class="validated", sample_count=100,
+                     score=0.38, run_at="2026-01-01T00:00:00Z")
+        old["methodology"] = {"id": "pipeline", "version": "1.0.0",
+                              "comparison_group": "pipeline-v1"}
+        old["runtime"] = {"config_hash": "config-old"}
+        new = record(run_id="new-method", run_class="validated", sample_count=100,
+                     score=1.0, run_at="2026-02-01T00:00:00Z")
+        new["methodology"] = {"id": "pipeline", "version": "2.0.0",
+                              "comparison_group": "pipeline-v2"}
+        new["runtime"] = {"config_hash": "config-new"}
+        selected = best_by_model_test_group([new, old])
+        self.assertEqual([row["run_id"] for row in selected], ["old-method", "new-method"])
 
     def test_failure_is_retained_but_not_selected(self) -> None:
         success = record(run_id="success", run_class="smoke", sample_count=5, score=0.5, run_at="2026-01-01T00:00:00Z")
@@ -243,6 +283,9 @@ class BenchmarkRecordTests(unittest.TestCase):
             payload = json.loads(scoreboard.read_text(encoding="utf-8"))
             self.assertNotIn("latest_per_model_test", payload)
             self.assertEqual(payload["selected_per_model_test"][0]["run_id"], "validated")
+            self.assertEqual(payload["selected_per_model_test"][0]["selection_provenance"]["measurement_id"], "validated")
+            self.assertEqual(payload["selected_per_model_test"][0]["selection_provenance"]["methodology_version"], "unversioned")
+            self.assertIsNone(payload["selected_per_model_test"][0]["selection_provenance"]["config_hash"])
             self.assertEqual(payload["suite_rollup"][0]["suite"], "controlled")
             self.assertEqual(payload["suite_rollup"][0]["records"], 2)
 

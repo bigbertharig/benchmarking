@@ -151,6 +151,12 @@ def validate_record(record: dict[str, Any]) -> None:
     for field in ("runtime", "efficiency", "failure"):
         if not isinstance(record.get(field, {}), dict):
             raise RecordValidationError(f"{field} must be an object")
+    command = record.get("command")
+    if command is not None and (
+        not isinstance(command, list) or not command
+        or any(not isinstance(part, str) or not part for part in command)
+    ):
+        raise RecordValidationError("command must be a nonempty argv array or null")
     methodology = record.get("methodology", {})
     if not isinstance(methodology, dict):
         raise RecordValidationError("methodology must be an object")
@@ -198,7 +204,7 @@ def _version(record: dict[str, Any]) -> tuple[int, ...]:
 def selection_key(record: dict[str, Any]) -> tuple[int, int, int, tuple[int, ...], str, str]:
     """Prefer evidence quality and sample size, then the newer methodology (a regraded row replaces the
     row it regrades, which has the same run time), then recency."""
-    if record.get("status") != "success":
+    if record.get("status", "success") != "success":
         return (-1, -1, -1, (), "", "")
     run_class = str(record.get("run_class", "legacy"))
     sample_count = _optional_int(record.get("sample_count"), "sample_count")
@@ -225,6 +231,48 @@ def best_by_model_test(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
         if current is None or selection_key(row) > selection_key(current):
             selected[key] = row
     return sorted(selected.values(), key=lambda row: (row["model"], row["test_id"]))
+
+
+def latest_validated_by_model_test(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Show the most recent validated/full result; fall back to lesser classes when needed."""
+    selected: dict[tuple[str, str], dict[str, Any]] = {}
+    tier = {"validated": 2, "full": 2, "provisional": 1, "smoke": 0, "legacy": -1}
+
+    def key(row: dict[str, Any]) -> tuple[int, str, tuple[int, ...], str]:
+        return (tier.get(str(row.get("run_class", "legacy")), -1),
+                str(row.get("run_at", "")), _version(row), str(row.get("run_id", "")))
+
+    for row in rows:
+        if row.get("status", "success") != "success" or row.get("score") is None:
+            continue
+        identity = (str(row.get("model", "")), str(row.get("test_id", "")))
+        if not all(identity):
+            continue
+        current = selected.get(identity)
+        if current is None or key(row) > key(current):
+            selected[identity] = row
+    return [selected[identity] for identity in sorted(selected)]
+
+
+def best_by_model_test_group(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Select only among comparable model/test/methodology groups."""
+    selected: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+    for row in rows:
+        if row.get("status", "success") != "success" or row.get("score") is None:
+            continue
+        model, test = str(row.get("model", "")), str(row.get("test_id", ""))
+        if not model or not test:
+            continue
+        methodology = row.get("methodology") or {}
+        key = (
+            model, test,
+            str(methodology.get("id") or "legacy-unversioned"),
+            str(methodology.get("comparison_group") or f"legacy:{test}"),
+        )
+        current = selected.get(key)
+        if current is None or selection_key(row) > selection_key(current):
+            selected[key] = row
+    return [selected[key] for key in sorted(selected)]
 
 
 def append_record(path: Path, record: dict[str, Any]) -> None:

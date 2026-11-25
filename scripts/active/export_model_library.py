@@ -13,6 +13,7 @@ from pathlib import Path
 
 import model_library
 import model_profiles
+from benchmark_records import best_by_model_test_group, latest_validated_by_model_test
 
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "model_library_export.json"
@@ -21,7 +22,6 @@ KEY_TESTS = (("bbh", "bbh_flexible"), ("gsm8k", "gsm8k_flexible"),
              ("drop", "drop_flexible"), ("ifeval", "ifeval_prompt_level_strict_acc_none"),
              ("mmlu-pro", "mmlu_pro_flexible"), ("humaneval+", "humaneval_plus"),
              ("mbpp+", "mbpp_plus"))
-CLASS_RANK = {"validated": 3, "full": 3, "smoke": 1}
 
 
 def read(name: str) -> dict:
@@ -29,33 +29,78 @@ def read(name: str) -> dict:
 
 
 def summary(registry: dict, roles: dict) -> dict:
-    best: dict[tuple[str, str], tuple[tuple, dict]] = {}
     records = ROOT / "results/model_benchmark_records.jsonl"
+    measurements = []
     if records.is_file():
         for line in records.read_text(encoding="utf-8").splitlines():
             try:
-                row = json.loads(line)
+                measurements.append(json.loads(line))
             except ValueError:
                 continue
-            model, test = row.get("model"), row.get("test_id")
-            if not model or not test or row.get("score") is None:
-                continue
-            version = re.search(r"extract-v(\d+)$", str((row.get("runtime") or {}).get("config_id") or ""))
-            version_num = int(version.group(1)) if version else 0
-            rank = (CLASS_RANK.get(str(row.get("run_class") or ""), 0), version_num,
-                    str(row.get("run_at") or ""))
-            key = (model, test)
-            if key not in best or rank > best[key][0]:
-                best[key] = (rank, {"score": float(row["score"]), "run_class": row.get("run_class"),
-                                   "n": row.get("sample_count"), "at": str(row.get("run_at") or "")[:10],
-                                   "unreadable": row.get("extractor_failure_count") or 0
-                                   if version_num >= 5 else None})
+    def evidence(row: dict) -> dict:
+        methodology = row.get("methodology") or {}
+        test = str(row["test_id"])
+        config_id = str((row.get("runtime") or {}).get("config_id") or "")
+        version = re.search(r"extract-v(\d+)$", config_id)
+        return {
+            "score": float(row["score"]),
+            "run_class": row.get("run_class") or "legacy",
+            "n": row.get("sample_count"),
+            "at": str(row.get("run_at") or "")[:10],
+            "unreadable": row.get("extractor_failure_count") or 0 if version and int(version.group(1)) >= 5 else None,
+            "run_id": row.get("run_id"),
+            "methodology": {
+                "id": methodology.get("id") or "legacy-unversioned",
+                "version": methodology.get("version") or "unversioned",
+                "comparison_group": methodology.get("comparison_group") or f"legacy:{test}",
+            },
+            "config_hash": (row.get("runtime") or {}).get("config_hash") or None,
+            "reproduction": {
+                "suite": row.get("suite"),
+                "command": row.get("command"),
+                "runtime_config": (row.get("runtime") or {}).get("config") or {},
+            },
+        }
+
+    current = {
+        (str(row["model"]), str(row["test_id"])): evidence(row)
+        for row in latest_validated_by_model_test(measurements)
+    }
+    grouped: dict[tuple[str, str], list[dict]] = {}
+    for row in best_by_model_test_group(measurements):
+        grouped.setdefault((str(row["model"]), str(row["test_id"])), []).append(evidence(row))
     rows = []
     for mid, entry in registry["models"].items():
         sched = entry.get("schedule") or {}
-        scores = {label: best[(mid, test)][1] for label, test in KEY_TESTS if (mid, test) in best}
-        pipeline = [item[1]["score"] for (model, test), item in best.items()
-                    if model == mid and test.startswith("custom_")]
+        scores = {label: current[(mid, test)] for label, test in KEY_TESTS
+                  if (mid, test) in current}
+        score_groups = {label: grouped[(mid, test)] for label, test in KEY_TESTS
+                        if len(grouped.get((mid, test), [])) > 1}
+        pipeline_headlines = [
+            evidence for (model, test), evidence in current.items()
+            if model == mid and test.startswith("custom_")
+        ]
+        headline_groups = {
+            (item["methodology"]["id"], item["methodology"]["comparison_group"])
+            for item in pipeline_headlines
+        }
+        pipeline = (round(sum(item["score"] for item in pipeline_headlines) /
+                          len(pipeline_headlines), 3)
+                    if pipeline_headlines and len(headline_groups) == 1 else None)
+        pipeline_tests = len(pipeline_headlines) if pipeline is not None else 0
+        pipeline_groups: dict[tuple[str, str], list[float]] = {}
+        for (model, test), evidence_rows in grouped.items():
+            if model != mid or not test.startswith("custom_"):
+                continue
+            for item in evidence_rows:
+                method = item["methodology"]
+                key = (method["id"], method["comparison_group"])
+                pipeline_groups.setdefault(key, []).append(item["score"])
+        pipeline_by_group = [
+            {"methodology_id": method, "comparison_group": group,
+             "score": round(sum(values) / len(values), 3), "tests": len(values)}
+            for (method, group), values in sorted(pipeline_groups.items())
+        ]
         slug = re.sub(r"[:.]", "_", mid)
         files = sorted((ROOT / "results/runtime_experiments").glob(
             f"{slug}_runtime_characterization_*.json"))
@@ -73,9 +118,9 @@ def summary(registry: dict, roles: dict) -> dict:
                      "roles": sorted(name for name, spec in roles["roles"].items()
                                      if isinstance(spec, dict) and spec.get("model") == mid),
                      "source_url": entry.get("source_url"), "superseded_by": entry.get("superseded_by"),
-                     "scores": scores,
-                     "pipeline": round(sum(pipeline) / len(pipeline), 3) if pipeline else None,
-                     "pipeline_tests": len(pipeline), "runtime": runtime})
+                     "scores": scores, "score_groups": score_groups,
+                     "pipeline": pipeline, "pipeline_tests": pipeline_tests,
+                     "pipeline_by_group": pipeline_by_group, "runtime": runtime})
     rows.sort(key=lambda row: ({"active": 0, "candidate": 1}.get(row["status"], 2), row["model"]))
     return {"key_tests": [label for label, _ in KEY_TESTS], "models": rows,
             "roles": {key: value.get("model") for key, value in roles["roles"].items()
