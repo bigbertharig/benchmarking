@@ -118,3 +118,11 @@ The following reliability work is **proposed** and is not part of version 1 of t
 3. Publish normalized reviewed tool-schema digests from Harness and have Gateway disable only the mismatched tool. Live schema discovery and name-based grants do not by themselves establish reviewed schema compatibility.
 
 Evidence-selection changes must preserve historical measurement records. Compatibility work must add a versioned fixture and consumer test before this section can label it deployed.
+
+## Standalone product acceptance
+
+Each product must support its own core workflow without the other repositories or
+services. Optional integration is not a prerequisite for standalone use. This is an
+acceptance requirement, not a claim about the current implementation. The
+[2026-11-24 isolation audit](reports/STANDALONE_ISOLATION_AUDIT_2026-11-24.md) records
+current blockers, exact audited revisions, and the required independent-install tests.
