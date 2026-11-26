@@ -1,0 +1,54 @@
+{
+  "name": "strata_q2_current_full_20261126",
+  "defaults": {
+    "run_class": "full"
+  },
+  "blocks": [
+    {
+      "id": "m1_t1_bench_pipeline",
+      "model": "qwen3.8-flash-next:q2_0",
+      "suite": "bench-pipeline",
+      "runtime_group": "model_1"
+    },
+    {
+      "id": "m1_t2_bench_reasoning",
+      "model": "qwen3.8-flash-next:q2_0",
+      "suite": "bench-reasoning",
+      "runtime_group": "model_1",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,bbh,drop,ifeval"
+      ],
+      "limit": 50
+    },
+    {
+      "id": "m1_t3_bench_reasoning",
+      "model": "qwen3.8-flash-next:q2_0",
+      "suite": "bench-reasoning",
+      "runtime_group": "model_1",
+      "suite_args": [
+        "--tasks",
+        "mmlu_pro"
+      ],
+      "limit": 20
+    },
+    {
+      "id": "m1_t4_bench_geoimport",
+      "model": "qwen3.8-flash-next:q2_0",
+      "suite": "bench-geoimport",
+      "runtime_group": "model_1"
+    },
+    {
+      "id": "m1_t5_bench_runtime",
+      "model": "qwen3.8-flash-next:q2_0",
+      "suite": "bench-runtime",
+      "runtime_group": "model_1"
+    },
+    {
+      "id": "m1_t6_bench_code",
+      "model": "qwen3.8-flash-next:q2_0",
+      "suite": "bench-code",
+      "runtime_group": "model_1"
+    }
+  ]
+}

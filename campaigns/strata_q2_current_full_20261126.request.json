@@ -1,0 +1,38 @@
+{
+  "name": "strata_q2_current_full_20261126",
+  "models": [
+    "qwen3.8-flash-next:q2_0"
+  ],
+  "tests": [
+    {
+      "suite": "bench-pipeline"
+    },
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "gsm8k",
+        "bbh",
+        "drop",
+        "ifeval"
+      ],
+      "limit": 50
+    },
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "mmlu_pro"
+      ],
+      "limit": 20
+    },
+    {
+      "suite": "bench-geoimport"
+    },
+    {
+      "suite": "bench-runtime"
+    },
+    {
+      "suite": "bench-code"
+    }
+  ],
+  "run_class": "full"
+}
