@@ -55,7 +55,8 @@ class CampaignRunnerTests(unittest.TestCase):
                                                "sampled_at": datetime.now(timezone.utc).isoformat(),
                                                "level": "warn", "why": "hot",
                                                "gpu_power_total_w": 720,
-                                               "gpu_temp_max_c": 83}})
+                                               "gpu_temp_max_c": 83,
+                                               "gpus": [{"index": 0, "temp_c": 83, "power_w": 720}]}})
             self._patch(HISTORY_ROOT=Path(directory))
             from unittest.mock import patch
             with patch.object(RUNNER.subprocess, "run", return_value=Result()):
@@ -63,6 +64,7 @@ class CampaignRunnerTests(unittest.TestCase):
                 sample = RUNNER.sample_owner_guard(state)
             self.assertEqual(sample["level"], "warn")
             self.assertEqual(sample["gpu_power_total_w"], 720)
+            self.assertEqual(sample["gpus"][0]["index"], 0)
             self.assertEqual(json.loads(Path(state.guard_telemetry["samples"]).read_text()
                                         .splitlines()[0])["level"], "warn")
             self.assertEqual(RUNNER.build_status_dict(state)["guard_telemetry"]["latest"], sample)

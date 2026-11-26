@@ -708,7 +708,9 @@ def sample_owner_guard(state: CampaignState) -> dict:
                        "level": guard["level"], "why": guard.get("why"),
                        "gpu_power_total_w": guard.get("gpu_power_total_w"),
                        "gpu_temp_max_c": guard.get("gpu_temp_max_c"),
-                       "cpu_package_c": guard.get("cpu_package_c")})
+                       "cpu_package_c": guard.get("cpu_package_c"),
+                       "mem_available_mb": guard.get("mem_available_mb"),
+                       "gpus": guard.get("gpus", [])})
     except (OSError, ValueError, subprocess.SubprocessError) as exc:
         sample["level"] = "unavailable"
         sample["error"] = str(exc)

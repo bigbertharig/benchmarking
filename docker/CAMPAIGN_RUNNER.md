@@ -112,7 +112,17 @@ hardware thresholds. The owner publishes `rig-hardware-telemetry/1` with
 guard, or a cached controller copy is treated as `unavailable`. New scheduling
 pauses immediately. Three consecutive unavailable samples stop the campaign,
 release its owned work, and write `telemetry_aborted`. The JSONL receipt retains
-each attempt and its error. Orchestration owns the power and temperature thresholds.
+each attempt and its error, including the owner's per-GPU readings and available
+memory. Orchestration owns the power and temperature thresholds.
+
+Live acceptance on 2026-11-25 used an idle rig and a temporary 30 C critical
+test threshold, then restored the site's 90 C threshold. The campaign observed
+the owner's critical decision through the Pi, wrote `thermal_aborted`, and
+released its owner without loading a model. The retired `rig_stress` driver
+sampled per GPU every 500 ms and stopped all load at its default 88 C GPU or
+95 C CPU threshold. Managed campaigns sample the owner every 10 seconds and
+stop their own work; their JSONL is a durable policy receipt, not a substitute
+for the retired driver's high-rate fan/clock diagnostics.
 
 Additional controls:
 
