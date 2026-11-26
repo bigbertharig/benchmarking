@@ -351,13 +351,14 @@ class CampaignRunnerTests(unittest.TestCase):
         }
         return RUNNER.BlockState(block_id, config)
 
-    def _loaded_scheduler(self, block, served_gguf="Qwen3.5-27B-Q4_K_M.gguf"):
+    def _loaded_scheduler(self, block, served_gguf="Qwen3.5-27B-Q4_K_M.gguf", backend="llama"):
         scheduler = RUNNER.Scheduler(self._state(block))
         block.status = RUNNER.LOADING
         block.load_started_at = RUNNER.now_iso()
         scheduler.loading_block = block.block_id
         scheduler.load_proc = FakeLoad({"state": "ready", "profile": "qwen3.5-27b-g0", "port": 11434,
-                                        "gpus": [0], "ctx": 16384,
+                                        "gpus": [0], "ctx": 16384, "model": block.model, "lease": "lease-1",
+                                        "measured": {"backend": backend},
                                         "estimate": {"gguf_path": f"/mnt/shared/models/q/{served_gguf}"}})
         return scheduler
 
@@ -421,6 +422,50 @@ class CampaignRunnerTests(unittest.TestCase):
         status = RUNNER.build_status_dict(scheduler.state)
         self.assertEqual(status["blocks"]["brain-lane"]["runtime_identity"]["port"], 11434)
         self.assertEqual(status["blocks"]["brain-lane"]["gpu_slot"], "gpu_0")
+
+    def test_registered_strata_alias_keeps_exact_gguf_identity(self):
+        gguf = "Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf"
+        block = self._brain_block(gguf=f"/models/{gguf}")
+        block.config["_served_model_id"] = "qwen3.8-flash-next-q2_0"
+        scheduler = self._loaded_scheduler(block, served_gguf=gguf, backend="strata")
+        self._patch(
+            served_model_id=lambda port: "qwen3.8-flash-next-q2_0",
+            manager_profile_info=lambda profile: {"state": "ready", "backend": "strata",
+                                                  "model": block.model, "port": 11434,
+                                                  "gpus": [0], "ctx_size": 16384, "lease": "lease-1"},
+            container_info=lambda name: self.fail("Strata must not require Docker"),
+            start_suite=lambda b, r: object(),
+        )
+        scheduler.check_load_complete()
+        self.assertEqual(block.status, RUNNER.RUNNING_SUITE)
+        self.assertEqual(block.identity["gguf"], gguf)
+        self.assertEqual(block.identity["requested"], "qwen3.8-flash-next-q2_0")
+        self.assertEqual(block.identity["lease"], "lease-1")
+
+    def test_strata_alias_rejects_a_stale_manager_lease(self):
+        gguf = "Qwen3.8-Flash-Next-GSQ-RCO-Q2_0-00001-of-00002.gguf"
+        block = self._brain_block(gguf=f"/models/{gguf}")
+        block.config["_served_model_id"] = "qwen3.8-flash-next-q2_0"
+        scheduler = self._loaded_scheduler(block, served_gguf=gguf, backend="strata")
+        self._patch(
+            served_model_id=lambda port: "qwen3.8-flash-next-q2_0",
+            manager_profile_info=lambda profile: {"state": "ready", "backend": "strata",
+                                                  "model": block.model, "port": 11434,
+                                                  "gpus": [0], "ctx_size": 16384, "lease": "other-lease"},
+            unload_runtime=lambda rt: None,
+            start_suite=lambda b, r: self.fail("stale Strata runtime must not be used"),
+        )
+        scheduler.check_load_complete()
+        self.assertEqual(block.status, RUNNER.FAILED)
+        self.assertIn("owned Strata profile is not ready", block.error)
+
+    def test_identity_alias_comes_only_from_registry(self):
+        strata = RUNNER.resolve_block_config({"id": "s", "model": "qwen3.8-flash-next:q2_0",
+                                                  "suite": "bench-pipeline", "_served_model_id": "spoof"}, {})
+        self.assertEqual(strata["_served_model_id"], "qwen3.8-flash-next-q2_0")
+        ordinary = RUNNER.resolve_block_config({"id": "o", "model": "qwen3.8:27b",
+                                                    "suite": "bench-pipeline", "_served_model_id": "spoof"}, {})
+        self.assertNotIn("_served_model_id", ordinary)
 
     def test_runtime_group_does_not_reuse_runtime_with_wrong_identity(self):
         first = self._brain_block("first")

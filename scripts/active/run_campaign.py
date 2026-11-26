@@ -81,6 +81,9 @@ class Runtime:
     port: int
     gpu_ids: List[int]
     ctx: Optional[int] = None
+    backend: str = "llama"
+    lease: Optional[str] = None
+    model: Optional[str] = None
 
     @property
     def name(self) -> str:
@@ -151,7 +154,9 @@ def finish_load(proc: subprocess.Popen) -> tuple[Runtime, str]:
         raise RuntimeError(f"rig manager did not load it (exit {proc.returncode}): {message}")
     gguf = Path(str((answer.get("estimate") or {}).get("gguf_path", ""))).name
     return Runtime(profile=answer["profile"], port=int(answer["port"]), gpu_ids=[int(g) for g in answer["gpus"]],
-                   ctx=answer.get("ctx")), gguf
+                   ctx=answer.get("ctx"), backend=str((answer.get("measured") or {}).get("backend") or
+                                                      (answer.get("estimate") or {}).get("backend") or "llama"),
+                   lease=answer.get("lease"), model=answer.get("model")), gguf
 
 
 def unload_runtime(runtime: Optional[Runtime]) -> None:
@@ -366,6 +371,18 @@ def container_info(container_name: Optional[str]) -> Optional[Dict[str, str]]:
     return {"running": running, "id": container_id[:12], "image": image}
 
 
+def manager_profile_info(profile: str) -> Optional[Dict[str, Any]]:
+    """Fresh controller record for a non-Docker runtime owned by the manager."""
+    result = subprocess.run(rigctl_cmd("status", "--json", "--fresh"), capture_output=True,
+                            text=True, timeout=30, check=False)
+    if result.returncode != 0:
+        return None
+    try:
+        return (json.loads(result.stdout).get("profiles") or {}).get(profile)
+    except ValueError:
+        return None
+
+
 def runtime_identity_error(block: "BlockState", runtime: Runtime, observed: Optional[str]) -> Optional[str]:
     """Why the served runtime is not the one this block requested, or None when it is.
 
@@ -373,20 +390,35 @@ def runtime_identity_error(block: "BlockState", runtime: Runtime, observed: Opti
     (campaign 20260820_modern_validation_l50_retry3). On success the evidence is
     stored on the block for status.json and the checkpoint.
     """
-    expected = Path(str(block.config["gguf"])).name
+    gguf = Path(str(block.config["gguf"])).name
+    expected = str(block.config.get("_served_model_id") or gguf)
     if observed is None:
         return f"no runtime answers on port {runtime.port}"
     if observed != expected:
         return f"port {runtime.port} serves {observed}, expected {expected}"
-    info = container_info(runtime.container)
-    if not info or info["running"] != "true":
-        return (f"port {runtime.port} serves {observed} but owned runtime "
-                f"{runtime.container} is not running")
-    block.identity = {
-        "requested": expected, "observed": observed, "port": runtime.port, "profile": runtime.profile,
-        "gpus": runtime.gpu_ids, "ctx": runtime.ctx, "container": runtime.container,
-        "container_id": info["id"], "image": info["image"], "verified_at": now_iso(),
-    }
+    if runtime.backend == "strata":
+        info = manager_profile_info(runtime.profile)
+        if (not info or info.get("state") != "ready" or info.get("backend") != "strata" or
+                info.get("model") != block.model or info.get("port") != runtime.port or
+                info.get("gpus") != runtime.gpu_ids or info.get("ctx_size") != runtime.ctx or
+                not runtime.lease or info.get("lease") != runtime.lease):
+            return f"port {runtime.port} serves {observed} but the owned Strata profile is not ready"
+        block.identity = {
+            "requested": expected, "gguf": gguf, "observed": observed, "port": runtime.port,
+            "profile": runtime.profile, "gpus": runtime.gpu_ids, "ctx": runtime.ctx,
+            "backend": "strata", "lease": runtime.lease, "verified_at": now_iso(),
+        }
+    else:
+        info = container_info(runtime.container)
+        if not info or info["running"] != "true":
+            return (f"port {runtime.port} serves {observed} but owned runtime "
+                    f"{runtime.container} is not running")
+        block.identity = {
+            "requested": expected, "gguf": gguf, "observed": observed, "port": runtime.port,
+            "profile": runtime.profile, "gpus": runtime.gpu_ids, "ctx": runtime.ctx,
+            "backend": runtime.backend, "container": runtime.container,
+            "container_id": info["id"], "image": info["image"], "verified_at": now_iso(),
+        }
     return None
 
 
@@ -438,6 +470,10 @@ def resolve_block_config(block: Dict, defaults: Dict) -> Dict:
     if block.get("gguf") and Path(str(block["gguf"])).name != Path(registry_path).name:
         block["_gguf_mismatch"] = f"manifest gguf {block['gguf']} is not the registry's {registry_path}"
     block["gguf"] = registry_path
+    block.pop("_served_model_id", None)  # never trust a manifest-supplied identity alias
+    _, registry_entry = model_library.find_model(model_library.load_registry(), block["model"])
+    if registry_entry.get("strata"):
+        block["_served_model_id"] = Path(str(registry_entry["strata"]["model_path"])).name
     for gone in ("runtime_image", "batch_size", "load_timeout_s"):
         if block.pop(gone, None) is not None:
             log(f"  {block['id']}: manifest {gone} ignored (the manager uses the registry profile)", verbose_only=True)
@@ -1082,7 +1118,7 @@ class Scheduler:
 
         log(f"Block {bs.block_id}: model ready as {runtime.profile} on port {runtime.port} "
             f"(GPU {runtime.gpu_ids}, ctx {runtime.ctx}), identity verified {observed} "
-            f"in {bs.identity['container_id']}")
+            f"by {bs.identity.get('container_id') or bs.identity.get('lease')}")
         bs.status = RUNNING_SUITE
         bs.suite_started_at = now_iso()
         try:
@@ -1131,7 +1167,9 @@ class Scheduler:
             changed = None
             if bs.identity and bs.runtime:
                 still = served_model_id(bs.runtime.port)
-                if still != bs.identity["requested"]:
+                if bs.runtime.backend == "strata":
+                    changed = runtime_identity_error(bs, bs.runtime, still)
+                elif still != bs.identity["requested"]:
                     changed = f"port {bs.runtime.port} now serves {still}"
 
             if changed:
