@@ -1,0 +1,22 @@
+{
+  "name": "portable_package_acceptance_20261126",
+  "models": [
+    "ministral-3:3b"
+  ],
+  "tests": [
+    {
+      "suite": "bench-pipeline"
+    },
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "gsm8k"
+      ],
+      "limit": 2
+    },
+    {
+      "suite": "bench-runtime"
+    }
+  ],
+  "run_class": "smoke"
+}
