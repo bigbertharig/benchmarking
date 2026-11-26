@@ -101,7 +101,7 @@ python3 scripts/active/run_campaign.py campaign.json --run-id run_001
 ```
 
 The final command resumes the same run. A live managed campaign samples the
-Orchestration-owned hardware guard through `rigctl status --json` every 10 seconds.
+Orchestration-owned hardware guard through `rigctl status --json --fresh` every 10 seconds.
 Samples are appended with fsync to `guard_samples.jsonl` beside `status.json`,
 and the latest sample is included in status. A fresh owner-reported `critical`
 level stops the campaign, releases its owned work, and writes

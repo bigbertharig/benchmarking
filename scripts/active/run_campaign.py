@@ -685,9 +685,9 @@ GUARD_MISSING_LIMIT = 3
 
 def sample_owner_guard(state: CampaignState) -> dict:
     """Keep the owner's policy decision and observed power/temperature in an append-only trail."""
-    sample = {"sampled_at": now_iso(), "source": "rigctl status --json"}
+    sample = {"sampled_at": now_iso(), "source": "rigctl status --json --fresh"}
     try:
-        result = subprocess.run(rigctl_cmd("status", "--json"), capture_output=True,
+        result = subprocess.run(rigctl_cmd("status", "--json", "--fresh"), capture_output=True,
                                 text=True, check=False, timeout=15)
         if result.returncode:
             raise ValueError(f"rigctl status exited {result.returncode}")
