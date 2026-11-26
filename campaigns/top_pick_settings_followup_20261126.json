@@ -1,0 +1,71 @@
+{
+  "name": "top_pick_settings_followup_20261126",
+  "defaults": {
+    "run_class": "smoke"
+  },
+  "blocks": [
+    {
+      "id": "json_grammar_1",
+      "model": "ministral-3:3b",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--config-id",
+        "strict-json-grammar-on",
+        "--inference-config-json",
+        "{\"json_grammar\":true}"
+      ]
+    },
+    {
+      "id": "json_grammar_2",
+      "model": "ministral-3:8b",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--config-id",
+        "strict-json-grammar-on",
+        "--inference-config-json",
+        "{\"json_grammar\":true}"
+      ]
+    },
+    {
+      "id": "json_grammar_3",
+      "model": "ministral-3:14b",
+      "suite": "bench-pipeline",
+      "suite_args": [
+        "--tests",
+        "custom_json_schema_strict",
+        "--config-id",
+        "strict-json-grammar-on",
+        "--inference-config-json",
+        "{\"json_grammar\":true}"
+      ]
+    },
+    {
+      "id": "phi4_drop_plain_prompt",
+      "model": "phi-4:14b",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "drop",
+        "--system-prompt-override",
+        "You are a helpful assistant. Answer the user directly in the format requested."
+      ],
+      "limit": 10
+    },
+    {
+      "id": "qwen38_reasoning_validated_stops",
+      "model": "qwen3.8:27b",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "gsm8k,drop",
+        "--gen-kwargs",
+        "max_gen_toks=8192,until=</s>"
+      ],
+      "limit": 10
+    }
+  ]
+}

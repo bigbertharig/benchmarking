@@ -1,0 +1,31 @@
+{
+  "name": "top_pick_suite_refresh_smoke_20261126",
+  "models": [
+    "gemma-4:e2b-q8",
+    "qwen2.5-coder:7b",
+    "ornith-1.5:9b",
+    "ministral-3:8b",
+    "ministral-3:14b",
+    "phi-4:14b",
+    "qwen3-coder:30b-a3b",
+    "qwen3.6:27b",
+    "qwen3.8:27b",
+    "qwen3.6:35b-a3b-xl",
+    "nemotron-3.5-bolt:74b-a9b",
+    "qwen3.8-flash-next:q2_0"
+  ],
+  "tests": [
+    {
+      "suite": "bench-pipeline"
+    },
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "gsm8k",
+        "drop"
+      ],
+      "limit": 10
+    }
+  ],
+  "run_class": "smoke"
+}

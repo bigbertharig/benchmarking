@@ -1,0 +1,20 @@
+{
+  "name": "phi4_drop_brief_prompt_20261126",
+  "defaults": {
+    "run_class": "smoke"
+  },
+  "blocks": [
+    {
+      "id": "phi4_drop_brief",
+      "model": "phi-4:14b",
+      "suite": "bench-reasoning",
+      "suite_args": [
+        "--tasks",
+        "drop",
+        "--system-prompt-override",
+        "You are a helpful assistant. Give only the shortest direct answer, with no explanation."
+      ],
+      "limit": 10
+    }
+  ]
+}
