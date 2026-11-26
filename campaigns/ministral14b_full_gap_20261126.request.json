@@ -1,0 +1,22 @@
+{
+  "name": "ministral14b_full_gap_20261126",
+  "models": [
+    "ministral-3:14b"
+  ],
+  "tests": [
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "bbh"
+      ],
+      "limit": 50
+    },
+    {
+      "suite": "bench-runtime"
+    },
+    {
+      "suite": "bench-code"
+    }
+  ],
+  "run_class": "full"
+}
