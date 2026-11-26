@@ -1,0 +1,22 @@
+{
+  "name": "role_bbh_full_gap_20261126",
+  "models": [
+    "ministral-3:8b",
+    "qwen2.5-coder:7b",
+    "ministral-3:3b",
+    "gemma-4:e2b-q8"
+  ],
+  "tests": [
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "bbh"
+      ],
+      "limit": 50
+    },
+    {
+      "suite": "bench-runtime"
+    }
+  ],
+  "run_class": "full"
+}
