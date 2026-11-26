@@ -162,6 +162,32 @@ class CampaignRunnerTests(unittest.TestCase):
                     command,
                 )
 
+    def test_portable_campaign_owns_records_for_shell_code_and_python_suites(self):
+        self._patch(PORTABLE_BUNDLE=True, HISTORY_ROOT=Path("/mnt/shared/logs/benchmarks/campaigns/history"))
+        root = "/mnt/shared/logs/benchmarks/campaigns/history/portable/unit"
+        records = root + "/model_benchmark_records.jsonl"
+        for suite in sorted(RUNNER.SUPPORTED_SUITES):
+            with self.subTest(suite=suite):
+                block = RUNNER.BlockState("a", {"id": "a", "model": "ministral-3:3b",
+                                                "gguf": "/tmp/model.gguf", "suite": suite,
+                                                "suite_args": [], "run_class": "smoke",
+                                                "_campaign_name": "portable", "_run_id": "unit"})
+                command = RUNNER.build_suite_cmd(block, runtime())
+                self.assertIn("BENCHMARK_RECORDS_PATH=" + records, command)
+                if suite == "bench-code":
+                    self.assertIn("BENCHMARK_RECORD_SCRIPT=/benchmark-scripts/scripts/active/record_benchmark_result.py",
+                                  command)
+                self.assertIn("BENCHMARK_REFERENCE_OUTPUT=" + root + "/MODEL_BENCHMARK_REFERENCE.md", command)
+                self.assertIn("BENCHMARK_SCOREBOARD_OUTPUT=" + root + "/model_library_scoreboard.json", command)
+                if suite in RUNNER.DIRECT_RECORD_SUITES:
+                    self.assertEqual(command[command.index("--records") + 1], records)
+                    self.assertEqual(command[command.index("--reference-output") + 1],
+                                     root + "/MODEL_BENCHMARK_REFERENCE.md")
+                    self.assertEqual(command[command.index("--scoreboard-output") + 1],
+                                     root + "/model_library_scoreboard.json")
+                else:
+                    self.assertNotIn("--records", command)
+
     def test_profile_alias_is_resolved_before_launch(self):
         profile = RUNNER._lookup_tuning("qwen3-coder:30b-a3b")
         self.assertIsNotNone(profile)

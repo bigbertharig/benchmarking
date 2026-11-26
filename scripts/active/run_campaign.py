@@ -37,6 +37,7 @@ from typing import Any, Dict, List, Optional, Set
 TICK_INTERVAL = 3  # seconds between scheduler ticks
 SHARED_ROOT = Path(os.environ.get("CAMPAIGN_SHARED_ROOT", "/mnt/shared"))
 BENCHMARKING_SCRIPTS = Path(__file__).resolve().parents[2]
+PORTABLE_BUNDLE = (BENCHMARKING_SCRIPTS / "campaign_bundle.json").is_file()
 MODEL_LIBRARY_DIR = BENCHMARKING_SCRIPTS / "scripts" / "active"
 TUNING_PROFILES_PATH = BENCHMARKING_SCRIPTS / "model_tuning_profiles.json"
 SUITE_CONTRACTS_PATH = BENCHMARKING_SCRIPTS / "docker" / "suite_contracts.json"
@@ -59,6 +60,7 @@ SUITE_SPECS: Dict[str, Dict[str, Any]] = {}
 WORKER_SUITES: Set[str] = set()
 STANDALONE_SUITES: Set[str] = set()
 SUPPORTED_SUITES: Set[str] = set()
+DIRECT_RECORD_SUITES = {"bench-knowledge", "bench-geoimport", "bench-runtime", "bench-agent", "bench-routing"}
 
 # Block states
 PENDING = "pending"
@@ -541,6 +543,8 @@ def validate_resolved_blocks(blocks: Dict[str, BlockState]) -> None:
         "--model", "--runtime-base", "--run-name", "--results-dir",
         "--scripts-dir", "--tuning-profiles", "--hardware-id", "--gguf",
     }
+    if PORTABLE_BUNDLE:
+        runner_owned.update({"--records", "--reference-output", "--scoreboard-output"})
     for bid, block in blocks.items():
         cfg = block.config
         suite = cfg["suite"]
@@ -641,6 +645,19 @@ def build_suite_cmd(block: BlockState, runtime: Runtime) -> List[str]:
             "-v", "/run/lock:/host-lock",
             "-e", "BENCH_EVAL_LOCK=/host-lock/bench-evalplus.lock",
         ]
+        portable_outputs = None
+        if PORTABLE_BUNDLE:
+            record_root = HISTORY_ROOT / str(cfg["_campaign_name"]) / str(run_id)
+            portable_outputs = {
+                "records": str(record_root / "model_benchmark_records.jsonl"),
+                "reference": str(record_root / "MODEL_BENCHMARK_REFERENCE.md"),
+                "scoreboard": str(record_root / "model_library_scoreboard.json"),
+            }
+            cmd.extend(["-e", f"BENCHMARK_RECORDS_PATH={portable_outputs['records']}",
+                        "-e", f"BENCHMARK_REFERENCE_OUTPUT={portable_outputs['reference']}",
+                        "-e", f"BENCHMARK_SCOREBOARD_OUTPUT={portable_outputs['scoreboard']}"])
+            if suite == "bench-code":
+                cmd.extend(["-e", "BENCHMARK_RECORD_SCRIPT=/benchmark-scripts/scripts/active/record_benchmark_result.py"])
         if spec.get("container_gpu_access"):
             docker_gpu_spec = f'"device={gpu_spec}"' if len(runtime.gpu_ids) > 1 else f"device={gpu_spec}"
             cmd.extend(["--gpus", docker_gpu_spec])
@@ -668,6 +685,10 @@ def build_suite_cmd(block: BlockState, runtime: Runtime) -> List[str]:
             local_gpu_spec = ",".join(str(i) for i in range(len(runtime.gpu_ids)))
             cmd.extend(["--gpu-ids", local_gpu_spec])
         cmd.extend(suite_args)
+        if portable_outputs and suite in DIRECT_RECORD_SUITES:
+            cmd.extend(["--records", portable_outputs["records"],
+                        "--reference-output", portable_outputs["reference"],
+                        "--scoreboard-output", portable_outputs["scoreboard"]])
 
     else:
         raise ValueError(f"Unsupported suite: {suite}")

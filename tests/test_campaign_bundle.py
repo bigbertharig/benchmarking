@@ -30,15 +30,22 @@ class CampaignBundleTests(unittest.TestCase):
             subprocess.run([sys.executable, str(BUILDER), "verify", str(root)],
                            check=True, capture_output=True, text=True)
             records = temp / "records.jsonl"
+            reference = temp / "MODEL_BENCHMARK_REFERENCE.md"
+            scoreboard = temp / "model_library_scoreboard.json"
             subprocess.run([
                 sys.executable, str(root / "scripts/active/record_benchmark_result.py"),
                 "--model", "ministral-3:3b", "--test-id", "custom_json_schema_strict",
                 "--run-class", "smoke", "--score", "0.5", "--sample-count", "1",
                 "--metric", "pass_rate", "--methodology-id", "bench-pipeline/local-custom",
                 "--methodology-version", "2.1.0", "--comparison-group", "pipeline-local-custom-v2",
-                "--records", str(records), "--no-refresh",
+                "--records", str(records), "--reference-output", str(reference),
+                "--scoreboard-output", str(scoreboard),
             ], check=True, capture_output=True, text=True)
             self.assertEqual(json.loads(records.read_text())["score"], 0.5)
+            self.assertTrue(reference.is_file())
+            self.assertTrue(scoreboard.is_file())
+            self.assertEqual(json.loads(scoreboard.read_text())["selected_per_model_test"][0]["model"],
+                             "ministral-3:3b")
             request = temp / "request.json"
             request.write_text(json.dumps({"name": "portable-smoke",
                                            "models": ["ministral-3:3b"],

@@ -22,7 +22,10 @@ AUTO_RESERVE_ENABLED="${BENCHMARK_DISABLE_AUTO_RESERVE:-0}"
 RUNTIME_DOWN_GRACE_SECONDS="${BENCH_CODE_RUNTIME_DOWN_GRACE_SECONDS:-90}"
 THERMAL_RUNTIME_DOWN_GRACE_SECONDS="${BENCH_CODE_THERMAL_DOWN_GRACE_SECONDS:-1200}"
 WATCHDOG_POLL_SECONDS="${BENCH_CODE_WATCHDOG_POLL_SECONDS:-5}"
-RECORD_RESULT_SCRIPT="${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/scripts/active/record_benchmark_result.py"
+RECORD_RESULT_SCRIPT="${BENCHMARK_RECORD_SCRIPT:-${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/scripts/active/record_benchmark_result.py}"
+RECORDS_PATH="${BENCHMARK_RECORDS_PATH:-${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/results/model_benchmark_records.jsonl}"
+REFERENCE_OUTPUT="${BENCHMARK_REFERENCE_OUTPUT:-${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md}"
+SCOREBOARD_OUTPUT="${BENCHMARK_SCOREBOARD_OUTPUT:-${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/results/model_library_scoreboard.json}"
 METHODOLOGY_ID="bench-code/evalplus"
 METHODOLOGY_VERSION="2.0.0"
 COMPARISON_GROUP="evalplus-0.3-plus-v1"
@@ -227,7 +230,10 @@ record_result_row() {
         --config-id "evalplus-0.3.1-greedy" \
         --config-json '{"evalplus":"0.3.1","decoding":"greedy"}' \
         --run-at "$(date -Iseconds)" \
-        --notes "$notes" >/dev/null
+        --notes "$notes" \
+        --records "$RECORDS_PATH" \
+        --reference-output "$REFERENCE_OUTPUT" \
+        --scoreboard-output "$SCOREBOARD_OUTPUT" >/dev/null
 }
 
 record_failure_row() {
@@ -246,7 +252,10 @@ record_failure_row() {
         --comparison-group "$COMPARISON_GROUP" \
         --failure-kind "$kind" \
         --failure-message "$message" \
-        --failed-request-count 1 >/dev/null
+        --failed-request-count 1 \
+        --records "$RECORDS_PATH" \
+        --reference-output "$REFERENCE_OUTPUT" \
+        --scoreboard-output "$SCOREBOARD_OUTPUT" >/dev/null
 }
 
 record_code_task_results() {

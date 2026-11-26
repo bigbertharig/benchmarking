@@ -27,6 +27,13 @@ submitting from the controller package. The existing `--rig-benchmarking-root`
 alias remains available for source checkouts. Managed campaigns still require
 configured rig control and installed suite container images on the target rig. The scheduler
 records each suite's exact Docker argv in new benchmark evidence for replay.
+An extracted package writes its score ledger, generated reference, and scoreboard to
+`/mnt/shared/logs/benchmarks/campaigns/history/<campaign>/<run_id>/`; it does not
+require the older shared Benchmarking source checkout for recording. Source-checkout
+campaigns keep their existing ledger path. Import package rows into a curated model
+library only after reviewing the terminal and raw suite receipts. Rebuild the rig's
+bench-code image from this checkout when updating its embedded run.sh; portable
+package recording for that suite requires the revised image.
 
 ## Simple model-and-suite request
 
