@@ -21,7 +21,7 @@ IN_CLOSE_WRITE = 0x00000008
 IN_MOVED_TO = 0x00000080
 IN_CREATE = 0x00000100
 EVENT = struct.Struct("iIII")
-TERMINAL = {"completed", "completed_with_failures", "failed", "interrupted", "thermal_aborted"}
+TERMINAL = {"completed", "completed_with_failures", "failed", "interrupted", "thermal_aborted", "telemetry_aborted"}
 
 
 def read_status(path: Path) -> dict | None:

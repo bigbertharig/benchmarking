@@ -680,6 +680,7 @@ def start_suite(block: BlockState, runtime: Runtime) -> subprocess.Popen:
 # ---------------------------------------------------------------------------
 
 GUARD_SAMPLE_INTERVAL_S = 10
+GUARD_MISSING_LIMIT = 3
 
 
 def sample_owner_guard(state: CampaignState) -> dict:
@@ -692,10 +693,18 @@ def sample_owner_guard(state: CampaignState) -> dict:
             raise ValueError(f"rigctl status exited {result.returncode}")
         response = json.loads(result.stdout)
         guard = response.get("guard")
+        if isinstance(guard, dict) and guard.get("schema") != "rig-hardware-telemetry/1":
+            raise ValueError("unsupported owner hardware telemetry schema")
         if not isinstance(guard, dict) or guard.get("level") not in ("ok", "warn", "critical"):
             raise ValueError("owner guard state unavailable")
+        if response.get("from_copy") is True or guard.get("fresh") is not True:
+            raise ValueError("owner guard state is stale or cached")
+        sampled_at = datetime.fromisoformat(str(guard.get("sampled_at", "")).replace("Z", "+00:00"))
+        if sampled_at.tzinfo is None or abs((datetime.now(timezone.utc) - sampled_at).total_seconds()) > 30:
+            raise ValueError("owner guard sample is older than 30 seconds")
         sample.update({"owner_observed_at": response.get("observed_at"),
-                       "from_copy": response.get("from_copy") is True,
+                       "owner_sampled_at": guard.get("sampled_at"),
+                       "schema": guard.get("schema"),
                        "level": guard["level"], "why": guard.get("why"),
                        "gpu_power_total_w": guard.get("gpu_power_total_w"),
                        "gpu_temp_max_c": guard.get("gpu_temp_max_c"),
@@ -855,7 +864,8 @@ class Scheduler:
         self.loading_block: Optional[str] = None
         self.load_proc: Optional[subprocess.Popen] = None
         self._shutdown = False
-        self._last_guard_sample = 0.0
+        self._last_guard_sample = -GUARD_SAMPLE_INTERVAL_S
+        self._missing_guard_samples = 0
 
     def _runtime_group_members(self, group: str) -> List[BlockState]:
         return [
@@ -1202,11 +1212,25 @@ class Scheduler:
             if not self.dry_run and time.monotonic() - self._last_guard_sample >= GUARD_SAMPLE_INTERVAL_S:
                 sample = sample_owner_guard(self.state)
                 self._last_guard_sample = time.monotonic()
-                if sample.get("level") == "critical" and not sample.get("from_copy"):
+                if sample.get("level") == "unavailable":
+                    self._missing_guard_samples += 1
+                    if self._missing_guard_samples >= GUARD_MISSING_LIMIT:
+                        reason = "owner hardware telemetry unavailable for three consecutive samples"
+                        log(reason)
+                        self.shutdown(reason=reason, status="telemetry_aborted")
+                        break
+                else:
+                    self._missing_guard_samples = 0
+                if sample.get("level") == "critical":
                     reason = "owner hardware guard critical: " + str(sample.get("why") or "unspecified")
                     log(reason)
                     self.shutdown(reason=reason, status="thermal_aborted")
                     break
+            if not self.dry_run and self._missing_guard_samples:
+                write_status(self.state)
+                write_checkpoint(self.state)
+                time.sleep(TICK_INTERVAL)
+                continue
             self.reap_finished()
 
             if self._all_done():

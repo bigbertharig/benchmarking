@@ -106,9 +106,13 @@ Samples are appended with fsync to `guard_samples.jsonl` beside `status.json`,
 and the latest sample is included in status. A fresh owner-reported `critical`
 level stops the campaign, releases its owned work, and writes
 `thermal_aborted` as the terminal status; cached controller copies do not
-trigger this decision. Missing guard data is recorded as `unavailable`, so
-operators can distinguish missing telemetry from an observed safe state.
-Orchestration owns the power and temperature thresholds.
+trigger this decision. Gateway forwards the owner status without setting
+hardware thresholds. The owner publishes `rig-hardware-telemetry/1` with
+`sampled_at` and `fresh`; a sample older than 30 seconds, an unavailable
+guard, or a cached controller copy is treated as `unavailable`. New scheduling
+pauses immediately. Three consecutive unavailable samples stop the campaign,
+release its owned work, and write `telemetry_aborted`. The JSONL receipt retains
+each attempt and its error. Orchestration owns the power and temperature thresholds.
 
 Additional controls:
 

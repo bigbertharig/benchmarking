@@ -1,5 +1,6 @@
 import importlib.util
 import json
+from datetime import datetime, timezone
 import shlex
 import sys
 import tempfile
@@ -48,8 +49,11 @@ class CampaignRunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             class Result:
                 returncode = 0
-                stdout = json.dumps({"observed_at": "2026-11-25T00:00:00Z",
-                                     "guard": {"level": "warn", "why": "hot",
+                stdout = json.dumps({"observed_at": datetime.now(timezone.utc).isoformat(),
+                                     "guard": {"schema": "rig-hardware-telemetry/1",
+                                               "fresh": True,
+                                               "sampled_at": datetime.now(timezone.utc).isoformat(),
+                                               "level": "warn", "why": "hot",
                                                "gpu_power_total_w": 720,
                                                "gpu_temp_max_c": 83}})
             self._patch(HISTORY_ROOT=Path(directory))
@@ -80,6 +84,50 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertEqual(statuses[-1], "thermal_aborted")
         self.assertEqual(cancelled[0][0], "campaign-unit")
         self.assertIn("critical", cancelled[0][1])
+
+    def test_missing_owner_telemetry_holds_loads_then_aborts_with_cleanup(self):
+        block = RUNNER.BlockState("a", {**self._common(), "id": "a",
+                                        "suite": "bench-pipeline"})
+        block.status = RUNNER.WAITING_GPU
+        state = self._state(block)
+        cancelled = []
+        statuses = []
+        self._patch(sample_owner_guard=lambda _: {"level": "unavailable"},
+                    GUARD_SAMPLE_INTERVAL_S=0, TICK_INTERVAL=0,
+                    cancel_owner=lambda owner, reason: cancelled.append((owner, reason)),
+                    write_status=lambda state: statuses.append(state.status),
+                    write_checkpoint=lambda _: None)
+        scheduler = RUNNER.Scheduler(state)
+        self.assertEqual(scheduler.run(), 1)
+        self.assertEqual(state.status, "telemetry_aborted")
+        self.assertEqual(statuses[-1], "telemetry_aborted")
+        self.assertEqual(len(cancelled), 1)
+
+    def test_cached_critical_is_unavailable_not_an_owner_decision(self):
+        with tempfile.TemporaryDirectory() as directory:
+            class Result:
+                returncode = 0
+                stdout = json.dumps({"from_copy": True,
+                                     "guard": {"schema": "rig-hardware-telemetry/1", "level": "critical", "fresh": True,
+                                               "sampled_at": datetime.now(timezone.utc).isoformat()}})
+            self._patch(HISTORY_ROOT=Path(directory))
+            from unittest.mock import patch
+            with patch.object(RUNNER.subprocess, "run", return_value=Result()):
+                sample = RUNNER.sample_owner_guard(self._state())
+            self.assertEqual(sample["level"], "unavailable")
+
+    def test_old_owner_critical_is_unavailable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            class Result:
+                returncode = 0
+                stdout = json.dumps({"guard": {"schema": "rig-hardware-telemetry/1", "level": "critical", "fresh": True,
+                                               "sampled_at": "2026-11-01T00:00:00Z"}})
+            self._patch(HISTORY_ROOT=Path(directory))
+            from unittest.mock import patch
+            with patch.object(RUNNER.subprocess, "run", return_value=Result()):
+                sample = RUNNER.sample_owner_guard(self._state())
+            self.assertEqual(sample["level"], "unavailable")
+            self.assertIn("older", sample["error"])
 
     def test_registry_drives_command_for_every_suite(self):
         for suite in sorted(RUNNER.SUPPORTED_SUITES):
