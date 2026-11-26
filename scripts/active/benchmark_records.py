@@ -233,14 +233,16 @@ def best_by_model_test(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(selected.values(), key=lambda row: (row["model"], row["test_id"]))
 
 
-def latest_validated_by_model_test(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Show the most recent validated/full result; fall back to lesser classes when needed."""
+def latest_successful_by_model_test(rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Show the newest successful result for each model/test, with its evidence size and method."""
     selected: dict[tuple[str, str], dict[str, Any]] = {}
-    tier = {"validated": 2, "full": 2, "provisional": 1, "smoke": 0, "legacy": -1}
 
-    def key(row: dict[str, Any]) -> tuple[int, str, tuple[int, ...], str]:
-        return (tier.get(str(row.get("run_class", "legacy")), -1),
-                str(row.get("run_at", "")), _version(row), str(row.get("run_id", "")))
+    def key(row: dict[str, Any]) -> tuple[str, tuple[int, ...], int, int, str]:
+        sample_count = _optional_int(row.get("sample_count"), "sample_count")
+        return (str(row.get("run_at", "")), _version(row),
+                RUN_CLASS_RANK.get(str(row.get("run_class", "legacy")), -1),
+                sample_count if sample_count is not None else -1,
+                str(row.get("run_id", "")))
 
     for row in rows:
         if row.get("status", "success") != "success" or row.get("score") is None:

@@ -48,7 +48,14 @@ def compile_request(request: dict, registry: dict, contracts: dict) -> dict:
         raise ValueError("unknown registry model(s): " + ", ".join(unknown))
     for model in models:
         stage = known_models[model].get("loading_stage")
-        if stage is not None and (not isinstance(stage, dict) or stage.get("state") != "ready_for_benchmark"):
+        if not isinstance(stage, dict):
+            raise ValueError(f"{model}: loading_stage is required before a campaign request")
+        state = stage.get("state")
+        if state not in {"in_progress", "ready_for_benchmark", "blocked"}:
+            raise ValueError(f"{model}: invalid loading_stage state")
+        if state == "blocked":
+            raise ValueError(f"{model}: loading_stage is blocked")
+        if run_class != "smoke" and state != "ready_for_benchmark":
             raise ValueError(f"{model}: onboarding is not ready_for_benchmark")
     suite_specs = contracts.get("suites", {})
     normalized = []

@@ -269,10 +269,12 @@ def main() -> int:
     if rc != 0 or not plan.get("fits"):
         reason = str((plan.get("error") or {}).get("message") or plan.get("reason") or "").removeprefix("won't fit: ")
         print(f"won't fit: {reason}", file=sys.stderr)
-        # A planner answer (not a failed call): a "won't fit" is a result worth keeping.
-        if gpus and (plan.get("fits") is False or "needs about" in reason):
-            write_record({**base_record(a, gpus, plan), "fits": False, "reason": reason, "ctx_requested": a.ctx},
-                         a, gpus, a.ctx or plan.get("ctx"))
+        # Every failed fit needs a terminal receipt, including admission errors,
+        # so the capacity watcher can report failure instead of waiting forever.
+        record_gpus = gpus or []
+        write_record({**base_record(a, record_gpus, plan), "fits": False, "reason": reason,
+                      "ctx_requested": a.ctx, "error": reason if rc != 0 else None},
+                     a, record_gpus, a.ctx or plan.get("ctx"))
         return 4
     gpus, ctx = plan["gpus"], int(plan["ctx"])
     print(f"plan: {a.model} on GPU {gpus} at ctx {ctx} ({plan.get('ctx_limit')}), split {plan.get('tensor_split')}",
@@ -289,8 +291,10 @@ def main() -> int:
         raise
     load_s = round(time.time() - t0, 1)
     if rc != 0 or loaded.get("state") != "ready":
-        print(f"load failed: {(loaded.get('error') or {}).get('message')}", file=sys.stderr)
+        reason = str((loaded.get("error") or {}).get("message") or loaded.get("state") or f"exit {rc}")
+        print(f"load failed: {reason}", file=sys.stderr)
         rigctl("cancel-owner", owner, "--reason", "capacity run load failed", timeout=900)
+        write_record({**base_record(a, gpus, plan), "error": f"load failed: {reason}"}, a, gpus, ctx)
         return 1
     port, profile = int(loaded["port"]), loaded["profile"]
     print(f"loaded {profile} on :{port} in {load_s}s, ctx {loaded.get('ctx')}", flush=True)
@@ -325,7 +329,11 @@ def main() -> int:
         record["error"] = f"{type(exc).__name__}: {exc}"
         print(f"probe failed: {record['error']}", file=sys.stderr)
     finally:
-        rigctl("unload", profile, timeout=900)
+        cleanup_rc, cleanup = rigctl("cancel-owner", owner, "--reason", "capacity run complete", timeout=900)
+        if cleanup_rc != 0 or cleanup.get("errors"):
+            detail = cleanup.get("errors") or cleanup.get("error") or f"exit {cleanup_rc}"
+            record["error"] = f"{record.get('error', '')} cleanup failed: {detail}".strip()
+            print(record["error"], file=sys.stderr)
 
     write_record(record, a, gpus, loaded.get("ctx") or ctx)
     return 1 if "error" in record else 0

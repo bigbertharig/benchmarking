@@ -53,9 +53,10 @@ python3 scripts/active/submit_campaign_request.py request.json \
 ```
 
 The submit command reads `model_registry.json` and `suite_contracts.json`. It accepts
-active and candidate models, refuses an explicitly unfinished `loading_stage`,
-and checks suite task selectors and limit support. Existing registry models
-without a loading-stage record remain available for explicit tests. It emits
+active and candidate models and checks suite task selectors and limit support.
+Every requested model needs a `loading_stage`: `in_progress` permits diagnostic
+`smoke` runs, while `provisional`, `validated`, and `full` require
+`ready_for_benchmark`. A `blocked` model cannot be submitted. It emits
 consecutive suites in one runtime group per model so the runner reuses a load;
 different model groups may run concurrently if the rig admits them. The
 request contains no GPU IDs. It writes the compiled manifest and a submission

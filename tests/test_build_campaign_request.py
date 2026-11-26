@@ -13,7 +13,7 @@ from build_campaign_request import compile_gateway_plan, compile_request  # noqa
 import submit_campaign_request as submitter  # noqa: E402
 
 
-REGISTRY = {"models": {"model:a": {"status": "candidate"}, "model:b": {"status": "active"}}}
+REGISTRY = {"models": {"model:a": {"status": "candidate", "loading_stage": {"state": "in_progress"}}, "model:b": {"status": "active", "loading_stage": {"state": "ready_for_benchmark"}}}}
 CONTRACTS = {"suites": {
     "bench-reasoning": {"task_selector": "--tasks", "limit_supported": True},
     "bench-runtime": {"task_selector": None, "limit_supported": False},
@@ -71,11 +71,19 @@ class CampaignRequestTests(unittest.TestCase):
         self.assertEqual(campaign["blocks"][0]["model"], "model:a")
         self.assertNotIn("runtime_group", campaign["blocks"][0])
 
-    def test_explicit_unfinished_onboarding_is_rejected(self) -> None:
+    def test_missing_loading_stage_is_rejected(self) -> None:
+        request = {"name": "legacy", "models": ["new"], "tests": ["bench-reasoning"]}
+        with self.assertRaisesRegex(ValueError, "loading_stage is required"):
+            compile_request(request, {"models": {"new": {"status": "active"}}}, CONTRACTS)
+
+    def test_unfinished_onboarding_can_smoke_but_not_run_full_suites(self) -> None:
         registry = {"models": {"new": {"status": "candidate", "loading_stage": {"state": "in_progress"}}}}
-        request = {"name": "too_early", "models": ["new"], "tests": ["bench-reasoning"]}
-        with self.assertRaisesRegex(ValueError, "not ready_for_benchmark"):
-            compile_request(request, registry, CONTRACTS)
+        request = {"name": "diagnostic", "models": ["new"], "tests": ["bench-reasoning"]}
+        self.assertEqual(compile_request(request, registry, CONTRACTS)["defaults"]["run_class"], "smoke")
+        for run_class in ("provisional", "validated", "full"):
+            request["run_class"] = run_class
+            with self.assertRaisesRegex(ValueError, "not ready_for_benchmark"):
+                compile_request(request, registry, CONTRACTS)
 
     def test_submission_writes_recoverable_manifest_and_one_managed_run(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

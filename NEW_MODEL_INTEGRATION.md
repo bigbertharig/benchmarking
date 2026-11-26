@@ -29,7 +29,10 @@ versus parallel execution.
    measurements warrant it. Record the chosen settings in `profiles` and the
    evidence summary in `loading_stage`; mark `ready_for_benchmark` only after
    the route answers at its stated context. `MODEL_LOADING_GATE.md` defines this
-   handoff. An explicitly unfinished loading stage cannot enter a suite request.
+   handoff. Every campaign-request model needs a `loading_stage`. An
+   `in_progress` model may run diagnostic `smoke` blocks; `provisional`,
+   `validated`, and `full` blocks require `ready_for_benchmark`. A blocked
+   model cannot enter a campaign request.
 3. Submit models and suites. `scripts/active/submit_campaign_request.py`
    compiles a small request into the existing campaign-v1 blocks and starts a
    managed, resumable run. It groups

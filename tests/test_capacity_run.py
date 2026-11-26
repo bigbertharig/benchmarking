@@ -1,6 +1,7 @@
 import importlib.util
 import sys
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,6 +38,26 @@ class CapacityRunTests(unittest.TestCase):
         self.assertTrue(CAP.fits_depth(131072, 0.9, 126976, CAP.DECODE_TOKENS))
         self.assertFalse(CAP.fits_depth(131072, 0.9, 110000, CAP.DECODE_TOKENS))
         self.assertTrue(CAP.fits_depth(131072, 0.5, 110000, CAP.DECODE_TOKENS))
+
+    def test_denied_fit_writes_a_terminal_capacity_receipt(self):
+        with mock.patch.object(sys, "argv", ["capacity_run.py", "candidate", "--gpus", "0", "--ctx", "16384"]), \
+             mock.patch.object(CAP, "rigctl", return_value=(4, {"error": {"message": "not approved for chat"}})), \
+             mock.patch.object(CAP, "base_record", return_value={"kind": "capacity"}), \
+             mock.patch.object(CAP, "write_record") as write:
+            self.assertEqual(CAP.main(), 4)
+        record = write.call_args.args[0]
+        self.assertIs(record["fits"], False)
+        self.assertEqual(record["error"], "not approved for chat")
+
+    def test_failed_load_writes_a_terminal_capacity_receipt(self):
+        plan = {"fits": True, "gpus": [0], "ctx": 16384}
+        calls = [(0, plan), (1, {"error": {"message": "CUDA allocation failed"}}), (0, {})]
+        with mock.patch.object(sys, "argv", ["capacity_run.py", "candidate", "--gpus", "0", "--ctx", "16384"]), \
+             mock.patch.object(CAP, "rigctl", side_effect=calls), \
+             mock.patch.object(CAP, "base_record", return_value={"kind": "capacity"}), \
+             mock.patch.object(CAP, "write_record") as write:
+            self.assertEqual(CAP.main(), 1)
+        self.assertIn("CUDA allocation failed", write.call_args.args[0]["error"])
 
     def test_record_names_the_model_and_cards(self):
         self.assertEqual(CAP.slug("nemotron-3.5-bolt:74b-a9b"), "nemotron-3_5-bolt_74b-a9b")

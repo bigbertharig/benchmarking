@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = "benchmark-campaign-package/1"
 ROOT_FILES = (
+    "run_local_custom_task.py", "benchmark_catalog.json", "benchmark_methodologies.json",
     "model_registry.json", "model_library_export.json", "model_roles.json",
     "models.catalog.json", "model_tuning_profiles.json", "load_recipes.json",
     "subagent_catalog.json", "docker/suite_contracts.json",

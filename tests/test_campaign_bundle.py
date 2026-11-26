@@ -22,11 +22,26 @@ class CampaignBundleTests(unittest.TestCase):
                 archive.extractall(temp / "installed")
             root = temp / "installed/benchmarking-campaign"
             self.assertFalse((root / ".git").exists())
+            for name in ("run_local_custom_task.py", "benchmark_catalog.json", "benchmark_methodologies.json",
+                         "custom_tasks/cases.json", "scripts/active/record_benchmark_result.py"):
+                self.assertTrue((root / name).is_file(), name)
+            subprocess.run([sys.executable, str(root / "scripts/active/record_benchmark_result.py"),
+                            "--help"], check=True, capture_output=True, text=True)
             subprocess.run([sys.executable, str(BUILDER), "verify", str(root)],
                            check=True, capture_output=True, text=True)
+            records = temp / "records.jsonl"
+            subprocess.run([
+                sys.executable, str(root / "scripts/active/record_benchmark_result.py"),
+                "--model", "ministral-3:3b", "--test-id", "custom_json_schema_strict",
+                "--run-class", "smoke", "--score", "0.5", "--sample-count", "1",
+                "--metric", "pass_rate", "--methodology-id", "bench-pipeline/local-custom",
+                "--methodology-version", "2.1.0", "--comparison-group", "pipeline-local-custom-v2",
+                "--records", str(records), "--no-refresh",
+            ], check=True, capture_output=True, text=True)
+            self.assertEqual(json.loads(records.read_text())["score"], 0.5)
             request = temp / "request.json"
             request.write_text(json.dumps({"name": "portable-smoke",
-                                           "models": ["gemma-3:4b"],
+                                           "models": ["ministral-3:3b"],
                                            "tests": [{"suite": "bench-reasoning",
                                                       "tasks": ["gsm8k"], "limit": 1}],
                                            "run_class": "smoke"}))

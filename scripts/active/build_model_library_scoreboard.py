@@ -9,7 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from benchmark_records import SCHEMA_VERSION, latest_validated_by_model_test, load_records, now_iso, write_json_atomic
+from benchmark_records import SCHEMA_VERSION, latest_successful_by_model_test, load_records, now_iso, write_json_atomic
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -110,7 +110,7 @@ def main() -> int:
             },
         }
 
-    selected = [with_provenance(row) for row in latest_validated_by_model_test(rows)]
+    selected = [with_provenance(row) for row in latest_successful_by_model_test(rows)]
     if not selected and not args.allow_empty:
         raise SystemExit(f"refusing to write empty scoreboard from {records_path}")
 

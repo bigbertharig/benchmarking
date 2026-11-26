@@ -13,7 +13,7 @@ from pathlib import Path
 
 import model_library
 import model_profiles
-from benchmark_records import best_by_model_test_group, latest_validated_by_model_test
+from benchmark_records import best_by_model_test_group, latest_successful_by_model_test
 
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "model_library_export.json"
@@ -64,7 +64,7 @@ def summary(registry: dict, roles: dict) -> dict:
 
     current = {
         (str(row["model"]), str(row["test_id"])): evidence(row)
-        for row in latest_validated_by_model_test(measurements)
+        for row in latest_successful_by_model_test(measurements)
     }
     grouped: dict[tuple[str, str], list[dict]] = {}
     for row in best_by_model_test_group(measurements):
@@ -80,14 +80,15 @@ def summary(registry: dict, roles: dict) -> dict:
             evidence for (model, test), evidence in current.items()
             if model == mid and test.startswith("custom_")
         ]
-        headline_groups = {
-            (item["methodology"]["id"], item["methodology"]["comparison_group"])
-            for item in pipeline_headlines
-        }
+        # The strict-JSON grader changed independently of the other five tasks.
+        # The current rollup follows each task's latest selected score; retain the
+        # per-task methodology and command so mixed versions remain inspectable.
         pipeline = (round(sum(item["score"] for item in pipeline_headlines) /
                           len(pipeline_headlines), 3)
-                    if pipeline_headlines and len(headline_groups) == 1 else None)
-        pipeline_tests = len(pipeline_headlines) if pipeline is not None else 0
+                    if len(pipeline_headlines) == 6 else None)
+        pipeline_tests = len(pipeline_headlines)
+        pipeline_evidence = {test: item for (model, test), item in current.items()
+                             if model == mid and test.startswith("custom_")}
         pipeline_groups: dict[tuple[str, str], list[float]] = {}
         for (model, test), evidence_rows in grouped.items():
             if model != mid or not test.startswith("custom_"):
@@ -120,7 +121,7 @@ def summary(registry: dict, roles: dict) -> dict:
                      "source_url": entry.get("source_url"), "superseded_by": entry.get("superseded_by"),
                      "scores": scores, "score_groups": score_groups,
                      "pipeline": pipeline, "pipeline_tests": pipeline_tests,
-                     "pipeline_by_group": pipeline_by_group, "runtime": runtime})
+                     "pipeline_by_group": pipeline_by_group, "pipeline_evidence": pipeline_evidence, "runtime": runtime})
     rows.sort(key=lambda row: ({"active": 0, "candidate": 1}.get(row["status"], 2), row["model"]))
     return {"key_tests": [label for label, _ in KEY_TESTS], "models": rows,
             "roles": {key: value.get("model") for key, value in roles["roles"].items()

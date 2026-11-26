@@ -30,7 +30,7 @@ class ModelExportContractTest(unittest.TestCase):
         published = json.loads(exporter.OUTPUT.read_text(encoding="utf-8"))
         self.assertEqual(published, exporter.build())
 
-    def test_summary_prefers_validated_and_newer_extractor(self):
+    def test_summary_shows_newest_smoke_with_its_metadata(self):
         with tempfile.TemporaryDirectory() as work:
             root = Path(work)
             (root / "results/runtime_experiments").mkdir(parents=True)
@@ -64,8 +64,9 @@ class ModelExportContractTest(unittest.TestCase):
                 exporter.ROOT = original
             first = result["models"][0]
             self.assertEqual(first["roles"], ["single_1060"])
-            self.assertEqual(first["scores"]["bbh"]["score"], 0.85)
-            self.assertEqual(first["scores"]["drop"]["unreadable"], 2)
+            self.assertEqual(first["scores"]["bbh"]["score"], 0.80)
+            self.assertEqual(first["scores"]["drop"]["score"], 0.2)
+            self.assertEqual(first["scores"]["drop"]["run_class"], "smoke")
             self.assertEqual(first["runtime"]["decode_tps"], 16.6)
             self.assertEqual(result["models"][-1]["model"], "old:7b")
 
@@ -108,6 +109,39 @@ class ModelExportContractTest(unittest.TestCase):
                              ["hash-old", "hash-new"])
             self.assertEqual([item["methodology"]["version"] for item in groups],
                              ["1.0.0", "2.0.0"])
+
+    def test_pipeline_rollup_uses_latest_per_task_and_keeps_provenance(self):
+        with tempfile.TemporaryDirectory() as work:
+            root = Path(work)
+            (root / "results").mkdir()
+            tasks = ("custom_json_schema_strict", "custom_command_safety",
+                     "custom_ambiguity_handling", "custom_tool_plan_sequence",
+                     "custom_orchestration_tradeoff", "custom_long_context_extract")
+            records = []
+            for task in tasks:
+                records.append({"model": "m:9b", "test_id": task, "score": 0.5,
+                                "status": "success", "run_class": "validated", "run_at": "2026-01-01",
+                                "methodology": {"id": "bench-pipeline/local-custom", "version": "2.0.0",
+                                                "comparison_group": "pipeline-local-custom-v1"}})
+            records.append({"model": "m:9b", "test_id": tasks[0], "score": 1.0,
+                            "status": "success", "run_class": "validated", "run_at": "2026-02-01",
+                            "command": "run newest JSON", "methodology": {
+                                "id": "bench-pipeline/local-custom", "version": "2.1.0",
+                                "comparison_group": "pipeline-local-custom-v2"}})
+            (root / "results/model_benchmark_records.jsonl").write_text(
+                "\n".join(json.dumps(row) for row in records) + "\n")
+            original = exporter.ROOT
+            try:
+                exporter.ROOT = root
+                model = exporter.summary({"models": {"m:9b": {"status": "active", "profiles": {}}}},
+                                         {"roles": {}})["models"][0]
+            finally:
+                exporter.ROOT = original
+            self.assertEqual(model["pipeline"], 0.583)
+            self.assertEqual(model["pipeline_tests"], 6)
+            self.assertEqual(model["pipeline_evidence"][tasks[0]]["reproduction"]["command"],
+                             "run newest JSON")
+            self.assertEqual(len(model["pipeline_by_group"]), 2)
 
     def test_dynamic_subagent_requires_a_complete_memory_curve(self):
         registry = {"models": {"m:9b": {}}}

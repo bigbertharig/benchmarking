@@ -16,7 +16,7 @@ from benchmark_records import (  # noqa: E402
     RecordValidationError,
     best_by_model_test,
     best_by_model_test_group,
-    latest_validated_by_model_test,
+    latest_successful_by_model_test,
     load_records,
     normalize_record,
     selection_key,
@@ -84,14 +84,14 @@ class BenchmarkRecordTests(unittest.TestCase):
         with self.assertRaisesRegex(RecordValidationError, "command"):
             validate_record(row)
 
-    def test_latest_validated_headline_ignores_newer_smoke_and_older_larger_sample(self) -> None:
+    def test_latest_headline_uses_newer_smoke_with_its_sample_count(self) -> None:
         older = record(run_id="older", run_class="validated", sample_count=1000,
                        score=0.8, run_at="2026-01-01T00:00:00Z")
         current = record(run_id="current", run_class="validated", sample_count=50,
                          score=0.7, run_at="2026-02-01T00:00:00Z")
         smoke = record(run_id="smoke", run_class="smoke", sample_count=10,
                        score=0.99, run_at="2026-03-01T00:00:00Z")
-        self.assertEqual(latest_validated_by_model_test([smoke, older, current]), [current])
+        self.assertEqual(latest_successful_by_model_test([smoke, older, current]), [smoke])
 
     def test_methodology_groups_keep_distinct_selected_results(self) -> None:
         old = record(run_id="old-method", run_class="validated", sample_count=100,
@@ -282,8 +282,8 @@ class BenchmarkRecordTests(unittest.TestCase):
             self.assertEqual(proc.returncode, 0, proc.stderr)
             payload = json.loads(scoreboard.read_text(encoding="utf-8"))
             self.assertNotIn("latest_per_model_test", payload)
-            self.assertEqual(payload["selected_per_model_test"][0]["run_id"], "validated")
-            self.assertEqual(payload["selected_per_model_test"][0]["selection_provenance"]["measurement_id"], "validated")
+            self.assertEqual(payload["selected_per_model_test"][0]["run_id"], "smoke")
+            self.assertEqual(payload["selected_per_model_test"][0]["selection_provenance"]["measurement_id"], "smoke")
             self.assertEqual(payload["selected_per_model_test"][0]["selection_provenance"]["methodology_version"], "unversioned")
             self.assertIsNone(payload["selected_per_model_test"][0]["selection_provenance"]["config_hash"])
             self.assertEqual(payload["suite_rollup"][0]["suite"], "controlled")
