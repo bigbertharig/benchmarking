@@ -1,0 +1,35 @@
+{
+  "schema": "model-loading-check/1",
+  "recorded_at": "2026-11-26T19:29:06+00:00",
+  "model": "qwen3.6:27b",
+  "profile": "qwen3.6-27b-g0",
+  "commands": [
+    "rigctl load-model qwen3.6:27b --gpus 0 --use benchmark --wait 120 --owner onboarding-refresh-20261126 --json",
+    "python3 ~/benchmarking/scripts/integration/litmus.py 11434",
+    "rigctl cancel-owner onboarding-refresh-20261126 --reason onboarding-litmus-complete"
+  ],
+  "load": {
+    "state": "ready",
+    "gpus": [
+      0
+    ],
+    "ctx": 16384,
+    "offloaded_layers": 65,
+    "total_layers": 65,
+    "projected_headroom_mb": 7766,
+    "port": 11434
+  },
+  "litmus": {
+    "reasoning": "pass",
+    "json": "pass",
+    "code": "pass"
+  },
+  "cleanup": {
+    "profiles_unloaded": [
+      "qwen3.6-27b-g0"
+    ],
+    "leases_released": 1,
+    "errors": []
+  },
+  "limits": "Configured 16K load and short outputs only; no occupied-depth or concurrent-chat result in this pass."
+}

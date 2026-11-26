@@ -1,0 +1,105 @@
+{
+    "checked_at":  "2026-11-26T19:37:02.2854786Z",
+    "schema":  "model-onboarding-live-litmus/1",
+    "results":  [
+                    {
+                        "ctx":  16384,
+                        "model":  "qwen3-coder:30b-a3b",
+                        "litmus":  [
+                                       "reasoning PASS  content=\u0027555\u0027  reasoning_content=0 chars",
+                                       "json      PASS  content=\u0027{\\n  \"name\": \"Alice\",\\n  \"age\": 30\\n}\u0027  reasoning_content=0 chars",
+                                       "code      PASS  content=\u0027```python\\ndef is_palindrome(s):\\n    s = s.lower().replace(\" \", \"\")\\n    return s == s[::-1]\\n```\u0027  reasoning_content=0 chars"
+                                   ],
+                        "profile":  "qwen3-coder-30b-a3b-g0",
+                        "offloaded_layers":  49,
+                        "litmus_passed":  true,
+                        "state":  "ready",
+                        "cleanup_errors":  [
+
+                                           ],
+                        "owner":  "onboarding-qwen3-coder-30b-a3b-20261126",
+                        "total_layers":  49,
+                        "unloaded":  [
+                                         "qwen3-coder-30b-a3b-g0"
+                                     ],
+                        "gpus":  [
+                                     0
+                                 ]
+                    },
+                    {
+                        "ctx":  8192,
+                        "model":  "ministral-3:14b",
+                        "litmus":  [
+                                       "reasoning PASS  content=\u0027555\u0027  reasoning_content=0 chars",
+                                       "json      FAIL  content=\u0027```json\\n{\\n  \"name\": \"Alice\",\\n  \"age\": 30\\n}\\n```\u0027  reasoning_content=0 chars",
+                                       "code      PASS  content=\"```python\\ndef is_palindrome(s):\\n    s = \u0027\u0027.join(c for c in s.lower() if c.isalnum())\\n    return s == s[::-1]\\n```\"  reasoning_content=0 chars"
+                                   ],
+                        "profile":  "ministral-3-14b-g1-3",
+                        "offloaded_layers":  41,
+                        "litmus_passed":  false,
+                        "state":  "ready",
+                        "cleanup_errors":  [
+
+                                           ],
+                        "owner":  "onboarding-ministral-3-14b-20261126",
+                        "total_layers":  41,
+                        "unloaded":  [
+                                         "ministral-3-14b-g1-3"
+                                     ],
+                        "gpus":  [
+                                     1,
+                                     3
+                                 ]
+                    },
+                    {
+                        "ctx":  16384,
+                        "model":  "ministral-3:8b",
+                        "litmus":  [
+                                       "reasoning PASS  content=\u0027555\u0027  reasoning_content=0 chars",
+                                       "json      FAIL  content=\u0027```json\\n{\\n  \"name\": \"Alice\",\\n  \"age\": 30\\n}\\n```\u0027  reasoning_content=0 chars",
+                                       "code      PASS  content=\"```python\\ndef is_palindrome(s):\\n    s = \u0027\u0027.join(c.lower() for c in s if c.isalnum())\\n    return s == s[::-1]\\n```\"  reasoning_content=0 chars"
+                                   ],
+                        "profile":  "ministral-3-8b-g1-3",
+                        "offloaded_layers":  35,
+                        "litmus_passed":  false,
+                        "state":  "ready",
+                        "cleanup_errors":  [
+
+                                           ],
+                        "owner":  "onboarding-ministral-3-8b-20261126",
+                        "total_layers":  35,
+                        "unloaded":  [
+                                         "ministral-3-8b-g1-3"
+                                     ],
+                        "gpus":  [
+                                     1,
+                                     3
+                                 ]
+                    },
+                    {
+                        "ctx":  8192,
+                        "model":  "ornith-1.5:9b",
+                        "litmus":  [
+                                       "reasoning PASS  content=\u0027555\u0027  reasoning_content=0 chars",
+                                       "json      PASS  content=\u0027{\"name\": \"Alice\", \"age\": 30}\u0027  reasoning_content=0 chars",
+                                       "code      PASS  content=\u0027```python\\ndef is_palindrome(s):\\n    return s == s[::-1]\\n```\u0027  reasoning_content=0 chars"
+                                   ],
+                        "profile":  "ornith-1.5-9b-g1",
+                        "offloaded_layers":  34,
+                        "litmus_passed":  true,
+                        "state":  "ready",
+                        "cleanup_errors":  [
+
+                                           ],
+                        "owner":  "onboarding-ornith-1-5-9b-20261126",
+                        "total_layers":  34,
+                        "unloaded":  [
+                                         "ornith-1.5-9b-g1"
+                                     ],
+                        "gpus":  [
+                                     1
+                                 ]
+                    }
+                ],
+    "command":  "rigctl load-model \u003cmodel\u003e --use benchmark --wait 120 --owner \u003cowner\u003e --json; python3 litmus.py \u003cport\u003e; rigctl cancel-owner \u003cowner\u003e"
+}

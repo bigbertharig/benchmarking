@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-11-26T13:06:29-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 8192 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "allow_eos": false,
+    "concise_instruction": false,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "phi-4:14b",
+  "ubatch": 64,
+  "cards": [
+    1,
+    3
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "tensor_split": "21,20",
+    "margin_mb": 512,
+    "weights_mb": 8355,
+    "n_ctx_train": 16384,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 21,
+        "weights_mb": 4164,
+        "kv_mb": 446,
+        "compute_mb": 138,
+        "projected_mb": 4948,
+        "headroom_mb": 1192
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 19,
+        "weights_mb": 4191,
+        "kv_mb": 404,
+        "compute_mb": 138,
+        "projected_mb": 4932,
+        "headroom_mb": 1208
+      }
+    ]
+  },
+  "load": {
+    "seconds": 58.7,
+    "profile": "phi-4-14b-g1-3",
+    "port": 11435,
+    "ctx_allocated": 8192,
+    "measured": {
+      "n_ctx": 8192,
+      "offloaded": 41,
+      "layers": 41,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 4164,
+          "kv_mb": 446,
+          "compute_mb": 67,
+          "total_mb": 4678
+        },
+        {
+          "gpu": 3,
+          "model_mb": 4191,
+          "kv_mb": 404,
+          "compute_mb": 56,
+          "total_mb": 4651
+        }
+      ],
+      "host_mb": 292,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4677,
+          "free_mb": 1318
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 4655,
+          "free_mb": 1340
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 58,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 158.39,
+    "generation_tokens_per_second": 12.34,
+    "time_to_first_token_seconds": 0.4,
+    "wall_seconds": 41.8,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 39,
+        "avg_power_w": 72.1,
+        "peak_power_w": 108.96,
+        "peak_temperature_c": 63.0,
+        "peak_memory_mb": 4760.0
+      },
+      {
+        "gpu": 3,
+        "samples": 39,
+        "avg_power_w": 71.6,
+        "peak_power_w": 112.18,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 4734.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 527,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 199.63,
+      "generation_tokens_per_second": 12.21,
+      "time_to_first_token_seconds": 2.6,
+      "wall_seconds": 15.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 15,
+          "avg_power_w": 78.3,
+          "peak_power_w": 127.1,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 4760.0
+        },
+        {
+          "gpu": 3,
+          "samples": 15,
+          "avg_power_w": 64.4,
+          "peak_power_w": 114.22,
+          "peak_temperature_c": 55.0,
+          "peak_memory_mb": 4734.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "ZSYQ8165",
+      "answer": "ZSYQ8165.\ud83d\udd12 If you have any more questions or need further assistance, feel free ",
+      "answer_tail": "ZSYQ8165.\ud83d\udd12 If you have any more questions or need further assistance, feel free to ask!\ud83d\udc4d\ud83d\udcc4\ud83d\udd0d\ud83d\udcca\ud83c\udf21\ufe0f\ud83d\udd0b\ud83e\udde0\ud83d\udcbb\ud83d\udcc8\ud83d\udcca\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8",
+      "raw_think_closed": false,
+      "final_answer": "ZSYQ8165.\ud83d\udd12 If you have any more questions or need further assistance, feel free to ask!\ud83d\udc4d\ud83d\udcc4\ud83d\udd0d\ud83d\udcca\ud83c\udf21\ufe0f\ud83d\udd0b\ud83e\udde0\ud83d\udcbb\ud83d\udcc8\ud83d\udcca\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udd0d\ud83d\udcdd\ud83d\udcca\ud83d\udcc8",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 7007,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 166.33,
+      "generation_tokens_per_second": 10.49,
+      "time_to_first_token_seconds": 42.1,
+      "wall_seconds": 57.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 53,
+          "avg_power_w": 70.1,
+          "peak_power_w": 139.31,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 4760.0
+        },
+        {
+          "gpu": 3,
+          "samples": 53,
+          "avg_power_w": 65.4,
+          "peak_power_w": 114.88,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4734.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "GQFG1983",
+      "answer": "GQFG1983.\ud83d\udd12\ud83d\udcdd\ud83d\udd0d\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8",
+      "answer_tail": "GQFG1983.\ud83d\udd12\ud83d\udcdd\ud83d\udd0d\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8",
+      "raw_think_closed": false,
+      "final_answer": "GQFG1983.\ud83d\udd12\ud83d\udcdd\ud83d\udd0d\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8\ud83d\udd27\ud83d\udda5\ufe0f\ud83d\udd0b\ud83c\udf21\ufe0f\ud83d\udd0b\ud83d\udcca\ud83d\udcc8",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "phi_4_14b_onboarding_depth_g1-3_8k_20261126"
+}

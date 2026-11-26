@@ -1,0 +1,187 @@
+{
+    "checked_at":  "2026-11-26T19:26:45.6740568Z",
+    "schema":  "top-pick-fit-projections/1",
+    "note":  "Read-only manager estimates; not real loads, depth checks, or concurrent-chat evidence.",
+    "results":  [
+                    {
+                        "fits":  true,
+                        "model":  "qwen3.8:27b",
+                        "gpus":  [
+                                     0
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: qwen3.8:27b on GPU [0] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "qwen3.6:27b",
+                        "gpus":  [
+                                     0
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: qwen3.6:27b on GPU [0] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "qwen3-coder:30b-a3b",
+                        "gpus":  [
+                                     0
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: qwen3-coder:30b-a3b on GPU [0] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "ministral-3:14b",
+                        "gpus":  [
+                                     1,
+                                     3
+                                 ],
+                        "ctx":  8192,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: ministral-3:14b on GPU [1, 3] at ctx 8192 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "ministral-3:8b",
+                        "gpus":  [
+                                     1,
+                                     3
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: ministral-3:8b on GPU [1, 3] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "ministral-3:3b",
+                        "gpus":  [
+                                     1
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: ministral-3:3b on GPU [1] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "ornith-1.5:9b",
+                        "gpus":  [
+                                     1
+                                 ],
+                        "ctx":  8192,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: ornith-1.5:9b on GPU [1] at ctx 8192 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "qwen2.5-coder:7b",
+                        "gpus":  [
+                                     1
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: qwen2.5-coder:7b on GPU [1] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "gemma-4:e2b-q8",
+                        "gpus":  [
+                                     1
+                                 ],
+                        "ctx":  4096,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: gemma-4:e2b-q8 on GPU [1] at ctx 4096 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "phi-4:14b",
+                        "gpus":  [
+                                     1,
+                                     3
+                                 ],
+                        "ctx":  8192,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: phi-4:14b on GPU [1, 3] at ctx 8192 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "qwen3-coder-next:80b-a3b",
+                        "gpus":  [
+                                     0,
+                                     1,
+                                     2,
+                                     3,
+                                     4,
+                                     5
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: qwen3-coder-next:80b-a3b on GPU [0, 1, 2, 3, 4, 5] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "nemotron-3.5-bolt:74b-a9b",
+                        "gpus":  [
+                                     0,
+                                     1,
+                                     3,
+                                     4
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: nemotron-3.5-bolt:74b-a9b on GPU [0, 1, 3, 4] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "qwen3.6:35b-a3b-xl",
+                        "gpus":  [
+                                     0
+                                 ],
+                        "ctx":  16384,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "fits: qwen3.6:35b-a3b-xl on GPU [0] at ctx 16384 (limited by requested)",
+                        "backend":  null,
+                        "placement":  null
+                    },
+                    {
+                        "fits":  true,
+                        "model":  "qwen3.8-flash-next:q2_0",
+                        "gpus":  [
+                                     0
+                                 ],
+                        "ctx":  8192,
+                        "source_sha256":  "2ee8308ce3f544b008814180144fda5b01a2478df4dc4554c16964b1cd5d170f",
+                        "reason":  "registered Strata pack and resources available",
+                        "backend":  "strata",
+                        "placement":  "strata"
+                    }
+                ],
+    "command":  "rigctl fit \u003cmodel\u003e --use benchmark --json"
+}

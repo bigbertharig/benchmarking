@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-11-26T12:54:59-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 16384 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "allow_eos": false,
+    "concise_instruction": false,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "ministral-3:8b",
+  "ubatch": 64,
+  "cards": [
+    1,
+    3
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 16384,
+    "ctx_limit": "requested",
+    "tensor_split": "18,17",
+    "margin_mb": 512,
+    "weights_mb": 4662,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 18,
+        "weights_mb": 2230,
+        "kv_mb": 612,
+        "compute_mb": 162,
+        "projected_mb": 3204,
+        "headroom_mb": 2936
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 16,
+        "weights_mb": 2432,
+        "kv_mb": 544,
+        "compute_mb": 162,
+        "projected_mb": 3338,
+        "headroom_mb": 2802
+      }
+    ]
+  },
+  "load": {
+    "seconds": 33.0,
+    "profile": "ministral-3-8b-g1-3",
+    "port": 11435,
+    "ctx_allocated": 16384,
+    "measured": {
+      "n_ctx": 16384,
+      "offloaded": 35,
+      "layers": 35,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 2230,
+          "kv_mb": 612,
+          "compute_mb": 89,
+          "total_mb": 2932
+        },
+        {
+          "gpu": 3,
+          "model_mb": 2432,
+          "kv_mb": 544,
+          "compute_mb": 80,
+          "total_mb": 3056
+        }
+      ],
+      "host_mb": 306,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 2931,
+          "free_mb": 3064
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 3060,
+          "free_mb": 2935
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 587,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 477.82,
+    "generation_tokens_per_second": 20.18,
+    "time_to_first_token_seconds": 1.2,
+    "wall_seconds": 26.6,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 25,
+        "avg_power_w": 77.0,
+        "peak_power_w": 114.74,
+        "peak_temperature_c": 61.0,
+        "peak_memory_mb": 3014.0
+      },
+      {
+        "gpu": 3,
+        "samples": 25,
+        "avg_power_w": 68.7,
+        "peak_power_w": 111.42,
+        "peak_temperature_c": 57.0,
+        "peak_memory_mb": 3138.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 1897,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 510.64,
+      "generation_tokens_per_second": 19.6,
+      "time_to_first_token_seconds": 3.7,
+      "wall_seconds": 11.8,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 11,
+          "avg_power_w": 87.7,
+          "peak_power_w": 136.53,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 3014.0
+        },
+        {
+          "gpu": 3,
+          "samples": 11,
+          "avg_power_w": 67.3,
+          "peak_power_w": 108.07,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 3138.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "CWLE9408",
+      "answer": "CWLE9408.```markdown\n```markdown\nCWLE9408\n```markdown\n```plaintext\nCWLE9408\n```p",
+      "answer_tail": "LE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408",
+      "raw_think_closed": false,
+      "final_answer": "CWLE9408.```markdown\n```markdown\nCWLE9408\n```markdown\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9408\n```plaintext\nCWLE9",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 15400,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 324.58,
+      "generation_tokens_per_second": 12.78,
+      "time_to_first_token_seconds": 47.4,
+      "wall_seconds": 59.9,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 56,
+          "avg_power_w": 90.0,
+          "peak_power_w": 110.26,
+          "peak_temperature_c": 68.0,
+          "peak_memory_mb": 3014.0
+        },
+        {
+          "gpu": 3,
+          "samples": 56,
+          "avg_power_w": 80.8,
+          "peak_power_w": 112.38,
+          "peak_temperature_c": 55.0,
+          "peak_memory_mb": 3138.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "NNOQ1139",
+      "answer": "NNOQ1139.12345678901234567890123456789012345678901234567890123456789012345678901",
+      "answer_tail": "NOQ1139.12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012",
+      "raw_think_closed": false,
+      "final_answer": "NNOQ1139.1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "ministral_3_8b_onboarding_depth_g1-3_16k_20261126"
+}

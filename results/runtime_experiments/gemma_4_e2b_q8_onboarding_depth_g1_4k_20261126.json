@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-11-26T13:04:20-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 4096 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "allow_eos": false,
+    "concise_instruction": false,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "gemma-4:e2b-q8",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 4096,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 2316,
+    "n_ctx_train": 131072,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 35,
+        "weights_mb": 2316,
+        "kv_mb": 45,
+        "compute_mb": 81,
+        "projected_mb": 2642,
+        "headroom_mb": 3498
+      }
+    ]
+  },
+  "load": {
+    "seconds": 33.3,
+    "profile": "gemma-4-e2b-q8-g1",
+    "port": 11435,
+    "ctx_allocated": 4096,
+    "measured": {
+      "n_ctx": 4096,
+      "offloaded": 36,
+      "layers": 36,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 2342,
+          "kv_mb": 18,
+          "compute_mb": 17,
+          "total_mb": 2377
+        }
+      ],
+      "host_mb": 2794,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 61,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 268.92,
+    "generation_tokens_per_second": 31.48,
+    "time_to_first_token_seconds": 0.2,
+    "wall_seconds": 16.5,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 16,
+        "avg_power_w": 89.2,
+        "peak_power_w": 104.93,
+        "peak_temperature_c": 64.0,
+        "peak_memory_mb": 2526.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 116,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 540.83,
+      "generation_tokens_per_second": 31.6,
+      "time_to_first_token_seconds": 0.2,
+      "wall_seconds": 5.2,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 5,
+          "avg_power_w": 90.6,
+          "peak_power_w": 96.95,
+          "peak_temperature_c": 64.0,
+          "peak_memory_mb": 2526.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "JPNF2058",
+      "answer": "JPNF2058.",
+      "answer_tail": "JPNF2058.",
+      "raw_think_closed": false,
+      "final_answer": "JPNF2058.",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 3412,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 656.71,
+      "generation_tokens_per_second": 30.09,
+      "time_to_first_token_seconds": 5.2,
+      "wall_seconds": 10.5,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 10,
+          "avg_power_w": 85.5,
+          "peak_power_w": 103.92,
+          "peak_temperature_c": 66.0,
+          "peak_memory_mb": 2526.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "BDMI1002",
+      "answer": "BDMI1002.\n\n(The provided text describes a structure or log format but does not c",
+      "answer_tail": " is the most likely answer based on the prompt structure.)\n***\n**BDMI1002.** (Including the period as it appears.)\n***\nSince the prompt asks for \"the code given",
+      "raw_think_closed": false,
+      "final_answer": "BDMI1002.\n\n(The provided text describes a structure or log format but does not contain a specific piece of executable code at the very start, only a title/ident",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "gemma_4_e2b_q8_onboarding_depth_g1_4k_20261126"
+}

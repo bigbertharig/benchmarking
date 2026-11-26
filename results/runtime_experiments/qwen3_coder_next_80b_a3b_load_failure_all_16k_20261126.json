@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "kind": "loading_failure",
+  "quality_ledger": false,
+  "model": "qwen3-coder-next:80b-a3b",
+  "run_id": "depth-coder-next80-all-v2-20261126",
+  "started_at": "2026-11-26T20:24:31Z",
+  "ended_at": "2026-11-26T20:31:36Z",
+  "requested": {
+    "use": "benchmark",
+    "gpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ctx": 16384,
+    "fit_tensor_split": "22,5,7,5,5,5",
+    "model_file": "Qwen3-Coder-Next-Q4_K_S.gguf",
+    "runtime_image": "llama-runtime:b11669"
+  },
+  "result": {
+    "state": "failed",
+    "phase": "tensor_load",
+    "error": "ggml_backend_buft_alloc_buffer_n_default: failed to allocate CUDA2 buffer of size 6516457216",
+    "manager_exit_code": 1,
+    "depth_probes": 0
+  },
+  "evidence": {
+    "manager_unit": "rig-run-depth-coder-next80-all-v2-20261126.service",
+    "journal_command": "journalctl -u rig-run-depth-coder-next80-all-v2-20261126.service --no-pager",
+    "fit_projection": "results/top_pick_fit_projections_20261126.json"
+  }
+}

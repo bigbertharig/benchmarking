@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-11-26T13:15:37-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 16384 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "allow_eos": false,
+    "concise_instruction": false,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "nemotron-3.5-bolt:74b-a9b",
+  "ubatch": 64,
+  "cards": [
+    0,
+    1,
+    3,
+    4
+  ],
+  "card_details": [
+    {
+      "gpu": 0,
+      "uuid": "GPU-409c0fe8-38ef-14ad-dbc6-a0437261e9cb",
+      "name": "NVIDIA GeForce RTX 3090 Ti",
+      "sub_device_id": "0x49813842",
+      "board": "EVGA",
+      "bus": "01:00.0",
+      "link_gen": 3,
+      "link_width": 16
+    },
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 3,
+      "uuid": "GPU-6073db94-dca6-ba6c-88fb-61f09ff11436",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85AC1043",
+      "board": "ASUS",
+      "bus": "10:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    },
+    {
+      "gpu": 4,
+      "uuid": "GPU-ac5b4fea-fdd5-947f-892b-5b0cc3f5c225",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x85B61043",
+      "board": "ASUS",
+      "bus": "11:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 16384,
+    "ctx_limit": "requested",
+    "tensor_split": "56,16,9,8",
+    "margin_mb": 512,
+    "weights_mb": 36668,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 0,
+        "total_mb": 24564,
+        "free_mb": 24545,
+        "layers": 56,
+        "weights_mb": 21940,
+        "kv_mb": 252,
+        "compute_mb": 116,
+        "projected_mb": 22882,
+        "headroom_mb": 1663
+      },
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 16,
+        "weights_mb": 4882,
+        "kv_mb": 75,
+        "compute_mb": 116,
+        "projected_mb": 5273,
+        "headroom_mb": 867
+      },
+      {
+        "gpu": 3,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 9,
+        "weights_mb": 4657,
+        "kv_mb": 41,
+        "compute_mb": 116,
+        "projected_mb": 5015,
+        "headroom_mb": 1125
+      },
+      {
+        "gpu": 4,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 7,
+        "weights_mb": 5188,
+        "kv_mb": 29,
+        "compute_mb": 116,
+        "projected_mb": 5533,
+        "headroom_mb": 607
+      }
+    ]
+  },
+  "load": {
+    "seconds": 206.7,
+    "profile": "nemotron-3.5-bolt-74b-a9b-g0-1-3-4",
+    "port": 11434,
+    "ctx_allocated": 16384,
+    "measured": {
+      "n_ctx": 16384,
+      "offloaded": 89,
+      "layers": 89,
+      "cards": [
+        {
+          "gpu": 0,
+          "model_mb": 21940,
+          "kv_mb": 42,
+          "compute_mb": 42,
+          "total_mb": 22025
+        },
+        {
+          "gpu": 1,
+          "model_mb": 4882,
+          "kv_mb": 17,
+          "compute_mb": 33,
+          "total_mb": 4933
+        },
+        {
+          "gpu": 3,
+          "model_mb": 4657,
+          "kv_mb": 8,
+          "compute_mb": 33,
+          "total_mb": 4699
+        },
+        {
+          "gpu": 4,
+          "model_mb": 5188,
+          "kv_mb": 0,
+          "compute_mb": 23,
+          "total_mb": 5210
+        }
+      ],
+      "host_mb": 562,
+      "projection": [
+        {
+          "gpu": 1,
+          "total_mb": 6065,
+          "projected_mb": 4965,
+          "free_mb": 1000
+        },
+        {
+          "gpu": 3,
+          "total_mb": 6065,
+          "projected_mb": 4719,
+          "free_mb": 1258
+        },
+        {
+          "gpu": 4,
+          "total_mb": 6065,
+          "projected_mb": 5226,
+          "free_mb": 755
+        }
+      ]
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 68,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 47.23,
+    "generation_tokens_per_second": 24.49,
+    "time_to_first_token_seconds": 1.4,
+    "wall_seconds": 22.3,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 0,
+        "samples": 21,
+        "avg_power_w": 144.3,
+        "peak_power_w": 146.18,
+        "peak_temperature_c": 54.0,
+        "peak_memory_mb": 22489.0
+      },
+      {
+        "gpu": 1,
+        "samples": 21,
+        "avg_power_w": 62.5,
+        "peak_power_w": 95.72,
+        "peak_temperature_c": 62.0,
+        "peak_memory_mb": 5058.0
+      },
+      {
+        "gpu": 3,
+        "samples": 21,
+        "avg_power_w": 50.6,
+        "peak_power_w": 68.74,
+        "peak_temperature_c": 50.0,
+        "peak_memory_mb": 4812.0
+      },
+      {
+        "gpu": 4,
+        "samples": 21,
+        "avg_power_w": 38.9,
+        "peak_power_w": 53.13,
+        "peak_temperature_c": 50.0,
+        "peak_memory_mb": 5318.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 1379,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 178.03,
+      "generation_tokens_per_second": 24.4,
+      "time_to_first_token_seconds": 7.7,
+      "wall_seconds": 14.3,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 14,
+          "avg_power_w": 150.9,
+          "peak_power_w": 176.31,
+          "peak_temperature_c": 56.0,
+          "peak_memory_mb": 22499.0
+        },
+        {
+          "gpu": 1,
+          "samples": 14,
+          "avg_power_w": 54.8,
+          "peak_power_w": 113.8,
+          "peak_temperature_c": 62.0,
+          "peak_memory_mb": 5060.0
+        },
+        {
+          "gpu": 3,
+          "samples": 14,
+          "avg_power_w": 36.2,
+          "peak_power_w": 56.88,
+          "peak_temperature_c": 51.0,
+          "peak_memory_mb": 4814.0
+        },
+        {
+          "gpu": 4,
+          "samples": 14,
+          "avg_power_w": 42.0,
+          "peak_power_w": 112.42,
+          "peak_temperature_c": 53.0,
+          "peak_memory_mb": 5318.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "XBFX4163",
+      "answer": "XBFX4163\n\n{\n  \"action\": \"final_answer\",\n  \"action_input\": \"XBFX4163\"\n}<tool_call",
+      "answer_tail": "all>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>",
+      "raw_think_closed": false,
+      "final_answer": "XBFX4163\n\n{\n  \"action\": \"final_answer\",\n  \"action_input\": \"XBFX4163\"\n}<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_call>\n<tool_",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 14881,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 214.72,
+      "generation_tokens_per_second": 22.65,
+      "time_to_first_token_seconds": 69.3,
+      "wall_seconds": 76.4,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 0,
+          "samples": 72,
+          "avg_power_w": 164.6,
+          "peak_power_w": 189.49,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 22499.0
+        },
+        {
+          "gpu": 1,
+          "samples": 72,
+          "avg_power_w": 58.6,
+          "peak_power_w": 141.63,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 5060.0
+        },
+        {
+          "gpu": 3,
+          "samples": 72,
+          "avg_power_w": 50.2,
+          "peak_power_w": 114.27,
+          "peak_temperature_c": 57.0,
+          "peak_memory_mb": 4814.0
+        },
+        {
+          "gpu": 4,
+          "samples": 72,
+          "avg_power_w": 41.6,
+          "peak_power_w": 108.37,
+          "peak_temperature_c": 58.0,
+          "peak_memory_mb": 5318.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "XCVH8715",
+      "answer": "XCVH8715\n\n<|close|>think<|sep|><|open|>response<|sep|>XCVH8715<|close|>response<",
+      "answer_tail": "e<|sep|>XCVH8715<|close|>response<|sep|>XCVH8715<|close|>think<|sep|><|open|>response<|sep|>XCVH8715<|close|>response<|sep|>XCVH8715<|close|>think<|sep|><|open|",
+      "raw_think_closed": false,
+      "final_answer": "XCVH8715\n\n<|close|>think<|sep|><|open|>response<|sep|>XCVH8715<|close|>response<|sep|>XCVH8715<|close|>think<|sep|><|open|>response<|sep|>XCVH8715<|close|>respo",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "nemotron_3_5_bolt_74b_a9b_onboarding_depth_g0-1-3-4_16k_20261126"
+}

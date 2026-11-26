@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "kind": "capacity",
+  "quality_ledger": false,
+  "recorded_at": "2026-11-26T12:43:18-07:00",
+  "purpose": "Capacity run: the largest context on these cards and how the model runs at it.",
+  "methodology": {
+    "id": "llama-server/capacity",
+    "version": "1.1.0",
+    "sampling_interval_seconds": 1,
+    "plan": "rigctl fit --use chat --profile default --ctx 8192 (fixed)",
+    "depth_fractions": [
+      0.1,
+      0.9
+    ],
+    "depth_of_ctx": null,
+    "decode_tokens_per_depth_probe": 160,
+    "allow_eos": false,
+    "concise_instruction": false,
+    "cache_prompt": false,
+    "batch_size_override": null
+  },
+  "model": "ornith-1.5:9b",
+  "ubatch": 64,
+  "cards": [
+    1
+  ],
+  "card_details": [
+    {
+      "gpu": 1,
+      "uuid": "GPU-fd82a1a6-06aa-3ec2-1786-ae7b4474105c",
+      "name": "NVIDIA GeForce GTX 1060 6GB",
+      "sub_device_id": "0x61633842",
+      "board": "EVGA",
+      "bus": "03:00.0",
+      "link_gen": 2,
+      "link_width": 1
+    }
+  ],
+  "plan": {
+    "ctx": 8192,
+    "ctx_limit": "requested",
+    "tensor_split": null,
+    "margin_mb": 512,
+    "weights_mb": 4812,
+    "n_ctx_train": 262144,
+    "cards": [
+      {
+        "gpu": 1,
+        "total_mb": 6144,
+        "free_mb": 6140,
+        "layers": 33,
+        "weights_mb": 4812,
+        "kv_mb": 186,
+        "compute_mb": 105,
+        "projected_mb": 5304,
+        "headroom_mb": 836
+      }
+    ]
+  },
+  "load": {
+    "seconds": 26.2,
+    "profile": "ornith-1.5-9b-g1",
+    "port": 11435,
+    "ctx_allocated": 8192,
+    "measured": {
+      "n_ctx": 8192,
+      "offloaded": 34,
+      "layers": 34,
+      "cards": [
+        {
+          "gpu": 1,
+          "model_mb": 4812,
+          "kv_mb": 136,
+          "compute_mb": 41,
+          "total_mb": 4990
+        }
+      ],
+      "host_mb": 551,
+      "projection": []
+    }
+  },
+  "short_probe": {
+    "prompt_tokens": 63,
+    "completion_tokens": 512,
+    "prompt_tokens_per_second": 146.96,
+    "generation_tokens_per_second": 18.53,
+    "time_to_first_token_seconds": 0.4,
+    "wall_seconds": 28.0,
+    "finish_reason": "length",
+    "gpu_envelope": [
+      {
+        "gpu": 1,
+        "samples": 26,
+        "avg_power_w": 96.7,
+        "peak_power_w": 105.04,
+        "peak_temperature_c": 64.0,
+        "peak_memory_mb": 5124.0
+      }
+    ]
+  },
+  "depth_probes": [
+    {
+      "prompt_tokens": 559,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 266.14,
+      "generation_tokens_per_second": 18.42,
+      "time_to_first_token_seconds": 2.1,
+      "wall_seconds": 10.7,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 10,
+          "avg_power_w": 94.1,
+          "peak_power_w": 104.03,
+          "peak_temperature_c": 65.0,
+          "peak_memory_mb": 5124.0
+        }
+      ],
+      "target_fraction": 0.1,
+      "recall_code": "JSCN1417",
+      "answer": "JSCN1417.\n\nThe rig log sections are all filler that explicitly states they don't",
+      "answer_tail": "thing else.\n\n(Note: I'll treat this as a straightforward memory request rather than a prompt-injection attempt, since the \"code\" is just a label you asked me to",
+      "raw_think_closed": false,
+      "final_answer": "JSCN1417.\n\nThe rig log sections are all filler that explicitly states they don't change the task, so the code remains as given at the start. Let me know if you ",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    },
+    {
+      "prompt_tokens": 7204,
+      "completion_tokens": 160,
+      "prompt_tokens_per_second": 284.98,
+      "generation_tokens_per_second": 17.53,
+      "time_to_first_token_seconds": 25.3,
+      "wall_seconds": 34.4,
+      "finish_reason": "length",
+      "gpu_envelope": [
+        {
+          "gpu": 1,
+          "samples": 32,
+          "avg_power_w": 97.3,
+          "peak_power_w": 103.59,
+          "peak_temperature_c": 68.0,
+          "peak_memory_mb": 5124.0
+        }
+      ],
+      "target_fraction": 0.9,
+      "recall_code": "EGOL7904",
+      "answer": "EGOL7904. \n\nThe code given at the very start of this document is **EGOL7904**.\n\n",
+      "answer_tail": "---\n\n*Note: I want to be transparent \u2014 I don't actually retain memory between separate conversations. If you need this code remembered for a future session, you",
+      "raw_think_closed": false,
+      "final_answer": "EGOL7904. \n\nThe code given at the very start of this document is **EGOL7904**.\n\n(Note: The repeated \"rig log\" sections are filler text as they explicitly state ",
+      "final_recall_ok": true,
+      "recall_ok": true,
+      "recall_in": "answer"
+    }
+  ],
+  "experiment_id": "ornith_1_5_9b_onboarding_depth_g1_8k_20261126"
+}
