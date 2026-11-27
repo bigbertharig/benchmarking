@@ -1,6 +1,6 @@
 {
   "schema": "model-roles/1",
-  "updated": "2026-10-15",
+  "updated": "2026-11-27",
   "about": "Quick reference: the model and profile to use for each rig lane and job. Other repos read this (through model_library.py) instead of choosing models themselves. Change a role only after a benchmark review; 'evidence' names the campaign behind it.",
   "roles": {
     "brain": {
@@ -23,17 +23,17 @@
       "model": "ministral-3:14b",
       "profile": "default",
       "lane": "2x1060",
-      "why": "Data prep and split-worker code; HumanEval+ base 87.2%.",
+      "why": "Split-worker quality and code; current full HumanEval+ base 87.8%, plus 82.3%, and BBH flexible 37.2%.",
       "good_for": ["data_preparation", "coding", "split_worker"],
-      "evidence": "20260820_modern_validation_l50_retry3"
+      "evidence": "ministral14b-full-gap-20261127; exact commands and scores in results/model_benchmark_records.jsonl"
     },
     "split_speed": {
       "model": "ministral-3:8b",
       "profile": "default",
       "lane": "2x1060",
-      "why": "Faster split lane for parallel import prep and cheaper code work.",
+      "why": "Faster split lane for parallel import prep and code work; 20.39 generation tok/s versus 14B at 13.60 on the measured runtime task.",
       "good_for": ["data_preparation", "small_coding", "split_worker"],
-      "evidence": "20260820_modern_validation_l50_retry3"
+      "evidence": "role-bbh-ministral8b-20261127; role-runtime-full-gap-20261127; full code 2026-10-18; exact commands in results/model_benchmark_records.jsonl"
     },
     "single_1060": {
       "model": "ornith-1.5:9b",
@@ -47,25 +47,25 @@
       "model": "qwen2.5-coder:7b",
       "profile": "default",
       "lane": "1x1060",
-      "why": "Code on one 1060: still leads ornith-1.5:9b on HumanEval+ (84.1 vs 73.8). The single_1060 default until 2026-10-20.",
+      "why": "Code on one 1060: HumanEval+ base 88.4%, plus 84.1%; current BBH flexible 69.3% and runtime 22.57 generation tok/s.",
       "good_for": ["coding", "small_coding", "single_gpu_worker"],
-      "evidence": "complete l100 suites; full code 2026-10-18"
+      "evidence": "role-bbh-qwen7b-retry-20261127; role-runtime-full-gap-20261127; full code 2026-10-18; exact commands in results/model_benchmark_records.jsonl"
     },
     "single_1060_compact": {
       "model": "ministral-3:3b",
       "profile": "default",
       "lane": "1x1060",
-      "why": "Tested smaller alternative; weaker than the 7B default.",
+      "why": "Compact speed option at 38.62 generation tok/s; BBH flexible 10.5% limits it to small tasks.",
       "good_for": ["compact_worker", "small_tasks"],
-      "evidence": "20260820_modern_validation_l50_retry3 full code/runtime"
+      "evidence": "role-bbh-ministral3b-20261127; role-runtime-full-gap-20261127; full code 2026-10-18; exact commands in results/model_benchmark_records.jsonl"
     },
     "text_extraction": {
       "model": "gemma-4:e2b-q8",
       "profile": "default",
       "lane": "1x1060",
-      "why": "Document QA and reading comprehension (high DROP, low code).",
+      "why": "Text extraction and reading comprehension; current BBH flexible 76.0% and runtime 31.58 generation tok/s; code remains secondary.",
       "good_for": ["document_qa", "reading_comprehension", "text_extraction"],
-      "evidence": "model_task_library 2026-04-28"
+      "evidence": "role-bbh-gemmae2b-retry-20261127; role-runtime-full-gap-20261127; full code 2026-10-18; exact commands in results/model_benchmark_records.jsonl"
     },
     "safe_tool_use": {
       "model": "phi-4:14b",
