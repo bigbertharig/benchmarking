@@ -1,0 +1,12 @@
+{
+  "name": "strata_q2_code_full_20261127",
+  "models": [
+    "qwen3.8-flash-next:q2_0"
+  ],
+  "tests": [
+    {
+      "suite": "bench-code"
+    }
+  ],
+  "run_class": "full"
+}
