@@ -1,0 +1,16 @@
+{
+  "name": "ministral8b_bbh_parallel_20261127",
+  "models": [
+    "ministral-3:8b"
+  ],
+  "tests": [
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "bbh"
+      ],
+      "limit": 50
+    }
+  ],
+  "run_class": "full"
+}
