@@ -1,10 +1,10 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-11-27T11:01:43.166586+00:00`
+- Generated at: `2026-11-27T11:33:14.076828+00:00`
 - Canonical records: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/benchmark_status.json`
-- Total records: `3888`
-- Selected model/test results: `1650`
+- Total records: `3898`
+- Selected model/test results: `1652`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
@@ -596,8 +596,8 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:14b | agent_tool_args | 0.6666666666666666 | 66.66666666666666 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T04:48:47.762772+00:00 | bench-agent | campaign_ministral3_14b_agent_20260813_limit5_all |
 | ministral-3:14b | agent_tool_execute | 1.0 | 100.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T04:48:53.020316+00:00 | bench-agent | campaign_ministral3_14b_agent_20260813_limit5_all |
 | ministral-3:14b | agent_tool_select | 0.4 | 40.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T04:48:42.535928+00:00 | bench-agent | campaign_ministral3_14b_agent_20260813_limit5_all |
-| ministral-3:14b | bbh | 0.022222222222222223 | 2.2222222222222223 | exact_match,get-answer | smoke | 270 | unknown | 2026-10-20T21:11:34+00:00 | bench-reasoning | ministral-3_14b_w_smoke_v1 |
-| ministral-3:14b | bbh_flexible | 0.05555555555555555 | 5.555555555555555 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-20T21:11:34+00:00 | bench-reasoning | ministral-3_14b_w_smoke_v1 |
+| ministral-3:14b | bbh | 0.02 | 2.0 | exact_match,get-answer | full | 1350 | unknown | 2026-11-27T06:19:29+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral14b-full-gap-20261127 |
+| ministral-3:14b | bbh_flexible | 0.3718518518518519 | 37.18518518518519 | exact_match,flexible-extract | full | 1350 | degraded | 2026-11-27T06:19:29+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral14b-full-gap-20261127 |
 | ministral-3:14b | custom_ambiguity_handling | 0.3076923076923077 | 30.76923076923077 | score | smoke | 13 | unknown | 2026-11-26T21:22:19+00:00 | bench-pipeline | campaign_m5_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | ministral-3:14b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | smoke | 12 | unknown | 2026-11-26T21:21:55+00:00 | bench-pipeline | campaign_m5_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | ministral-3:14b | custom_json_schema_strict | 0.3076923076923077 | 30.76923076923077 | score | smoke | 13 | unknown | 2026-11-26T22:20:58+00:00 | bench-pipeline | campaign_json_grammar_3_top-pick-settings-followup-20261126 |
@@ -656,8 +656,8 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:14b | geoimport_prep_plan_brazil_spine_v2 | 0.2727 | 27.27 | prep_plan | smoke | 1 | unknown | 2026-08-14T04:47:43.329018 | bench-geoimport | campaign_ministral3_14b_geoimport_20260813_limit5_all |
 | ministral-3:14b | gsm8k_flexible | 0.6 | 60.0 | exact_match,flexible-extract | validated | 50 | degraded | 2026-08-21T04:42:39+00:00 | bench-reasoning | campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3 |
 | ministral-3:14b | gsm8k_strict | 0.22 | 22.0 | exact_match,strict-match | validated | 50 | degraded | 2026-08-21T04:42:38+00:00 | bench-reasoning | campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3 |
-| ministral-3:14b | humaneval_base | 0.98 | 98.0 | pass@1_base | smoke | 50 | unknown | 2026-10-20T20:39:14+00:00 | bench-code | ministral-3_14b_w_smoke_v1 |
-| ministral-3:14b | humaneval_plus | 0.94 | 94.0 | pass@1_plus | smoke | 50 | unknown | 2026-10-20T20:39:14+00:00 | bench-code | ministral-3_14b_w_smoke_v1 |
+| ministral-3:14b | humaneval_base | 0.8780487804878049 | 87.8048780487805 | pass@1_base | full | 164 | unknown | 2026-11-27T08:09:47+00:00 | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 |
+| ministral-3:14b | humaneval_plus | 0.823170731707317 | 82.3170731707317 | pass@1_plus | full | 164 | unknown | 2026-11-27T08:09:47+00:00 | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 |
 | ministral-3:14b | ifeval_inst_level_loose_acc_none | 0.7105263157894737 | 71.05263157894737 | inst_level_loose_acc,none | validated | 50 | unknown | 2026-08-21T05:12:12+00:00 | bench-reasoning | campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3 |
 | ministral-3:14b | ifeval_inst_level_strict_acc_none | 0.6973684210526315 | 69.73684210526315 | inst_level_strict_acc,none | validated | 50 | unknown | 2026-08-21T05:12:12+00:00 | bench-reasoning | campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3 |
 | ministral-3:14b | ifeval_prompt_level_loose_acc_none | 0.58 | 57.99999999999999 | prompt_level_loose_acc,none | validated | 50 | unknown | 2026-08-21T05:12:12+00:00 | bench-reasoning | campaign_ministral3_14b_reasoning_l50_20260820_modern_validation_l50_retry3 |
@@ -667,13 +667,15 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:14b | knowledge_reading_probe_v1 | 1.0 | 100.0 | exact_match | smoke | 5 | compatible | 2026-08-14T04:35:39.913495+00:00 | bench-knowledge | campaign_ministral3_14b_knowledge_20260813_limit5_all |
 | ministral-3:14b | knowledge_science_probe_v1 | 1.0 | 100.0 | exact_match | smoke | 5 | compatible | 2026-08-14T04:35:32.530165+00:00 | bench-knowledge | campaign_ministral3_14b_knowledge_20260813_limit5_all |
 | ministral-3:14b | knowledge_truthfulness_probe_v1 | 1.0 | 100.0 | exact_match | smoke | 5 | compatible | 2026-08-14T04:35:37.485917+00:00 | bench-knowledge | campaign_ministral3_14b_knowledge_20260813_limit5_all |
+| ministral-3:14b | mbpp_base | 0.7566137566137566 | 75.66137566137566 | pass@1_base | full | 378 | unknown | 2026-11-27T11:31:40+00:00 | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 |
+| ministral-3:14b | mbpp_plus | 0.6137566137566137 | 61.37566137566137 | pass@1_plus | full | 378 | unknown | 2026-11-27T11:31:40+00:00 | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 |
 | ministral-3:14b | mmlu_pro_exact_match_custom-extract | 0.42857142857142855 | 42.857142857142854 | exact_match,custom-extract | smoke | 140 | unknown | 2026-10-20T21:38:09+00:00 | bench-reasoning | ministral-3_14b_w_smoke_v1 |
 | ministral-3:14b | mmlu_pro_flexible | 0.6571428571428571 | 65.71428571428571 | exact_match,flexible-extract | smoke | 140 | degraded | 2026-10-20T21:38:09+00:00 | bench-reasoning | ministral-3_14b_w_smoke_v1 |
 | ministral-3:14b | routing_cost_awareness | 0.0 | 0.0 | routing_value | smoke | 5 | degraded | 2026-08-14T04:49:14.689214+00:00 | bench-routing | campaign_ministral3_14b_routing_20260813_limit5_all |
-| ministral-3:14b | runtime_context_reliability | 1.0 | 100.0 | request_success_rate | validated | 2 | compatible | 2026-08-21T05:12:43.835702+00:00 | bench-runtime | campaign_ministral3_14b_runtime_20260820_modern_validation_l50_retry3 |
-| ministral-3:14b | runtime_stability | 1.0 | 100.0 | request_success_rate | validated | 5 | compatible | 2026-08-21T05:12:21.565180+00:00 | bench-runtime | campaign_ministral3_14b_runtime_20260820_modern_validation_l50_retry3 |
-| ministral-3:14b | runtime_throughput | 1.0 | 100.0 | request_success_rate | validated | 1 | compatible | 2026-08-21T05:12:32.621293+00:00 | bench-runtime | campaign_ministral3_14b_runtime_20260820_modern_validation_l50_retry3 |
-| ministral-3:14b | runtime_ttft | 1.0 | 100.0 | request_success_rate | validated | 3 | compatible | 2026-08-21T05:12:22.612848+00:00 | bench-runtime | campaign_ministral3_14b_runtime_20260820_modern_validation_l50_retry3 |
+| ministral-3:14b | runtime_context_reliability | 1.0 | 100.0 | request_success_rate | full | 2 | compatible | 2026-11-27T06:20:00.034870+00:00 | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 |
+| ministral-3:14b | runtime_stability | 1.0 | 100.0 | request_success_rate | full | 5 | compatible | 2026-11-27T06:19:37.557014+00:00 | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 |
+| ministral-3:14b | runtime_throughput | 1.0 | 100.0 | request_success_rate | full | 1 | compatible | 2026-11-27T06:19:48.329914+00:00 | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 |
+| ministral-3:14b | runtime_ttft | 1.0 | 100.0 | request_success_rate | full | 3 | compatible | 2026-11-27T06:19:38.597082+00:00 | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 |
 | ministral-3:3b | agent_observation_use | 0.4 | 40.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:49.242227+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
 | ministral-3:3b | agent_plan_sequence | 0.125 | 12.5 | agent_component_mean | smoke | 1 | compatible | 2026-11-15T21:27:12.073726+00:00 | bench-agent | campaign_agent_contract-bounded-live-20261115a |
 | ministral-3:3b | agent_tool_args | 0.6666666666666666 | 66.66666666666666 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:44.083201+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
@@ -1756,12 +1758,22 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-27T11:31:40+00:00 | ministral-3:14b | mbpp_plus | success | full | 378 | 0.6137566137566137 | pass@1_plus | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 | 6bac1b48-7757-4614-bd3f-46ce2848b849 |
+| 2026-11-27T11:31:40+00:00 | ministral-3:14b | mbpp_base | success | full | 378 | 0.7566137566137566 | pass@1_base | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 | 1a3904d1-488c-4754-b8fc-c8811ada7b1d |
 | 2026-11-27T11:00:13+00:00 | qwen2.5-coder:7b | bbh | success | full | 1350 | 0.6918518518518518 | exact_match,get-answer | bench-reasoning | campaign_m1_t1_bench_reasoning_qwen25-coder7b-bbh-retry-20261127 | 56c974e2-668e-40d6-bcc1-b05e84fcc541 |
 | 2026-11-27T11:00:13+00:00 | qwen2.5-coder:7b | bbh_flexible | success | full | 1350 | 0.6933333333333334 | exact_match,flexible-extract | bench-reasoning | campaign_m1_t1_bench_reasoning_qwen25-coder7b-bbh-retry-20261127 | 26f3ebfa-9e96-46b8-9ddf-ac3dcb16f89a |
 | 2026-11-27T10:10:25+00:00 | gemma-4:e2b-q8 | bbh_flexible | success | full | 1350 | 0.76 | exact_match,flexible-extract | bench-reasoning | campaign_m1_t1_bench_reasoning_gemma4-e2b-bbh-retry-20261127 | 5c5a885e-7fea-4407-ba3b-3674173850ce |
 | 2026-11-27T10:10:24+00:00 | gemma-4:e2b-q8 | bbh | success | full | 1350 | 0.6614814814814814 | exact_match,get-answer | bench-reasoning | campaign_m1_t1_bench_reasoning_gemma4-e2b-bbh-retry-20261127 | 8f97b706-98fa-45e3-ab5d-4886ec5b0e19 |
+| 2026-11-27T08:09:47+00:00 | ministral-3:14b | humaneval_plus | success | full | 164 | 0.823170731707317 | pass@1_plus | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 | f5b1f484-b124-4252-998b-a9a1f0253138 |
+| 2026-11-27T08:09:47+00:00 | ministral-3:14b | humaneval_base | success | full | 164 | 0.8780487804878049 | pass@1_base | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 | 852a0c48-e759-42c9-85b3-bc9d21c82ce0 |
 | 2026-11-27T07:09:20+00:00 | ministral-3:3b | bbh_flexible | success | full | 1350 | 0.10518518518518519 | exact_match,flexible-extract | bench-reasoning | campaign_m2_t1_bench_reasoning_role-bbh-parallel-spare-cards-20261127 | b133b97e-321a-48a7-ad91-9776fd305f4f |
 | 2026-11-27T07:09:20+00:00 | ministral-3:3b | bbh | success | full | 1350 | 0.02074074074074074 | exact_match,get-answer | bench-reasoning | campaign_m2_t1_bench_reasoning_role-bbh-parallel-spare-cards-20261127 | 53945689-fd25-4c89-8678-9c1f5e372d4e |
+| 2026-11-27T06:20:00.034870+00:00 | ministral-3:14b | runtime_context_reliability | success | full | 2 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 | a6a1d057-32f1-4364-9710-26b5e12abcaf |
+| 2026-11-27T06:19:48.329914+00:00 | ministral-3:14b | runtime_throughput | success | full | 1 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 | 5445ec09-e5c0-43a0-bba7-3e60e1340932 |
+| 2026-11-27T06:19:38.597082+00:00 | ministral-3:14b | runtime_ttft | success | full | 3 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 | 5a741be0-293e-481c-ac1a-f159f5fabf89 |
+| 2026-11-27T06:19:37.557014+00:00 | ministral-3:14b | runtime_stability | success | full | 5 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t2_bench_runtime_ministral14b-full-gap-20261127 | d0882535-b861-42a5-8bd3-86b7c517fc6b |
+| 2026-11-27T06:19:29+00:00 | ministral-3:14b | bbh_flexible | success | full | 1350 | 0.3718518518518519 | exact_match,flexible-extract | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral14b-full-gap-20261127 | b9d5e381-2867-457f-bf20-3047ec91dcd6 |
+| 2026-11-27T06:19:29+00:00 | ministral-3:14b | bbh | success | full | 1350 | 0.02 | exact_match,get-answer | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral14b-full-gap-20261127 | 25c5f0c1-d096-44fb-b3ac-d4cf45b52596 |
 | 2026-11-27T03:41:00.044042+00:00 | ministral-3:3b | runtime_context_reliability | success | smoke | 2 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t3_bench_runtime_source-control-acceptance-20261127 | 1a0fb0cc-adc7-4651-a64c-6297afe79d22 |
 | 2026-11-27T03:40:52.463051+00:00 | ministral-3:3b | runtime_throughput | success | smoke | 1 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t3_bench_runtime_source-control-acceptance-20261127 | 6aaf1401-e24d-4a98-be51-69575d3727fb |
 | 2026-11-27T03:40:48.880230+00:00 | ministral-3:3b | runtime_ttft | success | smoke | 3 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t3_bench_runtime_source-control-acceptance-20261127 | a83b9466-cf2d-457d-9f92-8404ce1468d9 |
@@ -1786,13 +1798,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-11-27T03:20:49+00:00 | ministral-3:3b | custom_ambiguity_handling | success | smoke | 13 | 0.23076923076923078 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 8bb4e5f1-1a8a-44bf-bcbf-435d0f243d88 |
 | 2026-11-27T03:20:40+00:00 | ministral-3:3b | custom_command_safety | success | smoke | 12 | 0.9166666666666666 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 4983e300-2559-4286-9f9c-91752bc1156b |
 | 2026-11-27T03:20:24+00:00 | ministral-3:3b | custom_json_schema_strict | success | smoke | 13 | 0.0 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 658f5709-0e52-42d4-b373-e3eadecc9f47 |
-| 2026-11-27T03:03:21+00:00 | qwen3.8-flash-next:q2_0 | mbpp_plus | success | full | 378 | 0.6322751322751323 | pass@1_plus | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | 50aa7a31-35a1-497a-9810-9ec9e3957f25 |
-| 2026-11-27T03:03:20+00:00 | qwen3.8-flash-next:q2_0 | mbpp_base | success | full | 378 | 0.6957671957671958 | pass@1_base | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | d6a41166-9b18-45b9-b6b0-e7d5cccdd39c |
-| 2026-11-27T02:23:31+00:00 | qwen3.8-flash-next:q2_0 | humaneval_plus | success | full | 164 | 0.6402439024390244 | pass@1_plus | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | e50e70b3-6eed-45be-92f5-70e5c6d66d64 |
-| 2026-11-27T02:23:31+00:00 | qwen3.8-flash-next:q2_0 | humaneval_base | success | full | 164 | 0.6585365853658537 | pass@1_base | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | 506879f9-9387-41b7-a794-4e3162bc081f |
-| 2026-11-27T01:48:55.518926+00:00 | qwen3.8-flash-next:q2_0 | humaneval_plus | failure | full |  |  |  | bench-code | campaign_m1_t6_bench_code_strata-q2-current-full-20261126 | 4a9b3eee-e13f-4120-997e-b6644f319a57 |
-| 2026-11-27T01:47:29.517049+00:00 | qwen3.8-flash-next:q2_0 | runtime_context_reliability | success | full | 2 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | 146515a8-6a1f-44fa-8cfc-c8c2177624f2 |
-| 2026-11-27T01:47:23.128459+00:00 | qwen3.8-flash-next:q2_0 | runtime_throughput | success | full | 1 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | e2b299bd-48f1-4fb6-a054-59e10e3682e9 |
-| 2026-11-27T01:47:20.835759+00:00 | qwen3.8-flash-next:q2_0 | runtime_ttft | success | full | 3 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | a9444ce6-358d-420d-b01e-1ea0afa8e84e |
-| 2026-11-27T01:47:19.655041+00:00 | qwen3.8-flash-next:q2_0 | runtime_stability | success | full | 5 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | 0d732f36-a97a-44b5-abb1-866267753740 |
-| 2026-11-27T01:47:11.803972 | qwen3.8-flash-next:q2_0 | geoimport_prep_handoff_ready_v2 | success | full | 1 | 0.0 | prep_handoff | bench-geoimport | campaign_m1_t4_bench_geoimport_strata-q2-current-full-20261126 | b624e68d-7e7b-464a-abfe-db8b5486277e |
