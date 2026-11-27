@@ -28,9 +28,11 @@ def _write_atomic(path: Path, data: dict) -> None:
 
 def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
            rigctl: Path, run_id: str, rig_benchmarking_root: Path,
-           dry_run: bool = False) -> dict:
+           dry_run: bool = False, max_active_models: int | None = None) -> dict:
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}", run_id):
         raise ValueError("run_id must be 1-64 letters, digits, dots, underscores or dashes")
+    if max_active_models is not None and max_active_models < 1:
+        raise ValueError("max_active_models must be at least 1")
     request = json.loads(request_path.read_text(encoding="utf-8"))
     registry = json.loads((ROOT / "model_registry.json").read_text(encoding="utf-8"))
     contracts = json.loads((ROOT / "docker" / "suite_contracts.json").read_text(encoding="utf-8"))
@@ -62,7 +64,8 @@ def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
             "blocks": len(campaign["blocks"]), "manifest": str(local_manifest),
             "rig_manifest": str(rig_manifest), "rig_status": str(rig_status),
             "pi_status": str(pi_status),
-            "submitted_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+            "submitted_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            **({"max_active_models": max_active_models} if max_active_models is not None else {})}
     if dry_run:
         return {**base, "state": "dry_run", "compiled_campaign": campaign}
     if local_manifest.exists():
@@ -74,6 +77,8 @@ def submit(request_path: Path, *, pi_shared_root: Path, rig_shared_root: Path,
     command = [sys.executable, str(rigctl), "run-start", "--run", run_id, "--auto-resume", "--",
                "python3", str(rig_benchmarking_root / "scripts" / "active" / "run_campaign.py"),
                str(rig_manifest), "--run-id", run_id]
+    if max_active_models is not None:
+        command += ["--max-active-models", str(max_active_models)]
     result = subprocess.run(command, capture_output=True, text=True, check=False)
     try:
         manager = json.loads(result.stdout)
@@ -97,13 +102,15 @@ def main() -> int:
     parser.add_argument("--rigctl", type=Path, required=True, help="Gateway rigctl.py on this controller")
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--dry-run", action="store_true", help="compile and print; do not write or submit")
+    parser.add_argument("--max-active-models", type=int, default=None, metavar="N",
+                        help="Limit concurrently loaded models (use 1 for serial runtime measurements)")
     args = parser.parse_args()
     run_id = args.run_id or datetime.now(timezone.utc).strftime("bench-%Y%m%dT%H%M%SZ-") + uuid.uuid4().hex[:6]
     try:
         receipt = submit(args.request, pi_shared_root=args.pi_shared_root,
                          rig_shared_root=args.rig_shared_root, rigctl=args.rigctl,
                          run_id=run_id, rig_benchmarking_root=args.rig_benchmarking_root,
-                         dry_run=args.dry_run)
+                         dry_run=args.dry_run, max_active_models=args.max_active_models)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         parser.error(str(exc))
     print(json.dumps(receipt, indent=2))

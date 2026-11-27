@@ -56,11 +56,24 @@ class CampaignBundleTests(unittest.TestCase):
                        str(request), "--dry-run", "--pi-shared-root", str(temp / "shared"),
                        "--rig-shared-root", "/mnt/shared",
                        "--rig-campaign-package-root", "/opt/benchmarking-campaign",
-                       "--rigctl", "/opt/rigctl.py"]
+                       "--rigctl", "/opt/rigctl.py", "--max-active-models", "1"]
             receipt = json.loads(subprocess.run(command, check=True, capture_output=True,
                                                 text=True).stdout)
             self.assertEqual(receipt["state"], "dry_run")
+            self.assertEqual(receipt["max_active_models"], 1)
             self.assertEqual(len(receipt["compiled_campaign"]["blocks"]), 1)
+            fake_rigctl = temp / "rigctl.py"
+            argv_receipt = temp / "rigctl-argv.json"
+            fake_rigctl.write_text(
+                "import json, sys\nfrom pathlib import Path\n"
+                f"Path({str(argv_receipt)!r}).write_text(json.dumps(sys.argv[1:]))\n"
+                "print(json.dumps({'item': {'id': 'fixture'}}))\n", encoding="utf-8")
+            live_command = [arg for arg in command if arg != "--dry-run"]
+            live_command[live_command.index("--rigctl") + 1] = str(fake_rigctl)
+            live_receipt = json.loads(subprocess.run(live_command, check=True, capture_output=True,
+                                                     text=True).stdout)
+            self.assertEqual(live_receipt["state"], "submitted")
+            self.assertEqual(json.loads(argv_receipt.read_text())[-2:], ["--max-active-models", "1"])
             subprocess.run([sys.executable,
                             str(root / "scripts/integration/wait_for_campaign_completion.py"),
                             "--help"], check=True, capture_output=True, text=True)
