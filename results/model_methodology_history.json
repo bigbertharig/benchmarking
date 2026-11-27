@@ -6325,6 +6325,74 @@
       "test_id": "mmlu_pro_flexible"
     },
     {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "gemma-4:e2b-q8",
+      "selected_run_at": "2026-11-27T13:15:37.875426+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "0c4e1b2d-0c5c-4ba3-b593-4a682e888cbb",
+      "selected_sample_count": 2,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "gemma-4:e2b-q8",
+      "selected_run_at": "2026-11-27T13:15:27.211471+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "387df180-66d7-4b07-8d44-994bd00bf043",
+      "selected_sample_count": 5,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_stability"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "gemma-4:e2b-q8",
+      "selected_run_at": "2026-11-27T13:15:32.092125+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "511da070-3206-4692-baeb-bd018ecd5898",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_throughput"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "gemma-4:e2b-q8",
+      "selected_run_at": "2026-11-27T13:15:27.754901+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "89618e97-4efe-4fa0-aec4-f855d7fcb04c",
+      "selected_sample_count": 3,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_ttft"
+    },
+    {
       "attempt_count": 6,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
@@ -12974,7 +13042,7 @@
       "test_id": "routing_cost_awareness"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 7,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12982,16 +13050,16 @@
         "1.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-08-21T07:53:09.617611+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "f4e32de5-8c7a-4ea9-95fd-75ad6b70eb6f",
+      "selected_run_at": "2026-11-27T13:14:47.011321+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "866324f8-0b2f-4b5b-8eb2-73650fb79834",
       "selected_sample_count": 2,
       "selected_score": 1.0,
-      "success_count": 6,
+      "success_count": 7,
       "test_id": "runtime_context_reliability"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 7,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12999,16 +13067,16 @@
         "1.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-08-21T07:52:57.952238+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "ea347d62-2802-4e7a-81e8-0b05e639be20",
+      "selected_run_at": "2026-11-27T13:14:35.361303+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "961f06c2-a467-47d1-875a-07dfa0784fe5",
       "selected_sample_count": 5,
       "selected_score": 1.0,
-      "success_count": 6,
+      "success_count": 7,
       "test_id": "runtime_stability"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 7,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -13016,16 +13084,16 @@
         "1.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-08-21T07:53:02.254700+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "f98e0df4-691c-42d9-9f14-9de93c977960",
+      "selected_run_at": "2026-11-27T13:14:39.458834+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "a6dfe193-6267-47c4-9c3b-14811cc4e099",
       "selected_sample_count": 1,
       "selected_score": 1.0,
-      "success_count": 6,
+      "success_count": 7,
       "test_id": "runtime_throughput"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 7,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -13033,12 +13101,12 @@
         "1.0.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-08-21T07:52:58.483358+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "12b657a1-9a87-48ea-b0dc-5a48d06bc58b",
+      "selected_run_at": "2026-11-27T13:14:35.869718+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "e89d7575-1b59-4e76-b739-78e320eb7c61",
       "selected_sample_count": 3,
       "selected_score": 1.0,
-      "success_count": 6,
+      "success_count": 7,
       "test_id": "runtime_ttft"
     },
     {
@@ -14538,7 +14606,7 @@
       "test_id": "routing_cost_awareness"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -14546,16 +14614,16 @@
         "1.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-08-21T05:42:54.355956+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "7adacbc0-51c6-4644-8f12-4c65e659182f",
+      "selected_run_at": "2026-11-27T13:12:54.655103+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "1d8c9d45-fecf-43e5-bc64-251fc8424ec6",
       "selected_sample_count": 2,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "runtime_context_reliability"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -14563,16 +14631,16 @@
         "1.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-08-21T05:42:38.014400+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "202affea-a461-46cb-9e56-a79a0da923c6",
+      "selected_run_at": "2026-11-27T13:12:39.193792+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "c244096a-fc2a-46e6-880e-f466cbddd504",
       "selected_sample_count": 5,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "runtime_stability"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -14580,16 +14648,16 @@
         "1.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-08-21T05:42:45.819439+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "fcd8123c-9ded-4051-82df-a2803ad9eb77",
+      "selected_run_at": "2026-11-27T13:12:46.525947+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "025905dd-c01f-4c58-9b11-e4d6277ee508",
       "selected_sample_count": 1,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "runtime_throughput"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -14597,12 +14665,12 @@
         "1.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-08-21T05:42:38.821405+00:00",
-      "selected_run_class": "validated",
-      "selected_run_id": "74200ae7-0daf-42a6-ad72-5dffa4c8a8b8",
+      "selected_run_at": "2026-11-27T13:12:39.955701+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "6dd52903-cd2a-4697-b65d-0f2a34bcd5e0",
       "selected_sample_count": 3,
       "selected_score": 1.0,
-      "success_count": 2,
+      "success_count": 3,
       "test_id": "runtime_ttft"
     },
     {
@@ -20775,6 +20843,74 @@
       "selected_score": 0.7037037037037037,
       "success_count": 1,
       "test_id": "mbpp_plus"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-11-27T13:13:57.063137+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "3cd1223b-54ea-4262-87c6-f84ff0f90fce",
+      "selected_sample_count": 2,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_context_reliability"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-11-27T13:13:39.296506+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "545ed78f-7bcf-41a0-be5b-01fe912264ce",
+      "selected_sample_count": 5,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_stability"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-11-27T13:13:45.795116+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "7fddea4d-c2bb-47da-b31b-c44925b6d652",
+      "selected_sample_count": 1,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_throughput"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "runtime-operational-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-runtime/operational",
+      "methodology_versions": [
+        "1.0.0"
+      ],
+      "model": "qwen2.5-coder:7b",
+      "selected_run_at": "2026-11-27T13:13:39.837292+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "9335a038-c943-4e4b-bb59-ff2e09c389f9",
+      "selected_sample_count": 3,
+      "selected_score": 1.0,
+      "success_count": 1,
+      "test_id": "runtime_ttft"
     },
     {
       "attempt_count": 1,
@@ -30876,13 +31012,13 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "generated_at": "2026-11-27T13:09:36.055031+00:00",
-  "group_count": 1816,
+  "generated_at": "2026-11-27T13:16:31.734025+00:00",
+  "group_count": 1824,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 3900,
+  "record_count": 3916,
   "schema_version": 1
 }
