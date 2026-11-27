@@ -33,7 +33,9 @@ require the older shared Benchmarking source checkout for recording. Source-chec
 campaigns keep their existing ledger path. Import package rows into a curated model
 library only after reviewing the terminal and raw suite receipts. Rebuild the rig's
 bench-code image from this checkout when updating its embedded run.sh; portable
-package recording for that suite requires the revised image.
+package recording for that suite requires the revised image. The clean-package
+stop/recover and source-tree comparison is recorded in the
+[portable acceptance receipt](../results/campaign_acceptance/portable_package_resume_20261127.json).
 
 ## Simple model-and-suite request
 

@@ -1,0 +1,44 @@
+{
+  "checks": {
+    "all_blocks_scored_and_provenanced": true,
+    "both_terminal_completed": true,
+    "portable_mount_is_bundle": true,
+    "portable_records_in_run_history": true,
+    "same_measurement_contracts": true,
+    "same_pipeline_raw_schema": true,
+    "same_pipeline_task_scores": true,
+    "same_reasoning_raw_schema": true,
+    "same_runtime_raw_schema": true,
+    "same_terminal_schema": true,
+    "same_test_ids": true,
+    "source_mount_is_clean_tree": true
+  },
+  "portable_bundle_archive_sha256": "ea869e735f050f1e392dcb65f353f7f87106ab1b8b4bad024c95fb5f5b8ae374",
+  "portable_run": {
+    "blocks": 3,
+    "id": "portable-package-acceptance-v2-20261127",
+    "manager_attempts": 2,
+    "recovery": "stopped after pipeline completed; reasoning restarted; pipeline skipped and retained log path and runtime identity",
+    "score_rows": 12,
+    "status_receipt": "/media/bryan/shared/logs/benchmarks/campaigns/history/portable_package_acceptance_20261126/portable-package-acceptance-v2-20261127/status.json"
+  },
+  "raw_receipts": {
+    "pipeline_stage_updates_each": 6,
+    "reasoning_tasks": [
+      "bbh"
+    ],
+    "runtime_summary_present": true,
+    "suite_root": "/media/bryan/shared/logs/benchmarks"
+  },
+  "schema": "benchmark-portable-campaign-acceptance/1",
+  "source_commit": "d2744f3e599a67134281ff0c342c1e38cdd9301d",
+  "source_run": {
+    "blocks": 3,
+    "id": "source-control-acceptance-20261127",
+    "manager_attempts": 1,
+    "score_rows": 12,
+    "status_receipt": "/media/bryan/shared/logs/benchmarks/campaigns/history/portable_package_acceptance_20261126/source-control-acceptance-20261127/status.json"
+  },
+  "source_tree_archive_sha256": "4953a492c0e460932d4e3a38528c909487ae24545a290e94be432df861e038bb",
+  "verified_at": "2026-11-27T03:47:42.172539+00:00"
+}

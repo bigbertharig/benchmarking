@@ -11527,7 +11527,7 @@
       "test_id": "agent_tool_select"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 8,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 1,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -11540,11 +11540,11 @@
       "selected_run_id": "989e833b-f73f-435b-a710-da8fd28a8d7e",
       "selected_sample_count": 270,
       "selected_score": 0.07037037037037037,
-      "success_count": 5,
+      "success_count": 7,
       "test_id": "bbh"
     },
     {
-      "attempt_count": 8,
+      "attempt_count": 10,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -11557,7 +11557,7 @@
       "selected_run_id": "a74a24db-955c-4654-a783-889cd8884b68",
       "selected_sample_count": 270,
       "selected_score": 0.4962962962962963,
-      "success_count": 8,
+      "success_count": 10,
       "test_id": "bbh_flexible"
     },
     {
@@ -11578,7 +11578,7 @@
       "test_id": "custom_ambiguity_handling"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 3,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -11586,12 +11586,12 @@
         "2.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-11-26T20:51:34+00:00",
+      "selected_run_at": "2026-11-27T03:34:35+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "a262ddbb-7f15-414c-8391-ed37daeee6cb",
+      "selected_run_id": "b4c10657-c121-4570-bca5-a3663b462137",
       "selected_sample_count": 13,
       "selected_score": 0.23076923076923078,
-      "success_count": 1,
+      "success_count": 3,
       "test_id": "custom_ambiguity_handling"
     },
     {
@@ -11612,7 +11612,7 @@
       "test_id": "custom_command_safety"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 3,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -11620,12 +11620,12 @@
         "2.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-11-26T20:51:25+00:00",
+      "selected_run_at": "2026-11-27T03:34:26+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "3cfbd1f6-2928-4043-8d7c-72818d243765",
+      "selected_run_id": "57339270-4a85-4163-9a98-8223027d2c41",
       "selected_sample_count": 12,
       "selected_score": 0.9166666666666666,
-      "success_count": 1,
+      "success_count": 3,
       "test_id": "custom_command_safety"
     },
     {
@@ -11646,7 +11646,7 @@
       "test_id": "custom_json_schema_strict"
     },
     {
-      "attempt_count": 6,
+      "attempt_count": 8,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -11654,12 +11654,12 @@
         "2.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-11-26T22:18:56+00:00",
+      "selected_run_at": "2026-11-27T03:34:09+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "8338ee87-7f81-4a27-93f0-88e65297582b",
+      "selected_run_id": "af39070c-63be-4dab-aee3-84710d887f3c",
       "selected_sample_count": 13,
-      "selected_score": 0.3076923076923077,
-      "success_count": 6,
+      "selected_score": 0.0,
+      "success_count": 8,
       "test_id": "custom_json_schema_strict"
     },
     {
@@ -11680,7 +11680,7 @@
       "test_id": "custom_long_context_extract"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 3,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -11688,12 +11688,12 @@
         "2.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-11-26T20:51:59+00:00",
+      "selected_run_at": "2026-11-27T03:35:00+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "445ddfae-b365-498e-98fb-de8129b4fca3",
+      "selected_run_id": "ac133141-ebef-4151-a7f2-3e80252183e2",
       "selected_sample_count": 14,
       "selected_score": 0.8571428571428571,
-      "success_count": 1,
+      "success_count": 3,
       "test_id": "custom_long_context_extract"
     },
     {
@@ -11714,7 +11714,7 @@
       "test_id": "custom_orchestration_tradeoff"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 3,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -11722,12 +11722,12 @@
         "2.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-11-26T20:51:47+00:00",
+      "selected_run_at": "2026-11-27T03:34:48+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "5a2a805b-ca84-4975-992d-d1c67439d036",
+      "selected_run_id": "9031a761-b893-4c6e-864b-e817c0be230e",
       "selected_sample_count": 12,
       "selected_score": 0.75,
-      "success_count": 1,
+      "success_count": 3,
       "test_id": "custom_orchestration_tradeoff"
     },
     {
@@ -11748,7 +11748,7 @@
       "test_id": "custom_tool_plan_sequence"
     },
     {
-      "attempt_count": 1,
+      "attempt_count": 3,
       "comparison_group": "pipeline-local-custom-v2",
       "failure_count": 0,
       "methodology_id": "bench-pipeline/local-custom",
@@ -11756,12 +11756,12 @@
         "2.1.0"
       ],
       "model": "ministral-3:3b",
-      "selected_run_at": "2026-11-26T20:51:39+00:00",
+      "selected_run_at": "2026-11-27T03:34:40+00:00",
       "selected_run_class": "smoke",
-      "selected_run_id": "f731ec67-2324-4d2c-b35c-8f0b9e97a7c4",
+      "selected_run_id": "1da0b88f-c096-4389-b79e-1cff8aa75799",
       "selected_sample_count": 15,
       "selected_score": 0.8666666666666667,
-      "success_count": 1,
+      "success_count": 3,
       "test_id": "custom_tool_plan_sequence"
     },
     {
@@ -12938,7 +12938,7 @@
       "test_id": "routing_cost_awareness"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 6,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12951,11 +12951,11 @@
       "selected_run_id": "f4e32de5-8c7a-4ea9-95fd-75ad6b70eb6f",
       "selected_sample_count": 2,
       "selected_score": 1.0,
-      "success_count": 4,
+      "success_count": 6,
       "test_id": "runtime_context_reliability"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 6,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12968,11 +12968,11 @@
       "selected_run_id": "ea347d62-2802-4e7a-81e8-0b05e639be20",
       "selected_sample_count": 5,
       "selected_score": 1.0,
-      "success_count": 4,
+      "success_count": 6,
       "test_id": "runtime_stability"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 6,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -12985,11 +12985,11 @@
       "selected_run_id": "f98e0df4-691c-42d9-9f14-9de93c977960",
       "selected_sample_count": 1,
       "selected_score": 1.0,
-      "success_count": 4,
+      "success_count": 6,
       "test_id": "runtime_throughput"
     },
     {
-      "attempt_count": 4,
+      "attempt_count": 6,
       "comparison_group": "runtime-operational-v1",
       "failure_count": 0,
       "methodology_id": "bench-runtime/operational",
@@ -13002,7 +13002,7 @@
       "selected_run_id": "12b657a1-9a87-48ea-b0dc-5a48d06bc58b",
       "selected_sample_count": 3,
       "selected_score": 1.0,
-      "success_count": 4,
+      "success_count": 6,
       "test_id": "runtime_ttft"
     },
     {
@@ -30840,13 +30840,13 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "generated_at": "2026-11-27T03:06:02.352719+00:00",
+  "generated_at": "2026-11-27T03:48:47.596220+00:00",
   "group_count": 1814,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 3858,
+  "record_count": 3882,
   "schema_version": 1
 }
