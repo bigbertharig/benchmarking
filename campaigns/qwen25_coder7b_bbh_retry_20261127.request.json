@@ -1,0 +1,16 @@
+{
+  "name": "qwen25_coder7b_bbh_retry_20261127",
+  "models": [
+    "qwen2.5-coder:7b"
+  ],
+  "tests": [
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "bbh"
+      ],
+      "limit": 50
+    }
+  ],
+  "run_class": "full"
+}
