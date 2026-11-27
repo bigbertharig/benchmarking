@@ -2555,7 +2555,7 @@
       "source_url": "https://huggingface.co/ISTA-DASLab/Qwen3.8-Flash-Next-GSQ-RCO-GGUF/tree/ed59f92082b1e93c0e96d60a8b11aab089b52f09/Q2_0",
       "status": "candidate",
       "in_testing": true,
-      "status_note": "Q2_0 loading, 256K single-chat recall and short concurrent chats passed. Full current pipeline, reasoning, geoimport and runtime receipts are recorded: strict JSON 12/13, BBH flexible 84.3% (1350), MMLU-Pro flexible 78.9% (280), strict IFEval 84% (50), geoimport 2/5, runtime throughput 81.1 tok/s. Code was interrupted by an EvalPlus null-content crash; a methodology 2.0.1 rerun is active. Candidate pending quality review.",
+      "status_note": "Q2_0 loading, 256K single-chat recall and short concurrent chats passed. Current full-suite receipts are complete across the quality/runtime campaign and corrected code-only campaign: strict JSON 12/13, BBH flexible 84.3% (1350), MMLU-Pro flexible 78.9% (280), strict IFEval 84% (50), HumanEval+ 64.0% (164), MBPP+ 63.2% (378), geoimport 2/5, runtime throughput 81.1 tok/s. Code uses EvalPlus methodology 2.0.1 with null content counted as empty. Candidate pending role review.",
       "loading_stage": {
         "state": "ready_for_benchmark",
         "runtime": "strata/0.2.10",

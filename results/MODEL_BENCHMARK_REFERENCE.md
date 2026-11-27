@@ -1,10 +1,10 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-11-27T02:06:23.949388+00:00`
+- Generated at: `2026-11-27T03:06:01.648985+00:00`
 - Canonical records: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/benchmark_status.json`
-- Total records: `3854`
-- Selected model/test results: `1646`
+- Total records: `3858`
+- Selected model/test results: `1650`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
 
@@ -1557,10 +1557,14 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen3.8-flash-next:q2_0 | geoimport_prep_plan_brazil_spine_v2 | 0.0 | 0.0 | prep_plan | full | 1 | unknown | 2026-11-27T01:46:57.319744 | bench-geoimport | campaign_m1_t4_bench_geoimport_strata-q2-current-full-20261126 |
 | qwen3.8-flash-next:q2_0 | gsm8k_flexible | 0.64 | 64.0 | exact_match,flexible-extract | full | 50 | degraded | 2026-11-26T22:48:14+00:00 | bench-reasoning | campaign_m1_t2_bench_reasoning_strata-q2-current-full-20261126 |
 | qwen3.8-flash-next:q2_0 | gsm8k_strict | 0.56 | 56.00000000000001 | exact_match,strict-match | full | 50 | degraded | 2026-11-26T22:48:13+00:00 | bench-reasoning | campaign_m1_t2_bench_reasoning_strata-q2-current-full-20261126 |
+| qwen3.8-flash-next:q2_0 | humaneval_base | 0.6585365853658537 | 65.85365853658537 | pass@1_base | full | 164 | unknown | 2026-11-27T02:23:31+00:00 | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 |
+| qwen3.8-flash-next:q2_0 | humaneval_plus | 0.6402439024390244 | 64.02439024390245 | pass@1_plus | full | 164 | unknown | 2026-11-27T02:23:31+00:00 | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 |
 | qwen3.8-flash-next:q2_0 | ifeval_inst_level_loose_acc_none | 0.881578947368421 | 88.1578947368421 | inst_level_loose_acc,none | full | 50 | unknown | 2026-11-27T00:57:36+00:00 | bench-reasoning | campaign_m1_t2_bench_reasoning_strata-q2-current-full-20261126 |
 | qwen3.8-flash-next:q2_0 | ifeval_inst_level_strict_acc_none | 0.881578947368421 | 88.1578947368421 | inst_level_strict_acc,none | full | 50 | unknown | 2026-11-27T00:57:35+00:00 | bench-reasoning | campaign_m1_t2_bench_reasoning_strata-q2-current-full-20261126 |
 | qwen3.8-flash-next:q2_0 | ifeval_prompt_level_loose_acc_none | 0.84 | 84.0 | prompt_level_loose_acc,none | full | 50 | unknown | 2026-11-27T00:57:36+00:00 | bench-reasoning | campaign_m1_t2_bench_reasoning_strata-q2-current-full-20261126 |
 | qwen3.8-flash-next:q2_0 | ifeval_prompt_level_strict_acc_none | 0.84 | 84.0 | prompt_level_strict_acc,none | full | 50 | unknown | 2026-11-27T00:57:34+00:00 | bench-reasoning | campaign_m1_t2_bench_reasoning_strata-q2-current-full-20261126 |
+| qwen3.8-flash-next:q2_0 | mbpp_base | 0.6957671957671958 | 69.57671957671958 | pass@1_base | full | 378 | unknown | 2026-11-27T03:03:20+00:00 | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 |
+| qwen3.8-flash-next:q2_0 | mbpp_plus | 0.6322751322751323 | 63.227513227513235 | pass@1_plus | full | 378 | unknown | 2026-11-27T03:03:21+00:00 | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 |
 | qwen3.8-flash-next:q2_0 | mmlu_pro_exact_match_custom-extract | 0.7821428571428571 | 78.21428571428571 | exact_match,custom-extract | full | 280 | unknown | 2026-11-27T01:46:28+00:00 | bench-reasoning | campaign_m1_t3_bench_reasoning_strata-q2-current-full-20261126 |
 | qwen3.8-flash-next:q2_0 | mmlu_pro_flexible | 0.7892857142857143 | 78.92857142857143 | exact_match,flexible-extract | full | 280 | degraded | 2026-11-27T01:46:28+00:00 | bench-reasoning | campaign_m1_t3_bench_reasoning_strata-q2-current-full-20261126 |
 | qwen3.8-flash-next:q2_0 | runtime_context_reliability | 1.0 | 100.0 | request_success_rate | full | 2 | compatible | 2026-11-27T01:47:29.517049+00:00 | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 |
@@ -1752,6 +1756,10 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-27T03:03:21+00:00 | qwen3.8-flash-next:q2_0 | mbpp_plus | success | full | 378 | 0.6322751322751323 | pass@1_plus | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | 50aa7a31-35a1-497a-9810-9ec9e3957f25 |
+| 2026-11-27T03:03:20+00:00 | qwen3.8-flash-next:q2_0 | mbpp_base | success | full | 378 | 0.6957671957671958 | pass@1_base | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | d6a41166-9b18-45b9-b6b0-e7d5cccdd39c |
+| 2026-11-27T02:23:31+00:00 | qwen3.8-flash-next:q2_0 | humaneval_plus | success | full | 164 | 0.6402439024390244 | pass@1_plus | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | e50e70b3-6eed-45be-92f5-70e5c6d66d64 |
+| 2026-11-27T02:23:31+00:00 | qwen3.8-flash-next:q2_0 | humaneval_base | success | full | 164 | 0.6585365853658537 | pass@1_base | bench-code | campaign_m1_t1_bench_code_strata-q2-code-full-20261127 | 506879f9-9387-41b7-a794-4e3162bc081f |
 | 2026-11-27T01:48:55.518926+00:00 | qwen3.8-flash-next:q2_0 | humaneval_plus | failure | full |  |  |  | bench-code | campaign_m1_t6_bench_code_strata-q2-current-full-20261126 | 4a9b3eee-e13f-4120-997e-b6644f319a57 |
 | 2026-11-27T01:47:29.517049+00:00 | qwen3.8-flash-next:q2_0 | runtime_context_reliability | success | full | 2 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | 146515a8-6a1f-44fa-8cfc-c8c2177624f2 |
 | 2026-11-27T01:47:23.128459+00:00 | qwen3.8-flash-next:q2_0 | runtime_throughput | success | full | 1 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | e2b299bd-48f1-4fb6-a054-59e10e3682e9 |
@@ -1788,7 +1796,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-11-26T22:28:28+00:00 | phi-4:14b | drop_flexible | success | smoke | 10 | 1.0 | answer_contained | bench-reasoning | campaign_phi4_drop_brief_phi4-drop-brief-prompt-20261126 | 4913a847-0d8f-4f7d-9e45-93b989432fd7 |
 | 2026-11-26T22:28:27+00:00 | phi-4:14b | drop_em | success | smoke | 10 | 0.0 | em,none | bench-reasoning | campaign_phi4_drop_brief_phi4-drop-brief-prompt-20261126 | 48337860-13a6-4ef0-bd09-2d49bb3891d2 |
 | 2026-11-26T22:26:04+00:00 | qwen3.8:27b | drop_flexible | success | smoke | 10 | 0.9 | answer_contained | bench-reasoning | campaign_qwen38_reasoning_validated_stops_top-pick-settings-followup-20261126 | 3ae56898-3a2a-403b-9d5d-92889693479f |
-| 2026-11-26T22:26:04+00:00 | qwen3.8:27b | drop_f1 | success | smoke | 10 | 0.7849999999999999 | f1,none | bench-reasoning | campaign_qwen38_reasoning_validated_stops_top-pick-settings-followup-20261126 | 259f2562-56f2-4e5c-a6f5-80d5027f729e |
-| 2026-11-26T22:26:03+00:00 | qwen3.8:27b | drop_em | success | smoke | 10 | 0.7 | em,none | bench-reasoning | campaign_qwen38_reasoning_validated_stops_top-pick-settings-followup-20261126 | ae5ed467-faf2-49e6-947a-08916e76c4c5 |
-| 2026-11-26T22:24:35+00:00 | qwen3.8:27b | gsm8k_flexible | success | smoke | 10 | 1.0 | exact_match,flexible-extract | bench-reasoning | campaign_qwen38_reasoning_validated_stops_top-pick-settings-followup-20261126 | 864b4db6-f94a-4a56-ac3d-41152db6ac42 |
-| 2026-11-26T22:24:34+00:00 | qwen3.8:27b | gsm8k_strict | success | smoke | 10 | 0.7 | exact_match,strict-match | bench-reasoning | campaign_qwen38_reasoning_validated_stops_top-pick-settings-followup-20261126 | 66feee5a-74dc-4303-8d1d-86c1bd604d90 |

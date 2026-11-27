@@ -28002,18 +28002,36 @@
     {
       "attempt_count": 1,
       "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.1"
+      ],
+      "model": "qwen3.8-flash-next:q2_0",
+      "selected_run_at": "2026-11-27T02:23:31+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "506879f9-9387-41b7-a794-4e3162bc081f",
+      "selected_sample_count": 164,
+      "selected_score": 0.6585365853658537,
+      "success_count": 1,
+      "test_id": "humaneval_base"
+    },
+    {
+      "attempt_count": 2,
+      "comparison_group": "evalplus-0.3-plus-v1",
       "failure_count": 1,
       "methodology_id": "bench-code/evalplus",
       "methodology_versions": [
-        "2.0.0"
+        "2.0.0",
+        "2.0.1"
       ],
       "model": "qwen3.8-flash-next:q2_0",
-      "selected_run_at": null,
-      "selected_run_class": null,
-      "selected_run_id": null,
-      "selected_sample_count": null,
-      "selected_score": null,
-      "success_count": 0,
+      "selected_run_at": "2026-11-27T02:23:31+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "e50e70b3-6eed-45be-92f5-70e5c6d66d64",
+      "selected_sample_count": 164,
+      "selected_score": 0.6402439024390244,
+      "success_count": 1,
       "test_id": "humaneval_plus"
     },
     {
@@ -28083,6 +28101,40 @@
       "selected_score": 0.84,
       "success_count": 1,
       "test_id": "ifeval_prompt_level_strict_acc_none"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.1"
+      ],
+      "model": "qwen3.8-flash-next:q2_0",
+      "selected_run_at": "2026-11-27T03:03:20+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "d6a41166-9b18-45b9-b6b0-e7d5cccdd39c",
+      "selected_sample_count": 378,
+      "selected_score": 0.6957671957671958,
+      "success_count": 1,
+      "test_id": "mbpp_base"
+    },
+    {
+      "attempt_count": 1,
+      "comparison_group": "evalplus-0.3-plus-v1",
+      "failure_count": 0,
+      "methodology_id": "bench-code/evalplus",
+      "methodology_versions": [
+        "2.0.1"
+      ],
+      "model": "qwen3.8-flash-next:q2_0",
+      "selected_run_at": "2026-11-27T03:03:21+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "50aa7a31-35a1-497a-9810-9ec9e3957f25",
+      "selected_sample_count": 378,
+      "selected_score": 0.6322751322751323,
+      "success_count": 1,
+      "test_id": "mbpp_plus"
     },
     {
       "attempt_count": 1,
@@ -30788,13 +30840,13 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "generated_at": "2026-11-27T02:06:24.454180+00:00",
-  "group_count": 1811,
+  "generated_at": "2026-11-27T03:06:02.352719+00:00",
+  "group_count": 1814,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 3854,
+  "record_count": 3858,
   "schema_version": 1
 }
