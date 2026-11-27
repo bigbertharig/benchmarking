@@ -1,9 +1,9 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-11-27T03:48:46.961560+00:00`
+- Generated at: `2026-11-27T11:01:43.166586+00:00`
 - Canonical records: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/benchmark_status.json`
-- Total records: `3882`
+- Total records: `3888`
 - Selected model/test results: `1650`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
@@ -378,8 +378,8 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | gemma-4:e2b | drop_f1 | 0.0508 | 5.08 | f1,none | legacy |  | unknown | 2026-06-08T10:31:01+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
 | gemma-4:e2b | gsm8k_flexible | 0.74 | 74.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
 | gemma-4:e2b | gsm8k_strict | 0.7 | 70.0 | exact_match,strict-match | legacy |  | unknown | 2026-06-08T06:35:30+00:00 | bench-reasoning | campaign_e2b_reasoning_20260607_232659 |
-| gemma-4:e2b-q8 | bbh | 0.4703703703703704 | 47.03703703703704 | exact_match,get-answer | smoke | 270 | unknown | 2026-10-18T13:27:15+00:00 | bench-reasoning | gemma-4_e2b-q8_w_p45_think |
-| gemma-4:e2b-q8 | bbh_flexible | 0.7407407407407407 | 74.07407407407408 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-18T13:27:15+00:00 | bench-reasoning | gemma-4_e2b-q8_w_p45_think |
+| gemma-4:e2b-q8 | bbh | 0.6614814814814814 | 66.14814814814814 | exact_match,get-answer | full | 1350 | unknown | 2026-11-27T10:10:24+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_gemma4-e2b-bbh-retry-20261127 |
+| gemma-4:e2b-q8 | bbh_flexible | 0.76 | 76.0 | exact_match,flexible-extract | full | 1350 | degraded | 2026-11-27T10:10:25+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_gemma4-e2b-bbh-retry-20261127 |
 | gemma-4:e2b-q8 | custom_ambiguity_handling | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-11-26T20:59:39+00:00 | bench-pipeline | campaign_m1_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | gemma-4:e2b-q8 | custom_command_safety | 0.5 | 50.0 | score | smoke | 12 | unknown | 2026-11-26T20:59:32+00:00 | bench-pipeline | campaign_m1_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | gemma-4:e2b-q8 | custom_json_schema_strict | 0.9230769230769231 | 92.3076923076923 | score | smoke | 13 | unknown | 2026-11-26T20:59:24+00:00 | bench-pipeline | campaign_m1_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
@@ -679,8 +679,8 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:3b | agent_tool_args | 0.6666666666666666 | 66.66666666666666 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:44.083201+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
 | ministral-3:3b | agent_tool_execute | 1.0 | 100.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:46.557012+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
 | ministral-3:3b | agent_tool_select | 0.4 | 40.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T09:51:41.665345+00:00 | bench-agent | campaign_ministral3_3b_agent_20260813_limit5_all |
-| ministral-3:3b | bbh | 0.07037037037037037 | 7.037037037037037 | exact_match,get-answer | smoke | 270 | unknown | 2026-10-18T20:15:54+00:00 | bench-reasoning | ministral-3_3b_ab_plain |
-| ministral-3:3b | bbh_flexible | 0.4962962962962963 | 49.629629629629626 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-18T20:15:55+00:00 | bench-reasoning | ministral-3_3b_ab_plain |
+| ministral-3:3b | bbh | 0.02074074074074074 | 2.074074074074074 | exact_match,get-answer | full | 1350 | unknown | 2026-11-27T07:09:20+00:00 | bench-reasoning | campaign_m2_t1_bench_reasoning_role-bbh-parallel-spare-cards-20261127 |
+| ministral-3:3b | bbh_flexible | 0.10518518518518519 | 10.518518518518519 | exact_match,flexible-extract | full | 1350 | degraded | 2026-11-27T07:09:20+00:00 | bench-reasoning | campaign_m2_t1_bench_reasoning_role-bbh-parallel-spare-cards-20261127 |
 | ministral-3:3b | custom_ambiguity_handling | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-11-27T03:34:35+00:00 | bench-pipeline | campaign_m1_t1_bench_pipeline_source-control-acceptance-20261127 |
 | ministral-3:3b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | smoke | 12 | unknown | 2026-11-27T03:34:26+00:00 | bench-pipeline | campaign_m1_t1_bench_pipeline_source-control-acceptance-20261127 |
 | ministral-3:3b | custom_json_schema_strict | 0.0 | 0.0 | score | smoke | 13 | unknown | 2026-11-27T03:34:09+00:00 | bench-pipeline | campaign_m1_t1_bench_pipeline_source-control-acceptance-20261127 |
@@ -1100,8 +1100,8 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | qwen2.5-coder:32b | gsm8k | 0.0 | 0.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-05T15:52:07.684619 | lm_eval | quick_triplet_l1_20260305 |
 | qwen2.5-coder:32b | gsm8k_flexible | 0.92 | 92.0 | exact_match,flexible-extract | legacy |  | unknown | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
 | qwen2.5-coder:32b | gsm8k_strict | 0.92 | 92.0 | exact_match,strict-match | legacy |  | unknown | 2026-03-15T07:52:40+00:00 | bench-reasoning | bench-reasoning_qwen2.5-coder_32b_reasoning_coder32b_l100_v1 |
-| qwen2.5-coder:7b | bbh | 0.6444444444444445 | 64.44444444444444 | exact_match,get-answer | legacy |  | unknown | 2026-04-24T18:41:43+00:00 | bench-reasoning | smoke_coder7b_nonn_bbh_l5 |
-| qwen2.5-coder:7b | bbh_flexible | 0.674074074074074 | 67.4074074074074 | exact_match,flexible-extract | smoke | 270 | compatible | 2026-10-18T05:27:11+00:00 | bench-reasoning | qwen2_5-coder_7b_w_smoke_v1 |
+| qwen2.5-coder:7b | bbh | 0.6918518518518518 | 69.18518518518518 | exact_match,get-answer | full | 1350 | unknown | 2026-11-27T11:00:13+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_qwen25-coder7b-bbh-retry-20261127 |
+| qwen2.5-coder:7b | bbh_flexible | 0.6933333333333334 | 69.33333333333334 | exact_match,flexible-extract | full | 1350 | degraded | 2026-11-27T11:00:13+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_qwen25-coder7b-bbh-retry-20261127 |
 | qwen2.5-coder:7b | custom_ambiguity_handling | 0.15384615384615385 | 15.384615384615385 | score | smoke | 13 | unknown | 2026-11-26T21:00:54+00:00 | bench-pipeline | campaign_m2_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | qwen2.5-coder:7b | custom_command_safety | 0.9166666666666666 | 91.66666666666666 | score | smoke | 12 | unknown | 2026-11-26T21:00:44+00:00 | bench-pipeline | campaign_m2_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | qwen2.5-coder:7b | custom_json_schema_strict | 0.5 | 50.0 | schema_valid_rate | legacy |  | unknown | 2026-03-05T20:20:25.318139 | local_custom | local_custom_probe_v2 |
@@ -1756,6 +1756,12 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-27T11:00:13+00:00 | qwen2.5-coder:7b | bbh | success | full | 1350 | 0.6918518518518518 | exact_match,get-answer | bench-reasoning | campaign_m1_t1_bench_reasoning_qwen25-coder7b-bbh-retry-20261127 | 56c974e2-668e-40d6-bcc1-b05e84fcc541 |
+| 2026-11-27T11:00:13+00:00 | qwen2.5-coder:7b | bbh_flexible | success | full | 1350 | 0.6933333333333334 | exact_match,flexible-extract | bench-reasoning | campaign_m1_t1_bench_reasoning_qwen25-coder7b-bbh-retry-20261127 | 26f3ebfa-9e96-46b8-9ddf-ac3dcb16f89a |
+| 2026-11-27T10:10:25+00:00 | gemma-4:e2b-q8 | bbh_flexible | success | full | 1350 | 0.76 | exact_match,flexible-extract | bench-reasoning | campaign_m1_t1_bench_reasoning_gemma4-e2b-bbh-retry-20261127 | 5c5a885e-7fea-4407-ba3b-3674173850ce |
+| 2026-11-27T10:10:24+00:00 | gemma-4:e2b-q8 | bbh | success | full | 1350 | 0.6614814814814814 | exact_match,get-answer | bench-reasoning | campaign_m1_t1_bench_reasoning_gemma4-e2b-bbh-retry-20261127 | 8f97b706-98fa-45e3-ab5d-4886ec5b0e19 |
+| 2026-11-27T07:09:20+00:00 | ministral-3:3b | bbh_flexible | success | full | 1350 | 0.10518518518518519 | exact_match,flexible-extract | bench-reasoning | campaign_m2_t1_bench_reasoning_role-bbh-parallel-spare-cards-20261127 | b133b97e-321a-48a7-ad91-9776fd305f4f |
+| 2026-11-27T07:09:20+00:00 | ministral-3:3b | bbh | success | full | 1350 | 0.02074074074074074 | exact_match,get-answer | bench-reasoning | campaign_m2_t1_bench_reasoning_role-bbh-parallel-spare-cards-20261127 | 53945689-fd25-4c89-8678-9c1f5e372d4e |
 | 2026-11-27T03:41:00.044042+00:00 | ministral-3:3b | runtime_context_reliability | success | smoke | 2 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t3_bench_runtime_source-control-acceptance-20261127 | 1a0fb0cc-adc7-4651-a64c-6297afe79d22 |
 | 2026-11-27T03:40:52.463051+00:00 | ministral-3:3b | runtime_throughput | success | smoke | 1 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t3_bench_runtime_source-control-acceptance-20261127 | 6aaf1401-e24d-4a98-be51-69575d3727fb |
 | 2026-11-27T03:40:48.880230+00:00 | ministral-3:3b | runtime_ttft | success | smoke | 3 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t3_bench_runtime_source-control-acceptance-20261127 | a83b9466-cf2d-457d-9f92-8404ce1468d9 |
@@ -1790,9 +1796,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-11-27T01:47:20.835759+00:00 | qwen3.8-flash-next:q2_0 | runtime_ttft | success | full | 3 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | a9444ce6-358d-420d-b01e-1ea0afa8e84e |
 | 2026-11-27T01:47:19.655041+00:00 | qwen3.8-flash-next:q2_0 | runtime_stability | success | full | 5 | 1.0 | request_success_rate | bench-runtime | campaign_m1_t5_bench_runtime_strata-q2-current-full-20261126 | 0d732f36-a97a-44b5-abb1-866267753740 |
 | 2026-11-27T01:47:11.803972 | qwen3.8-flash-next:q2_0 | geoimport_prep_handoff_ready_v2 | success | full | 1 | 0.0 | prep_handoff | bench-geoimport | campaign_m1_t4_bench_geoimport_strata-q2-current-full-20261126 | b624e68d-7e7b-464a-abfe-db8b5486277e |
-| 2026-11-27T01:47:04.563807 | qwen3.8-flash-next:q2_0 | geoimport_prep_handoff_local_check_failure_v2 | success | full | 1 | 1.0 | prep_handoff | bench-geoimport | campaign_m1_t4_bench_geoimport_strata-q2-current-full-20261126 | 5712fbdf-0cb9-43a3-832e-30c6ee816c1b |
-| 2026-11-27T01:46:57.319744 | qwen3.8-flash-next:q2_0 | geoimport_prep_plan_brazil_spine_v2 | success | full | 1 | 0.0 | prep_plan | bench-geoimport | campaign_m1_t4_bench_geoimport_strata-q2-current-full-20261126 | a2961dbb-9a06-4c23-980e-c564abae9eef |
-| 2026-11-27T01:46:49.929480 | qwen3.8-flash-next:q2_0 | geoimport_prep_classify_brazil_ibge_v2 | success | full | 1 | 1.0 | classification | bench-geoimport | campaign_m1_t4_bench_geoimport_strata-q2-current-full-20261126 | 155995d8-a865-42c1-b681-58e3718ae4b8 |
-| 2026-11-27T01:46:42.209449 | qwen3.8-flash-next:q2_0 | geoimport_prep_classify_australia_asgs_v2 | success | full | 1 | 0.0 | classification | bench-geoimport | campaign_m1_t4_bench_geoimport_strata-q2-current-full-20261126 | ed58e45a-8ad9-41ca-bafa-d6a2c003b370 |
-| 2026-11-27T01:46:28+00:00 | qwen3.8-flash-next:q2_0 | mmlu_pro_exact_match_custom-extract | success | full | 280 | 0.7821428571428571 | exact_match,custom-extract | bench-reasoning | campaign_m1_t3_bench_reasoning_strata-q2-current-full-20261126 | 957c1383-93d8-456b-8567-3265de30c4cd |
-| 2026-11-27T01:46:28+00:00 | qwen3.8-flash-next:q2_0 | mmlu_pro_flexible | success | full | 280 | 0.7892857142857143 | exact_match,flexible-extract | bench-reasoning | campaign_m1_t3_bench_reasoning_strata-q2-current-full-20261126 | 0bad29e1-667a-46ae-a84e-dc0fcd72755e |
