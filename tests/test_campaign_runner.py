@@ -305,6 +305,26 @@ class CampaignRunnerTests(unittest.TestCase):
         self.assertIn("won't fit", block.error)
         self.assertIsNone(sched.loading_block)
 
+    def test_completed_block_resume_keeps_log_and_runtime_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self._patch(HISTORY_ROOT=Path(directory))
+            first = RUNNER.BlockState("first", {**self._common(), "id": "first", "suite": "bench-pipeline"})
+            first.status = RUNNER.COMPLETED
+            first.started_at = "2026-11-27T03:08:00+00:00"
+            first.ended_at = "2026-11-27T03:09:00+00:00"
+            first.exit_code = 0
+            first.identity = {"gguf": "Ministral-3-3B-Q4_K_M.gguf", "lease": "lease-1"}
+            first.suite_log_path = Path("/mnt/shared/logs/first.log")
+            RUNNER.write_checkpoint(self._state(first))
+            restored = RUNNER.BlockState("first", {**self._common(), "id": "first", "suite": "bench-pipeline"})
+            state = self._state(restored)
+            self.assertTrue(RUNNER.load_checkpoint(state))
+            entry = RUNNER.build_status_dict(state)["blocks"]["first"]
+            self.assertEqual(entry["status"], RUNNER.COMPLETED)
+            self.assertEqual(entry["runtime_identity"], first.identity)
+            self.assertEqual(entry["log_path"], str(first.suite_log_path))
+            self.assertEqual(entry["exit_code"], 0)
+
     def test_runtime_group_reuses_runtime_for_next_suite(self):
         common = self._common(runtime_group="model-a")
         first = RUNNER.BlockState("first", {**common, "id": "first", "suite": "bench-pipeline"})

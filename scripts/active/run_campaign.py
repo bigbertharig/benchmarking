@@ -853,6 +853,7 @@ def write_checkpoint(state: CampaignState) -> None:
             "exit_code": bs.exit_code,
             "error": bs.error,
             "runtime_identity": bs.identity,
+            "log_path": str(bs.suite_log_path) if bs.suite_log_path else None,
         }
 
     data = {
@@ -887,6 +888,8 @@ def load_checkpoint(state: CampaignState) -> bool:
             bs.started_at = saved.get("started_at")
             bs.ended_at = saved.get("ended_at")
             bs.exit_code = saved.get("exit_code")
+            bs.identity = saved.get("runtime_identity")
+            bs.suite_log_path = Path(saved["log_path"]) if saved.get("log_path") else None
             log(f"  Checkpoint: block {bid} already completed, skipping")
         elif saved_status in (LOADING, RUNNING_SUITE):
             # Was mid-flight — restart from beginning
