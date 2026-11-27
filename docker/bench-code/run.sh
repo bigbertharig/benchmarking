@@ -27,7 +27,7 @@ RECORDS_PATH="${BENCHMARK_RECORDS_PATH:-${RESERVATION_SHARED_PATH}/plans/shoulde
 REFERENCE_OUTPUT="${BENCHMARK_REFERENCE_OUTPUT:-${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/results/MODEL_BENCHMARK_REFERENCE.md}"
 SCOREBOARD_OUTPUT="${BENCHMARK_SCOREBOARD_OUTPUT:-${RESERVATION_SHARED_PATH}/plans/shoulders/benchmarking/results/model_library_scoreboard.json}"
 METHODOLOGY_ID="bench-code/evalplus"
-METHODOLOGY_VERSION="2.0.0"
+METHODOLOGY_VERSION="2.0.1"
 COMPARISON_GROUP="evalplus-0.3-plus-v1"
 
 # --- Persistent download cache ---
@@ -186,7 +186,7 @@ run_codegen_with_watchdog() {
             sleep 2
             kill -KILL "$child_pid" 2>/dev/null || true
             wait "$child_pid" 2>/dev/null || true
-            return 1
+            return 124
         fi
     done
 
@@ -518,11 +518,21 @@ for TASK in "${TASK_ARRAY[@]}"; do
     printf ' %q' "${GEN_CMD[@]}"
     printf '\n'
     update_status "$TASK" "running" "0" "0" ""
-    if ! run_codegen_with_watchdog "$TASK" "${GEN_CMD[@]}"; then
-        echo "ERROR: ${TASK} generation aborted after runtime watchdog timeout."
-        echo "{\"task\":\"${TASK}\",\"state\":\"error_runtime_timeout\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
-        update_status "$TASK" "error_runtime_timeout" "0" "0" ""
-        record_failure_row "${TASK}_plus" "runtime_timeout" "generation aborted after runtime watchdog timeout"
+    if run_codegen_with_watchdog "$TASK" "${GEN_CMD[@]}"; then
+        :
+    else
+        generation_exit=$?
+        if [ "$generation_exit" -eq 124 ]; then
+            echo "ERROR: ${TASK} generation aborted after runtime watchdog timeout."
+            echo "{\"task\":\"${TASK}\",\"state\":\"error_runtime_timeout\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
+            update_status "$TASK" "error_runtime_timeout" "0" "0" ""
+            record_failure_row "${TASK}_plus" "runtime_timeout" "generation aborted after runtime watchdog timeout"
+        else
+            echo "ERROR: ${TASK} EvalPlus generation exited with code ${generation_exit}."
+            echo "{\"task\":\"${TASK}\",\"state\":\"error_generation\",\"updated_at\":\"$(date -Iseconds)\"}" > "$STATUS_FILE"
+            update_status "$TASK" "error_generation" "0" "0" ""
+            record_failure_row "${TASK}_plus" "generation_error" "EvalPlus exited with code ${generation_exit}"
+        fi
         exit 1
     fi
 

@@ -25,6 +25,9 @@ ENV PATH="/opt/bench/bin:$PATH"
 # evalplus for HumanEval+ and MBPP+, openai client for llama-compatible API calls
 RUN pip install --no-cache-dir evalplus==0.3.1 openai==2.29.0
 
+COPY patch_evalplus_openai.py /opt/bench/patch_evalplus_openai.py
+RUN python3 /opt/bench/patch_evalplus_openai.py
+
 COPY run.sh /opt/bench/run.sh
 RUN chmod +x /opt/bench/run.sh
 

@@ -131,6 +131,9 @@ The main MODEL_SELECTION.md holds only the latest scores.
   - wrong port/model not loaded
 - Missing sample file after generation:
   - generation step failed for that dataset; inspect container logs
+- OpenAI-compatible runtime returns null answer content:
+  - the pinned EvalPlus 0.3.1 provider in the current image records this as empty code
+    (a failed sample) instead of aborting the suite; rebuild the image after this patch
 - `Unknown arg: ...` for a documented flag:
   - stale Docker image; rebuild `bench-code` before rerunning
 

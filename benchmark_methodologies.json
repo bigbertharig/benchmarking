@@ -15,7 +15,7 @@
     },
     {
       "id": "bench-code/evalplus",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "comparison_group": "evalplus-0.3-plus-v1",
       "suite": "bench-code",
       "status": "active",
