@@ -603,12 +603,18 @@ def validate_resolved_blocks(blocks: Dict[str, BlockState]) -> None:
 # Suite Layer (wraps docker run bench-*)
 # ---------------------------------------------------------------------------
 
+def suite_container_name(block: BlockState) -> str:
+    """Scope suite containers to the run so concurrent campaigns cannot stop each other."""
+    run_id = str(block.config.get("_run_id", "unknown"))
+    return f"bench-{block.suite.replace('bench-', '')}-campaign-{run_id}-{block.block_id}"
+
+
 def build_suite_cmd(block: BlockState, runtime: Runtime) -> List[str]:
     """Build the docker run command for a benchmark suite against the runtime the manager loaded."""
     cfg = block.config
     suite = cfg["suite"]
     spec = SUITE_SPECS[suite]
-    container_name = f"bench-{suite.replace('bench-', '')}-campaign-{block.block_id}"
+    container_name = suite_container_name(block)
     model_id = cfg["model"]
     port = runtime.port
     run_id = cfg.get("_run_id", "unknown")
@@ -703,7 +709,7 @@ def build_suite_cmd(block: BlockState, runtime: Runtime) -> List[str]:
 def start_suite(block: BlockState, runtime: Runtime) -> subprocess.Popen:
     """Launch the suite container as a subprocess."""
     cmd = build_suite_cmd(block, runtime)
-    container_name = f"bench-{block.suite.replace('bench-', '')}-campaign-{block.block_id}"
+    container_name = suite_container_name(block)
 
     # Stop any leftover suite container
     docker_stop(container_name)
@@ -1222,7 +1228,7 @@ class Scheduler:
             if bs.suite_process and bs.suite_process.poll() is None:
                 log(f"  Stopping suite process for {bid}")
                 # Stop the suite container
-                suite_container = f"bench-{bs.suite.replace('bench-', '')}-campaign-{bid}"
+                suite_container = suite_container_name(bs)
                 docker_stop(suite_container)
                 try:
                     bs.suite_process.wait(timeout=10)

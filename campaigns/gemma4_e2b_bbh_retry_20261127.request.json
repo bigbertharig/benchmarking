@@ -1,0 +1,16 @@
+{
+  "name": "gemma4_e2b_bbh_retry_20261127",
+  "models": [
+    "gemma-4:e2b-q8"
+  ],
+  "tests": [
+    {
+      "suite": "bench-reasoning",
+      "tasks": [
+        "bbh"
+      ],
+      "limit": 50
+    }
+  ],
+  "run_class": "full"
+}

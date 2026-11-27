@@ -266,7 +266,8 @@ finished or stopped campaign runs `rigctl cancel-owner campaign-<run-id>` so not
 One load request is in flight at a time: the rig loads one model at a time anyway, and two multi-card loads
 collecting cards together could each hold cards the other needs. Loaded groups run side by side on
 whatever cards Orchestration admitted; `--max-active-models` caps how many. `depends_on` supplies strict
-ordering when required.
+ordering when required. Suite container names include the run ID and block ID so separate
+campaigns can run the same suite concurrently without stopping each other.
 
 ## Preflight and Resume
 

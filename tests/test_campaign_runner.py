@@ -5,6 +5,7 @@ import shlex
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 
@@ -244,6 +245,29 @@ class CampaignRunnerTests(unittest.TestCase):
             with self.assertRaises(ValueError) as raised:
                 RUNNER.block_gpus({"placement": gone})
             self.assertIn("use gpus", str(raised.exception))
+
+    def test_parallel_campaigns_have_distinct_suite_containers(self):
+        def block_for(run_id):
+            return RUNNER.BlockState("m1_t1_bench_reasoning", {
+                "id": "m1_t1_bench_reasoning", "model": "ministral-3:3b",
+                "gguf": "/tmp/model.gguf", "suite": "bench-reasoning",
+                "suite_args": [], "run_class": "smoke", "_run_id": run_id,
+                "_campaign_name": "parallel",
+            })
+        first, second = block_for("run-one"), block_for("run-two")
+        names = [RUNNER.suite_container_name(block) for block in (first, second)]
+        self.assertEqual(len(set(names)), 2)
+        for block, name in zip((first, second), names):
+            command = RUNNER.build_suite_cmd(block, runtime())
+            self.assertEqual(command[command.index("--name") + 1], name)
+        stopped = []
+        with tempfile.TemporaryDirectory() as tmp:
+            self._patch(HISTORY_ROOT=Path(tmp), docker_stop=stopped.append)
+            with patch.object(RUNNER.subprocess, "Popen", return_value=object()):
+                for block in (first, second):
+                    RUNNER.start_suite(block, runtime())
+                    block.config["_log_file"].close()
+        self.assertEqual(stopped, names)
 
     def test_load_request_names_only_what_the_block_sets(self):
         block = RUNNER.BlockState("b", {"id": "b", "model": "nemotron-3.5-bolt:74b-a9b"})
