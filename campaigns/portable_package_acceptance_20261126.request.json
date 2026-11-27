@@ -10,9 +10,9 @@
     {
       "suite": "bench-reasoning",
       "tasks": [
-        "gsm8k"
+        "bbh"
       ],
-      "limit": 2
+      "limit": 5
     },
     {
       "suite": "bench-runtime"
