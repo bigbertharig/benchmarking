@@ -13127,7 +13127,7 @@
       "test_id": "agent_tool_select"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -13135,16 +13135,16 @@
         "2.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-10-18T09:36:01+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "cb69c88e-afeb-4fec-b92b-7f07b1a8d025",
-      "selected_sample_count": 270,
-      "selected_score": 0.044444444444444446,
-      "success_count": 2,
+      "selected_run_at": "2026-11-27T13:08:41+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "4bc50022-d45f-4853-a0ce-65e82dbdc853",
+      "selected_sample_count": 1350,
+      "selected_score": 0.03777777777777778,
+      "success_count": 3,
       "test_id": "bbh"
     },
     {
-      "attempt_count": 2,
+      "attempt_count": 3,
       "comparison_group": "lm-eval-0.4.11-reasoning-extract-v2",
       "failure_count": 0,
       "methodology_id": "bench-reasoning/lm-eval-normalized",
@@ -13152,12 +13152,12 @@
         "2.0.0"
       ],
       "model": "ministral-3:8b",
-      "selected_run_at": "2026-10-18T09:36:01+00:00",
-      "selected_run_class": "smoke",
-      "selected_run_id": "394e222c-bb7f-4526-a410-7ba205e15537",
-      "selected_sample_count": 270,
-      "selected_score": 0.08148148148148149,
-      "success_count": 2,
+      "selected_run_at": "2026-11-27T13:08:42+00:00",
+      "selected_run_class": "full",
+      "selected_run_id": "f9e6469c-e6ac-44ac-8914-9fb972d9c4ce",
+      "selected_sample_count": 1350,
+      "selected_score": 0.362962962962963,
+      "success_count": 3,
       "test_id": "bbh_flexible"
     },
     {
@@ -30876,13 +30876,13 @@
       "test_id": "mmlu_pro_flexible"
     }
   ],
-  "generated_at": "2026-11-27T11:33:14.635903+00:00",
+  "generated_at": "2026-11-27T13:09:36.055031+00:00",
   "group_count": 1816,
   "policy": {
     "legacy": "Records without explicit methodology metadata remain in legacy-unversioned groups.",
     "primary_scoreboard_unchanged": true,
     "selection": "Best evidence is selected only within one model, test, methodology, and comparison group."
   },
-  "record_count": 3898,
+  "record_count": 3900,
   "schema_version": 1
 }

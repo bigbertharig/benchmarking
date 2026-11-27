@@ -1,9 +1,9 @@
 # Model Benchmark Reference
 
-- Generated at: `2026-11-27T11:33:14.076828+00:00`
+- Generated at: `2026-11-27T13:09:35.467849+00:00`
 - Canonical records: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/results/model_benchmark_records.jsonl`
 - Status file: `/mnt/c/Users/Bryan/Desktop/GPU Rig/benchmarking/benchmark_status.json`
-- Total records: `3898`
+- Total records: `3900`
 - Selected model/test results: `1652`
 
 Selection prefers run class, then sample count, format compatibility, and recency. A smoke run cannot replace validated or full evidence.
@@ -763,8 +763,8 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | ministral-3:8b | agent_tool_args | 0.6666666666666666 | 66.66666666666666 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T03:09:48.659992+00:00 | bench-agent | campaign_ministral3_8b_agent_20260813_limit5_all |
 | ministral-3:8b | agent_tool_execute | 1.0 | 100.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T03:09:52.549667+00:00 | bench-agent | campaign_ministral3_8b_agent_20260813_limit5_all |
 | ministral-3:8b | agent_tool_select | 0.4 | 40.0 | agent_component_mean | smoke | 1 | compatible | 2026-08-14T03:09:44.790328+00:00 | bench-agent | campaign_ministral3_8b_agent_20260813_limit5_all |
-| ministral-3:8b | bbh | 0.044444444444444446 | 4.444444444444445 | exact_match,get-answer | smoke | 270 | unknown | 2026-10-18T09:36:01+00:00 | bench-reasoning | ministral-3_8b_w_smoke_v1 |
-| ministral-3:8b | bbh_flexible | 0.08148148148148149 | 8.148148148148149 | exact_match,flexible-extract | smoke | 270 | degraded | 2026-10-18T09:36:01+00:00 | bench-reasoning | ministral-3_8b_w_smoke_v1 |
+| ministral-3:8b | bbh | 0.03777777777777778 | 3.7777777777777777 | exact_match,get-answer | full | 1350 | unknown | 2026-11-27T13:08:41+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral8b-bbh-parallel-20261127 |
+| ministral-3:8b | bbh_flexible | 0.362962962962963 | 36.2962962962963 | exact_match,flexible-extract | full | 1350 | degraded | 2026-11-27T13:08:42+00:00 | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral8b-bbh-parallel-20261127 |
 | ministral-3:8b | custom_ambiguity_handling | 0.38461538461538464 | 38.46153846153847 | score | smoke | 13 | unknown | 2026-11-26T22:03:58+00:00 | bench-pipeline | campaign_m4_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | ministral-3:8b | custom_command_safety | 1.0 | 100.0 | score | smoke | 12 | unknown | 2026-11-26T22:03:40+00:00 | bench-pipeline | campaign_m4_t1_bench_pipeline_top-pick-refresh-smoke-20261126 |
 | ministral-3:8b | custom_json_schema_strict | 0.23076923076923078 | 23.076923076923077 | score | smoke | 13 | unknown | 2026-11-26T22:19:48+00:00 | bench-pipeline | campaign_json_grammar_2_top-pick-settings-followup-20261126 |
@@ -1758,6 +1758,8 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 
 | Run At | Model | Test ID | Status | Class | N | Score | Metric | Harness | Suite | Run ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-27T13:08:42+00:00 | ministral-3:8b | bbh_flexible | success | full | 1350 | 0.362962962962963 | exact_match,flexible-extract | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral8b-bbh-parallel-20261127 | f9e6469c-e6ac-44ac-8914-9fb972d9c4ce |
+| 2026-11-27T13:08:41+00:00 | ministral-3:8b | bbh | success | full | 1350 | 0.03777777777777778 | exact_match,get-answer | bench-reasoning | campaign_m1_t1_bench_reasoning_ministral8b-bbh-parallel-20261127 | 4bc50022-d45f-4853-a0ce-65e82dbdc853 |
 | 2026-11-27T11:31:40+00:00 | ministral-3:14b | mbpp_plus | success | full | 378 | 0.6137566137566137 | pass@1_plus | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 | 6bac1b48-7757-4614-bd3f-46ce2848b849 |
 | 2026-11-27T11:31:40+00:00 | ministral-3:14b | mbpp_base | success | full | 378 | 0.7566137566137566 | pass@1_base | bench-code | campaign_m1_t3_bench_code_ministral14b-full-gap-20261127 | 1a3904d1-488c-4754-b8fc-c8811ada7b1d |
 | 2026-11-27T11:00:13+00:00 | qwen2.5-coder:7b | bbh | success | full | 1350 | 0.6918518518518518 | exact_match,get-answer | bench-reasoning | campaign_m1_t1_bench_reasoning_qwen25-coder7b-bbh-retry-20261127 | 56c974e2-668e-40d6-bcc1-b05e84fcc541 |
@@ -1796,5 +1798,3 @@ Selection prefers run class, then sample count, format compatibility, and recenc
 | 2026-11-27T03:21:01+00:00 | ministral-3:3b | custom_orchestration_tradeoff | success | smoke | 12 | 0.75 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 7cce340d-878a-4c31-baaa-188257e4a63f |
 | 2026-11-27T03:20:54+00:00 | ministral-3:3b | custom_tool_plan_sequence | success | smoke | 15 | 0.8666666666666667 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 647b4296-4f2a-464d-8169-2a1d2bc85c56 |
 | 2026-11-27T03:20:49+00:00 | ministral-3:3b | custom_ambiguity_handling | success | smoke | 13 | 0.23076923076923078 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 8bb4e5f1-1a8a-44bf-bcbf-435d0f243d88 |
-| 2026-11-27T03:20:40+00:00 | ministral-3:3b | custom_command_safety | success | smoke | 12 | 0.9166666666666666 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 4983e300-2559-4286-9f9c-91752bc1156b |
-| 2026-11-27T03:20:24+00:00 | ministral-3:3b | custom_json_schema_strict | success | smoke | 13 | 0.0 | score | bench-pipeline | campaign_m1_t1_bench_pipeline_portable-package-acceptance-v2-20261127 | 658f5709-0e52-42d4-b373-e3eadecc9f47 |
