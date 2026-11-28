@@ -105,6 +105,22 @@ orchestration, and harness import it instead of importing benchmarking Python or
 its source files directly. Importing a model describes what can be planned; the gateway's
 ready roster and rig status APIs describe what is callable and running now.
 
+## Harness session retention trial
+
+`python3 scripts/integration/harness_session_trial.py --profile PROFILE --model SERVED_MODEL --out results/harness_session_trials/RUN.json`
+exercises the project-owned Harness against one externally prepared ready route. Set
+`HARNESS_SERVICE_TOKEN` in the environment. The runner never loads or switches a model.
+It records per-turn run IDs, the exact served identity and roster before/after, timing,
+answers, and scored current versus obsolete values. Its recent-correction case should
+be answerable from the four retained prior turns; the outside-window case deliberately
+places all facts beyond that bound to detect when summarization is needed. The
+`two_checkpoints` case asks the model to carry those values through two explicit
+summaries; it probes a possible compaction strategy but does not claim the Harness
+already compacts automatically. A score checks the requested answer line, while
+obsolete values quoted only as evidence remain visible in the receipt. Run the same
+profile-neutral fixture on each selected model. Use `--case two_checkpoints` to run
+only that case on a ready model.
+
 ## Harness tool capability input
 
 The harness owns the versioned dashboard tool catalog. For model/tool trials, import its

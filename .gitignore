@@ -21,6 +21,9 @@ venv/
 *.pth
 *.onnx
 
+# Local Harness run receipts are retained on the Pi; commit only the summary.
+results/harness_session_trials/
+
 # Generated vision outputs are archived outside Git; commit receipts only.
 results/vision/**/images/
 results/vision/**/review/

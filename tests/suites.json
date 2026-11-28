@@ -44,6 +44,7 @@
     "purpose": "Agent, data import, geographic import, knowledge, and runtime evaluation contracts",
     "tests": [
       "tests/test_agent_harness.py",
+      "tests/test_harness_session_trial.py",
       "tests/test_dataimport_suite.py",
       "tests/test_geoimport_suite.py",
       "tests/test_knowledge_suite.py",
