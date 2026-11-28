@@ -29,9 +29,19 @@ passed live with both models below:
 | `gemma-4:e4b` | 6 | 861 | pass | 22.49 s | `f8e4d6e29beb` |
 
 This verifies the live handoff across more than four turns on two local models.
-It does not test a conversation near the actual context limit. Automatic
-compaction remains future work; a genuinely full context currently produces an
-explicit run error. The raw per-turn run IDs, answers, usage, and roster
+It does not test a conversation near the actual context limit. Automatic compaction has since been added with separate conversation and
+task-agent pressure thresholds. Gateway Chat and Coding use the conversation
+policy; task agents retain a later trigger and can still compact if needed.
+A first live Gemma E4B direct-provider trial used a declared 8,192-token
+envelope to force compaction without changing rig loading. One summary covered
+nine older exchanges, retained the newest exchange, and the final answer
+correctly returned owner Nila, codeword `amber-birch-17`, and gate `QA-43`
+without the obsolete owner Mara. The run succeeded in 2.75 seconds; its
+summary call used 1,820 prompt tokens and 57 completion tokens. Receipt:
+`llm-harness/results/context_compaction_live_20261128.json`, SHA-256 prefix
+`6761c1635de9`. This is one model and one checkpoint, not repeated-compaction
+or true-boundary evidence. Shared-KV chat compaction remains a separate gate
+because auxiliary calls mutate its live cache. The raw per-turn run IDs, answers, usage, and roster
 snapshots are in ignored Pi receipts
 `results/harness_session_trials/20261127/gpt-oss-20b-continuous.json` and
 `results/harness_session_trials/20261127/gemma4-e4b-continuous.json`.
