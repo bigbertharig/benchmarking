@@ -50,7 +50,7 @@ def load_run_profile(path: Path, model: str, override_json: str, disabled: bool)
         models = root.get("models", {})
         if not isinstance(models, dict):
             raise ValueError("model tuning profiles must contain an object named models")
-        sys.path.insert(0, str(path.parent / "scripts" / "active"))
+        sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts" / "active"))
         from model_profiles import resolve_profile
 
         resolved = resolve_profile(models, model)
