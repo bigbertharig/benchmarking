@@ -1,39 +1,37 @@
-# Harness session-retention trial ? 2026-11-27
+# Harness session continuity trial ? 2026-11-27
 
-The owned Harness retains at most four prior exchanges (12,000 characters). This
-trial checks corrected fictional facts inside that window, after they leave it,
-and after two explicit model-written checkpoints. It uses Benchmarking's
-`scripts/integration/harness_session_trial.py`, `harness-control/1`, the Coding
-role with no tools, 1,024 output tokens per turn, and one ready model at a time.
-Each model completed 22 turns across three cases. The ready roster and served
-model identity were checked before and after every invocation; all were stable.
+Harness originally supplied only four prior exchanges (12,000 characters) to
+each new inference request. This caused corrected facts to disappear after four
+later turns, even though the selected models had much larger context windows.
+The failure was in chat reconstruction, not evidence of model memory limits.
 
-| Served model | Context offered | Recent correction | Outside window | Checkpoints 1/2 + final | Checkpoint output tokens | Total turn time, 22 turns |
-| --- | ---: | --- | --- | --- | ---: | ---: |
-| `gpt-oss:20b` | 131,072 | pass | fail | pass / pass / pass | 456 / 196 | 98.9 s |
-| `gemma-4:e4b` | 131,072 | pass | fail | pass / pass / pass | 76 / 111 | 48.8 s |
-| `gemma-4:12b` | 262,144 | pass | fail | pass / pass / pass | 66 / 56 | 65.2 s |
+The baseline used `scripts/integration/harness_session_trial.py`, the
+`harness-control/1` API, the Coding role without tools, and one ready model at
+a time. Each model completed 22 turns across recent-correction,
+outside-window, and explicit-checkpoint cases. Ready roster and served identity
+were stable.
 
-The outside-window failures are expected from Harness's current four-turn
-selection; they do not establish an inherent model memory limit. Explicit
-checkpoint answers preserved the corrected values through two truncation
-boundaries on all three models. None of the final runs hit the output-token
-limit. GPT-OSS used 456 completion tokens for its first two-fact checkpoint,
-so a future automatic compactor needs a tight summary budget and fidelity
-checks rather than assuming a requested short summary will be short.
+| Served model | Context offered | Recent correction | Outside four-turn window | Two checkpoints and final |
+| --- | ---: | --- | --- | --- |
+| `gpt-oss:20b` | 131,072 | pass | fail | pass / pass / pass |
+| `gemma-4:e4b` | 131,072 | pass | fail | pass / pass / pass |
+| `gemma-4:12b` | 262,144 | pass | fail | pass / pass / pass |
 
-This is one controlled run per model, not a stochastic reliability estimate.
-It did not run automatic compaction, tool calls, coding edits, or a full-context
-stress test. The next runtime gate is an actual bounded summary policy that
-preserves corrections, rejects superseded values, and reports summary latency
-and output limits on repeated checkpoints before replacing the four-turn path.
+Harness now reconstructs every completed exchange from the durable parent-run
+chain. Before sending the request, it checks the complete conversation against
+the selected route's context length and fails explicitly if it cannot fit;
+old turns are no longer silently discarded. The same outside-window case
+passed live with both models below:
 
-The raw per-turn run IDs, answers, timings, token usage and roster snapshots are
-retained on the Pi under `results/harness_session_trials/20261127/` (ignored by
-Git). Final receipt files and SHA-256 prefixes:
+| Served model | Final prior exchanges supplied | Final prompt tokens | Case result | Seven-turn time | Receipt SHA-256 prefix |
+| --- | ---: | ---: | --- | ---: | --- |
+| `gpt-oss:20b` | 6 | 590 | pass | 30.17 s | `be4d07a355fd` |
+| `gemma-4:e4b` | 6 | 861 | pass | 22.49 s | `f8e4d6e29beb` |
 
-| Model | Base receipt | Checkpoint receipt |
-| --- | --- | --- |
-| GPT-OSS 20B | `gpt-oss-20b-v3.json` ? `0448e9708b99` | `gpt-oss-20b-checkpoints.json` ? `11302ac43e38` |
-| Gemma E4B | `gemma4-e4b.json` ? `0adc3bed2e6a` | `gemma4-e4b-checkpoints.json` ? `585a88a16516` |
-| Gemma 12B | `gemma4-12b.json` ? `67c435f1d205` | `gemma4-12b-checkpoints.json` ? `df5f2a41d329` |
+This verifies the live handoff across more than four turns on two local models.
+It does not test a conversation near the actual context limit. Automatic
+compaction remains future work; a genuinely full context currently produces an
+explicit run error. The raw per-turn run IDs, answers, usage, and roster
+snapshots are in ignored Pi receipts
+`results/harness_session_trials/20261127/gpt-oss-20b-continuous.json` and
+`results/harness_session_trials/20261127/gemma4-e4b-continuous.json`.
